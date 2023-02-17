@@ -22,6 +22,7 @@ def walk_up(
     oi: BasicOntologyInterface,
     start_curies: Union[CURIE, List[CURIE]],
     predicates: List[PRED_CURIE] = None,
+    **kwargs,
 ) -> Iterable[RELATIONSHIP]:
     """
     Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
@@ -31,6 +32,7 @@ def walk_up(
     :param oi: An ontology interface for making label lookups.
     :param start_curies: Seed CURIE(s) to walk from.
     :param predicates: Predicates of interest.
+    :param kwargs: additional arguments for relationships
     :return:
     """
     if isinstance(start_curies, CURIE):
@@ -42,7 +44,7 @@ def walk_up(
     while len(next_curies) > 0:
         logging.debug(f"Walking graph; {len(next_curies)} in stack; {next_curies} {predicates}")
         next_curie = next_curies.pop()
-        for pred, filler in oi.outgoing_relationships(next_curie, predicates):
+        for _, pred, filler in oi.relationships([next_curie], predicates, **kwargs):
             if filler not in visited:
                 next_curies.append(filler)
                 visited.append(filler)

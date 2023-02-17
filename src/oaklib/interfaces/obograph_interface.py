@@ -26,12 +26,21 @@ GRAPH_PATH = Tuple[CURIE, CURIE, CURIE]
 
 class Distance(Enum):
     """
-    Specifies how many hops to walk in any given direction
+    Specifies how many hops to walk in any given direction.
     """
 
     ZERO = "zero"
     DIRECT = "direct"
     TRANSITIVE = "transitive"
+
+
+class GraphTraversalMethod(Enum):
+    """
+    Specifies a strategy for computing graph relationships.
+    """
+
+    HOP = "HOP"
+    ENTAILMENT = "ENTAILMENT"
 
 
 def _edges_to_nodes(
@@ -224,6 +233,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
         """
         Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified
@@ -236,8 +246,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param start_curies: curie or curies to start the walk from
         :param predicates: only traverse over these (traverses over all if this is not set)
         :param reflexive: include self
+        :param method:
         :return: all ancestor CURIEs
         """
+        if method and method == GraphTraversalMethod.ENTAILMENT:
+            raise NotImplementedError(f"entailment method not implemented in {type(self)}")
         return _edges_to_nodes(
             start_curies, self.ancestor_graph(start_curies, predicates).edges, reflexive
         )
@@ -247,6 +260,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
         """
         Descendants obtained from a walk downwards starting from start_curies
@@ -259,8 +273,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param start_curies: curie or curies to start the walk from
         :param predicates: only traverse over these (traverses over all if this is not set)
         :param reflexive: include self
+        :param method:
         :return: all descendant CURIEs
         """
+        if method and method == GraphTraversalMethod.ENTAILMENT:
+            raise NotImplementedError(f"entailment method not implemented in {type(self)}")
         return _edges_to_nodes(
             start_curies, self.descendant_graph(start_curies, predicates).edges, reflexive
         )

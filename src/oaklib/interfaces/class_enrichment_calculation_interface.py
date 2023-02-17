@@ -60,6 +60,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
             hypotheses = potential_hypotheses
         else:
             hypotheses = potential_hypotheses.intersection(hypotheses)
+        logging.info(f"Num Hypotheses: {len(hypotheses)}")
         logging.debug("Hypotheses: {}".format(hypotheses))
 
         # get background counts

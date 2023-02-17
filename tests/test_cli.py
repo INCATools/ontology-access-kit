@@ -9,12 +9,12 @@ import rdflib
 import yaml
 from click.testing import CliRunner
 from kgcl_schema.datamodel.kgcl import NodeChange
-from linkml_runtime.loaders import json_loader
+from linkml_runtime.loaders import json_loader, yaml_loader
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib import get_implementation_from_shorthand
 from oaklib.cli import main
-from oaklib.datamodels import fhir, obograph
+from oaklib.datamodels import fhir, obograph, taxon_constraints
 from oaklib.datamodels.vocabulary import IN_TAXON, SKOS_CLOSE_MATCH, SKOS_EXACT_MATCH
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
@@ -24,6 +24,7 @@ from tests import (
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
     CYTOPLASM,
+    EUKARYOTA,
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
@@ -300,6 +301,27 @@ class TestCommandLineInterface(unittest.TestCase):
             out = result.stdout
             assert NUCLEAR_ENVELOPE not in out
 
+    def test_paths(self):
+        """Test paths command on core adapters"""
+        cases = [
+            ([NUCLEAR_MEMBRANE], VACUOLE, False, "endomembrane system", None),
+            ([NUCLEAR_MEMBRANE], VACUOLE, True, "endomembrane system", None),
+            ([CELL], VACUOLE, True, "", "GO"),
+            ([VACUOLE], CELL, True, "cytoplasm", None),
+        ]
+        for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
+            for args, target, directed, expected, unexpected in cases:
+                all_args = ["-i", input_arg, "paths", "--target", target, *args]
+                if directed:
+                    all_args.append("--directed")
+                result = self.runner.invoke(main, all_args)
+                self.assertEqual(0, result.exit_code)
+                out = result.stdout
+                # print(out)
+                self.assertIn(expected, out)
+                if unexpected:
+                    self.assertNotIn(unexpected, out)
+
     def test_tree(self):
         """Test tree command on core adapters"""
         for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
@@ -427,18 +449,19 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT]
             )
-            result.stdout
-            result.stderr
             self.assertEqual(0, result.exit_code)
             contents = self._out()
             self.assertIn("Eukaryota", contents)
+            st = yaml_loader.load(TEST_OUT, target_class=taxon_constraints.SubjectTerm)
+            only_in = st.only_in[0]
+            self.assertEqual(NUCLEUS, only_in.subject)
+            self.assertEqual(EUKARYOTA, only_in.taxon.id)
 
     # SEARCH
 
     def test_search_help(self):
         result = self.runner.invoke(main, ["search", "--help"])
         out = result.stdout
-        result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn("Usage:", out)
         self.assertIn("Example:", out)
@@ -592,7 +615,13 @@ class TestCommandLineInterface(unittest.TestCase):
                     for e in expected:
                         self.assertIn(e, curies)
 
+    @unittest.skip("includes network dependency")
     def test_search_pronto_obolibrary(self):
+        """
+        Tests remote prontolib
+
+        TODO: replace with mock test
+        """
         to_out = ["-o", str(TEST_OUT)]
         result = self.runner.invoke(
             main, ["-i", "prontolib:pato.obo", "search", "t~shape"] + to_out

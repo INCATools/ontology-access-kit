@@ -264,6 +264,7 @@ def shortest_paths(
     start_curies: List[CURIE],
     end_curies: Optional[List[CURIE]] = None,
     predicate_weights: Optional[PREDICATE_WEIGHT_MAP] = None,
+    directed=False,
 ) -> Iterator[Tuple[CURIE, CURIE, List[CURIE]]]:
     """
     Finds all shortest paths from a set of start nodes to a set of end nodes
@@ -274,7 +275,10 @@ def shortest_paths(
     :param predicate_weights: an optional map of predicates to weights
     :return:
     """
-    dg = as_graph(graph, predicate_weights=predicate_weights)
+    if directed:
+        dg = as_digraph(graph, reverse=False)
+    else:
+        dg = as_graph(graph, predicate_weights=predicate_weights)
     logging.info(f"Calculating paths, starts={start_curies}")
     for start_curie in start_curies:
         if not dg.has_node(start_curie):
@@ -291,9 +295,16 @@ def shortest_paths(
                 continue
             logging.debug(f"COMPUTING {start_curie} to {end_curie}")
             try:
-                paths = nx.all_shortest_paths(
-                    dg, source=start_curie, target=end_curie, weight="weight", method="bellman-ford"
-                )
+                if directed:
+                    paths = nx.all_simple_paths(dg, source=start_curie, target=end_curie)
+                else:
+                    paths = nx.all_shortest_paths(
+                        dg,
+                        source=start_curie,
+                        target=end_curie,
+                        weight="weight",
+                        method="bellman-ford",
+                    )
                 for path in paths:
                     yield start_curie, end_curie, path
             except nx.NetworkXNoPath:

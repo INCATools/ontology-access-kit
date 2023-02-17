@@ -11,6 +11,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 
 
 @dataclass
@@ -22,6 +23,7 @@ class SparqlImplementation(
     OboGraphInterface,
     PatcherInterface,
     SemanticSimilarityInterface,
+    TaxonConstraintInterface,
 ):
     """
     Wraps any local or remote sparql endpoint

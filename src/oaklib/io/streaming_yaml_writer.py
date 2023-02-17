@@ -35,7 +35,7 @@ class StreamingYamlWriter(StreamingWriter):
         else:
             raise ValueError(f"Not a dict or YAMLRoot: {obj}")
         self.add_labels(obj_as_dict, label_fields)
-        self.file.write(yaml.dump(obj_as_dict))
+        self.file.write(yaml.dump(obj_as_dict, sort_keys=False))
         self.object_count += 1
 
     def emit_dict(self, obj: dict, object_type: Type = None):

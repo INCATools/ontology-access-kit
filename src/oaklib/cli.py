@@ -96,13 +96,14 @@ from oaklib.interfaces.differ_interface import (
 )
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
+from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.html_writer import HTMLWriter
@@ -163,11 +164,7 @@ from oaklib.utilities.obograph_utils import (
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
-from oaklib.utilities.taxon.taxon_constraint_utils import (
-    eval_candidate_taxon_constraint,
-    get_term_with_taxon_constraints,
-    parse_gain_loss_file,
-)
+from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
 from oaklib.utilities.validation.definition_ontology_rule import (
     TextAndLogicalDefinitionMatchOntologyRule,
 )
@@ -368,6 +365,12 @@ ontological_output_type_option = click.option(
     help="Desired output type",
 )
 predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
+graph_traversal_method_option = click.option(
+    "-M",
+    "--graph-traversal-method",
+    type=click.Choice([v.value for v in GraphTraversalMethod]),
+    help="Desired output type",
+)
 display_option = click.option(
     "-D",
     "--display",
@@ -664,6 +667,26 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 chain_results(impl.descendants(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
+        elif term.startswith(".child"):
+            # graph query: children
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
+            children = [
+                s for s, _p, _o in impl.relationships(objects=rest, predicates=this_predicates)
+            ]
+            chain_results(children)
+        elif term.startswith(".parent"):
+            # graph query: parents
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
+            parents = [
+                o for _s, _p, o in impl.relationships(subjects=rest, predicates=this_predicates)
+            ]
+            chain_results(parents)
         elif term.startswith(".anc"):
             # graph query: ancestors
             params = _parse_params(term)
@@ -1522,54 +1545,54 @@ def viz(
         runoak -i sqlite:cl.db viz 'T cell' -p i,d --max-hops 2
     """
     impl = settings.impl
-    if isinstance(impl, OboGraphInterface):
-        if stylemap is None:
-            stylemap = default_stylemap_path()
-        actual_predicates = _process_predicates_arg(predicates)
-        curies = list(query_terms_iterator(terms, impl))
-        if add_mrcas:
-            if isinstance(impl, SemanticSimilarityInterface):
-                curies_to_add = [
-                    lca
-                    for s, o, lca in impl.multiset_most_recent_common_ancestors(
-                        curies, predicates=actual_predicates
-                    )
-                ]
-                curies = list(set(curies + curies_to_add))
-                logging.info(f"Expanded CURIEs = {curies}")
-            else:
-                raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
-        if down:
-            graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
-        elif gap_fill:
-            logging.info("Using gap-fill strategy")
-            if isinstance(impl, SubsetterInterface):
-                rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
-                if isinstance(impl, OboGraphInterface):
-                    graph = impl.relationships_to_graph(rels)
-                else:
-                    raise AssertionError(f"{impl} needs to of type OboGraphInterface")
-            else:
-                raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
-        else:
-            graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-        if max_hops is not None:
-            logging.info(f"Trimming graph, max_hops={max_hops}")
-            graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
-        logging.info(f"Drawing graph seeded from {curies}")
-        if meta:
-            impl.add_metadata(graph)
-        # TODO: abstract this out
-        if output_type:
-            write_graph(graph, format=output_type, output=output)
-        else:
-            imgfile = graph_to_image(
-                graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
-            )
-            if view:
-                subprocess.run(["open", imgfile])
-    else:
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    impl.precompute_lookups()
+    if stylemap is None:
+        stylemap = default_stylemap_path()
+    actual_predicates = _process_predicates_arg(predicates)
+    curies = list(query_terms_iterator(terms, impl))
+    if add_mrcas:
+        if isinstance(impl, SemanticSimilarityInterface):
+            curies_to_add = [
+                lca
+                for s, o, lca in impl.multiset_most_recent_common_ancestors(
+                    curies, predicates=actual_predicates
+                )
+            ]
+            curies = list(set(curies + curies_to_add))
+            logging.info(f"Expanded CURIEs = {curies}")
+        else:
+            raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
+    if down:
+        graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
+    elif gap_fill:
+        logging.info("Using gap-fill strategy")
+        if isinstance(impl, SubsetterInterface):
+            rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+            if isinstance(impl, OboGraphInterface):
+                graph = impl.relationships_to_graph(rels)
+            else:
+                raise AssertionError(f"{impl} needs to of type OboGraphInterface")
+        else:
+            raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    else:
+        graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+    if max_hops is not None:
+        logging.info(f"Trimming graph, max_hops={max_hops}")
+        graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
+    logging.info(f"Drawing graph seeded from {curies}")
+    if meta:
+        impl.add_metadata(graph)
+    # TODO: abstract this out
+    if output_type:
+        write_graph(graph, format=output_type, output=output)
+    else:
+        imgfile = graph_to_image(
+            graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
+        )
+        if view:
+            subprocess.run(["open", imgfile])
 
 
 @main.command()
@@ -1732,6 +1755,7 @@ def tree(
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
+@graph_traversal_method_option
 @output_type_option
 @click.option(
     "--statistics/--no-statistics",
@@ -1740,7 +1764,9 @@ def tree(
     help="For each ancestor, show statistics.",
 )
 @output_option
-def ancestors(terms, predicates, statistics: bool, output_type: str, output: str):
+def ancestors(
+    terms, predicates, statistics: bool, graph_traversal_method: str, output_type: str, output: str
+):
     """
     List all ancestors of a given term or terms.
 
@@ -1778,6 +1804,10 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
     # writer.display_options = display.split(',')
     writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
+        if graph_traversal_method:
+            graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
+            if graph_traversal_method == GraphTraversalMethod.HOP:
+                impl.precompute_lookups()
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         logging.info(f"Ancestor seed: {curies}")
@@ -1800,7 +1830,9 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         else:
             if isinstance(impl, OboGraphInterface):
                 logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
-                ancs = list(impl.ancestors(curies, actual_predicates))
+                ancs = list(
+                    impl.ancestors(curies, actual_predicates, method=graph_traversal_method)
+                )
                 for a_curie, a_label in impl.labels(ancs):
                     writer.emit(dict(id=a_curie, label=a_label))
             else:
@@ -1813,7 +1845,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 @click.argument("terms", nargs=-1)
 @click.option("--target", multiple=True, help="end point of path")
 @click.option(
-    "--flat/--no-flat",
+    "--narrow/--no-narrow",
     default=False,
     show_default=True,
     help="If true then output path is written a list of terms",
@@ -1821,6 +1853,15 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 @autolabel_option
 @predicates_option
 @output_type_option
+@click.option(
+    "--directed/--no-directed", default=False, show_default=True, help="only show directed paths"
+)
+@click.option(
+    "--include-predicates/--no-include-predicates",
+    default=False,
+    show_default=True,
+    help="show predicates between nodes",
+)
 @click.option(
     "--predicate-weights",
     help="key-value pairs specified in YAML where keys are predicates or shorthands and values are weights",
@@ -1831,13 +1872,15 @@ def paths(
     predicates,
     predicate_weights,
     autolabel: bool,
-    flat: bool,
+    narrow: bool,
+    directed: bool,
+    include_predicates: bool,
     target,
     output_type: str,
     output: str,
 ):
     """
-    List all paths between one or more start curies
+    List all paths between one or more start curies.
 
     Example:
 
@@ -1879,7 +1922,7 @@ def paths(
     Example:
 
         alias go="runoak -i sqlite:obo:go"
-        go paths  -p i,p 'nuclear membrane' --target cytoplasm --flat | go viz --fill-gaps -
+        go paths  -p i,p 'nuclear membrane' --target cytoplasm --narrow | go viz --fill-gaps -
 
     This visualizes the path by first exporting the path as a flat list, then passing the
     results to viz, using the fill-gaps option
@@ -1919,14 +1962,37 @@ def paths(
     logging.info(f"Start curies: {start_curies}")
     logging.info(f"End curies: {end_curies}")
     # TODO: move the logic from CLI to OboGraphInterface
+    impl.precompute_lookups()
     graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
     logging.info("Calculating graph stats")
     for s, o, path in shortest_paths(
-        graph, start_curies, end_curies=end_curies, predicate_weights=pw
+        graph,
+        start_curies,
+        end_curies=end_curies,
+        predicate_weights=pw,
+        directed=directed,
     ):
-        if flat:
+        if include_predicates:
+            new_path = []
+            last_n = None
+            for n in path:
+                if last_n is not None:
+                    rels = [p for _s, p, _o in impl.relationships(subjects=[last_n], objects=[n])]
+                    if not rels and not directed:
+                        rels = [
+                            f"^{p}"
+                            for _s, p, _o in impl.relationships(subjects=[n], objects=[last_n])
+                        ]
+                    new_path.append(rels[0] if rels else "?")
+                last_n = n
+                new_path.append(n)
+            path = new_path
+        if narrow:
             for path_node in path:
-                writer.emit_curie(path_node, impl.label(path_node))
+                writer.emit(
+                    dict(subject=s, object=o, path_node=path_node),
+                    label_fields=["subject", "object", "path_node"],
+                )
         else:
             writer.emit(
                 dict(subject=s, object=o, path=path),
@@ -1973,10 +2039,13 @@ def siblings(terms, predicates, output_type: str, output: str):
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
+@graph_traversal_method_option
 @display_option
 @output_type_option
 @output_option
-def descendants(terms, predicates, display: str, output_type: str, output: TextIO):
+def descendants(
+    terms, predicates, graph_traversal_method, display: str, output_type: str, output: TextIO
+):
     """
     List all descendants of a term
 
@@ -2001,10 +2070,14 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    if graph_traversal_method:
+        graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
-        result_it = impl.descendants(curies, predicates=actual_predicates)
+        result_it = impl.descendants(
+            curies, predicates=actual_predicates, method=graph_traversal_method
+        )
         writer.emit_multiple(result_it)
         # for curie_it in chunk(result_it):
         #    logging.info("** Next chunk:")
@@ -2466,7 +2539,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
 @ontological_output_type_option
 @if_absent_option
 @set_value_option
-def labels(terms, output: TextIO, display: str, output_type: str, if_absent: bool, set_value):
+def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set_value):
     """
     Show labels for term or list of terms
 
@@ -3236,7 +3309,9 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
 
 @main.command()
 @output_option
+@output_type_option
 @predicates_option
+@graph_traversal_method_option
 @click.option(
     "-A/--no-A",
     "--all/--no-all",
@@ -3250,8 +3325,23 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
     show_default=True,
     help="if specified then include redundant taxon constraints from ancestral subjects",
 )
+@click.option(
+    "--direct/--no-direct",
+    default=False,
+    show_default=True,
+    help="only include directly asserted taxon constraints",
+)
 @click.argument("terms", nargs=-1)
-def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicates: List, output):
+def taxon_constraints(
+    terms: list,
+    all: bool,
+    include_redundant: bool,
+    direct: bool,
+    predicates: List,
+    graph_traversal_method,
+    output,
+    output_type,
+):
     """
     Compute all taxon constraints for a term or terms.
 
@@ -3274,33 +3364,45 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
     - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils
     """
     impl = settings.impl
-    writer = StreamingYamlWriter(output)
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
     if all:
         if terms:
             raise ValueError("Do not specify explicit terms with --all option")
         # curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
-        actual_predicates = _process_predicates_arg(predicates)
-        for curie in query_terms_iterator(terms, impl):
-            st = get_term_with_taxon_constraints(
-                impl,
-                curie,
-                include_redundant=include_redundant,
-                predicates=actual_predicates,
-                add_labels=True,
-            )
-            writer.emit(st)
-    else:
+        impl.cache_lookups = True
+        if graph_traversal_method:
+            impl.subject_graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
+    if not isinstance(impl, TaxonConstraintInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    impl.precompute_lookups()
+    impl.precompute_direct_constraint_cache()
+    for curie in query_terms_iterator(terms, impl):
+        st = impl.get_term_with_taxon_constraints(
+            curie,
+            include_redundant=include_redundant,
+            direct=direct,
+            predicates=actual_predicates,
+            add_labels=True,
+        )
+        if direct and not st.only_in and not st.never_in and not st.present_in:
+            logging.debug(f"{st.id} has no direct constraints - skipping")
+            continue
+        writer.emit(st)
 
 
 @main.command()
 @click.option("-E", "--evolution-file", help="path to file containing gains and losses")
 @output_option
 @predicates_option
+@graph_traversal_method_option
 @click.argument("constraints", nargs=-1)
-def eval_taxon_constraints(constraints, evolution_file, predicates: List, output):
+def apply_taxon_constraints(
+    constraints, evolution_file, predicates: List, graph_traversal_method, output
+):
     """
     Test candidate taxon constraints
 
@@ -3354,18 +3456,22 @@ def eval_taxon_constraints(constraints, evolution_file, predicates: List, output
     if evolution_file is not None:
         with open(evolution_file) as file:
             sts += list(parse_gain_loss_file(file))
-    if isinstance(impl, OboGraphInterface):
-        impl.enable_transitive_query_cache()
-        for st in sts:
-            try:
-                st = eval_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
-                writer.emit(st)
-            except ValueError as e:
-                logging.error(f"Error with TC: {e}")
-                st.description = "PROBLEM"
-                writer.emit(st)
-    else:
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    impl.enable_transitive_query_cache()
+    impl.cache_lookups = True
+    if graph_traversal_method:
+        impl.subject_graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
+    if not isinstance(impl, TaxonConstraintInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    for st in sts:
+        try:
+            st = impl.eval_candidate_taxon_constraint(st, predicates=actual_predicates)
+            writer.emit(st)
+        except ValueError as e:
+            logging.error(f"Error with TC: {e}")
+            st.description = "PROBLEM"
+            writer.emit(st)
 
 
 @main.command()
@@ -3526,6 +3632,7 @@ def enrichment(
     """
     Run class enrichment analysis.
 
+    Note: currently this is slow
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -4343,9 +4450,15 @@ def apply(
 
 @main.command()
 @click.option("--output", "-o")
+@click.option(
+    "--expand/--no-expand",
+    default=True,
+    show_default=True,
+    help="if true, expand complex changes to atomic changes",
+)
 @output_type_option
 @click.argument("terms", nargs=-1)
-def apply_obsolete(output, output_type, terms):
+def apply_obsolete(output, output_type, expand: bool, terms):
     """
     Sets an ontology element to be obsolete
 
@@ -4368,10 +4481,18 @@ def apply_obsolete(output, output_type, terms):
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
         for term in query_terms_iterator(terms, impl):
-            impl.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=term))
+            change = kgcl.NodeObsoletion(id=generate_change_id(), about_node=term)
+            if expand:
+                changes = impl.expand_change(change)
+            else:
+                changes = [change]
+            for change in changes:
+                impl.apply_patch(change)
         if not settings.autosave and not output:
             logging.warning("--autosave not passed, changes are NOT saved")
         if output:
+            if output == "-":
+                output = sys.stdout
             impl.dump(output, output_type)
         # impl.save()
     else:
