@@ -460,15 +460,14 @@ def _get_writer(
     return w
 
 
-def _apply_changes(impl, changes):
+def _apply_changes(impl, changes: List[kgcl.Change]):
     if changes:
         logging.info(f"Applying {len(changes)} changes")
-        if isinstance(impl, PatcherInterface):
-            for change in changes:
-                impl.apply_patch(change)
-            impl.save()
-        else:
+        if not isinstance(impl, PatcherInterface):
             raise NotImplementedError(f"Cannot apply {len(changes)} changes")
+        for change in changes:
+            impl.apply_patch(change)
+        impl.save()
 
 
 # A list whose members are either strings (search terms, curies, or directives)
@@ -2072,19 +2071,14 @@ def descendants(
     writer.file = output
     if graph_traversal_method:
         graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
-    if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        curies = list(query_terms_iterator(terms, impl))
-        result_it = impl.descendants(
-            curies, predicates=actual_predicates, method=graph_traversal_method
-        )
-        writer.emit_multiple(result_it)
-        # for curie_it in chunk(result_it):
-        #    logging.info("** Next chunk:")
-        #    for curie, label in impl.labels(curie_it):
-        #        writer.emit(curie, label)
-    else:
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    curies = list(query_terms_iterator(terms, impl))
+    result_it = impl.descendants(
+        curies, predicates=actual_predicates, method=graph_traversal_method
+    )
+    writer.emit_multiple(result_it)
 
 
 @main.command()
@@ -2454,20 +2448,19 @@ def termset_similarity(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if isinstance(impl, SemanticSimilarityInterface):
-        terms = list(terms)
-        ix = terms.index("@")
-        set1 = list(query_terms_iterator(terms[0:ix], impl))
-        set2 = list(query_terms_iterator(terms[ix + 1 :], impl))
-        logging.info(f"Set1={set1}")
-        logging.info(f"Set2={set2}")
-        actual_predicates = _process_predicates_arg(predicates)
-        sim = impl.termset_pairwise_similarity(
-            set1, set2, predicates=actual_predicates, labels=autolabel
-        )
-        writer.emit(sim)
-    else:
+    if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    terms = list(terms)
+    ix = terms.index("@")
+    set1 = list(query_terms_iterator(terms[0:ix], impl))
+    set2 = list(query_terms_iterator(terms[ix + 1 :], impl))
+    logging.info(f"Set1={set1}")
+    logging.info(f"Set2={set2}")
+    actual_predicates = _process_predicates_arg(predicates)
+    sim = impl.termset_pairwise_similarity(
+        set1, set2, predicates=actual_predicates, labels=autolabel
+    )
+    writer.emit(sim)
 
 
 @main.command()
@@ -2752,63 +2745,61 @@ def relationships(
     actual_predicates = _process_predicates_arg(predicates)
     if not (include_tbox or include_abox):
         raise ValueError("Cannot exclude both tbox AND abox")
-    if isinstance(impl, BasicOntologyInterface):
-        curies = list(query_terms_iterator(terms, impl))
-        up_it = impl.relationships(
-            curies,
-            predicates=actual_predicates,
-            include_abox=include_abox,
-            include_tbox=include_tbox,
-            include_entailed=include_entailed,
-        )
-        down_it = impl.relationships(
-            objects=curies,
-            predicates=actual_predicates,
-            include_abox=include_abox,
-            include_tbox=include_tbox,
-            include_entailed=include_entailed,
-        )
-        if direction is None or direction == Direction.up.value:
-            it = up_it
-        elif direction == Direction.down.value:
-            it = down_it
-        else:
-            it = chain(up_it, down_it)
-        has_relationships = defaultdict(bool)
-        for rel in it:
-            if direction is None or direction == Direction.up.value:
-                has_relationships[rel[0]] = True
-            elif direction == Direction.down.value:
-                has_relationships[rel[2]] = True
-            else:
-                has_relationships[rel[0]] = True
-                has_relationships[rel[2]] = True
-            if if_absent and if_absent == IfAbsent.absent_only.value:
-                continue
-            writer.emit(
-                dict(subject=rel[0], predicate=rel[1], object=rel[2]),
-                label_fields=["subject", "predicate", "object"],
-            )
-        if if_absent and if_absent == IfAbsent.absent_only.value:
-            for curie in curies:
-                if not has_relationships[curie]:
-                    writer.emit(
-                        dict(subject=curie, predicate=None, object=None),
-                        label_fields=["subject", "predicate", "object"],
-                    )
-        if set_value:
-            if len(actual_predicates) != 1:
-                raise ValueError(f"predicates={actual_predicates}, expected exactly one")
-            pred = actual_predicates[0]
-            changes = []
-            for curie in curies:
-                changes.append(
-                    kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
-                )
-            _apply_changes(impl, changes)
-
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    up_it = impl.relationships(
+        curies,
+        predicates=actual_predicates,
+        include_abox=include_abox,
+        include_tbox=include_tbox,
+        include_entailed=include_entailed,
+    )
+    down_it = impl.relationships(
+        objects=curies,
+        predicates=actual_predicates,
+        include_abox=include_abox,
+        include_tbox=include_tbox,
+        include_entailed=include_entailed,
+    )
+    if direction is None or direction == Direction.up.value:
+        it = up_it
+    elif direction == Direction.down.value:
+        it = down_it
+    else:
+        it = chain(up_it, down_it)
+    has_relationships = defaultdict(bool)
+    for rel in it:
+        if direction is None or direction == Direction.up.value:
+            has_relationships[rel[0]] = True
+        elif direction == Direction.down.value:
+            has_relationships[rel[2]] = True
+        else:
+            has_relationships[rel[0]] = True
+            has_relationships[rel[2]] = True
+        if if_absent and if_absent == IfAbsent.absent_only.value:
+            continue
+        writer.emit(
+            dict(subject=rel[0], predicate=rel[1], object=rel[2]),
+            label_fields=["subject", "predicate", "object"],
+        )
+    if if_absent and if_absent == IfAbsent.absent_only.value:
+        for curie in curies:
+            if not has_relationships[curie]:
+                writer.emit(
+                    dict(subject=curie, predicate=None, object=None),
+                    label_fields=["subject", "predicate", "object"],
+                )
+    if set_value:
+        if len(actual_predicates) != 1:
+            raise ValueError(f"predicates={actual_predicates}, expected exactly one")
+        pred = actual_predicates[0]
+        changes = []
+        for curie in curies:
+            changes.append(
+                kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
+            )
+        _apply_changes(impl, changes)
 
 
 @main.command()
@@ -3246,20 +3237,17 @@ def expand_subsets(subsets: list, output, predicates):
 @output_type_option
 @click.option("--category-system", help="Example: biolink, cob, bfo, dbpedia, ...")
 @click.argument("terms", nargs=-1)
-def term_categories(terms, output, output_type):
+def term_categories(terms, category_system, output, output_type):
     """
-    List categories for a term or set of terms
-
-    TODO
+    List categories for a term or set of terms.
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
-    if isinstance(impl, BasicOntologyInterface):
-        curies_it = query_terms_iterator(terms, impl)
-        for curie, subset in impl.terms_categories(curies_it):
-            writer.emit(dict(curie=curie, subset=subset))
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies_it = query_terms_iterator(terms, impl)
+    for curie, subset in impl.terms_categories(curies_it):
+        writer.emit(dict(curie=curie, subset=subset))
 
 
 @main.command()
@@ -4859,69 +4847,95 @@ def fill_table(
     help="Output patch file containing KGCL commands.",
 )
 @output_option
-def synonymize(terms, rules_file, apply_patch, patch, output):
+@click.pass_context
+def synonymize(ctxt, **kwargs):
+    """Deprecated: use generate-synonyms"""
+    logging.warning("This command has been renamed to generate-synonyms")
+    ctxt.forward(generate_synonyms)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--rules-file",
+    "-R",
+    required=True,
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.option(
+    "--apply-patch/--no-apply-patch",
+    default=False,
+    show_default=True,
+    help="Apply KGCL syntax generated based on the synonymizer rules file.",
+)
+@click.option(
+    "--patch",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="DEPRECATED.",
+)
+@output_option
+@output_type_option
+def generate_synonyms(terms, rules_file, apply_patch, patch, output, output_type):
     """
-    Apply synonymizer rule from the rules file to generate KGCL syntax
+    Generate synonyms based on a set of synonymizer rules.
+
+    The output will be KGCL, see
     see https://github.com/INCATools/kgcl.
 
     Example:
+
         runoak -i foo.obo synonymize -R foo_rules.yaml --patch patch.kgcl --apply-patch
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
+    writer.output = output
     # TODO: Eventually get this from settings as above
-
     if rules_file:
         ruleset = load_mapping_rules(rules_file)
     else:
         ruleset = None
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError
+    syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
+    terms_to_synonymize = {}
+    change_list = []
+    for curie in query_terms_iterator(terms, impl):
+        # for rule in syn_rules:
+        for _, aliases in impl.entity_alias_map(curie).items():
+            matches = []
+            if aliases is not None:
+                # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
+                for alias in aliases:
+                    if alias:
+                        synonymized, new_alias, qualifier = apply_transformation(
+                            alias,
+                            LexicalTransformation(
+                                TransformationType.Synonymization, params=syn_rules
+                            ),
+                        )
+                        if synonymized:
+                            matches.append(new_alias)
 
-    if isinstance(impl, OboGraphInterface):
-        syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
-
-        terms_to_synonymize = {}
-        change_list = []
-
-        for curie in query_terms_iterator(terms, impl):
-            # for rule in syn_rules:
-            for _, aliases in impl.entity_alias_map(curie).items():
-                matches = []
-                if aliases is not None:
-                    # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
-                    for alias in aliases:
-                        if alias:
-                            synonymized, new_alias, qualifier = apply_transformation(
-                                alias,
-                                LexicalTransformation(
-                                    TransformationType.Synonymization, params=syn_rules
-                                ),
-                            )
-                            if synonymized:
-                                matches.append(new_alias)
-
-                if len(matches) > 0:
-                    if qualifier is None or qualifier == "":
-                        qualifier = DEFAULT_QUALIFIER
-                    terms_to_synonymize[curie] = matches
-                    change = kgcl.NewSynonym(
-                        id="kgcl_change_id_" + str(len(terms_to_synonymize)),
-                        about_node=curie,
-                        old_value=alias,
-                        new_value=new_alias,
-                        qualifier=qualifier,
-                    )
-                    change_list.append(change)
-                    if patch:
-                        patch.write(str(change))
-                        patch.write("\n")
-
-        if apply_patch and len(change_list) > 0:
-            if output:
-                impl.resource.slug = output
-            _apply_changes(impl, change_list)
-
-
-# runoak -i tests/input/synonym-test.obo synonymize -R
-# tests/input/matcher_rules.yaml  .all --patch test.kgcl --apply-patch
+            if len(matches) > 0:
+                if qualifier is None or qualifier == "":
+                    qualifier = DEFAULT_QUALIFIER
+                terms_to_synonymize[curie] = matches
+                change = kgcl.NewSynonym(
+                    id="kgcl_change_id_" + str(len(terms_to_synonymize)),
+                    about_node=curie,
+                    old_value=alias,
+                    new_value=new_alias,
+                    qualifier=qualifier,
+                )
+                change_list.append(change)
+                writer.emit(change)
+    writer.finish()
+    if apply_patch and len(change_list) > 0:
+        if output:
+            impl.resource.slug = output
+        _apply_changes(impl, change_list)
 
 
 if __name__ == "__main__":

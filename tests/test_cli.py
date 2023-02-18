@@ -970,7 +970,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 docs = list(yaml.load_all(f, yaml.FullLoader))
                 self.assertCountEqual(expected, docs)
 
-    def test_synonymizer(self):
+    def test_generate_synonyms(self):
         patch_file = OUTPUT_DIR / "synonym-test-patch.kgcl"
         outfile = OUTPUT_DIR / "synonym-test-output.obo"
         result = self.runner.invoke(
@@ -978,7 +978,7 @@ class TestCommandLineInterface(unittest.TestCase):
             [
                 "-i",
                 TEST_SYNONYMIZER_OBO,
-                "synonymize",
+                "generate-synonyms",
                 "-R",
                 RULES_FILE,
                 "--patch",

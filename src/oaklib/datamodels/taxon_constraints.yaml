@@ -167,3 +167,7 @@ classes:
       comments:
         range: string
         multivalued: true
+      candidate:
+        range: boolean
+        description: >-
+          true if this is a proposed candidate constraint

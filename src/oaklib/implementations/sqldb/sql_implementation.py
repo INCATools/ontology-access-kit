@@ -1224,7 +1224,11 @@ class SqlImplementation(
         method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
         if method and method == GraphTraversalMethod.HOP:
+            if not isinstance(start_curies, list):
+                start_curies = [start_curies]
             ancs = {o for _s, _p, o in walk_up(self, start_curies, predicates, include_abox=False)}
+            if reflexive:
+                ancs.update(start_curies)
             for o in ancs:
                 yield o
             return
