@@ -95,6 +95,7 @@ jobs:
           poetry run coverage combine
           poetry run coverage xml
           poetry run coverage report -m
+        shell: bash
         env:
           BIOPORTAL_API_KEY: ${{ secrets.BIOPORTAL_API_KEY }}
 
