@@ -387,9 +387,10 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         predicate_weights: Dict[PRED_CURIE, float] = None,
         shortest=True,
+        directed=False,
     ) -> Iterator[GRAPH_PATH]:
         """
-        Returns all paths between sources and targets
+        Returns all paths between sources and targets.
 
         :param start_curies:
         :param start_curies:
@@ -411,7 +412,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         graph = self.ancestor_graph(all_curies, predicates=predicates)
         logging.info("Calculating graph stats")
         for s, o, intermediates in shortest_paths(
-            graph, start_curies, end_curies=target_curies, predicate_weights=predicate_weights
+            graph,
+            start_curies,
+            end_curies=target_curies,
+            predicate_weights=predicate_weights,
+            directed=directed,
         ):
             for intermediate in intermediates:
                 yield s, o, intermediate

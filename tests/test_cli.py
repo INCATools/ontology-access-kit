@@ -310,7 +310,8 @@ class TestCommandLineInterface(unittest.TestCase):
             ([VACUOLE], CELL, True, "cytoplasm", None),
         ]
         for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
-            for args, target, directed, expected, unexpected in cases:
+            for case in cases:
+                args, target, directed, expected, unexpected = case
                 all_args = ["-i", input_arg, "paths", "--target", target, *args]
                 if directed:
                     all_args.append("--directed")

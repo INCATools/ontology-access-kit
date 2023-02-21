@@ -52,7 +52,13 @@ from oaklib import datamodels
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType
-from oaklib.datamodels.obograph import PrefixDeclaration
+from oaklib.datamodels.obograph import (
+    BasicPropertyValue,
+    Edge,
+    Graph,
+    Meta,
+    PrefixDeclaration,
+)
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.summary_statistics_datamodel import (
     GroupedStatistics,
@@ -377,6 +383,17 @@ display_option = click.option(
     default="",
     help="A comma-separated list of display options. Use 'all' for all",
 )
+stylemap_otion = click.option(
+    "-S",
+    "--stylemap",
+    help="a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/",
+)
+stylemap_configure_option = click.option(
+    "-C",
+    "--configure",
+    help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
+)
+
 group_by_property_option = click.option(
     "--group-by-property",
     help="group summaries by a metadata property, e.g. rdfs:isDefinedBy",
@@ -1462,16 +1479,8 @@ def annotate(
     show_default=True,
     help="If set then extend input seed list to include all pairwise MRCAs",
 )
-@click.option(
-    "-S",
-    "--stylemap",
-    help="a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/",
-)
-@click.option(
-    "-C",
-    "--configure",
-    help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
-)
+@stylemap_otion
+@stylemap_configure_option
 @click.option(
     "--max-hops",
     type=int,
@@ -1849,6 +1858,12 @@ def ancestors(
     show_default=True,
     help="If true then output path is written a list of terms",
 )
+@click.option(
+    "--viz/--no-viz",
+    default=False,
+    show_default=True,
+    help="If true then generate a path graph from output",
+)
 @autolabel_option
 @predicates_option
 @output_type_option
@@ -1865,16 +1880,21 @@ def ancestors(
     "--predicate-weights",
     help="key-value pairs specified in YAML where keys are predicates or shorthands and values are weights",
 )
-@output_option
+@stylemap_otion
+@stylemap_configure_option
+@click.option("-o", "--output", help="Path to output file")
 def paths(
     terms,
     predicates,
     predicate_weights,
     autolabel: bool,
     narrow: bool,
+    viz: bool,
     directed: bool,
     include_predicates: bool,
     target,
+    stylemap,
+    configure,
     output_type: str,
     output: str,
 ):
@@ -1929,7 +1949,10 @@ def paths(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
-    writer.file = output
+    if output:
+        writer.file = output
+    else:
+        writer.file = sys.stdout
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     actual_predicates = _process_predicates_arg(predicates)
@@ -1964,6 +1987,9 @@ def paths(
     impl.precompute_lookups()
     graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
     logging.info("Calculating graph stats")
+    path_graph = Graph(id="paths")
+    node_ids = set()
+    path_id = 0
     for s, o, path in shortest_paths(
         graph,
         start_curies,
@@ -1971,17 +1997,41 @@ def paths(
         predicate_weights=pw,
         directed=directed,
     ):
+        path_id += 1
         if include_predicates:
             new_path = []
             last_n = None
             for n in path:
+                node_ids.add(n)
                 if last_n is not None:
+                    path_graph.edges.append(
+                        Edge(
+                            sub=last_n,
+                            pred=f"{path_id}",
+                            obj=n,
+                            meta=Meta(
+                                subsets=["path"],
+                                basicPropertyValues=[
+                                    BasicPropertyValue(
+                                        pred="https://w3id.org/kgviz/color", val="grey"
+                                    ),
+                                    BasicPropertyValue(
+                                        pred="https://w3id.org/kgviz/fontcolor", val="grey"
+                                    ),
+                                ],
+                            ),
+                        )
+                    )
                     rels = [p for _s, p, _o in impl.relationships(subjects=[last_n], objects=[n])]
+                    for rel in rels:
+                        path_graph.edges.append(Edge(sub=last_n, pred=rel, obj=n))
                     if not rels and not directed:
                         rels = [
-                            f"^{p}"
-                            for _s, p, _o in impl.relationships(subjects=[n], objects=[last_n])
+                            p for _s, p, _o in impl.relationships(subjects=[n], objects=[last_n])
                         ]
+                        for rel in rels:
+                            path_graph.edges.append(Edge(sub=n, pred=rel, obj=last_n))
+                        rels = [f"^{rel}" for rel in rels]
                     new_path.append(rels[0] if rels else "?")
                 last_n = n
                 new_path.append(n)
@@ -1992,11 +2042,25 @@ def paths(
                     dict(subject=s, object=o, path_node=path_node),
                     label_fields=["subject", "object", "path_node"],
                 )
-        else:
+        elif not viz:
             writer.emit(
                 dict(subject=s, object=o, path=path),
                 label_fields=["subject", "object", "path"],
             )
+    if viz:
+        for node_id in node_ids:
+            [n] = [n for n in graph.nodes if n.id == node_id]
+            path_graph.nodes.append(n)
+        # TODO: abstract this out
+        if output_type:
+            write_graph(path_graph, format=output_type, output=output)
+        else:
+            if stylemap is None:
+                stylemap = default_stylemap_path()
+            imgfile = graph_to_image(
+                path_graph, seeds=all_curies, imgfile=output, stylemap=stylemap, configure=configure
+            )
+            subprocess.run(["open", imgfile])
 
 
 @main.command()
@@ -3447,6 +3511,7 @@ def apply_taxon_constraints(
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     impl.enable_transitive_query_cache()
+    impl.precompute_lookups()
     impl.cache_lookups = True
     if graph_traversal_method:
         impl.subject_graph_traversal_method = GraphTraversalMethod[graph_traversal_method]

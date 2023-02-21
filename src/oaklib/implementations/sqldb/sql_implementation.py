@@ -719,10 +719,10 @@ class SqlImplementation(
             rmap[row.predicate].append(row.subject)
         return rmap
 
-    def precompute_lookups(self, predicates: List[PRED_CURIE] = None) -> None:
+    def precompute_lookups(self) -> None:
         if self._relationships_by_subject_index is None:
             self._relationships_by_subject_index = {}
-        logging.info(f"Precomputing lookups for {predicates}")
+        logging.info("Precomputing lookups")
 
         def add(row):
             s = row.subject

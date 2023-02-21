@@ -16,15 +16,16 @@ from collections import defaultdict
 from copy import deepcopy
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Optional, TextIO, Tuple
+from typing import Any, Callable, Dict, Iterator, List, Optional, TextIO, Tuple, Union
 
 import networkx as nx
 import yaml
+from curies import Converter
 from linkml_runtime.dumpers import json_dumper
 
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package
-from oaklib.datamodels.obograph import Edge, Graph, Node
+from oaklib.datamodels.obograph import Edge, Graph, GraphDocument, Node
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.types import CURIE, PRED_CURIE
 
@@ -50,16 +51,13 @@ def default_stylemap_path():
 
 def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     """
-    Convert an OBOGraph representation to a dictionary representation isomorphic to the
-    OBOGraphs json standard.
-
-    Note: in the python datamodel we use "label", this is converted to "lbl" for the standard
+    Serialize a graph to a dict.
 
     :param graph:
-    :return:
     """
     obj = json_dumper.to_dict(graph)
     for n in obj["nodes"]:
+        # normalization: no longer needed?
         if "label" in n:
             # annoying mutation: the json format uses 'lbl' not label
             n["lbl"] = n["label"]
@@ -538,3 +536,101 @@ def graph_to_tree(
                     todo.append((stack + [n], child_edge.pred, child_edge.sub))
     if is_str:
         return output.getvalue()
+
+
+def expand_all_graph_ids(graph: Union[Graph, GraphDocument], converter: Converter) -> None:
+    def _expand(x):
+        try:
+            return converter.expand(x)
+        except Exception:
+            return x
+
+    mutate_graph_ids(graph, _expand)
+
+
+def compress_all_graph_ids(graph: Union[Graph, GraphDocument], converter: Converter) -> None:
+    def _compress(x):
+        try:
+            return converter.compress(x)
+        except Exception:
+            return x
+
+    mutate_graph_ids(graph, _compress)
+
+
+def mutate_graph_ids(graph: Union[Graph, GraphDocument], func: Callable) -> None:
+    """
+    Iterate over the ids in a graph and modify them.
+
+    :param graph:
+    :param func:
+    :return:
+    """
+    if isinstance(graph, GraphDocument):
+        for g in graph.graphs:
+            mutate_graph_ids(g, func)
+        return
+    for n in graph.nodes:
+        n.id = func(n.id)
+    for e in graph.edges:
+        e.sub = func(e.sub)
+        e.pred = func(e.pred)
+        e.obj = func(e.obj)
+    for ld in graph.logicalDefinitionAxioms:
+        ld.definedClassId = func(ld.definedClassId)
+        ld.genusIds = [func(x) for x in ld.genusIds]
+        for r in ld.restrictions:
+            r.propertyId = func(r.propertyId)
+            r.fillerId = func(r.fillerId)
+    graph.equivalentNodesSets = [func(x) for x in graph.equivalentNodesSets]
+
+
+def graph_id_iterator(graph: Union[Graph, GraphDocument]) -> Iterator[CURIE]:
+    """
+    Iterate over the ids in a graph
+
+    :param graph:
+    :return:
+    """
+    if isinstance(graph, GraphDocument):
+        for g in graph.graphs:
+            yield from graph_id_iterator(g)
+        return
+    for n in graph.nodes:
+        yield n.id
+    for e in graph.edges:
+        yield from [e.sub, e.obj, e.pred]
+    for ld in graph.logicalDefinitionAxioms:
+        yield ld.definedClassId
+        yield from ld.genusIds
+        for r in ld.restrictions:
+            yield r.propertyId
+            yield r.fillerId
+    for ns in graph.equivalentNodesSets:
+        yield from ns.nodeIds
+
+
+def graph_ids(graph: Union[Graph, GraphDocument]) -> Iterator[CURIE]:
+    """
+    Return a set of all ids in a graph
+
+    :param graph:
+    :return:
+    """
+    yield from list(set(graph_id_iterator(graph)))
+
+
+def induce_graph_prefix_map(
+    graph: Union[Graph, GraphDocument], converter: Converter
+) -> Dict[str, str]:
+    def _id_to_prefix(id: CURIE) -> Optional[str]:
+        pfx, _ = converter.parse_uri(id)
+        if pfx:
+            return pfx
+        parts = id.split(":")
+        if len(parts) > 1:
+            return parts[0]
+        return None
+
+    prefixes = {_id_to_prefix(id) for id in graph_ids(graph)}
+    return {p: converter.expand_pair(p, "") for p in prefixes if p}

@@ -257,7 +257,8 @@ slots:
     range: PrefixDeclaration
     multivalued: true
     inlined: true
-    description: maps prefixes to namespaces
+    description: >-
+      maps prefixes to namespaces
 
 classes:
   GraphDocument:
@@ -291,6 +292,7 @@ classes:
     slots:
       - id
       - lbl
+      - prefixes
       - meta
       - nodes
       - edges

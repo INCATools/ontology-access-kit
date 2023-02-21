@@ -1063,7 +1063,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def precompute_lookups(self, predicates: List[PRED_CURIE] = None) -> None:
+    def precompute_lookups(self) -> None:
         """
         Precompute all main lookup operations.
 
