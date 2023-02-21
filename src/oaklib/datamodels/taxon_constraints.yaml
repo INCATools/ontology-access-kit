@@ -43,11 +43,14 @@ classes:
       id:
         range: uriorcurie
         identifier: true
+        description: the OBO CURIE for the term
       label:
         slot_uri: rdfs:label
         range: string
+        description: the human readable name or label of the term
   SubjectTerm:
-    description: A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ...
+    description: >-
+      A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ...
     is_a: Term
     attributes:
       description:
@@ -57,7 +60,8 @@ classes:
         description: If true then some combination of taxon constraints plus ontology lead to contradictions
       only_in:
         description: >
-          The term AND its descendants MUST be in the specified taxon, or a descendant of that taxon
+          Points to a taxon constraint that states the SubjectTerm is ONLY found in a taxon or descendant.
+          Formally, the term AND its descendants MUST be in the specified taxon, or a descendant of that taxon
         comments:
           - Note that we conflate between the RO "only in taxon" and "in taxon" relations here
         range: TaxonConstraint
@@ -65,7 +69,8 @@ classes:
         slot_uri: RO:0002160
       never_in:
         description: >
-          The term AND its descendants MUST NOT be in the specified taxon, or a descendant of that taxon
+          Points to a taxon constraint that states the SubjectTerm is NEVER found in a taxon or descendant.
+          Formally, the term AND its descendants MUST NOT be in the specified taxon, or a descendant of that taxon
         range: TaxonConstraint
         multivalued: true
         slot_uri: RO:0002161
@@ -88,17 +93,23 @@ classes:
       - NCBITaxon
       - NCBITaxon_Union
   PredicateTerm:
-    description: A term that represents a relationship type
+    description: >-
+      A term that represents a relationship type
     is_a: Term
+    id_prefixes:
+      - RO
 
   TaxonConstraint:
-    description: An individual taxon constraint
+    description: >-
+      An individual taxon constraint
     class_uri: rdf:Statement
     attributes:
       subject:
         slot_uri: rdf:subject
         range: SubjectTerm
         description: The term to which the constraint applies
+        comments:
+          - this is a reciprocal slot and will be the same as the containing SubjectTerm
       predicate:
         slot_uri: rdf:predicate
         range: PredicateTerm
@@ -156,3 +167,7 @@ classes:
       comments:
         range: string
         multivalued: true
+      candidate:
+        range: boolean
+        description: >-
+          true if this is a proposed candidate constraint

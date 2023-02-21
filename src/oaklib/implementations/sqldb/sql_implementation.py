@@ -95,6 +95,8 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OBSOLETION_RELATIONSHIP_PREDICATES,
+    OWL_CLASS,
+    OWL_NAMED_INDIVIDUAL,
     OWL_NOTHING,
     OWL_THING,
     PREFIX_PREDICATE,
@@ -124,16 +126,18 @@ from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
+from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
 from oaklib.utilities.identifier_utils import (
     string_as_base64_curie,
     synonym_type_code_from_curie,
@@ -147,6 +151,8 @@ __all__ = [
 
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
+
+SUBJECT_REL_KEY = Tuple[CURIE, Optional[List[PRED_CURIE]], Tuple]
 
 
 class SqlSchemaError(Exception):
@@ -233,6 +239,7 @@ class SqlImplementation(
     DifferInterface,
     # AssociationProviderInterface,
     ClassEnrichmentCalculationInterface,
+    TaxonConstraintInterface,
     TextAnnotatorInterface,
     SummaryStatisticsInterface,
     OwlInterface,
@@ -275,8 +282,11 @@ class SqlImplementation(
     _ontology_metadata_model: SchemaView = None
     _prefix_map: PREFIX_MAP = None
     _information_content_cache: Dict[Tuple, float] = None
+    _relationships_by_subject_index: Dict[CURIE, List[RELATIONSHIP]] = None
 
     max_items_for_in_clause: int = field(default_factory=lambda: 1000)
+
+    can_store_associations: bool = False
 
     def __post_init__(self):
         if self.engine is None:
@@ -380,8 +390,7 @@ class SqlImplementation(
         logging.info(f"Query: {q}")
         for row in q:
             if row:
-                # if not _is_blank(row.id) and not row.id.startswith("<"):
-                if not _is_blank(row.id):
+                if not _is_blank(row.id) and not row.id.startswith("<urn:swrl"):
                     yield row.id
 
     def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
@@ -710,6 +719,30 @@ class SqlImplementation(
             rmap[row.predicate].append(row.subject)
         return rmap
 
+    def precompute_lookups(self) -> None:
+        if self._relationships_by_subject_index is None:
+            self._relationships_by_subject_index = {}
+        logging.info("Precomputing lookups")
+
+        def add(row):
+            s = row.subject
+            if s not in self._relationships_by_subject_index:
+                self._relationships_by_subject_index[s] = []
+            self._relationships_by_subject_index[s].append((s, row.predicate, row.object))
+
+        q = self.session.query(Edge.subject, Edge.predicate, Edge.object)
+        for row in q:
+            add(row)
+        q = self.session.query(Statements.subject, Statements.predicate, Statements.object)
+        q = q.filter(Statements.predicate == RDF_TYPE)
+        for row in q:
+            add(row)
+        q = self.session.query(Statements.subject, Statements.predicate, Statements.object)
+        op_subq = self.session.query(ObjectPropertyNode.id)
+        q = q.filter(Statements.predicate.in_(op_subq))
+        for row in q:
+            add(row)
+
     def relationships(
         self,
         subjects: List[CURIE] = None,
@@ -719,10 +752,29 @@ class SqlImplementation(
         include_abox: bool = True,
         include_entailed: bool = False,
         include_dangling: bool = True,
+        exclude_blank: bool = True,
+        bypass_index: bool = False,
     ) -> Iterator[RELATIONSHIP]:
         if subjects is not None:
             # materialize iterators
             subjects = list(subjects)
+        if subjects and not objects and self._relationships_by_subject_index:
+            for s in subjects:
+                for _, p, o in self._relationships_by_subject_index.get(s, []):
+                    if predicates and p not in predicates:
+                        continue
+                    if not include_abox and p == RDF_TYPE:
+                        continue
+                    if self.exclude_owl_top_and_bottom and o == OWL_THING:
+                        continue
+                    if self.exclude_owl_top_and_bottom and s == OWL_NOTHING:
+                        continue
+                    if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                        continue
+                    if p == RDF_TYPE and (o == OWL_CLASS or o == OWL_NAMED_INDIVIDUAL):
+                        continue
+                    yield s, p, o
+            return
         if subjects is not None and len(subjects) > self.max_items_for_in_clause:
             logging.info(
                 f"Chunking {len(subjects)} subjects into subqueries to avoid large IN clauses"
@@ -736,6 +788,7 @@ class SqlImplementation(
                     include_abox=include_abox,
                     include_entailed=include_entailed,
                     include_dangling=include_dangling,
+                    exclude_blank=exclude_blank,
                 ):
                     yield r
             return
@@ -752,28 +805,42 @@ class SqlImplementation(
                     include_abox=include_abox,
                     include_entailed=include_entailed,
                     include_dangling=include_dangling,
+                    exclude_blank=exclude_blank,
                 ):
                     yield r
             return
+        logging.debug(f"Relationships for s={subjects} p={predicates} o={objects}")
         if include_tbox:
-            for r in self._tbox_relationships(
+            for s, p, o in self._tbox_relationships(
                 subjects, predicates, objects, include_entailed=include_entailed
             ):
-                if self.exclude_owl_top_and_bottom and r[2] == OWL_THING:
+                if self.exclude_owl_top_and_bottom and o == OWL_THING:
                     continue
-                if self.exclude_owl_top_and_bottom and r[0] == OWL_NOTHING:
+                if self.exclude_owl_top_and_bottom and s == OWL_NOTHING:
                     continue
-                yield r
-            for r in self._equivalent_class_relationships(subjects, predicates, objects):
-                yield r
+                if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                    continue
+                yield s, p, o
+            for s, p, o in self._equivalent_class_relationships(subjects, predicates, objects):
+                if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                    continue
+                yield s, p, o
             if subjects or objects:
                 for s, p, o in self._equivalent_class_relationships(objects, predicates, subjects):
+                    if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                        continue
                     yield o, p, s
         if include_abox:
-            for r in self._rdf_type_relationships(subjects, predicates, objects):
-                yield r
-            for r in self._object_property_assertion_relationships(subjects, predicates, objects):
-                yield r
+            for s, p, o in self._rdf_type_relationships(subjects, predicates, objects):
+                if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                    continue
+                yield s, p, o
+            for s, p, o in self._object_property_assertion_relationships(
+                subjects, predicates, objects
+            ):
+                if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                    continue
+                yield s, p, o
 
     def _tbox_relationships(
         self,
@@ -807,7 +874,7 @@ class SqlImplementation(
         predicates: List[PRED_CURIE] = None,
         objects: List[CURIE] = None,
     ) -> Iterator[RELATIONSHIP]:
-        q = self.session.query(Statements)
+        q = self.session.query(Statements.subject, Statements.predicate, Statements.object)
         if subjects:
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if predicates:
@@ -833,7 +900,9 @@ class SqlImplementation(
     ) -> Iterator[RELATIONSHIP]:
         if predicates and RDF_TYPE not in predicates:
             return
-        q = self.session.query(Statements).filter(Statements.predicate == RDF_TYPE)
+        q = self.session.query(Statements.subject, Statements.object).filter(
+            Statements.predicate == RDF_TYPE
+        )
         if subjects:
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if objects:
@@ -842,7 +911,7 @@ class SqlImplementation(
         q = q.filter(Statements.object.in_(cls_subq))
         logging.info(f"ClassAssertion query: {q}")
         for row in q:
-            yield row.subject, row.predicate, row.object
+            yield row.subject, RDF_TYPE, row.object
 
     def _equivalent_class_relationships(
         self,
@@ -852,7 +921,8 @@ class SqlImplementation(
     ) -> Iterator[RELATIONSHIP]:
         if predicates and EQUIVALENT_CLASS not in predicates:
             return
-        q = self.session.query(Statements).filter(Statements.predicate == EQUIVALENT_CLASS)
+        q = self.session.query(Statements.subject, Statements.predicate, Statements.object)
+        q = q.filter(Statements.predicate == EQUIVALENT_CLASS)
         if subjects:
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if objects:
@@ -940,6 +1010,9 @@ class SqlImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def associations(self, *args, **kwargs) -> Iterator[Association]:
+        if not self.can_store_associations:
+            yield from super().associations(*args, **kwargs)
+            return
         q = self._associations_query(*args, **kwargs)
         for row in q:
             yield Association(row.subject, row.predicate, row.object)
@@ -991,6 +1064,8 @@ class SqlImplementation(
         return q
 
     def add_associations(self, associations: Iterable[Association]) -> bool:
+        if not self.can_store_associations:
+            return super().add_associations(associations)
         for a in associations:
             if a.property_values:
                 raise NotImplementedError
@@ -998,6 +1073,7 @@ class SqlImplementation(
                 subject=a.subject, predicate=a.predicate, object=a.object
             )
             self._execute(stmt)
+        self.session.flush()
         return True
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1145,8 +1221,18 @@ class SqlImplementation(
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         reflexive: bool = True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
-        q = self.session.query(EntailedEdge)
+        if method and method == GraphTraversalMethod.HOP:
+            if not isinstance(start_curies, list):
+                start_curies = [start_curies]
+            ancs = {o for _s, _p, o in walk_up(self, start_curies, predicates, include_abox=False)}
+            if reflexive:
+                ancs.update(start_curies)
+            for o in ancs:
+                yield o
+            return
+        q = self.session.query(EntailedEdge.object).distinct()
         if isinstance(start_curies, list):
             q = q.filter(EntailedEdge.subject.in_(tuple(start_curies)))
         else:
@@ -1179,7 +1265,13 @@ class SqlImplementation(
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
+        if method and method == GraphTraversalMethod.HOP:
+            descs = {s for s, _p, _o in walk_down(self, start_curies, predicates)}
+            for s in descs:
+                yield s
+            return
         q = self.session.query(EntailedEdge)
         if isinstance(start_curies, list):
             q = q.filter(EntailedEdge.object.in_(tuple(start_curies)))

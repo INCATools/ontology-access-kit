@@ -308,20 +308,24 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert CYTOPLASM in curies
 
     def test_ancestors(self):
-        curies = list(self.oi.ancestors(VACUOLE))
-        for curie in curies:
-            logging.info(curie)
-        assert CELLULAR_COMPONENT in curies
-        assert VACUOLE in curies
-        assert CYTOPLASM in curies
-        curies = list(self.oi.ancestors([VACUOLE]))
-        assert CELLULAR_COMPONENT in curies
-        assert VACUOLE in curies
-        assert CYTOPLASM in curies
-        curies = list(self.oi.ancestors(VACUOLE, predicates=[IS_A]))
-        assert CELLULAR_COMPONENT in curies
-        assert VACUOLE in curies
-        assert CYTOPLASM not in curies
+        for cache_lookups in [False, True]:
+            self.oi.cache_lookups = cache_lookups
+            if cache_lookups:
+                self.oi.precompute_lookups()
+            curies = list(self.oi.ancestors(VACUOLE))
+            for curie in curies:
+                logging.info(curie)
+            assert CELLULAR_COMPONENT in curies
+            assert VACUOLE in curies
+            assert CYTOPLASM in curies
+            curies = list(self.oi.ancestors([VACUOLE]))
+            assert CELLULAR_COMPONENT in curies
+            assert VACUOLE in curies
+            assert CYTOPLASM in curies
+            curies = list(self.oi.ancestors(VACUOLE, predicates=[IS_A]))
+            assert CELLULAR_COMPONENT in curies
+            assert VACUOLE in curies
+            assert CYTOPLASM not in curies
 
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)

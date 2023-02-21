@@ -6,6 +6,7 @@ specified toml-like structure, consisting of stanzas of tag-val pairs.
 
 The precise parsing of each tag-val pair is delayed until precise semantics are required
 """
+import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -287,7 +288,7 @@ class Structure:
                     continue
             tvs.append(tv)
         if not n:
-            raise ValueError(f"No values to remove for {tag} = {val} // {self}")
+            logging.warning(f"No values to remove for {tag} = {val} // {self}")
         self.tag_values = tvs
 
     def remove_pairwise_tag_value(self, tag: TAG, val1: str, val2: str) -> None:
@@ -308,7 +309,7 @@ class Structure:
                     continue
             tvs.append(tv)
         if not n:
-            raise ValueError(f"No values to remove for {tag} = {val1} {val2} // {self}")
+            logging.warning(f"No values to remove for {tag} = {val1} {val2} // {self}")
         self.tag_values = tvs
 
     def add_tag_value(self, tag: TAG, val: str) -> None:
