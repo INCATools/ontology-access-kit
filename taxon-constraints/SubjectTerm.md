@@ -40,12 +40,12 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
 | ---  | --- | --- | --- |
 | [description](description.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A description of the term | direct |
 | [unsatisfiable](unsatisfiable.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | If true then some combination of taxon constraints plus ontology lead to cont... | direct |
-| [only_in](only_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term AND its descendants MUST be in the specified taxon, or a descendant ... | direct |
-| [never_in](never_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term AND its descendants MUST NOT be in the specified taxon, or a descend... | direct |
+| [only_in](only_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | Points to a taxon constraint that states the SubjectTerm is ONLY found in a t... | direct |
+| [never_in](never_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | Points to a taxon constraint that states the SubjectTerm is NEVER found in a ... | direct |
 | [present_in](present_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term MAY be in the specified taxon, or a descendant of that taxon | direct |
 | [present_in_ancestor_of](present_in_ancestor_of.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) |  | direct |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Term](Term.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the OBO CURIE for the term | [Term](Term.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human readable name or label of the term | [Term](Term.md) |
 
 
 
@@ -120,8 +120,9 @@ attributes:
     range: boolean
   only_in:
     name: only_in
-    description: 'The term AND its descendants MUST be in the specified taxon, or
-      a descendant of that taxon
+    description: 'Points to a taxon constraint that states the SubjectTerm is ONLY
+      found in a taxon or descendant. Formally, the term AND its descendants MUST
+      be in the specified taxon, or a descendant of that taxon
 
       '
     comments:
@@ -134,8 +135,9 @@ attributes:
     range: TaxonConstraint
   never_in:
     name: never_in
-    description: 'The term AND its descendants MUST NOT be in the specified taxon,
-      or a descendant of that taxon
+    description: 'Points to a taxon constraint that states the SubjectTerm is NEVER
+      found in a taxon or descendant. Formally, the term AND its descendants MUST
+      NOT be in the specified taxon, or a descendant of that taxon
 
       '
     from_schema: https://w3id.org/linkml/taxon_constraints
@@ -198,8 +200,9 @@ attributes:
     range: boolean
   only_in:
     name: only_in
-    description: 'The term AND its descendants MUST be in the specified taxon, or
-      a descendant of that taxon
+    description: 'Points to a taxon constraint that states the SubjectTerm is ONLY
+      found in a taxon or descendant. Formally, the term AND its descendants MUST
+      be in the specified taxon, or a descendant of that taxon
 
       '
     comments:
@@ -216,8 +219,9 @@ attributes:
     range: TaxonConstraint
   never_in:
     name: never_in
-    description: 'The term AND its descendants MUST NOT be in the specified taxon,
-      or a descendant of that taxon
+    description: 'Points to a taxon constraint that states the SubjectTerm is NEVER
+      found in a taxon or descendant. Formally, the term AND its descendants MUST
+      NOT be in the specified taxon, or a descendant of that taxon
 
       '
     from_schema: https://w3id.org/linkml/taxon_constraints
@@ -256,6 +260,7 @@ attributes:
     range: TaxonConstraint
   id:
     name: id
+    description: the OBO CURIE for the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     identifier: true
@@ -266,6 +271,7 @@ attributes:
     range: uriorcurie
   label:
     name: label
+    description: the human readable name or label of the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label

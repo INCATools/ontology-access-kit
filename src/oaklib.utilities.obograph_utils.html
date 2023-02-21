@@ -120,17 +120,29 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">as_multi_digraph</span></code>(graph[, reverse, ...])</p></td>
 <td><p>Convert to a networkx <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiDiGraph</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_stylemap_path</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compress_all_graph_ids</span></code>(graph, converter)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_graph</span></code>(graph[, seeds, configure, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_stylemap_path</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_graph</span></code>(graph[, seeds, configure, ...])</p></td>
 <td><p>Generates an image from a graph using <span class="xref std std-ref">graph_to_image</span> then open for display</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expand_all_graph_ids</span></code>(graph, converter)</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_by_predicates</span></code>(graph, predicates[, ...])</p></td>
 <td><p>Create a subgraph that has only edges whose predicates are in the predicate list</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_as_dict</span></code>(graph)</p></td>
-<td><p>Convert an OBOGraph representation to a dictionary representation isomorphic to the OBOGraphs json standard.</p></td>
+<td><p>Serialize a graph to a dict.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_id_iterator</span></code>(graph)</p></td>
+<td><p>Iterate over the ids in a graph</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_ids</span></code>(graph)</p></td>
+<td><p>Return a set of all ids in a graph</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_info</span></code>(graph)</p></td>
 <td><p></p></td>
@@ -155,6 +167,12 @@
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_nodes</span></code>(graph)</p></td>
 <td><p>Returns an index of all nodes key by node id</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">induce_graph_prefix_map</span></code>(graph, converter)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mutate_graph_ids</span></code>(graph, func)</p></td>
+<td><p>Iterate over the ids in a graph and modify them.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflexive</span></code>(edge)</p></td>
 <td><p></p></td>

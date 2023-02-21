@@ -178,6 +178,8 @@
     <span class="n">IS_A</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
     <span class="n">OBSOLETION_RELATIONSHIP_PREDICATES</span><span class="p">,</span>
+    <span class="n">OWL_CLASS</span><span class="p">,</span>
+    <span class="n">OWL_NAMED_INDIVIDUAL</span><span class="p">,</span>
     <span class="n">OWL_NOTHING</span><span class="p">,</span>
     <span class="n">OWL_THING</span><span class="p">,</span>
     <span class="n">PREFIX_PREDICATE</span><span class="p">,</span>
@@ -207,16 +209,18 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.dumper_interface</span> <span class="kn">import</span> <span class="n">DumperInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.metadata_interface</span> <span class="kn">import</span> <span class="n">MetadataInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">GraphTraversalMethod</span><span class="p">,</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.owl_interface</span> <span class="kn">import</span> <span class="n">OwlInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.patcher_interface</span> <span class="kn">import</span> <span class="n">PatcherInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.semsim_interface</span> <span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.summary_statistics_interface</span> <span class="kn">import</span> <span class="n">SummaryStatisticsInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.taxon_constraint_interface</span> <span class="kn">import</span> <span class="n">TaxonConstraintInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CATEGORY_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.basic_utils</span> <span class="kn">import</span> <span class="n">pairs_as_dict</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.graph.relationship_walker</span> <span class="kn">import</span> <span class="n">walk_down</span><span class="p">,</span> <span class="n">walk_up</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.identifier_utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">string_as_base64_curie</span><span class="p">,</span>
     <span class="n">synonym_type_code_from_curie</span><span class="p">,</span>
@@ -230,6 +234,8 @@
 
 <span class="kn">from</span> <span class="nn">oaklib.utilities.iterator_utils</span> <span class="kn">import</span> <span class="n">chunk</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.sssom_utils</span> <span class="kn">import</span> <span class="n">inject_mapping_sources</span>
+
+<span class="n">SUBJECT_REL_KEY</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]],</span> <span class="n">Tuple</span><span class="p">]</span>
 
 
 <span class="k">class</span> <span class="nc">SqlSchemaError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -316,6 +322,7 @@
     <span class="n">DifferInterface</span><span class="p">,</span>
     <span class="c1"># AssociationProviderInterface,</span>
     <span class="n">ClassEnrichmentCalculationInterface</span><span class="p">,</span>
+    <span class="n">TaxonConstraintInterface</span><span class="p">,</span>
     <span class="n">TextAnnotatorInterface</span><span class="p">,</span>
     <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
     <span class="n">OwlInterface</span><span class="p">,</span>
@@ -358,8 +365,11 @@
     <span class="n">_ontology_metadata_model</span><span class="p">:</span> <span class="n">SchemaView</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_prefix_map</span><span class="p">:</span> <span class="n">PREFIX_MAP</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_information_content_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_relationships_by_subject_index</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">max_items_for_in_clause</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">1000</span><span class="p">)</span>
+
+    <span class="n">can_store_associations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -463,8 +473,7 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">row</span><span class="p">:</span>
-                <span class="c1"># if not _is_blank(row.id) and not row.id.startswith(&quot;&lt;&quot;):</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;urn:swrl&quot;</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span>
 
     <span class="k">def</span> <span class="nf">owl_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
@@ -793,6 +802,30 @@
             <span class="n">rmap</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rmap</span>
 
+    <span class="k">def</span> <span class="nf">precompute_lookups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Precomputing lookups&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">))</span>
+
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Edge</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Edge</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Edge</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">RDF_TYPE</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+        <span class="n">op_subq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">op_subq</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -802,10 +835,29 @@
         <span class="n">include_abox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">include_dangling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">exclude_blank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">bypass_index</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">subjects</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># materialize iterators</span>
             <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">subjects</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">objects</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="k">if</span> <span class="n">predicates</span> <span class="ow">and</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">include_abox</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">==</span> <span class="n">RDF_TYPE</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">o</span> <span class="o">==</span> <span class="n">OWL_THING</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">s</span> <span class="o">==</span> <span class="n">OWL_NOTHING</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">RDF_TYPE</span> <span class="ow">and</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="n">OWL_CLASS</span> <span class="ow">or</span> <span class="n">o</span> <span class="o">==</span> <span class="n">OWL_NAMED_INDIVIDUAL</span><span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
+            <span class="k">return</span>
         <span class="k">if</span> <span class="n">subjects</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_items_for_in_clause</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Chunking </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span><span class="si">}</span><span class="s2"> subjects into subqueries to avoid large IN clauses&quot;</span>
@@ -819,6 +871,7 @@
                     <span class="n">include_abox</span><span class="o">=</span><span class="n">include_abox</span><span class="p">,</span>
                     <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span><span class="p">,</span>
                     <span class="n">include_dangling</span><span class="o">=</span><span class="n">include_dangling</span><span class="p">,</span>
+                    <span class="n">exclude_blank</span><span class="o">=</span><span class="n">exclude_blank</span><span class="p">,</span>
                 <span class="p">):</span>
                     <span class="k">yield</span> <span class="n">r</span>
             <span class="k">return</span>
@@ -835,28 +888,42 @@
                     <span class="n">include_abox</span><span class="o">=</span><span class="n">include_abox</span><span class="p">,</span>
                     <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span><span class="p">,</span>
                     <span class="n">include_dangling</span><span class="o">=</span><span class="n">include_dangling</span><span class="p">,</span>
+                    <span class="n">exclude_blank</span><span class="o">=</span><span class="n">exclude_blank</span><span class="p">,</span>
                 <span class="p">):</span>
                     <span class="k">yield</span> <span class="n">r</span>
             <span class="k">return</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relationships for s=</span><span class="si">{</span><span class="n">subjects</span><span class="si">}</span><span class="s2"> p=</span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2"> o=</span><span class="si">{</span><span class="n">objects</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">include_tbox</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tbox_relationships</span><span class="p">(</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tbox_relationships</span><span class="p">(</span>
                 <span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span>
             <span class="p">):</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">OWL_THING</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">o</span> <span class="o">==</span> <span class="n">OWL_THING</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">OWL_NOTHING</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">s</span> <span class="o">==</span> <span class="n">OWL_NOTHING</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="k">yield</span> <span class="n">r</span>
-            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_class_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">r</span>
+                <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
+                    <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_class_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
+                    <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
             <span class="k">if</span> <span class="n">subjects</span> <span class="ow">or</span> <span class="n">objects</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_class_relationships</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">subjects</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
+                        <span class="k">continue</span>
                     <span class="k">yield</span> <span class="n">o</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span>
         <span class="k">if</span> <span class="n">include_abox</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rdf_type_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">r</span>
-            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_object_property_assertion_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">r</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rdf_type_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
+                    <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_object_property_assertion_relationships</span><span class="p">(</span>
+                <span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span>
+            <span class="p">):</span>
+                <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
+                    <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
 
     <span class="k">def</span> <span class="nf">_tbox_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -890,7 +957,7 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">subjects</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">subjects</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
@@ -916,7 +983,9 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">predicates</span> <span class="ow">and</span> <span class="n">RDF_TYPE</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">RDF_TYPE</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">RDF_TYPE</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">subjects</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">subjects</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">objects</span><span class="p">:</span>
@@ -925,7 +994,7 @@
         <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">cls_subq</span><span class="p">))</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ClassAssertion query: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
+            <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">RDF_TYPE</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
 
     <span class="k">def</span> <span class="nf">_equivalent_class_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -935,7 +1004,8 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">predicates</span> <span class="ow">and</span> <span class="n">EQUIVALENT_CLASS</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">EQUIVALENT_CLASS</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">EQUIVALENT_CLASS</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">subjects</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">subjects</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">objects</span><span class="p">:</span>
@@ -1023,6 +1093,9 @@
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
     <span class="k">def</span> <span class="nf">associations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Association</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">can_store_associations</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_associations_query</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">Association</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
@@ -1074,6 +1147,8 @@
         <span class="k">return</span> <span class="n">q</span>
 
     <span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">can_store_associations</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">property_values</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span>
@@ -1081,6 +1156,7 @@
                 <span class="n">subject</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">object</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -1228,8 +1304,18 @@
         <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reflexive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GraphTraversalMethod</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">==</span> <span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">HOP</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">start_curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_curies</span><span class="p">]</span>
+            <span class="n">ancs</span> <span class="o">=</span> <span class="p">{</span><span class="n">o</span> <span class="k">for</span> <span class="n">_s</span><span class="p">,</span> <span class="n">_p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">walk_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">include_abox</span><span class="o">=</span><span class="kc">False</span><span class="p">)}</span>
+            <span class="k">if</span> <span class="n">reflexive</span><span class="p">:</span>
+                <span class="n">ancs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">ancs</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">o</span>
+            <span class="k">return</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="o">.</span><span class="n">object</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1262,7 +1348,13 @@
         <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GraphTraversalMethod</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">==</span> <span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">HOP</span><span class="p">:</span>
+            <span class="n">descs</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">_p</span><span class="p">,</span> <span class="n">_o</span> <span class="ow">in</span> <span class="n">walk_down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)}</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">descs</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">s</span>
+            <span class="k">return</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)))</span>

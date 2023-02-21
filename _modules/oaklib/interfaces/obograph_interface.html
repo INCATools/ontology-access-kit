@@ -109,12 +109,21 @@
 
 <span class="k">class</span> <span class="nc">Distance</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Specifies how many hops to walk in any given direction</span>
+<span class="sd">    Specifies how many hops to walk in any given direction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ZERO</span> <span class="o">=</span> <span class="s2">&quot;zero&quot;</span>
     <span class="n">DIRECT</span> <span class="o">=</span> <span class="s2">&quot;direct&quot;</span>
     <span class="n">TRANSITIVE</span> <span class="o">=</span> <span class="s2">&quot;transitive&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">GraphTraversalMethod</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specifies a strategy for computing graph relationships.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">HOP</span> <span class="o">=</span> <span class="s2">&quot;HOP&quot;</span>
+    <span class="n">ENTAILMENT</span> <span class="o">=</span> <span class="s2">&quot;ENTAILMENT&quot;</span>
 
 
 <span class="k">def</span> <span class="nf">_edges_to_nodes</span><span class="p">(</span>
@@ -307,6 +316,7 @@
         <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GraphTraversalMethod</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified</span>
@@ -319,8 +329,11 @@
 <span class="sd">        :param start_curies: curie or curies to start the walk from</span>
 <span class="sd">        :param predicates: only traverse over these (traverses over all if this is not set)</span>
 <span class="sd">        :param reflexive: include self</span>
+<span class="sd">        :param method:</span>
 <span class="sd">        :return: all ancestor CURIEs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">==</span> <span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;entailment method not implemented in </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_edges_to_nodes</span><span class="p">(</span>
             <span class="n">start_curies</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">,</span> <span class="n">reflexive</span>
         <span class="p">)</span></div>
@@ -330,6 +343,7 @@
         <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GraphTraversalMethod</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Descendants obtained from a walk downwards starting from start_curies</span>
@@ -342,8 +356,11 @@
 <span class="sd">        :param start_curies: curie or curies to start the walk from</span>
 <span class="sd">        :param predicates: only traverse over these (traverses over all if this is not set)</span>
 <span class="sd">        :param reflexive: include self</span>
+<span class="sd">        :param method:</span>
 <span class="sd">        :return: all descendant CURIEs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">==</span> <span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;entailment method not implemented in </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_edges_to_nodes</span><span class="p">(</span>
             <span class="n">start_curies</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">descendant_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">,</span> <span class="n">reflexive</span>
         <span class="p">)</span></div>
@@ -453,9 +470,10 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicate_weights</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">shortest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">GRAPH_PATH</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns all paths between sources and targets</span>
+<span class="sd">        Returns all paths between sources and targets.</span>
 
 <span class="sd">        :param start_curies:</span>
 <span class="sd">        :param start_curies:</span>
@@ -477,7 +495,11 @@
         <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">all_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating graph stats&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">intermediates</span> <span class="ow">in</span> <span class="n">shortest_paths</span><span class="p">(</span>
-            <span class="n">graph</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">,</span> <span class="n">end_curies</span><span class="o">=</span><span class="n">target_curies</span><span class="p">,</span> <span class="n">predicate_weights</span><span class="o">=</span><span class="n">predicate_weights</span>
+            <span class="n">graph</span><span class="p">,</span>
+            <span class="n">start_curies</span><span class="p">,</span>
+            <span class="n">end_curies</span><span class="o">=</span><span class="n">target_curies</span><span class="p">,</span>
+            <span class="n">predicate_weights</span><span class="o">=</span><span class="n">predicate_weights</span><span class="p">,</span>
+            <span class="n">directed</span><span class="o">=</span><span class="n">directed</span><span class="p">,</span>
         <span class="p">):</span>
             <span class="k">for</span> <span class="n">intermediate</span> <span class="ow">in</span> <span class="n">intermediates</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">intermediate</span></div>

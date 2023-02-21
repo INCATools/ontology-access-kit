@@ -20,6 +20,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
       Graph : logicalDefinitionAxioms
       Graph : meta
       Graph : nodes
+      Graph : prefixes
       Graph : propertyChainAxioms
       
 ```
@@ -36,6 +37,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
+| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | maps prefixes to namespaces | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 | [nodes](nodes.md) | 0..* <br/> [Node](Node.md) | All nodes present in a graph | direct |
 | [edges](edges.md) | 0..* <br/> [Edge](Edge.md) | All edges present in a graph | direct |
@@ -103,6 +105,7 @@ rank: 1000
 slots:
 - id
 - lbl
+- prefixes
 - meta
 - nodes
 - edges
@@ -157,6 +160,20 @@ attributes:
     - Graph
     - Node
     range: string
+  prefixes:
+    name: prefixes
+    description: maps prefixes to namespaces
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: sh:declare
+    multivalued: true
+    alias: prefixes
+    owner: Graph
+    domain_of:
+    - GraphDocument
+    - Graph
+    range: PrefixDeclaration
+    inlined: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

@@ -1,8 +1,8 @@
-# Slot: subject
-_The term to which the constraint applies_
+# Slot: candidate
+_true if this is a proposed candidate constraint_
 
 
-URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
+URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 
 
 
@@ -24,17 +24,13 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 ## Properties
 
-* Range: [SubjectTerm](SubjectTerm.md)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
 
 
 
 
 
 
-
-## Comments
-
-* this is a reciprocal slot and will be the same as the containing SubjectTerm
 
 ## Identifier and Mapping Information
 
@@ -56,18 +52,15 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 <details>
 ```yaml
-name: subject
-description: The term to which the constraint applies
-comments:
-- this is a reciprocal slot and will be the same as the containing SubjectTerm
+name: candidate
+description: true if this is a proposed candidate constraint
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000
-slot_uri: rdf:subject
-alias: subject
+alias: candidate
 owner: TaxonConstraint
 domain_of:
 - TaxonConstraint
-range: SubjectTerm
+range: boolean
 
 ```
 </details>

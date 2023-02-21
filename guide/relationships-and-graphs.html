@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relationships and Graphs &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture" href="../architecture.html" />
+    <link rel="prev" title="Obsoletion" href="obsoletion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The OAK Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">OAK Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Relationships and Graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exploring-relationships">Exploring relationships</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graph-traversal-and-relation-graph-reasoning">Graph Traversal and Relation Graph Reasoning</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#graph-traversal-strategies">Graph Traversal Strategies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">The OAK Guide</a></li>
+      <li class="breadcrumb-item active">Relationships and Graphs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/relationships-and-graphs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="relationships-and-graphs">
+<span id="id1"></span><h1>Relationships and Graphs<a class="headerlink" href="#relationships-and-graphs" title="Permalink to this headline"></a></h1>
+<p>One of the main uses of an ontology is to precisely state the <em>relationships</em> between different entities or concepts.</p>
+<p>In OAK, classes in ontologies can be related to one another via different <em>relationship types</em>. These
+may come from a relationship type ontology such as RO, or they may be part of the RDF/OWL framework, such
+as <span class="xref std std-ref">SubClassOf</span>.</p>
+<section id="exploring-relationships">
+<h2>Exploring relationships<a class="headerlink" href="#exploring-relationships" title="Permalink to this headline"></a></h2>
+<p>Let’s explore Uberon, looking at the relationships for <em>hand</em> (“manus”) and <em>foot</em> (“pes”)</p>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> method from <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_implementation_from_shorthand</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0002387&quot;</span><span class="p">]):</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+<span class="go">(&#39;UBERON:0002387&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0002103&#39;)</span>
+<span class="go">(&#39;UBERON:0002387&#39;, &#39;RO:0002202&#39;, &#39;UBERON:0006871&#39;)</span>
+<span class="go">(&#39;UBERON:0002387&#39;, &#39;RO:0002551&#39;, &#39;UBERON:0001445&#39;)</span>
+<span class="go">(&#39;UBERON:0002387&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0002470&#39;)</span>
+<span class="go">(&#39;UBERON:0002387&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0008784&#39;)</span>
+<span class="go">(&#39;UBERON:0002398&#39;, &#39;BFO:0000050&#39;, &#39;UBERON:0002102&#39;)</span>
+<span class="go">(&#39;UBERON:0002398&#39;, &#39;RO:0002202&#39;, &#39;UBERON:0006875&#39;)</span>
+<span class="go">(&#39;UBERON:0002398&#39;, &#39;RO:0002551&#39;, &#39;UBERON:0001442&#39;)</span>
+<span class="go">(&#39;UBERON:0002398&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0002470&#39;)</span>
+<span class="go">(&#39;UBERON:0002398&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0008785&#39;)</span>
+</pre></div>
+</div>
+<p>We can make this more human readable:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_implementation_from_shorthand</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0002387&quot;</span><span class="p">]):</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">((</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">)))</span>
+<span class="go">(&#39;pes&#39;, &#39;part of&#39;, &#39;hindlimb&#39;)</span>
+<span class="go">(&#39;pes&#39;, &#39;develops from&#39;, &#39;embryonic footplate&#39;)</span>
+<span class="go">(&#39;pes&#39;, &#39;has skeleton&#39;, &#39;skeleton of pes&#39;)</span>
+<span class="go">(&#39;pes&#39;, None, &#39;autopod region&#39;)</span>
+<span class="go">(&#39;pes&#39;, None, &#39;lower limb segment&#39;)</span>
+<span class="go">(&#39;manus&#39;, &#39;part of&#39;, &#39;forelimb&#39;)</span>
+<span class="go">(&#39;manus&#39;, &#39;develops from&#39;, &#39;embryonic handplate&#39;)</span>
+<span class="go">(&#39;manus&#39;, &#39;has skeleton&#39;, &#39;skeleton of manus&#39;)</span>
+<span class="go">(&#39;manus&#39;, None, &#39;autopod region&#39;)</span>
+<span class="go">(&#39;manus&#39;, None, &#39;upper limb segment&#39;)</span>
+</pre></div>
+</div>
+<p>(note subClassOf labels are outside the ontology so they have no labels)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>if you are used to working with OWL and the underlying RDF/OWL representation
+the presentation as simple triads above can be confusing, as these are not actually
+modeled as triples in the ontology, but rather as more complex axioms involving
+constructs like existential restriction. We will return to this later.</p>
+</div>
+</section>
+<section id="graph-traversal-and-relation-graph-reasoning">
+<h2>Graph Traversal and Relation Graph Reasoning<a class="headerlink" href="#graph-traversal-and-relation-graph-reasoning" title="Permalink to this headline"></a></h2>
+<p>The above examples show <em>direct</em> relationships between concepts. A common
+use case for ontologies is exploring <em>indirect</em> or <em>entailed</em> relationships.</p>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">ancestors</span></code> method from <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_implementation_from_shorthand</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">anc</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">anc</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<span class="go">BFO:0000001 &#39;entity&#39;</span>
+<span class="go">BFO:0000002 &#39;continuant&#39;</span>
+<span class="go">BFO:0000004 &#39;independent continuant&#39;</span>
+<span class="go">BFO:0000040 &#39;material entity&#39;</span>
+<span class="go">CARO:0000000 &#39;anatomical entity&#39;</span>
+<span class="go">CARO:0000003 &#39;None&#39;</span>
+<span class="go">CARO:0030000 &#39;biological entity&#39;</span>
+<span class="go">RO:0002577 &#39;system&#39;</span>
+<span class="go">UBERON:0000026 &#39;appendage&#39;</span>
+<span class="go">UBERON:0000061 &#39;anatomical structure&#39;</span>
+<span class="go">UBERON:0000153 &#39;anterior region of body&#39;</span>
+<span class="go">UBERON:0000465 &#39;material anatomical entity&#39;</span>
+<span class="go">UBERON:0000468 &#39;multicellular organism&#39;</span>
+<span class="go">UBERON:0000475 &#39;organism subdivision&#39;</span>
+<span class="go">UBERON:0001062 &#39;anatomical entity&#39;</span>
+<span class="go">UBERON:0002101 &#39;limb&#39;</span>
+<span class="go">UBERON:0002102 &#39;forelimb&#39;</span>
+<span class="go">UBERON:0004708 &#39;paired limb/fin&#39;</span>
+<span class="go">UBERON:0004710 &#39;pectoral appendage&#39;</span>
+<span class="go">UBERON:0010000 &#39;multicellular anatomical structure&#39;</span>
+<span class="go">UBERON:0010707 &#39;appendage girdle complex&#39;</span>
+<span class="go">UBERON:0010708 &#39;pectoral complex&#39;</span>
+<span class="go">UBERON:0015212 &#39;lateral structure&#39;</span>
+<span class="go">UBERON:0002398 &#39;manus&#39;</span>
+<span class="go">UBERON:0002470 &#39;autopod region&#39;</span>
+<span class="go">UBERON:0002529 &#39;limb segment&#39;</span>
+<span class="go">UBERON:0008785 &#39;upper limb segment&#39;</span>
+<span class="go">UBERON:0010538 &#39;paired limb/fin segment&#39;</span>
+<span class="go">UBERON:0010758 &#39;subdivision of organism along appendicular axis&#39;</span>
+</pre></div>
+</div>
+<section id="graph-traversal-strategies">
+<h3>Graph Traversal Strategies<a class="headerlink" href="#graph-traversal-strategies" title="Permalink to this headline"></a></h3>
+<p>There are actually <em>two</em> strategies for getting indirect relationships in OAK:</p>
+<ul class="simple">
+<li><p>HOP, aka <em>graph walking</em></p></li>
+<li><p>ENTAILMENT, aka <em>reasoning</em></p></li>
+</ul>
+<p>You can specify which you would like, but if you leave this open the adapter will choose a
+default. Not all adapters can implement both strategies.</p>
+<p>What are the differences? In many cases the results are the same, but formally the differences are:</p>
+<ul class="simple">
+<li><p>HOP yields all nodes that can be traversed via zero or more hops from the specified starting point(s),
+over the specified relationships</p></li>
+<li><p>ENTAILMENT uses deductive reasoning to compute inferred relationships, and yields any relationships
+whose entailed predicate matches the input list</p></li>
+</ul>
+<p>Currently the only OAK adapters to implement ENTAILMENT are:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Endpoint</span></a></p></li>
+<li><p><a class="reference internal" href="../implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Implementation</span></a></p></li>
+</ul>
+<p>In both cases the entailment is done ahead of time using <span class="xref std std-ref">relation_graph</span>.</p>
+<p>An example of a case where results between these approaches differ is in computing
+the ancestors of <code class="docutils literal notranslate"><span class="pre">GO:1901494</span></code> <em>regulation of cysteine metabolic process</em>.</p>
+<p>Following a path of two hops, we can traverse over a <em>regulates</em> relationship to get to <em>cysteine metabolic process</em>,
+and then over a <em>has primary input ot output</em> relationship to the CHEBI concept for <em>cysteine</em></p>
+<p>the Relation Ontology doesn’t include a property chain naming the relationship between
+<a class="reference external" href="GO:1901494">GO:1901494</a> and cysteine, so this wouldn’t show up in an ancestor lookup for the GO term.</p>
+<p>entailment can also yield <em>new</em> relationship types. For example, RO contains
+an axiom that if A has-part B and B part-of C, then it necessarily follows that A overlaps C.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="obsoletion.html" class="btn btn-neutral float-left" title="Obsoletion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

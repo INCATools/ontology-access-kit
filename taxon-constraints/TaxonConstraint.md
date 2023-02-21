@@ -12,6 +12,7 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
  classDiagram
     class TaxonConstraint
       TaxonConstraint : asserted
+      TaxonConstraint : candidate
       TaxonConstraint : comments
       TaxonConstraint : contradicted_by
       TaxonConstraint : evolutionary
@@ -50,6 +51,7 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 | [predicates](predicates.md) | 0..* <br/> [PredicateTerm](PredicateTerm.md) | The predicates that connect the subject term to the via_terms | direct |
 | [sources](sources.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 | [comments](comments.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [candidate](candidate.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | true if this is a proposed candidate constraint | direct |
 
 
 
@@ -115,6 +117,8 @@ attributes:
   subject:
     name: subject
     description: The term to which the constraint applies
+    comments:
+    - this is a reciprocal slot and will be the same as the containing SubjectTerm
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdf:subject
@@ -209,6 +213,12 @@ attributes:
     rank: 1000
     multivalued: true
     range: string
+  candidate:
+    name: candidate
+    description: true if this is a proposed candidate constraint
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    range: boolean
 class_uri: rdf:Statement
 
 ```
@@ -226,6 +236,8 @@ attributes:
   subject:
     name: subject
     description: The term to which the constraint applies
+    comments:
+    - this is a reciprocal slot and will be the same as the containing SubjectTerm
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdf:subject
@@ -372,6 +384,16 @@ attributes:
     domain_of:
     - TaxonConstraint
     range: string
+  candidate:
+    name: candidate
+    description: true if this is a proposed candidate constraint
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    alias: candidate
+    owner: TaxonConstraint
+    domain_of:
+    - TaxonConstraint
+    range: boolean
 class_uri: rdf:Statement
 
 ```

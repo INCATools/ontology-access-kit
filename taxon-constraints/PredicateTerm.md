@@ -32,8 +32,8 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Term](Term.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the OBO CURIE for the term | [Term](Term.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human readable name or label of the term | [Term](Term.md) |
 
 
 
@@ -52,6 +52,14 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 
 
 ## Identifier and Mapping Information
+
+
+### Valid ID Prefixes
+
+Instances of this class *should* have identifiers with one of the following prefixes:
+
+* RO
+
 
 
 
@@ -88,6 +96,8 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 <details>
 ```yaml
 name: PredicateTerm
+id_prefixes:
+- RO
 description: A term that represents a relationship type
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000
@@ -101,6 +111,8 @@ is_a: Term
 <details>
 ```yaml
 name: PredicateTerm
+id_prefixes:
+- RO
 description: A term that represents a relationship type
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000
@@ -108,6 +120,7 @@ is_a: Term
 attributes:
   id:
     name: id
+    description: the OBO CURIE for the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     identifier: true
@@ -118,6 +131,7 @@ attributes:
     range: uriorcurie
   label:
     name: label
+    description: the human readable name or label of the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label

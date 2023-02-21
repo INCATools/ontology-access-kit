@@ -23,14 +23,15 @@ Name: taxon-constraints
 | Slot | Description |
 | --- | --- |
 | [asserted](asserted.md) | holds if the constraint is asserted in the source ontology, rather than infer... |
+| [candidate](candidate.md) | true if this is a proposed candidate constraint |
 | [comments](comments.md) |  |
 | [contradicted_by](contradicted_by.md) | If the taxon constraint conflicts with another,  then this is the set of taxo... |
 | [description](description.md) | A description of the term |
 | [evolutionary](evolutionary.md) | holds if the constraint is an evolutionary statement |
-| [id](id.md) |  |
-| [label](label.md) |  |
-| [never_in](never_in.md) | The term AND its descendants MUST NOT be in the specified taxon, or a descend... |
-| [only_in](only_in.md) | The term AND its descendants MUST be in the specified taxon, or a descendant ... |
+| [id](id.md) | the OBO CURIE for the term |
+| [label](label.md) | the human readable name or label of the term |
+| [never_in](never_in.md) | Points to a taxon constraint that states the SubjectTerm is NEVER found in a ... |
+| [only_in](only_in.md) | Points to a taxon constraint that states the SubjectTerm is ONLY found in a t... |
 | [predicate](predicate.md) | The relationship type for the contraint (e |
 | [predicates](predicates.md) | The predicates that connect the subject term to the via_terms |
 | [present_in](present_in.md) | The term MAY be in the specified taxon, or a descendant of that taxon |

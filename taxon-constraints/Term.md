@@ -38,8 +38,8 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the OBO CURIE for the term | direct |
+| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human readable name or label of the term | direct |
 
 
 
@@ -94,12 +94,14 @@ abstract: true
 attributes:
   id:
     name: id
+    description: the OBO CURIE for the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     identifier: true
     range: uriorcurie
   label:
     name: label
+    description: the human readable name or label of the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label
@@ -122,6 +124,7 @@ abstract: true
 attributes:
   id:
     name: id
+    description: the OBO CURIE for the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     identifier: true
@@ -132,6 +135,7 @@ attributes:
     range: uriorcurie
   label:
     name: label
+    description: the human readable name or label of the term
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label

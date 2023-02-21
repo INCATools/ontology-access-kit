@@ -191,7 +191,10 @@
         <span class="n">include_modified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Yield objects together with the number of distinct associated subjects</span>
+<span class="sd">        Yield objects together with the number of distinct associated subjects.</span>
+
+<span class="sd">        Here objects are typically nodes from ontologies and subjects are annotated</span>
+<span class="sd">        entities such as genes.</span>
 
 <span class="sd">        :param subjects:</span>
 <span class="sd">        :param predicates:</span>
@@ -211,11 +214,16 @@
             <span class="n">include_modified</span><span class="o">=</span><span class="n">include_modified</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">object_to_subject_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+        <span class="n">cached</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">association</span> <span class="ow">in</span> <span class="n">association_it</span><span class="p">:</span>
                 <span class="n">subject</span> <span class="o">=</span> <span class="n">association</span><span class="o">.</span><span class="n">subject</span>
                 <span class="n">obj</span> <span class="o">=</span> <span class="n">association</span><span class="o">.</span><span class="n">object</span>
-                <span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">([</span><span class="n">obj</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="n">object_closure_predicates</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">obj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cached</span><span class="p">:</span>
+                    <span class="n">ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">([</span><span class="n">obj</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="n">object_closure_predicates</span><span class="p">))</span>
+                    <span class="n">cached</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span> <span class="o">=</span> <span class="n">ancs</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ancs</span> <span class="o">=</span> <span class="n">cached</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">ancs</span><span class="p">:</span>
                     <span class="n">object_to_subject_map</span><span class="p">[</span><span class="n">anc</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">object_to_subject_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

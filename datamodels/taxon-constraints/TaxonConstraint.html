@@ -89,6 +89,7 @@
              classDiagram
     class TaxonConstraint
       TaxonConstraint : asserted
+      TaxonConstraint : candidate
       TaxonConstraint : comments
       TaxonConstraint : contradicted_by
       TaxonConstraint : evolutionary
@@ -177,6 +178,11 @@
 <tr class="row-even"><td><p><a class="reference internal" href="comments.html"><span class="doc std std-doc">comments</span></a></p></td>
 <td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="candidate.html"><span class="doc std std-doc">candidate</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>true if this is a proposed candidate constraint</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -268,6 +274,8 @@ attributes:
   subject:
     name: subject
     description: The term to which the constraint applies
+    comments:
+    - this is a reciprocal slot and will be the same as the containing SubjectTerm
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdf:subject
@@ -362,6 +370,12 @@ attributes:
     rank: 1000
     multivalued: true
     range: string
+  candidate:
+    name: candidate
+    description: true if this is a proposed candidate constraint
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    range: boolean
 class_uri: rdf:Statement
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -377,6 +391,8 @@ attributes:
   subject:
     name: subject
     description: The term to which the constraint applies
+    comments:
+    - this is a reciprocal slot and will be the same as the containing SubjectTerm
     from_schema: https://w3id.org/linkml/taxon_constraints
     rank: 1000
     slot_uri: rdf:subject
@@ -523,6 +539,16 @@ attributes:
     domain_of:
     - TaxonConstraint
     range: string
+  candidate:
+    name: candidate
+    description: true if this is a proposed candidate constraint
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    alias: candidate
+    owner: TaxonConstraint
+    domain_of:
+    - TaxonConstraint
+    range: boolean
 class_uri: rdf:Statement
 
 </pre></div>

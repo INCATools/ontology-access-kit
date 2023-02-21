@@ -38,6 +38,7 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [GraphDocument](GraphDocument.md) | [prefixes](prefixes.md) | range | [PrefixDeclaration](PrefixDeclaration.md) |
+| [Graph](Graph.md) | [prefixes](prefixes.md) | range | [PrefixDeclaration](PrefixDeclaration.md) |
 
 
 

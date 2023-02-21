@@ -150,6 +150,7 @@ attributes:
     owner: GraphDocument
     domain_of:
     - GraphDocument
+    - Graph
     range: PrefixDeclaration
     inlined: true
 

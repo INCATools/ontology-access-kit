@@ -1,4 +1,6 @@
 # Slot: id
+_the OBO CURIE for the term_
+
 
 URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 
@@ -54,6 +56,7 @@ URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 <details>
 ```yaml
 name: id
+description: the OBO CURIE for the term
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000
 identifier: true

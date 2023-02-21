@@ -152,64 +152,67 @@ Name: taxon-constraints</p>
 <tr class="row-even"><td><p><a class="reference internal" href="asserted.html"><span class="doc std std-doc">asserted</span></a></p></td>
 <td><p>holds if the constraint is asserted in the source ontology, rather than infer…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="comments.html"><span class="doc std std-doc">comments</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="candidate.html"><span class="doc std std-doc">candidate</span></a></p></td>
+<td><p>true if this is a proposed candidate constraint</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="comments.html"><span class="doc std std-doc">comments</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="contradicted_by.html"><span class="doc std std-doc">contradicted_by</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="contradicted_by.html"><span class="doc std std-doc">contradicted_by</span></a></p></td>
 <td><p>If the taxon constraint conflicts with another,  then this is the set of taxo…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
 <td><p>A description of the term</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="evolutionary.html"><span class="doc std std-doc">evolutionary</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="evolutionary.html"><span class="doc std std-doc">evolutionary</span></a></p></td>
 <td><p>holds if the constraint is an evolutionary statement</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<td><p>the OBO CURIE for the term</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
+<td><p>the human readable name or label of the term</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="never_in.html"><span class="doc std std-doc">never_in</span></a></p></td>
-<td><p>The term AND its descendants MUST NOT be in the specified taxon, or a descend…</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="never_in.html"><span class="doc std std-doc">never_in</span></a></p></td>
+<td><p>Points to a taxon constraint that states the SubjectTerm is NEVER found in a …</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="only_in.html"><span class="doc std std-doc">only_in</span></a></p></td>
-<td><p>The term AND its descendants MUST be in the specified taxon, or a descendant …</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="only_in.html"><span class="doc std std-doc">only_in</span></a></p></td>
+<td><p>Points to a taxon constraint that states the SubjectTerm is ONLY found in a t…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
 <td><p>The relationship type for the contraint (e</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicates.html"><span class="doc std std-doc">predicates</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="predicates.html"><span class="doc std std-doc">predicates</span></a></p></td>
 <td><p>The predicates that connect the subject term to the via_terms</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="present_in.html"><span class="doc std std-doc">present_in</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="present_in.html"><span class="doc std std-doc">present_in</span></a></p></td>
 <td><p>The term MAY be in the specified taxon, or a descendant of that taxon</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="present_in_ancestor_of.html"><span class="doc std std-doc">present_in_ancestor_of</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="present_in_ancestor_of.html"><span class="doc std std-doc">present_in_ancestor_of</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="redundant.html"><span class="doc std std-doc">redundant</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="redundant.html"><span class="doc std std-doc">redundant</span></a></p></td>
 <td><p>True if this is redundant within the set of constraints of the same type (nev…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="redundant_with.html"><span class="doc std std-doc">redundant_with</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="redundant_with.html"><span class="doc std std-doc">redundant_with</span></a></p></td>
 <td><p>If the taxon constraint is redundant, then this is the set of taxon constrain…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="redundant_with_only_in.html"><span class="doc std std-doc">redundant_with_only_in</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="redundant_with_only_in.html"><span class="doc std std-doc">redundant_with_only_in</span></a></p></td>
 <td><p>True for never in constraints that are subsumed by an only in</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sources.html"><span class="doc std std-doc">sources</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sources.html"><span class="doc std std-doc">sources</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
 <td><p>The term to which the constraint applies</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="taxon.html"><span class="doc std std-doc">taxon</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="taxon.html"><span class="doc std std-doc">taxon</span></a></p></td>
 <td><p>The taxon which this constraint is about</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="unsatisfiable.html"><span class="doc std std-doc">unsatisfiable</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="unsatisfiable.html"><span class="doc std std-doc">unsatisfiable</span></a></p></td>
 <td><p>If true then some combination of taxon constraints plus ontology lead to cont…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="via_terms.html"><span class="doc std std-doc">via_terms</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="via_terms.html"><span class="doc std std-doc">via_terms</span></a></p></td>
 <td><p>For inferred taxon constraints, this is the term or terms that have the taxon…</p></td>
 </tr>
 </tbody>

@@ -1,5 +1,5 @@
 # Slot: only_in
-_The term AND its descendants MUST be in the specified taxon, or a descendant of that taxon
+_Points to a taxon constraint that states the SubjectTerm is ONLY found in a taxon or descendant. Formally, the term AND its descendants MUST be in the specified taxon, or a descendant of that taxon
 _
 
 
@@ -60,8 +60,9 @@ URI: [RO:0002160](http://purl.obolibrary.org/obo/RO_0002160)
 <details>
 ```yaml
 name: only_in
-description: 'The term AND its descendants MUST be in the specified taxon, or a descendant
-  of that taxon
+description: 'Points to a taxon constraint that states the SubjectTerm is ONLY found
+  in a taxon or descendant. Formally, the term AND its descendants MUST be in the
+  specified taxon, or a descendant of that taxon
 
   '
 comments:

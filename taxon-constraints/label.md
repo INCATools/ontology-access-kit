@@ -1,4 +1,6 @@
 # Slot: label
+_the human readable name or label of the term_
+
 
 URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
@@ -54,6 +56,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 <details>
 ```yaml
 name: label
+description: the human readable name or label of the term
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000
 slot_uri: rdfs:label

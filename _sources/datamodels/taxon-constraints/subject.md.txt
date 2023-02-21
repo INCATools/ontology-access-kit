@@ -32,6 +32,10 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 
+## Comments
+
+* this is a reciprocal slot and will be the same as the containing SubjectTerm
+
 ## Identifier and Mapping Information
 
 
@@ -54,6 +58,8 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 ```yaml
 name: subject
 description: The term to which the constraint applies
+comments:
+- this is a reciprocal slot and will be the same as the containing SubjectTerm
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000
 slot_uri: rdf:subject

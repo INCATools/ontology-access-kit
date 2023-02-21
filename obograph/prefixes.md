@@ -16,6 +16,7 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 | Name | Description |
 | --- | --- |
 [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th...
+[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
 
 
 
@@ -63,6 +64,7 @@ multivalued: true
 alias: prefixes
 domain_of:
 - GraphDocument
+- Graph
 range: PrefixDeclaration
 inlined: true
 

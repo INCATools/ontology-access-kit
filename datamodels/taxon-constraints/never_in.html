@@ -83,7 +83,7 @@
              
   <section id="slot-never-in">
 <h1>Slot: never_in<a class="headerlink" href="#slot-never-in" title="Permalink to this headline"></a></h1>
-<p>_The term AND its descendants MUST NOT be in the specified taxon, or a descendant of that taxon
+<p>_Points to a taxon constraint that states the SubjectTerm is NEVER found in a taxon or descendant. Formally, the term AND its descendants MUST NOT be in the specified taxon, or a descendant of that taxon
 _</p>
 <p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/RO_0002161">RO:0002161</a></p>
 <!-- no inheritance hierarchy -->
@@ -123,8 +123,9 @@ _</p>
 <details>
 ```yaml
 name: never_in
-description: 'The term AND its descendants MUST NOT be in the specified taxon, or
-  a descendant of that taxon
+description: 'Points to a taxon constraint that states the SubjectTerm is NEVER found
+  in a taxon or descendant. Formally, the term AND its descendants MUST NOT be in
+  the specified taxon, or a descendant of that taxon
 <p>‘
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000

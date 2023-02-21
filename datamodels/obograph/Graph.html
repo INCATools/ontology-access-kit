@@ -97,6 +97,7 @@
       Graph : logicalDefinitionAxioms
       Graph : meta
       Graph : nodes
+      Graph : prefixes
       Graph : propertyChainAxioms
       
         </div><!-- no inheritance hierarchy -->
@@ -121,42 +122,47 @@
 <td><p>the human-readable label of a node</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="prefixes.html"><span class="doc std std-doc">prefixes</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="PrefixDeclaration.html"><span class="doc std std-doc">PrefixDeclaration</span></a></p></td>
+<td><p>maps prefixes to namespaces</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
 <td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="nodes.html"><span class="doc std std-doc">nodes</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="nodes.html"><span class="doc std std-doc">nodes</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Node.html"><span class="doc std std-doc">Node</span></a></p></td>
 <td><p>All nodes present in a graph</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="edges.html"><span class="doc std std-doc">edges</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="edges.html"><span class="doc std std-doc">edges</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></td>
 <td><p>All edges present in a graph</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="equivalentNodesSets.html"><span class="doc std std-doc">equivalentNodesSets</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="equivalentNodesSets.html"><span class="doc std std-doc">equivalentNodesSets</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="EquivalentNodesSet.html"><span class="doc std std-doc">EquivalentNodesSet</span></a></p></td>
 <td><p>A list of sets of nodes that form equivalence cliques</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="logicalDefinitionAxioms.html"><span class="doc std std-doc">logicalDefinitionAxioms</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="logicalDefinitionAxioms.html"><span class="doc std std-doc">logicalDefinitionAxioms</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="doc std std-doc">LogicalDefinitionAxiom</span></a></p></td>
 <td><p>A list of logical definition axioms that define the meaning of a class in ter…</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="domainRangeAxioms.html"><span class="doc std std-doc">domainRangeAxioms</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="domainRangeAxioms.html"><span class="doc std std-doc">domainRangeAxioms</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="DomainRangeAxiom.html"><span class="doc std std-doc">DomainRangeAxiom</span></a></p></td>
 <td><p>A list of axioms that define the domain and range of a property</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="allValuesFromEdges.html"><span class="doc std std-doc">allValuesFromEdges</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="allValuesFromEdges.html"><span class="doc std std-doc">allValuesFromEdges</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></td>
 <td><p>A list of edges that represent subclasses of universal restrictions</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="propertyChainAxioms.html"><span class="doc std std-doc">propertyChainAxioms</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="propertyChainAxioms.html"><span class="doc std std-doc">propertyChainAxioms</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PropertyChainAxiom.html"><span class="doc std std-doc">PropertyChainAxiom</span></a></p></td>
 <td><p>A list of axioms that define an OWL property chain</p></td>
 <td><p>direct</p></td>
@@ -224,6 +230,7 @@ rank: 1000
 slots:
 - id
 - lbl
+- prefixes
 - meta
 - nodes
 - edges
@@ -276,6 +283,20 @@ attributes:
     - Graph
     - Node
     range: string
+  prefixes:
+    name: prefixes
+    description: maps prefixes to namespaces
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: sh:declare
+    multivalued: true
+    alias: prefixes
+    owner: Graph
+    domain_of:
+    - GraphDocument
+    - Graph
+    range: PrefixDeclaration
+    inlined: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

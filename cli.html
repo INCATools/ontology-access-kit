@@ -61,6 +61,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-annotate">annotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply">apply</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply-obsolete">apply-obsolete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-apply-taxon-constraints">apply-taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-associations">associations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-cache-clear">cache-clear</a></li>
@@ -73,10 +74,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-via-mappings">diff-via-mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-enrichment">enrichment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#runoak-eval-taxon-constraints">eval-taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-expand-subsets">expand-subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-fill-table">fill-table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-generate-synonyms">generate-synonyms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-labels">labels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-leafs">leafs</a></li>
@@ -436,6 +437,17 @@ For exampple, constrained to is-a and part-of:</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-ancestors-M">
+<span id="cmdoption-runoak-ancestors-m"></span><span id="cmdoption-runoak-ancestors-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ancestors-M" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>HOP | ENTAILMENT</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-ancestors-O">
 <span id="cmdoption-runoak-ancestors-o"></span><span id="cmdoption-runoak-ancestors-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ancestors-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
@@ -719,6 +731,17 @@ obsolete them all:</p>
 <dd></dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-obsolete-expand">
+<span id="cmdoption-runoak-apply-obsolete-no-expand"></span><span class="sig-name descname"><span class="pre">--expand</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-expand</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-obsolete-expand" title="Permalink to this definition"></a></dt>
+<dd><p>if true, expand complex changes to atomic changes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-apply-obsolete-O">
 <span id="cmdoption-runoak-apply-obsolete-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-obsolete-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
@@ -728,6 +751,69 @@ obsolete them all:</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-apply-obsolete-arg-TERMS">
 <span id="cmdoption-runoak-apply-obsolete-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-obsolete-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-apply-taxon-constraints">
+<h4>apply-taxon-constraints<a class="headerlink" href="#runoak-apply-taxon-constraints" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Test candidate taxon constraints</p>
+<p>Multiple candidate constraints can be passed as arguments. these are in the form of triples
+separated by periods.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p <a class="reference external" href="GO:0005743">GO:0005743</a> only NCBITaxon:2759
+never NCBITaxon:2 . GO:0005634 only NCBITaxon:2</p>
+</div></blockquote>
+<p>The –evolution-file (-E) option can be used to pass in a file of candidates.
+This should follow the format used in <a class="reference external" href="https://arxiv.org/abs/1802.06004">https://arxiv.org/abs/1802.06004</a></p>
+<p>E.g.</p>
+<blockquote>
+<div><p><a class="reference external" href="GO:0000229">GO:0000229</a>,Gain|NCBITaxon:1(root);&gt;Loss|NCBITaxon:2759(Eukaryota);</p>
+</div></blockquote>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>apply-taxon-constraints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-taxon-constraints-E">
+<span id="cmdoption-runoak-apply-taxon-constraints-e"></span><span id="cmdoption-runoak-apply-taxon-constraints-evolution-file"></span><span class="sig-name descname"><span class="pre">-E</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--evolution-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;evolution_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-taxon-constraints-E" title="Permalink to this definition"></a></dt>
+<dd><p>path to file containing gains and losses</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-taxon-constraints-o">
+<span id="cmdoption-runoak-apply-taxon-constraints-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-taxon-constraints-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-taxon-constraints-p">
+<span id="cmdoption-runoak-apply-taxon-constraints-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-taxon-constraints-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-taxon-constraints-M">
+<span id="cmdoption-runoak-apply-taxon-constraints-m"></span><span id="cmdoption-runoak-apply-taxon-constraints-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-taxon-constraints-M" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>HOP | ENTAILMENT</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-taxon-constraints-arg-CONSTRAINTS">
+<span id="cmdoption-runoak-apply-taxon-constraints-arg-constraints"></span><span class="sig-name descname"><span class="pre">CONSTRAINTS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-taxon-constraints-arg-CONSTRAINTS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
@@ -1044,6 +1130,17 @@ predicates are not specified</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-descendants-p">
 <span id="cmdoption-runoak-descendants-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-descendants-p" title="Permalink to this definition"></a></dt>
 <dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-descendants-M">
+<span id="cmdoption-runoak-descendants-m"></span><span id="cmdoption-runoak-descendants-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-descendants-M" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>HOP | ENTAILMENT</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="std option">
@@ -1478,6 +1575,7 @@ to avoid killer queries.</p>
 <h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Run class enrichment analysis.</p>
+<p>Note: currently this is slow</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>enrichment<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1568,58 +1666,6 @@ to avoid killer queries.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-enrichment-arg-TERMS">
 <span id="cmdoption-runoak-enrichment-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-arg-TERMS" title="Permalink to this definition"></a></dt>
-<dd><p>Optional argument(s)</p>
-</dd></dl>
-
-</section>
-<section id="runoak-eval-taxon-constraints">
-<h4>eval-taxon-constraints<a class="headerlink" href="#runoak-eval-taxon-constraints" title="Permalink to this headline"></a></h4>
-<blockquote>
-<div><p>Test candidate taxon constraints</p>
-<p>Multiple candidate constraints can be passed as arguments. these are in the form of triples
-separated by periods.</p>
-<p>Example:</p>
-<blockquote>
-<div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p <a class="reference external" href="GO:0005743">GO:0005743</a> only NCBITaxon:2759
-never NCBITaxon:2 . GO:0005634 only NCBITaxon:2</p>
-</div></blockquote>
-<p>The –evolution-file (-E) option can be used to pass in a file of candidates.
-This should follow the format used in <a class="reference external" href="https://arxiv.org/abs/1802.06004">https://arxiv.org/abs/1802.06004</a></p>
-<p>E.g.</p>
-<blockquote>
-<div><p><a class="reference external" href="GO:0000229">GO:0000229</a>,Gain|NCBITaxon:1(root);&gt;Loss|NCBITaxon:2759(Eukaryota);</p>
-</div></blockquote>
-<p>Example:</p>
-<blockquote>
-<div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv</p>
-</div></blockquote>
-</div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>eval-taxon-constraints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
-</pre></div>
-</div>
-<p class="rubric">Options</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-E">
-<span id="cmdoption-runoak-eval-taxon-constraints-e"></span><span id="cmdoption-runoak-eval-taxon-constraints-evolution-file"></span><span class="sig-name descname"><span class="pre">-E</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--evolution-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;evolution_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-E" title="Permalink to this definition"></a></dt>
-<dd><p>path to file containing gains and losses</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-o">
-<span id="cmdoption-runoak-eval-taxon-constraints-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-o" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-p">
-<span id="cmdoption-runoak-eval-taxon-constraints-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-p" title="Permalink to this definition"></a></dt>
-<dd><p>A comma-separated list of predicates</p>
-</dd></dl>
-
-<p class="rubric">Arguments</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-arg-CONSTRAINTS">
-<span id="cmdoption-runoak-eval-taxon-constraints-arg-constraints"></span><span class="sig-name descname"><span class="pre">CONSTRAINTS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-arg-CONSTRAINTS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
@@ -1853,6 +1899,76 @@ for now please file an issue on github with any questions</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-fill-table-arg-TABLE_FILE">
 <span id="cmdoption-runoak-fill-table-arg-table-file"></span><span class="sig-name descname"><span class="pre">TABLE_FILE</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-fill-table-arg-TABLE_FILE" title="Permalink to this definition"></a></dt>
 <dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="runoak-generate-synonyms">
+<h4>generate-synonyms<a class="headerlink" href="#runoak-generate-synonyms" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Generate synonyms based on a set of synonymizer rules.</p>
+<p>If the <cite>–apply-patch</cite> flag is set, the output will be an ontology file with the changes
+applied. Pass the <cite>–patch</cite> argument to lso get the patch file in KGCL format.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i foo.obo synonymize -R foo_rules.yaml –patch patch.kgcl –apply-patch -o foo_syn.obo</p>
+</div></blockquote>
+<p>If the <cite>apply-patch</cite> flag is NOT set then the main input will be KGCL commands</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i foo.obo synonymize -R foo_rules.yaml -o changes.kgcl</p>
+</div></blockquote>
+<p>see <a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a>.</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-synonyms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-synonyms-R">
+<span id="cmdoption-runoak-generate-synonyms-r"></span><span id="cmdoption-runoak-generate-synonyms-rules-file"></span><span class="sig-name descname"><span class="pre">-R</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--rules-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;rules_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-R" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Required</strong> path to rules file. Conforms to rules_datamodel.        e.g. <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml">https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml</a></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-synonyms-apply-patch">
+<span id="cmdoption-runoak-generate-synonyms-no-apply-patch"></span><span class="sig-name descname"><span class="pre">--apply-patch</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-apply-patch</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-apply-patch" title="Permalink to this definition"></a></dt>
+<dd><p>Apply KGCL syntax generated based on the synonymizer rules file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-synonyms-patch">
+<span class="sig-name descname"><span class="pre">--patch</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;patch&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-patch" title="Permalink to this definition"></a></dt>
+<dd><p>Path to where patch file will be written.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-synonyms-patch-format">
+<span class="sig-name descname"><span class="pre">--patch-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;patch_format&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-patch-format" title="Permalink to this definition"></a></dt>
+<dd><p>Output syntax for patches.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-synonyms-o">
+<span id="cmdoption-runoak-generate-synonyms-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-synonyms-O">
+<span id="cmdoption-runoak-generate-synonyms-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-synonyms-arg-TERMS">
+<span id="cmdoption-runoak-generate-synonyms-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>
@@ -2650,7 +2766,7 @@ a single line, with the name of the input ontology</p>
 <section id="runoak-paths">
 <h4>paths<a class="headerlink" href="#runoak-paths" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List all paths between one or more start curies</p>
+<div><p>List all paths between one or more start curies.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p ‘nuclear membrane’</p>
@@ -2683,7 +2799,7 @@ then you can do this:</p>
 <p>Example:</p>
 <blockquote>
 <div><p>alias go=”runoak -i sqlite:obo:go”
-go paths  -p i,p ‘nuclear membrane’ –target cytoplasm –flat | go viz –fill-gaps -</p>
+go paths  -p i,p ‘nuclear membrane’ –target cytoplasm –narrow | go viz –fill-gaps -</p>
 </div></blockquote>
 <p>This visualizes the path by first exporting the path as a flat list, then passing the
 results to viz, using the fill-gaps option</p>
@@ -2699,9 +2815,20 @@ results to viz, using the fill-gaps option</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-paths-flat">
-<span id="cmdoption-runoak-paths-no-flat"></span><span class="sig-name descname"><span class="pre">--flat</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-flat</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-flat" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-paths-narrow">
+<span id="cmdoption-runoak-paths-no-narrow"></span><span class="sig-name descname"><span class="pre">--narrow</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-narrow</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-narrow" title="Permalink to this definition"></a></dt>
 <dd><p>If true then output path is written a list of terms</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-paths-viz">
+<span id="cmdoption-runoak-paths-no-viz"></span><span class="sig-name descname"><span class="pre">--viz</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-viz</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-viz" title="Permalink to this definition"></a></dt>
+<dd><p>If true then generate a path graph from output</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default</dt>
 <dd class="field-odd"><p>False</p>
@@ -2733,15 +2860,49 @@ results to viz, using the fill-gaps option</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-paths-directed">
+<span id="cmdoption-runoak-paths-no-directed"></span><span class="sig-name descname"><span class="pre">--directed</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-directed</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-directed" title="Permalink to this definition"></a></dt>
+<dd><p>only show directed paths</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-paths-include-predicates">
+<span id="cmdoption-runoak-paths-no-include-predicates"></span><span class="sig-name descname"><span class="pre">--include-predicates</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-predicates</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-include-predicates" title="Permalink to this definition"></a></dt>
+<dd><p>show predicates between nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-paths-predicate-weights">
 <span class="sig-name descname"><span class="pre">--predicate-weights</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicate_weights&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-paths-predicate-weights" title="Permalink to this definition"></a></dt>
 <dd><p>key-value pairs specified in YAML where keys are predicates or shorthands and values are weights</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-paths-S">
+<span id="cmdoption-runoak-paths-s"></span><span id="cmdoption-runoak-paths-stylemap"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--stylemap</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;stylemap&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-paths-S" title="Permalink to this definition"></a></dt>
+<dd><p>a json file to configure visualization. See <a class="reference external" href="https://berkeleybop.github.io/kgviz-model/">https://berkeleybop.github.io/kgviz-model/</a></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-paths-C">
+<span id="cmdoption-runoak-paths-c"></span><span id="cmdoption-runoak-paths-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-paths-C" title="Permalink to this definition"></a></dt>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-paths-0">
 <span id="cmdoption-runoak-paths-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-paths-0" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
+<dd><p>Path to output file</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -2778,7 +2939,7 @@ simple dictionaries:</p>
 <p>For RDF exports, the prefix declaration should appear in BOTH prefix declarations, AND also as
 instances of SHACL PrefixDeclarations, e.g.</p>
 <blockquote>
-<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id5"><span class="problematic" id="id6">CL_</span></a>&gt; .
+<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id7"><span class="problematic" id="id8">CL_</span></a>&gt; .
 …
 [] a sh:PrefixDeclaration ;</p>
 <blockquote>
@@ -3556,14 +3717,7 @@ terms (directly) in goslim_generic in GO:</p>
 </section>
 <section id="runoak-synonymize">
 <h4>synonymize<a class="headerlink" href="#runoak-synonymize" title="Permalink to this headline"></a></h4>
-<blockquote>
-<div><p>Apply synonymizer rule from the rules file to generate KGCL syntax
-see <a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a>.</p>
-<dl class="simple">
-<dt>Example:</dt><dd><p>runoak -i foo.obo synonymize -R foo_rules.yaml –patch patch.kgcl –apply-patch</p>
-</dd>
-</dl>
-</div></blockquote>
+<p>Deprecated: use generate-synonyms</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>synonymize<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3637,9 +3791,26 @@ of NCBI Taxonomy</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-O">
+<span id="cmdoption-runoak-taxon-constraints-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-p">
 <span id="cmdoption-runoak-taxon-constraints-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-p" title="Permalink to this definition"></a></dt>
 <dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-M">
+<span id="cmdoption-runoak-taxon-constraints-m"></span><span id="cmdoption-runoak-taxon-constraints-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-M" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>HOP | ENTAILMENT</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="std option">
@@ -3664,6 +3835,17 @@ of NCBI Taxonomy</p>
 </dl>
 </dd></dl>
 
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-direct">
+<span id="cmdoption-runoak-taxon-constraints-no-direct"></span><span class="sig-name descname"><span class="pre">--direct</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-direct</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-direct" title="Permalink to this definition"></a></dt>
+<dd><p>only include directly asserted taxon constraints</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Arguments</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-arg-TERMS">
@@ -3675,8 +3857,7 @@ of NCBI Taxonomy</p>
 <section id="runoak-term-categories">
 <h4>term-categories<a class="headerlink" href="#runoak-term-categories" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List categories for a term or set of terms</p>
-<p>TODO</p>
+<div><p>List categories for a term or set of terms.</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-categories<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -4003,7 +4184,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-C">
 <span id="cmdoption-runoak-tree-c"></span><span id="cmdoption-runoak-tree-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-C" title="Permalink to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -4346,7 +4527,7 @@ to a distance of 2:</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-viz-C">
 <span id="cmdoption-runoak-viz-c"></span><span id="cmdoption-runoak-viz-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-C" title="Permalink to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id5"><span class="problematic" id="id6">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">

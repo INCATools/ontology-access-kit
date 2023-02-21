@@ -107,6 +107,12 @@
 <li><p>Range: <a class="reference internal" href="SubjectTerm.html"><span class="doc std std-doc">SubjectTerm</span></a></p></li>
 </ul>
 </section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>this is a reciprocal slot and will be the same as the containing SubjectTerm</p></li>
+</ul>
+</section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
 <section id="schema-source">
@@ -122,6 +128,8 @@
 ```yaml
 name: subject
 description: The term to which the constraint applies
+comments:
+- this is a reciprocal slot and will be the same as the containing SubjectTerm
 from_schema: https://w3id.org/linkml/taxon_constraints
 rank: 1000
 slot_uri: rdf:subject
