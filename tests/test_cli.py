@@ -971,9 +971,11 @@ class TestCommandLineInterface(unittest.TestCase):
                 docs = list(yaml.load_all(f, yaml.FullLoader))
                 self.assertCountEqual(expected, docs)
 
-    def test_generate_synonyms(self):
+    def test_generate_synonyms_and_apply(self):
         patch_file = OUTPUT_DIR / "synonym-test-patch.kgcl"
         outfile = OUTPUT_DIR / "synonym-test-output.obo"
+        patch_file.unlink(missing_ok=True)
+        outfile.unlink(missing_ok=True)
         result = self.runner.invoke(
             main,
             [
@@ -995,8 +997,32 @@ class TestCommandLineInterface(unittest.TestCase):
         with open(patch_file, "r") as p, open(outfile, "r") as t:
             patch = p.readlines()
             self.assertTrue(len(patch), 3)
+            self.assertTrue("create exact synonym 'eyeball'" in "\n".join(patch))
             output = t.readlines()
             self.assertTrue('synonym: "bone element" EXACT []\n' in output)
+
+    def test_generate_synonyms_no_apply(self):
+        patch_file = OUTPUT_DIR / "synonym-test-patch.kgcl"
+        patch_file.unlink(missing_ok=True)
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                TEST_SYNONYMIZER_OBO,
+                "generate-synonyms",
+                "-R",
+                RULES_FILE,
+                "-o",
+                patch_file,
+                ".all",
+            ],
+        )
+
+        self.assertEqual(0, result.exit_code)
+        with open(patch_file, "r") as p:
+            patch = p.readlines()
+            self.assertTrue(len(patch), 3)
+            self.assertTrue("create exact synonym 'eyeball'" in "\n".join(patch))
 
     def test_create_ontology_with_kcgl(self):
         outfile = OUTPUT_DIR / "create-ontology"

@@ -4938,24 +4938,40 @@ def synonymize(ctxt, **kwargs):
     "--patch",
     type=click.File(mode="w"),
     default=sys.stdout,
-    help="DEPRECATED.",
+    help="Path to where patch file will be written.",
+)
+@click.option(
+    "--patch-format",
+    help="Output syntax for patches.",
 )
 @output_option
 @output_type_option
-def generate_synonyms(terms, rules_file, apply_patch, patch, output, output_type):
+def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, output, output_type):
     """
     Generate synonyms based on a set of synonymizer rules.
 
-    The output will be KGCL, see
-    see https://github.com/INCATools/kgcl.
+    If the `--apply-patch` flag is set, the output will be an ontology file with the changes
+    applied. Pass the `--patch` argument to lso get the patch file in KGCL format.
 
     Example:
 
-        runoak -i foo.obo synonymize -R foo_rules.yaml --patch patch.kgcl --apply-patch
+        runoak -i foo.obo synonymize -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
+
+    If the `apply-patch` flag is NOT set then the main input will be KGCL commands
+
+    Example:
+
+        runoak -i foo.obo synonymize -R foo_rules.yaml -o changes.kgcl
+
+    see https://github.com/INCATools/kgcl.
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
-    writer.output = output
+    if apply_patch:
+        writer = _get_writer(patch_format, impl, StreamingKGCLWriter, kgcl)
+        writer.output = patch
+    else:
+        writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
+        writer.output = output
     # TODO: Eventually get this from settings as above
     if rules_file:
         ruleset = load_mapping_rules(rules_file)
