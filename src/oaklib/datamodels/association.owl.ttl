@@ -11,38 +11,28 @@
 <https://w3id.org/oak/association.owl.ttl> a owl:Ontology ;
     rdfs:label "association" ;
     IAO:0000700 assoc:Association,
-        assoc:PropertyValue ;
+        assoc:PropertyValue,
+        assoc:RollupGroup ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "OAK Association Data Model" ;
-    linkml:generation_date "2022-12-18T15:11:23" ;
+    linkml:generation_date "2023-02-22T09:36:35" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "association.yaml" ;
-    linkml:source_file_date "2022-10-03T14:52:13" ;
-    linkml:source_file_size 1476 .
+    linkml:source_file_date "2023-02-22T09:36:29" ;
+    linkml:source_file_size 2006 .
 
-assoc:Association a owl:Class ;
-    rdfs:label "Association" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:anyURI ;
-            owl:onProperty <http://example.org/UNKNOWN/rdf/subject> ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom assoc:PropertyValue ;
-            owl:onProperty assoc:property_values ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:anyURI ;
-            owl:onProperty <http://example.org/UNKNOWN/rdf/object> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:anyURI ;
-            owl:onProperty <http://example.org/UNKNOWN/rdf/predicate> ] ;
-    skos:definition "A generic association between a thing (subject) and another thing (object)." ;
-    skos:exactMatch oa:Annotation .
+assoc:associations a owl:ObjectProperty ;
+    rdfs:label "associations" ;
+    rdfs:range assoc:Association .
 
 assoc:property_values a owl:ObjectProperty ;
     rdfs:label "property_values" ;
     rdfs:range assoc:PropertyValue .
+
+assoc:sub_groups a owl:ObjectProperty ;
+    rdfs:label "sub_groups" ;
+    rdfs:range assoc:RollupGroup ;
+    skos:definition "Container for groups within a rollup group." .
 
 <http://example.org/UNKNOWN/rdf/subject> a owl:DatatypeProperty ;
     rdfs:label "subject" ;
@@ -51,18 +41,33 @@ assoc:property_values a owl:ObjectProperty ;
     skos:exactMatch <http://example.org/UNKNOWN/rdf/subject>,
         oa:hasBody .
 
-<http://example.org/UNKNOWN/rdf/object> a owl:DatatypeProperty ;
-    rdfs:label "object" ;
-    rdfs:range xsd:anyURI ;
-    skos:definition "An ontology entity that is associated with the subject." ;
-    skos:exactMatch <http://example.org/UNKNOWN/rdf/object>,
-        oa:hasTarget .
+<http://example.org/UNKNOWN/rdf/object> a owl:DatatypeProperty .
 
 <http://example.org/UNKNOWN/rdf/predicate> a owl:DatatypeProperty ;
     rdfs:label "predicate" ;
     rdfs:range xsd:anyURI ;
     skos:definition "The type of relationship between the subject and object." ;
     skos:exactMatch <http://example.org/UNKNOWN/rdf/predicate> .
+
+assoc:Association a owl:Class ;
+    rdfs:label "Association" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom assoc:PropertyValue ;
+            owl:onProperty assoc:property_values ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/predicate> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/object> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/subject> ] ;
+    skos:definition "A generic association between a thing (subject) and another thing (object)." ;
+    skos:exactMatch oa:Annotation .
 
 assoc:PropertyValue a owl:Class ;
     rdfs:label "PropertyValue" ;
@@ -75,6 +80,19 @@ assoc:PropertyValue a owl:Class ;
             owl:onDataRange xsd:anyURI ;
             owl:onProperty <http://example.org/UNKNOWN/rdf/object> ] ;
     skos:definition "A generic tag-value that can be associated with an association." .
+
+assoc:RollupGroup a owl:Class ;
+    rdfs:label "RollupGroup" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom assoc:RollupGroup ;
+            owl:onProperty assoc:sub_groups ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/object> ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom assoc:Association ;
+            owl:onProperty assoc:associations ] .
 
 
 

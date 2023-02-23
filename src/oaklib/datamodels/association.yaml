@@ -32,6 +32,11 @@ classes:
     slots:
       - predicate
       - object
+  RollupGroup:
+    slots:
+      - group_object
+      - sub_groups
+      - associations
 
 slots:
   subject:
@@ -54,3 +59,19 @@ slots:
     multivalued: true
     range: PropertyValue
     inlined: true
+  group_object:
+    description: |-
+      An ontology entity that is the ancestor of the objects in the group's 
+      associations and sub-group associations.
+    slot_uri: rdf:object
+    range: uriorcurie
+  sub_groups:
+    description: Container for groups within a rollup group.
+    range: RollupGroup
+    multivalued: true
+    inlined_as_list: true
+  associations:
+    range: Association
+    multivalued: true
+    inlined_as_list: true
+  

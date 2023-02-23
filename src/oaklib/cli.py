@@ -42,7 +42,7 @@ import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
 from kgcl_schema.datamodel import kgcl
-from linkml_runtime.dumpers import yaml_dumper
+from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
@@ -50,6 +50,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
+from oaklib.datamodels.association import RollupGroup
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType
 from oaklib.datamodels.obograph import PrefixDeclaration
@@ -107,6 +108,7 @@ from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.html_writer import HTMLWriter
 from oaklib.io.obograph_writer import write_graph
+from oaklib.io.rollup_report_writer import write_report
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_fhir_writer import StreamingFHIRWriter
@@ -3476,6 +3478,113 @@ def associations(
                     kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
                 )
             _apply_changes(impl, changes)
+
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@click.option(
+    "--object-group",
+    help="An object ID to group by. If a comma separated list of IDs is provided, the first one is interpreted as a "
+    + "top-level grouping and the remaining IDs are interpreted as sub-groups within.",
+    multiple=True,
+)
+@click.argument("terms", nargs=-1)
+def rollup(
+    terms, output, predicates: str, autolabel: bool, output_type: str, object_group: List[str]
+):
+    """
+    Produce an association rollup report.
+
+    The report will list associations where the subject is one of the terms provided. The
+    associations will be grouped by any provided --object-group options. This option can be
+    provided multiple times. If the value is a comma separated list of object IDs, the first
+    will be used as a primary grouping dimension and the remainder will be used to create
+    sub-groups.
+
+    Example:
+
+        runoak -i sqlite:go.db -g wb.gaf -G gaf rollup \
+            --object-group GO:0032502,GO:0007568,GO:0048869,GO:0098727 \
+            --object-group GO:0008152,GO:0009056,GO:0044238,GO:1901275 \
+            --object-group GO:0050896,GO:0051716,GO:0051606,GO:0051606,GO:0014823 \
+            --object-group=GO:0023052 \
+            --output rollup.html \
+            WB:WBGene00000417 WB:WBGene00000912 WB:WBGene00000898 WB:WBGene00006752
+
+    By default, is-a relationships between association objects are used to perform the rollup.
+    Use the -p/--predicates option to change this behavior.
+
+    """
+    impl = settings.impl
+
+    if not output_type:
+        output_type = "html"
+
+    if not predicates:
+        predicates = "i"
+
+    if isinstance(impl, AssociationProviderInterface) and isinstance(impl, OboGraphInterface):
+        split_ids = [o.split(",", 1) for o in object_group]
+        primary_ids = (s[0] for s in split_ids)
+        secondary_ids = (s[1].split(",") if len(s) > 1 else [] for s in split_ids)
+        objects_dict = dict(zip(primary_ids, secondary_ids))
+
+        object_closure_predicates = _process_predicates_arg(predicates)
+
+        groups: List[RollupGroup] = []
+        for primary, secondaries in objects_dict.items():
+            group = RollupGroup(group_object=primary)
+            for secondary in secondaries:
+                associations = list(
+                    impl.associations(
+                        subjects=terms,
+                        objects=[secondary],
+                        object_closure_predicates=object_closure_predicates,
+                    )
+                )
+                group.sub_groups.append(
+                    RollupGroup(group_object=secondary, associations=associations)
+                )
+
+            sub_group_objects = [
+                association.object
+                for sub_group in group.sub_groups
+                for association in sub_group.associations
+            ]
+            associations = list(
+                impl.associations(
+                    subjects=terms,
+                    objects=[primary],
+                    object_closure_predicates=object_closure_predicates,
+                )
+            )
+            group.associations = [
+                association
+                for association in associations
+                if association.object not in sub_group_objects
+            ]
+            groups.append(group)
+
+        group_dicts = [json_dumper.to_dict(g) for g in groups]
+        if autolabel:
+
+            def apply_labels(group):
+                group["group_object_label"] = impl.label(group.get("group_object"))
+                for association in group.get("associations", []):
+                    association["object_label"] = impl.label(association.get("object"))
+                for sub_group in group.get("sub_groups", []):
+                    apply_labels(sub_group)
+
+            for group in group_dicts:
+                apply_labels(group)
+
+        write_report(terms, group_dicts, output, output_type)
 
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
