@@ -335,7 +335,7 @@ class SqlImplementation(
     def connection(self):
         if self._connection is None:
             self._connection = self.engine.connect()
-        return self._session
+        return self._connection
 
     @property
     def ontology_metadata_model(self):
@@ -938,6 +938,15 @@ class SqlImplementation(
             HasMappingStatement.subject == curie
         ):
             yield row.predicate, row.value
+
+    def query(
+        self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
+    ) -> Iterator[Any]:
+        q = text(query)
+        resultset = self.connection.execute(q)
+        m = resultset.mappings()
+        for d in m:
+            yield dict(d)
 
     def clone(self, resource: Any) -> None:
         if self.resource.scheme == "sqlite":

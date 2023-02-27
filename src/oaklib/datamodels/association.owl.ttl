@@ -1,8 +1,8 @@
 @prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
-@prefix assoc: <https://w3id.org/oak/association/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix linkml: <https://w3id.org/linkml/> .
 @prefix oa: <http://www.w3.org/ns/oa#> .
+@prefix ontoassoc: <https://w3id.org/oak/association/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -10,25 +10,21 @@
 
 <https://w3id.org/oak/association.owl.ttl> a owl:Ontology ;
     rdfs:label "association" ;
-    IAO:0000700 assoc:Association,
-        assoc:PropertyValue ;
+    IAO:0000700 ontoassoc:Association,
+        ontoassoc:PropertyValue ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "OAK Association Data Model" ;
-    linkml:generation_date "2022-12-18T15:11:23" ;
+    linkml:generation_date "2023-02-27T09:54:57" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "association.yaml" ;
-    linkml:source_file_date "2022-10-03T14:52:13" ;
-    linkml:source_file_size 1476 .
+    linkml:source_file_date "2023-02-27T09:50:52" ;
+    linkml:source_file_size 1484 .
 
-assoc:Association a owl:Class ;
+ontoassoc:Association a owl:Class ;
     rdfs:label "Association" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:anyURI ;
-            owl:onProperty <http://example.org/UNKNOWN/rdf/subject> ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom assoc:PropertyValue ;
-            owl:onProperty assoc:property_values ],
+            owl:allValuesFrom ontoassoc:PropertyValue ;
+            owl:onProperty ontoassoc:property_values ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:anyURI ;
@@ -36,13 +32,17 @@ assoc:Association a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:anyURI ;
-            owl:onProperty <http://example.org/UNKNOWN/rdf/predicate> ] ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/predicate> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/subject> ] ;
     skos:definition "A generic association between a thing (subject) and another thing (object)." ;
     skos:exactMatch oa:Annotation .
 
-assoc:property_values a owl:ObjectProperty ;
+ontoassoc:property_values a owl:ObjectProperty ;
     rdfs:label "property_values" ;
-    rdfs:range assoc:PropertyValue .
+    rdfs:range ontoassoc:PropertyValue .
 
 <http://example.org/UNKNOWN/rdf/subject> a owl:DatatypeProperty ;
     rdfs:label "subject" ;
@@ -64,7 +64,7 @@ assoc:property_values a owl:ObjectProperty ;
     skos:definition "The type of relationship between the subject and object." ;
     skos:exactMatch <http://example.org/UNKNOWN/rdf/predicate> .
 
-assoc:PropertyValue a owl:Class ;
+ontoassoc:PropertyValue a owl:Class ;
     rdfs:label "PropertyValue" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;

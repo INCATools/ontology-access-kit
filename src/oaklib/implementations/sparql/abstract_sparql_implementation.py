@@ -213,13 +213,13 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         query = SparqlQuery(select=["?s"], distinct=True, where=["?s a ?cls", "FILTER (isIRI(?s))"])
         if owl_type:
             query.where.append(f"?s a {self.curie_to_sparql(owl_type)}")
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         query = SparqlQuery(select=["?s"], distinct=True, where=["?s owl:deprecated true"])
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -228,13 +228,13 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         uri = self.curie_to_sparql(curie)
         query = SparqlQuery(select=["?p ?o"], distinct=True, where=[f"{uri} ?p ?o"])
         query.add_values("p", [self.curie_to_sparql(p) for p in mapping_preds])
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield (self.uri_to_curie(row["p"]["value"]), self.uri_to_curie(row["o"]["value"]))
 
     def ontologies(self) -> Iterable[CURIE]:
         query = SparqlQuery(select=["?s"], where=["?s rdf:type owl:Ontology"])
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -251,7 +251,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         self._list_of_named_graphs = [row["g"]["value"] for row in ret["results"]["bindings"]]
         return self._list_of_named_graphs
 
-    def _query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = None):
+    def _sparql_query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = None):
         if prefixes is None:
             prefixes = DEFAULT_PREFIX_MAP
         ng = self.named_graph
@@ -297,6 +297,36 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             logging.debug(f"queryResults={ret}")
             return ret["results"]["bindings"]
 
+    def query(
+        self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
+    ) -> Iterator[Any]:
+        def _v(v: dict):
+            v = v["value"]
+            if v.startswith("http://"):
+                return self.uri_to_curie(v)
+            return v
+
+        qd = query.lower()
+        if (
+            "select" not in qd
+            and "construct" not in qd
+            and "ask" not in qd
+            and "describe" not in qd
+        ):
+            query = "SELECT * WHERE {" + query + "}"
+        if "limit" not in qd:
+            query += " LIMIT 100"
+            logging.warning(f"Auto-adding limit\nQuery has no LIMIT clause: {query}")
+        pm = None
+        if prefixes:
+            pm = dict(DEFAULT_PREFIX_MAP)
+            for p in prefixes:
+                pm[p] = self.prefix_map().get(p)
+        logging.debug(f"PREFIXES={prefixes} // {pm}")
+        for row in self._sparql_query(query, prefixes=pm, **kwargs):
+            row = {k: _v(row[k]) for k in row}
+            yield row
+
     def _triples(
         self,
         subject: CURIE = None,
@@ -322,7 +352,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         else:
             graph_uri = _urify_arg(graph, "g")
         vars_str = " ".join([f"?{v}" for v in vars])
-        bindings = self._query(
+        bindings = self._sparql_query(
             f"SELECT DISTINCT {vars_str} WHERE {{ GRAPH {graph_uri} {{ {subject_uri} {predicate_uri} {object_uri} }}}}"
         )
         for row in bindings:
@@ -338,7 +368,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         query = SparqlQuery(
             select=["?o"], where=[f"<{uri}> <{is_a_pred}> ?o", "FILTER (isIRI(?o))"]
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         return list(set([self.uri_to_curie(row["o"]["value"]) for row in bindings]))
 
     def get_hierararchical_children_by_curie(
@@ -348,7 +378,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         query = SparqlQuery(
             select=["?s"], where=[f"?s <{RDFS.subClassOf}> <{uri}>", "FILTER (isIRI(?s))"]
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         return list(set([self.uri_to_curie(row["s"]["value"]) for row in bindings]))
 
     def outgoing_relationships(
@@ -377,7 +407,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 ],
             )
             query.add_values("p", pred_quris)
-            bindings = self._query(query)
+            bindings = self._sparql_query(query)
             for row in bindings:
                 pred = self.uri_to_curie(row["p"]["value"])
                 obj = self.uri_to_curie(row["o"]["value"])
@@ -391,7 +421,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 ],
             )
             query.add_values("p", pred_quris)
-            bindings = self._query(query)
+            bindings = self._sparql_query(query)
             for row in bindings:
                 pred = self.uri_to_curie(row["p"]["value"])
                 obj = self.uri_to_curie(row["o"]["value"])
@@ -405,7 +435,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                         "?o a owl:Class",
                     ],
                 )
-                bindings = self._query(query)
+                bindings = self._sparql_query(query)
                 for row in bindings:
                     obj = self.uri_to_curie(row["o"]["value"])
                     yield RDF_TYPE, obj
@@ -457,7 +487,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 "FILTER (isIRI(?s))",
             ],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             pred = self.uri_to_curie(row["p"]["value"])
             subj = self.uri_to_curie(row["s"]["value"])
@@ -472,7 +502,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         query = SparqlQuery(select=["?v"], where=[f"{uri} {pred} ?v"])
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?v) = "{self.preferred_language}")')
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         return list(set([row[VAL_VAR]["value"] for row in bindings]))
 
     def label(self, curie: CURIE):
@@ -492,7 +522,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         )
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?label) = "{self.preferred_language}")')
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         label_map = {}
         for row in bindings:
             curie, label = self.uri_to_curie(row["s"]["value"]), row["label"]["value"]
@@ -513,7 +543,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         query = SparqlQuery(
             select=["?s ?o"], where=[f"?s {IS_DEFINED_BY} ?o", _sparql_values("s", uris)]
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             curie, db = self.uri_to_curie(row["s"]["value"]), row["o"]["value"]
             yield curie, db
@@ -536,7 +566,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?o) = "{self.preferred_language}")')
         logging.info(f"{query.query_str()}")
-        bindings = self._query(
+        bindings = self._sparql_query(
             query.query_str(), {"oboInOwl": "http://www.geneontology.org/formats/oboInOwl#"}
         )
         m = defaultdict(list)
@@ -547,7 +577,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         uri = self.curie_to_sparql(curie)
         query = SparqlQuery(select=["?p", "?o"], where=[f"{uri} ?p ?o"])
-        bindings = self._query(
+        bindings = self._sparql_query(
             query.query_str(), {"oboInOwl": "http://www.geneontology.org/formats/oboInOwl#"}
         )
         m = defaultdict(list)
@@ -568,7 +598,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         clauses_j = " UNION ".join([f"{{ {c} }}" for c in clauses])
         query = SparqlQuery(select=["?s"], where=[f"{{ {clauses_j} }}"])
         logging.info(f"Query = {query.query_str()}")
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         return [self.uri_to_curie(row["s"]["value"]) for row in bindings]
 
     def create_entity(
@@ -596,7 +626,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         if self.named_graph is None and not self.graph:
             raise ValueError("Must specify a named graph to dump for a remote triplestore")
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         g = rdflib.Graph()
 
         bnodes = {}
@@ -670,7 +700,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 )
             query = SparqlQuery(select=["?s"], where=where + [filter_clause])
         logging.info(f"Search query: {query.query_str()}")
-        bindings = self._query(query, prefixes=DEFAULT_PREFIX_MAP)
+        bindings = self._sparql_query(query, prefixes=DEFAULT_PREFIX_MAP)
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
         # if SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
@@ -701,7 +731,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s rdfs:subClassOf* ?o", _sparql_values("o", query_uris)]
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -716,7 +746,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             select=["?p", "?o"],
             where=[f"{self.curie_to_sparql(curie)} ?p ?o", _sparql_values("p", pred_uris)],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             m = create_sssom_mapping(
                 subject_id=curie,
@@ -742,7 +772,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 _sparql_values("p", pred_uris),
             ],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             m = create_sssom_mapping(
                 subject_id=self.uri_to_curie(row["s"]["value"]),
@@ -784,7 +814,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 _sparql_values("seed", seed_uris),
             ],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         n = 0
         for row in bindings:
             n += 1

@@ -1,12 +1,16 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-09-26T23:47:40
+# Generation date: 2023-02-27T09:56:40
 # Schema: association
 #
 # id: https://w3id.org/oak/association
-# description: A datamodel for representing generic associations
+# description: A datamodel for representing generic associations. The core datamodel is broad, encompassing the W3
+#              Open Annotation data model as well as common ontology annotation data models using in the
+#              biosciences.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -40,9 +44,11 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-ASSOC = CurieNamespace("assoc", "https://w3id.org/oak/association/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
-DEFAULT_ = ASSOC
+OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
+ONTOASSOC = CurieNamespace("ontoassoc", "https://w3id.org/oak/association/")
+RDF = CurieNamespace("rdf", "http://example.org/UNKNOWN/rdf/")
+DEFAULT_ = ONTOASSOC
 
 
 # Types
@@ -53,15 +59,15 @@ DEFAULT_ = ASSOC
 @dataclass
 class Association(YAMLRoot):
     """
-    A generic association between a thing (subject) and another thing (object)
+    A generic association between a thing (subject) and another thing (object).
     """
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ASSOC.Association
-    class_class_curie: ClassVar[str] = "assoc:Association"
+    class_class_uri: ClassVar[URIRef] = OA.Annotation
+    class_class_curie: ClassVar[str] = "oa:Annotation"
     class_name: ClassVar[str] = "Association"
-    class_model_uri: ClassVar[URIRef] = ASSOC.Association
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.Association
 
     subject: Optional[Union[str, URIorCURIE]] = None
     predicate: Optional[Union[str, URIorCURIE]] = None
@@ -94,12 +100,16 @@ class Association(YAMLRoot):
 
 @dataclass
 class PropertyValue(YAMLRoot):
+    """
+    A generic tag-value that can be associated with an association.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ASSOC.PropertyValue
-    class_class_curie: ClassVar[str] = "assoc:PropertyValue"
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.PropertyValue
+    class_class_curie: ClassVar[str] = "ontoassoc:PropertyValue"
     class_name: ClassVar[str] = "PropertyValue"
-    class_model_uri: ClassVar[URIRef] = ASSOC.PropertyValue
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.PropertyValue
 
     predicate: Optional[Union[str, URIorCURIE]] = None
     object: Optional[Union[str, URIorCURIE]] = None
@@ -123,37 +133,37 @@ class slots:
 
 
 slots.subject = Slot(
-    uri=ASSOC.subject,
+    uri=RDF.subject,
     name="subject",
-    curie=ASSOC.curie("subject"),
-    model_uri=ASSOC.subject,
+    curie=RDF.curie("subject"),
+    model_uri=ONTOASSOC.subject,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.predicate = Slot(
-    uri=ASSOC.predicate,
+    uri=RDF.predicate,
     name="predicate",
-    curie=ASSOC.curie("predicate"),
-    model_uri=ASSOC.predicate,
+    curie=RDF.curie("predicate"),
+    model_uri=ONTOASSOC.predicate,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.object = Slot(
-    uri=ASSOC.object,
+    uri=RDF.object,
     name="object",
-    curie=ASSOC.curie("object"),
-    model_uri=ASSOC.object,
+    curie=RDF.curie("object"),
+    model_uri=ONTOASSOC.object,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.property_values = Slot(
-    uri=ASSOC.property_values,
+    uri=ONTOASSOC.property_values,
     name="property_values",
-    curie=ASSOC.curie("property_values"),
-    model_uri=ASSOC.property_values,
+    curie=ONTOASSOC.curie("property_values"),
+    model_uri=ONTOASSOC.property_values,
     domain=None,
     range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]],
 )

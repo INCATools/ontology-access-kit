@@ -18,6 +18,8 @@ docs/datamodels/*/*.md
 notebooks/output/*json
 notebooks/output/*tsv
 notebooks/input/*
+notebooks/*/output/*json
+notebooks/*/output/*tsv
 notebooks/api-key.txt
 
 .coverage.*

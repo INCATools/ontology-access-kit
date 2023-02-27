@@ -11,11 +11,11 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  assoc: https://w3id.org/oak/association/
+  ontoassoc: https://w3id.org/oak/association/
   oa: http://www.w3.org/ns/oa#
 imports:
   - linkml:types
-default_prefix: assoc
+default_prefix: ontoassoc
 
 classes:
 

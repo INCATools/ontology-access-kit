@@ -1,10 +1,13 @@
 # Auto generated from fhir.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-11-30T14:50:13
+# Generation date: 2023-02-27T10:18:53
 # Schema: fhir
 #
-# id: https://w3id.org/linkml/fhir
-# description: Schema for working with FHIR objects
+# id: https://w3id.org/oak/fhir
+# description: Schema for working with FHIR objects (Partial). This is currently intentionally incomplete. The
+#              sole purpose of this rendering of FHIR is purely for the purposes of using OAK to convert native
+#              OAK data models into FHIR using Python code.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
+
 import dataclasses
 import re
 import sys
@@ -17,7 +20,7 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, Datetime, String, Uri
+from linkml_runtime.linkml_model.types import Boolean, Datetime, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
@@ -25,8 +28,8 @@ from linkml_runtime.utils.dataclass_extensions_376 import (
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
 from linkml_runtime.utils.metamodelcore import (
-    URI,
     Bool,
+    URIorCURIE,
     XSDDateTime,
     bnode,
     empty_dict,
@@ -48,9 +51,8 @@ version = "0.0.1"
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-FHIR = CurieNamespace("fhir", "https://w3id.org/linkml/fhir/")
+FHIR = CurieNamespace("fhir", "https://build.fhir.org/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
-OG = CurieNamespace("og", "https://github.com/geneontology/obographs/")
 OIO = CurieNamespace("oio", "http://www.geneontology.org/formats/oboInOwl#")
 SDO = CurieNamespace("sdo", "https://schema.org/")
 SH = CurieNamespace("sh", "https://w3id.org/shacl/")
@@ -71,14 +73,14 @@ class CodeSystem(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = FHIR.CodeSystem
-    class_class_curie: ClassVar[str] = "fhir:CodeSystem"
+    class_class_uri: ClassVar[URIRef] = FHIR.codesystem
+    class_class_curie: ClassVar[str] = "fhir:codesystem"
     class_name: ClassVar[str] = "CodeSystem"
     class_model_uri: ClassVar[URIRef] = FHIR.CodeSystem
 
     id: Optional[str] = None
     resourceType: Optional[str] = None
-    url: Optional[Union[str, URI]] = None
+    url: Optional[Union[str, URIorCURIE]] = None
     identifier: Optional[Union[str, List[str]]] = empty_list()
     version: Optional[str] = None
     name: Optional[str] = None
@@ -104,8 +106,8 @@ class CodeSystem(YAMLRoot):
         if self.resourceType is not None and not isinstance(self.resourceType, str):
             self.resourceType = str(self.resourceType)
 
-        if self.url is not None and not isinstance(self.url, URI):
-            self.url = URI(self.url)
+        if self.url is not None and not isinstance(self.url, URIorCURIE):
+            self.url = URIorCURIE(self.url)
 
         if not isinstance(self.identifier, list):
             self.identifier = [self.identifier] if self.identifier is not None else []
@@ -332,9 +334,9 @@ class CodeSystemProperty(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = FHIR.CodeSystemProperty
 
     code: str = None
-    uri: Optional[str] = None
+    type: str = None
+    uri: Optional[Union[str, URIorCURIE]] = None
     description: Optional[str] = None
-    type: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.code):
@@ -342,14 +344,16 @@ class CodeSystemProperty(YAMLRoot):
         if not isinstance(self.code, str):
             self.code = str(self.code)
 
-        if self.uri is not None and not isinstance(self.uri, str):
-            self.uri = str(self.uri)
+        if self._is_empty(self.type):
+            self.MissingRequiredField("type")
+        if not isinstance(self.type, str):
+            self.type = str(self.type)
+
+        if self.uri is not None and not isinstance(self.uri, URIorCURIE):
+            self.uri = URIorCURIE(self.uri)
 
         if self.description is not None and not isinstance(self.description, str):
             self.description = str(self.description)
-
-        if self.type is not None and not isinstance(self.type, str):
-            self.type = str(self.type)
 
         super().__post_init__(**kwargs)
 
@@ -363,15 +367,15 @@ class Coding(YAMLRoot):
     class_name: ClassVar[str] = "Coding"
     class_model_uri: ClassVar[URIRef] = FHIR.Coding
 
-    system: Optional[Union[str, URI]] = None
+    system: Optional[Union[str, URIorCURIE]] = None
     version: Optional[str] = None
     code: Optional[str] = None
     display: Optional[str] = None
     userSelected: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.system is not None and not isinstance(self.system, URI):
-            self.system = URI(self.system)
+        if self.system is not None and not isinstance(self.system, URIorCURIE):
+            self.system = URIorCURIE(self.system)
 
         if self.version is not None and not isinstance(self.version, str):
             self.version = str(self.version)
@@ -384,6 +388,135 @@ class Coding(YAMLRoot):
 
         if self.userSelected is not None and not isinstance(self.userSelected, str):
             self.userSelected = str(self.userSelected)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class ConceptMap(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = FHIR.ConceptMap
+    class_class_curie: ClassVar[str] = "fhir:ConceptMap"
+    class_name: ClassVar[str] = "ConceptMap"
+    class_model_uri: ClassVar[URIRef] = FHIR.ConceptMap
+
+    id: Optional[str] = None
+    resourceType: Optional[str] = None
+    url: Optional[Union[str, URIorCURIE]] = None
+    identifier: Optional[Union[str, List[str]]] = empty_list()
+    version: Optional[str] = None
+    name: Optional[str] = None
+    title: Optional[str] = None
+    status: Optional[str] = None
+    experimental: Optional[Union[bool, Bool]] = None
+    date: Optional[Union[str, XSDDateTime]] = None
+    publisher: Optional[str] = None
+    contact: Optional[Union[str, List[str]]] = empty_list()
+    description: Optional[str] = None
+    sourceUri: Optional[Union[str, URIorCURIE]] = None
+    sourceCanonical: Optional[Union[str, URIorCURIE]] = None
+    targetUri: Optional[Union[str, URIorCURIE]] = None
+    targetCanonical: Optional[Union[str, URIorCURIE]] = None
+    group: Optional[
+        Union[Union[dict, "ConceptMapGroup"], List[Union[dict, "ConceptMapGroup"]]]
+    ] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.id is not None and not isinstance(self.id, str):
+            self.id = str(self.id)
+
+        if self.resourceType is not None and not isinstance(self.resourceType, str):
+            self.resourceType = str(self.resourceType)
+
+        if self.url is not None and not isinstance(self.url, URIorCURIE):
+            self.url = URIorCURIE(self.url)
+
+        if not isinstance(self.identifier, list):
+            self.identifier = [self.identifier] if self.identifier is not None else []
+        self.identifier = [v if isinstance(v, str) else str(v) for v in self.identifier]
+
+        if self.version is not None and not isinstance(self.version, str):
+            self.version = str(self.version)
+
+        if self.name is not None and not isinstance(self.name, str):
+            self.name = str(self.name)
+
+        if self.title is not None and not isinstance(self.title, str):
+            self.title = str(self.title)
+
+        if self.status is not None and not isinstance(self.status, str):
+            self.status = str(self.status)
+
+        if self.experimental is not None and not isinstance(self.experimental, Bool):
+            self.experimental = Bool(self.experimental)
+
+        if self.date is not None and not isinstance(self.date, XSDDateTime):
+            self.date = XSDDateTime(self.date)
+
+        if self.publisher is not None and not isinstance(self.publisher, str):
+            self.publisher = str(self.publisher)
+
+        if not isinstance(self.contact, list):
+            self.contact = [self.contact] if self.contact is not None else []
+        self.contact = [v if isinstance(v, str) else str(v) for v in self.contact]
+
+        if self.description is not None and not isinstance(self.description, str):
+            self.description = str(self.description)
+
+        if self.sourceUri is not None and not isinstance(self.sourceUri, URIorCURIE):
+            self.sourceUri = URIorCURIE(self.sourceUri)
+
+        if self.sourceCanonical is not None and not isinstance(self.sourceCanonical, URIorCURIE):
+            self.sourceCanonical = URIorCURIE(self.sourceCanonical)
+
+        if self.targetUri is not None and not isinstance(self.targetUri, URIorCURIE):
+            self.targetUri = URIorCURIE(self.targetUri)
+
+        if self.targetCanonical is not None and not isinstance(self.targetCanonical, URIorCURIE):
+            self.targetCanonical = URIorCURIE(self.targetCanonical)
+
+        if not isinstance(self.group, list):
+            self.group = [self.group] if self.group is not None else []
+        self.group = [
+            v if isinstance(v, ConceptMapGroup) else ConceptMapGroup(**as_dict(v))
+            for v in self.group
+        ]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class ConceptMapGroup(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = FHIR.ConceptMapGroup
+    class_class_curie: ClassVar[str] = "fhir:ConceptMapGroup"
+    class_name: ClassVar[str] = "ConceptMapGroup"
+    class_model_uri: ClassVar[URIRef] = FHIR.ConceptMapGroup
+
+    source: Optional[Union[str, URIorCURIE]] = None
+    sourceVersion: Optional[str] = None
+    target: Optional[Union[str, URIorCURIE]] = None
+    targetVersion: Optional[str] = None
+    element: Optional[Union[str, List[str]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.source is not None and not isinstance(self.source, URIorCURIE):
+            self.source = URIorCURIE(self.source)
+
+        if self.sourceVersion is not None and not isinstance(self.sourceVersion, str):
+            self.sourceVersion = str(self.sourceVersion)
+
+        if self.target is not None and not isinstance(self.target, URIorCURIE):
+            self.target = URIorCURIE(self.target)
+
+        if self.targetVersion is not None and not isinstance(self.targetVersion, str):
+            self.targetVersion = str(self.targetVersion)
+
+        if not isinstance(self.element, list):
+            self.element = [self.element] if self.element is not None else []
+        self.element = [v if isinstance(v, str) else str(v) for v in self.element]
 
         super().__post_init__(**kwargs)
 
@@ -420,7 +553,7 @@ slots.codeSystem__url = Slot(
     curie=FHIR.curie("url"),
     model_uri=FHIR.codeSystem__url,
     domain=None,
-    range=Optional[Union[str, URI]],
+    range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.codeSystem__identifier = Slot(
@@ -744,7 +877,7 @@ slots.codeSystemProperty__uri = Slot(
     curie=FHIR.curie("uri"),
     model_uri=FHIR.codeSystemProperty__uri,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.codeSystemProperty__description = Slot(
@@ -762,7 +895,7 @@ slots.codeSystemProperty__type = Slot(
     curie=FHIR.curie("type"),
     model_uri=FHIR.codeSystemProperty__type,
     domain=None,
-    range=Optional[str],
+    range=str,
 )
 
 slots.coding__system = Slot(
@@ -771,7 +904,7 @@ slots.coding__system = Slot(
     curie=FHIR.curie("system"),
     model_uri=FHIR.coding__system,
     domain=None,
-    range=Optional[Union[str, URI]],
+    range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.coding__version = Slot(
@@ -808,4 +941,211 @@ slots.coding__userSelected = Slot(
     model_uri=FHIR.coding__userSelected,
     domain=None,
     range=Optional[str],
+)
+
+slots.conceptMap__id = Slot(
+    uri=FHIR.id,
+    name="conceptMap__id",
+    curie=FHIR.curie("id"),
+    model_uri=FHIR.conceptMap__id,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__resourceType = Slot(
+    uri=FHIR.resourceType,
+    name="conceptMap__resourceType",
+    curie=FHIR.curie("resourceType"),
+    model_uri=FHIR.conceptMap__resourceType,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__url = Slot(
+    uri=FHIR.url,
+    name="conceptMap__url",
+    curie=FHIR.curie("url"),
+    model_uri=FHIR.conceptMap__url,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.conceptMap__identifier = Slot(
+    uri=FHIR.identifier,
+    name="conceptMap__identifier",
+    curie=FHIR.curie("identifier"),
+    model_uri=FHIR.conceptMap__identifier,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.conceptMap__version = Slot(
+    uri=FHIR.version,
+    name="conceptMap__version",
+    curie=FHIR.curie("version"),
+    model_uri=FHIR.conceptMap__version,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__name = Slot(
+    uri=FHIR.name,
+    name="conceptMap__name",
+    curie=FHIR.curie("name"),
+    model_uri=FHIR.conceptMap__name,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__title = Slot(
+    uri=FHIR.title,
+    name="conceptMap__title",
+    curie=FHIR.curie("title"),
+    model_uri=FHIR.conceptMap__title,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__status = Slot(
+    uri=FHIR.status,
+    name="conceptMap__status",
+    curie=FHIR.curie("status"),
+    model_uri=FHIR.conceptMap__status,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__experimental = Slot(
+    uri=FHIR.experimental,
+    name="conceptMap__experimental",
+    curie=FHIR.curie("experimental"),
+    model_uri=FHIR.conceptMap__experimental,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.conceptMap__date = Slot(
+    uri=FHIR.date,
+    name="conceptMap__date",
+    curie=FHIR.curie("date"),
+    model_uri=FHIR.conceptMap__date,
+    domain=None,
+    range=Optional[Union[str, XSDDateTime]],
+)
+
+slots.conceptMap__publisher = Slot(
+    uri=FHIR.publisher,
+    name="conceptMap__publisher",
+    curie=FHIR.curie("publisher"),
+    model_uri=FHIR.conceptMap__publisher,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__contact = Slot(
+    uri=FHIR.contact,
+    name="conceptMap__contact",
+    curie=FHIR.curie("contact"),
+    model_uri=FHIR.conceptMap__contact,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.conceptMap__description = Slot(
+    uri=FHIR.description,
+    name="conceptMap__description",
+    curie=FHIR.curie("description"),
+    model_uri=FHIR.conceptMap__description,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMap__sourceUri = Slot(
+    uri=FHIR.sourceUri,
+    name="conceptMap__sourceUri",
+    curie=FHIR.curie("sourceUri"),
+    model_uri=FHIR.conceptMap__sourceUri,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.conceptMap__sourceCanonical = Slot(
+    uri=FHIR.sourceCanonical,
+    name="conceptMap__sourceCanonical",
+    curie=FHIR.curie("sourceCanonical"),
+    model_uri=FHIR.conceptMap__sourceCanonical,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.conceptMap__targetUri = Slot(
+    uri=FHIR.targetUri,
+    name="conceptMap__targetUri",
+    curie=FHIR.curie("targetUri"),
+    model_uri=FHIR.conceptMap__targetUri,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.conceptMap__targetCanonical = Slot(
+    uri=FHIR.targetCanonical,
+    name="conceptMap__targetCanonical",
+    curie=FHIR.curie("targetCanonical"),
+    model_uri=FHIR.conceptMap__targetCanonical,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.conceptMap__group = Slot(
+    uri=FHIR.group,
+    name="conceptMap__group",
+    curie=FHIR.curie("group"),
+    model_uri=FHIR.conceptMap__group,
+    domain=None,
+    range=Optional[Union[Union[dict, ConceptMapGroup], List[Union[dict, ConceptMapGroup]]]],
+)
+
+slots.conceptMapGroup__source = Slot(
+    uri=FHIR.source,
+    name="conceptMapGroup__source",
+    curie=FHIR.curie("source"),
+    model_uri=FHIR.conceptMapGroup__source,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.conceptMapGroup__sourceVersion = Slot(
+    uri=FHIR.sourceVersion,
+    name="conceptMapGroup__sourceVersion",
+    curie=FHIR.curie("sourceVersion"),
+    model_uri=FHIR.conceptMapGroup__sourceVersion,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMapGroup__target = Slot(
+    uri=FHIR.target,
+    name="conceptMapGroup__target",
+    curie=FHIR.curie("target"),
+    model_uri=FHIR.conceptMapGroup__target,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.conceptMapGroup__targetVersion = Slot(
+    uri=FHIR.targetVersion,
+    name="conceptMapGroup__targetVersion",
+    curie=FHIR.curie("targetVersion"),
+    model_uri=FHIR.conceptMapGroup__targetVersion,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.conceptMapGroup__element = Slot(
+    uri=FHIR.element,
+    name="conceptMapGroup__element",
+    curie=FHIR.curie("element"),
+    model_uri=FHIR.conceptMapGroup__element,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
 )

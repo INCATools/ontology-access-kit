@@ -1,13 +1,14 @@
 # Auto generated from class_enrichment.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-10-27T00:16:05
-# Schema: text-annotator
+# Generation date: 2023-02-27T09:56:45
+# Schema: class-enrichment
 #
-# id: https://w3id.org/linkml/text_annotator
-# description: A datamodel for representing the results of textual named entity recognition annotation results.
-#              This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
+# id: https://w3id.org/oak/class-enrichment
+# description: A datamodel for representing the results of class enrichment on gene sets
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -43,10 +44,10 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 # Namespaces
 OBI = CurieNamespace("OBI", "http://purl.obolibrary.org/obo/OBI_")
 STATO = CurieNamespace("STATO", "http://purl.obolibrary.org/obo/STATO_")
-ANN = CurieNamespace("ann", "https://w3id.org/linkml/text_annotator/")
 BPA = CurieNamespace("bpa", "https://bioportal.bioontology.org/annotator/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
+ONTOENRICH = CurieNamespace("ontoenrich", "https://w3id.org/oak/class-enrichment/")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 PAV = CurieNamespace("pav", "http://purl.org/pav/")
 PROV = CurieNamespace("prov", "http://www.w3.org/ns/prov#")
@@ -57,7 +58,7 @@ SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
 SSSOM = CurieNamespace("sssom", "http://w3id.org/sssom/")
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
-DEFAULT_ = ANN
+DEFAULT_ = ONTOENRICH
 
 
 # Types
@@ -65,7 +66,7 @@ class Position(Integer):
     type_class_uri = XSD.integer
     type_class_curie = "xsd:integer"
     type_name = "Position"
-    type_model_uri = ANN.Position
+    type_model_uri = ONTOENRICH.Position
 
 
 # Class references
@@ -79,10 +80,10 @@ class ClassEnrichmentConfiguration(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ANN.ClassEnrichmentConfiguration
-    class_class_curie: ClassVar[str] = "ann:ClassEnrichmentConfiguration"
+    class_class_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentConfiguration
+    class_class_curie: ClassVar[str] = "ontoenrich:ClassEnrichmentConfiguration"
     class_name: ClassVar[str] = "ClassEnrichmentConfiguration"
-    class_model_uri: ClassVar[URIRef] = ANN.ClassEnrichmentConfiguration
+    class_model_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentConfiguration
 
     p_value_cutoff: float = None
 
@@ -103,10 +104,10 @@ class ClassEnrichmentResultSet(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ANN.ClassEnrichmentResultSet
-    class_class_curie: ClassVar[str] = "ann:ClassEnrichmentResultSet"
+    class_class_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResultSet
+    class_class_curie: ClassVar[str] = "ontoenrich:ClassEnrichmentResultSet"
     class_name: ClassVar[str] = "ClassEnrichmentResultSet"
-    class_model_uri: ClassVar[URIRef] = ANN.ClassEnrichmentResultSet
+    class_model_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResultSet
 
     results: Optional[
         Union[Union[dict, "ClassEnrichmentResult"], List[Union[dict, "ClassEnrichmentResult"]]]
@@ -128,10 +129,10 @@ class ClassEnrichmentResult(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ANN.ClassEnrichmentResult
-    class_class_curie: ClassVar[str] = "ann:ClassEnrichmentResult"
+    class_class_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResult
+    class_class_curie: ClassVar[str] = "ontoenrich:ClassEnrichmentResult"
     class_name: ClassVar[str] = "ClassEnrichmentResult"
-    class_model_uri: ClassVar[URIRef] = ANN.ClassEnrichmentResult
+    class_model_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResult
 
     class_id: Union[str, URIorCURIE] = None
     p_value: float = None
@@ -185,6 +186,18 @@ class ClassEnrichmentResult(YAMLRoot):
 
 
 # Enumerations
+class SortFieldEnum(EnumDefinitionImpl):
+    """
+    The field to sort by
+    """
+
+    ANY = PermissibleValue(text="ANY")
+    P_VALUE = PermissibleValue(text="P_VALUE")
+
+    _defn = EnumDefinition(
+        name="SortFieldEnum",
+        description="The field to sort by",
+    )
 
 
 # Slots
@@ -193,19 +206,19 @@ class slots:
 
 
 slots.classEnrichmentConfiguration__p_value_cutoff = Slot(
-    uri=ANN.p_value_cutoff,
+    uri=ONTOENRICH.p_value_cutoff,
     name="classEnrichmentConfiguration__p_value_cutoff",
-    curie=ANN.curie("p_value_cutoff"),
-    model_uri=ANN.classEnrichmentConfiguration__p_value_cutoff,
+    curie=ONTOENRICH.curie("p_value_cutoff"),
+    model_uri=ONTOENRICH.classEnrichmentConfiguration__p_value_cutoff,
     domain=None,
     range=float,
 )
 
 slots.classEnrichmentResultSet__results = Slot(
-    uri=ANN.results,
+    uri=ONTOENRICH.results,
     name="classEnrichmentResultSet__results",
-    curie=ANN.curie("results"),
-    model_uri=ANN.classEnrichmentResultSet__results,
+    curie=ONTOENRICH.curie("results"),
+    model_uri=ONTOENRICH.classEnrichmentResultSet__results,
     domain=None,
     range=Optional[
         Union[Union[dict, ClassEnrichmentResult], List[Union[dict, ClassEnrichmentResult]]]
@@ -213,19 +226,19 @@ slots.classEnrichmentResultSet__results = Slot(
 )
 
 slots.classEnrichmentResult__class_id = Slot(
-    uri=ANN.class_id,
+    uri=ONTOENRICH.class_id,
     name="classEnrichmentResult__class_id",
-    curie=ANN.curie("class_id"),
-    model_uri=ANN.classEnrichmentResult__class_id,
+    curie=ONTOENRICH.curie("class_id"),
+    model_uri=ONTOENRICH.classEnrichmentResult__class_id,
     domain=None,
     range=Union[str, URIorCURIE],
 )
 
 slots.classEnrichmentResult__class_label = Slot(
-    uri=ANN.class_label,
+    uri=ONTOENRICH.class_label,
     name="classEnrichmentResult__class_label",
-    curie=ANN.curie("class_label"),
-    model_uri=ANN.classEnrichmentResult__class_label,
+    curie=ONTOENRICH.curie("class_label"),
+    model_uri=ONTOENRICH.classEnrichmentResult__class_label,
     domain=None,
     range=Optional[str],
 )
@@ -234,70 +247,70 @@ slots.classEnrichmentResult__p_value = Slot(
     uri=OBI["0000175"],
     name="classEnrichmentResult__p_value",
     curie=OBI.curie("0000175"),
-    model_uri=ANN.classEnrichmentResult__p_value,
+    model_uri=ONTOENRICH.classEnrichmentResult__p_value,
     domain=None,
     range=float,
 )
 
 slots.classEnrichmentResult__p_value_adjusted = Slot(
-    uri=ANN.p_value_adjusted,
+    uri=ONTOENRICH.p_value_adjusted,
     name="classEnrichmentResult__p_value_adjusted",
-    curie=ANN.curie("p_value_adjusted"),
-    model_uri=ANN.classEnrichmentResult__p_value_adjusted,
+    curie=ONTOENRICH.curie("p_value_adjusted"),
+    model_uri=ONTOENRICH.classEnrichmentResult__p_value_adjusted,
     domain=None,
     range=Optional[float],
 )
 
 slots.classEnrichmentResult__false_discovery_rate = Slot(
-    uri=ANN.false_discovery_rate,
+    uri=ONTOENRICH.false_discovery_rate,
     name="classEnrichmentResult__false_discovery_rate",
-    curie=ANN.curie("false_discovery_rate"),
-    model_uri=ANN.classEnrichmentResult__false_discovery_rate,
+    curie=ONTOENRICH.curie("false_discovery_rate"),
+    model_uri=ONTOENRICH.classEnrichmentResult__false_discovery_rate,
     domain=None,
     range=Optional[float],
 )
 
 slots.classEnrichmentResult__fold_enrichment = Slot(
-    uri=ANN.fold_enrichment,
+    uri=ONTOENRICH.fold_enrichment,
     name="classEnrichmentResult__fold_enrichment",
-    curie=ANN.curie("fold_enrichment"),
-    model_uri=ANN.classEnrichmentResult__fold_enrichment,
+    curie=ONTOENRICH.curie("fold_enrichment"),
+    model_uri=ONTOENRICH.classEnrichmentResult__fold_enrichment,
     domain=None,
     range=Optional[float],
 )
 
 slots.classEnrichmentResult__sample_count = Slot(
-    uri=ANN.sample_count,
+    uri=ONTOENRICH.sample_count,
     name="classEnrichmentResult__sample_count",
-    curie=ANN.curie("sample_count"),
-    model_uri=ANN.classEnrichmentResult__sample_count,
+    curie=ONTOENRICH.curie("sample_count"),
+    model_uri=ONTOENRICH.classEnrichmentResult__sample_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.classEnrichmentResult__sample_total = Slot(
-    uri=ANN.sample_total,
+    uri=ONTOENRICH.sample_total,
     name="classEnrichmentResult__sample_total",
-    curie=ANN.curie("sample_total"),
-    model_uri=ANN.classEnrichmentResult__sample_total,
+    curie=ONTOENRICH.curie("sample_total"),
+    model_uri=ONTOENRICH.classEnrichmentResult__sample_total,
     domain=None,
     range=Optional[int],
 )
 
 slots.classEnrichmentResult__background_count = Slot(
-    uri=ANN.background_count,
+    uri=ONTOENRICH.background_count,
     name="classEnrichmentResult__background_count",
-    curie=ANN.curie("background_count"),
-    model_uri=ANN.classEnrichmentResult__background_count,
+    curie=ONTOENRICH.curie("background_count"),
+    model_uri=ONTOENRICH.classEnrichmentResult__background_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.classEnrichmentResult__background_total = Slot(
-    uri=ANN.background_total,
+    uri=ONTOENRICH.background_total,
     name="classEnrichmentResult__background_total",
-    curie=ANN.curie("background_total"),
-    model_uri=ANN.classEnrichmentResult__background_total,
+    curie=ONTOENRICH.curie("background_total"),
+    model_uri=ONTOENRICH.classEnrichmentResult__background_total,
     domain=None,
     range=Optional[int],
 )
