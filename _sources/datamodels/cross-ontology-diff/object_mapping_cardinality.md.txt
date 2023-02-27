@@ -2,7 +2,7 @@
 _The mapping cardinality of the object pair_
 
 
-URI: [ann:object_mapping_cardinality](https://w3id.org/linkml/text_annotator/object_mapping_cardinality)
+URI: [xodiff:object_mapping_cardinality](https://w3id.org/oak/cross-ontology-diff/object_mapping_cardinality)
 
 
 
@@ -43,7 +43,7 @@ URI: [ann:object_mapping_cardinality](https://w3id.org/linkml/text_annotator/obj
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -54,7 +54,7 @@ URI: [ann:object_mapping_cardinality](https://w3id.org/linkml/text_annotator/obj
 ```yaml
 name: object_mapping_cardinality
 description: The mapping cardinality of the object pair
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 alias: object_mapping_cardinality
 owner: RelationalDiff

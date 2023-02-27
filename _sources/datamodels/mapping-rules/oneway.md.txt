@@ -2,7 +2,7 @@
 _if true then subject and object can be switched and predicate inverted_
 
 
-URI: [mrules:oneway](https://w3id.org/linkml/mapping_rules_datamodel/oneway)
+URI: [mappingrules:oneway](https://w3id.org/oak/mapping-rules-datamodel/oneway)
 
 
 
@@ -43,7 +43,7 @@ URI: [mrules:oneway](https://w3id.org/linkml/mapping_rules_datamodel/oneway)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [mrules:oneway](https://w3id.org/linkml/mapping_rules_datamodel/oneway)
 ```yaml
 name: oneway
 description: if true then subject and object can be switched and predicate inverted
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 ifabsent: 'False'
 alias: oneway

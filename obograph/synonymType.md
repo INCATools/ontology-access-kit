@@ -2,7 +2,7 @@
 _This standard follows oboInOwl in allowing an open ended list of synonym types_
 
 
-URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
+URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 
 

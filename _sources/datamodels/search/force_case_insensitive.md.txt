@@ -2,7 +2,7 @@
 _force case insensitive matching_
 
 
-URI: [search:force_case_insensitive](https://w3id.org/linkml/search_datamodel/force_case_insensitive)
+URI: [ontosearch:force_case_insensitive](https://w3id.org/oak/search-datamodel/force_case_insensitive)
 
 
 
@@ -43,7 +43,7 @@ URI: [search:force_case_insensitive](https://w3id.org/linkml/search_datamodel/fo
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [search:force_case_insensitive](https://w3id.org/linkml/search_datamodel/fo
 ```yaml
 name: force_case_insensitive
 description: force case insensitive matching
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: force_case_insensitive
 owner: SearchBaseConfiguration

@@ -4,7 +4,7 @@ _A property value that represents an assertion about an entity that is not a def
 
 
 
-URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicPropertyValue)
+URI: [obographs:BasicPropertyValue](https://github.com/geneontology/obographs/BasicPropertyValue)
 
 
 
@@ -13,9 +13,11 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
     class BasicPropertyValue
       PropertyValue <|-- BasicPropertyValue
       
+      BasicPropertyValue : lang
       BasicPropertyValue : meta
       BasicPropertyValue : pred
       BasicPropertyValue : val
+      BasicPropertyValue : valType
       BasicPropertyValue : xrefs
       
 ```
@@ -38,6 +40,8 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 | [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the value of a property | [PropertyValue](PropertyValue.md) |
 | [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
+| [valType](valType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
+| [lang](lang.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the language of a property value | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -75,8 +79,8 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:BasicPropertyValue |
-| native | og:BasicPropertyValue |
+| self | obographs:BasicPropertyValue |
+| native | obographs:BasicPropertyValue |
 
 
 
@@ -128,6 +132,8 @@ attributes:
     name: val
     description: the value of a property
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val
@@ -169,6 +175,29 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
+  valType:
+    name: valType
+    description: the datatype of a property value
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value type
+    - datatype
+    rank: 1000
+    alias: valType
+    owner: BasicPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
+  lang:
+    name: lang
+    description: the language of a property value
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: lang
+    owner: BasicPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
 
 ```
 </details>

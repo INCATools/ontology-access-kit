@@ -2,7 +2,7 @@
 
 A datamodel for representing the results of relational diffs across a pair of ontologies connected by mappings
 
-URI: https://w3id.org/linkml/cross_ontology_diff
+URI: https://w3id.org/oak/cross-ontology-diff
 Name: cross-ontology-diff
 
 

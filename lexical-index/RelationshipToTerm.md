@@ -4,7 +4,7 @@ _A relationship of an ontology element to a lexical term_
 
 
 
-URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipToTerm)
+URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/RelationshipToTerm)
 
 
 
@@ -63,7 +63,7 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -73,8 +73,8 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | li:RelationshipToTerm |
-| native | li:RelationshipToTerm |
+| self | ontolexindex:RelationshipToTerm |
+| native | ontolexindex:RelationshipToTerm |
 
 
 
@@ -90,38 +90,38 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 ```yaml
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   predicate:
     name: predicate
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: uriorcurie
   element:
     name: element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: uriorcurie
   element_term:
     name: element_term
     description: the original term used in the element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
   source:
     name: source
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: uriorcurie
   pipeline:
     name: pipeline
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
   synonymized:
     name: synonymized
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: boolean
 
@@ -134,12 +134,12 @@ attributes:
 ```yaml
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   predicate:
     name: predicate
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: predicate
     owner: RelationshipToTerm
@@ -148,7 +148,7 @@ attributes:
     range: uriorcurie
   element:
     name: element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: element
     owner: RelationshipToTerm
@@ -158,7 +158,7 @@ attributes:
   element_term:
     name: element_term
     description: the original term used in the element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: element_term
     owner: RelationshipToTerm
@@ -167,7 +167,7 @@ attributes:
     range: string
   source:
     name: source
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: source
     owner: RelationshipToTerm
@@ -176,7 +176,7 @@ attributes:
     range: uriorcurie
   pipeline:
     name: pipeline
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: pipeline
@@ -186,7 +186,7 @@ attributes:
     range: LexicalTransformationPipeline
   synonymized:
     name: synonymized
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: synonymized
     owner: RelationshipToTerm

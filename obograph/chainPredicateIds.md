@@ -2,7 +2,7 @@
 _A list of identifiers of predicates that form the precedent clause of a property chain rule_
 
 
-URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredicateIds)
+URI: [obographs:chainPredicateIds](https://github.com/geneontology/obographs/chainPredicateIds)
 
 
 

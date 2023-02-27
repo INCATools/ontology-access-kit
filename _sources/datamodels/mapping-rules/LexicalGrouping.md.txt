@@ -4,7 +4,7 @@ _A grouping of ontology elements by a shared lexical term_
 
 
 
-URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
+URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGrouping)
 
 
 
@@ -55,7 +55,7 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -65,8 +65,8 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | li:LexicalGrouping |
-| native | li:LexicalGrouping |
+| self | ontolexindex:LexicalGrouping |
+| native | ontolexindex:LexicalGrouping |
 
 
 
@@ -82,20 +82,20 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 ```yaml
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: RelationshipToTerm
@@ -109,13 +109,13 @@ attributes:
 ```yaml
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
     alias: term
@@ -127,7 +127,7 @@ attributes:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: relationships

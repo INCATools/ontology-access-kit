@@ -4,7 +4,7 @@ _A property value that represents an assertion about a synonym of an entity_
 
 
 
-URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/SynonymPropertyValue)
+URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/SynonymPropertyValue)
 
 
 
@@ -14,10 +14,12 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
       PropertyValue <|-- SynonymPropertyValue
       
       SynonymPropertyValue : isExact
+      SynonymPropertyValue : lang
       SynonymPropertyValue : meta
       SynonymPropertyValue : pred
       SynonymPropertyValue : synonymType
       SynonymPropertyValue : val
+      SynonymPropertyValue : valType
       SynonymPropertyValue : xrefs
       
 ```
@@ -42,6 +44,8 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 | [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The textual string representing the synonym | [PropertyValue](PropertyValue.md) |
 | [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
+| [valType](valType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
+| [lang](lang.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the language of a property value | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -79,8 +83,8 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:SynonymPropertyValue |
-| native | og:SynonymPropertyValue |
+| self | obographs:SynonymPropertyValue |
+| native | obographs:SynonymPropertyValue |
 
 
 
@@ -120,6 +124,7 @@ slot_usage:
     domain_of:
     - PropertyValue
     - PropertyValue
+    - PropertyValue
     role: synonym text
 
 ```
@@ -149,6 +154,7 @@ slot_usage:
     name: val
     description: The textual string representing the synonym.
     domain_of:
+    - PropertyValue
     - PropertyValue
     - PropertyValue
     role: synonym text
@@ -237,6 +243,29 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
+  valType:
+    name: valType
+    description: the datatype of a property value
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value type
+    - datatype
+    rank: 1000
+    alias: valType
+    owner: SynonymPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
+  lang:
+    name: lang
+    description: the language of a property value
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: lang
+    owner: SynonymPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
 
 ```
 </details>

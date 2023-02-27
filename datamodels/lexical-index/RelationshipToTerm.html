@@ -84,7 +84,7 @@
   <section id="class-relationshiptoterm">
 <h1>Class: RelationshipToTerm<a class="headerlink" href="#class-relationshiptoterm" title="Permalink to this headline"></a></h1>
 <p><em>A relationship of an ontology element to a lexical term</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/lexical_index/RelationshipToTerm">li:RelationshipToTerm</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/RelationshipToTerm">ontolexindex:RelationshipToTerm</a></p>
 <div class="mermaid">
              classDiagram
     class RelationshipToTerm
@@ -164,7 +164,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/lexical_index</p></li>
+<li><p>from schema: https://w3id.org/oak/lexical-index</p></li>
 </ul>
 </section>
 </section>
@@ -178,10 +178,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>li:RelationshipToTerm</p></td>
+<td><p>ontolexindex:RelationshipToTerm</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>li:RelationshipToTerm</p></td>
+<td><p>ontolexindex:RelationshipToTerm</p></td>
 </tr>
 </tbody>
 </table>
@@ -195,38 +195,38 @@
 ```yaml
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   predicate:
     name: predicate
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: uriorcurie
   element:
     name: element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: uriorcurie
   element_term:
     name: element_term
     description: the original term used in the element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
   source:
     name: source
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: uriorcurie
   pipeline:
     name: pipeline
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
   synonymized:
     name: synonymized
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: boolean
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -237,12 +237,12 @@ attributes:
 ```yaml
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   predicate:
     name: predicate
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: predicate
     owner: RelationshipToTerm
@@ -251,7 +251,7 @@ attributes:
     range: uriorcurie
   element:
     name: element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: element
     owner: RelationshipToTerm
@@ -261,7 +261,7 @@ attributes:
   element_term:
     name: element_term
     description: the original term used in the element
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: element_term
     owner: RelationshipToTerm
@@ -270,7 +270,7 @@ attributes:
     range: string
   source:
     name: source
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: source
     owner: RelationshipToTerm
@@ -279,7 +279,7 @@ attributes:
     range: uriorcurie
   pipeline:
     name: pipeline
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: pipeline
@@ -289,7 +289,7 @@ attributes:
     range: LexicalTransformationPipeline
   synonymized:
     name: synonymized
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: synonymized
     owner: RelationshipToTerm

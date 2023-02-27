@@ -83,8 +83,8 @@
              
   <section id="class-domainrangeaxiom">
 <h1>Class: DomainRangeAxiom<a class="headerlink" href="#class-domainrangeaxiom" title="Permalink to this headline"></a></h1>
-<p><em>An axiom that represents some combination of domain and range assertions.</em></p>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/DomainRangeAxiom">og:DomainRangeAxiom</a></p>
+<p><em>This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range.</em></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/DomainRangeAxiom">obographs:DomainRangeAxiom</a></p>
 <div class="mermaid">
              classDiagram
     class DomainRangeAxiom
@@ -167,7 +167,7 @@
 <section id="comments">
 <h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations may merge these but only when semantically valid</p></li>
+<li><p>When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations may merge these, but only when semantically valid.</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -189,10 +189,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>og:DomainRangeAxiom</p></td>
+<td><p>obographs:DomainRangeAxiom</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>og:DomainRangeAxiom</p></td>
+<td><p>obographs:DomainRangeAxiom</p></td>
 </tr>
 </tbody>
 </table>
@@ -205,12 +205,13 @@
 <details>
 ```yaml
 name: DomainRangeAxiom
-description: An axiom that represents some combination of domain and range assertions.
+description: This groups potentially multiple axioms that constrain the usage of a
+  property depending on some combination of domain and range.
 comments:
 - When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom
   with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated
   to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations
-  may merge these but only when semantically valid
+  may merge these, but only when semantically valid.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
@@ -226,12 +227,13 @@ slots:
 &lt;details&gt;
 ```yaml
 name: DomainRangeAxiom
-description: An axiom that represents some combination of domain and range assertions.
+description: This groups potentially multiple axioms that constrain the usage of a
+  property depending on some combination of domain and range.
 comments:
 - When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom
   with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated
   to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations
-  may merge these but only when semantically valid
+  may merge these, but only when semantically valid.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom

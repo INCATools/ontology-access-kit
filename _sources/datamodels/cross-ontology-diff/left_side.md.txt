@@ -2,7 +2,7 @@
 _The first ontology is arbitrarily designated the left side_
 
 
-URI: [ann:left_side](https://w3id.org/linkml/text_annotator/left_side)
+URI: [xodiff:left_side](https://w3id.org/oak/cross-ontology-diff/left_side)
 
 
 
@@ -55,7 +55,7 @@ URI: [ann:left_side](https://w3id.org/linkml/text_annotator/left_side)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -66,7 +66,7 @@ URI: [ann:left_side](https://w3id.org/linkml/text_annotator/left_side)
 ```yaml
 name: left_side
 description: The first ontology is arbitrarily designated the left side
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 is_a: side
 mixin: true

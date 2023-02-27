@@ -31,7 +31,7 @@ URI: [rdfs:Resource](http://www.w3.org/2000/01/rdf-schema#Resource)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 

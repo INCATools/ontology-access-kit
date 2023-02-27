@@ -1,6 +1,6 @@
 # Slot: is_fuzzy
 
-URI: [search:is_fuzzy](https://w3id.org/linkml/search_datamodel/is_fuzzy)
+URI: [ontosearch:is_fuzzy](https://w3id.org/oak/search-datamodel/is_fuzzy)
 
 
 
@@ -41,7 +41,7 @@ URI: [search:is_fuzzy](https://w3id.org/linkml/search_datamodel/is_fuzzy)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [search:is_fuzzy](https://w3id.org/linkml/search_datamodel/is_fuzzy)
 <details>
 ```yaml
 name: is_fuzzy
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: is_fuzzy
 owner: SearchBaseConfiguration

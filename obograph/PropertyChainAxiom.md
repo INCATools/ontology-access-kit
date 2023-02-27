@@ -4,7 +4,7 @@ _An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn_
 
 
 
-URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyChainAxiom)
+URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyChainAxiom)
 
 
 
@@ -73,8 +73,8 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:PropertyChainAxiom |
-| native | og:PropertyChainAxiom |
+| self | obographs:PropertyChainAxiom |
+| native | obographs:PropertyChainAxiom |
 
 
 

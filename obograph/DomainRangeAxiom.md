@@ -1,10 +1,10 @@
 # Class: DomainRangeAxiom
-_An axiom that represents some combination of domain and range assertions._
+_This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range._
 
 
 
 
-URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRangeAxiom)
+URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRangeAxiom)
 
 
 
@@ -58,7 +58,7 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 ## Comments
 
-* When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations may merge these but only when semantically valid
+* When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations may merge these, but only when semantically valid.
 
 ## Identifier and Mapping Information
 
@@ -81,8 +81,8 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:DomainRangeAxiom |
-| native | og:DomainRangeAxiom |
+| self | obographs:DomainRangeAxiom |
+| native | obographs:DomainRangeAxiom |
 
 
 
@@ -97,12 +97,13 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 <details>
 ```yaml
 name: DomainRangeAxiom
-description: An axiom that represents some combination of domain and range assertions.
+description: This groups potentially multiple axioms that constrain the usage of a
+  property depending on some combination of domain and range.
 comments:
 - When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom
   with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated
   to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations
-  may merge these but only when semantically valid
+  may merge these, but only when semantically valid.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
@@ -120,12 +121,13 @@ slots:
 <details>
 ```yaml
 name: DomainRangeAxiom
-description: An axiom that represents some combination of domain and range assertions.
+description: This groups potentially multiple axioms that constrain the usage of a
+  property depending on some combination of domain and range.
 comments:
 - When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom
   with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated
   to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations
-  may merge these but only when semantically valid
+  may merge these, but only when semantically valid.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom

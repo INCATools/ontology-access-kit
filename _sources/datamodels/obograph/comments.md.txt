@@ -15,7 +15,7 @@ URI: [rdfs:comment](http://www.w3.org/2000/01/rdf-schema#comment)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or axiom
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
 
 
 

@@ -13,7 +13,7 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or axiom
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
 
 
 

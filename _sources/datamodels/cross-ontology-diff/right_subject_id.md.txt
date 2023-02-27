@@ -2,7 +2,7 @@
 _The subject (child) of the matched/right edge, if matchable_
 
 
-URI: [ann:right_subject_id](https://w3id.org/linkml/text_annotator/right_subject_id)
+URI: [xodiff:right_subject_id](https://w3id.org/oak/cross-ontology-diff/right_subject_id)
 
 
 
@@ -47,7 +47,7 @@ URI: [ann:right_subject_id](https://w3id.org/linkml/text_annotator/right_subject
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -58,7 +58,7 @@ URI: [ann:right_subject_id](https://w3id.org/linkml/text_annotator/right_subject
 ```yaml
 name: right_subject_id
 description: The subject (child) of the matched/right edge, if matchable
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixins:
 - right_side

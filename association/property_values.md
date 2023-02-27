@@ -1,6 +1,6 @@
 # Slot: property_values
 
-URI: [assoc:property_values](https://w3id.org/oak/association/property_values)
+URI: [ontoassoc:property_values](https://w3id.org/oak/association/property_values)
 
 
 

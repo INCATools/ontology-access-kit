@@ -2,7 +2,7 @@
 _Maps to exactly one thing_
 
 
-URI: [ann:is_functional](https://w3id.org/linkml/text_annotator/is_functional)
+URI: [xodiff:is_functional](https://w3id.org/oak/cross-ontology-diff/is_functional)
 
 
 
@@ -44,7 +44,7 @@ URI: [ann:is_functional](https://w3id.org/linkml/text_annotator/is_functional)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -55,7 +55,7 @@ URI: [ann:is_functional](https://w3id.org/linkml/text_annotator/is_functional)
 ```yaml
 name: is_functional
 description: Maps to exactly one thing
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixin: true
 alias: is_functional

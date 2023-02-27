@@ -2,7 +2,7 @@
 _All edges present in a graph._
 
 
-URI: [og:edges](https://github.com/geneontology/obographs/edges)
+URI: [obographs:edges](https://github.com/geneontology/obographs/edges)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:edges](https://github.com/geneontology/obographs/edges)
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 

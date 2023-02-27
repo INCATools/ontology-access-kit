@@ -1,5 +1,5 @@
 # Class: Axiom
-_A generic grouping for any OWL axiom that is not captured by existing constructs in this standard.
+_A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.
 _
 
 
@@ -72,7 +72,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Axiom |
-| native | og:Axiom |
+| native | obographs:Axiom |
 
 
 
@@ -87,8 +87,8 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 <details>
 ```yaml
 name: Axiom
-description: 'A generic grouping for any OWL axiom that is not captured by existing
-  constructs in this standard.
+description: 'A generic grouping for any OWL axiom or group of axioms that is not
+  captured by existing constructs in this standard.
 
   '
 from_schema: https://github.com/geneontology/obographs
@@ -106,8 +106,8 @@ class_uri: owl:Axiom
 <details>
 ```yaml
 name: Axiom
-description: 'A generic grouping for any OWL axiom that is not captured by existing
-  constructs in this standard.
+description: 'A generic grouping for any OWL axiom or group of axioms that is not
+  captured by existing constructs in this standard.
 
   '
 from_schema: https://github.com/geneontology/obographs

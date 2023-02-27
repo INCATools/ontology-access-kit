@@ -2,7 +2,7 @@
 _The mapping predicate that holds between left_object_id and right_object_id_
 
 
-URI: [ann:object_mapping_predicate](https://w3id.org/linkml/text_annotator/object_mapping_predicate)
+URI: [xodiff:object_mapping_predicate](https://w3id.org/oak/cross-ontology-diff/object_mapping_predicate)
 
 
 
@@ -47,7 +47,7 @@ URI: [ann:object_mapping_predicate](https://w3id.org/linkml/text_annotator/objec
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -58,7 +58,7 @@ URI: [ann:object_mapping_predicate](https://w3id.org/linkml/text_annotator/objec
 ```yaml
 name: object_mapping_predicate
 description: The mapping predicate that holds between left_object_id and right_object_id
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixins:
 - subject

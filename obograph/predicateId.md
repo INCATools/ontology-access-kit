@@ -1,6 +1,6 @@
 # Slot: predicateId
 
-URI: [og:predicateId](https://github.com/geneontology/obographs/predicateId)
+URI: [obographs:predicateId](https://github.com/geneontology/obographs/predicateId)
 
 
 
@@ -13,7 +13,7 @@ URI: [og:predicateId](https://github.com/geneontology/obographs/predicateId)
 
 | Name | Description |
 | --- | --- |
-[DomainRangeAxiom](DomainRangeAxiom.md) | An axiom that represents some combination of domain and range assertions
+[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert...
 [PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e
 
 

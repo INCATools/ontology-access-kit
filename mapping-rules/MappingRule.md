@@ -4,7 +4,7 @@ _An individual mapping rule, if preconditions match the postconditions are appli
 
 
 
-URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/MappingRule)
+URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/MappingRule)
 
 
 
@@ -61,7 +61,7 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -71,8 +71,8 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | mrules:MappingRule |
-| native | mrules:MappingRule |
+| self | mappingrules:MappingRule |
+| native | mappingrules:MappingRule |
 
 
 
@@ -89,37 +89,37 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 name: MappingRule
 description: An individual mapping rule, if preconditions match the postconditions
   are applied
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   description:
     name: description
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
   oneway:
     name: oneway
     description: if true then subject and object can be switched and predicate inverted
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     ifabsent: 'False'
     range: boolean
   preconditions:
     name: preconditions
     description: all of the criteria that must be true before a rule is fired
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     slot_uri: sh:condition
     range: Precondition
   postconditions:
     name: postconditions
     description: conditions that apply if preconditions match
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: Postcondition
   synonymizer:
     name: synonymizer
     description: Normalizing rules to labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: Synonymizer
 
@@ -133,12 +133,12 @@ attributes:
 name: MappingRule
 description: An individual mapping rule, if preconditions match the postconditions
   are applied
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   description:
     name: description
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: description
     owner: MappingRule
@@ -148,7 +148,7 @@ attributes:
   oneway:
     name: oneway
     description: if true then subject and object can be switched and predicate inverted
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     ifabsent: 'False'
     alias: oneway
@@ -159,7 +159,7 @@ attributes:
   preconditions:
     name: preconditions
     description: all of the criteria that must be true before a rule is fired
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     slot_uri: sh:condition
     alias: preconditions
@@ -170,7 +170,7 @@ attributes:
   postconditions:
     name: postconditions
     description: conditions that apply if preconditions match
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: postconditions
     owner: MappingRule
@@ -180,7 +180,7 @@ attributes:
   synonymizer:
     name: synonymizer
     description: Normalizing rules to labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: synonymizer
     owner: MappingRule

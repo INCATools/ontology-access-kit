@@ -83,7 +83,7 @@
              
   <section id="slot-prefixes">
 <h1>Slot: prefixes<a class="headerlink" href="#slot-prefixes" title="Permalink to this headline"></a></h1>
-<p><em>maps prefixes to namespaces</em></p>
+<p><em>A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/shacl/declare">sh:declare</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -99,7 +99,7 @@
 <td><p>A graph document is a collection of graphs together with a set of prefixes th…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
-<td><p>A graph is a collection of nodes and edges that represents a single ontology</p></td>
+<td><p>A graph is a collection of nodes and edges and other axioms that represents a…</p></td>
 </tr>
 </tbody>
 </table>
@@ -125,7 +125,8 @@
 <details>
 ```yaml
 name: prefixes
-description: maps prefixes to namespaces
+description: A collection of mappings between prefixes and namespaces, used to map
+  CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: sh:declare

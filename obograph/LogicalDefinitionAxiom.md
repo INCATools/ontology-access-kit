@@ -4,7 +4,7 @@ _An axiom that defines a class in terms of a genus or set of genus classes and a
 
 
 
-URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/LogicalDefinitionAxiom)
+URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/LogicalDefinitionAxiom)
 
 
 
@@ -36,7 +36,7 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 | ---  | --- | --- | --- |
 | [definedClassId](definedClassId.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The class that is defined by this axiom | direct |
 | [genusIds](genusIds.md) | 0..* _recommended_ <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The set of classes that are the genus of the defined class | direct |
-| [restrictions](restrictions.md) | 0..* _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentia of the defined class | direct |
+| [restrictions](restrictions.md) | 0..* _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentiating features of the defined ... | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 
 
@@ -86,8 +86,8 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:LogicalDefinitionAxiom |
-| native | og:LogicalDefinitionAxiom |
+| self | obographs:LogicalDefinitionAxiom |
+| native | obographs:LogicalDefinitionAxiom |
 
 
 
@@ -133,7 +133,8 @@ attributes:
     recommended: true
   restrictions:
     name: restrictions
-    description: The set of restrictions that are the differentia of the defined class
+    description: The set of restrictions that are the differentiating features of
+      the defined class
     comments:
     - typically this will always be present.
     from_schema: https://github.com/geneontology/obographs
@@ -194,7 +195,8 @@ attributes:
     recommended: true
   restrictions:
     name: restrictions
-    description: The set of restrictions that are the differentia of the defined class
+    description: The set of restrictions that are the differentiating features of
+      the defined class
     comments:
     - typically this will always be present.
     from_schema: https://github.com/geneontology/obographs

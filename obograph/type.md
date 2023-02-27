@@ -1,6 +1,6 @@
 # Slot: type
 
-URI: [og:type](https://github.com/geneontology/obographs/type)
+URI: [obographs:type](https://github.com/geneontology/obographs/type)
 
 
 

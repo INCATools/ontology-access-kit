@@ -2,7 +2,7 @@
 _A list of all graphs (ontologies) in an ontology document._
 
 
-URI: [og:graphs](https://github.com/geneontology/obographs/graphs)
+URI: [obographs:graphs](https://github.com/geneontology/obographs/graphs)
 
 
 

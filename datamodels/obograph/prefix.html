@@ -96,7 +96,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="PrefixDeclaration.html"><span class="doc std std-doc">PrefixDeclaration</span></a></p></td>
-<td><p>maps individual prefix to namespace</p></td>
+<td><p>A mapping between an individual prefix (e</p></td>
 </tr>
 </tbody>
 </table>
@@ -105,6 +105,12 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+</ul>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>It is strongly recommended that the prefix is a valid NCName</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -122,6 +128,8 @@
 ```yaml
 name: prefix
 description: The prefix of a prefix declaration.
+comments:
+- It is strongly recommended that the prefix is a valid NCName
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: sh:prefix

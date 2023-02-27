@@ -1,10 +1,10 @@
 # Class: Meta
-_A collection of annotations on an entity or ontology or axiom_
+_A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect the logical interpretation of the container but provides useful information to humans or machines._
 
 
 
 
-URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
+URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
 
 
 
@@ -95,8 +95,8 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:Meta |
-| native | og:Meta |
+| self | obographs:Meta |
+| native | obographs:Meta |
 
 
 
@@ -111,7 +111,9 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 <details>
 ```yaml
 name: Meta
-description: A collection of annotations on an entity or ontology or axiom
+description: A collection of annotations on an entity or ontology or edge or axiom.
+  Metadata typically does not affect the logical interpretation of the container but
+  provides useful information to humans or machines.
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation collection
@@ -144,7 +146,9 @@ slot_usage:
 <details>
 ```yaml
 name: Meta
-description: A collection of annotations on an entity or ontology or axiom
+description: A collection of annotations on an entity or ontology or edge or axiom.
+  Metadata typically does not affect the logical interpretation of the container but
+  provides useful information to humans or machines.
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation collection

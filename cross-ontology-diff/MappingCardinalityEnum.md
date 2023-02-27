@@ -41,7 +41,7 @@ URI: [MappingCardinalityEnum](MappingCardinalityEnum)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -51,7 +51,7 @@ URI: [MappingCardinalityEnum](MappingCardinalityEnum)
 <details>
 ```yaml
 name: MappingCardinalityEnum
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 exact_mappings:
 - sssom:mapping_cardinality_enum
 rank: 1000

@@ -1,5 +1,5 @@
 # Class: PrefixDeclaration
-_maps individual prefix to namespace_
+_A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)_
 
 
 
@@ -67,7 +67,7 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sh:PrefixDeclaration |
-| native | og:PrefixDeclaration |
+| native | obographs:PrefixDeclaration |
 
 
 
@@ -82,13 +82,16 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 <details>
 ```yaml
 name: PrefixDeclaration
-description: maps individual prefix to namespace
+description: A mapping between an individual prefix (e.g. GO) and a namespace (e.g.
+  http://purl.obolibrary.org/obo/GO_)
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
   prefix:
     name: prefix
     description: The prefix of a prefix declaration.
+    comments:
+    - It is strongly recommended that the prefix is a valid NCName
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:prefix
@@ -110,13 +113,16 @@ class_uri: sh:PrefixDeclaration
 <details>
 ```yaml
 name: PrefixDeclaration
-description: maps individual prefix to namespace
+description: A mapping between an individual prefix (e.g. GO) and a namespace (e.g.
+  http://purl.obolibrary.org/obo/GO_)
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
   prefix:
     name: prefix
     description: The prefix of a prefix declaration.
+    comments:
+    - It is strongly recommended that the prefix is a valid NCName
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:prefix

@@ -2,7 +2,7 @@
 _A list of axioms that define the domain and range of a property_
 
 
-URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRangeAxioms)
+URI: [obographs:domainRangeAxioms](https://github.com/geneontology/obographs/domainRangeAxioms)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRang
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 

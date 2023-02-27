@@ -1,10 +1,10 @@
 # Class: Edge
-_An edge is a typed relationship between two nodes_
+_An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o_
 
 
 
 
-URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
+URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
@@ -71,8 +71,8 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:Edge |
-| native | og:Edge |
+| self | obographs:Edge |
+| native | obographs:Edge |
 
 
 
@@ -87,7 +87,10 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 <details>
 ```yaml
 name: Edge
-description: An edge is a typed relationship between two nodes
+description: An edge is a simple typed relationship between two nodes. When mapping
+  to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c)
+  s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
+  (f) s type o
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
@@ -104,7 +107,10 @@ slots:
 <details>
 ```yaml
 name: Edge
-description: An edge is a typed relationship between two nodes
+description: An edge is a simple typed relationship between two nodes. When mapping
+  to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c)
+  s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
+  (f) s type o
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
@@ -112,6 +118,11 @@ attributes:
     name: sub
     description: the subject of an edge
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - subject
+    - source
+    - child
+    - head
     rank: 1000
     slot_uri: rdf:subject
     alias: sub
@@ -136,6 +147,11 @@ attributes:
     name: obj
     description: the object of an edge
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - object
+    - target
+    - parent
+    - tail
     rank: 1000
     slot_uri: rdf:object
     alias: obj

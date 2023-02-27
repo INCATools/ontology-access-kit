@@ -84,7 +84,7 @@
   <section id="class-pathexpression">
 <h1>Class: PathExpression<a class="headerlink" href="#class-pathexpression" title="Permalink to this headline"></a></h1>
 <p><em>A path query</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/search_datamodel/PathExpression">search:PathExpression</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/search-datamodel/PathExpression">ontosearch:PathExpression</a></p>
 <div class="mermaid">
              classDiagram
     class PathExpression
@@ -127,7 +127,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/search_datamodel</p></li>
+<li><p>from schema: https://w3id.org/oak/search-datamodel</p></li>
 </ul>
 </section>
 </section>
@@ -141,10 +141,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>search:PathExpression</p></td>
+<td><p>ontosearch:PathExpression</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>search:PathExpression</p></td>
+<td><p>ontosearch:PathExpression</p></td>
 </tr>
 </tbody>
 </table>
@@ -158,23 +158,23 @@
 ```yaml
 name: PathExpression
 description: A path query
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   traversal:
     name: traversal
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     range: uriorcurie
   search_term:
     name: search_term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     range: SearchBaseConfiguration
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -185,12 +185,12 @@ attributes:
 ```yaml
 name: PathExpression
 description: A path query
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   traversal:
     name: traversal
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: traversal
     owner: PathExpression
@@ -199,7 +199,7 @@ attributes:
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     alias: graph_predicates
@@ -209,7 +209,7 @@ attributes:
     range: uriorcurie
   search_term:
     name: search_term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: search_term
     owner: PathExpression

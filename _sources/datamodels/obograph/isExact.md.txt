@@ -1,6 +1,6 @@
 # Slot: isExact
 
-URI: [og:isExact](https://github.com/geneontology/obographs/isExact)
+URI: [obographs:isExact](https://github.com/geneontology/obographs/isExact)
 
 
 

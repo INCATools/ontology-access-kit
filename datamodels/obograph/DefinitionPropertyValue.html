@@ -84,15 +84,17 @@
   <section id="class-definitionpropertyvalue">
 <h1>Class: DefinitionPropertyValue<a class="headerlink" href="#class-definitionpropertyvalue" title="Permalink to this headline"></a></h1>
 <p><em>A property value that represents an assertion about the textual definition of an entity</em></p>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/DefinitionPropertyValue">og:DefinitionPropertyValue</a></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/DefinitionPropertyValue">obographs:DefinitionPropertyValue</a></p>
 <div class="mermaid">
              classDiagram
     class DefinitionPropertyValue
       PropertyValue &lt;|-- DefinitionPropertyValue
       
+      DefinitionPropertyValue : lang
       DefinitionPropertyValue : meta
       DefinitionPropertyValue : pred
       DefinitionPropertyValue : val
+      DefinitionPropertyValue : valType
       DefinitionPropertyValue : xrefs
       
         </div><section id="inheritance">
@@ -136,6 +138,16 @@
 <td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="valType.html"><span class="doc std std-doc">valType</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>the datatype of a property value</p></td>
+<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="lang.html"><span class="doc std std-doc">lang</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>the language of a property value</p></td>
+<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -177,10 +189,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>og:DefinitionPropertyValue</p></td>
+<td><p>obographs:DefinitionPropertyValue</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>og:DefinitionPropertyValue</p></td>
+<td><p>obographs:DefinitionPropertyValue</p></td>
 </tr>
 </tbody>
 </table>
@@ -316,6 +328,29 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
+  valType:
+    name: valType
+    description: the datatype of a property value
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value type
+    - datatype
+    rank: 1000
+    alias: valType
+    owner: DefinitionPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
+  lang:
+    name: lang
+    description: the language of a property value
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: lang
+    owner: DefinitionPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
 
 </pre></div>
 </div>

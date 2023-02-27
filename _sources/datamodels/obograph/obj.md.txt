@@ -15,7 +15,7 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 | Name | Description |
 | --- | --- |
-[Edge](Edge.md) | An edge is a typed relationship between two nodes
+[Edge](Edge.md) | An edge is a simple typed relationship between two nodes
 
 
 
@@ -29,6 +29,14 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 
 
+
+## Aliases
+
+
+* object
+* target
+* parent
+* tail
 
 
 
@@ -55,6 +63,11 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 name: obj
 description: the object of an edge
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- object
+- target
+- parent
+- tail
 rank: 1000
 slot_uri: rdf:object
 alias: obj

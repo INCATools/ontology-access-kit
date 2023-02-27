@@ -1,6 +1,6 @@
 # Slot: path_to
 
-URI: [search:path_to](https://w3id.org/linkml/search_datamodel/path_to)
+URI: [ontosearch:path_to](https://w3id.org/oak/search-datamodel/path_to)
 
 
 
@@ -41,7 +41,7 @@ URI: [search:path_to](https://w3id.org/linkml/search_datamodel/path_to)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [search:path_to](https://w3id.org/linkml/search_datamodel/path_to)
 <details>
 ```yaml
 name: path_to
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: path_to
 owner: ComplexQuery

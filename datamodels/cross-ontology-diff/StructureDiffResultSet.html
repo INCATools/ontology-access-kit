@@ -84,7 +84,7 @@
   <section id="class-structurediffresultset">
 <h1>Class: StructureDiffResultSet<a class="headerlink" href="#class-structurediffresultset" title="Permalink to this headline"></a></h1>
 <p><em>A collection of relational diff results</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/StructureDiffResultSet">ann:StructureDiffResultSet</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/cross-ontology-diff/StructureDiffResultSet">xodiff:StructureDiffResultSet</a></p>
 <div class="mermaid">
              classDiagram
     class StructureDiffResultSet
@@ -127,7 +127,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/cross_ontology_diff</p></li>
+<li><p>from schema: https://w3id.org/oak/cross-ontology-diff</p></li>
 </ul>
 </section>
 </section>
@@ -141,10 +141,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>ann:StructureDiffResultSet</p></td>
+<td><p>xodiff:StructureDiffResultSet</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ann:StructureDiffResultSet</p></td>
+<td><p>xodiff:StructureDiffResultSet</p></td>
 </tr>
 </tbody>
 </table>
@@ -158,13 +158,13 @@
 ```yaml
 name: StructureDiffResultSet
 description: A collection of relational diff results
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 attributes:
   results:
     name: results
     description: all differences between a pair of ontologies
-    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     multivalued: true
     range: RelationalDiff
@@ -172,13 +172,13 @@ attributes:
   left_source:
     name: left_source
     description: Ontology source for left entities
-    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     range: Source
   right_source:
     name: right_source
     description: Ontology source for right entities
-    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     range: Source
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -189,13 +189,13 @@ attributes:
 ```yaml
 name: StructureDiffResultSet
 description: A collection of relational diff results
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 attributes:
   results:
     name: results
     description: all differences between a pair of ontologies
-    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     multivalued: true
     alias: results
@@ -207,7 +207,7 @@ attributes:
   left_source:
     name: left_source
     description: Ontology source for left entities
-    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     alias: left_source
     owner: StructureDiffResultSet
@@ -217,7 +217,7 @@ attributes:
   right_source:
     name: right_source
     description: Ontology source for right entities
-    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     alias: right_source
     owner: StructureDiffResultSet

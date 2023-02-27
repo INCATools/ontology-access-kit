@@ -2,7 +2,7 @@
 
 
 
-URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Postcondition)
+URI: [mappingrules:Postcondition](https://w3id.org/oak/mapping-rules-datamodel/Postcondition)
 
 
 
@@ -53,7 +53,7 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -63,8 +63,8 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | mrules:Postcondition |
-| native | mrules:Postcondition |
+| self | mappingrules:Postcondition |
+| native | mappingrules:Postcondition |
 
 
 
@@ -79,7 +79,7 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 <details>
 ```yaml
 name: Postcondition
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   predicate_id:
@@ -87,13 +87,13 @@ attributes:
     comments:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
   weight:
     name: weight
     description: Weighting of the rule, positive increases the confidence, negative
       decreases
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     see_also:
     - https://en.wikipedia.org/wiki/Logit
     - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
@@ -108,7 +108,7 @@ attributes:
 <details>
 ```yaml
 name: Postcondition
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   predicate_id:
@@ -116,7 +116,7 @@ attributes:
     comments:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: predicate_id
     owner: Postcondition
@@ -127,7 +127,7 @@ attributes:
     name: weight
     description: Weighting of the rule, positive increases the confidence, negative
       decreases
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     see_also:
     - https://en.wikipedia.org/wiki/Logit
     - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png

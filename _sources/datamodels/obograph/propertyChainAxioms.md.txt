@@ -2,7 +2,7 @@
 _A list of axioms that define an OWL property chain_
 
 
-URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/propertyChainAxioms)
+URI: [obographs:propertyChainAxioms](https://github.com/geneontology/obographs/propertyChainAxioms)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/property
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 

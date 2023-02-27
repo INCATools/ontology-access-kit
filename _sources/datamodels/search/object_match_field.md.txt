@@ -43,7 +43,7 @@ URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
 ```yaml
 name: object_match_field
 description: The field/property in which the match was found
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 slot_uri: sssom:object_match_field
 alias: object_match_field

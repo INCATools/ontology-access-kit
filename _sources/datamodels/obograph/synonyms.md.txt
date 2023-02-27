@@ -2,7 +2,7 @@
 _A list of synonym property value assertions for an entity_
 
 
-URI: [og:synonyms](https://github.com/geneontology/obographs/synonyms)
+URI: [obographs:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or axiom
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
 
 
 

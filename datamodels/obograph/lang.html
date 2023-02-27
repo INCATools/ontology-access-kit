@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Type: DateOrDatetime &mdash; oaklib  documentation</title>
+  <title>Slot: lang &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -71,9 +71,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Type: DateOrDatetime</li>
+      <li class="breadcrumb-item active">Slot: lang</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/search/DateOrDatetime.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/obograph/lang.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -81,23 +81,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="type-dateordatetime">
-<h1>Type: DateOrDatetime<a class="headerlink" href="#type-dateordatetime" title="Permalink to this headline"></a></h1>
-<p><em>Either a date or a datetime</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/DateOrDatetime">linkml:DateOrDatetime</a></p>
+  <section id="slot-lang">
+<h1>Slot: lang<a class="headerlink" href="#slot-lang" title="Permalink to this headline"></a></h1>
+<p><em>the language of a property value</em></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/lang">obographs:lang</a></p>
+<!-- no inheritance hierarchy -->
+<section id="applicable-classes">
+<h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about the textual definition of…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about an external reference to …</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://w3id.org/linkml/base">base</a>: str</p></li>
-<li><p><a class="reference external" href="https://w3id.org/linkml/uri">uri</a>: linkml:DateOrDatetime</p></li>
-<li><p><a class="reference external" href="https://w3id.org/linkml/repr">repr</a>: str</p></li>
+<li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
 </ul>
+</section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/types</p></li>
+<li><p>from schema: https://github.com/geneontology/obographs</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: lang
+description: the language of a property value
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: lang
+domain_of:
+- PropertyValue
+range: string
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

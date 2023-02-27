@@ -2,7 +2,7 @@
 _The set of classes that are the genus of the defined class_
 
 
-URI: [og:genusIds](https://github.com/geneontology/obographs/genusIds)
+URI: [obographs:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 
 

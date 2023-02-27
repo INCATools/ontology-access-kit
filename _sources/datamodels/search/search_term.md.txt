@@ -1,6 +1,6 @@
 # Slot: search_term
 
-URI: [search:search_term](https://w3id.org/linkml/search_datamodel/search_term)
+URI: [ontosearch:search_term](https://w3id.org/oak/search-datamodel/search_term)
 
 
 
@@ -41,7 +41,7 @@ URI: [search:search_term](https://w3id.org/linkml/search_datamodel/search_term)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [search:search_term](https://w3id.org/linkml/search_datamodel/search_term)
 <details>
 ```yaml
 name: search_term
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: search_term
 owner: PathExpression

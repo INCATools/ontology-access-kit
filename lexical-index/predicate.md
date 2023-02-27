@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [li:predicate](https://w3id.org/linkml/lexical_index/predicate)
+URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
 
 
 
@@ -41,7 +41,7 @@ URI: [li:predicate](https://w3id.org/linkml/lexical_index/predicate)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -51,7 +51,7 @@ URI: [li:predicate](https://w3id.org/linkml/lexical_index/predicate)
 <details>
 ```yaml
 name: predicate
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 alias: predicate
 owner: RelationshipToTerm

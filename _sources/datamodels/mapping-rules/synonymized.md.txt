@@ -1,6 +1,6 @@
 # Slot: synonymized
 
-URI: [li:synonymized](https://w3id.org/linkml/lexical_index/synonymized)
+URI: [ontolexindex:synonymized](https://w3id.org/oak/lexical-index/synonymized)
 
 
 
@@ -41,7 +41,7 @@ URI: [li:synonymized](https://w3id.org/linkml/lexical_index/synonymized)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -51,7 +51,7 @@ URI: [li:synonymized](https://w3id.org/linkml/lexical_index/synonymized)
 <details>
 ```yaml
 name: synonymized
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 alias: synonymized
 owner: RelationshipToTerm

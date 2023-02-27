@@ -2,7 +2,7 @@
 _categories that should be matched_
 
 
-URI: [search:categories](https://w3id.org/linkml/search_datamodel/categories)
+URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 
 
 
@@ -45,7 +45,7 @@ URI: [search:categories](https://w3id.org/linkml/search_datamodel/categories)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -56,7 +56,7 @@ URI: [search:categories](https://w3id.org/linkml/search_datamodel/categories)
 ```yaml
 name: categories
 description: categories that should be matched
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 multivalued: true
 alias: categories

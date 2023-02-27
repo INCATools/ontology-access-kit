@@ -2,7 +2,7 @@
 
 
 
-URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchResultSet)
+URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchResultSet)
 
 
 
@@ -50,7 +50,7 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -60,8 +60,8 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | search:SearchResultSet |
-| native | search:SearchResultSet |
+| self | ontosearch:SearchResultSet |
+| native | ontosearch:SearchResultSet |
 
 
 
@@ -76,28 +76,28 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 <details>
 ```yaml
 name: SearchResultSet
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   configuration:
     name: configuration
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     range: SearchBaseConfiguration
   results:
     name: results
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     range: SearchResult
   result_count:
     name: result_count
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     range: integer
   cursor:
     name: cursor
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     range: integer
 
 ```
@@ -108,12 +108,12 @@ attributes:
 <details>
 ```yaml
 name: SearchResultSet
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   configuration:
     name: configuration
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: configuration
     owner: SearchResultSet
@@ -122,7 +122,7 @@ attributes:
     range: SearchBaseConfiguration
   results:
     name: results
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     alias: results
@@ -132,7 +132,7 @@ attributes:
     range: SearchResult
   result_count:
     name: result_count
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: result_count
     owner: SearchResultSet
@@ -141,7 +141,7 @@ attributes:
     range: integer
   cursor:
     name: cursor
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     alias: cursor
     owner: SearchResultSet
     domain_of:

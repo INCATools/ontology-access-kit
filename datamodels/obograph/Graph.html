@@ -83,7 +83,7 @@
              
   <section id="class-graph">
 <h1>Class: Graph<a class="headerlink" href="#class-graph" title="Permalink to this headline"></a></h1>
-<p><em>A graph is a collection of nodes and edges that represents a single ontology</em></p>
+<p><em>A graph is a collection of nodes and edges and other axioms that represents a single ontology.</em></p>
 <p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#Ontology">owl:Ontology</a></p>
 <div class="mermaid">
              classDiagram
@@ -114,7 +114,7 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
 <td><p>1..1 <br/> <a class="reference internal" href="OboIdentifierString.html"><span class="doc std std-doc">OboIdentifierString</span></a></p></td>
-<td><p>The identifier of the entity</p></td>
+<td><p>The unique identifier of the entity</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="lbl.html"><span class="doc std std-doc">lbl</span></a></p></td>
@@ -124,7 +124,7 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="prefixes.html"><span class="doc std std-doc">prefixes</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PrefixDeclaration.html"><span class="doc std std-doc">PrefixDeclaration</span></a></p></td>
-<td><p>maps prefixes to namespaces</p></td>
+<td><p>A collection of mappings between prefixes and namespaces, used to map CURIEs …</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
@@ -211,7 +211,7 @@
 <td><p>owl:Ontology</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>og:Graph</p></td>
+<td><p>obographs:Graph</p></td>
 </tr>
 </tbody>
 </table>
@@ -224,7 +224,8 @@
 <details>
 ```yaml
 name: Graph
-description: A graph is a collection of nodes and edges that represents a single ontology
+description: A graph is a collection of nodes and edges and other axioms that represents
+  a single ontology.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
@@ -247,13 +248,14 @@ class_uri: owl:Ontology
 &lt;details&gt;
 ```yaml
 name: Graph
-description: A graph is a collection of nodes and edges that represents a single ontology
+description: A graph is a collection of nodes and edges and other axioms that represents
+  a single ontology.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
   id:
     name: id
-    description: The identifier of the entity
+    description: The unique identifier of the entity
     from_schema: https://github.com/geneontology/obographs
     see_also:
     - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
@@ -285,7 +287,8 @@ attributes:
     range: string
   prefixes:
     name: prefixes
-    description: maps prefixes to namespaces
+    description: A collection of mappings between prefixes and namespaces, used to
+      map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:declare

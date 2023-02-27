@@ -2,7 +2,7 @@
 _all differences between a pair of ontologies_
 
 
-URI: [ann:results](https://w3id.org/linkml/text_annotator/results)
+URI: [xodiff:results](https://w3id.org/oak/cross-ontology-diff/results)
 
 
 
@@ -45,7 +45,7 @@ URI: [ann:results](https://w3id.org/linkml/text_annotator/results)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -56,7 +56,7 @@ URI: [ann:results](https://w3id.org/linkml/text_annotator/results)
 ```yaml
 name: results
 description: all differences between a pair of ontologies
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 multivalued: true
 alias: results

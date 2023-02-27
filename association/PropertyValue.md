@@ -4,7 +4,7 @@ _A generic tag-value that can be associated with an association._
 
 
 
-URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
+URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
 
@@ -65,8 +65,8 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | assoc:PropertyValue |
-| native | assoc:PropertyValue |
+| self | ontoassoc:PropertyValue |
+| native | ontoassoc:PropertyValue |
 
 
 

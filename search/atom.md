@@ -1,6 +1,6 @@
 # Slot: atom
 
-URI: [search:atom](https://w3id.org/linkml/search_datamodel/atom)
+URI: [ontosearch:atom](https://w3id.org/oak/search-datamodel/atom)
 
 
 
@@ -41,7 +41,7 @@ URI: [search:atom](https://w3id.org/linkml/search_datamodel/atom)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [search:atom](https://w3id.org/linkml/search_datamodel/atom)
 <details>
 ```yaml
 name: atom
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: atom
 owner: ComplexQuery

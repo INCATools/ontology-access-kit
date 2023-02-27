@@ -48,7 +48,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -59,7 +59,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ```yaml
 name: label
 description: human readable label
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixin: true
 slot_uri: rdfs:label

@@ -2,7 +2,7 @@
 _A normalized term that groups ontology elements_
 
 
-URI: [li:term](https://w3id.org/linkml/lexical_index/term)
+URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 
 
 
@@ -43,7 +43,7 @@ URI: [li:term](https://w3id.org/linkml/lexical_index/term)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -54,7 +54,7 @@ URI: [li:term](https://w3id.org/linkml/lexical_index/term)
 ```yaml
 name: term
 description: A normalized term that groups ontology elements
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 key: true
 alias: term

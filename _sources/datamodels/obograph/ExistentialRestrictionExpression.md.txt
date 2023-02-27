@@ -81,7 +81,7 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Restriction |
-| native | og:ExistentialRestrictionExpression |
+| native | obographs:ExistentialRestrictionExpression |
 
 
 

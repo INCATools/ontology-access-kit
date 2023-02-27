@@ -2,7 +2,7 @@
 
 
 
-URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery)
+URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuery)
 
 
 
@@ -61,7 +61,7 @@ URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -71,8 +71,8 @@ URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | search:ComplexQuery |
-| native | search:ComplexQuery |
+| self | ontosearch:ComplexQuery |
+| native | ontosearch:ComplexQuery |
 
 
 
@@ -87,34 +87,34 @@ URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery
 <details>
 ```yaml
 name: ComplexQuery
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   all_of:
     name: all_of
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     range: ComplexQuery
   any_of:
     name: any_of
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     range: ComplexQuery
   none_of:
     name: none_of
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     range: ComplexQuery
   path_to:
     name: path_to
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
   atom:
     name: atom
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     range: SearchBaseConfiguration
 
@@ -126,12 +126,12 @@ attributes:
 <details>
 ```yaml
 name: ComplexQuery
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   all_of:
     name: all_of
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     alias: all_of
@@ -141,7 +141,7 @@ attributes:
     range: ComplexQuery
   any_of:
     name: any_of
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     alias: any_of
@@ -151,7 +151,7 @@ attributes:
     range: ComplexQuery
   none_of:
     name: none_of
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
     alias: none_of
@@ -161,7 +161,7 @@ attributes:
     range: ComplexQuery
   path_to:
     name: path_to
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: path_to
     owner: ComplexQuery
@@ -170,7 +170,7 @@ attributes:
     range: string
   atom:
     name: atom
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: atom
     owner: ComplexQuery

@@ -10,10 +10,10 @@ URI: [ScopeEnum](ScopeEnum)
 
 | Value | Meaning | Description |
 | --- | --- | --- |
-| hasExactSynonym | oio:hasExactSynonym |  |
-| hasNarrowSynonym | oio:hasNarrowSynonym |  |
-| hasBroadSynonym | oio:hasBroadSynonym |  |
-| hasRelatedSynonym | oio:hasRelatedSynonym |  |
+| hasExactSynonym | oio:hasExactSynonym | The synonym represents the exact meaning of the node |
+| hasNarrowSynonym | oio:hasNarrowSynonym | The synonym represents something narrower in meaning than the node |
+| hasBroadSynonym | oio:hasBroadSynonym | The synonym represents something broader in meaning than the node |
+| hasRelatedSynonym | oio:hasRelatedSynonym | The synonym represents something closely related in meaning than the node, bu... |
 
 
 
@@ -56,15 +56,20 @@ rank: 1000
 permissible_values:
   hasExactSynonym:
     text: hasExactSynonym
+    description: The synonym represents the exact meaning of the node.
     meaning: oio:hasExactSynonym
   hasNarrowSynonym:
     text: hasNarrowSynonym
+    description: The synonym represents something narrower in meaning than the node.
     meaning: oio:hasNarrowSynonym
   hasBroadSynonym:
     text: hasBroadSynonym
+    description: The synonym represents something broader in meaning than the node.
     meaning: oio:hasBroadSynonym
   hasRelatedSynonym:
     text: hasRelatedSynonym
+    description: The synonym represents something closely related in meaning than
+      the node, but in not exact, broad, or narrow.
     meaning: oio:hasRelatedSynonym
 
 ```

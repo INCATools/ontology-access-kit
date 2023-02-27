@@ -1,5 +1,5 @@
 # Slot: prefixes
-_maps prefixes to namespaces_
+_A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)_
 
 
 URI: [sh:declare](https://w3id.org/shacl/declare)
@@ -16,7 +16,7 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 | Name | Description |
 | --- | --- |
 [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th...
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 
@@ -56,7 +56,8 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 <details>
 ```yaml
 name: prefixes
-description: maps prefixes to namespaces
+description: A collection of mappings between prefixes and namespaces, used to map
+  CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: sh:declare

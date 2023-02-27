@@ -2,7 +2,7 @@
 _left or right side_
 
 
-URI: [ann:side](https://w3id.org/linkml/text_annotator/side)
+URI: [xodiff:side](https://w3id.org/oak/cross-ontology-diff/side)
 
 
 
@@ -48,7 +48,7 @@ URI: [ann:side](https://w3id.org/linkml/text_annotator/side)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -59,7 +59,7 @@ URI: [ann:side](https://w3id.org/linkml/text_annotator/side)
 ```yaml
 name: side
 description: left or right side
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixin: true
 alias: side

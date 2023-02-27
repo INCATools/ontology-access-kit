@@ -2,7 +2,7 @@
 _the maximum number of search results to be returned in one batch_
 
 
-URI: [search:limit](https://w3id.org/linkml/search_datamodel/limit)
+URI: [ontosearch:limit](https://w3id.org/oak/search-datamodel/limit)
 
 
 
@@ -43,7 +43,7 @@ URI: [search:limit](https://w3id.org/linkml/search_datamodel/limit)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [search:limit](https://w3id.org/linkml/search_datamodel/limit)
 ```yaml
 name: limit
 description: the maximum number of search results to be returned in one batch
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: limit
 owner: SearchBaseConfiguration

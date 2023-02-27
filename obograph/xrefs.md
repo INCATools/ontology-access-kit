@@ -2,7 +2,7 @@
 _A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso_
 
 
-URI: [og:xrefs](https://github.com/geneontology/obographs/xrefs)
+URI: [obographs:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or axiom
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
 [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec...
 [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of...
 [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d...

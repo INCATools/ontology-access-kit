@@ -4,7 +4,7 @@ _A collection of atomic lexical transformations that are applied in serial fashi
 
 
 
-URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline)
+URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-index/LexicalTransformationPipeline)
 
 
 
@@ -62,7 +62,7 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -72,8 +72,8 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | li:LexicalTransformationPipeline |
-| native | li:LexicalTransformationPipeline |
+| self | ontolexindex:LexicalTransformationPipeline |
+| native | ontolexindex:LexicalTransformationPipeline |
 
 
 
@@ -90,18 +90,18 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
   transformations:
     name: transformations
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: LexicalTransformation
@@ -116,13 +116,13 @@ attributes:
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
     alias: name
@@ -132,7 +132,7 @@ attributes:
     range: string
   transformations:
     name: transformations
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: transformations

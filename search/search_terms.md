@@ -2,7 +2,7 @@
 _An individual search term. The syntax is determined by the syntax slot_
 
 
-URI: [search:search_terms](https://w3id.org/linkml/search_datamodel/search_terms)
+URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_terms)
 
 
 
@@ -50,7 +50,7 @@ URI: [search:search_terms](https://w3id.org/linkml/search_datamodel/search_terms
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -64,7 +64,7 @@ description: An individual search term. The syntax is determined by the syntax s
 comments:
 - This slot is optional when the configuration is used to paramterize multiple searches
 - If multiple terms are provided this is treated as a union query
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 multivalued: true
 alias: search_terms

@@ -2,7 +2,7 @@
 _A list of logical definition axioms that define the meaning of a class in terms of other classes._
 
 
-URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logicalDefinitionAxioms)
+URI: [obographs:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logicalDefinitionAxioms)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 

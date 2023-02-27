@@ -2,7 +2,7 @@
 _A list of edges that represent subclasses of universal restrictions_
 
 
-URI: [og:allValuesFromEdges](https://github.com/geneontology/obographs/allValuesFromEdges)
+URI: [obographs:allValuesFromEdges](https://github.com/geneontology/obographs/allValuesFromEdges)
 
 
 
@@ -15,8 +15,8 @@ URI: [og:allValuesFromEdges](https://github.com/geneontology/obographs/allValues
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
-[DomainRangeAxiom](DomainRangeAxiom.md) | An axiom that represents some combination of domain and range assertions
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
+[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert...
 
 
 

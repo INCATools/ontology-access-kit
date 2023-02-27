@@ -34,6 +34,11 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 
 
+## Aliases
+
+
+* value
+
 
 
 ## Identifier and Mapping Information
@@ -59,6 +64,8 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 name: val
 description: the value of a property
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- value
 rank: 1000
 slot_uri: rdf:object
 alias: val

@@ -4,7 +4,7 @@ _A graph document is a collection of graphs together with a set of prefixes that
 
 
 
-URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
+URI: [obographs:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
 
@@ -29,7 +29,7 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 | ---  | --- | --- | --- |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 | [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md) | A list of all graphs (ontologies) in an ontology document | direct |
-| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | maps prefixes to namespaces | direct |
+| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... | direct |
 
 
 
@@ -64,8 +64,8 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:GraphDocument |
-| native | og:GraphDocument |
+| self | obographs:GraphDocument |
+| native | obographs:GraphDocument |
 
 
 
@@ -141,7 +141,8 @@ attributes:
     inlined_as_list: true
   prefixes:
     name: prefixes
-    description: maps prefixes to namespaces
+    description: A collection of mappings between prefixes and namespaces, used to
+      map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:declare

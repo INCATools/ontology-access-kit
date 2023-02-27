@@ -1,6 +1,6 @@
 # Slot: right_intermediate_ids
 
-URI: [ann:right_intermediate_ids](https://w3id.org/linkml/text_annotator/right_intermediate_ids)
+URI: [xodiff:right_intermediate_ids](https://w3id.org/oak/cross-ontology-diff/right_intermediate_ids)
 
 
 
@@ -43,7 +43,7 @@ URI: [ann:right_intermediate_ids](https://w3id.org/linkml/text_annotator/right_i
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -53,7 +53,7 @@ URI: [ann:right_intermediate_ids](https://w3id.org/linkml/text_annotator/right_i
 <details>
 ```yaml
 name: right_intermediate_ids
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 multivalued: true
 alias: right_intermediate_ids

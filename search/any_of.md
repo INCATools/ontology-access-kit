@@ -1,6 +1,6 @@
 # Slot: any_of
 
-URI: [search:any_of](https://w3id.org/linkml/search_datamodel/any_of)
+URI: [ontosearch:any_of](https://w3id.org/oak/search-datamodel/any_of)
 
 
 
@@ -43,7 +43,7 @@ URI: [search:any_of](https://w3id.org/linkml/search_datamodel/any_of)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [search:any_of](https://w3id.org/linkml/search_datamodel/any_of)
 <details>
 ```yaml
 name: any_of
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 multivalued: true
 alias: any_of

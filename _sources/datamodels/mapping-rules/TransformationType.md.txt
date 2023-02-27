@@ -44,7 +44,7 @@ URI: [TransformationType](TransformationType)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -56,7 +56,7 @@ URI: [TransformationType](TransformationType)
 name: TransformationType
 description: A controlled datamodels of the types of transformation that can be applied
   to
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 permissible_values:
   Stemming:

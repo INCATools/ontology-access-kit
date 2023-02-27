@@ -2,7 +2,7 @@
 _Description of the rule._
 
 
-URI: [mrules:the_rule](https://w3id.org/linkml/mapping_rules_datamodel/the_rule)
+URI: [mappingrules:the_rule](https://w3id.org/oak/mapping-rules-datamodel/the_rule)
 
 
 
@@ -43,7 +43,7 @@ URI: [mrules:the_rule](https://w3id.org/linkml/mapping_rules_datamodel/the_rule)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [mrules:the_rule](https://w3id.org/linkml/mapping_rules_datamodel/the_rule)
 ```yaml
 name: the_rule
 description: Description of the rule.
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 alias: the_rule
 owner: Synonymizer

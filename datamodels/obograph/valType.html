@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Type: Curie &mdash; oaklib  documentation</title>
+  <title>Slot: valType &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -71,9 +71,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Type: Curie</li>
+      <li class="breadcrumb-item active">Slot: valType</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/cross-ontology-diff/Curie.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/obograph/valType.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -81,20 +81,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="type-curie">
-<h1>Type: Curie<a class="headerlink" href="#type-curie" title="Permalink to this headline"></a></h1>
-<p><em>a compact URI</em></p>
-<p>URI: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p>
+  <section id="slot-valtype">
+<h1>Slot: valType<a class="headerlink" href="#slot-valtype" title="Permalink to this headline"></a></h1>
+<p><em>the datatype of a property value</em></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/valType">obographs:valType</a></p>
+<!-- no inheritance hierarchy -->
+<section id="applicable-classes">
+<h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about the textual definition of…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about an external reference to …</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://w3id.org/linkml/base">base</a>: Curie</p></li>
-<li><p><a class="reference external" href="https://w3id.org/linkml/uri">uri</a>: xsd:string</p></li>
-<li><p><a class="reference external" href="https://w3id.org/linkml/repr">repr</a>: str</p></li>
+<li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
 </ul>
-<section id="comments">
-<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
+</section>
+<section id="aliases">
+<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>in RDF serializations this MUST be expanded to a URI</p></li>
-<li><p>in non-RDF serializations MAY be serialized as the compact representation</p></li>
+<li><p>value type</p></li>
+<li><p>datatype</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -102,9 +131,28 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/types</p></li>
+<li><p>from schema: https://github.com/geneontology/obographs</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: valType
+description: the datatype of a property value
+from_schema: https://github.com/geneontology/obographs
+aliases:
+- value type
+- datatype
+rank: 1000
+alias: valType
+domain_of:
+- PropertyValue
+range: string
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

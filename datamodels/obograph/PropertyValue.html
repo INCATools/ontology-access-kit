@@ -87,7 +87,7 @@
 <ul class="simple">
 <li><p><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</p></li>
 </ul>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/PropertyValue">og:PropertyValue</a></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/PropertyValue">obographs:PropertyValue</a></p>
 <div class="mermaid">
              classDiagram
     class PropertyValue
@@ -96,9 +96,11 @@
       PropertyValue &lt;|-- XrefPropertyValue
       PropertyValue &lt;|-- SynonymPropertyValue
       
+      PropertyValue : lang
       PropertyValue : meta
       PropertyValue : pred
       PropertyValue : val
+      PropertyValue : valType
       PropertyValue : xrefs
       
         </div><section id="inheritance">
@@ -145,6 +147,16 @@
 <td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p>direct</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="valType.html"><span class="doc std std-doc">valType</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>the datatype of a property value</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="lang.html"><span class="doc std std-doc">lang</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>the language of a property value</p></td>
+<td><p>direct</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -179,10 +191,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>og:PropertyValue</p></td>
+<td><p>obographs:PropertyValue</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>og:PropertyValue</p></td>
+<td><p>obographs:PropertyValue</p></td>
 </tr>
 </tbody>
 </table>
@@ -212,6 +224,8 @@ slots:
 - val
 - xrefs
 - meta
+- valType
+- lang
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -249,6 +263,8 @@ attributes:
     name: val
     description: the value of a property
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val
@@ -290,6 +306,29 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
+  valType:
+    name: valType
+    description: the datatype of a property value
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value type
+    - datatype
+    rank: 1000
+    alias: valType
+    owner: PropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
+  lang:
+    name: lang
+    description: the language of a property value
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: lang
+    owner: PropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
 
 </pre></div>
 </div>

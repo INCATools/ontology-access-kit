@@ -4,7 +4,7 @@ _An individual search result_
 
 
 
-URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult)
+URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResult)
 
 
 
@@ -67,7 +67,7 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -77,8 +77,8 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | search:SearchResult |
-| native | search:SearchResult |
+| self | ontosearch:SearchResult |
+| native | ontosearch:SearchResult |
 
 
 
@@ -94,58 +94,58 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 ```yaml
 name: SearchResult
 description: An individual search result
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   rank:
     name: rank
     description: For relevancy-ranked results, this indicates the relevancy, with
       low numbers being the most relevant
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     range: integer
   object_id:
     name: object_id
     description: The CURIE of the matched term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_id
     required: true
   object_label:
     name: object_label
     description: The label/name of the matched term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_label
     recommended: true
   object_source:
     name: object_source
     description: The ontology or other source that contains the matched term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_source
   object_source_version:
     name: object_source_version
     description: Version IRI or version string of the source of the object term.
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_source_version
   object_match_field:
     name: object_match_field
     description: The field/property in which the match was found
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_match_field
   matches_full_search_term:
     name: matches_full_search_term
     description: Does the matched field match the full string
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     range: boolean
   snippet:
     name: snippet
     description: shows how the field was matched
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
 
 ```
@@ -157,14 +157,14 @@ attributes:
 ```yaml
 name: SearchResult
 description: An individual search result
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 attributes:
   rank:
     name: rank
     description: For relevancy-ranked results, this indicates the relevancy, with
       low numbers being the most relevant
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: rank
     owner: SearchResult
@@ -174,7 +174,7 @@ attributes:
   object_id:
     name: object_id
     description: The CURIE of the matched term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_id
     alias: object_id
@@ -186,7 +186,7 @@ attributes:
   object_label:
     name: object_label
     description: The label/name of the matched term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_label
     alias: object_label
@@ -198,7 +198,7 @@ attributes:
   object_source:
     name: object_source
     description: The ontology or other source that contains the matched term
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_source
     alias: object_source
@@ -209,7 +209,7 @@ attributes:
   object_source_version:
     name: object_source_version
     description: Version IRI or version string of the source of the object term.
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_source_version
     alias: object_source_version
@@ -220,7 +220,7 @@ attributes:
   object_match_field:
     name: object_match_field
     description: The field/property in which the match was found
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     slot_uri: sssom:object_match_field
     alias: object_match_field
@@ -231,7 +231,7 @@ attributes:
   matches_full_search_term:
     name: matches_full_search_term
     description: Does the matched field match the full string
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: matches_full_search_term
     owner: SearchResult
@@ -241,7 +241,7 @@ attributes:
   snippet:
     name: snippet
     description: shows how the field was matched
-    from_schema: https://w3id.org/linkml/search_datamodel
+    from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     alias: snippet
     owner: SearchResult

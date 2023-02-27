@@ -39,7 +39,7 @@ URI: [SearchTermSyntax](SearchTermSyntax)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -49,7 +49,7 @@ URI: [SearchTermSyntax](SearchTermSyntax)
 <details>
 ```yaml
 name: SearchTermSyntax
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 permissible_values:
   PLAINTEXT:

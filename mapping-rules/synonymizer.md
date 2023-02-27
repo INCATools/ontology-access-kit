@@ -2,7 +2,7 @@
 _Normalizing rules to labels._
 
 
-URI: [mrules:synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/synonymizer)
+URI: [mappingrules:synonymizer](https://w3id.org/oak/mapping-rules-datamodel/synonymizer)
 
 
 
@@ -43,7 +43,7 @@ URI: [mrules:synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/synony
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [mrules:synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/synony
 ```yaml
 name: synonymizer
 description: Normalizing rules to labels.
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 alias: synonymizer
 owner: MappingRule

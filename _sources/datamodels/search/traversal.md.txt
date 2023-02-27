@@ -1,6 +1,6 @@
 # Slot: traversal
 
-URI: [search:traversal](https://w3id.org/linkml/search_datamodel/traversal)
+URI: [ontosearch:traversal](https://w3id.org/oak/search-datamodel/traversal)
 
 
 
@@ -41,7 +41,7 @@ URI: [search:traversal](https://w3id.org/linkml/search_datamodel/traversal)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [search:traversal](https://w3id.org/linkml/search_datamodel/traversal)
 <details>
 ```yaml
 name: traversal
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: traversal
 owner: PathExpression

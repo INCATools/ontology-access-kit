@@ -2,7 +2,7 @@
 _in an OWL restriction expression, the filler is the object of the restriction_
 
 
-URI: [og:fillerId](https://github.com/geneontology/obographs/fillerId)
+URI: [obographs:fillerId](https://github.com/geneontology/obographs/fillerId)
 
 
 

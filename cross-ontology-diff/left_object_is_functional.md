@@ -2,7 +2,7 @@
 _True if an object mapping is present, and maps uniquely within the same ontology_
 
 
-URI: [ann:left_object_is_functional](https://w3id.org/linkml/text_annotator/left_object_is_functional)
+URI: [xodiff:left_object_is_functional](https://w3id.org/oak/cross-ontology-diff/left_object_is_functional)
 
 
 
@@ -47,7 +47,7 @@ URI: [ann:left_object_is_functional](https://w3id.org/linkml/text_annotator/left
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -59,7 +59,7 @@ URI: [ann:left_object_is_functional](https://w3id.org/linkml/text_annotator/left
 name: left_object_is_functional
 description: True if an object mapping is present, and maps uniquely within the same
   ontology
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixins:
 - left_side

@@ -4,7 +4,7 @@ _A pattern to be matched against an individual SSSOM mapping_
 
 
 
-URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Precondition)
+URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Precondition)
 
 
 
@@ -63,7 +63,7 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -73,8 +73,8 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | mrules:Precondition |
-| native | mrules:Precondition |
+| self | mappingrules:Precondition |
+| native | mappingrules:Precondition |
 
 
 
@@ -90,37 +90,37 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 ```yaml
 name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
   object_source_one_of:
     name: object_source_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
   mapping_source_one_of:
     name: mapping_source_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
   subject_match_field_one_of:
     name: subject_match_field_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
   object_match_field_one_of:
     name: object_match_field_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
   transformations_included_in:
     name: transformations_included_in
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
 
@@ -133,12 +133,12 @@ attributes:
 ```yaml
 name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     alias: subject_source_one_of
@@ -148,7 +148,7 @@ attributes:
     range: string
   object_source_one_of:
     name: object_source_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     alias: object_source_one_of
@@ -158,7 +158,7 @@ attributes:
     range: string
   mapping_source_one_of:
     name: mapping_source_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     alias: mapping_source_one_of
@@ -168,7 +168,7 @@ attributes:
     range: string
   subject_match_field_one_of:
     name: subject_match_field_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     alias: subject_match_field_one_of
@@ -178,7 +178,7 @@ attributes:
     range: string
   object_match_field_one_of:
     name: object_match_field_one_of
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     alias: object_match_field_one_of
@@ -188,7 +188,7 @@ attributes:
     range: string
   transformations_included_in:
     name: transformations_included_in
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     alias: transformations_included_in

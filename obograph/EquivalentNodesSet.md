@@ -74,7 +74,7 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:equivalentClass |
-| native | og:EquivalentNodesSet |
+| native | obographs:EquivalentNodesSet |
 
 
 

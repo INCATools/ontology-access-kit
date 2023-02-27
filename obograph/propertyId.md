@@ -2,7 +2,7 @@
 _in an OWL restriction expression, this is the predicate_
 
 
-URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
+URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 
 

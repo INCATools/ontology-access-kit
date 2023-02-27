@@ -1,6 +1,6 @@
 # Slot: nodeIds
 
-URI: [og:nodeIds](https://github.com/geneontology/obographs/nodeIds)
+URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
 

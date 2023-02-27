@@ -84,7 +84,7 @@
   <section id="class-lexicalgrouping">
 <h1>Class: LexicalGrouping<a class="headerlink" href="#class-lexicalgrouping" title="Permalink to this headline"></a></h1>
 <p><em>A grouping of ontology elements by a shared lexical term</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/lexical_index/LexicalGrouping">li:LexicalGrouping</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/LexicalGrouping">ontolexindex:LexicalGrouping</a></p>
 <div class="mermaid">
              classDiagram
     class LexicalGrouping
@@ -140,7 +140,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/lexical_index</p></li>
+<li><p>from schema: https://w3id.org/oak/lexical-index</p></li>
 </ul>
 </section>
 </section>
@@ -154,10 +154,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>li:LexicalGrouping</p></td>
+<td><p>ontolexindex:LexicalGrouping</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>li:LexicalGrouping</p></td>
+<td><p>ontolexindex:LexicalGrouping</p></td>
 </tr>
 </tbody>
 </table>
@@ -171,20 +171,20 @@
 ```yaml
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: RelationshipToTerm
@@ -196,13 +196,13 @@ attributes:
 ```yaml
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
     alias: term
@@ -214,7 +214,7 @@ attributes:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: relationships

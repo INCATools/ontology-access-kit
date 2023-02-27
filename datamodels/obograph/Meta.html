@@ -83,8 +83,8 @@
              
   <section id="class-meta">
 <h1>Class: Meta<a class="headerlink" href="#class-meta" title="Permalink to this headline"></a></h1>
-<p><em>A collection of annotations on an entity or ontology or axiom</em></p>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/Meta">og:Meta</a></p>
+<p><em>A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect the logical interpretation of the container but provides useful information to humans or machines.</em></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/Meta">obographs:Meta</a></p>
 <div class="mermaid">
              classDiagram
     class Meta
@@ -261,10 +261,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>og:Meta</p></td>
+<td><p>obographs:Meta</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>og:Meta</p></td>
+<td><p>obographs:Meta</p></td>
 </tr>
 </tbody>
 </table>
@@ -277,7 +277,9 @@
 <details>
 ```yaml
 name: Meta
-description: A collection of annotations on an entity or ontology or axiom
+description: A collection of annotations on an entity or ontology or edge or axiom.
+  Metadata typically does not affect the logical interpretation of the container but
+  provides useful information to humans or machines.
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation collection
@@ -308,7 +310,9 @@ slot_usage:
 &lt;details&gt;
 ```yaml
 name: Meta
-description: A collection of annotations on an entity or ontology or axiom
+description: A collection of annotations on an entity or ontology or edge or axiom.
+  Metadata typically does not affect the logical interpretation of the container but
+  provides useful information to humans or machines.
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation collection

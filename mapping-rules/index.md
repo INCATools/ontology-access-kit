@@ -1,9 +1,9 @@
 # Mapping Rules Datamodel
 
-A datamodel for specifying lexical mapping rules. NOTE -- this may move to another package
+A datamodel for specifying lexical mapping rules.
 
-URI: https://w3id.org/linkml/mapping_rules_datamodel
-Name: mapping-rules
+URI: https://w3id.org/oak/mapping-rules-datamodel
+Name: mapping-rules-datamodel
 
 
 

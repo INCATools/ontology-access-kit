@@ -4,7 +4,7 @@ _An index over an ontology keyed by lexical unit_
 
 
 
-URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
+URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex)
 
 
 
@@ -48,7 +48,7 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -58,8 +58,8 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | li:LexicalIndex |
-| native | li:LexicalIndex |
+| self | ontolexindex:LexicalIndex |
+| native | ontolexindex:LexicalIndex |
 
 
 
@@ -75,13 +75,13 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 ```yaml
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: LexicalGrouping
@@ -89,7 +89,7 @@ attributes:
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
@@ -104,13 +104,13 @@ attributes:
 ```yaml
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: groupings
@@ -122,7 +122,7 @@ attributes:
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: pipelines

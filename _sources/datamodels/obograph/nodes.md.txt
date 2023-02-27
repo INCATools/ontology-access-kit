@@ -2,7 +2,7 @@
 _All nodes present in a graph. This includes class nodes as well as supporting nodes, including nodes representing relationship types, subsets, annotation proeprties, etc_
 
 
-URI: [og:nodes](https://github.com/geneontology/obographs/nodes)
+URI: [obographs:nodes](https://github.com/geneontology/obographs/nodes)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:nodes](https://github.com/geneontology/obographs/nodes)
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 

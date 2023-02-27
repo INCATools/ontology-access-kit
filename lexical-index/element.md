@@ -1,6 +1,6 @@
 # Slot: element
 
-URI: [li:element](https://w3id.org/linkml/lexical_index/element)
+URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 
 
 
@@ -41,7 +41,7 @@ URI: [li:element](https://w3id.org/linkml/lexical_index/element)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -51,7 +51,7 @@ URI: [li:element](https://w3id.org/linkml/lexical_index/element)
 <details>
 ```yaml
 name: element
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
 alias: element
 owner: RelationshipToTerm

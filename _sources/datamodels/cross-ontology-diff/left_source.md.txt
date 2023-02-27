@@ -2,7 +2,7 @@
 _Ontology source for left entities_
 
 
-URI: [ann:left_source](https://w3id.org/linkml/text_annotator/left_source)
+URI: [xodiff:left_source](https://w3id.org/oak/cross-ontology-diff/left_source)
 
 
 
@@ -43,7 +43,7 @@ URI: [ann:left_source](https://w3id.org/linkml/text_annotator/left_source)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -54,7 +54,7 @@ URI: [ann:left_source](https://w3id.org/linkml/text_annotator/left_source)
 ```yaml
 name: left_source
 description: Ontology source for left entities
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 alias: left_source
 owner: StructureDiffResultSet

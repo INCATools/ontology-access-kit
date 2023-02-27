@@ -63,7 +63,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | oa:Annotation |
-| native | assoc:Association |
+| native | ontoassoc:Association |
 
 
 

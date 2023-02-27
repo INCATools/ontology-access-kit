@@ -1,8 +1,8 @@
 # Slot: id
-_The identifier of the entity_
+_The unique identifier of the entity_
 
 
-URI: [og:id](https://github.com/geneontology/obographs/id)
+URI: [obographs:id](https://github.com/geneontology/obographs/id)
 
 
 
@@ -15,7 +15,7 @@ URI: [og:id](https://github.com/geneontology/obographs/id)
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 [Node](Node.md) | A node is a class, property, or other entity in an ontology
 
 
@@ -58,7 +58,7 @@ URI: [og:id](https://github.com/geneontology/obographs/id)
 <details>
 ```yaml
 name: id
-description: The identifier of the entity
+description: The unique identifier of the entity
 from_schema: https://github.com/geneontology/obographs
 see_also:
 - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5

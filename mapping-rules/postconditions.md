@@ -2,7 +2,7 @@
 _conditions that apply if preconditions match_
 
 
-URI: [mrules:postconditions](https://w3id.org/linkml/mapping_rules_datamodel/postconditions)
+URI: [mappingrules:postconditions](https://w3id.org/oak/mapping-rules-datamodel/postconditions)
 
 
 
@@ -43,7 +43,7 @@ URI: [mrules:postconditions](https://w3id.org/linkml/mapping_rules_datamodel/pos
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [mrules:postconditions](https://w3id.org/linkml/mapping_rules_datamodel/pos
 ```yaml
 name: postconditions
 description: conditions that apply if preconditions match
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 alias: postconditions
 owner: MappingRule

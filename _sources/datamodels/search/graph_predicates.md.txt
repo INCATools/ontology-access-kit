@@ -1,6 +1,6 @@
 # Slot: graph_predicates
 
-URI: [search:graph_predicates](https://w3id.org/linkml/search_datamodel/graph_predicates)
+URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_predicates)
 
 
 
@@ -43,7 +43,7 @@ URI: [search:graph_predicates](https://w3id.org/linkml/search_datamodel/graph_pr
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [search:graph_predicates](https://w3id.org/linkml/search_datamodel/graph_pr
 <details>
 ```yaml
 name: graph_predicates
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 multivalued: true
 alias: graph_predicates

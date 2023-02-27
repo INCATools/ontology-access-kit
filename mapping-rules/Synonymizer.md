@@ -2,7 +2,7 @@
 
 
 
-URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synonymizer)
+URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Synonymizer)
 
 
 
@@ -59,7 +59,7 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -69,8 +69,8 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | mrules:Synonymizer |
-| native | mrules:Synonymizer |
+| self | mappingrules:Synonymizer |
+| native | mappingrules:Synonymizer |
 
 
 
@@ -85,37 +85,37 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 <details>
 ```yaml
 name: Synonymizer
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   the_rule:
     name: the_rule
     description: Description of the rule.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: string
   match:
     name: match
     description: Reg-ex rule to match substrings in labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: string
   match_scope:
     name: match_scope
     description: Scope of the reg-ex rule
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: string
   replacement:
     name: replacement
     description: Reg-ex rule to replace substrings in labels
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: string
   qualifier:
     name: qualifier
     description: Type of match for the new synonym generated.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: string
 
@@ -127,13 +127,13 @@ attributes:
 <details>
 ```yaml
 name: Synonymizer
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   the_rule:
     name: the_rule
     description: Description of the rule.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: the_rule
     owner: Synonymizer
@@ -143,7 +143,7 @@ attributes:
   match:
     name: match
     description: Reg-ex rule to match substrings in labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: match
     owner: Synonymizer
@@ -153,7 +153,7 @@ attributes:
   match_scope:
     name: match_scope
     description: Scope of the reg-ex rule
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: match_scope
     owner: Synonymizer
@@ -163,7 +163,7 @@ attributes:
   replacement:
     name: replacement
     description: Reg-ex rule to replace substrings in labels
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: replacement
     owner: Synonymizer
@@ -173,7 +173,7 @@ attributes:
   qualifier:
     name: qualifier
     description: Type of match for the new synonym generated.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: qualifier
     owner: Synonymizer
