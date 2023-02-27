@@ -1035,6 +1035,25 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
+    def query(
+        self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
+    ) -> Iterator[Any]:
+        """
+        Executes a query.
+
+        The behavior of this operation is entirely adapter-dependent, and is
+        thus not portable.
+
+        The intention is for SQL backends to support SQL queries, and for
+        SPARQL backends to support SPARQL queries.
+
+        :param query:
+        :param syntax:
+        :param kwargs:
+        :return: an iterator over the results, which can be arbitrary objects
+        """
+        raise NotImplementedError
+
     def save(self):
         """
         Saves current state.

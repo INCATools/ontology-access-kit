@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/lexical_index
+id: https://w3id.org/oak/lexical-index
 title: Lexical Index
 name: lexical-index
 description: >-
@@ -8,14 +8,14 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  li: https://w3id.org/linkml/lexical_index/
+  ontolexindex: https://w3id.org/oak/lexical-index/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
   sh: https://w3id.org/shacl/
   prov: http://www.w3.org/ns/prov#
 
-default_prefix: li
+default_prefix: ontolexindex
 default_range: string
 
 default_curi_maps:

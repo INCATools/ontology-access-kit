@@ -569,6 +569,8 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                     k = "predicates"
                 if k == "predicates":
                     v = _process_predicates_arg(v)
+                if k == "prefixes":
+                    v = v.split(",")
                 d[k] = v
         return d
 
@@ -639,7 +641,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 if x not in remaining:
                     yield x
             query_terms = []
-        elif term == ".not":
+        elif term == ".not" or terms == ".minus":
             # boolean term: consume the result of the query and subtract
             rest = list(query_terms_iterator(query_terms, impl))
             for x in results:
@@ -673,6 +675,13 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
             expr = query_terms[0]
             query_terms = query_terms[1:]
             chain_results(eval(expr, {"impl": impl, "terms": results}))
+        elif term.startswith(".query"):
+            # arbitrary SPARQL query
+            params = _parse_params(term)
+            prefixes = params.get("prefixes", None)
+            query = query_terms[0]
+            query_terms = query_terms[1:]
+            chain_results([list(v.values())[0] for v in impl.query(query, prefixes=prefixes)])
         elif term.startswith(".desc"):
             # graph query: descendants
             params = _parse_params(term)
@@ -725,7 +734,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
-@click.option("-q", "--quiet")
+@click.option("-q", "--quiet/--no-quiet")
 @click.option(
     "--stacktrace/--no-stacktrace",
     default=False,
@@ -2990,6 +2999,63 @@ def logical_definitions(
 
 
 @main.command()
+@output_option
+@output_type_option
+@autolabel_option
+@click.option(
+    "--query", "-q", help="Main query, specified in adapter-specific language (SQL, SPARQL)"
+)
+@click.option("--label-fields", "-L", help="Comma-separated list of fields to use as labels")
+@click.option("--prefixes", "-P", help="Comma-separated list of prefixes to expand")
+def query(query, autolabel: bool, output: str, output_type: str, prefixes: str, label_fields: str):
+    """
+    Execute an arbitrary query.
+
+    The syntax of the query is backend-dependent.
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    label_fields = label_fields.split(",") if label_fields else []
+    prefixes = prefixes.split(",") if prefixes else None
+
+    def _is_uri_or_curie(v):
+        return v is not None and isinstance(v, str) and ":" in v and " " not in v
+
+    # batch query results: this allows us to produce buffered output
+    # for a long-running query
+    for row_it in chunk(impl.query(query, prefixes=prefixes)):
+        rows = []
+        # collect rows in batch, and set label_fields if not already set
+        for r in row_it:
+            if not label_fields and autolabel:
+                # use heuristic to determine if is a curie
+                # label_fields = list([k for k, v in r.items() if _is_uri_or_curie(v)])
+                label_fields = list([k for k, v in r.items()])
+            rows.append(r)
+        idmap = {}
+        for f in label_fields:
+            # collect labels for designated fields in chunks; this is typically
+            # more efficient than querying one at a time when the backend is
+            # remote or is a database engine like sqlite
+            ids = [r[f] for r in rows if _is_uri_or_curie(r[f])]
+            id_labels = impl.labels(ids)
+            idmap[f] = {id: label for id, label in id_labels if ":" in id}
+        for r in rows:
+            if label_fields:
+                # inject labels immediately after id columns
+                new_r = {}
+                for k in r:
+                    new_r[k] = r[k]
+                    if k in label_fields:
+                        new_r[f"{k}_label"] = idmap[k].get(r[k], r[k])
+            else:
+                new_r = r
+            writer.emit(new_r)
+
+
+@main.command()
 @filter_obsoletes_option
 @output_option
 @owl_type_option
@@ -4955,13 +5021,13 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 
     Example:
 
-        runoak -i foo.obo synonymize -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
+        runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
 
     If the `apply-patch` flag is NOT set then the main input will be KGCL commands
 
     Example:
 
-        runoak -i foo.obo synonymize -R foo_rules.yaml -o changes.kgcl
+        runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
 
     see https://github.com/INCATools/kgcl.
     """

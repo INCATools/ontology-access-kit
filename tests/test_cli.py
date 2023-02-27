@@ -15,7 +15,12 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from oaklib import get_implementation_from_shorthand
 from oaklib.cli import main
 from oaklib.datamodels import fhir, obograph, taxon_constraints
-from oaklib.datamodels.vocabulary import IN_TAXON, SKOS_CLOSE_MATCH, SKOS_EXACT_MATCH
+from oaklib.datamodels.vocabulary import (
+    IN_TAXON,
+    IS_A,
+    SKOS_CLOSE_MATCH,
+    SKOS_EXACT_MATCH,
+)
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
     ATOM,
@@ -526,6 +531,13 @@ class TestCommandLineInterface(unittest.TestCase):
                 [TEST_OWL_RDF],
             ),
             (
+                # nesting
+                [".desc//p=i,p", "[", "nucleus", VACUOLE, "]", ".not", "l~membrane"],
+                True,
+                [NUCLEUS, NUCLEAR_ENVELOPE, VACUOLE],
+                [TEST_OWL_RDF],
+            ),
+            (
                 # filter query
                 [
                     ".anc//p=i",
@@ -649,6 +661,56 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn(SHAPE, out)
         self.assertNotIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
+
+    def test_query(self):
+        cases = [
+            (
+                TEST_DB,
+                f'SELECT predicate, object FROM edge WHERE subject="{NUCLEUS}"',
+                [],
+                [
+                    {
+                        "predicate": "RO:0002160",
+                        "predicate_label": "only_in_taxon",
+                        "object": "NCBITaxon:2759",
+                        "object_label": "Eukaryota",
+                    }
+                ],
+            ),
+            (
+                TEST_DB,
+                f'SELECT predicate, object FROM edge WHERE subject="{NUCLEUS}"',
+                ["--no-autolabel"],
+                [{"predicate": "RO:0002160", "object": "NCBITaxon:2759"}],
+            ),
+            (
+                TEST_OWL_RDF,
+                f"SELECT ?p ?o WHERE {{ {NUCLEUS} ?p ?o }}",
+                ["-P", "GO"],
+                [
+                    {
+                        "p": IS_A,
+                        "p_label": "None",
+                        "o": IMBO,
+                        "o_label": "intracellular membrane-bounded organelle",
+                    }
+                ],
+            ),
+        ]
+        for adapter, query, args, expected in cases:
+            print(query)
+            result = self.runner.invoke(
+                main, ["-i", adapter, "query", "-q", query, "-o", TEST_OUT] + args
+            )
+            self.assertEqual(0, result.exit_code)
+            with open(TEST_OUT, "r") as file:
+                reader = csv.DictReader(file, delimiter="\t")
+                rows = [row for row in reader]
+                print(rows)
+                for e in expected:
+                    self.assertIn(e, rows)
+                # for case in cases:
+                #    self.assertIn(case, rows)
 
     # VALIDATE
 
