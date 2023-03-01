@@ -16,15 +16,19 @@ Name: association
 | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |
 | [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |
+| [RollupGroup](RollupGroup.md) |  |
 
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
+| [associations](associations.md) |  |
+| [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
 | [object](object.md) | An ontology entity that is associated with the subject |
 | [predicate](predicate.md) | The type of relationship between the subject and object |
 | [property_values](property_values.md) |  |
+| [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |
 
 

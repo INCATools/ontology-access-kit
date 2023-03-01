@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: Association &mdash; oaklib  documentation</title>
+  <title>Slot: sub_groups &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: Association</li>
+      <li class="breadcrumb-item active">Slot: sub_groups</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/association/Association.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/association/sub_groups.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,71 +85,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-association">
-<h1>Class: Association<a class="headerlink" href="#class-association" title="Permalink to this headline"></a></h1>
-<p><em>A generic association between a thing (subject) and another thing (object).</em></p>
-<p>URI: <a class="reference external" href="http://www.w3.org/ns/oa#Annotation">oa:Annotation</a></p>
-<div class="mermaid">
-             classDiagram
-    class Association
-      Association : object
-      Association : predicate
-      Association : property_values
-      Association : subject
-      
-        </div><!-- no inheritance hierarchy -->
-<section id="slots">
-<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+  <section id="slot-sub-groups">
+<h1>Slot: sub_groups<a class="headerlink" href="#slot-sub-groups" title="Permalink to this headline"></a></h1>
+<p><em>Container for groups within a rollup group.</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/association/sub_groups">ontoassoc:sub_groups</a></p>
+<!-- no inheritance hierarchy -->
+<section id="applicable-classes">
+<h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Inheritance</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
-<td><p>The thing which the association is about</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
-<td><p>The type of relationship between the subject and object</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
-<td><p>An ontology entity that is associated with the subject</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="property_values.html"><span class="doc std std-doc">property_values</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="usages">
-<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>used by</p></th>
-<th class="head"><p>used in</p></th>
-<th class="head"><p>type</p></th>
-<th class="head"><p>used</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="RollupGroup.html"><span class="doc std std-doc">RollupGroup</span></a></p></td>
-<td><p><a class="reference internal" href="associations.html"><span class="doc std std-doc">associations</span></a></p></td>
-<td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Association</span></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Range: <a class="reference internal" href="RollupGroup.html"><span class="doc std std-doc">RollupGroup</span></a></p></li>
+<li><p>Multivalued: True</p></li>
+</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
@@ -160,107 +121,24 @@
 </ul>
 </section>
 </section>
-<section id="mappings">
-<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
-<th class="head"><p>Mapped Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>self</p></td>
-<td><p>oa:Annotation</p></td>
-</tr>
-<tr class="row-odd"><td><p>native</p></td>
-<td><p>ontoassoc:Association</p></td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="linkml-source">
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
-<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
-<section id="direct">
-<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
+name: sub_groups
+description: Container for groups within a rollup group.
 from_schema: https://w3id.org/oak/association
 rank: 1000
-slots:
-- subject
-- predicate
-- object
-- property_values
-class_uri: oa:Annotation
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
-
-### Induced
-
-&lt;details&gt;
-```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
-from_schema: https://w3id.org/oak/association
-rank: 1000
-attributes:
-  subject:
-    name: subject
-    description: The thing which the association is about.
-    from_schema: https://w3id.org/oak/association
-    exact_mappings:
-    - oa:hasBody
-    rank: 1000
-    slot_uri: rdf:subject
-    alias: subject
-    owner: Association
-    domain_of:
-    - Association
-    range: uriorcurie
-  predicate:
-    name: predicate
-    description: The type of relationship between the subject and object.
-    from_schema: https://w3id.org/oak/association
-    rank: 1000
-    slot_uri: rdf:predicate
-    alias: predicate
-    owner: Association
-    domain_of:
-    - Association
-    - PropertyValue
-    range: uriorcurie
-  object:
-    name: object
-    description: An ontology entity that is associated with the subject.
-    from_schema: https://w3id.org/oak/association
-    exact_mappings:
-    - oa:hasTarget
-    rank: 1000
-    slot_uri: rdf:object
-    alias: object
-    owner: Association
-    domain_of:
-    - Association
-    - PropertyValue
-    range: uriorcurie
-  property_values:
-    name: property_values
-    from_schema: https://w3id.org/oak/association
-    rank: 1000
-    multivalued: true
-    alias: property_values
-    owner: Association
-    domain_of:
-    - Association
-    range: PropertyValue
-    inlined: true
-class_uri: oa:Annotation
-
+multivalued: true
+alias: sub_groups
+domain_of:
+- RollupGroup
+range: RollupGroup
+inlined: true
+inlined_as_list: true
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</details></section>
 </section>
 </section>
 

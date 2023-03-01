@@ -98,6 +98,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-prefixes">prefixes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-query">query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-relationships">relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-rollup">rollup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-roots">roots</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-search">search</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-set-apikey">set-apikey</a></li>
@@ -3179,6 +3180,69 @@ prefixes for entities in that ontology</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-relationships-arg-TERMS">
 <span id="cmdoption-runoak-relationships-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-rollup">
+<h4>rollup<a class="headerlink" href="#runoak-rollup" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Produce an association rollup report.</p>
+<p>The report will list associations where the subject is one of the terms provided. The
+associations will be grouped by any provided –object-group options. This option can be
+provided multiple times. If the value is a comma separated list of object IDs, the first
+will be used as a primary grouping dimension and the remainder will be used to create
+sub-groups.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:go.db -g wb.gaf -G gaf rollup             –object-group GO:0032502,GO:0007568,GO:0048869,GO:0098727             –object-group GO:0008152,GO:0009056,GO:0044238,GO:1901275             –object-group GO:0050896,GO:0051716,GO:0051606,GO:0051606,GO:0014823             –object-group=GO:0023052             –output rollup.html             WB:WBGene00000417 WB:WBGene00000912 WB:WBGene00000898 WB:WBGene00006752</p>
+</div></blockquote>
+<p>By default, is-a relationships between association objects are used to perform the rollup.
+Use the -p/–predicates option to change this behavior.</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>rollup<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-rollup-o">
+<span id="cmdoption-runoak-rollup-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-rollup-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-rollup-p">
+<span id="cmdoption-runoak-rollup-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-rollup-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-rollup-autolabel">
+<span id="cmdoption-runoak-rollup-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-rollup-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-rollup-O">
+<span id="cmdoption-runoak-rollup-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-rollup-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-rollup-object-group">
+<span class="sig-name descname"><span class="pre">--object-group</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;object_group&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-rollup-object-group" title="Permalink to this definition"></a></dt>
+<dd><p>An object ID to group by. If a comma separated list of IDs is provided, the first one is interpreted as a top-level grouping and the remaining IDs are interpreted as sub-groups within.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-rollup-arg-TERMS">
+<span id="cmdoption-runoak-rollup-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-rollup-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 

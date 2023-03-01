@@ -37,6 +37,13 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
+## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [RollupGroup](RollupGroup.md) | [associations](associations.md) | range | [Association](Association.md) |
+
+
 
 
 

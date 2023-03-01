@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: Association &mdash; oaklib  documentation</title>
+  <title>Class: RollupGroup &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: Association</li>
+      <li class="breadcrumb-item active">Class: RollupGroup</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/association/Association.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/association/RollupGroup.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,17 +85,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-association">
-<h1>Class: Association<a class="headerlink" href="#class-association" title="Permalink to this headline"></a></h1>
-<p><em>A generic association between a thing (subject) and another thing (object).</em></p>
-<p>URI: <a class="reference external" href="http://www.w3.org/ns/oa#Annotation">oa:Annotation</a></p>
+  <section id="class-rollupgroup">
+<h1>Class: RollupGroup<a class="headerlink" href="#class-rollupgroup" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/association/RollupGroup">ontoassoc:RollupGroup</a></p>
 <div class="mermaid">
              classDiagram
-    class Association
-      Association : object
-      Association : predicate
-      Association : property_values
-      Association : subject
+    class RollupGroup
+      RollupGroup : associations
+      RollupGroup : group_object
+      RollupGroup : sub_groups
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -109,23 +107,18 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="group_object.html"><span class="doc std std-doc">group_object</span></a></p></td>
 <td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
-<td><p>The thing which the association is about</p></td>
+<td><p>An ontology entity that is the ancestor of the objects in the group’s</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
-<td><p>The type of relationship between the subject and object</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sub_groups.html"><span class="doc std std-doc">sub_groups</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="#"><span class="doc std std-doc">RollupGroup</span></a></p></td>
+<td><p>Container for groups within a rollup group</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
-<td><p>An ontology entity that is associated with the subject</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="property_values.html"><span class="doc std std-doc">property_values</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="associations.html"><span class="doc std std-doc">associations</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Association.html"><span class="doc std std-doc">Association</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -143,10 +136,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="RollupGroup.html"><span class="doc std std-doc">RollupGroup</span></a></p></td>
-<td><p><a class="reference internal" href="associations.html"><span class="doc std std-doc">associations</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#"><span class="doc std std-doc">RollupGroup</span></a></p></td>
+<td><p><a class="reference internal" href="sub_groups.html"><span class="doc std std-doc">sub_groups</span></a></p></td>
 <td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Association</span></a></p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">RollupGroup</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -170,10 +163,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>oa:Annotation</p></td>
+<td><p>ontoassoc:RollupGroup</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ontoassoc:Association</p></td>
+<td><p>ontoassoc:RollupGroup</p></td>
 </tr>
 </tbody>
 </table>
@@ -185,78 +178,60 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
+name: RollupGroup
 from_schema: https://w3id.org/oak/association
 rank: 1000
 slots:
-- subject
-- predicate
-- object
-- property_values
-class_uri: oa:Annotation
+- group_object
+- sub_groups
+- associations
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
+name: RollupGroup
 from_schema: https://w3id.org/oak/association
 rank: 1000
 attributes:
-  subject:
-    name: subject
-    description: The thing which the association is about.
+  group_object:
+    name: group_object
+    description: &quot;An ontology entity that is the ancestor of the objects in the group&#39;s\
+      \ \nassociations and sub-group associations.&quot;
     from_schema: https://w3id.org/oak/association
-    exact_mappings:
-    - oa:hasBody
-    rank: 1000
-    slot_uri: rdf:subject
-    alias: subject
-    owner: Association
-    domain_of:
-    - Association
-    range: uriorcurie
-  predicate:
-    name: predicate
-    description: The type of relationship between the subject and object.
-    from_schema: https://w3id.org/oak/association
-    rank: 1000
-    slot_uri: rdf:predicate
-    alias: predicate
-    owner: Association
-    domain_of:
-    - Association
-    - PropertyValue
-    range: uriorcurie
-  object:
-    name: object
-    description: An ontology entity that is associated with the subject.
-    from_schema: https://w3id.org/oak/association
-    exact_mappings:
-    - oa:hasTarget
     rank: 1000
     slot_uri: rdf:object
-    alias: object
-    owner: Association
+    alias: group_object
+    owner: RollupGroup
     domain_of:
-    - Association
-    - PropertyValue
+    - RollupGroup
     range: uriorcurie
-  property_values:
-    name: property_values
+  sub_groups:
+    name: sub_groups
+    description: Container for groups within a rollup group.
     from_schema: https://w3id.org/oak/association
     rank: 1000
     multivalued: true
-    alias: property_values
-    owner: Association
+    alias: sub_groups
+    owner: RollupGroup
     domain_of:
-    - Association
-    range: PropertyValue
+    - RollupGroup
+    range: RollupGroup
     inlined: true
-class_uri: oa:Annotation
+    inlined_as_list: true
+  associations:
+    name: associations
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: associations
+    owner: RollupGroup
+    domain_of:
+    - RollupGroup
+    range: Association
+    inlined: true
+    inlined_as_list: true
 
 </pre></div>
 </div>
