@@ -9,7 +9,8 @@ from oaklib.parsers.xaf_association_parser import XafAssociationParser
 class HpoaAssociationParser(XafAssociationParser):
     """Parsers for Hpoa format."""
 
-    subject_prefix_column: ColumnReference = field(default_factory=lambda: ColumnReference(0))
-    subject_column: ColumnReference = field(default_factory=lambda: ColumnReference(1))
+    comment_character: str = "#"
+
+    subject_column: ColumnReference = field(default_factory=lambda: ColumnReference(0))
     predicate_column: ColumnReference = None
-    object_column: ColumnReference = field(default_factory=lambda: ColumnReference(4))
+    object_column: ColumnReference = field(default_factory=lambda: ColumnReference(3))

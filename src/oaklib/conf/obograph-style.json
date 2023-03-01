@@ -155,6 +155,9 @@
         "STATO": {
             "fillcolor": "cornsilk"
         },
+        "IAO": {
+            "fillcolor": "mediumturquoise"
+        },
         "BFO": {
             "fillcolor": "cyan"
         }
