@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-27T09:56:40
+# Generation date: 2023-02-28T16:17:00
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -124,6 +124,43 @@ class PropertyValue(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
+@dataclass
+class RollupGroup(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.RollupGroup
+    class_class_curie: ClassVar[str] = "ontoassoc:RollupGroup"
+    class_name: ClassVar[str] = "RollupGroup"
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.RollupGroup
+
+    group_object: Optional[Union[str, URIorCURIE]] = None
+    sub_groups: Optional[
+        Union[Union[dict, "RollupGroup"], List[Union[dict, "RollupGroup"]]]
+    ] = empty_list()
+    associations: Optional[
+        Union[Union[dict, Association], List[Union[dict, Association]]]
+    ] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.group_object is not None and not isinstance(self.group_object, URIorCURIE):
+            self.group_object = URIorCURIE(self.group_object)
+
+        if not isinstance(self.sub_groups, list):
+            self.sub_groups = [self.sub_groups] if self.sub_groups is not None else []
+        self.sub_groups = [
+            v if isinstance(v, RollupGroup) else RollupGroup(**as_dict(v)) for v in self.sub_groups
+        ]
+
+        if not isinstance(self.associations, list):
+            self.associations = [self.associations] if self.associations is not None else []
+        self.associations = [
+            v if isinstance(v, Association) else Association(**as_dict(v))
+            for v in self.associations
+        ]
+
+        super().__post_init__(**kwargs)
+
+
 # Enumerations
 
 
@@ -166,4 +203,31 @@ slots.property_values = Slot(
     model_uri=ONTOASSOC.property_values,
     domain=None,
     range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]],
+)
+
+slots.group_object = Slot(
+    uri=RDF.object,
+    name="group_object",
+    curie=RDF.curie("object"),
+    model_uri=ONTOASSOC.group_object,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.sub_groups = Slot(
+    uri=ONTOASSOC.sub_groups,
+    name="sub_groups",
+    curie=ONTOASSOC.curie("sub_groups"),
+    model_uri=ONTOASSOC.sub_groups,
+    domain=None,
+    range=Optional[Union[Union[dict, RollupGroup], List[Union[dict, RollupGroup]]]],
+)
+
+slots.associations = Slot(
+    uri=ONTOASSOC.associations,
+    name="associations",
+    curie=ONTOASSOC.curie("associations"),
+    model_uri=ONTOASSOC.associations,
+    domain=None,
+    range=Optional[Union[Union[dict, Association], List[Union[dict, Association]]]],
 )
