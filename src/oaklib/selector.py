@@ -7,6 +7,7 @@ from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
+from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
 from oaklib.implementations.obograph.obograph_implementation import (
     OboGraphImplementation,
 )
@@ -58,6 +59,7 @@ RDF_SUFFIX_TO_FORMAT = {
 # Deprecated?
 SCHEME_DICT = {
     "sqlite": SqlImplementation,
+    "kgx": KGXImplementation,
     "ubergraph": UbergraphImplementation,
     "ontobee": OntobeeImplementation,
     "uniprot": UniprotImplementation,

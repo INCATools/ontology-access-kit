@@ -97,6 +97,7 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
+from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
@@ -119,6 +120,7 @@ class SimpleOboImplementation(
     MappingProviderInterface,
     PatcherInterface,
     SummaryStatisticsInterface,
+    TaxonConstraintInterface,
 ):
     """
     Simple OBO-file backed implementation
@@ -350,7 +352,9 @@ class SimpleOboImplementation(
         if predicate == IS_A:
             t.add_tag_value(TAG_IS_A, filler)
         else:
-            t.add_tag_value_pair(TAG_RELATIONSHIP, predicate, filler)
+            predicate_code = self.map_curie_to_shorthand(predicate)
+            t.add_tag_value_pair(TAG_RELATIONSHIP, predicate_code, filler)
+        self._clear_relationship_index()
 
     def remove_relationship(self, curie: CURIE, predicate: Optional[PRED_CURIE], filler: CURIE):
         t = self._stanza(curie)
@@ -359,6 +363,7 @@ class SimpleOboImplementation(
         else:
             predicate_code = self.map_curie_to_shorthand(predicate)
             t.remove_pairwise_tag_value(TAG_RELATIONSHIP, predicate_code, filler)
+        self._clear_relationship_index()
 
     def definition(self, curie: CURIE) -> Optional[str]:
         s = self._stanza(curie, strict=False)
@@ -437,6 +442,7 @@ class SimpleOboImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         for s in self._relationship_index.keys():
             if subjects is not None and s not in subjects:
@@ -734,6 +740,7 @@ class SimpleOboImplementation(
     ) -> kgcl.Change:
         od = self.obo_document
         tidy_change_object(patch)
+        logging.debug(f"Applying {patch}")
         if isinstance(patch, kgcl.NodeRename):
             # self.set_label(patch.about_node, _clean(patch.new_value))
             self.set_label(patch.about_node, patch.new_value)
@@ -803,6 +810,7 @@ class SimpleOboImplementation(
                 t.add_tag_value(TAG_IS_A, object)
             else:
                 t.add_tag_value(TAG_RELATIONSHIP, f"{patch.new_value} {object}")
+            self._clear_relationship_index()
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
         if patch.contributor:

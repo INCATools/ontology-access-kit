@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/fhir
+id: https://w3id.org/oak/fhir
 title: FHIR in LinkML
 name: fhir
 description: |-
@@ -39,7 +39,7 @@ classes:
         comments:
           - not formally part of FHIR schema but used in JSON serialization as type designation
       url:
-        range: uri
+        range: uriorcurie
       identifier:
         identifier: false
         multivalued: true
@@ -131,7 +131,7 @@ classes:
         range: string  # Pattern: [^\s]+(\s[^\s]+)* / See: https://hl7.org/fhir/datatypes.html#code
         required: true
       uri:
-        range: uri
+        range: uriorcurie
         required: false
       description:
         range: string
@@ -145,7 +145,7 @@ classes:
   Coding:
     attributes:
       system:
-        range: uri
+        range: uriorcurie
       version:
       code:
       display:
@@ -162,7 +162,7 @@ classes:
         comments:
           - not formally part of FHIR schema but used in JSON serialization as type designation
       url:
-        range: uri
+        range: uriorcurie
       identifier:
         identifier: false
         multivalued: true
@@ -186,13 +186,13 @@ classes:
       #  multivalued: true
       #  range: UsageContext
       sourceUri:
-        range: uri
+        range: uriorcurie
       sourceCanonical:
-        range: uri
+        range: uriorcurie
       targetUri:
-        range: uri
+        range: uriorcurie
       targetCanonical:
-        range: uri
+        range: uriorcurie
       group:
         multivalued: true
         range: ConceptMapGroup
@@ -202,15 +202,15 @@ classes:
   ConceptMapGroup:
     attributes:
       source:
-        range: uri
+        range: uriorcurie
       sourceVersion:
       target:
-        range: uri
+        range: uriorcurie
       targetVersion:
       element:
         multivalued: true
         #range: ConceptMapElement
-        inlined: true
-        inlined_as_list: true
+        #inlined: true
+        #inlined_as_list: true
       #unMapped:
       #  range: ConceptMapUnmapped

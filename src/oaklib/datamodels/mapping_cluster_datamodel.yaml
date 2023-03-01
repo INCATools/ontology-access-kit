@@ -1,6 +1,6 @@
-id: https://w3id.org/linkml/oaklib/cluster
+id: https://w3id.org/oak/mapping-cluster-datamodel
 title: Mapping Cluster Datamodel
-name: mapping-cluster
+name: mapping-cluster-datamodel
 description: |-
   A datamodel for specifying mapping clusters, such as those retrieved from boomer.
   
@@ -37,7 +37,7 @@ see_also:
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  mcluster: https://w3id.org/linkml/oaklib/cluster
+  mcluster: https://w3id.org/oak/mapping-cluster-datamodel/
   sssom: https://w3id.org/sssom/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
@@ -211,3 +211,16 @@ classes:
       probability:
         range: Probability
 
+enums:
+  MappingConcordanceEnum:
+    description: >-
+      The degree to which a mapping interpreted in light of a mapping cluster is consistent with the input mappings
+    permissible_values:
+      NEW:
+        description: this mapping interpretation can be added with high confidence
+      AMBIGUOUS:
+        description: the source ontology has different interpretations (e.g. exact, broad) for the same term pair. If you get this then you should tidy up your inputs
+      CONFLICT:
+        description: the source ontology mapping interpretation is different from what is inferred to be the correct one
+      REJECT:
+        description: a CONFLICT in which the source interpretation is non-exact

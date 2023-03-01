@@ -53,7 +53,13 @@ from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlat
 from oaklib.datamodels.association import RollupGroup
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType
-from oaklib.datamodels.obograph import PrefixDeclaration
+from oaklib.datamodels.obograph import (
+    BasicPropertyValue,
+    Edge,
+    Graph,
+    Meta,
+    PrefixDeclaration,
+)
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.summary_statistics_datamodel import (
     GroupedStatistics,
@@ -97,13 +103,14 @@ from oaklib.interfaces.differ_interface import (
 )
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
+from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.html_writer import HTMLWriter
@@ -165,11 +172,7 @@ from oaklib.utilities.obograph_utils import (
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
-from oaklib.utilities.taxon.taxon_constraint_utils import (
-    eval_candidate_taxon_constraint,
-    get_term_with_taxon_constraints,
-    parse_gain_loss_file,
-)
+from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
 from oaklib.utilities.validation.definition_ontology_rule import (
     TextAndLogicalDefinitionMatchOntologyRule,
 )
@@ -370,12 +373,29 @@ ontological_output_type_option = click.option(
     help="Desired output type",
 )
 predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
+graph_traversal_method_option = click.option(
+    "-M",
+    "--graph-traversal-method",
+    type=click.Choice([v.value for v in GraphTraversalMethod]),
+    help="Desired output type",
+)
 display_option = click.option(
     "-D",
     "--display",
     default="",
     help="A comma-separated list of display options. Use 'all' for all",
 )
+stylemap_otion = click.option(
+    "-S",
+    "--stylemap",
+    help="a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/",
+)
+stylemap_configure_option = click.option(
+    "-C",
+    "--configure",
+    help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
+)
+
 group_by_property_option = click.option(
     "--group-by-property",
     help="group summaries by a metadata property, e.g. rdfs:isDefinedBy",
@@ -459,15 +479,14 @@ def _get_writer(
     return w
 
 
-def _apply_changes(impl, changes):
+def _apply_changes(impl, changes: List[kgcl.Change]):
     if changes:
         logging.info(f"Applying {len(changes)} changes")
-        if isinstance(impl, PatcherInterface):
-            for change in changes:
-                impl.apply_patch(change)
-            impl.save()
-        else:
+        if not isinstance(impl, PatcherInterface):
             raise NotImplementedError(f"Cannot apply {len(changes)} changes")
+        for change in changes:
+            impl.apply_patch(change)
+        impl.save()
 
 
 # A list whose members are either strings (search terms, curies, or directives)
@@ -552,6 +571,8 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                     k = "predicates"
                 if k == "predicates":
                     v = _process_predicates_arg(v)
+                if k == "prefixes":
+                    v = v.split(",")
                 d[k] = v
         return d
 
@@ -622,7 +643,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 if x not in remaining:
                     yield x
             query_terms = []
-        elif term == ".not":
+        elif term == ".not" or terms == ".minus":
             # boolean term: consume the result of the query and subtract
             rest = list(query_terms_iterator(query_terms, impl))
             for x in results:
@@ -656,6 +677,13 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
             expr = query_terms[0]
             query_terms = query_terms[1:]
             chain_results(eval(expr, {"impl": impl, "terms": results}))
+        elif term.startswith(".query"):
+            # arbitrary SPARQL query
+            params = _parse_params(term)
+            prefixes = params.get("prefixes", None)
+            query = query_terms[0]
+            query_terms = query_terms[1:]
+            chain_results([list(v.values())[0] for v in impl.query(query, prefixes=prefixes)])
         elif term.startswith(".desc"):
             # graph query: descendants
             params = _parse_params(term)
@@ -666,6 +694,26 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 chain_results(impl.descendants(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
+        elif term.startswith(".child"):
+            # graph query: children
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
+            children = [
+                s for s, _p, _o in impl.relationships(objects=rest, predicates=this_predicates)
+            ]
+            chain_results(children)
+        elif term.startswith(".parent"):
+            # graph query: parents
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
+            parents = [
+                o for _s, _p, o in impl.relationships(subjects=rest, predicates=this_predicates)
+            ]
+            chain_results(parents)
         elif term.startswith(".anc"):
             # graph query: ancestors
             params = _parse_params(term)
@@ -688,7 +736,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
-@click.option("-q", "--quiet")
+@click.option("-q", "--quiet/--no-quiet")
 @click.option(
     "--stacktrace/--no-stacktrace",
     default=False,
@@ -1442,16 +1490,8 @@ def annotate(
     show_default=True,
     help="If set then extend input seed list to include all pairwise MRCAs",
 )
-@click.option(
-    "-S",
-    "--stylemap",
-    help="a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/",
-)
-@click.option(
-    "-C",
-    "--configure",
-    help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
-)
+@stylemap_otion
+@stylemap_configure_option
 @click.option(
     "--max-hops",
     type=int,
@@ -1524,54 +1564,54 @@ def viz(
         runoak -i sqlite:cl.db viz 'T cell' -p i,d --max-hops 2
     """
     impl = settings.impl
-    if isinstance(impl, OboGraphInterface):
-        if stylemap is None:
-            stylemap = default_stylemap_path()
-        actual_predicates = _process_predicates_arg(predicates)
-        curies = list(query_terms_iterator(terms, impl))
-        if add_mrcas:
-            if isinstance(impl, SemanticSimilarityInterface):
-                curies_to_add = [
-                    lca
-                    for s, o, lca in impl.multiset_most_recent_common_ancestors(
-                        curies, predicates=actual_predicates
-                    )
-                ]
-                curies = list(set(curies + curies_to_add))
-                logging.info(f"Expanded CURIEs = {curies}")
-            else:
-                raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
-        if down:
-            graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
-        elif gap_fill:
-            logging.info("Using gap-fill strategy")
-            if isinstance(impl, SubsetterInterface):
-                rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
-                if isinstance(impl, OboGraphInterface):
-                    graph = impl.relationships_to_graph(rels)
-                else:
-                    raise AssertionError(f"{impl} needs to of type OboGraphInterface")
-            else:
-                raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
-        else:
-            graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-        if max_hops is not None:
-            logging.info(f"Trimming graph, max_hops={max_hops}")
-            graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
-        logging.info(f"Drawing graph seeded from {curies}")
-        if meta:
-            impl.add_metadata(graph)
-        # TODO: abstract this out
-        if output_type:
-            write_graph(graph, format=output_type, output=output)
-        else:
-            imgfile = graph_to_image(
-                graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
-            )
-            if view:
-                subprocess.run(["open", imgfile])
-    else:
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    impl.precompute_lookups()
+    if stylemap is None:
+        stylemap = default_stylemap_path()
+    actual_predicates = _process_predicates_arg(predicates)
+    curies = list(query_terms_iterator(terms, impl))
+    if add_mrcas:
+        if isinstance(impl, SemanticSimilarityInterface):
+            curies_to_add = [
+                lca
+                for s, o, lca in impl.multiset_most_recent_common_ancestors(
+                    curies, predicates=actual_predicates
+                )
+            ]
+            curies = list(set(curies + curies_to_add))
+            logging.info(f"Expanded CURIEs = {curies}")
+        else:
+            raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
+    if down:
+        graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
+    elif gap_fill:
+        logging.info("Using gap-fill strategy")
+        if isinstance(impl, SubsetterInterface):
+            rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+            if isinstance(impl, OboGraphInterface):
+                graph = impl.relationships_to_graph(rels)
+            else:
+                raise AssertionError(f"{impl} needs to of type OboGraphInterface")
+        else:
+            raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    else:
+        graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+    if max_hops is not None:
+        logging.info(f"Trimming graph, max_hops={max_hops}")
+        graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
+    logging.info(f"Drawing graph seeded from {curies}")
+    if meta:
+        impl.add_metadata(graph)
+    # TODO: abstract this out
+    if output_type:
+        write_graph(graph, format=output_type, output=output)
+    else:
+        imgfile = graph_to_image(
+            graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
+        )
+        if view:
+            subprocess.run(["open", imgfile])
 
 
 @main.command()
@@ -1734,6 +1774,7 @@ def tree(
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
+@graph_traversal_method_option
 @output_type_option
 @click.option(
     "--statistics/--no-statistics",
@@ -1742,7 +1783,9 @@ def tree(
     help="For each ancestor, show statistics.",
 )
 @output_option
-def ancestors(terms, predicates, statistics: bool, output_type: str, output: str):
+def ancestors(
+    terms, predicates, statistics: bool, graph_traversal_method: str, output_type: str, output: str
+):
     """
     List all ancestors of a given term or terms.
 
@@ -1780,6 +1823,10 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
     # writer.display_options = display.split(',')
     writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
+        if graph_traversal_method:
+            graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
+            if graph_traversal_method == GraphTraversalMethod.HOP:
+                impl.precompute_lookups()
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         logging.info(f"Ancestor seed: {curies}")
@@ -1802,7 +1849,9 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         else:
             if isinstance(impl, OboGraphInterface):
                 logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
-                ancs = list(impl.ancestors(curies, actual_predicates))
+                ancs = list(
+                    impl.ancestors(curies, actual_predicates, method=graph_traversal_method)
+                )
                 for a_curie, a_label in impl.labels(ancs):
                     writer.emit(dict(id=a_curie, label=a_label))
             else:
@@ -1815,31 +1864,53 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 @click.argument("terms", nargs=-1)
 @click.option("--target", multiple=True, help="end point of path")
 @click.option(
-    "--flat/--no-flat",
+    "--narrow/--no-narrow",
     default=False,
     show_default=True,
     help="If true then output path is written a list of terms",
+)
+@click.option(
+    "--viz/--no-viz",
+    default=False,
+    show_default=True,
+    help="If true then generate a path graph from output",
 )
 @autolabel_option
 @predicates_option
 @output_type_option
 @click.option(
+    "--directed/--no-directed", default=False, show_default=True, help="only show directed paths"
+)
+@click.option(
+    "--include-predicates/--no-include-predicates",
+    default=False,
+    show_default=True,
+    help="show predicates between nodes",
+)
+@click.option(
     "--predicate-weights",
     help="key-value pairs specified in YAML where keys are predicates or shorthands and values are weights",
 )
-@output_option
+@stylemap_otion
+@stylemap_configure_option
+@click.option("-o", "--output", help="Path to output file")
 def paths(
     terms,
     predicates,
     predicate_weights,
     autolabel: bool,
-    flat: bool,
+    narrow: bool,
+    viz: bool,
+    directed: bool,
+    include_predicates: bool,
     target,
+    stylemap,
+    configure,
     output_type: str,
     output: str,
 ):
     """
-    List all paths between one or more start curies
+    List all paths between one or more start curies.
 
     Example:
 
@@ -1881,7 +1952,7 @@ def paths(
     Example:
 
         alias go="runoak -i sqlite:obo:go"
-        go paths  -p i,p 'nuclear membrane' --target cytoplasm --flat | go viz --fill-gaps -
+        go paths  -p i,p 'nuclear membrane' --target cytoplasm --narrow | go viz --fill-gaps -
 
     This visualizes the path by first exporting the path as a flat list, then passing the
     results to viz, using the fill-gaps option
@@ -1889,7 +1960,10 @@ def paths(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
-    writer.file = output
+    if output:
+        writer.file = output
+    else:
+        writer.file = sys.stdout
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     actual_predicates = _process_predicates_arg(predicates)
@@ -1921,19 +1995,83 @@ def paths(
     logging.info(f"Start curies: {start_curies}")
     logging.info(f"End curies: {end_curies}")
     # TODO: move the logic from CLI to OboGraphInterface
+    impl.precompute_lookups()
     graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
     logging.info("Calculating graph stats")
+    path_graph = Graph(id="paths")
+    node_ids = set()
+    path_id = 0
     for s, o, path in shortest_paths(
-        graph, start_curies, end_curies=end_curies, predicate_weights=pw
+        graph,
+        start_curies,
+        end_curies=end_curies,
+        predicate_weights=pw,
+        directed=directed,
     ):
-        if flat:
+        path_id += 1
+        if include_predicates:
+            new_path = []
+            last_n = None
+            for n in path:
+                node_ids.add(n)
+                if last_n is not None:
+                    path_graph.edges.append(
+                        Edge(
+                            sub=last_n,
+                            pred=f"{path_id}",
+                            obj=n,
+                            meta=Meta(
+                                subsets=["path"],
+                                basicPropertyValues=[
+                                    BasicPropertyValue(
+                                        pred="https://w3id.org/kgviz/color", val="grey"
+                                    ),
+                                    BasicPropertyValue(
+                                        pred="https://w3id.org/kgviz/fontcolor", val="grey"
+                                    ),
+                                ],
+                            ),
+                        )
+                    )
+                    rels = [p for _s, p, _o in impl.relationships(subjects=[last_n], objects=[n])]
+                    for rel in rels:
+                        path_graph.edges.append(Edge(sub=last_n, pred=rel, obj=n))
+                    if not rels and not directed:
+                        rels = [
+                            p for _s, p, _o in impl.relationships(subjects=[n], objects=[last_n])
+                        ]
+                        for rel in rels:
+                            path_graph.edges.append(Edge(sub=n, pred=rel, obj=last_n))
+                        rels = [f"^{rel}" for rel in rels]
+                    new_path.append(rels[0] if rels else "?")
+                last_n = n
+                new_path.append(n)
+            path = new_path
+        if narrow:
             for path_node in path:
-                writer.emit_curie(path_node, impl.label(path_node))
-        else:
+                writer.emit(
+                    dict(subject=s, object=o, path_node=path_node),
+                    label_fields=["subject", "object", "path_node"],
+                )
+        elif not viz:
             writer.emit(
                 dict(subject=s, object=o, path=path),
                 label_fields=["subject", "object", "path"],
             )
+    if viz:
+        for node_id in node_ids:
+            [n] = [n for n in graph.nodes if n.id == node_id]
+            path_graph.nodes.append(n)
+        # TODO: abstract this out
+        if output_type:
+            write_graph(path_graph, format=output_type, output=output)
+        else:
+            if stylemap is None:
+                stylemap = default_stylemap_path()
+            imgfile = graph_to_image(
+                path_graph, seeds=all_curies, imgfile=output, stylemap=stylemap, configure=configure
+            )
+            subprocess.run(["open", imgfile])
 
 
 @main.command()
@@ -1975,10 +2113,13 @@ def siblings(terms, predicates, output_type: str, output: str):
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
+@graph_traversal_method_option
 @display_option
 @output_type_option
 @output_option
-def descendants(terms, predicates, display: str, output_type: str, output: TextIO):
+def descendants(
+    terms, predicates, graph_traversal_method, display: str, output_type: str, output: TextIO
+):
     """
     List all descendants of a term
 
@@ -2003,17 +2144,16 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.display_options = display.split(",")
     writer.file = output
-    if isinstance(impl, OboGraphInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        curies = list(query_terms_iterator(terms, impl))
-        result_it = impl.descendants(curies, predicates=actual_predicates)
-        writer.emit_multiple(result_it)
-        # for curie_it in chunk(result_it):
-        #    logging.info("** Next chunk:")
-        #    for curie, label in impl.labels(curie_it):
-        #        writer.emit(curie, label)
-    else:
+    if graph_traversal_method:
+        graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    curies = list(query_terms_iterator(terms, impl))
+    result_it = impl.descendants(
+        curies, predicates=actual_predicates, method=graph_traversal_method
+    )
+    writer.emit_multiple(result_it)
 
 
 @main.command()
@@ -2383,20 +2523,19 @@ def termset_similarity(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if isinstance(impl, SemanticSimilarityInterface):
-        terms = list(terms)
-        ix = terms.index("@")
-        set1 = list(query_terms_iterator(terms[0:ix], impl))
-        set2 = list(query_terms_iterator(terms[ix + 1 :], impl))
-        logging.info(f"Set1={set1}")
-        logging.info(f"Set2={set2}")
-        actual_predicates = _process_predicates_arg(predicates)
-        sim = impl.termset_pairwise_similarity(
-            set1, set2, predicates=actual_predicates, labels=autolabel
-        )
-        writer.emit(sim)
-    else:
+    if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    terms = list(terms)
+    ix = terms.index("@")
+    set1 = list(query_terms_iterator(terms[0:ix], impl))
+    set2 = list(query_terms_iterator(terms[ix + 1 :], impl))
+    logging.info(f"Set1={set1}")
+    logging.info(f"Set2={set2}")
+    actual_predicates = _process_predicates_arg(predicates)
+    sim = impl.termset_pairwise_similarity(
+        set1, set2, predicates=actual_predicates, labels=autolabel
+    )
+    writer.emit(sim)
 
 
 @main.command()
@@ -2468,7 +2607,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
 @ontological_output_type_option
 @if_absent_option
 @set_value_option
-def labels(terms, output: TextIO, display: str, output_type: str, if_absent: bool, set_value):
+def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set_value):
     """
     Show labels for term or list of terms
 
@@ -2681,63 +2820,61 @@ def relationships(
     actual_predicates = _process_predicates_arg(predicates)
     if not (include_tbox or include_abox):
         raise ValueError("Cannot exclude both tbox AND abox")
-    if isinstance(impl, BasicOntologyInterface):
-        curies = list(query_terms_iterator(terms, impl))
-        up_it = impl.relationships(
-            curies,
-            predicates=actual_predicates,
-            include_abox=include_abox,
-            include_tbox=include_tbox,
-            include_entailed=include_entailed,
-        )
-        down_it = impl.relationships(
-            objects=curies,
-            predicates=actual_predicates,
-            include_abox=include_abox,
-            include_tbox=include_tbox,
-            include_entailed=include_entailed,
-        )
-        if direction is None or direction == Direction.up.value:
-            it = up_it
-        elif direction == Direction.down.value:
-            it = down_it
-        else:
-            it = chain(up_it, down_it)
-        has_relationships = defaultdict(bool)
-        for rel in it:
-            if direction is None or direction == Direction.up.value:
-                has_relationships[rel[0]] = True
-            elif direction == Direction.down.value:
-                has_relationships[rel[2]] = True
-            else:
-                has_relationships[rel[0]] = True
-                has_relationships[rel[2]] = True
-            if if_absent and if_absent == IfAbsent.absent_only.value:
-                continue
-            writer.emit(
-                dict(subject=rel[0], predicate=rel[1], object=rel[2]),
-                label_fields=["subject", "predicate", "object"],
-            )
-        if if_absent and if_absent == IfAbsent.absent_only.value:
-            for curie in curies:
-                if not has_relationships[curie]:
-                    writer.emit(
-                        dict(subject=curie, predicate=None, object=None),
-                        label_fields=["subject", "predicate", "object"],
-                    )
-        if set_value:
-            if len(actual_predicates) != 1:
-                raise ValueError(f"predicates={actual_predicates}, expected exactly one")
-            pred = actual_predicates[0]
-            changes = []
-            for curie in curies:
-                changes.append(
-                    kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
-                )
-            _apply_changes(impl, changes)
-
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    up_it = impl.relationships(
+        curies,
+        predicates=actual_predicates,
+        include_abox=include_abox,
+        include_tbox=include_tbox,
+        include_entailed=include_entailed,
+    )
+    down_it = impl.relationships(
+        objects=curies,
+        predicates=actual_predicates,
+        include_abox=include_abox,
+        include_tbox=include_tbox,
+        include_entailed=include_entailed,
+    )
+    if direction is None or direction == Direction.up.value:
+        it = up_it
+    elif direction == Direction.down.value:
+        it = down_it
+    else:
+        it = chain(up_it, down_it)
+    has_relationships = defaultdict(bool)
+    for rel in it:
+        if direction is None or direction == Direction.up.value:
+            has_relationships[rel[0]] = True
+        elif direction == Direction.down.value:
+            has_relationships[rel[2]] = True
+        else:
+            has_relationships[rel[0]] = True
+            has_relationships[rel[2]] = True
+        if if_absent and if_absent == IfAbsent.absent_only.value:
+            continue
+        writer.emit(
+            dict(subject=rel[0], predicate=rel[1], object=rel[2]),
+            label_fields=["subject", "predicate", "object"],
+        )
+    if if_absent and if_absent == IfAbsent.absent_only.value:
+        for curie in curies:
+            if not has_relationships[curie]:
+                writer.emit(
+                    dict(subject=curie, predicate=None, object=None),
+                    label_fields=["subject", "predicate", "object"],
+                )
+    if set_value:
+        if len(actual_predicates) != 1:
+            raise ValueError(f"predicates={actual_predicates}, expected exactly one")
+        pred = actual_predicates[0]
+        changes = []
+        for curie in curies:
+            changes.append(
+                kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
+            )
+        _apply_changes(impl, changes)
 
 
 @main.command()
@@ -2861,6 +2998,63 @@ def logical_definitions(
         writer.file.close()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@output_type_option
+@autolabel_option
+@click.option(
+    "--query", "-q", help="Main query, specified in adapter-specific language (SQL, SPARQL)"
+)
+@click.option("--label-fields", "-L", help="Comma-separated list of fields to use as labels")
+@click.option("--prefixes", "-P", help="Comma-separated list of prefixes to expand")
+def query(query, autolabel: bool, output: str, output_type: str, prefixes: str, label_fields: str):
+    """
+    Execute an arbitrary query.
+
+    The syntax of the query is backend-dependent.
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    label_fields = label_fields.split(",") if label_fields else []
+    prefixes = prefixes.split(",") if prefixes else None
+
+    def _is_uri_or_curie(v):
+        return v is not None and isinstance(v, str) and ":" in v and " " not in v
+
+    # batch query results: this allows us to produce buffered output
+    # for a long-running query
+    for row_it in chunk(impl.query(query, prefixes=prefixes)):
+        rows = []
+        # collect rows in batch, and set label_fields if not already set
+        for r in row_it:
+            if not label_fields and autolabel:
+                # use heuristic to determine if is a curie
+                # label_fields = list([k for k, v in r.items() if _is_uri_or_curie(v)])
+                label_fields = list([k for k, v in r.items()])
+            rows.append(r)
+        idmap = {}
+        for f in label_fields:
+            # collect labels for designated fields in chunks; this is typically
+            # more efficient than querying one at a time when the backend is
+            # remote or is a database engine like sqlite
+            ids = [r[f] for r in rows if _is_uri_or_curie(r[f])]
+            id_labels = impl.labels(ids)
+            idmap[f] = {id: label for id, label in id_labels if ":" in id}
+        for r in rows:
+            if label_fields:
+                # inject labels immediately after id columns
+                new_r = {}
+                for k in r:
+                    new_r[k] = r[k]
+                    if k in label_fields:
+                        new_r[f"{k}_label"] = idmap[k].get(r[k], r[k])
+            else:
+                new_r = r
+            writer.emit(new_r)
 
 
 @main.command()
@@ -3175,20 +3369,17 @@ def expand_subsets(subsets: list, output, predicates):
 @output_type_option
 @click.option("--category-system", help="Example: biolink, cob, bfo, dbpedia, ...")
 @click.argument("terms", nargs=-1)
-def term_categories(terms, output, output_type):
+def term_categories(terms, category_system, output, output_type):
     """
-    List categories for a term or set of terms
-
-    TODO
+    List categories for a term or set of terms.
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
-    if isinstance(impl, BasicOntologyInterface):
-        curies_it = query_terms_iterator(terms, impl)
-        for curie, subset in impl.terms_categories(curies_it):
-            writer.emit(dict(curie=curie, subset=subset))
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies_it = query_terms_iterator(terms, impl)
+    for curie, subset in impl.terms_categories(curies_it):
+        writer.emit(dict(curie=curie, subset=subset))
 
 
 @main.command()
@@ -3238,7 +3429,9 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
 
 @main.command()
 @output_option
+@output_type_option
 @predicates_option
+@graph_traversal_method_option
 @click.option(
     "-A/--no-A",
     "--all/--no-all",
@@ -3252,8 +3445,23 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
     show_default=True,
     help="if specified then include redundant taxon constraints from ancestral subjects",
 )
+@click.option(
+    "--direct/--no-direct",
+    default=False,
+    show_default=True,
+    help="only include directly asserted taxon constraints",
+)
 @click.argument("terms", nargs=-1)
-def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicates: List, output):
+def taxon_constraints(
+    terms: list,
+    all: bool,
+    include_redundant: bool,
+    direct: bool,
+    predicates: List,
+    graph_traversal_method,
+    output,
+    output_type,
+):
     """
     Compute all taxon constraints for a term or terms.
 
@@ -3276,33 +3484,45 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
     - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils
     """
     impl = settings.impl
-    writer = StreamingYamlWriter(output)
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
     if all:
         if terms:
             raise ValueError("Do not specify explicit terms with --all option")
         # curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
-        actual_predicates = _process_predicates_arg(predicates)
-        for curie in query_terms_iterator(terms, impl):
-            st = get_term_with_taxon_constraints(
-                impl,
-                curie,
-                include_redundant=include_redundant,
-                predicates=actual_predicates,
-                add_labels=True,
-            )
-            writer.emit(st)
-    else:
+        impl.cache_lookups = True
+        if graph_traversal_method:
+            impl.subject_graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
+    if not isinstance(impl, TaxonConstraintInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    impl.precompute_lookups()
+    impl.precompute_direct_constraint_cache()
+    for curie in query_terms_iterator(terms, impl):
+        st = impl.get_term_with_taxon_constraints(
+            curie,
+            include_redundant=include_redundant,
+            direct=direct,
+            predicates=actual_predicates,
+            add_labels=True,
+        )
+        if direct and not st.only_in and not st.never_in and not st.present_in:
+            logging.debug(f"{st.id} has no direct constraints - skipping")
+            continue
+        writer.emit(st)
 
 
 @main.command()
 @click.option("-E", "--evolution-file", help="path to file containing gains and losses")
 @output_option
 @predicates_option
+@graph_traversal_method_option
 @click.argument("constraints", nargs=-1)
-def eval_taxon_constraints(constraints, evolution_file, predicates: List, output):
+def apply_taxon_constraints(
+    constraints, evolution_file, predicates: List, graph_traversal_method, output
+):
     """
     Test candidate taxon constraints
 
@@ -3356,18 +3576,23 @@ def eval_taxon_constraints(constraints, evolution_file, predicates: List, output
     if evolution_file is not None:
         with open(evolution_file) as file:
             sts += list(parse_gain_loss_file(file))
-    if isinstance(impl, OboGraphInterface):
-        impl.enable_transitive_query_cache()
-        for st in sts:
-            try:
-                st = eval_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
-                writer.emit(st)
-            except ValueError as e:
-                logging.error(f"Error with TC: {e}")
-                st.description = "PROBLEM"
-                writer.emit(st)
-    else:
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    impl.enable_transitive_query_cache()
+    impl.precompute_lookups()
+    impl.cache_lookups = True
+    if graph_traversal_method:
+        impl.subject_graph_traversal_method = GraphTraversalMethod[graph_traversal_method]
+    if not isinstance(impl, TaxonConstraintInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    for st in sts:
+        try:
+            st = impl.eval_candidate_taxon_constraint(st, predicates=actual_predicates)
+            writer.emit(st)
+        except ValueError as e:
+            logging.error(f"Error with TC: {e}")
+            st.description = "PROBLEM"
+            writer.emit(st)
 
 
 @main.command()
@@ -3384,6 +3609,7 @@ def eval_taxon_constraints(constraints, evolution_file, predicates: List, output
 )
 @click.option(
     "--terms-role",
+    "-Q",
     type=click.Choice([x.value for x in SubjectOrObjectRole]),
     default=SubjectOrObjectRole.OBJECT.value,
     show_default=True,
@@ -3634,6 +3860,7 @@ def enrichment(
     """
     Run class enrichment analysis.
 
+    Note: currently this is slow
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -4350,6 +4577,12 @@ def diff(
     show_default=True,
     help="if true, expand complex changes to atomic changes",
 )
+@click.option(
+    "--ignore-invalid-changes/--no-ignore-invalid-changes",
+    default=False,
+    show_default=True,
+    help="if true, ignore invalid changes, e.g. obsoletions of dependent entities",
+)
 @click.option("--contributor", help="CURIE for the person contributing the patch")
 @output_type_option
 @overwrite_option
@@ -4362,6 +4595,7 @@ def apply(
     changes_format,
     changes_output,
     contributor: str,
+    ignore_invalid_changes: bool,
     dry_run: bool,
     expand: bool,
     overwrite: bool,
@@ -4395,6 +4629,7 @@ def apply(
     configuration = kgcl.Configuration()
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
+        impl.ignore_invalid_changes = ignore_invalid_changes
         changes = []
         files = []
         if changes_input:
@@ -4407,23 +4642,27 @@ def apply(
                 logging.info(f"parsed {command} == {change}")
                 changes.append(change)
         changes += list(parse_kgcl_files(files, changes_format))
-        if expand:
-            changes = impl.expand_changes(changes, configuration=configuration)
+        applied_changes = []
+        for change in changes:
+            if expand:
+                expanded_changes = impl.expand_changes([change], configuration=configuration)
+            else:
+                expanded_changes = [change]
+            for expanded_change in expanded_changes:
+                if contributor:
+                    if expanded_change.contributor and expanded_change.contributor != contributor:
+                        raise ValueError(
+                            f"Cannot set contributor to {contributor} existing value = {expanded_change.contributor}"
+                        )
+                    expanded_change.contributor = contributor
+                logging.info(f"Change: {expanded_change}")
+                if dry_run:
+                    logging.info(f"Skipping application of change: {change}")
+                else:
+                    impl.apply_patch(expanded_change)
+            applied_changes.append(expanded_change)
         if dry_run or changes_output:
             write_kgcl(changes, changes_output, changes_format)
-        for change in changes:
-            if contributor:
-                if change.contributor and change.contributor != contributor:
-                    raise ValueError(
-                        f"Cannot set contributor to {contributor} existing value = {change.contributor}"
-                    )
-                change.contributor = contributor
-            logging.info(f"Change: {change}")
-            if dry_run:
-                # print(json_dumper.dumps(change))
-                logging.info(" (skipping)")
-            else:
-                impl.apply_patch(change)
         if not settings.autosave and not overwrite and not output:
             logging.warning("--autosave not passed, changes are NOT saved")
         if output:
@@ -4439,9 +4678,15 @@ def apply(
 
 @main.command()
 @click.option("--output", "-o")
+@click.option(
+    "--expand/--no-expand",
+    default=True,
+    show_default=True,
+    help="if true, expand complex changes to atomic changes",
+)
 @output_type_option
 @click.argument("terms", nargs=-1)
-def apply_obsolete(output, output_type, terms):
+def apply_obsolete(output, output_type, expand: bool, terms):
     """
     Sets an ontology element to be obsolete
 
@@ -4464,10 +4709,18 @@ def apply_obsolete(output, output_type, terms):
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
         for term in query_terms_iterator(terms, impl):
-            impl.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=term))
+            change = kgcl.NodeObsoletion(id=generate_change_id(), about_node=term)
+            if expand:
+                changes = impl.expand_change(change)
+            else:
+                changes = [change]
+            for change in changes:
+                impl.apply_patch(change)
         if not settings.autosave and not output:
             logging.warning("--autosave not passed, changes are NOT saved")
         if output:
+            if output == "-":
+                output = sys.stdout
             impl.dump(output, output_type)
         # impl.save()
     else:
@@ -4834,69 +5087,111 @@ def fill_table(
     help="Output patch file containing KGCL commands.",
 )
 @output_option
-def synonymize(terms, rules_file, apply_patch, patch, output):
+@click.pass_context
+def synonymize(ctxt, **kwargs):
+    """Deprecated: use generate-synonyms"""
+    logging.warning("This command has been renamed to generate-synonyms")
+    ctxt.forward(generate_synonyms)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--rules-file",
+    "-R",
+    required=True,
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.option(
+    "--apply-patch/--no-apply-patch",
+    default=False,
+    show_default=True,
+    help="Apply KGCL syntax generated based on the synonymizer rules file.",
+)
+@click.option(
+    "--patch",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="Path to where patch file will be written.",
+)
+@click.option(
+    "--patch-format",
+    help="Output syntax for patches.",
+)
+@output_option
+@output_type_option
+def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, output, output_type):
     """
-    Apply synonymizer rule from the rules file to generate KGCL syntax
-    see https://github.com/INCATools/kgcl.
+    Generate synonyms based on a set of synonymizer rules.
+
+    If the `--apply-patch` flag is set, the output will be an ontology file with the changes
+    applied. Pass the `--patch` argument to lso get the patch file in KGCL format.
 
     Example:
-        runoak -i foo.obo synonymize -R foo_rules.yaml --patch patch.kgcl --apply-patch
+
+        runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
+
+    If the `apply-patch` flag is NOT set then the main input will be KGCL commands
+
+    Example:
+
+        runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
+
+    see https://github.com/INCATools/kgcl.
     """
     impl = settings.impl
+    if apply_patch:
+        writer = _get_writer(patch_format, impl, StreamingKGCLWriter, kgcl)
+        writer.output = patch
+    else:
+        writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
+        writer.output = output
     # TODO: Eventually get this from settings as above
-
     if rules_file:
         ruleset = load_mapping_rules(rules_file)
     else:
         ruleset = None
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError
+    syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
+    terms_to_synonymize = {}
+    change_list = []
+    for curie in query_terms_iterator(terms, impl):
+        # for rule in syn_rules:
+        for _, aliases in impl.entity_alias_map(curie).items():
+            matches = []
+            if aliases is not None:
+                # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
+                for alias in aliases:
+                    if alias:
+                        synonymized, new_alias, qualifier = apply_transformation(
+                            alias,
+                            LexicalTransformation(
+                                TransformationType.Synonymization, params=syn_rules
+                            ),
+                        )
+                        if synonymized:
+                            matches.append(new_alias)
 
-    if isinstance(impl, OboGraphInterface):
-        syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
-
-        terms_to_synonymize = {}
-        change_list = []
-
-        for curie in query_terms_iterator(terms, impl):
-            # for rule in syn_rules:
-            for _, aliases in impl.entity_alias_map(curie).items():
-                matches = []
-                if aliases is not None:
-                    # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
-                    for alias in aliases:
-                        if alias:
-                            synonymized, new_alias, qualifier = apply_transformation(
-                                alias,
-                                LexicalTransformation(
-                                    TransformationType.Synonymization, params=syn_rules
-                                ),
-                            )
-                            if synonymized:
-                                matches.append(new_alias)
-
-                if len(matches) > 0:
-                    if qualifier is None or qualifier == "":
-                        qualifier = DEFAULT_QUALIFIER
-                    terms_to_synonymize[curie] = matches
-                    change = kgcl.NewSynonym(
-                        id="kgcl_change_id_" + str(len(terms_to_synonymize)),
-                        about_node=curie,
-                        old_value=alias,
-                        new_value=new_alias,
-                        qualifier=qualifier,
-                    )
-                    change_list.append(change)
-                    if patch:
-                        patch.write(str(change))
-                        patch.write("\n")
-
-        if apply_patch and len(change_list) > 0:
-            if output:
-                impl.resource.slug = output
-            _apply_changes(impl, change_list)
-
-
-# runoak -i tests/input/synonym-test.obo synonymize -R
-# tests/input/matcher_rules.yaml  .all --patch test.kgcl --apply-patch
+            if len(matches) > 0:
+                if qualifier is None or qualifier == "":
+                    qualifier = DEFAULT_QUALIFIER
+                terms_to_synonymize[curie] = matches
+                change = kgcl.NewSynonym(
+                    id="kgcl_change_id_" + str(len(terms_to_synonymize)),
+                    about_node=curie,
+                    old_value=alias,
+                    new_value=new_alias,
+                    qualifier=qualifier,
+                )
+                change_list.append(change)
+                writer.emit(change)
+    writer.finish()
+    if apply_patch and len(change_list) > 0:
+        if output:
+            impl.resource.slug = output
+        _apply_changes(impl, change_list)
 
 
 if __name__ == "__main__":

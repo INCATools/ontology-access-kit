@@ -127,7 +127,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
             (PART_OF, "part_of"),
             (TERM_TRACKER_ITEM, "term_tracker_item"),
         ]
-        print(oi.map_curie_to_shorthand(TERM_TRACKER_ITEM))
         for curie, shorthand in cases:
             self.assertEqual(oi.map_shorthand_to_curie(shorthand), curie)
             self.assertEqual(oi.map_curie_to_shorthand(curie), shorthand)
@@ -156,7 +155,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
 
     def test_synonyms_extra(self):
         syns = self.oi.entity_aliases("GO:0005575")
-        print(syns)
         # logging.info(syns)
         self.assertCountEqual(
             syns,
@@ -334,6 +332,12 @@ class TestSimpleOboImplementation(unittest.TestCase):
 
         self.compliance_tester.test_patcher(
             self.oi, original_oi=original_oi, roundtrip_function=roundtrip
+        )
+
+    def test_patcher_obsoletion_chains(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        self.compliance_tester.test_patcher_obsoletion_chains(
+            lambda: SimpleOboImplementation(resource)
         )
 
     def test_add_contributors(self):

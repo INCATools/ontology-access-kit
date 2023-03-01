@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator
 
 from semsql.sqla.semsql import TermAssociation
-from sqlalchemy import create_engine
+from sqlalchemy import Column, String, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -13,6 +13,23 @@ from oaklib.datamodels.association import Association
 from oaklib.types import CURIE, PRED_CURIE
 
 COLS = ["id", "subject", "predicate", "object", "evidence_type", "publication", "source"]
+
+
+class DenormalizedAssociation:
+    """A denormalized association. (for future extension)"""
+
+    __tablename__ = "denormalized_term_association"
+    subject_id = Column(String)
+    subject_label = Column(String)
+    object_id = Column(String)
+    object_label = Column(String)
+    predicate_id = Column(String)
+    predicate_label = Column(String)
+    subject_closure_json = Column(String)
+    object_closure_json = Column(String)
+    subject_property_values_json = Column(String)
+    object_property_values_json = Column(String)
+    association_property_values_json = Column(String)
 
 
 @dataclass
@@ -34,6 +51,7 @@ class AssociationIndex:
 
     def populate(self, associations: Iterable[Association]):
         tups = [(a.subject, a.predicate, a.object) for a in associations]
+        logging.info(f"Bulk loading {len(tups)} associations")
         self._connection.executemany(
             "insert into term_association(subject, predicate, object) values (?,?,?)", tups
         )

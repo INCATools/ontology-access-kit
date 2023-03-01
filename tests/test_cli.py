@@ -9,13 +9,18 @@ import rdflib
 import yaml
 from click.testing import CliRunner
 from kgcl_schema.datamodel.kgcl import NodeChange
-from linkml_runtime.loaders import json_loader
+from linkml_runtime.loaders import json_loader, yaml_loader
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib import get_implementation_from_shorthand
 from oaklib.cli import main
-from oaklib.datamodels import fhir, obograph
-from oaklib.datamodels.vocabulary import IN_TAXON, SKOS_CLOSE_MATCH, SKOS_EXACT_MATCH
+from oaklib.datamodels import fhir, obograph, taxon_constraints
+from oaklib.datamodels.vocabulary import (
+    IN_TAXON,
+    IS_A,
+    SKOS_CLOSE_MATCH,
+    SKOS_EXACT_MATCH,
+)
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
     ATOM,
@@ -24,6 +29,7 @@ from tests import (
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
     CYTOPLASM,
+    EUKARYOTA,
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
@@ -300,6 +306,28 @@ class TestCommandLineInterface(unittest.TestCase):
             out = result.stdout
             assert NUCLEAR_ENVELOPE not in out
 
+    def test_paths(self):
+        """Test paths command on core adapters"""
+        cases = [
+            ([NUCLEAR_MEMBRANE], VACUOLE, False, "endomembrane system", None),
+            ([NUCLEAR_MEMBRANE], VACUOLE, True, "endomembrane system", None),
+            ([CELL], VACUOLE, True, "", "GO"),
+            ([VACUOLE], CELL, True, "cytoplasm", None),
+        ]
+        for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
+            for case in cases:
+                args, target, directed, expected, unexpected = case
+                all_args = ["-i", input_arg, "paths", "--target", target, *args]
+                if directed:
+                    all_args.append("--directed")
+                result = self.runner.invoke(main, all_args)
+                self.assertEqual(0, result.exit_code)
+                out = result.stdout
+                # print(out)
+                self.assertIn(expected, out)
+                if unexpected:
+                    self.assertNotIn(unexpected, out)
+
     def test_tree(self):
         """Test tree command on core adapters"""
         for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
@@ -427,18 +455,19 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT]
             )
-            result.stdout
-            result.stderr
             self.assertEqual(0, result.exit_code)
             contents = self._out()
             self.assertIn("Eukaryota", contents)
+            st = yaml_loader.load(TEST_OUT, target_class=taxon_constraints.SubjectTerm)
+            only_in = st.only_in[0]
+            self.assertEqual(NUCLEUS, only_in.subject)
+            self.assertEqual(EUKARYOTA, only_in.taxon.id)
 
     # SEARCH
 
     def test_search_help(self):
         result = self.runner.invoke(main, ["search", "--help"])
         out = result.stdout
-        result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn("Usage:", out)
         self.assertIn("Example:", out)
@@ -499,6 +528,13 @@ class TestCommandLineInterface(unittest.TestCase):
                 [".desc//p=i,p", "nucleus", ".not", "l~membrane"],
                 True,
                 [NUCLEUS, NUCLEAR_ENVELOPE],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # nesting
+                [".desc//p=i,p", "[", "nucleus", VACUOLE, "]", ".not", "l~membrane"],
+                True,
+                [NUCLEUS, NUCLEAR_ENVELOPE, VACUOLE],
                 [TEST_OWL_RDF],
             ),
             (
@@ -592,7 +628,13 @@ class TestCommandLineInterface(unittest.TestCase):
                     for e in expected:
                         self.assertIn(e, curies)
 
+    @unittest.skip("includes network dependency")
     def test_search_pronto_obolibrary(self):
+        """
+        Tests remote prontolib
+
+        TODO: replace with mock test
+        """
         to_out = ["-o", str(TEST_OUT)]
         result = self.runner.invoke(
             main, ["-i", "prontolib:pato.obo", "search", "t~shape"] + to_out
@@ -619,6 +661,56 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn(SHAPE, out)
         self.assertNotIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
+
+    def test_query(self):
+        cases = [
+            (
+                TEST_DB,
+                f'SELECT predicate, object FROM edge WHERE subject="{NUCLEUS}"',
+                [],
+                [
+                    {
+                        "predicate": "RO:0002160",
+                        "predicate_label": "only_in_taxon",
+                        "object": "NCBITaxon:2759",
+                        "object_label": "Eukaryota",
+                    }
+                ],
+            ),
+            (
+                TEST_DB,
+                f'SELECT predicate, object FROM edge WHERE subject="{NUCLEUS}"',
+                ["--no-autolabel"],
+                [{"predicate": "RO:0002160", "object": "NCBITaxon:2759"}],
+            ),
+            (
+                TEST_OWL_RDF,
+                f"SELECT ?p ?o WHERE {{ {NUCLEUS} ?p ?o }}",
+                ["-P", "GO"],
+                [
+                    {
+                        "p": IS_A,
+                        "p_label": "None",
+                        "o": IMBO,
+                        "o_label": "intracellular membrane-bounded organelle",
+                    }
+                ],
+            ),
+        ]
+        for adapter, query, args, expected in cases:
+            print(query)
+            result = self.runner.invoke(
+                main, ["-i", adapter, "query", "-q", query, "-o", TEST_OUT] + args
+            )
+            self.assertEqual(0, result.exit_code)
+            with open(TEST_OUT, "r") as file:
+                reader = csv.DictReader(file, delimiter="\t")
+                rows = [row for row in reader]
+                print(rows)
+                for e in expected:
+                    self.assertIn(e, rows)
+                # for case in cases:
+                #    self.assertIn(case, rows)
 
     # VALIDATE
 
@@ -941,15 +1033,17 @@ class TestCommandLineInterface(unittest.TestCase):
                 docs = list(yaml.load_all(f, yaml.FullLoader))
                 self.assertCountEqual(expected, docs)
 
-    def test_synonymizer(self):
+    def test_generate_synonyms_and_apply(self):
         patch_file = OUTPUT_DIR / "synonym-test-patch.kgcl"
         outfile = OUTPUT_DIR / "synonym-test-output.obo"
+        patch_file.unlink(missing_ok=True)
+        outfile.unlink(missing_ok=True)
         result = self.runner.invoke(
             main,
             [
                 "-i",
                 TEST_SYNONYMIZER_OBO,
-                "synonymize",
+                "generate-synonyms",
                 "-R",
                 RULES_FILE,
                 "--patch",
@@ -965,8 +1059,32 @@ class TestCommandLineInterface(unittest.TestCase):
         with open(patch_file, "r") as p, open(outfile, "r") as t:
             patch = p.readlines()
             self.assertTrue(len(patch), 3)
+            self.assertTrue("create exact synonym 'eyeball'" in "\n".join(patch))
             output = t.readlines()
             self.assertTrue('synonym: "bone element" EXACT []\n' in output)
+
+    def test_generate_synonyms_no_apply(self):
+        patch_file = OUTPUT_DIR / "synonym-test-patch.kgcl"
+        patch_file.unlink(missing_ok=True)
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                TEST_SYNONYMIZER_OBO,
+                "generate-synonyms",
+                "-R",
+                RULES_FILE,
+                "-o",
+                patch_file,
+                ".all",
+            ],
+        )
+
+        self.assertEqual(0, result.exit_code)
+        with open(patch_file, "r") as p:
+            patch = p.readlines()
+            self.assertTrue(len(patch), 3)
+            self.assertTrue("create exact synonym 'eyeball'" in "\n".join(patch))
 
     def test_create_ontology_with_kcgl(self):
         outfile = OUTPUT_DIR / "create-ontology"

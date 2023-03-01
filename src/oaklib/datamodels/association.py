@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-22T09:36:40
+# Generation date: 2023-02-28T16:17:00
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -44,11 +44,11 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-ASSOC = CurieNamespace("assoc", "https://w3id.org/oak/association/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
+ONTOASSOC = CurieNamespace("ontoassoc", "https://w3id.org/oak/association/")
 RDF = CurieNamespace("rdf", "http://example.org/UNKNOWN/rdf/")
-DEFAULT_ = ASSOC
+DEFAULT_ = ONTOASSOC
 
 
 # Types
@@ -67,7 +67,7 @@ class Association(YAMLRoot):
     class_class_uri: ClassVar[URIRef] = OA.Annotation
     class_class_curie: ClassVar[str] = "oa:Annotation"
     class_name: ClassVar[str] = "Association"
-    class_model_uri: ClassVar[URIRef] = ASSOC.Association
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.Association
 
     subject: Optional[Union[str, URIorCURIE]] = None
     predicate: Optional[Union[str, URIorCURIE]] = None
@@ -106,10 +106,10 @@ class PropertyValue(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ASSOC.PropertyValue
-    class_class_curie: ClassVar[str] = "assoc:PropertyValue"
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.PropertyValue
+    class_class_curie: ClassVar[str] = "ontoassoc:PropertyValue"
     class_name: ClassVar[str] = "PropertyValue"
-    class_model_uri: ClassVar[URIRef] = ASSOC.PropertyValue
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.PropertyValue
 
     predicate: Optional[Union[str, URIorCURIE]] = None
     object: Optional[Union[str, URIorCURIE]] = None
@@ -128,10 +128,10 @@ class PropertyValue(YAMLRoot):
 class RollupGroup(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ASSOC.RollupGroup
-    class_class_curie: ClassVar[str] = "assoc:RollupGroup"
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.RollupGroup
+    class_class_curie: ClassVar[str] = "ontoassoc:RollupGroup"
     class_name: ClassVar[str] = "RollupGroup"
-    class_model_uri: ClassVar[URIRef] = ASSOC.RollupGroup
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.RollupGroup
 
     group_object: Optional[Union[str, URIorCURIE]] = None
     sub_groups: Optional[
@@ -173,7 +173,7 @@ slots.subject = Slot(
     uri=RDF.subject,
     name="subject",
     curie=RDF.curie("subject"),
-    model_uri=ASSOC.subject,
+    model_uri=ONTOASSOC.subject,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
@@ -182,7 +182,7 @@ slots.predicate = Slot(
     uri=RDF.predicate,
     name="predicate",
     curie=RDF.curie("predicate"),
-    model_uri=ASSOC.predicate,
+    model_uri=ONTOASSOC.predicate,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
@@ -191,16 +191,16 @@ slots.object = Slot(
     uri=RDF.object,
     name="object",
     curie=RDF.curie("object"),
-    model_uri=ASSOC.object,
+    model_uri=ONTOASSOC.object,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.property_values = Slot(
-    uri=ASSOC.property_values,
+    uri=ONTOASSOC.property_values,
     name="property_values",
-    curie=ASSOC.curie("property_values"),
-    model_uri=ASSOC.property_values,
+    curie=ONTOASSOC.curie("property_values"),
+    model_uri=ONTOASSOC.property_values,
     domain=None,
     range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]],
 )
@@ -209,25 +209,25 @@ slots.group_object = Slot(
     uri=RDF.object,
     name="group_object",
     curie=RDF.curie("object"),
-    model_uri=ASSOC.group_object,
+    model_uri=ONTOASSOC.group_object,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.sub_groups = Slot(
-    uri=ASSOC.sub_groups,
+    uri=ONTOASSOC.sub_groups,
     name="sub_groups",
-    curie=ASSOC.curie("sub_groups"),
-    model_uri=ASSOC.sub_groups,
+    curie=ONTOASSOC.curie("sub_groups"),
+    model_uri=ONTOASSOC.sub_groups,
     domain=None,
     range=Optional[Union[Union[dict, RollupGroup], List[Union[dict, RollupGroup]]]],
 )
 
 slots.associations = Slot(
-    uri=ASSOC.associations,
+    uri=ONTOASSOC.associations,
     name="associations",
-    curie=ASSOC.curie("associations"),
-    model_uri=ASSOC.associations,
+    curie=ONTOASSOC.curie("associations"),
+    model_uri=ONTOASSOC.associations,
     domain=None,
     range=Optional[Union[Union[dict, Association], List[Union[dict, Association]]]],
 )

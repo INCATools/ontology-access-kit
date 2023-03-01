@@ -76,6 +76,17 @@
                 "style": "filled,square",
                 "fillcolor": "green"
             }
+        },
+        {
+            "conditions": {
+                "subset": "path"
+            },
+            "properties": {
+                "style": "filled,square",
+                "arrowhead": "diamond",
+                "penwidth": "3",
+                "fillcolor": "green"
+            }
         }
     ],
     "displayAnnotations": [

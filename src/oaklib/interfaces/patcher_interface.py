@@ -16,6 +16,7 @@ from kgcl_schema.datamodel.kgcl import (
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.kgcl_utilities import generate_change_id
 
@@ -31,6 +32,8 @@ class PatcherInterface(BasicOntologyInterface, ABC):
     """If provided, then any creators of or contributors on a Change object are
        propagated to the entity after application of that change, using this property.
        If this is set then the recommended value is dct:contributor"""
+
+    ignore_invalid_changes: bool = False
 
     def apply_patch(
         self,
@@ -67,16 +70,24 @@ class PatcherInterface(BasicOntologyInterface, ABC):
         """
 
     def expand_changes(
-        self, changes: List[Change], configuration: Configuration = None
+        self, changes: List[Change], configuration: Configuration = None, apply=False
     ) -> List[Change]:
         """
         Expand a list of complex change objects to a list of atomic changes.
 
         :param changes:
         :param configuration:
+        :param apply: if True, apply the changes
         :return:
         """
-        return [c for change in changes for c in self.expand_change(change, configuration)]
+        expanded_changes = []
+        for c in changes:
+            c_expanded = self.expand_change(c, configuration)
+            if apply:
+                for c2 in c_expanded:
+                    self.apply_patch(c2)
+            expanded_changes.extend(c_expanded)
+        return expanded_changes
 
     def expand_change(self, change: Change, configuration: Configuration = None) -> List[Change]:
         """
@@ -110,6 +121,18 @@ class PatcherInterface(BasicOntologyInterface, ABC):
             logging.info(f"Expanding {type(change)}")
             about_node = change.about_node
             changes = [change]
+            if isinstance(self, OboGraphInterface):
+                for ldef in self.logical_definitions(self.entities()):
+                    if about_node in ldef.genusIds or about_node in [
+                        r.fillerId for r in ldef.restrictions
+                    ]:
+                        message = (
+                            f"{about_node} used in logical definition of {ldef.definedClassId}"
+                        )
+                        if self.ignore_invalid_changes:
+                            logging.warning(f"SKIPPING {change}; reason={message}")
+                            return []
+                        raise ValueError(message)
             old_label = self.label(change.about_node)
             obsolete_node_label_prefix = "obsolete "
             # TODO: do this with new version of kgcl
@@ -129,22 +152,37 @@ class PatcherInterface(BasicOntologyInterface, ABC):
             # TODO: set this based on configuration
             rewire = True
             if rewire:
-                rewire_predicates = [IS_A, PART_OF]
-                for pred in rewire_predicates:
-                    for s, p1, _ in child_relationships:
-                        if p1 == pred:
-                            for _, p2, o in parent_relationships:
-                                if p2 == pred:
-                                    ch = EdgeCreation(
-                                        generate_change_id(), subject=s, predicate=p2, object=o
-                                    )
-                                    changes.append(ch)
-                                    logging.info(f"Rewiring {s} {p1} {about_node} to {s} {p2} {o}")
+                new_edges = []
+                transitive_predicates = [IS_A, PART_OF]
+                for s, p1, _ in child_relationships:
+                    for _, p2, o in parent_relationships:
+                        if p1 == p2 and p1 in transitive_predicates:
+                            pred = p1
+                        elif p1 == IS_A:
+                            pred = p2
+                        elif p2 == IS_A:
+                            pred = p1
+                        else:
+                            pred = None
+                        if pred:
+                            e = (s, pred, o)
+                            if e in new_edges:
+                                continue
+                            if e in self.relationships([s]):
+                                # edge previously existed
+                                continue
+                            new_edges.append(e)
+                            ch = EdgeCreation(
+                                generate_change_id(), subject=s, predicate=pred, object=o
+                            )
+                            changes.append(ch)
+                            logging.info(f"Rewiring {s} {p1} {about_node} to {s} {pred} {o}")
             # TODO: set this based on configuration
             remove_edges = True
             if remove_edges:
                 for s, p, o in child_relationships + parent_relationships:
                     ch = EdgeDeletion(generate_change_id(), subject=s, predicate=p, object=o)
+                    logging.info(f"Removing {s} {p} {o}")
                     changes.append(ch)
         return changes
 

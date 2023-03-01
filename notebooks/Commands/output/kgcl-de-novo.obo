@@ -1,0 +1,17 @@
+format-version: 1.4
+
+[Term]
+id: X:1
+name: limb
+
+[Term]
+id: X:2
+name: forelimb
+synonym: "arm" RELATED []
+is_a: X:1
+
+[Term]
+id: X:3
+name: hindlimb
+synonym: "leg" RELATED []
+is_a: X:1

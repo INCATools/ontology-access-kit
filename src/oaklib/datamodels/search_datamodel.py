@@ -1,8 +1,8 @@
 # Auto generated from search_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-15T18:41:02
+# Generation date: 2023-02-27T09:56:32
 # Schema: search-datamodel
 #
-# id: https://w3id.org/linkml/search_datamodel
+# id: https://w3id.org/oak/search-datamodel
 # description: A datamodel for representing a search configuration and results. This is intended to provide a
 #              unified layer over both: - (a) how searches are *parameterized* - (b) the structure of search
 #              *results*. The scope is any kind of service that provides search over *named entities*, including
@@ -53,18 +53,18 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
+ONTOSEARCH = CurieNamespace("ontosearch", "https://w3id.org/oak/search-datamodel/")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 PAV = CurieNamespace("pav", "http://purl.org/pav/")
 PROV = CurieNamespace("prov", "http://www.w3.org/ns/prov#")
 RDF = CurieNamespace("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 RDFS = CurieNamespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
 SCHEMA = CurieNamespace("schema", "http://schema.org/")
-SEARCH = CurieNamespace("search", "https://w3id.org/linkml/search_datamodel/")
 SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
 SSSOM = CurieNamespace("sssom", "http://w3id.org/sssom/")
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
-DEFAULT_ = SEARCH
+DEFAULT_ = ONTOSEARCH
 
 
 # Types
@@ -72,7 +72,7 @@ class SearchTerm(String):
     type_class_uri = XSD.string
     type_class_curie = "xsd:string"
     type_name = "SearchTerm"
-    type_model_uri = SEARCH.SearchTerm
+    type_model_uri = ONTOSEARCH.SearchTerm
 
 
 # Class references
@@ -86,10 +86,10 @@ class SearchBaseConfiguration(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SEARCH.SearchBaseConfiguration
-    class_class_curie: ClassVar[str] = "search:SearchBaseConfiguration"
+    class_class_uri: ClassVar[URIRef] = ONTOSEARCH.SearchBaseConfiguration
+    class_class_curie: ClassVar[str] = "ontosearch:SearchBaseConfiguration"
     class_name: ClassVar[str] = "SearchBaseConfiguration"
-    class_model_uri: ClassVar[URIRef] = SEARCH.SearchBaseConfiguration
+    class_model_uri: ClassVar[URIRef] = ONTOSEARCH.SearchBaseConfiguration
 
     search_terms: Optional[
         Union[Union[str, SearchTerm], List[Union[str, SearchTerm]]]
@@ -161,10 +161,10 @@ class SearchBaseConfiguration(YAMLRoot):
 class ComplexQuery(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SEARCH.ComplexQuery
-    class_class_curie: ClassVar[str] = "search:ComplexQuery"
+    class_class_uri: ClassVar[URIRef] = ONTOSEARCH.ComplexQuery
+    class_class_curie: ClassVar[str] = "ontosearch:ComplexQuery"
     class_name: ClassVar[str] = "ComplexQuery"
-    class_model_uri: ClassVar[URIRef] = SEARCH.ComplexQuery
+    class_model_uri: ClassVar[URIRef] = ONTOSEARCH.ComplexQuery
 
     all_of: Optional[
         Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]
@@ -214,10 +214,10 @@ class PathExpression(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SEARCH.PathExpression
-    class_class_curie: ClassVar[str] = "search:PathExpression"
+    class_class_uri: ClassVar[URIRef] = ONTOSEARCH.PathExpression
+    class_class_curie: ClassVar[str] = "ontosearch:PathExpression"
     class_name: ClassVar[str] = "PathExpression"
-    class_model_uri: ClassVar[URIRef] = SEARCH.PathExpression
+    class_model_uri: ClassVar[URIRef] = ONTOSEARCH.PathExpression
 
     traversal: Optional[Union[str, "GraphFunction"]] = None
     graph_predicates: Optional[
@@ -253,10 +253,10 @@ class SearchResult(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SEARCH.SearchResult
-    class_class_curie: ClassVar[str] = "search:SearchResult"
+    class_class_uri: ClassVar[URIRef] = ONTOSEARCH.SearchResult
+    class_class_curie: ClassVar[str] = "ontosearch:SearchResult"
     class_name: ClassVar[str] = "SearchResult"
-    class_model_uri: ClassVar[URIRef] = SEARCH.SearchResult
+    class_model_uri: ClassVar[URIRef] = ONTOSEARCH.SearchResult
 
     object_id: str = None
     rank: Optional[int] = None
@@ -305,10 +305,10 @@ class SearchResult(YAMLRoot):
 class SearchResultSet(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SEARCH.SearchResultSet
-    class_class_curie: ClassVar[str] = "search:SearchResultSet"
+    class_class_uri: ClassVar[URIRef] = ONTOSEARCH.SearchResultSet
+    class_class_curie: ClassVar[str] = "ontosearch:SearchResultSet"
     class_name: ClassVar[str] = "SearchResultSet"
-    class_model_uri: ClassVar[URIRef] = SEARCH.SearchResultSet
+    class_model_uri: ClassVar[URIRef] = ONTOSEARCH.SearchResultSet
 
     configuration: Optional[Union[dict, SearchBaseConfiguration]] = None
     results: Optional[
@@ -436,181 +436,181 @@ class slots:
 
 
 slots.searchBaseConfiguration__search_terms = Slot(
-    uri=SEARCH.search_terms,
+    uri=ONTOSEARCH.search_terms,
     name="searchBaseConfiguration__search_terms",
-    curie=SEARCH.curie("search_terms"),
-    model_uri=SEARCH.searchBaseConfiguration__search_terms,
+    curie=ONTOSEARCH.curie("search_terms"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__search_terms,
     domain=None,
     range=Optional[Union[Union[str, SearchTerm], List[Union[str, SearchTerm]]]],
 )
 
 slots.searchBaseConfiguration__syntax = Slot(
-    uri=SEARCH.syntax,
+    uri=ONTOSEARCH.syntax,
     name="searchBaseConfiguration__syntax",
-    curie=SEARCH.curie("syntax"),
-    model_uri=SEARCH.searchBaseConfiguration__syntax,
+    curie=ONTOSEARCH.curie("syntax"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__syntax,
     domain=None,
     range=Optional[Union[str, "SearchTermSyntax"]],
 )
 
 slots.searchBaseConfiguration__properties = Slot(
-    uri=SEARCH.properties,
+    uri=ONTOSEARCH.properties,
     name="searchBaseConfiguration__properties",
-    curie=SEARCH.curie("properties"),
-    model_uri=SEARCH.searchBaseConfiguration__properties,
+    curie=ONTOSEARCH.curie("properties"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__properties,
     domain=None,
     range=Optional[Union[Union[str, "SearchProperty"], List[Union[str, "SearchProperty"]]]],
 )
 
 slots.searchBaseConfiguration__limit = Slot(
-    uri=SEARCH.limit,
+    uri=ONTOSEARCH.limit,
     name="searchBaseConfiguration__limit",
-    curie=SEARCH.curie("limit"),
-    model_uri=SEARCH.searchBaseConfiguration__limit,
+    curie=ONTOSEARCH.curie("limit"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__limit,
     domain=None,
     range=Optional[int],
 )
 
 slots.searchBaseConfiguration__cursor = Slot(
-    uri=SEARCH.cursor,
+    uri=ONTOSEARCH.cursor,
     name="searchBaseConfiguration__cursor",
-    curie=SEARCH.curie("cursor"),
-    model_uri=SEARCH.searchBaseConfiguration__cursor,
+    curie=ONTOSEARCH.curie("cursor"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__cursor,
     domain=None,
     range=Optional[int],
 )
 
 slots.searchBaseConfiguration__is_partial = Slot(
-    uri=SEARCH.is_partial,
+    uri=ONTOSEARCH.is_partial,
     name="searchBaseConfiguration__is_partial",
-    curie=SEARCH.curie("is_partial"),
-    model_uri=SEARCH.searchBaseConfiguration__is_partial,
+    curie=ONTOSEARCH.curie("is_partial"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__is_partial,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.searchBaseConfiguration__is_complete = Slot(
-    uri=SEARCH.is_complete,
+    uri=ONTOSEARCH.is_complete,
     name="searchBaseConfiguration__is_complete",
-    curie=SEARCH.curie("is_complete"),
-    model_uri=SEARCH.searchBaseConfiguration__is_complete,
+    curie=ONTOSEARCH.curie("is_complete"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__is_complete,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.searchBaseConfiguration__include_obsoletes_in_results = Slot(
-    uri=SEARCH.include_obsoletes_in_results,
+    uri=ONTOSEARCH.include_obsoletes_in_results,
     name="searchBaseConfiguration__include_obsoletes_in_results",
-    curie=SEARCH.curie("include_obsoletes_in_results"),
-    model_uri=SEARCH.searchBaseConfiguration__include_obsoletes_in_results,
+    curie=ONTOSEARCH.curie("include_obsoletes_in_results"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__include_obsoletes_in_results,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.searchBaseConfiguration__is_fuzzy = Slot(
-    uri=SEARCH.is_fuzzy,
+    uri=ONTOSEARCH.is_fuzzy,
     name="searchBaseConfiguration__is_fuzzy",
-    curie=SEARCH.curie("is_fuzzy"),
-    model_uri=SEARCH.searchBaseConfiguration__is_fuzzy,
+    curie=ONTOSEARCH.curie("is_fuzzy"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__is_fuzzy,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.searchBaseConfiguration__categories = Slot(
-    uri=SEARCH.categories,
+    uri=ONTOSEARCH.categories,
     name="searchBaseConfiguration__categories",
-    curie=SEARCH.curie("categories"),
-    model_uri=SEARCH.searchBaseConfiguration__categories,
+    curie=ONTOSEARCH.curie("categories"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__categories,
     domain=None,
     range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
 )
 
 slots.searchBaseConfiguration__force_case_insensitive = Slot(
-    uri=SEARCH.force_case_insensitive,
+    uri=ONTOSEARCH.force_case_insensitive,
     name="searchBaseConfiguration__force_case_insensitive",
-    curie=SEARCH.curie("force_case_insensitive"),
-    model_uri=SEARCH.searchBaseConfiguration__force_case_insensitive,
+    curie=ONTOSEARCH.curie("force_case_insensitive"),
+    model_uri=ONTOSEARCH.searchBaseConfiguration__force_case_insensitive,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.complexQuery__all_of = Slot(
-    uri=SEARCH.all_of,
+    uri=ONTOSEARCH.all_of,
     name="complexQuery__all_of",
-    curie=SEARCH.curie("all_of"),
-    model_uri=SEARCH.complexQuery__all_of,
+    curie=ONTOSEARCH.curie("all_of"),
+    model_uri=ONTOSEARCH.complexQuery__all_of,
     domain=None,
     range=Optional[Union[Union[dict, ComplexQuery], List[Union[dict, ComplexQuery]]]],
 )
 
 slots.complexQuery__any_of = Slot(
-    uri=SEARCH.any_of,
+    uri=ONTOSEARCH.any_of,
     name="complexQuery__any_of",
-    curie=SEARCH.curie("any_of"),
-    model_uri=SEARCH.complexQuery__any_of,
+    curie=ONTOSEARCH.curie("any_of"),
+    model_uri=ONTOSEARCH.complexQuery__any_of,
     domain=None,
     range=Optional[Union[Union[dict, ComplexQuery], List[Union[dict, ComplexQuery]]]],
 )
 
 slots.complexQuery__none_of = Slot(
-    uri=SEARCH.none_of,
+    uri=ONTOSEARCH.none_of,
     name="complexQuery__none_of",
-    curie=SEARCH.curie("none_of"),
-    model_uri=SEARCH.complexQuery__none_of,
+    curie=ONTOSEARCH.curie("none_of"),
+    model_uri=ONTOSEARCH.complexQuery__none_of,
     domain=None,
     range=Optional[Union[Union[dict, ComplexQuery], List[Union[dict, ComplexQuery]]]],
 )
 
 slots.complexQuery__path_to = Slot(
-    uri=SEARCH.path_to,
+    uri=ONTOSEARCH.path_to,
     name="complexQuery__path_to",
-    curie=SEARCH.curie("path_to"),
-    model_uri=SEARCH.complexQuery__path_to,
+    curie=ONTOSEARCH.curie("path_to"),
+    model_uri=ONTOSEARCH.complexQuery__path_to,
     domain=None,
     range=Optional[str],
 )
 
 slots.complexQuery__atom = Slot(
-    uri=SEARCH.atom,
+    uri=ONTOSEARCH.atom,
     name="complexQuery__atom",
-    curie=SEARCH.curie("atom"),
-    model_uri=SEARCH.complexQuery__atom,
+    curie=ONTOSEARCH.curie("atom"),
+    model_uri=ONTOSEARCH.complexQuery__atom,
     domain=None,
     range=Optional[Union[dict, SearchBaseConfiguration]],
 )
 
 slots.pathExpression__traversal = Slot(
-    uri=SEARCH.traversal,
+    uri=ONTOSEARCH.traversal,
     name="pathExpression__traversal",
-    curie=SEARCH.curie("traversal"),
-    model_uri=SEARCH.pathExpression__traversal,
+    curie=ONTOSEARCH.curie("traversal"),
+    model_uri=ONTOSEARCH.pathExpression__traversal,
     domain=None,
     range=Optional[Union[str, "GraphFunction"]],
 )
 
 slots.pathExpression__graph_predicates = Slot(
-    uri=SEARCH.graph_predicates,
+    uri=ONTOSEARCH.graph_predicates,
     name="pathExpression__graph_predicates",
-    curie=SEARCH.curie("graph_predicates"),
-    model_uri=SEARCH.pathExpression__graph_predicates,
+    curie=ONTOSEARCH.curie("graph_predicates"),
+    model_uri=ONTOSEARCH.pathExpression__graph_predicates,
     domain=None,
     range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
 )
 
 slots.pathExpression__search_term = Slot(
-    uri=SEARCH.search_term,
+    uri=ONTOSEARCH.search_term,
     name="pathExpression__search_term",
-    curie=SEARCH.curie("search_term"),
-    model_uri=SEARCH.pathExpression__search_term,
+    curie=ONTOSEARCH.curie("search_term"),
+    model_uri=ONTOSEARCH.pathExpression__search_term,
     domain=None,
     range=Optional[Union[dict, SearchBaseConfiguration]],
 )
 
 slots.searchResult__rank = Slot(
-    uri=SEARCH.rank,
+    uri=ONTOSEARCH.rank,
     name="searchResult__rank",
-    curie=SEARCH.curie("rank"),
-    model_uri=SEARCH.searchResult__rank,
+    curie=ONTOSEARCH.curie("rank"),
+    model_uri=ONTOSEARCH.searchResult__rank,
     domain=None,
     range=Optional[int],
 )
@@ -619,7 +619,7 @@ slots.searchResult__object_id = Slot(
     uri=SSSOM.object_id,
     name="searchResult__object_id",
     curie=SSSOM.curie("object_id"),
-    model_uri=SEARCH.searchResult__object_id,
+    model_uri=ONTOSEARCH.searchResult__object_id,
     domain=None,
     range=str,
 )
@@ -628,7 +628,7 @@ slots.searchResult__object_label = Slot(
     uri=SSSOM.object_label,
     name="searchResult__object_label",
     curie=SSSOM.curie("object_label"),
-    model_uri=SEARCH.searchResult__object_label,
+    model_uri=ONTOSEARCH.searchResult__object_label,
     domain=None,
     range=Optional[str],
 )
@@ -637,7 +637,7 @@ slots.searchResult__object_source = Slot(
     uri=SSSOM.object_source,
     name="searchResult__object_source",
     curie=SSSOM.curie("object_source"),
-    model_uri=SEARCH.searchResult__object_source,
+    model_uri=ONTOSEARCH.searchResult__object_source,
     domain=None,
     range=Optional[str],
 )
@@ -646,7 +646,7 @@ slots.searchResult__object_source_version = Slot(
     uri=SSSOM.object_source_version,
     name="searchResult__object_source_version",
     curie=SSSOM.curie("object_source_version"),
-    model_uri=SEARCH.searchResult__object_source_version,
+    model_uri=ONTOSEARCH.searchResult__object_source_version,
     domain=None,
     range=Optional[str],
 )
@@ -655,61 +655,61 @@ slots.searchResult__object_match_field = Slot(
     uri=SSSOM.object_match_field,
     name="searchResult__object_match_field",
     curie=SSSOM.curie("object_match_field"),
-    model_uri=SEARCH.searchResult__object_match_field,
+    model_uri=ONTOSEARCH.searchResult__object_match_field,
     domain=None,
     range=Optional[str],
 )
 
 slots.searchResult__matches_full_search_term = Slot(
-    uri=SEARCH.matches_full_search_term,
+    uri=ONTOSEARCH.matches_full_search_term,
     name="searchResult__matches_full_search_term",
-    curie=SEARCH.curie("matches_full_search_term"),
-    model_uri=SEARCH.searchResult__matches_full_search_term,
+    curie=ONTOSEARCH.curie("matches_full_search_term"),
+    model_uri=ONTOSEARCH.searchResult__matches_full_search_term,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.searchResult__snippet = Slot(
-    uri=SEARCH.snippet,
+    uri=ONTOSEARCH.snippet,
     name="searchResult__snippet",
-    curie=SEARCH.curie("snippet"),
-    model_uri=SEARCH.searchResult__snippet,
+    curie=ONTOSEARCH.curie("snippet"),
+    model_uri=ONTOSEARCH.searchResult__snippet,
     domain=None,
     range=Optional[str],
 )
 
 slots.searchResultSet__configuration = Slot(
-    uri=SEARCH.configuration,
+    uri=ONTOSEARCH.configuration,
     name="searchResultSet__configuration",
-    curie=SEARCH.curie("configuration"),
-    model_uri=SEARCH.searchResultSet__configuration,
+    curie=ONTOSEARCH.curie("configuration"),
+    model_uri=ONTOSEARCH.searchResultSet__configuration,
     domain=None,
     range=Optional[Union[dict, SearchBaseConfiguration]],
 )
 
 slots.searchResultSet__results = Slot(
-    uri=SEARCH.results,
+    uri=ONTOSEARCH.results,
     name="searchResultSet__results",
-    curie=SEARCH.curie("results"),
-    model_uri=SEARCH.searchResultSet__results,
+    curie=ONTOSEARCH.curie("results"),
+    model_uri=ONTOSEARCH.searchResultSet__results,
     domain=None,
     range=Optional[Union[Union[dict, SearchResult], List[Union[dict, SearchResult]]]],
 )
 
 slots.searchResultSet__result_count = Slot(
-    uri=SEARCH.result_count,
+    uri=ONTOSEARCH.result_count,
     name="searchResultSet__result_count",
-    curie=SEARCH.curie("result_count"),
-    model_uri=SEARCH.searchResultSet__result_count,
+    curie=ONTOSEARCH.curie("result_count"),
+    model_uri=ONTOSEARCH.searchResultSet__result_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.searchResultSet__cursor = Slot(
-    uri=SEARCH.cursor,
+    uri=ONTOSEARCH.cursor,
     name="searchResultSet__cursor",
-    curie=SEARCH.curie("cursor"),
-    model_uri=SEARCH.searchResultSet__cursor,
+    curie=ONTOSEARCH.curie("cursor"),
+    model_uri=ONTOSEARCH.searchResultSet__cursor,
     domain=None,
     range=Optional[int],
 )

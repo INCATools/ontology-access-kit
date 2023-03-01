@@ -119,7 +119,7 @@ class WikidataImplementation(
         )
         if config.limit is not None:
             query.limit = config.limit
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -135,7 +135,7 @@ class WikidataImplementation(
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             query.where.append(_sparql_values("p", pred_uris))
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             obj = self.uri_to_curie(row["o"]["value"])
             if obj.startswith("wikidata:statement/"):
@@ -152,7 +152,7 @@ class WikidataImplementation(
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             query.where.append(_sparql_values("p", pred_uris))
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             pred = self.uri_to_curie(row["p"]["value"])
             subj = self.uri_to_curie(row["s"]["value"])
@@ -213,7 +213,7 @@ class WikidataImplementation(
         )
         if self.multilingual and object_is_literal:
             query.where.append(f'FILTER (LANG(?o) = "{self.preferred_language}")')
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             v = row["o"]["value"]
             if not object_is_literal:
@@ -270,7 +270,7 @@ class WikidataImplementation(
         pred_uris_j = "|".join(pred_uris)
         where.append(f"?s ({pred_uris_j})* ?o")
         query = SparqlQuery(select=["?o"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["o"]["value"])
 
@@ -293,7 +293,7 @@ class WikidataImplementation(
             where.append("?s != ?o")
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
         print(query.query_str())
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -311,7 +311,7 @@ class WikidataImplementation(
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("p", pred_uris))
         query = SparqlQuery(select=["?s ?p ?o"], where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         # TODO: remove redundancy
         rels = []
         for row in bindings:
@@ -340,7 +340,7 @@ class WikidataImplementation(
             where.append(_sparql_values("sp", pred_uris))
             where.append(_sparql_values("op", pred_uris))
         query = SparqlQuery(select=["?a"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["a"]["value"])
 
@@ -361,7 +361,7 @@ class WikidataImplementation(
         query = SparqlQuery(select=["?a"], distinct=True, where=where)
         subq = SparqlQuery(select=["?a2"], where=where2)
         query.add_not_in(subq)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["a"]["value"])
 
@@ -391,7 +391,7 @@ class WikidataImplementation(
             where.append(_sparql_values("sp", pred_uris))
             where.append(_sparql_values("op", pred_uris))
         query = SparqlQuery(select=["?a", "?ic"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         ics = {
             self.uri_to_curie(row["a"]["value"]): float(self.uri_to_curie(row["ic"]["value"]))
             for row in bindings
