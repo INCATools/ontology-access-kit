@@ -476,6 +476,8 @@ def graph_to_tree_display(
     :param stylemap: kgviz stylemap (not yet used)
     :return:
     """
+    if not display_options:
+        display_options = []
     show_all = "all" in display_options
     if seeds is None:
         seeds = []

@@ -125,6 +125,6 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
             }
         else:
             anc_counts = {}
-        results.sort(key=lambda x: x.p_value - anc_counts.get(x.class_id, 0) / 1e50)
+        results.sort(key=lambda x: (x.p_value, -anc_counts.get(x.class_id, 0)))
         for r in results:
             yield r
