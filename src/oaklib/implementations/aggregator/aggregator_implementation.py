@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
 
@@ -12,6 +12,7 @@ from oaklib.datamodels.validation_datamodel import (
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    DEFINITION,
     PRED_CURIE,
     RELATIONSHIP_MAP,
     BasicOntologyInterface,
@@ -85,6 +86,14 @@ class AggregatorImplementation(
 
     def label(self, curie: CURIE) -> str:
         return self._delegate_first(lambda i: i.label(curie))
+
+    def definition(self, curie: CURIE) -> str:
+        return self._delegate_first(lambda i: i.definition(curie))
+
+    def definitions(
+        self, curies: Iterable[CURIE], include_metadata=False, include_missing=False
+    ) -> Iterator[DEFINITION]:
+        return self._delegate_iterator(lambda i: i.definitions(curies))
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.entity_alias_map(curie))

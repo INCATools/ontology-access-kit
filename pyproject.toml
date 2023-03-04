@@ -58,6 +58,7 @@ boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
 gilda = ["scipy", "gilda"]
+seaborn = ["seaborn"]
 
 [tool.black]
 line-length = 100

@@ -13,8 +13,11 @@ __all__ = [
     "GafAssociationParser",
 ]
 
+from oaklib.parsers.hpoa_g2p_association_parser import HpoaG2PAssociationParser
+
 GAF = "gaf"
 HPOA = "hpoa"
+HPOA_G2P = "hpoa_g2p"
 KGX = "kgx"
 
 
@@ -28,6 +31,7 @@ def get_association_parser_resolver() -> ClassResolver[AssociationParser]:
         {
             GAF: GafAssociationParser,
             HPOA: HpoaAssociationParser,
+            HPOA_G2P: HpoaG2PAssociationParser,
         }
     )
 

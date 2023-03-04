@@ -725,6 +725,10 @@ class SqlImplementation(
         logging.info("Precomputing lookups")
 
         def add(row):
+            if not row.object:
+                # https://github.com/INCATools/ontology-access-kit/issues/457
+                logging.warning(f"Bad row: {row}")
+                return
             s = row.subject
             if s not in self._relationships_by_subject_index:
                 self._relationships_by_subject_index[s] = []
