@@ -16,7 +16,7 @@ from oaklib.utilities.obograph_utils import (
     filter_by_predicates,
     graph_as_dict,
     graph_ids,
-    graph_to_tree,
+    graph_to_tree_display,
     induce_graph_prefix_map,
     shortest_paths,
     trim_graph,
@@ -111,13 +111,13 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertGreater(len(g2.edges), 100)
 
     def test_as_tree(self):
-        t = graph_to_tree(self.graph, predicates=[IS_A])
+        t = graph_to_tree_display(self.graph, predicates=[IS_A])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertNotIn("[p]", t)
         self.assertNotIn(PART_OF, t)
         self.assertGreater(len(lines), 100)
-        t = graph_to_tree(self.graph, predicates=[IS_A, PART_OF])
+        t = graph_to_tree_display(self.graph, predicates=[IS_A, PART_OF])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertIn("* [p] GO:0019209 ! kinase activator activity", t)

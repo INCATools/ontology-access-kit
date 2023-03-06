@@ -42,8 +42,12 @@ def walk_up(
     rels = []
     visited = copy(next_curies)
     while len(next_curies) > 0:
-        logging.debug(f"Walking graph; {len(next_curies)} in stack; {next_curies} {predicates}")
+        logging.debug(
+            f"Walking graph; {len(next_curies)} in stack; {next_curies} preds={predicates}"
+        )
         next_curie = next_curies.pop()
+        if not next_curie:
+            raise ValueError(f"Got an empty curie in list: {start_curies}")
         for _, pred, filler in oi.relationships([next_curie], predicates, **kwargs):
             if filler not in visited:
                 next_curies.append(filler)

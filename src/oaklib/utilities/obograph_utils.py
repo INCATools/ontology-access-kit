@@ -447,7 +447,7 @@ def reflexive(edge: Edge) -> bool:
     return edge.sub == edge.obj
 
 
-def graph_to_tree(
+def graph_to_tree_display(
     graph: Graph,
     predicates: List[PRED_CURIE] = None,
     skip: List[CURIE] = None,
@@ -457,6 +457,7 @@ def graph_to_tree(
     format: str = None,
     max_paths: int = 10,
     predicate_code_map=DEFAULT_PREDICATE_CODE_MAP,
+    display_options: Optional[List[str]] = None,
     stylemap=None,
 ) -> Optional[str]:
     """
@@ -471,9 +472,13 @@ def graph_to_tree(
     :param format: markdown or text
     :param max_paths: upper limit on number of distinct paths to show
     :param predicate_code_map: mapping between predicates and codes/acronyms
+    :param display_options: list of display options, as per info writer
     :param stylemap: kgviz stylemap (not yet used)
     :return:
     """
+    if not display_options:
+        display_options = []
+    show_all = "all" in display_options
     if seeds is None:
         seeds = []
     if output is None:
@@ -521,8 +526,19 @@ def graph_to_tree(
         output.write(depth * indent)
         output.write(f"* [{code}] ")
         node_info = f"{n}"
-        if n in nix and nix[n].lbl:
-            node_info += f" ! {nix[n].lbl}"
+        if n in nix:
+            obj = nix[n]
+            if obj.lbl:
+                node_info += f" ! {obj.lbl}"
+            if obj.meta:
+                meta = obj.meta
+                if (show_all or "d" in display_options) and meta.definition:
+                    node_info += f' "{meta.definition.val}"'
+                if (show_all or "x" in display_options) and meta.xrefs:
+                    node_info += " ["
+                    for x in meta.xrefs:
+                        node_info += f" {x.val}"
+                    node_info += " ]"
         if n in seeds:
             node_info = f"**{node_info}**"
         output.write(node_info)

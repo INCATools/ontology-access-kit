@@ -168,7 +168,7 @@ class ViewNotFoundError(SqlSchemaError):
 
 
 def _is_blank(curie: CURIE) -> bool:
-    return curie.startswith("_:")
+    return curie and curie.startswith("_:")
 
 
 def _python_value(val: Any, datatype: CURIE = None) -> Any:
@@ -725,6 +725,10 @@ class SqlImplementation(
         logging.info("Precomputing lookups")
 
         def add(row):
+            if not row.object:
+                # https://github.com/INCATools/ontology-access-kit/issues/457
+                logging.warning(f"Bad row: {row}")
+                return
             s = row.subject
             if s not in self._relationships_by_subject_index:
                 self._relationships_by_subject_index[s] = []
@@ -761,6 +765,8 @@ class SqlImplementation(
         if subjects and not objects and self._relationships_by_subject_index:
             for s in subjects:
                 for _, p, o in self._relationships_by_subject_index.get(s, []):
+                    if not o:
+                        raise ValueError(f"No object for {s} {p}")
                     if predicates and p not in predicates:
                         continue
                     if not include_abox and p == RDF_TYPE:
@@ -889,6 +895,10 @@ class SqlImplementation(
             q = q.filter(Statements.object.in_(tuple(objects)))
         logging.info(f"Abox query: {q}")
         for row in q:
+            if not row.object:
+                # edge case: see https://github.com/monarch-initiative/phenio/issues/36
+                logging.warning(f"Invalid triple for S:{row.subject} P:{row.predicate}")
+                continue
             yield row.subject, row.predicate, row.object
 
     def _rdf_type_relationships(

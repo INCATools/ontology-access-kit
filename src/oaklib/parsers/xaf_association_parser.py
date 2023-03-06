@@ -13,6 +13,7 @@ class XafAssociationParser(AssociationParser):
     """Parsers for GAF and GAF-like formats."""
 
     comment_character: str = field(default_factory=lambda: "!")
+    subject_prefix = None
     subject_prefix_column: ColumnReference = None
     subject_column: ColumnReference = None
     predicate_column: ColumnReference = None
@@ -40,4 +41,6 @@ class XafAssociationParser(AssociationParser):
             if self.subject_prefix_column:
                 sp = lookup_subject_prefix(vals)
                 s = f"{sp}:{s}"
+            elif self.subject_prefix:
+                s = f"{self.subject_prefix}:{s}"
             yield Association(s, p, o)

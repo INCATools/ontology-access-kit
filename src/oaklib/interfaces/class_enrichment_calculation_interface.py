@@ -114,7 +114,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
                     background_total=bg_size,
                 )
                 if autolabel:
-                    r.label = self.label(cls)
+                    r.class_label = self.label(cls)
                 results.append(r)
         if isinstance(self, OboGraphInterface):
             anc_counts = {
@@ -125,6 +125,6 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
             }
         else:
             anc_counts = {}
-        results.sort(key=lambda x: x.p_value - anc_counts.get(x.class_id, 0) / 1e12)
+        results.sort(key=lambda x: (x.p_value, -anc_counts.get(x.class_id, 0)))
         for r in results:
             yield r
