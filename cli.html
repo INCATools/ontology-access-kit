@@ -90,6 +90,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-logical-definitions">logical-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-mappings">mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-migrate-curies">migrate-curies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-normalize">normalize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-obsoletes">obsoletes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-ontologies">ontologies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-ontology-metadata">ontology-metadata</a></li>
@@ -351,7 +352,7 @@ You should get the same results by running:</p>
 <section id="runoak-aliases">
 <h4>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List aliases for a term or set of terms</p>
+<div><p>List aliases for a term or set of terms.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i ubergraph:uberon aliases UBERON:0001988</p>
@@ -427,9 +428,9 @@ For exampple, constrained to is-a and part-of:</p>
 <blockquote>
 <div><p>runoak -i sqlite:go.db ancestors GO:0005773 GO:0005737 -p i,p</p>
 </div></blockquote>
-<p>More background:</p>
+<p>Python API:</p>
 <blockquote>
-<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph.html">https://incatools.github.io/ontology-access-kit/interfaces/obograph.html</a></p>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ancestors<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
@@ -502,12 +503,6 @@ as gilda only performs grounding.</p>
 <blockquote>
 <div><p>runoak -i gilda: annotate -W BRCA2</p>
 </div></blockquote>
-<p>Programmatic usage:</p>
-<blockquote>
-<div><p>This command is a wrapper onto the annotate_text method,
-this is provided as part of the <em>TextAnnotator</em> interface:</p>
-<p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/text-annotator">https://incatools.github.io/ontology-access-kit/interfaces/text-annotator</a></p>
-</div></blockquote>
 <p>Aliases can be listed in the output by setting the flag
 –include-aliases to <cite>true</cite> (default: false).</p>
 <p>Example (using the plugin oakx-spacy):</p>
@@ -526,6 +521,14 @@ object_id: obo:MESH_D000072737
 object_label: Myeloid-Derived Suppressor Cells
 subject_end: 30
 subject_start: 0</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/text-annotator">https://incatools.github.io/ontology-access-kit/interfaces/text-annotator</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/text-annotator">https://w3id.org/oak/text-annotator</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>annotate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>WORDS<span class="o">]</span>...
@@ -1032,6 +1035,10 @@ to is-a descendants</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:cl definitions –additional-metadata neuron</p>
 </div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1123,9 +1130,9 @@ to is-a descendants</p>
 that command. But note that ‘descendants’ commands have the potential to be more
 “explosive” than ancestors commands, especially for high level terms, and for when
 predicates are not specified</p>
-<p>More background:</p>
+<p>Python API:</p>
 <blockquote>
-<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph.html">https://incatools.github.io/ontology-access-kit/interfaces/obograph.html</a></p>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>descendants<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
@@ -1542,6 +1549,10 @@ the default behavior from only exporting IS_A to all mappable
 predicates.</p>
 <p>The dump command is also blocked for remote endpoints such as Ubergraph,
 to avoid killer queries.</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>dump<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1581,7 +1592,6 @@ to avoid killer queries.</p>
 <h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Run class enrichment analysis.</p>
-<p>Note: currently this is slow</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>enrichment<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1651,8 +1661,8 @@ to avoid killer queries.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-2">
-<span id="cmdoption-runoak-enrichment-sample-file"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--sample-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sample_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-2" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-U">
+<span id="cmdoption-runoak-enrichment-u"></span><span id="cmdoption-runoak-enrichment-sample-file"></span><span class="sig-name descname"><span class="pre">-U</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--sample-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sample_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-U" title="Permalink to this definition"></a></dt>
 <dd><p>file containing input list of entity IDs (e.g. gene IDs)</p>
 </dd></dl>
 
@@ -2070,6 +2080,10 @@ as queries that can be combined using boolean logic</p>
 <blockquote>
 <div><p>runoak -i cl.owl labels .all –if-absent exclude</p>
 </div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/labels">https://incatools.github.io/ontology-access-kit/interfaces/labels</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>labels<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2385,6 +2399,14 @@ restrictions:
 <p>Currently this only works for definitions that follow a basic genus-differentia pattern,
 which is what is currently represented in the OboGraph datamodel.</p>
 <p>Consider using the “axioms” command for inspection of complex nested OWL axioms.</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/obograph">https://w3id.org/oak/obograph</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>logical-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2476,6 +2498,14 @@ that if the label is not in the source ontology, then no label will be retrieved
 <blockquote>
 <div><p>runoak -i sqlite:obo:foodon mappings -O sssom –maps-to-source SUBSET_SIREN</p>
 </div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/mapping-provider">https://incatools.github.io/ontology-access-kit/interfaces/mapping-provider</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/mapping-provider">https://w3id.org/oak/mapping-provider</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>mappings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2505,8 +2535,8 @@ that if the label is not in the source ontology, then no label will be retrieved
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-mappings-maps-to-source">
-<span class="sig-name descname"><span class="pre">--maps-to-source</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;maps_to_source&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-mappings-maps-to-source" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-mappings-M">
+<span id="cmdoption-runoak-mappings-m"></span><span id="cmdoption-runoak-mappings-maps-to-source"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--maps-to-source</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;maps_to_source&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-mappings-M" title="Permalink to this definition"></a></dt>
 <dd><p>Return only mappings with subject or object source equal to this</p>
 </dd></dl>
 
@@ -2570,6 +2600,64 @@ source and the target</p>
 </dd></dl>
 
 </section>
+<section id="runoak-normalize">
+<h4>normalize<a class="headerlink" href="#runoak-normalize" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Normalize all input identifiers.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i translator: normalize HGNC:1 HGNC:2 -M NCBIGene</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/mapping-provider">https://incatools.github.io/ontology-access-kit/interfaces/mapping-provider</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/mapping-provider">https://w3id.org/oak/mapping-provider</a></p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>normalize<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-normalize-o">
+<span id="cmdoption-runoak-normalize-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-normalize-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-normalize-O">
+<span id="cmdoption-runoak-normalize-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-normalize-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-normalize-autolabel">
+<span id="cmdoption-runoak-normalize-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-normalize-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-normalize-M">
+<span id="cmdoption-runoak-normalize-m"></span><span id="cmdoption-runoak-normalize-maps-to-source"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--maps-to-source</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;maps_to_source&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-normalize-M" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Required</strong> Return only mappings with subject or object source equal to this</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-normalize-arg-TERMS">
+<span id="cmdoption-runoak-normalize-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-normalize-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-obsoletes">
 <h4>obsoletes<a class="headerlink" href="#runoak-obsoletes" title="Permalink to this headline"></a></h4>
 <blockquote>
@@ -2592,6 +2680,10 @@ source and the target</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes –show-migration-relationships GO:0000187 GO:0000188</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>obsoletes<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
@@ -2656,6 +2748,10 @@ a single line, with the name of the input ontology</p>
 <div><p>runoak -i ubergraph ontologies</p>
 </div></blockquote>
 <p>In future this command will be expanded to allow showing more metadata about each ontology</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontologies<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -2690,6 +2786,10 @@ a single line, with the name of the input ontology</p>
 <p class="admonition-title">Warning</p>
 <p>The output data model is not yet standardized – this may change in future</p>
 </div>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontology-metadata<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
 </pre></div>
@@ -2738,6 +2838,10 @@ a single line, with the name of the input ontology</p>
 <p>All ontologies:</p>
 <blockquote>
 <div><p>runoak -i bioportal ontology-versions –all</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontology-versions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
@@ -3081,6 +3185,10 @@ prefixes for entities in that ontology</p>
 <blockquote>
 <div><p>runoak -i uberon.db relationships -p RO:0002178 .desc//p=i “artery” .and .desc//p=i,p “limb”</p>
 </div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>relationships<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -3330,7 +3438,18 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <blockquote>
 <div><p>runoak -i ubergraph:uberon search limb</p>
 </div></blockquote>
-<p>For more on search, see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/search.html">https://incatools.github.io/ontology-access-kit/interfaces/search.html</a></p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/search">https://incatools.github.io/ontology-access-kit/interfaces/search</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/search">https://w3id.org/oak/search</a></p>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The behavior of search is not yet fully unified across endpoints</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The behavior of search is not yet fully unified across endpoints</p>
@@ -3442,7 +3561,7 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 <section id="runoak-similarity">
 <h4>similarity<a class="headerlink" href="#runoak-similarity" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>All by all similarity</p>
+<div><p>All by all similarity.</p>
 <p>This calculates a similarity matrix for two sets of terms.</p>
 <p>Input sets of a terms can be specified in different ways:</p>
 <ul class="simple">
@@ -3472,12 +3591,20 @@ vs all terms in CL:</p>
 <p>An example pipeline to do all by all over all phenotypes in HPO:</p>
 <p>Explicit:</p>
 <blockquote>
-<div><p>runoak -i hp.db descendants -p i HP:0000118 &gt; HPO
-runoak -i hp.db similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESULTS.tsv</p>
+<div><p>runoak -i hp.db descendants -p i HP:0000118 &gt; HPO</p>
+<p>runoak -i hp.db similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESULTS.tsv</p>
 </div></blockquote>
 <p>The same thing can be done more compactly with term queries:</p>
 <blockquote>
 <div><p>runoak -i hp.db similarity -p i .desc//p=i HP:0000118 &#64; .desc//p=i HP:0000118</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/similarity">https://w3id.org/oak/similarity</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
@@ -3578,7 +3705,14 @@ the MRCA</p>
 <blockquote>
 <div><p>runoak -i ubergraph: similarity-pair MP:0010922 HP:0010616  -p i,p,UPHENO:0000001</p>
 </div></blockquote>
-<p>Background: <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html</a></p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/similarity">https://w3id.org/oak/similarity</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>similarity-pair<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -3714,6 +3848,14 @@ option.</p>
 </div></blockquote>
 <p>This will also include change stats broken down by KGCL change types. If
 a group-by option is specified, these will be grouped accordingly.</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/summary-statistics">https://incatools.github.io/ontology-access-kit/interfaces/summary-statistics</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/summary-statistics">https://w3id.org/oak/summary-statistics</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>statistics<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>BRANCHES<span class="o">]</span>...
 </pre></div>
@@ -3819,6 +3961,10 @@ terms (directly) in goslim_generic in GO:</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go info .in goslim_generic</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
 <p>See also:</p>
 <blockquote>
@@ -4025,6 +4171,14 @@ of NCBI Taxonomy</p>
 <p>The default output is YAML documents, where each YAML document is a term, with
 keys representing selected predicates. Values are always lists of atoms, even
 when there is typically one value (e.g. rdfs:label)</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/ontology-metadata">https://w3id.org/oak/ontology-metadata</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-metadata<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -4070,7 +4224,15 @@ when there is typically one value (e.g. rdfs:label)</p>
 <section id="runoak-term-subsets">
 <h4>term-subsets<a class="headerlink" href="#runoak-term-subsets" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List subsets for a term or set of terms</p>
+<div><p>List subsets for a term or set of terms.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:uberon term-subsets heart lung</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-subsets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -4153,11 +4315,19 @@ when there is typically one value (e.g. rdfs:label)</p>
 <section id="runoak-termset-similarity">
 <h4>termset-similarity<a class="headerlink" href="#runoak-termset-similarity" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Termset similarity</p>
+<div><p>Termset similarity.</p>
 <p>This calculates a similarity matrix for two sets of terms.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i go.db termset-similarity -p i,p nucleus membrane &#64; “nuclear membrane” vacuole -p i,p</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/similarity">https://w3id.org/oak/similarity</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>termset-similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
@@ -4258,6 +4428,14 @@ the most informative intermediate classes:</p>
 </div></blockquote>
 <p>Note that ‘volcano’ is the root, even though it is 2 hops from one of the terms, it can be connected
 to at least one of the seeds (highlighted with asterisks) by a path of length 1.</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/obograph">https://w3id.org/oak/obograph</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>tree<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -4324,6 +4502,12 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-root">
 <span class="sig-name descname"><span class="pre">--root</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;root&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-root" title="Permalink to this definition"></a></dt>
 <dd><p>Use this node or nodes as roots</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-D">
+<span id="cmdoption-runoak-tree-d"></span><span id="cmdoption-runoak-tree-display"></span><span class="sig-name descname"><span class="pre">-D</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--display</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;display&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-D" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of display options. Use ‘all’ for all</p>
 </dd></dl>
 
 <dl class="std option">
@@ -4589,6 +4773,14 @@ example, all is-a and develops-from ancestors of T-cell, limiting
 to a distance of 2:</p>
 <blockquote>
 <div><p>runoak -i sqlite:cl.db viz ‘T cell’ -p i,d –max-hops 2</p>
+</div></blockquote>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
+</div></blockquote>
+<p>Data model:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://w3id.org/oak/obograph">https://w3id.org/oak/obograph</a></p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>viz<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...

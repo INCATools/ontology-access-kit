@@ -27,7 +27,7 @@
       graph_ids
       graph_info
       graph_to_image
-      graph_to_tree
+      graph_to_tree_display
       index_graph_edges_by_object
       index_graph_edges_by_predicate
       index_graph_edges_by_subject

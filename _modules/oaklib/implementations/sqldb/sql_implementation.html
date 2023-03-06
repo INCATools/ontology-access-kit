@@ -255,7 +255,7 @@
 
 
 <span class="k">def</span> <span class="nf">_is_blank</span><span class="p">(</span><span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_:&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">curie</span> <span class="ow">and</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_:&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_python_value</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">datatype</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -812,6 +812,10 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Precomputing lookups&quot;</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+                <span class="c1"># https://github.com/INCATools/ontology-access-kit/issues/457</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad row: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span>
             <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -848,6 +852,8 @@
         <span class="k">if</span> <span class="n">subjects</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">objects</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No object for </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">predicates</span> <span class="ow">and</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">include_abox</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">==</span> <span class="n">RDF_TYPE</span><span class="p">:</span>
@@ -976,6 +982,10 @@
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">objects</span><span class="p">)))</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Abox query: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+                <span class="c1"># edge case: see https://github.com/monarch-initiative/phenio/issues/36</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid triple for S:</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="s2"> P:</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
             <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
 
     <span class="k">def</span> <span class="nf">_rdf_type_relationships</span><span class="p">(</span>
