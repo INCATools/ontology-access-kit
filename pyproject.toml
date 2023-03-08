@@ -59,6 +59,7 @@ boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
 gilda = ["scipy", "gilda"]
 rustsim = ["rustsim"]
+seaborn = ["seaborn"]
 
 [tool.black]
 line-length = 100

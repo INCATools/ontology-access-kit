@@ -222,6 +222,7 @@ class OntoPortalImplementationBase(
 
     def get_sssom_mappings_by_curie(self, id: Union[CURIE, URI]) -> Iterable[Mapping]:
         ontology, class_uri = self._get_ontology_and_uri_from_id(id)
+        logging.debug(f"Fetching mappings for {ontology} class = {class_uri}")
         # This may return lots of duplicate mappings
         # See: https://github.com/ncbo/ontologies_linked_data/issues/117
         quoted_class_uri = quote(class_uri, safe="")
@@ -234,8 +235,12 @@ class OntoPortalImplementationBase(
             logging.warning(f"Could not fetch mappings for {id}")
             return []
         body = response.json()
+        yielded = set()
         for result in body:
-            yield self.result_to_mapping(result)
+            m = self.result_to_mapping(result)
+            if str(m) not in yielded:
+                yield m
+            yielded.add(str(m))
 
     def result_to_mapping(self, result: Dict[str, Any]) -> Mapping:
         subject = result["classes"][0]
@@ -243,10 +248,10 @@ class OntoPortalImplementationBase(
         self.add_uri_to_ontology_mapping(subject)
         self.add_uri_to_ontology_mapping(object)
         mapping = Mapping(
-            subject_id=subject["@id"],
+            subject_id=self.uri_to_curie(subject["@id"]),
             predicate_id=SOURCE_TO_PREDICATE[result["source"]],
             mapping_justification=SEMAPV.UnspecifiedMatching.value,
-            object_id=object["@id"],
+            object_id=self.uri_to_curie(object["@id"], use_uri_fallback=True),
             mapping_provider=result["@type"],
             mapping_tool=result["source"],
         )

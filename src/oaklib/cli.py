@@ -166,7 +166,7 @@ from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
     default_stylemap_path,
     graph_to_image,
-    graph_to_tree,
+    graph_to_tree_display,
     shortest_paths,
     trim_graph,
 )
@@ -714,6 +714,19 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 o for _s, _p, o in impl.relationships(subjects=rest, predicates=this_predicates)
             ]
             chain_results(parents)
+        elif term.startswith(".sib"):
+            # graph query: siblings
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
+            parents = [
+                o for _s, _p, o in impl.relationships(subjects=rest, predicates=this_predicates)
+            ]
+            sibs = [
+                s for s, _p, _o in impl.relationships(objects=parents, predicates=this_predicates)
+            ]
+            chain_results(sibs)
         elif term.startswith(".anc"):
             # graph query: ancestors
             params = _parse_params(term)
@@ -902,7 +915,17 @@ def search(terms, output_type: str, output: TextIO):
 
         runoak -i ubergraph:uberon search limb
 
-    For more on search, see https://incatools.github.io/ontology-access-kit/interfaces/search.html
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/search
+
+    Data model:
+
+       https://w3id.org/oak/search
+
+    .. warning::
+
+       The behavior of search is not yet fully unified across endpoints
 
     .. warning::
 
@@ -944,6 +967,10 @@ def subsets(output: str):
     Example:
 
         runoak -i sqlite:obo:go info .in goslim_generic
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
 
     See also:
 
@@ -1001,6 +1028,9 @@ def obsoletes(
 
         runoak -i obolibrary:go.obo obsoletes --show-migration-relationships GO:0000187 GO:0000188
 
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -1119,6 +1149,13 @@ def statistics(
     This will also include change stats broken down by KGCL change types. If
     a group-by option is specified, these will be grouped accordingly.
 
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/summary-statistics
+
+    Data model:
+
+       https://w3id.org/oak/summary-statistics
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -1198,6 +1235,10 @@ def ontologies(output: str):
         runoak -i ubergraph ontologies
 
     In future this command will be expanded to allow showing more metadata about each ontology
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -1224,6 +1265,10 @@ def ontology_versions(ontologies, output: str, all: bool):
     All ontologies:
 
         runoak -i bioportal ontology-versions --all
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
@@ -1269,6 +1314,10 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     .. warning::
 
         The output data model is not yet standardized -- this may change in future
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
     """
     impl = settings.impl
     if output_type is None or output_type == "yaml":
@@ -1314,6 +1363,14 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     The default output is YAML documents, where each YAML document is a term, with
     keys representing selected predicates. Values are always lists of atoms, even
     when there is typically one value (e.g. rdfs:label)
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
+
+    Data model:
+
+       https://w3id.org/oak/ontology-metadata
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -1408,13 +1465,6 @@ def annotate(
 
         runoak -i gilda: annotate -W BRCA2
 
-    Programmatic usage:
-
-        This command is a wrapper onto the annotate_text method,
-        this is provided as part of the *TextAnnotator* interface:
-
-        https://incatools.github.io/ontology-access-kit/interfaces/text-annotator
-
     Aliases can be listed in the output by setting the flag
     --include-aliases to `true` (default: false).
 
@@ -1434,6 +1484,14 @@ def annotate(
         object_label: Myeloid-Derived Suppressor Cells
         subject_end: 30
         subject_start: 0
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/text-annotator
+
+    Data model:
+
+       https://w3id.org/oak/text-annotator
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
@@ -1562,6 +1620,14 @@ def viz(
     to a distance of 2:
 
         runoak -i sqlite:cl.db viz 'T cell' -p i,d --max-hops 2
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
+    Data model:
+
+       https://w3id.org/oak/obograph
     """
     impl = settings.impl
     if not isinstance(impl, OboGraphInterface):
@@ -1645,10 +1711,11 @@ def viz(
 )
 @click.option("--skip", multiple=True, help="Exclude paths that contain this node")
 @click.option("--root", multiple=True, help="Use this node or nodes as roots")
-@click.argument("terms", nargs=-1)
+@display_option
 @predicates_option
 @output_type_option
 @output_option
+@click.argument("terms", nargs=-1)
 def tree(
     terms,
     predicates,
@@ -1660,6 +1727,7 @@ def tree(
     configure,
     skip,
     root,
+    display,
     output_type: str,
     output: TextIO,
 ):
@@ -1717,6 +1785,13 @@ def tree(
     Note that 'volcano' is the root, even though it is 2 hops from one of the terms, it can be connected
     to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
+    Data model:
+
+       https://w3id.org/oak/obograph
     """
     impl = settings.impl
     if configure:
@@ -1757,7 +1832,7 @@ def tree(
         )
         if max_hops is not None:
             graph = trim_graph(graph, curies, distance=max_hops)
-        graph_to_tree(
+        graph_to_tree_display(
             graph,
             seeds=curies,
             predicates=actual_predicates,
@@ -1765,6 +1840,7 @@ def tree(
             skip=list(skip) if skip else None,
             format=output_type,
             stylemap=stylemap,
+            display_options=display.split(","),
             output=output,
         )
     else:
@@ -1814,9 +1890,9 @@ def ancestors(
 
         runoak -i sqlite:go.db ancestors GO:0005773 GO:0005737 -p i,p
 
-    More background:
+    Python API:
 
-        https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
+       https://incatools.github.io/ontology-access-kit/interfaces/obograph
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2136,9 +2212,9 @@ def descendants(
     "explosive" than ancestors commands, especially for high level terms, and for when
     predicates are not specified
 
-    More background:
+    Python API:
 
-        https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
+       https://incatools.github.io/ontology-access-kit/interfaces/obograph
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -2187,6 +2263,10 @@ def dump(terms, output, output_type: str, **kwargs):
 
     The dump command is also blocked for remote endpoints such as Ubergraph,
     to avoid killer queries.
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
     """
     if terms:
         raise NotImplementedError("Currently dump for a subset of terms is not supported")
@@ -2338,7 +2418,13 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
 
        runoak -i ubergraph: similarity-pair MP:0010922 HP:0010616  -p i,p,UPHENO:0000001
 
-    Background: https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity
+
+    Data model:
+
+       https://w3id.org/oak/similarity
     """
     if len(terms) != 2:
         raise ValueError(f"Need exactly 2 terms: {terms}")
@@ -2402,7 +2488,7 @@ def similarity(
     output,
 ):
     """
-    All by all similarity
+    All by all similarity.
 
     This calculates a similarity matrix for two sets of terms.
 
@@ -2439,12 +2525,20 @@ def similarity(
     Explicit:
 
         runoak -i hp.db descendants -p i HP:0000118 > HPO
+
         runoak -i hp.db similarity -p i --set1-file HPO --set2-file HPO -O csv -o RESULTS.tsv
 
     The same thing can be done more compactly with term queries:
 
         runoak -i hp.db similarity -p i .desc//p=i HP:0000118 @ .desc//p=i HP:0000118
 
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity
+
+    Data model:
+
+       https://w3id.org/oak/similarity
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
@@ -2511,7 +2605,7 @@ def termset_similarity(
     output: TextIO,
 ):
     """
-    Termset similarity
+    Termset similarity.
 
     This calculates a similarity matrix for two sets of terms.
 
@@ -2519,6 +2613,13 @@ def termset_similarity(
 
         runoak -i go.db termset-similarity -p i,p nucleus membrane @ "nuclear membrane" vacuole -p i,p
 
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity
+
+    Data model:
+
+       https://w3id.org/oak/similarity
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
@@ -2628,6 +2729,10 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set
     Nodes with no labels:
 
         runoak -i cl.owl labels .all --if-absent exclude
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/labels
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2695,6 +2800,10 @@ def definitions(
     You can also include definition metadata, such as provenance and source:
 
         runoak -i sqlite:obo:cl definitions --additional-metadata neuron
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
 
     """
     impl = settings.impl
@@ -2812,6 +2921,9 @@ def relationships(
 
         runoak -i uberon.db relationships -p RO:0002178 .desc//p=i "artery" .and .desc//p=i,p "limb"
 
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2950,6 +3062,14 @@ def logical_definitions(
     which is what is currently represented in the OboGraph datamodel.
 
     Consider using the "axioms" command for inspection of complex nested OWL axioms.
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
+    Data model:
+
+       https://w3id.org/oak/obograph
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -3206,7 +3326,9 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
 @output_type_option
 @autolabel_option
 @click.option(
-    "--maps-to-source", help="Return only mappings with subject or object source equal to this"
+    "--maps-to-source",
+    "-M",
+    help="Return only mappings with subject or object source equal to this",
 )
 @click.argument("terms", nargs=-1)
 def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
@@ -3229,25 +3351,79 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
     To constrain the mapped object source:
 
         runoak -i sqlite:obo:foodon mappings -O sssom --maps-to-source SUBSET_SIREN
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/mapping-provider
+
+    Data model:
+
+       https://w3id.org/oak/mapping-provider
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
     writer.output = output
     writer.autolabel = autolabel
-    if isinstance(impl, MappingProviderInterface):
-        if len(terms) == 0:
-            for mapping in impl.sssom_mappings_by_source(subject_or_object_source=maps_to_source):
-                if autolabel:
-                    impl.inject_mapping_labels([mapping])
-                writer.emit(mapping)
-        else:
-            curies = query_terms_iterator(terms, impl)
-            for mapping in impl.sssom_mappings(curies):
-                if autolabel:
-                    impl.inject_mapping_labels([mapping])
-                writer.emit(mapping)
-    else:
+    if not isinstance(impl, MappingProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if len(terms) == 0:
+        logging.info(f"No terms provided: fetching all mappings for {maps_to_source}")
+        for mapping in impl.sssom_mappings_by_source(subject_or_object_source=maps_to_source):
+            if autolabel:
+                impl.inject_mapping_labels([mapping])
+            writer.emit(mapping)
+    else:
+        logging.info(f"Fetching mappings for {terms}")
+        for curie_it in chunk(query_terms_iterator(terms, impl)):
+            for mapping in impl.sssom_mappings(curie_it):
+                if maps_to_source and not mapping.object_id.startswith(f"{maps_to_source}:"):
+                    continue
+                if autolabel:
+                    impl.inject_mapping_labels([mapping])
+                writer.emit(mapping)
+
+
+@main.command()
+@output_option
+@output_type_option
+@autolabel_option
+@click.option(
+    "--maps-to-source",
+    "-M",
+    required=True,
+    help="Return only mappings with subject or object source equal to this",
+)
+@click.argument("terms", nargs=-1)
+def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
+    """
+    Normalize all input identifiers.
+
+    Example:
+
+        runoak -i translator: normalize HGNC:1 HGNC:2 -M NCBIGene
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/mapping-provider
+
+    Data model:
+
+       https://w3id.org/oak/mapping-provider
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, MappingProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if len(terms) == 0:
+        raise ValueError("Must provide at least one term")
+    curies = query_terms_iterator(terms, impl)
+    logging.info(f"Normalizing: {curies}")
+    for mapping in impl.sssom_mappings(curies):
+        if not mapping.object_id.startswith(f"{maps_to_source}:"):
+            continue
+        writer.emit_curie(mapping.object_id, mapping.object_label)
 
 
 @main.command()
@@ -3260,7 +3436,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
 @click.argument("terms", nargs=-1)
 def aliases(terms, output, output_type, obo_model):
     """
-    List aliases for a term or set of terms
+    List aliases for a term or set of terms.
 
     Example:
 
@@ -3316,7 +3492,16 @@ def aliases(terms, output, output_type, obo_model):
 @click.argument("terms", nargs=-1)
 def term_subsets(terms, output, output_type):
     """
-    List subsets for a term or set of terms
+    List subsets for a term or set of terms.
+
+    Example:
+
+        runoak -i sqlite:obo:uberon term-subsets heart lung
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3829,7 +4014,7 @@ def rollup(
 )
 @click.option(
     "--sample-file",
-    "-S",
+    "-U",
     type=click.File(mode="r"),
     help="file containing input list of entity IDs (e.g. gene IDs)",
 )
@@ -3859,8 +4044,6 @@ def enrichment(
 ):
     """
     Run class enrichment analysis.
-
-    Note: currently this is slow
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)

@@ -1,0 +1,30 @@
+#Format: entrez-gene-id<tab>entrez-gene-symbol<tab>HPO-Term-ID<tab>HPO-Term-Name<tab>Frequency-Raw<tab>Frequency-HPO<tab>Additional Info from G-D source<tab>G-D source<tab>disease-ID for link
+8192	CLPP	HP:0000013	Hypoplasia of the uterus	-		-	mim2gene	OMIM:614129
+8192	CLPP	HP:0000815	Hypergonadotropic hypogonadism	-		-	mim2gene	OMIM:614129
+8192	CLPP	HP:0000786	Primary amenorrhea	-		-	mim2gene	OMIM:614129
+8192	CLPP	HP:0000007	Autosomal recessive inheritance	-		-	mim2gene	OMIM:614129
+8192	CLPP	HP:0000252	Microcephaly	-	HP:0040283	-	mim2gene	OMIM:614129
+8192	CLPP	HP:0001250	Seizure	-	HP:0040283	-	mim2gene	OMIM:614129
+8192	CLPP	HP:0004322	Short stature	-	HP:0040283	-	mim2gene	OMIM:614129
+8192	CLPP	HP:0008527	Congenital sensorineural hearing impairment	-		-	mim2gene	OMIM:614129
+8195	MKKS	HP:0000218	High palate	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0001156	Brachydactyly	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0001830	Postaxial foot polydactyly	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0001508	Failure to thrive	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0008678	Renal hypoplasia/aplasia	-	HP:0040284		orphadata	ORPHA:2473
+8195	MKKS	HP:0006101	Finger syndactyly	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0001643	Patent ductus arteriosus	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0004383	Hypoplastic left heart	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0000807	Glandular hypospadias	-	HP:0040282		orphadata	ORPHA:2473
+8195	MKKS	HP:0001629	Ventricular septal defect	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0000126	Hydronephrosis	-	HP:0040282		orphadata	ORPHA:2473
+8195	MKKS	HP:0008368	Tarsal synostosis	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0001263	Global developmental delay	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0000003	Multicystic kidney dysplasia	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0001636	Tetralogy of Fallot	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0004397	Ectopic anus	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0001631	Atrial septal defect	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0005916	Abnormal metacarpal morphology	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0002023	Anal atresia	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0000175	Cleft palate	-	HP:0040283		orphadata	ORPHA:2473
+8195	MKKS	HP:0002251	Aganglionic megacolon	-	HP:0040283		orphadata	ORPHA:2473

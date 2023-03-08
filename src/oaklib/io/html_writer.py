@@ -1,5 +1,6 @@
+import logging
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Optional, Union
 
 from linkml_renderer.renderers.html_renderer import HTMLRenderer
 from linkml_renderer.style.model import Configuration, RenderRule
@@ -7,6 +8,7 @@ from linkml_renderer.style.style_engine import StyleEngine
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib.io.streaming_writer import StreamingWriter
+from oaklib.types import CURIE
 
 
 @dataclass
@@ -19,7 +21,21 @@ class HTMLWriter(StreamingWriter):
     cached_objects: List[YAMLRoot] = field(default_factory=lambda: [])
     render_rules: List[RenderRule] = None
 
+    def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields: Optional[List[str]] = None):
+        """
+        Emit an object or CURIE
+
+        :param obj:
+        :param label_fields:
+        :return:
+        """
+        if isinstance(obj, CURIE):
+            self.emit_curie(obj)
+        elif isinstance(obj, dict):
+            self.emit_obj(obj)
+
     def emit_obj(self, obj: YAMLRoot, **kwargs):
+        logging.debug(f"Emitting obj {type(obj)}")
         self.cached_objects.append(obj)
 
     def finish(self):
