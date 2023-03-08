@@ -1,6 +1,6 @@
-id: https://w3id.org/linkml/oaklib/cluster
+id: https://w3id.org/oak/mapping-cluster-datamodel
 title: Mapping Cluster Datamodel
-name: mapping-cluster
+name: mapping-cluster-datamodel
 description: |-
   A datamodel for specifying mapping clusters, such as those retrieved from boomer.
   
@@ -37,7 +37,7 @@ see_also:
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  mcluster: https://w3id.org/linkml/oaklib/cluster
+  mcluster: https://w3id.org/oak/mapping-cluster-datamodel/
   sssom: https://w3id.org/sssom/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/

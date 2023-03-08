@@ -138,6 +138,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     auto_relax_axioms: bool = None
     """If True, relax some OWL axioms as per https://robot.obolibrary.org/relax"""
 
+    cache_lookups: bool = False
+    """If True, the implementation may choose to cache lookup operations"""
+
     def prefix_map(self) -> PREFIX_MAP:
         """
         Return a dictionary mapping all prefixes known to the resource to their URI expansion.
@@ -818,7 +821,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         objects: Iterable[CURIE] = None,
         include_tbox: bool = True,
         include_abox: bool = True,
-        include_entailed: bool = True,
+        include_entailed: bool = False,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
         Yields all relationships matching query constraints.
@@ -829,6 +833,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param include_tbox: if true, include class-class relationships (default True)
         :param include_abox: if true, include instance-instance/class relationships (default True)
         :param include_entailed:
+        :param exclude_blank: do not include blank nodes/anonymous expressions
         :return:
         """
         if not subjects:
@@ -1030,6 +1035,25 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
+    def query(
+        self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
+    ) -> Iterator[Any]:
+        """
+        Executes a query.
+
+        The behavior of this operation is entirely adapter-dependent, and is
+        thus not portable.
+
+        The intention is for SQL backends to support SQL queries, and for
+        SPARQL backends to support SPARQL queries.
+
+        :param query:
+        :param syntax:
+        :param kwargs:
+        :return: an iterator over the results, which can be arbitrary objects
+        """
+        raise NotImplementedError
+
     def save(self):
         """
         Saves current state.
@@ -1057,3 +1081,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def precompute_lookups(self) -> None:
+        """
+        Precompute all main lookup operations.
+
+        An implementation may choose to use this to do lookups in advance. This may be
+        faster for some operations that involve repeatedly visiting the same entity.
+        :return:
+        """

@@ -97,6 +97,7 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
+from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
@@ -119,6 +120,7 @@ class SimpleOboImplementation(
     MappingProviderInterface,
     PatcherInterface,
     SummaryStatisticsInterface,
+    TaxonConstraintInterface,
 ):
     """
     Simple OBO-file backed implementation
@@ -440,6 +442,7 @@ class SimpleOboImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         for s in self._relationship_index.keys():
             if subjects is not None and s not in subjects:

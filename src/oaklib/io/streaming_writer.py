@@ -121,10 +121,10 @@ class StreamingWriter(ABC):
                 if curie and obj_as_dict.get(col_name, None) is None:
                     # allow for a list of CURIEs flattened using a delimiter
                     delim = self.list_delimiter
-                    if delim and delim in curie:
+                    if delim and isinstance(curie, str) and delim in curie:
                         curie = curie.split("|")
                     if isinstance(curie, list):
-                        label = [self.ontology_interface.label(c) for c in curie]
+                        label = [str(self.ontology_interface.label(c)) for c in curie]
                         if delim:
                             label = delim.join(label)
                     else:

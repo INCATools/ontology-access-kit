@@ -108,7 +108,10 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         include_modified: bool = False,
     ) -> Iterator[Tuple[CURIE, int]]:
         """
-        Yield objects together with the number of distinct associated subjects
+        Yield objects together with the number of distinct associated subjects.
+
+        Here objects are typically nodes from ontologies and subjects are annotated
+        entities such as genes.
 
         :param subjects:
         :param predicates:
@@ -128,11 +131,16 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             include_modified=include_modified,
         )
         object_to_subject_map = defaultdict(set)
+        cached = {}
         if isinstance(self, OboGraphInterface):
             for association in association_it:
                 subject = association.subject
                 obj = association.object
-                ancs = list(self.ancestors([obj], predicates=object_closure_predicates))
+                if obj not in cached:
+                    ancs = list(self.ancestors([obj], predicates=object_closure_predicates))
+                    cached[obj] = ancs
+                else:
+                    ancs = cached[obj]
                 for anc in ancs:
                     object_to_subject_map[anc].add(subject)
         for k, v in object_to_subject_map.items():

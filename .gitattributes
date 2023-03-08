@@ -1,0 +1,6 @@
+# Why is this file here in OAK? -> https://github.com/linkml/schema-automator/pull/104#issuecomment-1307388416
+# This file may be removed after funowl is fixed to work with platform-specific line endings.
+
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+# Declare files that will always have LF line endings on checkout.
+*.ofn text eol=lf

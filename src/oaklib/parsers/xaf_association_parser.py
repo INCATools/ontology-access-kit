@@ -1,4 +1,5 @@
 """Parser for GAF/HPOA and related association formats"""
+import logging
 from dataclasses import dataclass, field
 from typing import Iterator, TextIO
 
@@ -32,6 +33,7 @@ class XafAssociationParser(AssociationParser):
             if line.startswith(self.comment_character):
                 continue
             vals = line.split("\t")
+            logging.debug(f"vals: {vals}")
             s = lookup_subject(vals)
             p = lookup_predicate(vals)
             o = lookup_object(vals)

@@ -53,6 +53,7 @@ BIOLINK_CATEGORY = "biolink:category"
 IN_CATEGORY_PREDS = [BIOLINK_CATEGORY, "dbont:category"]
 
 OWL_CLASS = "owl:Class"
+OWL_NAMED_INDIVIDUAL = "owl:NamedIndividual"
 OWL_OBJECT_PROPERTY = "owl:ObjectProperty"
 OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"

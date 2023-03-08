@@ -4,11 +4,9 @@ from typing import Any
 from linkml_runtime import CurieNamespace
 
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.utilities.obograph_utils import DEFAULT_PREDICATE_CODE_MAP
-from oaklib.utilities.taxon.taxon_constraint_utils import (
-    get_term_with_taxon_constraints,
-)
 
 predicate_code_map = DEFAULT_PREDICATE_CODE_MAP
 
@@ -54,9 +52,9 @@ class StreamingMarkdownWriter(StreamingWriter):
                 self.file.write(f"* {p}\n")
                 for v in vs:
                     self.file.write(f'    * {v} "{oi.label(curie)}"\n')
-        if "t" in self.display_options and isinstance(oi, OboGraphInterface):
+        if "t" in self.display_options and isinstance(oi, TaxonConstraintInterface):
             self.file.write("### Taxon Constraints\n\n")
-            tc_subj = get_term_with_taxon_constraints(oi, curie)
+            tc_subj = oi.get_term_with_taxon_constraints(curie)
             for tc in tc_subj.never_in:
                 self.file.write(f"* {tc}\n")
 

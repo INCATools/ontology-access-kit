@@ -1,22 +1,32 @@
 id: https://github.com/geneontology/obographs
 title: Obographs Datamodel
 name: obographs_datamodel
-description: Schema for benchmarking based on obographs
+description: >-
+  A data model for graph-oriented representations of ontologies.
+  Each ontology is represented as a Graph, and multiple ontologies
+  can be connected together in a GraphDocument.
+  
+  The principle elements of a Graph are Node objects and Edge objects.
+  A Node represents an arbitrary ontology element, including but not limited
+  to the core terms in the ontology. Edges represent simple relationships between
+  Nodes. Nodes and Edges can both have Meta objects attached, providing
+  additional metedata.
+  
+  Not everything in an ontology can be represented as nodes and edges.
+  More complex axioms have specialized structures such as DomainRangeAxiom
+  objects and LogicalDefinitionAxiom.
 license: https://creativecommons.org/publicdomain/zero/1.0/
-version: 0.0.1
 
 prefixes:
  linkml: https://w3id.org/linkml/
  sdo: https://schema.org/
  skos: http://www.w3.org/2004/02/skos/core#
- og: https://github.com/geneontology/obographs/
+ obographs: https://github.com/geneontology/obographs/
  sh: https://w3id.org/shacl/
  oio: http://www.geneontology.org/formats/oboInOwl#
 
 default_curi_maps:
   - obo_context
-  - idot_context
-  - monarch_context
   - semweb_context
 
 emit_prefixes:
@@ -27,7 +37,7 @@ emit_prefixes:
 
 imports:
  - linkml:types
-default_prefix: og
+default_prefix: obographs
 
 enums:
   ScopeEnum:
@@ -36,12 +46,18 @@ enums:
     permissible_values:
       hasExactSynonym:
         meaning: oio:hasExactSynonym
+        description: The synonym represents the exact meaning of the node.
       hasNarrowSynonym:
         meaning: oio:hasNarrowSynonym
+        description: The synonym represents something narrower in meaning than the node.
       hasBroadSynonym:
         meaning: oio:hasBroadSynonym
+        description: The synonym represents something broader in meaning than the node.
       hasRelatedSynonym:
         meaning: oio:hasRelatedSynonym
+        description: >-
+          The synonym represents something closely related in meaning than the node,
+          but in not exact, broad, or narrow.
 
 types:
   XrefString:
@@ -74,11 +90,16 @@ slots:
   id:
     range: OboIdentifierString
     identifier: true
-    description: The identifier of the entity
+    description: The unique identifier of the entity
     see_also:
       - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
   sub:
     range: string
+    aliases:
+      - subject
+      - source
+      - child
+      - head
     description: >-
       the subject of an edge
     slot_uri: rdf:subject
@@ -89,14 +110,33 @@ slots:
     slot_uri: rdf:predicate
   obj:
     range: string
+    aliases:
+      - object
+      - target
+      - parent
+      - tail
     description: >-
       the object of an edge
     slot_uri: rdf:object
   val:
     range: string
+    aliases:
+      - value
     description: >-
       the value of a property
     slot_uri: rdf:object
+  valType:
+    range: string
+    aliases:
+      - value type
+      - datatype
+    description: >-
+      the datatype of a property value
+  lang:
+    range: string
+    description: >-
+      the language of a property value
+
   lbl:
     aliases:
       - label
@@ -257,7 +297,9 @@ slots:
     range: PrefixDeclaration
     multivalued: true
     inlined: true
-    description: maps prefixes to namespaces
+    description: >-
+      A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to
+      IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)
 
 classes:
   GraphDocument:
@@ -273,12 +315,15 @@ classes:
 
   PrefixDeclaration:
     class_uri: sh:PrefixDeclaration
-    description: maps individual prefix to namespace
+    description: >-
+      A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)
     attributes:
       prefix:
         slot_uri: sh:prefix
         description: The prefix of a prefix declaration.
         range: string
+        comments:
+          - It is strongly recommended that the prefix is a valid NCName
       namespace:
         slot_uri: sh:namespace
         description: The namespace associated with a prefix in a prefix declaration.
@@ -287,10 +332,11 @@ classes:
   Graph:
     class_uri: owl:Ontology
     description: >-
-      A graph is a collection of nodes and edges that represents a single ontology
+      A graph is a collection of nodes and edges and other axioms that represents a single ontology.
     slots:
       - id
       - lbl
+      - prefixes
       - meta
       - nodes
       - edges
@@ -312,7 +358,10 @@ classes:
 
   Edge:
     description: >-
-      An edge is a typed relationship between two nodes
+      An edge is a simple typed relationship between two nodes.
+      When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o
+      (where s and o are individuals)
+      (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o
     slots:
       - sub
       - pred
@@ -323,7 +372,8 @@ classes:
     aliases:
       - annotation collection
     description: >-
-      A collection of annotations on an entity or ontology or axiom
+      A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect
+      the logical interpretation of the container but provides useful information to humans or machines.
     slots:
       - subsets
       - version
@@ -400,24 +450,27 @@ classes:
       - val
       - xrefs
       - meta
+      - valType
+      - lang
 
   Axiom:
     class_uri: owl:Axiom
     abstract: true
     description: >
-      A generic grouping for any OWL axiom that is not captured by existing constructs in this standard.
+      A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.
     slots:
       - meta
 
   DomainRangeAxiom:
     is_a: Axiom
     description: >-
-      An axiom that represents some combination of domain and range assertions.
+      This groups potentially multiple axioms that constrain the usage of a property depending on some combination
+      of domain and range.
     comments:
       - >-
         When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom with a domainClassIds,
         and no rangeClassIds. An OWL range axiom may be translated to a DomainRangeAxiom with a rangeClassIds, and
-        no domainClassIds. But translations may merge these but only when semantically valid
+        no domainClassIds. But translations may merge these, but only when semantically valid.
     slots:
       - predicateId
       - domainClassIds
@@ -464,14 +517,13 @@ classes:
         comments:
           - typically, this will be a single class
         multivalued: true
-        #required: false ## https://github.com/geneontology/obographs/issues/89
         recommended: true
         see_also:
           - https://github.com/geneontology/obographs/issues/89
       restrictions:
         aliases:
           - differentia
-        description: The set of restrictions that are the differentia of the defined class
+        description: The set of restrictions that are the differentiating features of the defined class
         comments:
           - typically this will always be present.
         multivalued: true
