@@ -22,6 +22,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
@@ -34,6 +35,7 @@ class AggregatorImplementation(
     OboGraphInterface,
     SearchInterface,
     MappingProviderInterface,
+    TextAnnotatorInterface,
 ):
     """
     Wraps multiple implementations and integrates results together.
