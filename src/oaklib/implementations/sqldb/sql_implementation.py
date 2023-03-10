@@ -426,9 +426,9 @@ class SqlImplementation(
             yield row.subject, row.predicate, row.object
 
     def label(self, curie: CURIE) -> Optional[str]:
-        s = text("SELECT value FROM rdfs_label_statement WHERE subject = :curie")
-        for row in self.engine.execute(s, curie=curie):
-            return row["value"]
+        q = self.session.query(RdfsLabelStatement.value).filter(RdfsLabelStatement.subject == curie)
+        for (lbl,) in q:
+            return lbl
 
     def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
         for curie_it in chunk(curies, self.max_items_for_in_clause):
@@ -1102,6 +1102,7 @@ class SqlImplementation(
     def node(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> obograph.Node:
+        logging.debug(f"Node lookup: {curie}")
         meta = obograph.Meta()
         uri = self.curie_to_uri(curie) if expand_curies else curie
         n = obograph.Node(id=uri, meta=meta)
