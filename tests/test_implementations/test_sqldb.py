@@ -649,8 +649,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual("foo", label)
         oi.set_label(NUCLEUS, "bar")
         oi.set_label(NUCLEAR_ENVELOPE, "baz")
-        self.assertNotEqual("bar", oi.label(NUCLEUS))
-        self.assertNotEqual("baz", oi.label(NUCLEAR_ENVELOPE))
+        # note: behavior difference when switching to sqla2.0;
+        # even though changes are not committed, they are local to the
+        # connection.
+        oi_alt_conn = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+        self.assertNotEqual("bar", oi_alt_conn.label(NUCLEUS))
+        self.assertNotEqual("baz", oi_alt_conn.label(NUCLEUS))
         oi.save()
         self.assertEqual("bar", oi.label(NUCLEUS))
         self.assertEqual("baz", oi.label(NUCLEAR_ENVELOPE))
