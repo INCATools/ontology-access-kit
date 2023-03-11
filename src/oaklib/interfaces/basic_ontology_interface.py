@@ -1062,17 +1062,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def dump(self, path: str = None, syntax: str = None, **kwargs):
-        """
-        Exports current state.
-
-        :param path: path to output file
-        :param syntax: format/syntax
-        :param kwargs: additional format-specific arguments
-        :return:
-        """
-        raise NotImplementedError
-
     def clone(self, resource: Any) -> None:
         """
         Clones the ontology interface to a new resource.

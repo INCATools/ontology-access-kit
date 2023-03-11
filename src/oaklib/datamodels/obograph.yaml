@@ -198,6 +198,8 @@ slots:
       websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso
     close_mappings:
       - rdfs:seeAlso
+    exact_mappings:
+      - oio:hasDbXref
   nodes:
     multivalued: true
     range: Node
@@ -300,6 +302,14 @@ slots:
     description: >-
       A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to
       IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)
+  synonymTypeDefinitions:
+    range: SynonymTypeDefinition
+    multivalued: true
+    inlined: true
+  subsetDefinitions:
+    range: SubsetDefinition
+    multivalued: true
+    inlined: true
 
 classes:
   GraphDocument:
@@ -337,6 +347,8 @@ classes:
       - id
       - lbl
       - prefixes
+      - subsetDefinitions
+      - synonymTypeDefinitions
       - meta
       - nodes
       - edges
@@ -408,6 +420,7 @@ classes:
     is_a: PropertyValue
     description: >-
       A property value that represents an assertion about an entity that is not a definition, synonym, or xref
+
   XrefPropertyValue:
     is_a: PropertyValue
     description: >-
@@ -452,6 +465,20 @@ classes:
       - meta
       - valType
       - lang
+
+  SubsetDefinition:
+    class_uri: oio:SubsetProperty
+    slots:
+      - id
+      - lbl
+
+  SynonymTypeDefinition:
+    class_uri: oio:SynonymType
+    slots:
+      - id
+      - lbl
+      - pred
+
 
   Axiom:
     class_uri: owl:Axiom

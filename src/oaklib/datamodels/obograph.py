@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-27T09:56:15
+# Generation date: 2023-03-08T18:09:33
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -99,6 +99,14 @@ class NodeId(OboIdentifierString):
     pass
 
 
+class SubsetDefinitionId(OboIdentifierString):
+    pass
+
+
+class SynonymTypeDefinitionId(OboIdentifierString):
+    pass
+
+
 @dataclass
 class GraphDocument(YAMLRoot):
     """
@@ -182,6 +190,18 @@ class Graph(YAMLRoot):
     prefixes: Optional[
         Union[Union[dict, PrefixDeclaration], List[Union[dict, PrefixDeclaration]]]
     ] = empty_list()
+    subsetDefinitions: Optional[
+        Union[
+            Dict[Union[str, SubsetDefinitionId], Union[dict, "SubsetDefinition"]],
+            List[Union[dict, "SubsetDefinition"]],
+        ]
+    ] = empty_dict()
+    synonymTypeDefinitions: Optional[
+        Union[
+            Dict[Union[str, SynonymTypeDefinitionId], Union[dict, "SynonymTypeDefinition"]],
+            List[Union[dict, "SynonymTypeDefinition"]],
+        ]
+    ] = empty_dict()
     meta: Optional[Union[dict, "Meta"]] = None
     nodes: Optional[
         Union[Dict[Union[str, NodeId], Union[dict, "Node"]], List[Union[dict, "Node"]]]
@@ -218,6 +238,17 @@ class Graph(YAMLRoot):
             v if isinstance(v, PrefixDeclaration) else PrefixDeclaration(**as_dict(v))
             for v in self.prefixes
         ]
+
+        self._normalize_inlined_as_dict(
+            slot_name="subsetDefinitions", slot_type=SubsetDefinition, key_name="id", keyed=True
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="synonymTypeDefinitions",
+            slot_type=SynonymTypeDefinition,
+            key_name="id",
+            keyed=True,
+        )
 
         if self.meta is not None and not isinstance(self.meta, Meta):
             self.meta = Meta(**as_dict(self.meta))
@@ -560,6 +591,58 @@ class SynonymPropertyValue(PropertyValue):
 
         if self.val is not None and not isinstance(self.val, str):
             self.val = str(self.val)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class SubsetDefinition(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OIO.SubsetProperty
+    class_class_curie: ClassVar[str] = "oio:SubsetProperty"
+    class_name: ClassVar[str] = "SubsetDefinition"
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.SubsetDefinition
+
+    id: Union[str, SubsetDefinitionId] = None
+    lbl: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, SubsetDefinitionId):
+            self.id = SubsetDefinitionId(self.id)
+
+        if self.lbl is not None and not isinstance(self.lbl, str):
+            self.lbl = str(self.lbl)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class SynonymTypeDefinition(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OIO.SynonymType
+    class_class_curie: ClassVar[str] = "oio:SynonymType"
+    class_name: ClassVar[str] = "SynonymTypeDefinition"
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.SynonymTypeDefinition
+
+    id: Union[str, SynonymTypeDefinitionId] = None
+    lbl: Optional[str] = None
+    pred: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, SynonymTypeDefinitionId):
+            self.id = SynonymTypeDefinitionId(self.id)
+
+        if self.lbl is not None and not isinstance(self.lbl, str):
+            self.lbl = str(self.lbl)
+
+        if self.pred is not None and not isinstance(self.pred, str):
+            self.pred = str(self.pred)
 
         super().__post_init__(**kwargs)
 
@@ -1130,6 +1213,34 @@ slots.prefixes = Slot(
     model_uri=OBOGRAPHS.prefixes,
     domain=None,
     range=Optional[Union[Union[dict, PrefixDeclaration], List[Union[dict, PrefixDeclaration]]]],
+)
+
+slots.synonymTypeDefinitions = Slot(
+    uri=OBOGRAPHS.synonymTypeDefinitions,
+    name="synonymTypeDefinitions",
+    curie=OBOGRAPHS.curie("synonymTypeDefinitions"),
+    model_uri=OBOGRAPHS.synonymTypeDefinitions,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, SynonymTypeDefinitionId], Union[dict, SynonymTypeDefinition]],
+            List[Union[dict, SynonymTypeDefinition]],
+        ]
+    ],
+)
+
+slots.subsetDefinitions = Slot(
+    uri=OBOGRAPHS.subsetDefinitions,
+    name="subsetDefinitions",
+    curie=OBOGRAPHS.curie("subsetDefinitions"),
+    model_uri=OBOGRAPHS.subsetDefinitions,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, SubsetDefinitionId], Union[dict, SubsetDefinition]],
+            List[Union[dict, SubsetDefinition]],
+        ]
+    ],
 )
 
 slots.prefixDeclaration__prefix = Slot(

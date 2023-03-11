@@ -90,6 +90,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.obolegacy_interface import PRED_CODE, OboLegacyInterface
@@ -121,6 +122,7 @@ class SimpleOboImplementation(
     PatcherInterface,
     SummaryStatisticsInterface,
     TaxonConstraintInterface,
+    DumperInterface,
 ):
     """
     Simple OBO-file backed implementation

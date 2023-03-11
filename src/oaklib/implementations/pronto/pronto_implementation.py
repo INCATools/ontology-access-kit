@@ -671,7 +671,7 @@ class ProntoImplementation(
 
     def as_obograph(self, expand_curies=False) -> Graph:
         om = self.wrapped_ontology.metadata
-        entities = list(self.entities(filter_obsoletes=False, owl_type=OWL_CLASS))
+        entities = set(self.entities(filter_obsoletes=False, owl_type=OWL_CLASS))
         # entities.extend(self.entities(filter_obsoletes=False, owl_type=OWL_OBJECT_PROPERTY))
         nodes = [self.node(curie) for curie in entities]
         nodes = [n for n in nodes if n.lbl or n.meta]
