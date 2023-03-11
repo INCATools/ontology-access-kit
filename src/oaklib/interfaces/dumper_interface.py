@@ -1,3 +1,4 @@
+import logging
 from abc import ABC
 from typing import Any, Dict
 
@@ -18,6 +19,8 @@ OBOGRAPH_CONVERTERS = {
     "obo": OboGraphToOboFormatConverter,
     "fhirjson": OboGraphToFHIRConverter,
     "owl": OboGraphToRdfOwlConverter,
+    "turtle": OboGraphToRdfOwlConverter,
+    "rdf": OboGraphToRdfOwlConverter,
     "obojson": None,
 }
 
@@ -35,6 +38,7 @@ class DumperInterface(BasicOntologyInterface, ABC):
         :param syntax:
         :return:
         """
+        logging.info(f"Dumping graph to {path} in {syntax}")
         if not syntax:
             raise ValueError(f"Unknown syntax: {syntax}")
         if syntax not in OBOGRAPH_CONVERTERS:
@@ -52,6 +56,7 @@ class DumperInterface(BasicOntologyInterface, ABC):
                 print(json_str)
         else:
             converter = OBOGRAPH_CONVERTERS[syntax]()
+            logging.info(f"Using {converter}")
             converter.curie_converter = self.converter
             kwargs = {k: v for k, v in kwargs.items() if v is not None}
             converter.dump(ogdoc, target=path, **kwargs)

@@ -212,6 +212,9 @@ class OboGraphImplementation(
         if n:
             return n.meta
 
+    def ontologies(self) -> Iterable[CURIE]:
+        return [g.id for g in self.obograph_document.graphs]
+
     def subsets(self) -> Iterable[CURIE]:
         raise NotImplementedError
 
