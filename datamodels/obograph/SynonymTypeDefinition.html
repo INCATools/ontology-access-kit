@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: XrefPropertyValue &mdash; oaklib  documentation</title>
+  <title>Class: SynonymTypeDefinition &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: XrefPropertyValue</li>
+      <li class="breadcrumb-item active">Class: SynonymTypeDefinition</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/obograph/XrefPropertyValue.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/obograph/SynonymTypeDefinition.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,32 +85,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-xrefpropertyvalue">
-<h1>Class: XrefPropertyValue<a class="headerlink" href="#class-xrefpropertyvalue" title="Permalink to this headline"></a></h1>
-<p><em>A property value that represents an assertion about an external reference to an entity</em></p>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/XrefPropertyValue">obographs:XrefPropertyValue</a></p>
+  <section id="class-synonymtypedefinition">
+<h1>Class: SynonymTypeDefinition<a class="headerlink" href="#class-synonymtypedefinition" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="http://www.geneontology.org/formats/oboInOwl#SynonymType">oio:SynonymType</a></p>
 <div class="mermaid">
              classDiagram
-    class XrefPropertyValue
-      PropertyValue &lt;|-- XrefPropertyValue
+    class SynonymTypeDefinition
+      SynonymTypeDefinition : id
+      SynonymTypeDefinition : lbl
+      SynonymTypeDefinition : pred
       
-      XrefPropertyValue : lang
-      XrefPropertyValue : meta
-      XrefPropertyValue : pred
-      XrefPropertyValue : val
-      XrefPropertyValue : valType
-      XrefPropertyValue : xrefs
-      
-        </div><section id="inheritance">
-<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p>
-<ul>
-<li><p><strong>XrefPropertyValue</strong></p></li>
-</ul>
-</li>
-</ul>
-</section>
+        </div><!-- no inheritance hierarchy -->
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
@@ -122,35 +107,20 @@
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="OboIdentifierString.html"><span class="doc std std-doc">OboIdentifierString</span></a></p></td>
+<td><p>The unique identifier of the entity</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="lbl.html"><span class="doc std std-doc">lbl</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>the human-readable label of a node</p></td>
+<td><p>direct</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>the predicate of an edge</p></td>
-<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="val.html"><span class="doc std std-doc">val</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>The textual representation of the external reference, e</p></td>
-<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="doc std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="XrefString.html"><span class="doc std std-doc">XrefString</span></a></p></td>
-<td><p>A list of cross references to other entities represented in other ontologies,…</p></td>
-<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
-<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="valType.html"><span class="doc std std-doc">valType</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>the datatype of a property value</p></td>
-<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="lang.html"><span class="doc std std-doc">lang</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>the language of a property value</p></td>
-<td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 </tbody>
 </table>
@@ -166,10 +136,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p><a class="reference internal" href="xrefs.html"><span class="doc std std-doc">xrefs</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
+<td><p><a class="reference internal" href="synonymTypeDefinitions.html"><span class="doc std std-doc">synonymTypeDefinitions</span></a></p></td>
 <td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">SynonymTypeDefinition</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -193,10 +163,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>obographs:XrefPropertyValue</p></td>
+<td><p>oio:SynonymType</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>obographs:XrefPropertyValue</p></td>
+<td><p>obographs:SynonymTypeDefinition</p></td>
 </tr>
 </tbody>
 </table>
@@ -208,43 +178,60 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: XrefPropertyValue
-description: A property value that represents an assertion about an external reference
-  to an entity
+name: SynonymTypeDefinition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-is_a: PropertyValue
-slot_usage:
-  val:
-    name: val
-    description: The textual representation of the external reference, e.g. "PMID:12345"
-    domain_of:
-    - PropertyValue
-    - PropertyValue
-    - PropertyValue
-    role: xref
+slots:
+- id
+- lbl
+- pred
+class_uri: oio:SynonymType
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: XrefPropertyValue
-description: A property value that represents an assertion about an external reference
-  to an entity
+name: SynonymTypeDefinition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-is_a: PropertyValue
-slot_usage:
-  val:
-    name: val
-    description: The textual representation of the external reference, e.g. &quot;PMID:12345&quot;
-    domain_of:
-    - PropertyValue
-    - PropertyValue
-    - PropertyValue
-    role: xref
 attributes:
+  id:
+    name: id
+    description: The unique identifier of the entity
+    from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
+    rank: 1000
+    identifier: true
+    alias: id
+    owner: SynonymTypeDefinition
+    domain_of:
+    - Graph
+    - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
+    range: OboIdentifierString
+  lbl:
+    name: lbl
+    description: the human-readable label of a node
+    comments:
+    - the name &quot;lbl&quot; exists for legacy purposes, this should be considered identical
+      to label in rdfs
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - label
+    - name
+    rank: 1000
+    slot_uri: rdfs:label
+    alias: lbl
+    owner: SynonymTypeDefinition
+    domain_of:
+    - Graph
+    - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
+    range: string
   pred:
     name: pred
     description: the predicate of an edge
@@ -252,85 +239,14 @@ attributes:
     rank: 1000
     slot_uri: rdf:predicate
     alias: pred
-    owner: XrefPropertyValue
+    owner: SynonymTypeDefinition
     domain_of:
     - Edge
     - SynonymPropertyValue
     - PropertyValue
     - SynonymTypeDefinition
     range: string
-  val:
-    name: val
-    description: The textual representation of the external reference, e.g. &quot;PMID:12345&quot;
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    slot_uri: rdf:object
-    alias: val
-    owner: XrefPropertyValue
-    domain_of:
-    - PropertyValue
-    - PropertyValue
-    role: xref
-    range: string
-  xrefs:
-    name: xrefs
-    description: A list of cross references to other entities represented in other
-      ontologies, vocabularies, databases, or websites. The semantics of xrefs are
-      intentionally weak, and most closely align with rdfs:seeAlso
-    from_schema: https://github.com/geneontology/obographs
-    exact_mappings:
-    - oio:hasDbXref
-    close_mappings:
-    - rdfs:seeAlso
-    rank: 1000
-    multivalued: true
-    alias: xrefs
-    owner: XrefPropertyValue
-    domain_of:
-    - Meta
-    - PropertyValue
-    range: XrefString
-  meta:
-    name: meta
-    description: A collection of metadata about either an ontology (graph), an entity,
-      or an axiom
-    from_schema: https://github.com/geneontology/obographs
-    aliases:
-    - annotations
-    rank: 1000
-    alias: meta
-    owner: XrefPropertyValue
-    domain_of:
-    - GraphDocument
-    - Graph
-    - Node
-    - Edge
-    - PropertyValue
-    - Axiom
-    range: Meta
-  valType:
-    name: valType
-    description: the datatype of a property value
-    from_schema: https://github.com/geneontology/obographs
-    aliases:
-    - value type
-    - datatype
-    rank: 1000
-    alias: valType
-    owner: XrefPropertyValue
-    domain_of:
-    - PropertyValue
-    range: string
-  lang:
-    name: lang
-    description: the language of a property value
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    alias: lang
-    owner: XrefPropertyValue
-    domain_of:
-    - PropertyValue
-    range: string
+class_uri: oio:SynonymType
 
 </pre></div>
 </div>

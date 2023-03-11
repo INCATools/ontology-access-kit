@@ -1,20 +1,16 @@
-# Class: Node
-_A node is a class, property, or other entity in an ontology_
+# Class: SubsetDefinition
 
 
 
-
-URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
+URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetProperty)
 
 
 
 ```{mermaid}
  classDiagram
-    class Node
-      Node : id
-      Node : lbl
-      Node : meta
-      Node : type
+    class SubsetDefinition
+      SubsetDefinition : id
+      SubsetDefinition : lbl
       
 ```
 
@@ -30,8 +26,6 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
-| [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 
 
 
@@ -41,7 +35,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [nodes](nodes.md) | range | [Node](Node.md) |
+| [Graph](Graph.md) | [subsetDefinitions](subsetDefinitions.md) | range | [SubsetDefinition](SubsetDefinition.md) |
 
 
 
@@ -69,8 +63,8 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | rdf:Resource |
-| native | obographs:Node |
+| self | oio:SubsetProperty |
+| native | obographs:SubsetDefinition |
 
 
 
@@ -84,16 +78,13 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 <details>
 ```yaml
-name: Node
-description: A node is a class, property, or other entity in an ontology
+name: SubsetDefinition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
 - id
 - lbl
-- type
-- meta
-class_uri: rdf:Resource
+class_uri: oio:SubsetProperty
 
 ```
 </details>
@@ -102,8 +93,7 @@ class_uri: rdf:Resource
 
 <details>
 ```yaml
-name: Node
-description: A node is a class, property, or other entity in an ontology
+name: SubsetDefinition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
@@ -116,7 +106,7 @@ attributes:
     rank: 1000
     identifier: true
     alias: id
-    owner: Node
+    owner: SubsetDefinition
     domain_of:
     - Graph
     - Node
@@ -136,41 +126,14 @@ attributes:
     rank: 1000
     slot_uri: rdfs:label
     alias: lbl
-    owner: Node
+    owner: SubsetDefinition
     domain_of:
     - Graph
     - Node
     - SubsetDefinition
     - SynonymTypeDefinition
     range: string
-  type:
-    name: type
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    alias: type
-    owner: Node
-    domain_of:
-    - Node
-    range: string
-  meta:
-    name: meta
-    description: A collection of metadata about either an ontology (graph), an entity,
-      or an axiom
-    from_schema: https://github.com/geneontology/obographs
-    aliases:
-    - annotations
-    rank: 1000
-    alias: meta
-    owner: Node
-    domain_of:
-    - GraphDocument
-    - Graph
-    - Node
-    - Edge
-    - PropertyValue
-    - Axiom
-    range: Meta
-class_uri: rdf:Resource
+class_uri: oio:SubsetProperty
 
 ```
 </details>

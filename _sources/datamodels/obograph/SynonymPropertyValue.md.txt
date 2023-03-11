@@ -114,9 +114,11 @@ slot_usage:
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
@@ -146,9 +148,11 @@ slot_usage:
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
@@ -192,9 +196,11 @@ attributes:
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
@@ -215,6 +221,8 @@ attributes:
       ontologies, vocabularies, databases, or websites. The semantics of xrefs are
       intentionally weak, and most closely align with rdfs:seeAlso
     from_schema: https://github.com/geneontology/obographs
+    exact_mappings:
+    - oio:hasDbXref
     close_mappings:
     - rdfs:seeAlso
     rank: 1000

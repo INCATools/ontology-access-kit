@@ -1,20 +1,17 @@
-# Class: Node
-_A node is a class, property, or other entity in an ontology_
+# Class: SynonymTypeDefinition
 
 
 
-
-URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
+URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
 
 
 
 ```{mermaid}
  classDiagram
-    class Node
-      Node : id
-      Node : lbl
-      Node : meta
-      Node : type
+    class SynonymTypeDefinition
+      SynonymTypeDefinition : id
+      SynonymTypeDefinition : lbl
+      SynonymTypeDefinition : pred
       
 ```
 
@@ -30,8 +27,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
-| [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | direct |
 
 
 
@@ -41,7 +37,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [nodes](nodes.md) | range | [Node](Node.md) |
+| [Graph](Graph.md) | [synonymTypeDefinitions](synonymTypeDefinitions.md) | range | [SynonymTypeDefinition](SynonymTypeDefinition.md) |
 
 
 
@@ -69,8 +65,8 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | rdf:Resource |
-| native | obographs:Node |
+| self | oio:SynonymType |
+| native | obographs:SynonymTypeDefinition |
 
 
 
@@ -84,16 +80,14 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 <details>
 ```yaml
-name: Node
-description: A node is a class, property, or other entity in an ontology
+name: SynonymTypeDefinition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
 - id
 - lbl
-- type
-- meta
-class_uri: rdf:Resource
+- pred
+class_uri: oio:SynonymType
 
 ```
 </details>
@@ -102,8 +96,7 @@ class_uri: rdf:Resource
 
 <details>
 ```yaml
-name: Node
-description: A node is a class, property, or other entity in an ontology
+name: SynonymTypeDefinition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
@@ -116,7 +109,7 @@ attributes:
     rank: 1000
     identifier: true
     alias: id
-    owner: Node
+    owner: SynonymTypeDefinition
     domain_of:
     - Graph
     - Node
@@ -136,41 +129,28 @@ attributes:
     rank: 1000
     slot_uri: rdfs:label
     alias: lbl
-    owner: Node
+    owner: SynonymTypeDefinition
     domain_of:
     - Graph
     - Node
     - SubsetDefinition
     - SynonymTypeDefinition
     range: string
-  type:
-    name: type
+  pred:
+    name: pred
+    description: the predicate of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    alias: type
-    owner: Node
+    slot_uri: rdf:predicate
+    alias: pred
+    owner: SynonymTypeDefinition
     domain_of:
-    - Node
-    range: string
-  meta:
-    name: meta
-    description: A collection of metadata about either an ontology (graph), an entity,
-      or an axiom
-    from_schema: https://github.com/geneontology/obographs
-    aliases:
-    - annotations
-    rank: 1000
-    alias: meta
-    owner: Node
-    domain_of:
-    - GraphDocument
-    - Graph
-    - Node
     - Edge
+    - SynonymPropertyValue
     - PropertyValue
-    - Axiom
-    range: Meta
-class_uri: rdf:Resource
+    - SynonymTypeDefinition
+    range: string
+class_uri: oio:SynonymType
 
 ```
 </details>

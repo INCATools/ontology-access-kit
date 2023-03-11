@@ -103,6 +103,8 @@
       Graph : nodes
       Graph : prefixes
       Graph : propertyChainAxioms
+      Graph : subsetDefinitions
+      Graph : synonymTypeDefinitions
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -129,6 +131,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="prefixes.html"><span class="doc std std-doc">prefixes</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PrefixDeclaration.html"><span class="doc std std-doc">PrefixDeclaration</span></a></p></td>
 <td><p>A collection of mappings between prefixes and namespaces, used to map CURIEs …</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subsetDefinitions.html"><span class="doc std std-doc">subsetDefinitions</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="SubsetDefinition.html"><span class="doc std std-doc">SubsetDefinition</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="synonymTypeDefinitions.html"><span class="doc std std-doc">synonymTypeDefinitions</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="SynonymTypeDefinition.html"><span class="doc std std-doc">SynonymTypeDefinition</span></a></p></td>
+<td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
@@ -236,6 +248,8 @@ slots:
 - id
 - lbl
 - prefixes
+- subsetDefinitions
+- synonymTypeDefinitions
 - meta
 - nodes
 - edges
@@ -270,6 +284,8 @@ attributes:
     domain_of:
     - Graph
     - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
     range: OboIdentifierString
   lbl:
     name: lbl
@@ -288,6 +304,8 @@ attributes:
     domain_of:
     - Graph
     - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
     range: string
   prefixes:
     name: prefixes
@@ -303,6 +321,28 @@ attributes:
     - GraphDocument
     - Graph
     range: PrefixDeclaration
+    inlined: true
+  subsetDefinitions:
+    name: subsetDefinitions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: subsetDefinitions
+    owner: Graph
+    domain_of:
+    - Graph
+    range: SubsetDefinition
+    inlined: true
+  synonymTypeDefinitions:
+    name: synonymTypeDefinitions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: synonymTypeDefinitions
+    owner: Graph
+    domain_of:
+    - Graph
+    range: SynonymTypeDefinition
     inlined: true
   meta:
     name: meta

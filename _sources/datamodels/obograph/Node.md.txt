@@ -120,6 +120,8 @@ attributes:
     domain_of:
     - Graph
     - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
     range: OboIdentifierString
   lbl:
     name: lbl
@@ -138,6 +140,8 @@ attributes:
     domain_of:
     - Graph
     - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
     range: string
   type:
     name: type

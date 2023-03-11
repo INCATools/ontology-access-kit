@@ -185,6 +185,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transitive_query_cache</span> <span class="o">=</span> <span class="kc">None</span></div>
 
+<div class="viewcode-block" id="OboGraphInterface.node"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">[docs]</a>    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Look up a node object by CURIE</span>
+
+<span class="sd">        :param curie: identifier of node</span>
+<span class="sd">        :param strict: raise exception if node not found</span>
+<span class="sd">        :param include_metadata: include detailed metadata</span>
+<span class="sd">        :param expand_curies: if True expand CURIEs to URIs</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
 <div class="viewcode-block" id="OboGraphInterface.nodes"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">[docs]</a>    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all nodes in all graphs</span>
@@ -217,18 +229,6 @@
                     <span class="n">p</span> <span class="o">=</span> <span class="s2">&quot;is_a&quot;</span>
                 <span class="k">yield</span> <span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">o</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OboGraphInterface.node"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">[docs]</a>    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Look up a node object by CURIE</span>
-
-<span class="sd">        :param curie: identifier of node</span>
-<span class="sd">        :param strict: raise exception if node not found</span>
-<span class="sd">        :param include_metadata: include detailed metadata</span>
-<span class="sd">        :param expand_curies: if True expand CURIEs to URIs</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
     <span class="k">def</span> <span class="nf">synonym_property_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">SynonymPropertyValue</span><span class="p">]]:</span>
@@ -256,6 +256,8 @@
                 <span class="n">node_map</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_map</span><span class="p">:</span>
                 <span class="n">p_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">p_node</span><span class="p">:</span>
+                    <span class="n">p_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
                 <span class="n">p_node</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;PROPERTY&quot;</span>
                 <span class="n">node_map</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_node</span>
             <span class="k">if</span> <span class="n">o</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_map</span><span class="p">:</span>
@@ -423,19 +425,32 @@
         <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Extract a subgraph from the graph that contains the specified entities and predicates</span>
+<span class="sd">        Extract a subgraph from the graph that contains the specified entities and predicates.</span>
 
 <span class="sd">        :param entities: entities to extract</span>
 <span class="sd">        :param predicates: predicates to extract</span>
 <span class="sd">        :param dangling: if true, include dangling nodes</span>
 <span class="sd">        :return: subgraph</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Extracting usings seed of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span><span class="si">}</span><span class="s2"> entities&quot;</span><span class="p">)</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="n">include_metadata</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;extracting rels for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span><span class="si">}</span><span class="s2"> p=</span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2"> dangling=</span><span class="si">{</span><span class="n">dangling</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">dangling</span> <span class="ow">or</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
                 <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">o</span><span class="p">))</span>
-        <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;TEMP&quot;</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
+        <span class="n">ontologies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ontologies</span><span class="p">())</span>
+        <span class="n">curr_id</span> <span class="o">=</span> <span class="n">ontologies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curr_id</span><span class="si">}</span><span class="s2">-transformed&quot;</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lda</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logical_definitions</span><span class="p">(</span><span class="n">entities</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">lda</span><span class="o">.</span><span class="n">restrictions</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">propertyId</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">):</span>
+                    <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dangling</span><span class="p">:</span>
+                <span class="n">signature</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">genusIds</span> <span class="o">+</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">fillerId</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">lda</span><span class="o">.</span><span class="n">restrictions</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">signature</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">entities</span><span class="p">):</span>
+                    <span class="k">continue</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">logicalDefinitionAxioms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lda</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.relationships_to_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph">[docs]</a>    <span class="k">def</span> <span class="nf">relationships_to_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>

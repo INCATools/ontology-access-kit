@@ -28,7 +28,9 @@ Name: obographs_datamodel
 | [PrefixDeclaration](PrefixDeclaration.md) | A mapping between an individual prefix (e |
 | [PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e |
 | [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |
+| [SubsetDefinition](SubsetDefinition.md) |  |
 | [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |
+| [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |
 | [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |
 
 
@@ -70,9 +72,11 @@ Name: obographs_datamodel
 | [representativeNodeId](representativeNodeId.md) | The identifier of a node that represents the class in an OWL equivalence cliq... |
 | [restrictions](restrictions.md) | The set of restrictions that are the differentiating features of the defined ... |
 | [sub](sub.md) | the subject of an edge |
+| [subsetDefinitions](subsetDefinitions.md) |  |
 | [subsets](subsets.md) | A list of subsets to which this entity belongs |
 | [synonyms](synonyms.md) | A list of synonym property value assertions for an entity |
 | [synonymType](synonymType.md) | This standard follows oboInOwl in allowing an open ended list of synonym type... |
+| [synonymTypeDefinitions](synonymTypeDefinitions.md) |  |
 | [type](type.md) |  |
 | [val](val.md) | the value of a property |
 | [valType](valType.md) | the datatype of a property value |

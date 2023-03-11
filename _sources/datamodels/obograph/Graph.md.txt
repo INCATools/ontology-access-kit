@@ -22,6 +22,8 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
       Graph : nodes
       Graph : prefixes
       Graph : propertyChainAxioms
+      Graph : subsetDefinitions
+      Graph : synonymTypeDefinitions
       
 ```
 
@@ -38,6 +40,8 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
 | [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... | direct |
+| [subsetDefinitions](subsetDefinitions.md) | 0..* <br/> [SubsetDefinition](SubsetDefinition.md) |  | direct |
+| [synonymTypeDefinitions](synonymTypeDefinitions.md) | 0..* <br/> [SynonymTypeDefinition](SynonymTypeDefinition.md) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 | [nodes](nodes.md) | 0..* <br/> [Node](Node.md) | All nodes present in a graph | direct |
 | [edges](edges.md) | 0..* <br/> [Edge](Edge.md) | All edges present in a graph | direct |
@@ -107,6 +111,8 @@ slots:
 - id
 - lbl
 - prefixes
+- subsetDefinitions
+- synonymTypeDefinitions
 - meta
 - nodes
 - edges
@@ -143,6 +149,8 @@ attributes:
     domain_of:
     - Graph
     - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
     range: OboIdentifierString
   lbl:
     name: lbl
@@ -161,6 +169,8 @@ attributes:
     domain_of:
     - Graph
     - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
     range: string
   prefixes:
     name: prefixes
@@ -176,6 +186,28 @@ attributes:
     - GraphDocument
     - Graph
     range: PrefixDeclaration
+    inlined: true
+  subsetDefinitions:
+    name: subsetDefinitions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: subsetDefinitions
+    owner: Graph
+    domain_of:
+    - Graph
+    range: SubsetDefinition
+    inlined: true
+  synonymTypeDefinitions:
+    name: synonymTypeDefinitions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: synonymTypeDefinitions
+    owner: Graph
+    domain_of:
+    - Graph
+    range: SynonymTypeDefinition
     inlined: true
   meta:
     name: meta

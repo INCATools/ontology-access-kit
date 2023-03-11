@@ -79,7 +79,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-enrichment">enrichment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-expand-subsets">expand-subsets</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-extract">extract</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-fill-table">fill-table</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-generate-synonyms">generate-synonyms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
@@ -293,6 +293,11 @@ You should get the same results by running:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-autosave">
 <span id="cmdoption-runoak-no-autosave"></span><span class="sig-name descname"><span class="pre">--autosave</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autosave</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-autosave" title="Permalink to this definition"></a></dt>
 <dd><p>For commands that mutate the ontology, this determines if these are automatically saved in place</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="std option">
@@ -1561,7 +1566,8 @@ to avoid killer queries.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-dump-o">
 <span id="cmdoption-runoak-dump-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-dump-o" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Path to output file</p>
+</dd></dl>
 
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-dump-include-all-predicates">
@@ -1719,44 +1725,79 @@ to avoid killer queries.</p>
 </dd></dl>
 
 </section>
-<section id="runoak-extract-triples">
-<h4>extract-triples<a class="headerlink" href="#runoak-extract-triples" title="Permalink to this headline"></a></h4>
+<section id="runoak-extract">
+<h4>extract<a class="headerlink" href="#runoak-extract" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Extracts a subontology as triples</p>
-<p>Currently the only endpoint to implement this is ubergraph. Ontobee seems
-to have performance issues with the query</p>
-<p>This will soon be supported in the SqlDatabase/Sqlite endpoint</p>
-<p>Example:</p>
+<div><p>Extracts a sub-ontology.</p>
+<p>Simple example:</p>
 <blockquote>
-<div><p>runoak -v -i ubergraph: extract-triples <a class="reference external" href="GO:0005635">GO:0005635</a> CL:0000099 -o test.ttl -O ttl</p>
+<div><p>runoak -i cl.db extract neuron</p>
 </div></blockquote>
+<p>This will extract a single node for “neuron”. No relationships will be included,
+as –no-dangling is the default</p>
+<p>To include edges even if dangling:</p>
+<blockquote>
+<div><p>runoak -i cl.db extract neuron –dangling</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>extract-triples<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+<p>A subset of relationship types (predicates):</p>
+<blockquote>
+<div><p>runoak -i cl.db extract neuron –dangling -p i</p>
+</div></blockquote>
+<p>If you wish to get a fully connected is-a graph for all is-a ancestors:</p>
+<blockquote>
+<div><p>runoak -i cl.db extract .anc//p=i neuron –dangling -p i</p>
+</div></blockquote>
+<p>If you prefer, you can split this into 2 commands:</p>
+<blockquote>
+<div><p>runoak -i cl.db ancestors -p i neuron &gt; seed.txt</p>
+</div></blockquote>
+<p>Then:</p>
+<blockquote>
+<div><p>runoak -i cl.db extract .idfile seed.txt –dangling -p i</p>
+</div></blockquote>
+<p>You can specify different output types and output paths:</p>
+<blockquote>
+<div><p>runoak -i cl.db extract .idfile seed.txt -O owl -o neuron.owl.ttl</p>
+</div></blockquote>
+<p>Allowed formats include: obo, obographs, owl/ttl, fhirjson</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>extract<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-extract-triples-p">
-<span id="cmdoption-runoak-extract-triples-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-extract-triples-p" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-extract-p">
+<span id="cmdoption-runoak-extract-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-extract-p" title="Permalink to this definition"></a></dt>
 <dd><p>A comma-separated list of predicates</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-extract-triples-o">
-<span id="cmdoption-runoak-extract-triples-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-extract-triples-o" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
+<dt class="sig sig-object std" id="cmdoption-runoak-extract-o">
+<span id="cmdoption-runoak-extract-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-extract-o" title="Permalink to this definition"></a></dt>
+<dd><p>Path to output file</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-extract-triples-O">
-<span id="cmdoption-runoak-extract-triples-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-extract-triples-O" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-extract-dangling">
+<span id="cmdoption-runoak-extract-no-dangling"></span><span class="sig-name descname"><span class="pre">--dangling</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-dangling</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-extract-dangling" title="Permalink to this definition"></a></dt>
+<dd><p>If True, allow dangling edges in the output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-extract-O">
+<span id="cmdoption-runoak-extract-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-extract-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-extract-triples-arg-TERMS">
-<span id="cmdoption-runoak-extract-triples-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-extract-triples-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-extract-arg-TERMS">
+<span id="cmdoption-runoak-extract-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-extract-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 

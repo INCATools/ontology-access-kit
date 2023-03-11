@@ -107,6 +107,7 @@ slot_usage:
     domain_of:
     - PropertyValue
     - PropertyValue
+    - PropertyValue
     role: xref
 
 ```
@@ -129,6 +130,7 @@ slot_usage:
     domain_of:
     - PropertyValue
     - PropertyValue
+    - PropertyValue
     role: xref
 attributes:
   pred:
@@ -143,6 +145,7 @@ attributes:
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     range: string
   val:
     name: val
@@ -163,6 +166,8 @@ attributes:
       ontologies, vocabularies, databases, or websites. The semantics of xrefs are
       intentionally weak, and most closely align with rdfs:seeAlso
     from_schema: https://github.com/geneontology/obographs
+    exact_mappings:
+    - oio:hasDbXref
     close_mappings:
     - rdfs:seeAlso
     rank: 1000
