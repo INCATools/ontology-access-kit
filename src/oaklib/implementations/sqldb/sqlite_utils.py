@@ -52,11 +52,10 @@ def sqlite_bulk_load2(
     csv_file = Path(csv_file).resolve()
     engine = create_engine("sqlite:///" + str(db_name))
 
-    with engine.connect() as con:
-        if "chunksize" in read_csv_args and read_csv_args.get("chunksize") is not None:
-            with pd.read_csv(csv_file, **read_csv_args) as reader:
-                for chunk in reader:
-                    chunk.to_sql(table_name, con, if_exists="append", index=False)
-        else:
-            df = pd.read_csv(csv_file, **read_csv_args)
-            df.to_sql(table_name, con, if_exists="append", index=False)
+    if "chunksize" in read_csv_args and read_csv_args.get("chunksize") is not None:
+        with pd.read_csv(csv_file, **read_csv_args) as reader:
+            for chunk in reader:
+                chunk.to_sql(table_name, engine, if_exists="append", index=False)
+    else:
+        df = pd.read_csv(csv_file, **read_csv_args)
+        df.to_sql(table_name, engine, if_exists="append", index=False)
