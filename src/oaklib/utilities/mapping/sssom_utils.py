@@ -76,5 +76,5 @@ class StreamingSssomWriter(StreamingWriter):
         prefix_map = self.ontology_interface.prefix_map()
         doc = MappingSetDocument(prefix_map=prefix_map, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
-        msdf.clean_prefix_map()
+        msdf.clean_prefix_map(strict=False)
         write_table(msdf, self.file)
