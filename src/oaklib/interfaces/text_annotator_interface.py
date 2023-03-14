@@ -110,10 +110,10 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
             for k, grouping in li.groupings.items():
                 if k in text_lower:
                     ix = text_lower.index(k)
-                    end = ix + len(k)
                     # TODO: make configurable. Exclude mid-word matches
                     if ix > 0 and text_lower[ix].isalpha():
                         continue
+                    # end = ix + len(k)
                     # if end < len(text_lower) and text_lower[end].isalpha():
                     #    continue
                     for r in grouping.relationships:
