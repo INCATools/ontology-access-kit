@@ -1042,7 +1042,7 @@ class ComplianceTester:
         test.assertEqual(12, stats.class_count_by_subset["obo:go#goslim_yeast"].filtered_count)
         test.assertEqual(23, stats.edge_count_by_predicate[PART_OF].filtered_count)
         test.assertEqual(223, stats.edge_count_by_predicate[IS_A].filtered_count)
-        test.assertEqual(425754, stats.entailed_edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(591108, stats.entailed_edge_count_by_predicate[IS_A].filtered_count)
         test.assertEqual(255, stats.distinct_synonym_count)
         test.assertEqual(264, stats.synonym_statement_count)
         test.assertEqual(
