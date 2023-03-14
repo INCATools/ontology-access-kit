@@ -179,16 +179,20 @@
     <span class="n">HAS_SYNONYM_TYPE</span><span class="p">,</span>
     <span class="n">IN_CATEGORY_PREDS</span><span class="p">,</span>
     <span class="n">IN_SUBSET</span><span class="p">,</span>
+    <span class="n">INVERSE_OF</span><span class="p">,</span>
     <span class="n">IS_A</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
     <span class="n">OBSOLETION_RELATIONSHIP_PREDICATES</span><span class="p">,</span>
-    <span class="n">OWL_CLASS</span><span class="p">,</span>
-    <span class="n">OWL_NAMED_INDIVIDUAL</span><span class="p">,</span>
+    <span class="n">OWL_META_CLASSES</span><span class="p">,</span>
     <span class="n">OWL_NOTHING</span><span class="p">,</span>
     <span class="n">OWL_THING</span><span class="p">,</span>
     <span class="n">PREFIX_PREDICATE</span><span class="p">,</span>
     <span class="n">RDF_TYPE</span><span class="p">,</span>
+    <span class="n">RDFS_DOMAIN</span><span class="p">,</span>
+    <span class="n">RDFS_RANGE</span><span class="p">,</span>
     <span class="n">SEMAPV</span><span class="p">,</span>
+    <span class="n">STANDARD_ANNOTATION_PROPERTIES</span><span class="p">,</span>
+    <span class="n">SUBPROPERTY_OF</span><span class="p">,</span>
     <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span>
     <span class="n">TERM_REPLACED_BY</span><span class="p">,</span>
     <span class="n">TERMS_MERGED</span><span class="p">,</span>
@@ -621,7 +625,9 @@
             <span class="n">subquery</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">RdfTypeStatement</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
                 <span class="n">RdfTypeStatement</span><span class="o">.</span><span class="n">object</span> <span class="o">==</span> <span class="s2">&quot;owl:AnnotationProperty&quot;</span>
             <span class="p">)</span>
-            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">subquery</span><span class="p">))</span>
+            <span class="n">annotation_properties</span> <span class="o">=</span> <span class="p">{</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">subquery</span><span class="p">}</span>
+            <span class="n">annotation_properties</span> <span class="o">=</span> <span class="n">annotation_properties</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">STANDARD_ANNOTATION_PROPERTIES</span><span class="p">)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">annotation_properties</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">curie</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">_python_value</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">datatype</span><span class="p">)</span>
@@ -825,7 +831,7 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
             <span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">RDF_TYPE</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">((</span><span class="n">RDF_TYPE</span><span class="p">,</span> <span class="n">RDFS_DOMAIN</span><span class="p">,</span> <span class="n">RDFS_RANGE</span><span class="p">,</span> <span class="n">INVERSE_OF</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
             <span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
@@ -864,7 +870,7 @@
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
                         <span class="k">continue</span>
-                    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">RDF_TYPE</span> <span class="ow">and</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="n">OWL_CLASS</span> <span class="ow">or</span> <span class="n">o</span> <span class="o">==</span> <span class="n">OWL_NAMED_INDIVIDUAL</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">RDF_TYPE</span> <span class="ow">and</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">OWL_META_CLASSES</span><span class="p">:</span>
                         <span class="k">continue</span>
                     <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
             <span class="k">return</span>
@@ -923,6 +929,10 @@
                     <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
                         <span class="k">continue</span>
                     <span class="k">yield</span> <span class="n">o</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rbox_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
+                    <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
         <span class="k">if</span> <span class="n">include_abox</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rdf_type_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">exclude_blank</span> <span class="ow">and</span> <span class="p">(</span><span class="n">_is_blank</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_blank</span><span class="p">(</span><span class="n">o</span><span class="p">)):</span>
@@ -971,7 +981,9 @@
         <span class="k">if</span> <span class="n">subjects</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">subjects</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
-            <span class="n">predicates</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">({</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">RDF_TYPE</span><span class="p">})</span>
+            <span class="n">predicates</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">RDF_TYPE</span><span class="p">,</span> <span class="n">SUBPROPERTY_OF</span><span class="p">,</span> <span class="n">RDFS_DOMAIN</span><span class="p">,</span> <span class="n">RDFS_RANGE</span><span class="p">,</span> <span class="n">INVERSE_OF</span><span class="p">}</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">predicates</span><span class="p">:</span>
                 <span class="k">return</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">predicates</span><span class="p">)))</span>
@@ -1029,6 +1041,34 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ECA query: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
+
+    <span class="k">def</span> <span class="nf">_rbox_relationships</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+        <span class="n">rbox_predicates</span> <span class="o">=</span> <span class="p">{</span><span class="n">RDFS_DOMAIN</span><span class="p">,</span> <span class="n">RDFS_RANGE</span><span class="p">,</span> <span class="n">INVERSE_OF</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
+            <span class="n">rbox_predicates</span> <span class="o">=</span> <span class="n">rbox_predicates</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">predicates</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">predicates</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rbox_predicates</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">subjects</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">objects</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">objects</span><span class="p">)))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RBOX query: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
+
+    <span class="k">def</span> <span class="nf">node_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">curie</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">check_node_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_exists</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Node </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">simple_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">HasMappingStatement</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
@@ -1993,9 +2033,18 @@
                     <span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletion</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">check_node_exists</span><span class="p">(</span><span class="n">about</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_set_predicate_value</span><span class="p">(</span>
                     <span class="n">about</span><span class="p">,</span> <span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;xsd:string&quot;</span>
                 <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletionWithDirectReplacement</span><span class="p">):</span>
+                    <span class="c1"># TODO: allow switching between value and object</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_set_predicate_value</span><span class="p">(</span>
+                        <span class="n">about</span><span class="p">,</span>
+                        <span class="n">TERM_REPLACED_BY</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="n">patch</span><span class="o">.</span><span class="n">has_direct_replacement</span><span class="p">,</span>
+                        <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;xsd:string&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeDeletion</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">delete</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">))</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NameBecomesSynonym</span><span class="p">):</span>
@@ -2006,8 +2055,41 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">apply_patch</span><span class="p">(</span>
                     <span class="n">kgcl</span><span class="o">.</span><span class="n">NewSynonym</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">patch</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">-2&quot;</span><span class="p">,</span> <span class="n">about_node</span><span class="o">=</span><span class="n">about</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
                 <span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">SynonymReplacement</span><span class="p">):</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">patch</span><span class="o">.</span><span class="n">old_value</span>
+                <span class="p">)</span>
+                <span class="n">predicate</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">predicate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">predicate</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">predicate</span> <span class="o">!=</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">predicate</span> <span class="ow">in</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">:</span>
+                                <span class="n">predicate</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                    <span class="sa">f</span><span class="s2">&quot;Multiple predicates for synonym: </span><span class="si">{</span><span class="n">about</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;syn: </span><span class="si">{</span><span class="n">patch</span><span class="o">.</span><span class="n">old_value</span><span class="si">}</span><span class="s2"> preds=</span><span class="si">{</span><span class="n">predicate</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="si">}</span><span class="s2">&quot;</span>
+                                <span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;replacing synonym with predicate: </span><span class="si">{</span><span class="n">predicate</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span>
+                    <span class="n">delete</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                        <span class="n">and_</span><span class="p">(</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">predicate</span><span class="p">,</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">predicate</span><span class="p">,</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">patch</span><span class="o">.</span><span class="n">old_value</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span>
+                    <span class="n">insert</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
+                        <span class="n">subject</span><span class="o">=</span><span class="n">about</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">predicate</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown patch type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeChange</span><span class="p">):</span>
             <span class="n">about</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">about_edge</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeCreation</span><span class="p">):</span>
