@@ -6,7 +6,6 @@ from collections import defaultdict
 from typing import Iterable, Iterator, List, Optional, Tuple
 
 import networkx as nx
-# import rustsim
 
 from oaklib.datamodels.similarity import (
     BestMatch,
@@ -22,6 +21,8 @@ from oaklib.utilities.obograph_utils import as_digraph
 from oaklib.utilities.semsim.similarity_utils import (
     setwise_jaccard_similarity,  # TODO: switch this out for a rustsim import
 )
+
+# import rustsim
 
 
 class RustSimilarityInterface(BasicOntologyInterface, ABC):
