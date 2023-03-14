@@ -13,28 +13,40 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
     class ValidationResult
       Result <|-- ValidationResult
       
-      ValidationResult : info
-      ValidationResult : instantiates
-      ValidationResult : object
-      ValidationResult : object_str
-      ValidationResult : predicate
-      ValidationResult : severity
-      ValidationResult : source
-      ValidationResult : subject
-      ValidationResult : type
-      
 
       ValidationResult <|-- ExternalReferenceValidationResult
       
+      
       ValidationResult : info
+        
       ValidationResult : instantiates
+        
+          ValidationResult ..> Node : instantiates
+        
       ValidationResult : object
+        
+          ValidationResult ..> Node : object
+        
       ValidationResult : object_str
+        
       ValidationResult : predicate
+        
+          ValidationResult ..> Node : predicate
+        
       ValidationResult : severity
+        
+          ValidationResult ..> severity_options : severity
+        
       ValidationResult : source
+        
       ValidationResult : subject
+        
+          ValidationResult ..> Node : subject
+        
       ValidationResult : type
+        
+          ValidationResult ..> ConstraintComponent : type
+        
       
 ```
 
@@ -59,9 +71,9 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 | [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | direct |
 | [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | direct |
 | [object](object.md) | 0..1 <br/> [Node](Node.md) |  | direct |
-| [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [source](source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | direct |
+| [object_str](object_str.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [source](source.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [info](info.md) | 0..1 <br/> [String](String.md) | additional information about the issue | direct |
 
 
 

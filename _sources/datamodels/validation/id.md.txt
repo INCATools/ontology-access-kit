@@ -24,7 +24,7 @@ URI: [vm:id](https://w3id.org/linkml/validation-model/id)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 
 
 

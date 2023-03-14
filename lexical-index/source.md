@@ -22,7 +22,7 @@ URI: [ontolexindex:source](https://w3id.org/oak/lexical-index/source)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 
 
 

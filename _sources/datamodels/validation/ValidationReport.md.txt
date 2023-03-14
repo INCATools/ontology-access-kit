@@ -14,6 +14,9 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
       Report <|-- ValidationReport
       
       ValidationReport : results
+        
+          ValidationReport ..> ValidationResult : results
+        
       
 ```
 
@@ -93,7 +96,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: ValidationResult
 class_uri: sh:ValidationReport
 
@@ -116,7 +118,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: ValidationResult
 attributes:
   results:
@@ -129,7 +130,6 @@ attributes:
     alias: results
     owner: ValidationReport
     domain_of:
-    - Report
     - Report
     range: ValidationResult
     inlined: true

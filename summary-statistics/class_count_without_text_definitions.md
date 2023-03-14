@@ -29,7 +29,7 @@ URI: [summary_statistics:class_count_without_text_definitions](https://w3id.org/
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

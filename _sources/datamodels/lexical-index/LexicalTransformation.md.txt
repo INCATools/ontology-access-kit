@@ -14,7 +14,11 @@ URI: [ontolexindex:LexicalTransformation](https://w3id.org/oak/lexical-index/Lex
       Activity <|-- LexicalTransformation
       
       LexicalTransformation : params
+        
       LexicalTransformation : type
+        
+          LexicalTransformation ..> TransformationType : type
+        
       
 ```
 
@@ -33,7 +37,7 @@ URI: [ontolexindex:LexicalTransformation](https://w3id.org/oak/lexical-index/Lex
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation | direct |
-| [params](params.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Any parameters to be applied to the transformation algorithm | direct |
+| [params](params.md) | 0..1 <br/> [String](String.md) | Any parameters to be applied to the transformation algorithm | direct |
 
 
 

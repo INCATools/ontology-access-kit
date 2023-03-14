@@ -44,7 +44,7 @@ URI: [summary_statistics:count_statistic](https://w3id.org/oaklib/summary_statis
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

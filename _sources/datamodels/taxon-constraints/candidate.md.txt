@@ -24,7 +24,7 @@ URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

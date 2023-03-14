@@ -14,7 +14,9 @@ URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
       Term <|-- Taxon
       
       Taxon : id
+        
       Taxon : label
+        
       
 ```
 
@@ -32,8 +34,8 @@ URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the OBO CURIE for the term | [Term](Term.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human readable name or label of the term | [Term](Term.md) |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | [Term](Term.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | the human readable name or label of the term | [Term](Term.md) |
 
 
 

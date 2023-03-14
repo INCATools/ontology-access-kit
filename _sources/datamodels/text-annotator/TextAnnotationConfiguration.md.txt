@@ -12,11 +12,17 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
  classDiagram
     class TextAnnotationConfiguration
       TextAnnotationConfiguration : include_aliases
+        
       TextAnnotationConfiguration : limit
+        
       TextAnnotationConfiguration : matches_whole_text
+        
       TextAnnotationConfiguration : model
+        
       TextAnnotationConfiguration : sources
+        
       TextAnnotationConfiguration : token_exclusion_list
+        
       
 ```
 
@@ -30,12 +36,12 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [sources](sources.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [limit](limit.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
-| [token_exclusion_list](token_exclusion_list.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [model](model.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [include_aliases](include_aliases.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [sources](sources.md) | 0..* <br/> [String](String.md) |  | direct |
+| [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
+| [token_exclusion_list](token_exclusion_list.md) | 0..* <br/> [String](String.md) |  | direct |
+| [model](model.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [include_aliases](include_aliases.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 
 
 

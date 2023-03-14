@@ -12,11 +12,17 @@ URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Pr
  classDiagram
     class Precondition
       Precondition : mapping_source_one_of
+        
       Precondition : object_match_field_one_of
+        
       Precondition : object_source_one_of
+        
       Precondition : subject_match_field_one_of
+        
       Precondition : subject_source_one_of
+        
       Precondition : transformations_included_in
+        
       
 ```
 
@@ -30,12 +36,12 @@ URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Pr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [object_source_one_of](object_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [transformations_included_in](transformations_included_in.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
+| [object_source_one_of](object_source_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
+| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
+| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
+| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
+| [transformations_included_in](transformations_included_in.md) | 0..* <br/> [String](String.md) |  | direct |
 
 
 

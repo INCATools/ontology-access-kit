@@ -10,8 +10,11 @@ URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
  classDiagram
     class SynonymTypeDefinition
       SynonymTypeDefinition : id
+        
       SynonymTypeDefinition : lbl
+        
       SynonymTypeDefinition : pred
+        
       
 ```
 
@@ -26,8 +29,8 @@ URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
-| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | direct |
+| [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
 
 
 

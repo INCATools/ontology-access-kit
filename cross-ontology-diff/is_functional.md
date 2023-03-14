@@ -23,7 +23,7 @@ URI: [xodiff:is_functional](https://w3id.org/oak/cross-ontology-diff/is_function
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 * Mixin: True
 
 

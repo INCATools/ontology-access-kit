@@ -12,7 +12,9 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
  classDiagram
     class ChangeTypeStatistic
       ChangeTypeStatistic : facet
+        
       ChangeTypeStatistic : filtered_count
+        
       
 ```
 
@@ -26,8 +28,8 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [facet](facet.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [filtered_count](filtered_count.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [facet](facet.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [filtered_count](filtered_count.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

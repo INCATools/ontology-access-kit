@@ -4,7 +4,7 @@ _A grouping of ontology elements by a shared lexical term_
 
 
 
-URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGrouping)
+URI: [mappingrules:LexicalGrouping](https://w3id.org/oak/mapping-rules-datamodel/LexicalGrouping)
 
 
 
@@ -12,7 +12,11 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
  classDiagram
     class LexicalGrouping
       LexicalGrouping : relationships
+        
+          LexicalGrouping ..> RelationshipToTerm : relationships
+        
       LexicalGrouping : term
+        
       
 ```
 
@@ -26,7 +30,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [term](term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A normalized term that groups ontology elements | direct |
+| [term](term.md) | 0..1 <br/> [String](String.md) | A normalized term that groups ontology elements | direct |
 | [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md) | All ontology elements grouped and their relationship to the normalized term | direct |
 
 
@@ -55,7 +59,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -65,8 +69,8 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ontolexindex:LexicalGrouping |
-| native | ontolexindex:LexicalGrouping |
+| self | mappingrules:LexicalGrouping |
+| native | mappingrules:LexicalGrouping |
 
 
 
@@ -82,7 +86,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 ```yaml
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   term:
@@ -109,7 +113,7 @@ attributes:
 ```yaml
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   term:

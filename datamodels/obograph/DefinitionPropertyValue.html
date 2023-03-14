@@ -95,11 +95,19 @@
       PropertyValue &lt;|-- DefinitionPropertyValue
       
       DefinitionPropertyValue : lang
+        
       DefinitionPropertyValue : meta
+        
+          DefinitionPropertyValue ..&gt; Meta : meta
+        
       DefinitionPropertyValue : pred
+        
       DefinitionPropertyValue : val
+        
       DefinitionPropertyValue : valType
+        
       DefinitionPropertyValue : xrefs
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -123,12 +131,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the predicate of an edge</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="val.html"><span class="doc std std-doc">val</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>The textual string representing the definition</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
@@ -143,12 +151,12 @@
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="valType.html"><span class="doc std std-doc">valType</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the datatype of a property value</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="lang.html"><span class="doc std std-doc">lang</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the language of a property value</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
@@ -220,7 +228,6 @@ slot_usage:
     description: The textual string representing the definition.
     domain_of:
     - PropertyValue
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -230,8 +237,6 @@ slot_usage:
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     role: supporting identifiers
@@ -253,7 +258,6 @@ slot_usage:
     description: The textual string representing the definition.
     domain_of:
     - PropertyValue
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -263,8 +267,6 @@ slot_usage:
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     role: supporting identifiers
@@ -293,7 +295,6 @@ attributes:
     owner: DefinitionPropertyValue
     domain_of:
     - PropertyValue
-    - PropertyValue
     role: definition text
     range: string
   xrefs:
@@ -309,8 +310,6 @@ attributes:
     alias: xrefs
     owner: DefinitionPropertyValue
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     role: supporting identifiers

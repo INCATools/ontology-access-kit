@@ -11,9 +11,9 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
     class AnonymousClassExpression
       Anonymous <|-- AnonymousClassExpression
       
-      
 
       AnonymousClassExpression <|-- Restriction
+      
       
       
 ```

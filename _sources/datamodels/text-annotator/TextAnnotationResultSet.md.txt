@@ -12,6 +12,9 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
  classDiagram
     class TextAnnotationResultSet
       TextAnnotationResultSet : annotations
+        
+          TextAnnotationResultSet ..> TextAnnotation : annotations
+        
       
 ```
 

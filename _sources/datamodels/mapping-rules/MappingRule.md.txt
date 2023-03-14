@@ -12,10 +12,21 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
  classDiagram
     class MappingRule
       MappingRule : description
+        
       MappingRule : oneway
+        
       MappingRule : postconditions
+        
+          MappingRule ..> Postcondition : postconditions
+        
       MappingRule : preconditions
+        
+          MappingRule ..> Precondition : preconditions
+        
       MappingRule : synonymizer
+        
+          MappingRule ..> Synonymizer : synonymizer
+        
       
 ```
 
@@ -29,8 +40,8 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [description](description.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [oneway](oneway.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | if true then subject and object can be switched and predicate inverted | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [oneway](oneway.md) | 0..1 <br/> [Boolean](Boolean.md) | if true then subject and object can be switched and predicate inverted | direct |
 | [preconditions](preconditions.md) | 0..1 <br/> [Precondition](Precondition.md) | all of the criteria that must be true before a rule is fired | direct |
 | [postconditions](postconditions.md) | 0..1 <br/> [Postcondition](Postcondition.md) | conditions that apply if preconditions match | direct |
 | [synonymizer](synonymizer.md) | 0..1 <br/> [Synonymizer](Synonymizer.md) | Normalizing rules to labels | direct |

@@ -22,7 +22,7 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

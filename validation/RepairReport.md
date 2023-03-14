@@ -14,6 +14,9 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
       Report <|-- RepairReport
       
       RepairReport : results
+        
+          RepairReport ..> RepairOperation : results
+        
       
 ```
 
@@ -87,7 +90,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: RepairOperation
 
 ```
@@ -107,7 +109,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: RepairOperation
 attributes:
   results:
@@ -120,7 +121,6 @@ attributes:
     alias: results
     owner: RepairReport
     domain_of:
-    - Report
     - Report
     range: RepairOperation
     inlined: true

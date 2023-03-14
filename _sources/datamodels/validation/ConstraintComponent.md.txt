@@ -12,6 +12,7 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
       NamedResource <|-- ConstraintComponent
       
       ConstraintComponent : id
+        
       
 ```
 
@@ -29,7 +30,7 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [NamedResource](NamedResource.md) |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) |  | [NamedResource](NamedResource.md) |
 
 
 

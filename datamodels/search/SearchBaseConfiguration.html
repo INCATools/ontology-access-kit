@@ -93,16 +93,31 @@
              classDiagram
     class SearchBaseConfiguration
       SearchBaseConfiguration : categories
+        
       SearchBaseConfiguration : cursor
+        
       SearchBaseConfiguration : force_case_insensitive
+        
       SearchBaseConfiguration : include_obsoletes_in_results
+        
       SearchBaseConfiguration : is_complete
+        
       SearchBaseConfiguration : is_fuzzy
+        
       SearchBaseConfiguration : is_partial
+        
       SearchBaseConfiguration : limit
+        
       SearchBaseConfiguration : properties
+        
+          SearchBaseConfiguration ..&gt; SearchProperty : properties
+        
       SearchBaseConfiguration : search_terms
+        
       SearchBaseConfiguration : syntax
+        
+          SearchBaseConfiguration ..&gt; SearchTermSyntax : syntax
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -132,42 +147,42 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="limit.html"><span class="doc std std-doc">limit</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="doc std std-doc">Integer</span></a></p></td>
 <td><p>the maximum number of search results to be returned in one batch</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="cursor.html"><span class="doc std std-doc">cursor</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_partial.html"><span class="doc std std-doc">is_partial</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>allows matches where the search term is a subset of the full span</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_fuzzy.html"><span class="doc std std-doc">is_fuzzy</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="doc std std-doc">categories</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>categories that should be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="force_case_insensitive.html"><span class="doc std std-doc">force_case_insensitive</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>force case insensitive matching</p></td>
 <td><p>direct</p></td>
 </tr>

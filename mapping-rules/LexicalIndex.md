@@ -4,7 +4,7 @@ _An index over an ontology keyed by lexical unit_
 
 
 
-URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex)
+URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/LexicalIndex)
 
 
 
@@ -12,7 +12,13 @@ URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex
  classDiagram
     class LexicalIndex
       LexicalIndex : groupings
+        
+          LexicalIndex ..> LexicalGrouping : groupings
+        
       LexicalIndex : pipelines
+        
+          LexicalIndex ..> LexicalTransformationPipeline : pipelines
+        
       
 ```
 
@@ -48,7 +54,7 @@ URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -58,8 +64,8 @@ URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ontolexindex:LexicalIndex |
-| native | ontolexindex:LexicalIndex |
+| self | mappingrules:LexicalIndex |
+| native | mappingrules:LexicalIndex |
 
 
 
@@ -75,7 +81,7 @@ URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex
 ```yaml
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   groupings:
@@ -104,7 +110,7 @@ attributes:
 ```yaml
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   groupings:

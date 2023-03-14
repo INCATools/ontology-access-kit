@@ -22,7 +22,7 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

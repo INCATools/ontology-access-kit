@@ -24,7 +24,7 @@ URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/quali
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

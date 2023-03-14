@@ -38,7 +38,7 @@ URI: [IAO:0000111](http://purl.obolibrary.org/obo/IAO_0000111)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

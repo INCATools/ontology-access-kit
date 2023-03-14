@@ -2,7 +2,7 @@
 _A normalized term that groups ontology elements_
 
 
-URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
+URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 
 
 
@@ -24,7 +24,7 @@ URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 
@@ -43,7 +43,7 @@ URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 ```yaml
 name: term
 description: A normalized term that groups ontology elements
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 key: true
 alias: term

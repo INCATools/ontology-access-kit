@@ -93,18 +93,22 @@
     class HasCategory
       AnnotationPropertyMixin &lt;|-- HasCategory
       
-      HasCategory : category
-      HasCategory : conformsTo
-      HasCategory : has_obo_namespace
-      HasCategory : in_subset
-      
 
       HasCategory &lt;|-- Term
       
+      
       HasCategory : category
+        
       HasCategory : conformsTo
+        
+          HasCategory ..&gt; Thing : conformsTo
+        
       HasCategory : has_obo_namespace
+        
       HasCategory : in_subset
+        
+          HasCategory ..&gt; Subset : in_subset
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -128,12 +132,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="has_obo_namespace.html"><span class="doc std std-doc">has_obo_namespace</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>

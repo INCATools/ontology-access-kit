@@ -12,7 +12,9 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
  classDiagram
     class ExistentialRestrictionExpression
       ExistentialRestrictionExpression : fillerId
+        
       ExistentialRestrictionExpression : propertyId
+        
       
 ```
 
@@ -26,8 +28,8 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | in an OWL restriction expression, the filler is the object of the restriction | direct |
-| [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | in an OWL restriction expression, this is the predicate | direct |
+| [fillerId](fillerId.md) | 0..1 <br/> [String](String.md) | in an OWL restriction expression, the filler is the object of the restriction | direct |
+| [propertyId](propertyId.md) | 0..1 <br/> [String](String.md) | in an OWL restriction expression, this is the predicate | direct |
 
 
 

@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
+URI: [mappingrules:predicate](https://w3id.org/oak/mapping-rules-datamodel/predicate)
 
 
 
@@ -22,7 +22,7 @@ URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
 <details>
 ```yaml
 name: predicate
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 alias: predicate
 owner: RelationshipToTerm

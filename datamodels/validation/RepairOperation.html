@@ -95,9 +95,15 @@
       Result &lt;|-- RepairOperation
       
       RepairOperation : info
+        
       RepairOperation : modified
+        
       RepairOperation : repairs
+        
+          RepairOperation ..&gt; ValidationResult : repairs
+        
       RepairOperation : successful
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -126,17 +132,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="modified.html"><span class="doc std std-doc">modified</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="successful.html"><span class="doc std std-doc">successful</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>additional information about the issue</p></td>
 <td><p>direct</p></td>
 </tr>

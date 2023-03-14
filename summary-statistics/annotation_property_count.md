@@ -29,7 +29,7 @@ URI: [summary_statistics:annotation_property_count](https://w3id.org/oaklib/summ
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

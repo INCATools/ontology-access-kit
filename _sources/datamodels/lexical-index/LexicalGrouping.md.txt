@@ -12,7 +12,11 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
  classDiagram
     class LexicalGrouping
       LexicalGrouping : relationships
+        
+          LexicalGrouping ..> RelationshipToTerm : relationships
+        
       LexicalGrouping : term
+        
       
 ```
 
@@ -26,7 +30,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [term](term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A normalized term that groups ontology elements | direct |
+| [term](term.md) | 0..1 <br/> [String](String.md) | A normalized term that groups ontology elements | direct |
 | [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md) | All ontology elements grouped and their relationship to the normalized term | direct |
 
 

@@ -95,17 +95,35 @@
       NamedObject &lt;|-- Ontology
       
       Ontology : comment
+        
       Ontology : created
+        
       Ontology : creator
+        
+          Ontology ..&gt; Agent : creator
+        
       Ontology : has_ontology_root_term
+        
+          Ontology ..&gt; Class : has_ontology_root_term
+        
       Ontology : id
+        
       Ontology : imports
+        
       Ontology : license
+        
+          Ontology ..&gt; Thing : license
+        
       Ontology : source
+        
       Ontology : title
+        
       Ontology : type
+        
       Ontology : versionInfo
+        
       Ontology : versionIRI
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -148,22 +166,22 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="versionIRI.html"><span class="doc std std-doc">versionIRI</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="versionInfo.html"><span class="doc std std-doc">versionInfo</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -173,22 +191,22 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>when the term came into being</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="imports.html"><span class="doc std std-doc">imports</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>this maps to the URI in RDF</p></td>
 <td><p><a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 </tr>
@@ -324,24 +342,20 @@ slot_usage:
     name: title
     domain_of:
     - Ontology
-    - Ontology
     required: true
   license:
     name: license
     domain_of:
-    - Ontology
     - Ontology
     required: true
   versionIRI:
     name: versionIRI
     domain_of:
     - Ontology
-    - Ontology
     required: true
   versionInfo:
     name: versionInfo
     domain_of:
-    - Ontology
     - Ontology
     required: true
 class_uri: owl:Ontology
@@ -361,24 +375,20 @@ slot_usage:
     name: title
     domain_of:
     - Ontology
-    - Ontology
     required: true
   license:
     name: license
     domain_of:
-    - Ontology
     - Ontology
     required: true
   versionIRI:
     name: versionIRI
     domain_of:
     - Ontology
-    - Ontology
     required: true
   versionInfo:
     name: versionInfo
     domain_of:
-    - Ontology
     - Ontology
     required: true
 attributes:
@@ -390,7 +400,6 @@ attributes:
     alias: title
     owner: Ontology
     domain_of:
-    - Ontology
     - Ontology
     range: narrative text
     required: true
@@ -415,7 +424,6 @@ attributes:
     alias: license
     owner: Ontology
     domain_of:
-    - Ontology
     - Ontology
     range: Thing
     required: true
@@ -445,7 +453,6 @@ attributes:
     owner: Ontology
     domain_of:
     - Ontology
-    - Ontology
     range: uriorcurie
     required: true
   versionInfo:
@@ -457,7 +464,6 @@ attributes:
     alias: versionInfo
     owner: Ontology
     domain_of:
-    - Ontology
     - Ontology
     range: string
     required: true

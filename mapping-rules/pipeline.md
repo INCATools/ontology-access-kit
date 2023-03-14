@@ -1,6 +1,6 @@
 # Slot: pipeline
 
-URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
+URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeline)
 
 
 
@@ -43,7 +43,7 @@ URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 <details>
 ```yaml
 name: pipeline
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: pipeline

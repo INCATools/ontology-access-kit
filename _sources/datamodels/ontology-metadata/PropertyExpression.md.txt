@@ -11,12 +11,12 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
     class PropertyExpression
       Expression <|-- PropertyExpression
       
-      PropertyExpression : disjointWith
-      
 
       PropertyExpression <|-- ObjectProperty
       
+      
       PropertyExpression : disjointWith
+        
       
 ```
 
@@ -34,7 +34,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | direct |
 
 
 

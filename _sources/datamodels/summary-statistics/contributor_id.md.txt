@@ -24,7 +24,7 @@ URI: [summary_statistics:contributor_id](https://w3id.org/oaklib/summary_statist
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Required: True
 
 

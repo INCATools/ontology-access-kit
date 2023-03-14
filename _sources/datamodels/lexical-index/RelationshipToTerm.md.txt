@@ -12,11 +12,19 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
  classDiagram
     class RelationshipToTerm
       RelationshipToTerm : element
+        
       RelationshipToTerm : element_term
+        
       RelationshipToTerm : pipeline
+        
+          RelationshipToTerm ..> LexicalTransformationPipeline : pipeline
+        
       RelationshipToTerm : predicate
+        
       RelationshipToTerm : source
+        
       RelationshipToTerm : synonymized
+        
       
 ```
 
@@ -30,12 +38,12 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
-| [element](element.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
-| [element_term](element_term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the original term used in the element | direct |
-| [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [element](element.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [element_term](element_term.md) | 0..1 <br/> [String](String.md) | the original term used in the element | direct |
+| [source](source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 | [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |  | direct |
-| [synonymized](synonymized.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [synonymized](synonymized.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 
 
 

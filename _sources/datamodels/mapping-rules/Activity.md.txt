@@ -54,7 +54,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -65,7 +65,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | prov:Activity |
-| native | ontolexindex:Activity |
+| native | mappingrules:Activity |
 
 
 
@@ -81,7 +81,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 ```yaml
 name: Activity
 description: Generic grouping for any lexical operation
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 abstract: true
 class_uri: prov:Activity
@@ -95,7 +95,7 @@ class_uri: prov:Activity
 ```yaml
 name: Activity
 description: Generic grouping for any lexical operation
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 abstract: true
 class_uri: prov:Activity

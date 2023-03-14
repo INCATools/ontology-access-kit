@@ -24,7 +24,7 @@ URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
 
 ## Properties
 
-* Range: [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime)
+* Range: [Datetime](Datetime.md)
 
 
 

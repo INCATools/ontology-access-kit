@@ -10,10 +10,23 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
  classDiagram
     class ComplexQuery
       ComplexQuery : all_of
+        
+          ComplexQuery ..> ComplexQuery : all_of
+        
       ComplexQuery : any_of
+        
+          ComplexQuery ..> ComplexQuery : any_of
+        
       ComplexQuery : atom
+        
+          ComplexQuery ..> SearchBaseConfiguration : atom
+        
       ComplexQuery : none_of
+        
+          ComplexQuery ..> ComplexQuery : none_of
+        
       ComplexQuery : path_to
+        
       
 ```
 
@@ -30,7 +43,7 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
 | [all_of](all_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
 | [any_of](any_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
 | [none_of](none_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
-| [path_to](path_to.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [path_to](path_to.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [atom](atom.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
 
 

@@ -88,14 +88,18 @@
   <section id="class-lexicaltransformation">
 <h1>Class: LexicalTransformation<a class="headerlink" href="#class-lexicaltransformation" title="Permalink to this headline"></a></h1>
 <p><em>An atomic lexical transformation applied on a term (string) yielding a transformed string</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/LexicalTransformation">ontolexindex:LexicalTransformation</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/LexicalTransformation">mappingrules:LexicalTransformation</a></p>
 <div class="mermaid">
              classDiagram
     class LexicalTransformation
       Activity &lt;|-- LexicalTransformation
       
       LexicalTransformation : params
+        
       LexicalTransformation : type
+        
+          LexicalTransformation ..&gt; TransformationType : type
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -124,7 +128,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>Any parameters to be applied to the transformation algorithm</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -155,7 +159,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/oak/lexical-index</p></li>
+<li><p>from schema: https://w3id.org/oak/mapping-rules-datamodel</p></li>
 </ul>
 </section>
 </section>
@@ -169,10 +173,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>ontolexindex:LexicalTransformation</p></td>
+<td><p>mappingrules:LexicalTransformation</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ontolexindex:LexicalTransformation</p></td>
+<td><p>mappingrules:LexicalTransformation</p></td>
 </tr>
 </tbody>
 </table>
@@ -187,7 +191,7 @@
 name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:
@@ -211,7 +215,7 @@ attributes:
 name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:

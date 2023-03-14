@@ -88,14 +88,18 @@
   <section id="class-lexicaltransformationpipeline">
 <h1>Class: LexicalTransformationPipeline<a class="headerlink" href="#class-lexicaltransformationpipeline" title="Permalink to this headline"></a></h1>
 <p><em>A collection of atomic lexical transformations that are applied in serial fashion</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/LexicalTransformationPipeline">ontolexindex:LexicalTransformationPipeline</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/LexicalTransformationPipeline">mappingrules:LexicalTransformationPipeline</a></p>
 <div class="mermaid">
              classDiagram
     class LexicalTransformationPipeline
       Activity &lt;|-- LexicalTransformationPipeline
       
       LexicalTransformationPipeline : name
+        
       LexicalTransformationPipeline : transformations
+        
+          LexicalTransformationPipeline ..&gt; LexicalTransformation : transformations
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -119,7 +123,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="name.html"><span class="doc std std-doc">name</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -160,7 +164,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/oak/lexical-index</p></li>
+<li><p>from schema: https://w3id.org/oak/mapping-rules-datamodel</p></li>
 </ul>
 </section>
 </section>
@@ -174,10 +178,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>ontolexindex:LexicalTransformationPipeline</p></td>
+<td><p>mappingrules:LexicalTransformationPipeline</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ontolexindex:LexicalTransformationPipeline</p></td>
+<td><p>mappingrules:LexicalTransformationPipeline</p></td>
 </tr>
 </tbody>
 </table>
@@ -192,7 +196,7 @@
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:
@@ -216,7 +220,7 @@ attributes:
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:

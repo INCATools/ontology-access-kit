@@ -24,7 +24,7 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

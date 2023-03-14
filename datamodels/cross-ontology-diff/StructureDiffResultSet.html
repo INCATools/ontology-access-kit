@@ -93,8 +93,13 @@
              classDiagram
     class StructureDiffResultSet
       StructureDiffResultSet : left_source
+        
       StructureDiffResultSet : results
+        
+          StructureDiffResultSet ..&gt; RelationalDiff : results
+        
       StructureDiffResultSet : right_source
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">

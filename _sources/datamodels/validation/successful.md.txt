@@ -22,7 +22,7 @@ URI: [vm:successful](https://w3id.org/linkml/validation-model/successful)
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

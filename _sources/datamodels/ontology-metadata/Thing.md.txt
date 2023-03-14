@@ -14,6 +14,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
       Thing <|-- NamedObject
       
       Thing : type
+        
       
 ```
 
@@ -31,7 +32,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [type](type.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 
 
 

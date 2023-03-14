@@ -93,18 +93,53 @@
              classDiagram
     class Graph
       Graph : allValuesFromEdges
+        
+          Graph ..&gt; Edge : allValuesFromEdges
+        
       Graph : domainRangeAxioms
+        
+          Graph ..&gt; DomainRangeAxiom : domainRangeAxioms
+        
       Graph : edges
+        
+          Graph ..&gt; Edge : edges
+        
       Graph : equivalentNodesSets
+        
+          Graph ..&gt; EquivalentNodesSet : equivalentNodesSets
+        
       Graph : id
+        
       Graph : lbl
+        
       Graph : logicalDefinitionAxioms
+        
+          Graph ..&gt; LogicalDefinitionAxiom : logicalDefinitionAxioms
+        
       Graph : meta
+        
+          Graph ..&gt; Meta : meta
+        
       Graph : nodes
+        
+          Graph ..&gt; Node : nodes
+        
       Graph : prefixes
+        
+          Graph ..&gt; PrefixDeclaration : prefixes
+        
       Graph : propertyChainAxioms
+        
+          Graph ..&gt; PropertyChainAxiom : propertyChainAxioms
+        
       Graph : subsetDefinitions
+        
+          Graph ..&gt; SubsetDefinition : subsetDefinitions
+        
       Graph : synonymTypeDefinitions
+        
+          Graph ..&gt; SynonymTypeDefinition : synonymTypeDefinitions
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -124,7 +159,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="lbl.html"><span class="doc std std-doc">lbl</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the human-readable label of a node</p></td>
 <td><p>direct</p></td>
 </tr>

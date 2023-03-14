@@ -14,11 +14,19 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
       PropertyValue <|-- XrefPropertyValue
       
       XrefPropertyValue : lang
+        
       XrefPropertyValue : meta
+        
+          XrefPropertyValue ..> Meta : meta
+        
       XrefPropertyValue : pred
+        
       XrefPropertyValue : val
+        
       XrefPropertyValue : valType
+        
       XrefPropertyValue : xrefs
+        
       
 ```
 
@@ -36,12 +44,12 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The textual representation of the external reference, e | [PropertyValue](PropertyValue.md) |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> [String](String.md) | The textual representation of the external reference, e | [PropertyValue](PropertyValue.md) |
 | [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
-| [valType](valType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
-| [lang](lang.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the language of a property value | [PropertyValue](PropertyValue.md) |
+| [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
+| [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -106,8 +114,6 @@ slot_usage:
     description: The textual representation of the external reference, e.g. "PMID:12345"
     domain_of:
     - PropertyValue
-    - PropertyValue
-    - PropertyValue
     role: xref
 
 ```
@@ -128,8 +134,6 @@ slot_usage:
     name: val
     description: The textual representation of the external reference, e.g. "PMID:12345"
     domain_of:
-    - PropertyValue
-    - PropertyValue
     - PropertyValue
     role: xref
 attributes:
@@ -156,7 +160,6 @@ attributes:
     alias: val
     owner: XrefPropertyValue
     domain_of:
-    - PropertyValue
     - PropertyValue
     role: xref
     range: string

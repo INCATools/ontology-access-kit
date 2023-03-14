@@ -38,7 +38,7 @@ URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

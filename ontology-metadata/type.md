@@ -40,7 +40,7 @@ URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Multivalued: True
 
 

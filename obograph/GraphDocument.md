@@ -12,8 +12,17 @@ URI: [obographs:GraphDocument](https://github.com/geneontology/obographs/GraphDo
  classDiagram
     class GraphDocument
       GraphDocument : graphs
+        
+          GraphDocument ..> Graph : graphs
+        
       GraphDocument : meta
+        
+          GraphDocument ..> Meta : meta
+        
       GraphDocument : prefixes
+        
+          GraphDocument ..> PrefixDeclaration : prefixes
+        
       
 ```
 

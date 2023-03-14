@@ -22,7 +22,7 @@ URI: [ann:source_text](https://w3id.org/linkml/text_annotator/source_text)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

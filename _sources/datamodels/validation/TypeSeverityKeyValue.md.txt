@@ -12,7 +12,11 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
  classDiagram
     class TypeSeverityKeyValue
       TypeSeverityKeyValue : severity
+        
+          TypeSeverityKeyValue ..> severity_options : severity
+        
       TypeSeverityKeyValue : type
+        
       
 ```
 

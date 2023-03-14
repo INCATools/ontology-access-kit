@@ -24,7 +24,7 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 
 
 

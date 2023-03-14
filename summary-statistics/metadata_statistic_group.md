@@ -13,7 +13,7 @@ URI: [summary_statistics:metadata_statistic_group](https://w3id.org/oaklib/summa
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

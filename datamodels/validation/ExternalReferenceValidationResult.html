@@ -95,18 +95,43 @@
       ValidationResult &lt;|-- ExternalReferenceValidationResult
       
       ExternalReferenceValidationResult : http_response_code
+        
       ExternalReferenceValidationResult : info
+        
       ExternalReferenceValidationResult : instantiates
+        
+          ExternalReferenceValidationResult ..&gt; Node : instantiates
+        
       ExternalReferenceValidationResult : number_of_attempts
+        
       ExternalReferenceValidationResult : object
+        
+          ExternalReferenceValidationResult ..&gt; Node : object
+        
       ExternalReferenceValidationResult : object_str
+        
       ExternalReferenceValidationResult : predicate
+        
+          ExternalReferenceValidationResult ..&gt; Node : predicate
+        
       ExternalReferenceValidationResult : severity
+        
+          ExternalReferenceValidationResult ..&gt; severity_options : severity
+        
       ExternalReferenceValidationResult : source
+        
       ExternalReferenceValidationResult : subject
+        
+          ExternalReferenceValidationResult ..&gt; Node : subject
+        
       ExternalReferenceValidationResult : time_checked
+        
       ExternalReferenceValidationResult : type
+        
+          ExternalReferenceValidationResult ..&gt; ConstraintComponent : type
+        
       ExternalReferenceValidationResult : url
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -134,22 +159,22 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="url.html"><span class="doc std std-doc">url</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="time_checked.html"><span class="doc std std-doc">time_checked</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="number_of_attempts.html"><span class="doc std std-doc">number_of_attempts</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="doc std std-doc">Integer</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="http_response_code.html"><span class="doc std std-doc">http_response_code</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="doc std std-doc">Integer</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -184,17 +209,17 @@
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_str.html"><span class="doc std std-doc">object_str</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>additional information about the issue</p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>

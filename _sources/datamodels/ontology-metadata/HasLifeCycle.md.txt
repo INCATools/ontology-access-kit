@@ -11,28 +11,38 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
     class HasLifeCycle
       AnnotationPropertyMixin <|-- HasLifeCycle
       
-      HasLifeCycle : consider
-      HasLifeCycle : deprecated
-      HasLifeCycle : excluded_from_QC_check
-      HasLifeCycle : excluded_subClassOf
-      HasLifeCycle : excluded_synonym
-      HasLifeCycle : has_alternative_id
-      HasLifeCycle : has_obsolescence_reason
-      HasLifeCycle : should_conform_to
-      HasLifeCycle : term_replaced_by
-      
 
       HasLifeCycle <|-- Term
       
+      
       HasLifeCycle : consider
+        
+          HasLifeCycle ..> Any : consider
+        
       HasLifeCycle : deprecated
+        
       HasLifeCycle : excluded_from_QC_check
+        
+          HasLifeCycle ..> Thing : excluded_from_QC_check
+        
       HasLifeCycle : excluded_subClassOf
+        
+          HasLifeCycle ..> Class : excluded_subClassOf
+        
       HasLifeCycle : excluded_synonym
+        
       HasLifeCycle : has_alternative_id
+        
       HasLifeCycle : has_obsolescence_reason
+        
       HasLifeCycle : should_conform_to
+        
+          HasLifeCycle ..> Thing : should_conform_to
+        
       HasLifeCycle : term_replaced_by
+        
+          HasLifeCycle ..> Any : term_replaced_by
+        
       
 ```
 
@@ -50,14 +60,14 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [deprecated](deprecated.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md) |  | direct |
 | [consider](consider.md) | 0..* <br/> [Any](Any.md) |  | direct |
-| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | Relates a live term to a deprecated ID that was merged in | direct |
+| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | Relates a live term to a deprecated ID that was merged in | direct |
 | [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
 | [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md) |  | direct |
-| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [String](String.md) |  | direct |
 | [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
 
 

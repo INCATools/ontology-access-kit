@@ -22,7 +22,7 @@ URI: [ann:token_exclusion_list](https://w3id.org/linkml/text_annotator/token_exc
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

@@ -29,7 +29,7 @@ URI: [summary_statistics:equivalent_classes_axiom_count](https://w3id.org/oaklib
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

@@ -24,7 +24,7 @@ URI: [sssom:object_source_version](http://w3id.org/sssom/object_source_version)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

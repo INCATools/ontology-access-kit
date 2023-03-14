@@ -10,9 +10,17 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
  classDiagram
     class SearchResultSet
       SearchResultSet : configuration
+        
+          SearchResultSet ..> SearchBaseConfiguration : configuration
+        
       SearchResultSet : cursor
+        
       SearchResultSet : result_count
+        
       SearchResultSet : results
+        
+          SearchResultSet ..> SearchResult : results
+        
       
 ```
 
@@ -28,8 +36,8 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
 | ---  | --- | --- | --- |
 | [configuration](configuration.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
 | [results](results.md) | 0..* <br/> [SearchResult](SearchResult.md) |  | direct |
-| [result_count](result_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
-| [cursor](cursor.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [result_count](result_count.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
+| [cursor](cursor.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

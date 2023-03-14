@@ -93,19 +93,47 @@
              classDiagram
     class TaxonConstraint
       TaxonConstraint : asserted
+        
       TaxonConstraint : candidate
+        
       TaxonConstraint : comments
+        
       TaxonConstraint : contradicted_by
+        
+          TaxonConstraint ..&gt; TaxonConstraint : contradicted_by
+        
       TaxonConstraint : evolutionary
+        
       TaxonConstraint : predicate
+        
+          TaxonConstraint ..&gt; PredicateTerm : predicate
+        
       TaxonConstraint : predicates
+        
+          TaxonConstraint ..&gt; PredicateTerm : predicates
+        
       TaxonConstraint : redundant
+        
       TaxonConstraint : redundant_with
+        
+          TaxonConstraint ..&gt; TaxonConstraint : redundant_with
+        
       TaxonConstraint : redundant_with_only_in
+        
       TaxonConstraint : sources
+        
       TaxonConstraint : subject
+        
+          TaxonConstraint ..&gt; SubjectTerm : subject
+        
       TaxonConstraint : taxon
+        
+          TaxonConstraint ..&gt; Taxon : taxon
+        
       TaxonConstraint : via_terms
+        
+          TaxonConstraint ..&gt; SubjectTerm : via_terms
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -130,22 +158,22 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="asserted.html"><span class="doc std std-doc">asserted</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>holds if the constraint is asserted in the source ontology, rather than infer…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="evolutionary.html"><span class="doc std std-doc">evolutionary</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>holds if the constraint is an evolutionary statement</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="redundant.html"><span class="doc std std-doc">redundant</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>True if this is redundant within the set of constraints of the same type (nev…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="redundant_with_only_in.html"><span class="doc std std-doc">redundant_with_only_in</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>True for never in constraints that are subsumed by an only in</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -175,17 +203,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sources.html"><span class="doc std std-doc">sources</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comments.html"><span class="doc std std-doc">comments</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="candidate.html"><span class="doc std std-doc">candidate</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>true if this is a proposed candidate constraint</p></td>
 <td><p>direct</p></td>
 </tr>

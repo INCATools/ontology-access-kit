@@ -12,13 +12,21 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
  classDiagram
     class SearchResult
       SearchResult : matches_full_search_term
+        
       SearchResult : object_id
+        
       SearchResult : object_label
+        
       SearchResult : object_match_field
+        
       SearchResult : object_source
+        
       SearchResult : object_source_version
+        
       SearchResult : rank
+        
       SearchResult : snippet
+        
       
 ```
 
@@ -32,14 +40,14 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [rank](rank.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | For relevancy-ranked results, this indicates the relevancy, with low numbers ... | direct |
-| [object_id](object_id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The CURIE of the matched term | direct |
-| [object_label](object_label.md) | 0..1 _recommended_ <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The label/name of the matched term | direct |
-| [object_source](object_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The ontology or other source that contains the matched term | direct |
-| [object_source_version](object_source_version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Version IRI or version string of the source of the object term | direct |
-| [object_match_field](object_match_field.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The field/property in which the match was found | direct |
-| [matches_full_search_term](matches_full_search_term.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | Does the matched field match the full string | direct |
-| [snippet](snippet.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | shows how the field was matched | direct |
+| [rank](rank.md) | 0..1 <br/> [Integer](Integer.md) | For relevancy-ranked results, this indicates the relevancy, with low numbers ... | direct |
+| [object_id](object_id.md) | 1..1 <br/> [String](String.md) | The CURIE of the matched term | direct |
+| [object_label](object_label.md) | 0..1 _recommended_ <br/> [String](String.md) | The label/name of the matched term | direct |
+| [object_source](object_source.md) | 0..1 <br/> [String](String.md) | The ontology or other source that contains the matched term | direct |
+| [object_source_version](object_source_version.md) | 0..1 <br/> [String](String.md) | Version IRI or version string of the source of the object term | direct |
+| [object_match_field](object_match_field.md) | 0..1 <br/> [String](String.md) | The field/property in which the match was found | direct |
+| [matches_full_search_term](matches_full_search_term.md) | 0..1 <br/> [Boolean](Boolean.md) | Does the matched field match the full string | direct |
+| [snippet](snippet.md) | 0..1 <br/> [String](String.md) | shows how the field was matched | direct |
 
 
 

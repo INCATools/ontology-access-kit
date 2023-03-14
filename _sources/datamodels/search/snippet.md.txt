@@ -24,7 +24,7 @@ URI: [ontosearch:snippet](https://w3id.org/oak/search-datamodel/snippet)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

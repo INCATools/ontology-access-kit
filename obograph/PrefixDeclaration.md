@@ -12,7 +12,9 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
  classDiagram
     class PrefixDeclaration
       PrefixDeclaration : namespace
+        
       PrefixDeclaration : prefix
+        
       
 ```
 
@@ -26,8 +28,8 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [prefix](prefix.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The prefix of a prefix declaration | direct |
-| [namespace](namespace.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The namespace associated with a prefix in a prefix declaration | direct |
+| [prefix](prefix.md) | 0..1 <br/> [String](String.md) | The prefix of a prefix declaration | direct |
+| [namespace](namespace.md) | 0..1 <br/> [Uri](Uri.md) | The namespace associated with a prefix in a prefix declaration | direct |
 
 
 

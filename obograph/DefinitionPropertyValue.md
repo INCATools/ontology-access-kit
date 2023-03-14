@@ -14,11 +14,19 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
       PropertyValue <|-- DefinitionPropertyValue
       
       DefinitionPropertyValue : lang
+        
       DefinitionPropertyValue : meta
+        
+          DefinitionPropertyValue ..> Meta : meta
+        
       DefinitionPropertyValue : pred
+        
       DefinitionPropertyValue : val
+        
       DefinitionPropertyValue : valType
+        
       DefinitionPropertyValue : xrefs
+        
       
 ```
 
@@ -36,12 +44,12 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The textual string representing the definition | [PropertyValue](PropertyValue.md) |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> [String](String.md) | The textual string representing the definition | [PropertyValue](PropertyValue.md) |
 | [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of identifiers that support the definition | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
-| [valType](valType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
-| [lang](lang.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the language of a property value | [PropertyValue](PropertyValue.md) |
+| [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
+| [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -106,7 +114,6 @@ slot_usage:
     description: The textual string representing the definition.
     domain_of:
     - PropertyValue
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -116,8 +123,6 @@ slot_usage:
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     role: supporting identifiers
@@ -141,7 +146,6 @@ slot_usage:
     description: The textual string representing the definition.
     domain_of:
     - PropertyValue
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -151,8 +155,6 @@ slot_usage:
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     role: supporting identifiers
@@ -181,7 +183,6 @@ attributes:
     owner: DefinitionPropertyValue
     domain_of:
     - PropertyValue
-    - PropertyValue
     role: definition text
     range: string
   xrefs:
@@ -197,8 +198,6 @@ attributes:
     alias: xrefs
     owner: DefinitionPropertyValue
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     role: supporting identifiers

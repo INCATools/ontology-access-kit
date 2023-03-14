@@ -22,7 +22,7 @@ URI: [tc:sources](https://w3id.org/linkml/taxon_constraints/sources)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Multivalued: True
 
 

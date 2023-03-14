@@ -4,7 +4,7 @@ _A collection of atomic lexical transformations that are applied in serial fashi
 
 
 
-URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-index/LexicalTransformationPipeline)
+URI: [mappingrules:LexicalTransformationPipeline](https://w3id.org/oak/mapping-rules-datamodel/LexicalTransformationPipeline)
 
 
 
@@ -14,7 +14,11 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
       Activity <|-- LexicalTransformationPipeline
       
       LexicalTransformationPipeline : name
+        
       LexicalTransformationPipeline : transformations
+        
+          LexicalTransformationPipeline ..> LexicalTransformation : transformations
+        
       
 ```
 
@@ -32,7 +36,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
 
 
@@ -62,7 +66,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -72,8 +76,8 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ontolexindex:LexicalTransformationPipeline |
-| native | ontolexindex:LexicalTransformationPipeline |
+| self | mappingrules:LexicalTransformationPipeline |
+| native | mappingrules:LexicalTransformationPipeline |
 
 
 
@@ -90,7 +94,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:
@@ -116,7 +120,7 @@ attributes:
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:

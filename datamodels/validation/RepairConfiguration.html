@@ -93,7 +93,11 @@
              classDiagram
     class RepairConfiguration
       RepairConfiguration : dry_run
+        
       RepairConfiguration : validation_configuration
+        
+          RepairConfiguration ..&gt; ValidationConfiguration : validation_configuration
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -113,7 +117,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="dry_run.html"><span class="doc std std-doc">dry_run</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>

@@ -40,7 +40,7 @@ URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlte
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Multivalued: True
 
 

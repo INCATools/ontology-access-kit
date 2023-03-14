@@ -10,7 +10,9 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
  classDiagram
     class TermInfo
       TermInfo : id
+        
       TermInfo : label
+        
       
 ```
 
@@ -24,8 +26,8 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [id](id.md) | 1..1 <br/> [String](String.md) |  | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

@@ -40,7 +40,7 @@ URI: [rdfs:comment](http://www.w3.org/2000/01/rdf-schema#comment)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

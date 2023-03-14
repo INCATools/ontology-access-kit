@@ -12,7 +12,9 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
  classDiagram
     class Agent
       Agent : id
+        
       Agent : label
+        
       
 ```
 
@@ -26,8 +28,8 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the label for the agent | direct |
+| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) | the label for the agent | direct |
 
 
 

@@ -12,10 +12,17 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
       HasSpan <|-- TextAnnotation
       
       HasSpan : subject_end
+        
       HasSpan : subject_label
+        
       HasSpan : subject_source
+        
       HasSpan : subject_start
+        
       HasSpan : subject_text_id
+        
+          HasSpan ..> TextualElement : subject_text_id
+        
       
 ```
 
@@ -31,8 +38,8 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 | ---  | --- | --- | --- |
 | [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | direct |
 | [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | direct |
-| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The portion of the subject text that is matched, ranging from subject_start t... | direct |
-| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The portion of the subject text that is matched, ranging from subject_start t... | direct |
+| [subject_source](subject_source.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | direct |
 
 

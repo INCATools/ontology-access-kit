@@ -18,7 +18,9 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
       Term <|-- PredicateTerm
       
       Term : id
+        
       Term : label
+        
       
 ```
 
@@ -38,8 +40,8 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the OBO CURIE for the term | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human readable name or label of the term | direct |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) | the human readable name or label of the term | direct |
 
 
 

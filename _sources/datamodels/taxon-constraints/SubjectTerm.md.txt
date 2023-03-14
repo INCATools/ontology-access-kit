@@ -14,13 +14,29 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
       Term <|-- SubjectTerm
       
       SubjectTerm : description
+        
       SubjectTerm : id
+        
       SubjectTerm : label
+        
       SubjectTerm : never_in
+        
+          SubjectTerm ..> TaxonConstraint : never_in
+        
       SubjectTerm : only_in
+        
+          SubjectTerm ..> TaxonConstraint : only_in
+        
       SubjectTerm : present_in
+        
+          SubjectTerm ..> TaxonConstraint : present_in
+        
       SubjectTerm : present_in_ancestor_of
+        
+          SubjectTerm ..> TaxonConstraint : present_in_ancestor_of
+        
       SubjectTerm : unsatisfiable
+        
       
 ```
 
@@ -38,14 +54,14 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [description](description.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A description of the term | direct |
-| [unsatisfiable](unsatisfiable.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | If true then some combination of taxon constraints plus ontology lead to cont... | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | A description of the term | direct |
+| [unsatisfiable](unsatisfiable.md) | 0..1 <br/> [Boolean](Boolean.md) | If true then some combination of taxon constraints plus ontology lead to cont... | direct |
 | [only_in](only_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | Points to a taxon constraint that states the SubjectTerm is ONLY found in a t... | direct |
 | [never_in](never_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | Points to a taxon constraint that states the SubjectTerm is NEVER found in a ... | direct |
 | [present_in](present_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term MAY be in the specified taxon, or a descendant of that taxon | direct |
 | [present_in_ancestor_of](present_in_ancestor_of.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) |  | direct |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the OBO CURIE for the term | [Term](Term.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human readable name or label of the term | [Term](Term.md) |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the OBO CURIE for the term | [Term](Term.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | the human readable name or label of the term | [Term](Term.md) |
 
 
 

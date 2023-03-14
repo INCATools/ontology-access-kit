@@ -14,11 +14,19 @@ URI: [obographs:BasicPropertyValue](https://github.com/geneontology/obographs/Ba
       PropertyValue <|-- BasicPropertyValue
       
       BasicPropertyValue : lang
+        
       BasicPropertyValue : meta
+        
+          BasicPropertyValue ..> Meta : meta
+        
       BasicPropertyValue : pred
+        
       BasicPropertyValue : val
+        
       BasicPropertyValue : valType
+        
       BasicPropertyValue : xrefs
+        
       
 ```
 
@@ -36,12 +44,12 @@ URI: [obographs:BasicPropertyValue](https://github.com/geneontology/obographs/Ba
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the value of a property | [PropertyValue](PropertyValue.md) |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> [String](String.md) | the value of a property | [PropertyValue](PropertyValue.md) |
 | [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
-| [valType](valType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
-| [lang](lang.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the language of a property value | [PropertyValue](PropertyValue.md) |
+| [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
+| [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
 
 
 

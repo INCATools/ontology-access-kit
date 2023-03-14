@@ -10,7 +10,9 @@ URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetPro
  classDiagram
     class SubsetDefinition
       SubsetDefinition : id
+        
       SubsetDefinition : lbl
+        
       
 ```
 
@@ -25,7 +27,7 @@ URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetPro
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
-| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
+| [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
 
 
 

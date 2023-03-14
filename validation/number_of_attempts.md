@@ -22,7 +22,7 @@ URI: [vm:number_of_attempts](https://w3id.org/linkml/validation-model/number_of_
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

@@ -23,7 +23,7 @@ URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statist
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

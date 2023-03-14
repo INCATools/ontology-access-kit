@@ -12,9 +12,15 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
  classDiagram
     class Node
       Node : id
+        
       Node : lbl
+        
       Node : meta
+        
+          Node ..> Meta : meta
+        
       Node : type
+        
       
 ```
 
@@ -29,8 +35,8 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
-| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
-| [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
+| [type](type.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 
 

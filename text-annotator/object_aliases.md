@@ -22,7 +22,7 @@ URI: [ann:object_aliases](https://w3id.org/linkml/text_annotator/object_aliases)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

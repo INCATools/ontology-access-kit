@@ -92,8 +92,15 @@
              classDiagram
     class RollupGroup
       RollupGroup : associations
+        
+          RollupGroup ..&gt; Association : associations
+        
       RollupGroup : group_object
+        
       RollupGroup : sub_groups
+        
+          RollupGroup ..&gt; RollupGroup : sub_groups
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -108,7 +115,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="group_object.html"><span class="doc std std-doc">group_object</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>An ontology entity that is the ancestor of the objects in the group’s</p></td>
 <td><p>direct</p></td>
 </tr>

@@ -24,7 +24,7 @@ URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

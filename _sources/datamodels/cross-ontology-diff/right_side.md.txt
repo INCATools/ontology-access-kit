@@ -32,7 +32,7 @@ URI: [xodiff:right_side](https://w3id.org/oak/cross-ontology-diff/right_side)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Mixin: True
 
 

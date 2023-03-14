@@ -12,8 +12,13 @@ URI: [xodiff:StructureDiffResultSet](https://w3id.org/oak/cross-ontology-diff/St
  classDiagram
     class StructureDiffResultSet
       StructureDiffResultSet : left_source
+        
       StructureDiffResultSet : results
+        
+          StructureDiffResultSet ..> RelationalDiff : results
+        
       StructureDiffResultSet : right_source
+        
       
 ```
 

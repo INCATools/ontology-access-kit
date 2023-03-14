@@ -24,7 +24,7 @@ URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

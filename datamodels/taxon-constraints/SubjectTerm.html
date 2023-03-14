@@ -95,13 +95,29 @@
       Term &lt;|-- SubjectTerm
       
       SubjectTerm : description
+        
       SubjectTerm : id
+        
       SubjectTerm : label
+        
       SubjectTerm : never_in
+        
+          SubjectTerm ..&gt; TaxonConstraint : never_in
+        
       SubjectTerm : only_in
+        
+          SubjectTerm ..&gt; TaxonConstraint : only_in
+        
       SubjectTerm : present_in
+        
+          SubjectTerm ..&gt; TaxonConstraint : present_in
+        
       SubjectTerm : present_in_ancestor_of
+        
+          SubjectTerm ..&gt; TaxonConstraint : present_in_ancestor_of
+        
       SubjectTerm : unsatisfiable
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -125,12 +141,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>A description of the term</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="unsatisfiable.html"><span class="doc std std-doc">unsatisfiable</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>If true then some combination of taxon constraints plus ontology lead to cont…</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -155,12 +171,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>the OBO CURIE for the term</p></td>
 <td><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the human readable name or label of the term</p></td>
 <td><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a></p></td>
 </tr>

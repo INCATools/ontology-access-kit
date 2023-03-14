@@ -93,28 +93,38 @@
     class HasLifeCycle
       AnnotationPropertyMixin &lt;|-- HasLifeCycle
       
-      HasLifeCycle : consider
-      HasLifeCycle : deprecated
-      HasLifeCycle : excluded_from_QC_check
-      HasLifeCycle : excluded_subClassOf
-      HasLifeCycle : excluded_synonym
-      HasLifeCycle : has_alternative_id
-      HasLifeCycle : has_obsolescence_reason
-      HasLifeCycle : should_conform_to
-      HasLifeCycle : term_replaced_by
-      
 
       HasLifeCycle &lt;|-- Term
       
+      
       HasLifeCycle : consider
+        
+          HasLifeCycle ..&gt; Any : consider
+        
       HasLifeCycle : deprecated
+        
       HasLifeCycle : excluded_from_QC_check
+        
+          HasLifeCycle ..&gt; Thing : excluded_from_QC_check
+        
       HasLifeCycle : excluded_subClassOf
+        
+          HasLifeCycle ..&gt; Class : excluded_subClassOf
+        
       HasLifeCycle : excluded_synonym
+        
       HasLifeCycle : has_alternative_id
+        
       HasLifeCycle : has_obsolescence_reason
+        
       HasLifeCycle : should_conform_to
+        
+          HasLifeCycle ..&gt; Thing : should_conform_to
+        
       HasLifeCycle : term_replaced_by
+        
+          HasLifeCycle ..&gt; Any : term_replaced_by
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -138,12 +148,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="deprecated.html"><span class="doc std std-doc">deprecated</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_obsolescence_reason.html"><span class="doc std std-doc">has_obsolescence_reason</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -158,7 +168,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_alternative_id.html"><span class="doc std std-doc">has_alternative_id</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>Relates a live term to a deprecated ID that was merged in</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -173,7 +183,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="excluded_synonym.html"><span class="doc std std-doc">excluded_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>

@@ -95,11 +95,27 @@
       SummaryStatisticsReport &lt;|-- GroupedStatistics
       
       GroupedStatistics : agents
+        
+          GroupedStatistics ..&gt; Agent : agents
+        
       GroupedStatistics : compared_with
+        
+          GroupedStatistics ..&gt; Ontology : compared_with
+        
       GroupedStatistics : id
+        
       GroupedStatistics : ontologies
+        
+          GroupedStatistics ..&gt; Ontology : ontologies
+        
       GroupedStatistics : partitions
+        
+          GroupedStatistics ..&gt; UngroupedStatistics : partitions
+        
       GroupedStatistics : was_generated_by
+        
+          GroupedStatistics ..&gt; SummaryStatisticsCalculationActivity : was_generated_by
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -128,7 +144,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>Unique handle for this report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>

@@ -22,7 +22,7 @@ URI: [mappingrules:object_match_field_one_of](https://w3id.org/oak/mapping-rules
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

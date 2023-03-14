@@ -24,7 +24,7 @@ URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Multivalued: True
 
 

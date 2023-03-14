@@ -88,16 +88,24 @@
   <section id="class-relationshiptoterm">
 <h1>Class: RelationshipToTerm<a class="headerlink" href="#class-relationshiptoterm" title="Permalink to this headline"></a></h1>
 <p><em>A relationship of an ontology element to a lexical term</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/RelationshipToTerm">ontolexindex:RelationshipToTerm</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/RelationshipToTerm">mappingrules:RelationshipToTerm</a></p>
 <div class="mermaid">
              classDiagram
     class RelationshipToTerm
       RelationshipToTerm : element
+        
       RelationshipToTerm : element_term
+        
       RelationshipToTerm : pipeline
+        
+          RelationshipToTerm ..&gt; LexicalTransformationPipeline : pipeline
+        
       RelationshipToTerm : predicate
+        
       RelationshipToTerm : source
+        
       RelationshipToTerm : synonymized
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -112,22 +120,22 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="element.html"><span class="doc std std-doc">element</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="element_term.html"><span class="doc std std-doc">element_term</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the original term used in the element</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -137,7 +145,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="synonymized.html"><span class="doc std std-doc">synonymized</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -168,7 +176,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/oak/lexical-index</p></li>
+<li><p>from schema: https://w3id.org/oak/mapping-rules-datamodel</p></li>
 </ul>
 </section>
 </section>
@@ -182,10 +190,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>ontolexindex:RelationshipToTerm</p></td>
+<td><p>mappingrules:RelationshipToTerm</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ontolexindex:RelationshipToTerm</p></td>
+<td><p>mappingrules:RelationshipToTerm</p></td>
 </tr>
 </tbody>
 </table>
@@ -199,7 +207,7 @@
 ```yaml
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   predicate:
@@ -241,7 +249,7 @@ attributes:
 ```yaml
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   predicate:

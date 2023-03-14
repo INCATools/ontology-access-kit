@@ -22,7 +22,7 @@ URI: [ontolexindex:synonymized](https://w3id.org/oak/lexical-index/synonymized)
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

@@ -23,7 +23,7 @@ URI: [obographs:predicateId](https://github.com/geneontology/obographs/predicate
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

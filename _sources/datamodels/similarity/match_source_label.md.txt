@@ -22,7 +22,7 @@ URI: [sim:match_source_label](https://w3id.org/linkml/similarity/match_source_la
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

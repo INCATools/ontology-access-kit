@@ -24,7 +24,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

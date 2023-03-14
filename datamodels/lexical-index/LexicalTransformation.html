@@ -95,7 +95,11 @@
       Activity &lt;|-- LexicalTransformation
       
       LexicalTransformation : params
+        
       LexicalTransformation : type
+        
+          LexicalTransformation ..&gt; TransformationType : type
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -124,7 +128,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>Any parameters to be applied to the transformation algorithm</p></td>
 <td><p>direct</p></td>
 </tr>

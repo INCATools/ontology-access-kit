@@ -10,8 +10,15 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
  classDiagram
     class RollupGroup
       RollupGroup : associations
+        
+          RollupGroup ..> Association : associations
+        
       RollupGroup : group_object
+        
       RollupGroup : sub_groups
+        
+          RollupGroup ..> RollupGroup : sub_groups
+        
       
 ```
 
@@ -25,7 +32,7 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [group_object](group_object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | An ontology entity that is the ancestor of the objects in the group's  | direct |
+| [group_object](group_object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is the ancestor of the objects in the group's  | direct |
 | [sub_groups](sub_groups.md) | 0..* <br/> [RollupGroup](RollupGroup.md) | Container for groups within a rollup group | direct |
 | [associations](associations.md) | 0..* <br/> [Association](Association.md) |  | direct |
 

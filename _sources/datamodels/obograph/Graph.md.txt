@@ -12,18 +12,53 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
  classDiagram
     class Graph
       Graph : allValuesFromEdges
+        
+          Graph ..> Edge : allValuesFromEdges
+        
       Graph : domainRangeAxioms
+        
+          Graph ..> DomainRangeAxiom : domainRangeAxioms
+        
       Graph : edges
+        
+          Graph ..> Edge : edges
+        
       Graph : equivalentNodesSets
+        
+          Graph ..> EquivalentNodesSet : equivalentNodesSets
+        
       Graph : id
+        
       Graph : lbl
+        
       Graph : logicalDefinitionAxioms
+        
+          Graph ..> LogicalDefinitionAxiom : logicalDefinitionAxioms
+        
       Graph : meta
+        
+          Graph ..> Meta : meta
+        
       Graph : nodes
+        
+          Graph ..> Node : nodes
+        
       Graph : prefixes
+        
+          Graph ..> PrefixDeclaration : prefixes
+        
       Graph : propertyChainAxioms
+        
+          Graph ..> PropertyChainAxiom : propertyChainAxioms
+        
       Graph : subsetDefinitions
+        
+          Graph ..> SubsetDefinition : subsetDefinitions
+        
       Graph : synonymTypeDefinitions
+        
+          Graph ..> SynonymTypeDefinition : synonymTypeDefinitions
+        
       
 ```
 
@@ -38,7 +73,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
-| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the human-readable label of a node | direct |
+| [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
 | [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... | direct |
 | [subsetDefinitions](subsetDefinitions.md) | 0..* <br/> [SubsetDefinition](SubsetDefinition.md) |  | direct |
 | [synonymTypeDefinitions](synonymTypeDefinitions.md) | 0..* <br/> [SynonymTypeDefinition](SynonymTypeDefinition.md) |  | direct |

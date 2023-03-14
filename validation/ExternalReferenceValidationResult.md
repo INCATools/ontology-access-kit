@@ -14,18 +14,43 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
       ValidationResult <|-- ExternalReferenceValidationResult
       
       ExternalReferenceValidationResult : http_response_code
+        
       ExternalReferenceValidationResult : info
+        
       ExternalReferenceValidationResult : instantiates
+        
+          ExternalReferenceValidationResult ..> Node : instantiates
+        
       ExternalReferenceValidationResult : number_of_attempts
+        
       ExternalReferenceValidationResult : object
+        
+          ExternalReferenceValidationResult ..> Node : object
+        
       ExternalReferenceValidationResult : object_str
+        
       ExternalReferenceValidationResult : predicate
+        
+          ExternalReferenceValidationResult ..> Node : predicate
+        
       ExternalReferenceValidationResult : severity
+        
+          ExternalReferenceValidationResult ..> severity_options : severity
+        
       ExternalReferenceValidationResult : source
+        
       ExternalReferenceValidationResult : subject
+        
+          ExternalReferenceValidationResult ..> Node : subject
+        
       ExternalReferenceValidationResult : time_checked
+        
       ExternalReferenceValidationResult : type
+        
+          ExternalReferenceValidationResult ..> ConstraintComponent : type
+        
       ExternalReferenceValidationResult : url
+        
       
 ```
 
@@ -44,19 +69,19 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [url](url.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [time_checked](time_checked.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [number_of_attempts](number_of_attempts.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
-| [http_response_code](http_response_code.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
+| [url](url.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [time_checked](time_checked.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [number_of_attempts](number_of_attempts.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
+| [http_response_code](http_response_code.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 | [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | [ValidationResult](ValidationResult.md) |
 | [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | [ValidationResult](ValidationResult.md) |
 | [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
 | [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | [ValidationResult](ValidationResult.md) |
 | [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
 | [object](object.md) | 0..1 <br/> [Node](Node.md) |  | [ValidationResult](ValidationResult.md) |
-| [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ValidationResult](ValidationResult.md) |
-| [source](source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ValidationResult](ValidationResult.md) |
-| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | [ValidationResult](ValidationResult.md) |
+| [object_str](object_str.md) | 0..1 <br/> [String](String.md) |  | [ValidationResult](ValidationResult.md) |
+| [source](source.md) | 0..1 <br/> [String](String.md) |  | [ValidationResult](ValidationResult.md) |
+| [info](info.md) | 0..1 <br/> [String](String.md) | additional information about the issue | [ValidationResult](ValidationResult.md) |
 
 
 

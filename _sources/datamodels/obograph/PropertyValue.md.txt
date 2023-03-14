@@ -19,11 +19,19 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
       PropertyValue <|-- SynonymPropertyValue
       
       PropertyValue : lang
+        
       PropertyValue : meta
+        
+          PropertyValue ..> Meta : meta
+        
       PropertyValue : pred
+        
       PropertyValue : val
+        
       PropertyValue : valType
+        
       PropertyValue : xrefs
+        
       
 ```
 
@@ -44,12 +52,12 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | direct |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the value of a property | direct |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
+| [val](val.md) | 0..1 <br/> [String](String.md) | the value of a property | direct |
 | [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
-| [valType](valType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the datatype of a property value | direct |
-| [lang](lang.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the language of a property value | direct |
+| [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | direct |
+| [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | direct |
 
 
 

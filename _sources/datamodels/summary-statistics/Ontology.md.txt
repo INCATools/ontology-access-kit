@@ -12,11 +12,17 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
  classDiagram
     class Ontology
       Ontology : description
+        
       Ontology : id
+        
       Ontology : prefix
+        
       Ontology : title
+        
       Ontology : version
+        
       Ontology : version_info
+        
       
 ```
 
@@ -30,12 +36,12 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [description](description.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | a description of the resource | direct |
-| [title](title.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the title of the resource | direct |
-| [prefix](prefix.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the prefix for the ontology | direct |
-| [version](version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the version of the resource | direct |
-| [version_info](version_info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the version info of the resource | direct |
+| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | a description of the resource | direct |
+| [title](title.md) | 0..1 <br/> [String](String.md) | the title of the resource | direct |
+| [prefix](prefix.md) | 0..1 <br/> [String](String.md) | the prefix for the ontology | direct |
+| [version](version.md) | 0..1 <br/> [String](String.md) | the version of the resource | direct |
+| [version_info](version_info.md) | 0..1 <br/> [String](String.md) | the version info of the resource | direct |
 
 
 

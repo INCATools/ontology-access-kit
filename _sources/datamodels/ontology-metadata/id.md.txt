@@ -41,7 +41,7 @@ URI: [omoschema:id](http://purl.obolibrary.org/obo/omo/schema/id)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Required: True
 
 

@@ -12,9 +12,15 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
  classDiagram
     class Edge
       Edge : meta
+        
+          Edge ..> Meta : meta
+        
       Edge : obj
+        
       Edge : pred
+        
       Edge : sub
+        
       
 ```
 
@@ -28,9 +34,9 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [sub](sub.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the subject of an edge | direct |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | direct |
-| [obj](obj.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the object of an edge | direct |
+| [sub](sub.md) | 0..1 <br/> [String](String.md) | the subject of an edge | direct |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
+| [obj](obj.md) | 0..1 <br/> [String](String.md) | the object of an edge | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 
 

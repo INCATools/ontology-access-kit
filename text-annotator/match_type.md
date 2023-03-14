@@ -22,7 +22,7 @@ URI: [ann:match_type](https://w3id.org/linkml/text_annotator/match_type)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

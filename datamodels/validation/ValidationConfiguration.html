@@ -93,8 +93,13 @@
              classDiagram
     class ValidationConfiguration
       ValidationConfiguration : max_number_results_per_type
+        
       ValidationConfiguration : schema_path
+        
       ValidationConfiguration : type_severity_map
+        
+          ValidationConfiguration ..&gt; TypeSeverityKeyValue : type_severity_map
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -109,7 +114,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="max_number_results_per_type.html"><span class="doc std std-doc">max_number_results_per_type</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="doc std std-doc">Integer</span></a></p></td>
 <td><p>if set then truncate results such that no more than this number of results ar…</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -119,7 +124,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="schema_path.html"><span class="doc std std-doc">schema_path</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>allows overriding the default OMO schema</p></td>
 <td><p>direct</p></td>
 </tr>

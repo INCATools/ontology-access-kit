@@ -24,7 +24,7 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 
 ## Properties
 
-* Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
+* Range: [Float](Float.md)
 
 
 

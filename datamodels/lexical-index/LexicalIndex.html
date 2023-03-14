@@ -93,7 +93,13 @@
              classDiagram
     class LexicalIndex
       LexicalIndex : groupings
+        
+          LexicalIndex ..&gt; LexicalGrouping : groupings
+        
       LexicalIndex : pipelines
+        
+          LexicalIndex ..&gt; LexicalTransformationPipeline : pipelines
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">

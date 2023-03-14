@@ -12,6 +12,7 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
  classDiagram
     class ContributorRole
       ContributorRole : id
+        
       
 ```
 
@@ -25,7 +26,7 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

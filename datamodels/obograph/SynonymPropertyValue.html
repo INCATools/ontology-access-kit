@@ -95,13 +95,25 @@
       PropertyValue &lt;|-- SynonymPropertyValue
       
       SynonymPropertyValue : isExact
+        
       SynonymPropertyValue : lang
+        
       SynonymPropertyValue : meta
+        
+          SynonymPropertyValue ..&gt; Meta : meta
+        
       SynonymPropertyValue : pred
+        
+          SynonymPropertyValue ..&gt; ScopeEnum : pred
+        
       SynonymPropertyValue : synonymType
+        
       SynonymPropertyValue : val
+        
       SynonymPropertyValue : valType
+        
       SynonymPropertyValue : xrefs
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -130,17 +142,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="isExact.html"><span class="doc std std-doc">isExact</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the predicate of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="val.html"><span class="doc std std-doc">val</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>The textual string representing the synonym</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
@@ -155,12 +167,12 @@
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="valType.html"><span class="doc std std-doc">valType</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the datatype of a property value</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="lang.html"><span class="doc std std-doc">lang</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the language of a property value</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
@@ -237,17 +249,11 @@ slot_usage:
     - SynonymPropertyValue
     - PropertyValue
     - SynonymTypeDefinition
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
     description: The textual string representing the synonym.
     domain_of:
-    - PropertyValue
-    - PropertyValue
     - PropertyValue
     role: synonym text
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -269,17 +275,11 @@ slot_usage:
     - SynonymPropertyValue
     - PropertyValue
     - SynonymTypeDefinition
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
     description: The textual string representing the synonym.
     domain_of:
-    - PropertyValue
-    - PropertyValue
     - PropertyValue
     role: synonym text
 attributes:
@@ -317,10 +317,6 @@ attributes:
     - SynonymPropertyValue
     - PropertyValue
     - SynonymTypeDefinition
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - SynonymTypeDefinition
     range: ScopeEnum
   val:
     name: val
@@ -331,7 +327,6 @@ attributes:
     alias: val
     owner: SynonymPropertyValue
     domain_of:
-    - PropertyValue
     - PropertyValue
     role: synonym text
     range: string

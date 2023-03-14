@@ -17,6 +17,9 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
       Report <|-- RepairReport
       
       Report : results
+        
+          Report ..> Result : results
+        
       
 ```
 

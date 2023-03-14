@@ -113,25 +113,51 @@ of the left edge._</p>
              classDiagram
     class RelationalDiff
       RelationalDiff : category
+        
+          RelationalDiff ..&gt; DiffCategory : category
+        
       RelationalDiff : left_object_id
+        
       RelationalDiff : left_object_is_functional
+        
       RelationalDiff : left_object_label
+        
       RelationalDiff : left_predicate_id
+        
       RelationalDiff : left_predicate_label
+        
       RelationalDiff : left_subject_id
+        
       RelationalDiff : left_subject_is_functional
+        
       RelationalDiff : left_subject_label
+        
       RelationalDiff : object_mapping_cardinality
+        
+          RelationalDiff ..&gt; MappingCardinalityEnum : object_mapping_cardinality
+        
       RelationalDiff : object_mapping_predicate
+        
       RelationalDiff : right_intermediate_ids
+        
       RelationalDiff : right_object_id
+        
       RelationalDiff : right_object_label
+        
       RelationalDiff : right_predicate_ids
+        
       RelationalDiff : right_predicate_labels
+        
       RelationalDiff : right_subject_id
+        
       RelationalDiff : right_subject_label
+        
       RelationalDiff : subject_mapping_cardinality
+        
+          RelationalDiff ..&gt; MappingCardinalityEnum : subject_mapping_cardinality
+        
       RelationalDiff : subject_mapping_predicate
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -211,12 +237,12 @@ of the left edge._</p>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>True if a subject mapping is present, and maps uniquely within the same ontol…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>True if an object mapping is present, and maps uniquely within the same ontol…</p></td>
 <td><p>direct</p></td>
 </tr>

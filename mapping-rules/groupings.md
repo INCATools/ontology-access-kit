@@ -2,7 +2,7 @@
 _all groupings_
 
 
-URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
+URI: [mappingrules:groupings](https://w3id.org/oak/mapping-rules-datamodel/groupings)
 
 
 
@@ -45,7 +45,7 @@ URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -56,7 +56,7 @@ URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 ```yaml
 name: groupings
 description: all groupings
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: groupings

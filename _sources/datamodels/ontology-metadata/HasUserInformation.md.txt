@@ -11,26 +11,32 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
     class HasUserInformation
       AnnotationPropertyMixin <|-- HasUserInformation
       
-      HasUserInformation : comment
-      HasUserInformation : curator_note
-      HasUserInformation : depicted_by
-      HasUserInformation : example_of_usage
-      HasUserInformation : has_curation_status
-      HasUserInformation : image
-      HasUserInformation : page
-      HasUserInformation : seeAlso
-      
 
       HasUserInformation <|-- Term
       
+      
       HasUserInformation : comment
+        
       HasUserInformation : curator_note
+        
       HasUserInformation : depicted_by
+        
+          HasUserInformation ..> Image : depicted_by
+        
       HasUserInformation : example_of_usage
+        
       HasUserInformation : has_curation_status
+        
       HasUserInformation : image
+        
+          HasUserInformation ..> Thing : image
+        
       HasUserInformation : page
+        
       HasUserInformation : seeAlso
+        
+          HasUserInformation ..> Thing : seeAlso
+        
       
 ```
 
@@ -48,14 +54,14 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [comment](comment.md) | 0..* <br/> [String](String.md) |  | direct |
 | [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
 | [image](image.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
-| [example_of_usage](example_of_usage.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [curator_note](curator_note.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [has_curation_status](has_curation_status.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [example_of_usage](example_of_usage.md) | 0..* <br/> [String](String.md) |  | direct |
+| [curator_note](curator_note.md) | 0..* <br/> [String](String.md) |  | direct |
+| [has_curation_status](has_curation_status.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [depicted_by](depicted_by.md) | 0..* <br/> [Image](Image.md) |  | direct |
-| [page](page.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [page](page.md) | 0..* <br/> [String](String.md) |  | direct |
 
 
 

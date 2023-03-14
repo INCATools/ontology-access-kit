@@ -93,9 +93,17 @@
              classDiagram
     class SummaryStatisticsCalculationActivity
       SummaryStatisticsCalculationActivity : acted_on_behalf_of
+        
+          SummaryStatisticsCalculationActivity ..&gt; Agent : acted_on_behalf_of
+        
       SummaryStatisticsCalculationActivity : ended_at_time
+        
       SummaryStatisticsCalculationActivity : started_at_time
+        
       SummaryStatisticsCalculationActivity : was_associated_with
+        
+          SummaryStatisticsCalculationActivity ..&gt; Agent : was_associated_with
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -110,12 +118,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="started_at_time.html"><span class="doc std std-doc">started_at_time</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Datetime.html"><span class="doc std std-doc">Datetime</span></a></p></td>
 <td><p>the time at which the activity started</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ended_at_time.html"><span class="doc std std-doc">ended_at_time</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Datetime.html"><span class="doc std std-doc">Datetime</span></a></p></td>
 <td><p>the time at which the activity ended</p></td>
 <td><p>direct</p></td>
 </tr>

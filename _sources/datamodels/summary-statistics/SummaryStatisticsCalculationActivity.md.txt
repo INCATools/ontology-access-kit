@@ -12,9 +12,17 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
  classDiagram
     class SummaryStatisticsCalculationActivity
       SummaryStatisticsCalculationActivity : acted_on_behalf_of
+        
+          SummaryStatisticsCalculationActivity ..> Agent : acted_on_behalf_of
+        
       SummaryStatisticsCalculationActivity : ended_at_time
+        
       SummaryStatisticsCalculationActivity : started_at_time
+        
       SummaryStatisticsCalculationActivity : was_associated_with
+        
+          SummaryStatisticsCalculationActivity ..> Agent : was_associated_with
+        
       
 ```
 
@@ -28,8 +36,8 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [started_at_time](started_at_time.md) | 0..1 <br/> [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | the time at which the activity started | direct |
-| [ended_at_time](ended_at_time.md) | 0..1 <br/> [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | the time at which the activity ended | direct |
+| [started_at_time](started_at_time.md) | 0..1 <br/> [Datetime](Datetime.md) | the time at which the activity started | direct |
+| [ended_at_time](ended_at_time.md) | 0..1 <br/> [Datetime](Datetime.md) | the time at which the activity ended | direct |
 | [was_associated_with](was_associated_with.md) | 0..1 <br/> [Agent](Agent.md) | the agent that was associated with the activity | direct |
 | [acted_on_behalf_of](acted_on_behalf_of.md) | 0..1 <br/> [Agent](Agent.md) | the agent that the activity acted on behalf of | direct |
 

@@ -93,27 +93,35 @@
     class ClassExpression
       Expression &lt;|-- ClassExpression
       
-      ClassExpression : cardinality
-      ClassExpression : complementOf
-      ClassExpression : disjointWith
-      ClassExpression : equivalentClass
-      ClassExpression : intersectionOf
-      ClassExpression : oneOf
-      ClassExpression : subClassOf
-      ClassExpression : unionOf
-      
 
       ClassExpression &lt;|-- Class
       ClassExpression &lt;|-- Restriction
       
+      
       ClassExpression : cardinality
+        
       ClassExpression : complementOf
+        
       ClassExpression : disjointWith
+        
       ClassExpression : equivalentClass
+        
+          ClassExpression ..&gt; ClassExpression : equivalentClass
+        
       ClassExpression : intersectionOf
+        
+          ClassExpression ..&gt; ClassExpression : intersectionOf
+        
       ClassExpression : oneOf
+        
+          ClassExpression ..&gt; ClassExpression : oneOf
+        
       ClassExpression : subClassOf
+        
+          ClassExpression ..&gt; ClassExpression : subClassOf
+        
       ClassExpression : unionOf
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -137,7 +145,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="disjointWith.html"><span class="doc std std-doc">disjointWith</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -157,12 +165,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="cardinality.html"><span class="doc std std-doc">cardinality</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="complementOf.html"><span class="doc std std-doc">complementOf</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -172,7 +180,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="unionOf.html"><span class="doc std std-doc">unionOf</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>

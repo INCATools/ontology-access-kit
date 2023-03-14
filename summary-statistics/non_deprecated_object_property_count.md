@@ -29,7 +29,7 @@ URI: [summary_statistics:non_deprecated_object_property_count](https://w3id.org/
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

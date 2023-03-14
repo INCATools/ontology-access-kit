@@ -11,27 +11,35 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
     class ClassExpression
       Expression <|-- ClassExpression
       
-      ClassExpression : cardinality
-      ClassExpression : complementOf
-      ClassExpression : disjointWith
-      ClassExpression : equivalentClass
-      ClassExpression : intersectionOf
-      ClassExpression : oneOf
-      ClassExpression : subClassOf
-      ClassExpression : unionOf
-      
 
       ClassExpression <|-- Class
       ClassExpression <|-- Restriction
       
+      
       ClassExpression : cardinality
+        
       ClassExpression : complementOf
+        
       ClassExpression : disjointWith
+        
       ClassExpression : equivalentClass
+        
+          ClassExpression ..> ClassExpression : equivalentClass
+        
       ClassExpression : intersectionOf
+        
+          ClassExpression ..> ClassExpression : intersectionOf
+        
       ClassExpression : oneOf
+        
+          ClassExpression ..> ClassExpression : oneOf
+        
       ClassExpression : subClassOf
+        
+          ClassExpression ..> ClassExpression : subClassOf
+        
       ClassExpression : unionOf
+        
       
 ```
 
@@ -49,14 +57,14 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | direct |
 | [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
-| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [cardinality](cardinality.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [complementOf](complementOf.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
-| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [unionOf](unionOf.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

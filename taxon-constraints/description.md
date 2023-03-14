@@ -24,7 +24,7 @@ URI: [tc:description](https://w3id.org/linkml/taxon_constraints/description)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

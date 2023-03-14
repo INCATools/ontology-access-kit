@@ -12,13 +12,29 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
  classDiagram
     class Meta
       Meta : basicPropertyValues
+        
+          Meta ..> BasicPropertyValue : basicPropertyValues
+        
       Meta : comments
+        
       Meta : definition
+        
+          Meta ..> DefinitionPropertyValue : definition
+        
       Meta : deprecated
+        
       Meta : subsets
+        
       Meta : synonyms
+        
+          Meta ..> SynonymPropertyValue : synonyms
+        
       Meta : version
+        
       Meta : xrefs
+        
+          Meta ..> XrefPropertyValue : xrefs
+        
       
 ```
 
@@ -32,14 +48,14 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subsets](subsets.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A list of subsets to which this entity belongs | direct |
-| [version](version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [comments](comments.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A list of comments about the entity | direct |
+| [subsets](subsets.md) | 0..* <br/> [String](String.md) | A list of subsets to which this entity belongs | direct |
+| [version](version.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [comments](comments.md) | 0..* <br/> [String](String.md) | A list of comments about the entity | direct |
 | [definition](definition.md) | 0..1 <br/> [DefinitionPropertyValue](DefinitionPropertyValue.md) | A definition of an entity | direct |
 | [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | direct |
 | [synonyms](synonyms.md) | 0..* <br/> [SynonymPropertyValue](SynonymPropertyValue.md) | A list of synonym property value assertions for an entity | direct |
 | [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> [BasicPropertyValue](BasicPropertyValue.md) | A list of open-ended property values that does not correspond to those predef... | direct |
-| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [deprecated](deprecated.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 
 
 
@@ -134,8 +150,6 @@ slot_usage:
     domain_of:
     - Meta
     - PropertyValue
-    - Meta
-    - PropertyValue
     range: XrefPropertyValue
 
 ```
@@ -158,8 +172,6 @@ slot_usage:
     name: xrefs
     multivalued: true
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     range: XrefPropertyValue
@@ -224,8 +236,6 @@ attributes:
     alias: xrefs
     owner: Meta
     domain_of:
-    - Meta
-    - PropertyValue
     - Meta
     - PropertyValue
     range: XrefPropertyValue

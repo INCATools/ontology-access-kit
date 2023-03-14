@@ -88,12 +88,18 @@
   <section id="class-lexicalindex">
 <h1>Class: LexicalIndex<a class="headerlink" href="#class-lexicalindex" title="Permalink to this headline"></a></h1>
 <p><em>An index over an ontology keyed by lexical unit</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/LexicalIndex">ontolexindex:LexicalIndex</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/LexicalIndex">mappingrules:LexicalIndex</a></p>
 <div class="mermaid">
              classDiagram
     class LexicalIndex
       LexicalIndex : groupings
+        
+          LexicalIndex ..&gt; LexicalGrouping : groupings
+        
       LexicalIndex : pipelines
+        
+          LexicalIndex ..&gt; LexicalTransformationPipeline : pipelines
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -125,7 +131,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/oak/lexical-index</p></li>
+<li><p>from schema: https://w3id.org/oak/mapping-rules-datamodel</p></li>
 </ul>
 </section>
 </section>
@@ -139,10 +145,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>ontolexindex:LexicalIndex</p></td>
+<td><p>mappingrules:LexicalIndex</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ontolexindex:LexicalIndex</p></td>
+<td><p>mappingrules:LexicalIndex</p></td>
 </tr>
 </tbody>
 </table>
@@ -156,7 +162,7 @@
 ```yaml
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   groupings:
@@ -183,7 +189,7 @@ attributes:
 ```yaml
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   groupings:

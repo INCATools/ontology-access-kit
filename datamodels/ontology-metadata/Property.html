@@ -96,123 +96,159 @@
     class Property
       Term &lt;|-- Property
       
-      Property : alternative_term
-      Property : broadMatch
-      Property : category
-      Property : closeMatch
-      Property : comment
-      Property : conformsTo
-      Property : consider
-      Property : contributor
-      Property : created
-      Property : created_by
-      Property : creation_date
-      Property : creator
-      Property : curator_note
-      Property : database_cross_reference
-      Property : date
-      Property : definition
-      Property : definition_source
-      Property : depicted_by
-      Property : deprecated
-      Property : domain
-      Property : editor_note
-      Property : editor_preferred_term
-      Property : exactMatch
-      Property : example_of_usage
-      Property : excluded_from_QC_check
-      Property : excluded_subClassOf
-      Property : excluded_synonym
-      Property : has_alternative_id
-      Property : has_broad_synonym
-      Property : has_curation_status
-      Property : has_exact_synonym
-      Property : has_narrow_synonym
-      Property : has_obo_namespace
-      Property : has_obsolescence_reason
-      Property : has_related_synonym
-      Property : id
-      Property : IEDB_alternative_term
-      Property : image
-      Property : imported_from
-      Property : in_subset
-      Property : is_class_level
-      Property : is_metadata_tag
-      Property : ISA_alternative_term
-      Property : isDefinedBy
-      Property : label
-      Property : narrowMatch
-      Property : OBO_foundry_unique_label
-      Property : ontology_term_requester
-      Property : page
-      Property : range
-      Property : seeAlso
-      Property : should_conform_to
-      Property : term_editor
-      Property : term_replaced_by
-      Property : term_tracker_item
-      Property : type
-      
 
       Property &lt;|-- AnnotationProperty
       Property &lt;|-- ObjectProperty
       
+      
       Property : alternative_term
+        
       Property : broadMatch
+        
+          Property ..&gt; Property : broadMatch
+        
       Property : category
+        
       Property : closeMatch
+        
+          Property ..&gt; Property : closeMatch
+        
       Property : comment
+        
       Property : conformsTo
+        
+          Property ..&gt; Thing : conformsTo
+        
       Property : consider
+        
+          Property ..&gt; Any : consider
+        
       Property : contributor
+        
+          Property ..&gt; Agent : contributor
+        
       Property : created
+        
       Property : created_by
+        
       Property : creation_date
+        
       Property : creator
+        
+          Property ..&gt; Agent : creator
+        
       Property : curator_note
+        
       Property : database_cross_reference
+        
       Property : date
+        
       Property : definition
+        
       Property : definition_source
+        
       Property : depicted_by
+        
+          Property ..&gt; Image : depicted_by
+        
       Property : deprecated
+        
       Property : domain
+        
       Property : editor_note
+        
       Property : editor_preferred_term
+        
       Property : exactMatch
+        
+          Property ..&gt; Property : exactMatch
+        
       Property : example_of_usage
+        
       Property : excluded_from_QC_check
+        
+          Property ..&gt; Thing : excluded_from_QC_check
+        
       Property : excluded_subClassOf
+        
+          Property ..&gt; Class : excluded_subClassOf
+        
       Property : excluded_synonym
+        
       Property : has_alternative_id
+        
       Property : has_broad_synonym
+        
       Property : has_curation_status
+        
       Property : has_exact_synonym
+        
       Property : has_narrow_synonym
+        
       Property : has_obo_namespace
+        
       Property : has_obsolescence_reason
+        
       Property : has_related_synonym
+        
       Property : id
+        
       Property : IEDB_alternative_term
+        
       Property : image
+        
+          Property ..&gt; Thing : image
+        
       Property : imported_from
+        
+          Property ..&gt; NamedIndividual : imported_from
+        
       Property : in_subset
+        
+          Property ..&gt; Subset : in_subset
+        
       Property : is_class_level
+        
       Property : is_metadata_tag
+        
       Property : ISA_alternative_term
+        
       Property : isDefinedBy
+        
+          Property ..&gt; Ontology : isDefinedBy
+        
       Property : label
+        
       Property : narrowMatch
+        
+          Property ..&gt; Property : narrowMatch
+        
       Property : OBO_foundry_unique_label
+        
       Property : ontology_term_requester
+        
       Property : page
+        
       Property : range
+        
       Property : seeAlso
+        
+          Property ..&gt; Thing : seeAlso
+        
       Property : should_conform_to
+        
+          Property ..&gt; Thing : should_conform_to
+        
       Property : term_editor
+        
       Property : term_replaced_by
+        
+          Property ..&gt; Any : term_replaced_by
+        
       Property : term_tracker_item
+        
       Property : type
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -249,22 +285,22 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="domain.html"><span class="doc std std-doc">domain</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="range.html"><span class="doc std std-doc">range</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_class_level.html"><span class="doc std std-doc">is_class_level</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_metadata_tag.html"><span class="doc std std-doc">is_metadata_tag</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -289,37 +325,37 @@
 <td><p><a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="alternative_term.html"><span class="doc std std-doc">alternative_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ISA_alternative_term.html"><span class="doc std std-doc">ISA_alternative_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="IEDB_alternative_term.html"><span class="doc std std-doc">IEDB_alternative_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="editor_preferred_term.html"><span class="doc std std-doc">editor_preferred_term</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="OBO_foundry_unique_label.html"><span class="doc std std-doc">OBO_foundry_unique_label</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="deprecated.html"><span class="doc std std-doc">deprecated</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_obsolescence_reason.html"><span class="doc std std-doc">has_obsolescence_reason</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a></p></td>
 </tr>
@@ -334,7 +370,7 @@
 <td><p><a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_alternative_id.html"><span class="doc std std-doc">has_alternative_id</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>Relates a live term to a deprecated ID that was merged in</p></td>
 <td><p><a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a></p></td>
 </tr>
@@ -349,7 +385,7 @@
 <td><p><a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="excluded_synonym.html"><span class="doc std std-doc">excluded_synonym</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a></p></td>
 </tr>
@@ -359,12 +395,12 @@
 <td><p><a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="created_by.html"><span class="doc std std-doc">created_by</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creation_date.html"><span class="doc std std-doc">creation_date</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
@@ -379,12 +415,12 @@
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>when the term came into being</p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>when the term was updated</p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
@@ -399,17 +435,17 @@
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
@@ -419,7 +455,7 @@
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a></p></td>
 </tr>
@@ -449,12 +485,12 @@
 <td><p><a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_obo_namespace.html"><span class="doc std std-doc">has_obo_namespace</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a></p></td>
 </tr>
@@ -469,7 +505,7 @@
 <td><p><a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
 </tr>
@@ -484,17 +520,17 @@
 <td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="example_of_usage.html"><span class="doc std std-doc">example_of_usage</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="curator_note.html"><span class="doc std std-doc">curator_note</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_curation_status.html"><span class="doc std std-doc">has_curation_status</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
 </tr>
@@ -504,7 +540,7 @@
 <td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="page.html"><span class="doc std std-doc">page</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
 </tr>
@@ -519,12 +555,12 @@
 <td><p><a class="reference internal" href="HasMinimalMetadata.html"><span class="doc std std-doc">HasMinimalMetadata</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>this maps to the URI in RDF</p></td>
 <td><p><a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 </tr>
@@ -715,72 +751,30 @@ slot_usage:
     domain_of:
     - HasMinimalMetadata
     - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
     recommended: true
   definition:
     name: definition
     domain_of:
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
     - HasMinimalMetadata
     recommended: true
   broadMatch:
     name: broadMatch
     domain_of:
     - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     range: Property
   exactMatch:
     name: exactMatch
     domain_of:
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     - HasMappings
     range: Property
   narrowMatch:
     name: narrowMatch
     domain_of:
     - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     range: Property
   closeMatch:
     name: closeMatch
     domain_of:
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     - HasMappings
     range: Property
   subClassOf:
@@ -804,72 +798,30 @@ slot_usage:
     domain_of:
     - HasMinimalMetadata
     - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
     recommended: true
   definition:
     name: definition
     domain_of:
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
     - HasMinimalMetadata
     recommended: true
   broadMatch:
     name: broadMatch
     domain_of:
     - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     range: Property
   exactMatch:
     name: exactMatch
     domain_of:
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     - HasMappings
     range: Property
   narrowMatch:
     name: narrowMatch
     domain_of:
     - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     range: Property
   closeMatch:
     name: closeMatch
     domain_of:
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     - HasMappings
     range: Property
   subClassOf:
@@ -1379,11 +1331,6 @@ attributes:
     owner: Property
     domain_of:
     - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     range: Property
   closeMatch:
     name: closeMatch
@@ -1395,11 +1342,6 @@ attributes:
     alias: closeMatch
     owner: Property
     domain_of:
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     - HasMappings
     range: Property
   exactMatch:
@@ -1413,11 +1355,6 @@ attributes:
     owner: Property
     domain_of:
     - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     range: Property
   narrowMatch:
     name: narrowMatch
@@ -1429,11 +1366,6 @@ attributes:
     alias: narrowMatch
     owner: Property
     domain_of:
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
-    - HasMappings
     - HasMappings
     range: Property
   database_cross_reference:
@@ -1611,16 +1543,6 @@ attributes:
     domain_of:
     - HasMinimalMetadata
     - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
-    - HasMinimalMetadata
-    - Axiom
     range: label type
     recommended: true
   definition:
@@ -1633,11 +1555,6 @@ attributes:
     alias: definition
     owner: Property
     domain_of:
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
-    - HasMinimalMetadata
     - HasMinimalMetadata
     range: narrative text
     recommended: true

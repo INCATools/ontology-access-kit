@@ -13,16 +13,37 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
       AnonymousClassExpression <|-- Restriction
       
       Restriction : allValuesFrom
+        
       Restriction : cardinality
+        
       Restriction : complementOf
+        
       Restriction : disjointWith
+        
       Restriction : equivalentClass
+        
+          Restriction ..> ClassExpression : equivalentClass
+        
       Restriction : intersectionOf
+        
+          Restriction ..> ClassExpression : intersectionOf
+        
       Restriction : oneOf
+        
+          Restriction ..> ClassExpression : oneOf
+        
       Restriction : onProperty
+        
+          Restriction ..> PropertyExpression : onProperty
+        
       Restriction : someValuesFrom
+        
       Restriction : subClassOf
+        
+          Restriction ..> ClassExpression : subClassOf
+        
       Restriction : unionOf
+        
       
 ```
 
@@ -42,16 +63,16 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [onProperty](onProperty.md) | 0..* <br/> [PropertyExpression](PropertyExpression.md) |  | direct |
-| [someValuesFrom](someValuesFrom.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [allValuesFrom](allValuesFrom.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ClassExpression](ClassExpression.md) |
+| [someValuesFrom](someValuesFrom.md) | 0..* <br/> [String](String.md) |  | direct |
+| [allValuesFrom](allValuesFrom.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
 | [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
 | [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
 | [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
-| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ClassExpression](ClassExpression.md) |
-| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ClassExpression](ClassExpression.md) |
+| [cardinality](cardinality.md) | 0..1 <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
+| [complementOf](complementOf.md) | 0..1 <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
 | [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | [ClassExpression](ClassExpression.md) |
-| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ClassExpression](ClassExpression.md) |
+| [unionOf](unionOf.md) | 0..1 <br/> [String](String.md) |  | [ClassExpression](ClassExpression.md) |
 
 
 

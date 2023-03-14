@@ -12,9 +12,15 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
  classDiagram
     class ContributorStatistics
       ContributorStatistics : contributor_id
+        
       ContributorStatistics : contributor_name
+        
       ContributorStatistics : normalization_comments
+        
       ContributorStatistics : role_counts
+        
+          ContributorStatistics ..> FacetedCount : role_counts
+        
       
 ```
 
@@ -28,9 +34,9 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [contributor_id](contributor_id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the contributor | direct |
-| [contributor_name](contributor_name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the name of the contributor | direct |
-| [normalization_comments](normalization_comments.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | if contributor name normalization was applied, provide details here | direct |
+| [contributor_id](contributor_id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the contributor | direct |
+| [contributor_name](contributor_name.md) | 0..1 <br/> [String](String.md) | the name of the contributor | direct |
+| [normalization_comments](normalization_comments.md) | 0..1 <br/> [String](String.md) | if contributor name normalization was applied, provide details here | direct |
 | [role_counts](role_counts.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
 
 

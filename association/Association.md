@@ -12,9 +12,15 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
  classDiagram
     class Association
       Association : object
+        
       Association : predicate
+        
       Association : property_values
+        
+          Association ..> PropertyValue : property_values
+        
       Association : subject
+        
       
 ```
 
@@ -28,9 +34,9 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject](subject.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The thing which the association is about | direct |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The type of relationship between the subject and object | direct |
-| [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | An ontology entity that is associated with the subject | direct |
+| [subject](subject.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The thing which the association is about | direct |
+| [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | direct |
+| [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | direct |
 | [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) |  | direct |
 
 

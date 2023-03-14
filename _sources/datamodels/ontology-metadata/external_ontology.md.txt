@@ -22,7 +22,7 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

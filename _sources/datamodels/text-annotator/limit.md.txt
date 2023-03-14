@@ -22,7 +22,7 @@ URI: [ann:limit](https://w3id.org/linkml/text_annotator/limit)
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

@@ -13,14 +13,14 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
     class HasMinimalMetadata
       AnnotationPropertyMixin <|-- HasMinimalMetadata
       
-      HasMinimalMetadata : definition
-      HasMinimalMetadata : label
-      
 
       HasMinimalMetadata <|-- Term
       
+      
       HasMinimalMetadata : definition
+        
       HasMinimalMetadata : label
+        
       
 ```
 

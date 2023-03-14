@@ -93,9 +93,15 @@
              classDiagram
     class Association
       Association : object
+        
       Association : predicate
+        
       Association : property_values
+        
+          Association ..&gt; PropertyValue : property_values
+        
       Association : subject
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -110,17 +116,17 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The thing which the association is about</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The type of relationship between the subject and object</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
-<td><p>0..1 <br/> <span class="xref myst">xsd:anyURI</span></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p>An ontology entity that is associated with the subject</p></td>
 <td><p>direct</p></td>
 </tr>

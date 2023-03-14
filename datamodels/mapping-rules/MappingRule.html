@@ -93,10 +93,21 @@
              classDiagram
     class MappingRule
       MappingRule : description
+        
       MappingRule : oneway
+        
       MappingRule : postconditions
+        
+          MappingRule ..&gt; Postcondition : postconditions
+        
       MappingRule : preconditions
+        
+          MappingRule ..&gt; Precondition : preconditions
+        
       MappingRule : synonymizer
+        
+          MappingRule ..&gt; Synonymizer : synonymizer
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -111,12 +122,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="doc std std-doc">oneway</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p>if true then subject and object can be switched and predicate inverted</p></td>
 <td><p>direct</p></td>
 </tr>

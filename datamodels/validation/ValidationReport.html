@@ -95,6 +95,9 @@
       Report &lt;|-- ValidationReport
       
       ValidationReport : results
+        
+          ValidationReport ..&gt; ValidationResult : results
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -177,7 +180,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: ValidationResult
 class_uri: sh:ValidationReport
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -198,7 +200,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: ValidationResult
 attributes:
   results:
@@ -211,7 +212,6 @@ attributes:
     alias: results
     owner: ValidationReport
     domain_of:
-    - Report
     - Report
     range: ValidationResult
     inlined: true

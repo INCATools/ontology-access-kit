@@ -14,9 +14,21 @@ URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obograph
       Axiom <|-- LogicalDefinitionAxiom
       
       LogicalDefinitionAxiom : definedClassId
+        
+          LogicalDefinitionAxiom ..> None : definedClassId
+        
       LogicalDefinitionAxiom : genusIds
+        
+          LogicalDefinitionAxiom ..> None : genusIds
+        
       LogicalDefinitionAxiom : meta
+        
+          LogicalDefinitionAxiom ..> Meta : meta
+        
       LogicalDefinitionAxiom : restrictions
+        
+          LogicalDefinitionAxiom ..> ExistentialRestrictionExpression : restrictions
+        
       
 ```
 
@@ -34,8 +46,8 @@ URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obograph
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [definedClassId](definedClassId.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The class that is defined by this axiom | direct |
-| [genusIds](genusIds.md) | 0..* _recommended_ <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The set of classes that are the genus of the defined class | direct |
+| [definedClassId](definedClassId.md) | 1..1 <br/> [String](String.md) | The class that is defined by this axiom | direct |
+| [genusIds](genusIds.md) | 0..* _recommended_ <br/> [String](String.md) | The set of classes that are the genus of the defined class | direct |
 | [restrictions](restrictions.md) | 0..* _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentiating features of the defined ... | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 

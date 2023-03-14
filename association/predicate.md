@@ -25,7 +25,7 @@ URI: [rdf:predicate](rdf:predicate)
 
 ## Properties
 
-* Range: [xsd:anyURI](xsd:anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 
 
 

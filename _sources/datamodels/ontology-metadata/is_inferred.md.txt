@@ -22,7 +22,7 @@ URI: [oio:is_inferred](http://www.geneontology.org/formats/oboInOwl#is_inferred)
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

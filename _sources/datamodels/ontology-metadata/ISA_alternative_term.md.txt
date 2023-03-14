@@ -38,7 +38,7 @@ URI: [OBI:0001847](http://purl.obolibrary.org/obo/OBI_0001847)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

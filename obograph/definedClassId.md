@@ -24,7 +24,7 @@ URI: [obographs:definedClassId](https://github.com/geneontology/obographs/define
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Required: True
 
 

@@ -24,7 +24,7 @@ URI: [ontosearch:matches_full_search_term](https://w3id.org/oak/search-datamodel
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

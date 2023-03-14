@@ -1,6 +1,6 @@
 # Slot: element
 
-URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
+URI: [mappingrules:element](https://w3id.org/oak/mapping-rules-datamodel/element)
 
 
 
@@ -22,7 +22,7 @@ URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [ontolexindex:element](https://w3id.org/oak/lexical-index/element)
 <details>
 ```yaml
 name: element
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 alias: element
 owner: RelationshipToTerm

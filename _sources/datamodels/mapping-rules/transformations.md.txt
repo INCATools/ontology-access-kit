@@ -1,6 +1,6 @@
 # Slot: transformations
 
-URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transformations)
+URI: [mappingrules:transformations](https://w3id.org/oak/mapping-rules-datamodel/transformations)
 
 
 
@@ -43,7 +43,7 @@ URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transform
 ### Schema Source
 
 
-* from schema: https://w3id.org/oak/lexical-index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transform
 <details>
 ```yaml
 name: transformations
-from_schema: https://w3id.org/oak/lexical-index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: transformations

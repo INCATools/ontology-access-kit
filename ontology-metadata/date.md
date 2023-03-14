@@ -40,7 +40,7 @@ URI: [dcterms:date](http://purl.org/dc/terms/date)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

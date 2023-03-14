@@ -22,7 +22,7 @@ URI: [ontosearch:is_fuzzy](https://w3id.org/oak/search-datamodel/is_fuzzy)
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

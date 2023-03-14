@@ -93,7 +93,11 @@
              classDiagram
     class MappingRuleCollection
       MappingRuleCollection : minimum_confidence
+        
       MappingRuleCollection : rules
+        
+          MappingRuleCollection ..&gt; MappingRule : rules
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -113,7 +117,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="minimum_confidence.html"><span class="doc std std-doc">minimum_confidence</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="doc std std-doc">Float</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>

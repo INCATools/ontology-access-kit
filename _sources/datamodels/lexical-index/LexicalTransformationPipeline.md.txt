@@ -14,7 +14,11 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
       Activity <|-- LexicalTransformationPipeline
       
       LexicalTransformationPipeline : name
+        
       LexicalTransformationPipeline : transformations
+        
+          LexicalTransformationPipeline ..> LexicalTransformation : transformations
+        
       
 ```
 
@@ -32,7 +36,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
 
 

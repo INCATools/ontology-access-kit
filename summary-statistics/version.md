@@ -24,7 +24,7 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

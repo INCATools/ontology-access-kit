@@ -13,15 +13,15 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
     class NamedObject
       Thing <|-- NamedObject
       
-      NamedObject : id
-      NamedObject : type
-      
 
       NamedObject <|-- Ontology
       NamedObject <|-- Term
       
+      
       NamedObject : id
+        
       NamedObject : type
+        
       
 ```
 
@@ -41,8 +41,8 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | direct |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | this maps to the URI in RDF | direct |
+| [type](type.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | [Thing](Thing.md) |
 
 
 

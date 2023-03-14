@@ -24,7 +24,7 @@ URI: [ontosearch:force_case_insensitive](https://w3id.org/oak/search-datamodel/f
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

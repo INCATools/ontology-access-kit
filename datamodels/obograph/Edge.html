@@ -93,9 +93,15 @@
              classDiagram
     class Edge
       Edge : meta
+        
+          Edge ..&gt; Meta : meta
+        
       Edge : obj
+        
       Edge : pred
+        
       Edge : sub
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -110,17 +116,17 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="sub.html"><span class="doc std std-doc">sub</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the subject of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the predicate of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="obj.html"><span class="doc std std-doc">obj</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>the object of an edge</p></td>
 <td><p>direct</p></td>
 </tr>

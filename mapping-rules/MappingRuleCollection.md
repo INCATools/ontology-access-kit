@@ -12,7 +12,11 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
  classDiagram
     class MappingRuleCollection
       MappingRuleCollection : minimum_confidence
+        
       MappingRuleCollection : rules
+        
+          MappingRuleCollection ..> MappingRule : rules
+        
       
 ```
 
@@ -27,7 +31,7 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md) | all rules | direct |
-| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
+| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [Float](Float.md) |  | direct |
 
 
 

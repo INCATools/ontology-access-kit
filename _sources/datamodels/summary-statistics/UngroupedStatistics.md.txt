@@ -14,48 +14,119 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
       SummaryStatisticsReport <|-- UngroupedStatistics
       
       UngroupedStatistics : agents
+        
+          UngroupedStatistics ..> Agent : agents
+        
       UngroupedStatistics : annotation_property_count
+        
       UngroupedStatistics : anonymous_class_expression_count
+        
       UngroupedStatistics : anonymous_individual_count
+        
       UngroupedStatistics : change_summary
+        
+          UngroupedStatistics ..> ChangeTypeStatistic : change_summary
+        
       UngroupedStatistics : class_count
+        
       UngroupedStatistics : class_count_by_category
+        
+          UngroupedStatistics ..> FacetedCount : class_count_by_category
+        
       UngroupedStatistics : class_count_by_subset
+        
+          UngroupedStatistics ..> FacetedCount : class_count_by_subset
+        
       UngroupedStatistics : class_count_with_text_definitions
+        
       UngroupedStatistics : class_count_without_text_definitions
+        
       UngroupedStatistics : compared_with
+        
+          UngroupedStatistics ..> Ontology : compared_with
+        
       UngroupedStatistics : contributor_summary
+        
+          UngroupedStatistics ..> ContributorStatistics : contributor_summary
+        
       UngroupedStatistics : datatype_property_count
+        
       UngroupedStatistics : deprecated_class_count
+        
       UngroupedStatistics : deprecated_object_property_count
+        
       UngroupedStatistics : description_logic_profile
+        
       UngroupedStatistics : distinct_synonym_count
+        
       UngroupedStatistics : edge_count_by_predicate
+        
+          UngroupedStatistics ..> FacetedCount : edge_count_by_predicate
+        
       UngroupedStatistics : entailed_edge_count_by_predicate
+        
+          UngroupedStatistics ..> FacetedCount : entailed_edge_count_by_predicate
+        
       UngroupedStatistics : equivalent_classes_axiom_count
+        
       UngroupedStatistics : id
+        
       UngroupedStatistics : individual_count
+        
       UngroupedStatistics : mapping_count
+        
       UngroupedStatistics : mapping_statement_count_by_object_source
+        
+          UngroupedStatistics ..> FacetedCount : mapping_statement_count_by_object_source
+        
       UngroupedStatistics : mapping_statement_count_by_predicate
+        
+          UngroupedStatistics ..> FacetedCount : mapping_statement_count_by_predicate
+        
       UngroupedStatistics : mapping_statement_count_subject_by_object_source
+        
+          UngroupedStatistics ..> FacetedCount : mapping_statement_count_subject_by_object_source
+        
       UngroupedStatistics : merged_class_count
+        
       UngroupedStatistics : named_individual_count
+        
       UngroupedStatistics : non_deprecated_class_count
+        
       UngroupedStatistics : non_deprecated_object_property_count
+        
       UngroupedStatistics : object_property_count
+        
       UngroupedStatistics : ontologies
+        
+          UngroupedStatistics ..> Ontology : ontologies
+        
       UngroupedStatistics : ontology_count
+        
       UngroupedStatistics : owl_axiom_count
+        
       UngroupedStatistics : property_count
+        
       UngroupedStatistics : rdf_triple_count
+        
       UngroupedStatistics : subclass_of_axiom_count
+        
       UngroupedStatistics : subset_count
+        
       UngroupedStatistics : synonym_statement_count
+        
       UngroupedStatistics : synonym_statement_count_by_predicate
+        
+          UngroupedStatistics ..> FacetedCount : synonym_statement_count_by_predicate
+        
       UngroupedStatistics : unsatisfiable_class_count
+        
       UngroupedStatistics : untyped_entity_count
+        
       UngroupedStatistics : was_generated_by
+        
+          UngroupedStatistics ..> SummaryStatisticsCalculationActivity : was_generated_by
+        
       
 ```
 
@@ -73,45 +144,45 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [class_count](class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of classes in the ontology or subset | direct |
-| [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of anonymous class expressions in the ontology or subset | direct |
-| [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of unsatisfiable classes in the ontology or subset | direct |
-| [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of deprecated (obsoleted) classes in the ontology or subset | direct |
-| [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of non-deprecated (non-obsoleted) classes in the ontology or subset | direct |
-| [merged_class_count](merged_class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of merged classes (obsoletions with merge reason) in the ontology or s... | direct |
-| [class_count_with_text_definitions](class_count_with_text_definitions.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of classes with text definitions in the ontology or subset | direct |
-| [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of classes without text definitions in the ontology or subset | direct |
-| [property_count](property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of properties in the ontology or subset | direct |
-| [object_property_count](object_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of object properties (relations) in the ontology or subset | direct |
-| [deprecated_object_property_count](deprecated_object_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of deprecated (obsoleted) object properties in the ontology or subset | direct |
-| [non_deprecated_object_property_count](non_deprecated_object_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of non-deprecated (non-obsoleted) object properties in the ontology or... | direct |
-| [datatype_property_count](datatype_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of datatype properties in the ontology or subset | direct |
-| [annotation_property_count](annotation_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of annotation properties (metadata properties) in the ontology or subs... | direct |
-| [individual_count](individual_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of individuals (named and anonymous) in the ontology or subset | direct |
-| [named_individual_count](named_individual_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of named individuals in the ontology or subset | direct |
-| [anonymous_individual_count](anonymous_individual_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of anonymous individuals in the ontology or subset | direct |
-| [untyped_entity_count](untyped_entity_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of entities whose type could not be determined in the ontology or subs... | direct |
-| [subset_count](subset_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of distinct subsets (slims, value sets) in the ontology or subset | direct |
-| [description_logic_profile](description_logic_profile.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Description logic profile (e | direct |
-| [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of OWL axioms in the ontology or subset | direct |
-| [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of RDF triples in the ontology or subset | direct |
-| [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of subclass axioms in the ontology or subset | direct |
-| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of equivalent classes axioms in the ontology or subset | direct |
+| [class_count](class_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of classes in the ontology or subset | direct |
+| [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of anonymous class expressions in the ontology or subset | direct |
+| [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of unsatisfiable classes in the ontology or subset | direct |
+| [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of deprecated (obsoleted) classes in the ontology or subset | direct |
+| [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of non-deprecated (non-obsoleted) classes in the ontology or subset | direct |
+| [merged_class_count](merged_class_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of merged classes (obsoletions with merge reason) in the ontology or s... | direct |
+| [class_count_with_text_definitions](class_count_with_text_definitions.md) | 0..1 <br/> [Integer](Integer.md) | Number of classes with text definitions in the ontology or subset | direct |
+| [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> [Integer](Integer.md) | Number of classes without text definitions in the ontology or subset | direct |
+| [property_count](property_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of properties in the ontology or subset | direct |
+| [object_property_count](object_property_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of object properties (relations) in the ontology or subset | direct |
+| [deprecated_object_property_count](deprecated_object_property_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of deprecated (obsoleted) object properties in the ontology or subset | direct |
+| [non_deprecated_object_property_count](non_deprecated_object_property_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of non-deprecated (non-obsoleted) object properties in the ontology or... | direct |
+| [datatype_property_count](datatype_property_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of datatype properties in the ontology or subset | direct |
+| [annotation_property_count](annotation_property_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of annotation properties (metadata properties) in the ontology or subs... | direct |
+| [individual_count](individual_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of individuals (named and anonymous) in the ontology or subset | direct |
+| [named_individual_count](named_individual_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of named individuals in the ontology or subset | direct |
+| [anonymous_individual_count](anonymous_individual_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of anonymous individuals in the ontology or subset | direct |
+| [untyped_entity_count](untyped_entity_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of entities whose type could not be determined in the ontology or subs... | direct |
+| [subset_count](subset_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of distinct subsets (slims, value sets) in the ontology or subset | direct |
+| [description_logic_profile](description_logic_profile.md) | 0..1 <br/> [String](String.md) | Description logic profile (e | direct |
+| [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of OWL axioms in the ontology or subset | direct |
+| [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of RDF triples in the ontology or subset | direct |
+| [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of subclass axioms in the ontology or subset | direct |
+| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of equivalent classes axioms in the ontology or subset | direct |
 | [edge_count_by_predicate](edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of edges grouped by predicate in the ontology or subset | direct |
 | [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of entailed (includes indirect) edges grouped by predicate in the onto... | direct |
-| [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of distinct synonym strings in the ontology or subset | direct |
-| [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of synonym statements (assertions) in the ontology or subset | direct |
+| [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of distinct synonym strings in the ontology or subset | direct |
+| [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of synonym statements (assertions) in the ontology or subset | direct |
 | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of synonym statements (assertions) grouped by predicate (scope) in the... | direct |
 | [class_count_by_subset](class_count_by_subset.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of classes grouped by subset (slim, value set) in the ontology or subs... | direct |
 | [class_count_by_category](class_count_by_category.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of classes grouped by category in the ontology or subset | direct |
-| [mapping_count](mapping_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of mappings (including xrefs) in the ontology or subset | direct |
+| [mapping_count](mapping_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of mappings (including xrefs) in the ontology or subset | direct |
 | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by predicate (e | direct |
 | [mapping_statement_count_by_object_source](mapping_statement_count_by_object_source.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by object_source (prefix of external vocabulary) i... | direct |
 | [mapping_statement_count_subject_by_object_source](mapping_statement_count_subject_by_object_source.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of distinct subject entities grouped by object_source (prefix of exter... | direct |
-| [ontology_count](ontology_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of ontologies (including imports) for the ontology or subset | direct |
+| [ontology_count](ontology_count.md) | 0..1 <br/> [Integer](Integer.md) | Number of ontologies (including imports) for the ontology or subset | direct |
 | [contributor_summary](contributor_summary.md) | 0..* <br/> [ContributorStatistics](ContributorStatistics.md) |  | direct |
 | [change_summary](change_summary.md) | 0..* <br/> [ChangeTypeStatistic](ChangeTypeStatistic.md) | Summary of changes between two versions of an ontology | direct |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Unique handle for this report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | Unique handle for this report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |

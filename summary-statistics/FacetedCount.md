@@ -12,7 +12,9 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
  classDiagram
     class FacetedCount
       FacetedCount : facet
+        
       FacetedCount : filtered_count
+        
       
 ```
 
@@ -26,8 +28,8 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [facet](facet.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [filtered_count](filtered_count.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [facet](facet.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [filtered_count](filtered_count.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

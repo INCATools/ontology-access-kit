@@ -24,7 +24,7 @@ URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summ
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

@@ -12,16 +12,31 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
  classDiagram
     class SearchBaseConfiguration
       SearchBaseConfiguration : categories
+        
       SearchBaseConfiguration : cursor
+        
       SearchBaseConfiguration : force_case_insensitive
+        
       SearchBaseConfiguration : include_obsoletes_in_results
+        
       SearchBaseConfiguration : is_complete
+        
       SearchBaseConfiguration : is_fuzzy
+        
       SearchBaseConfiguration : is_partial
+        
       SearchBaseConfiguration : limit
+        
       SearchBaseConfiguration : properties
+        
+          SearchBaseConfiguration ..> SearchProperty : properties
+        
       SearchBaseConfiguration : search_terms
+        
       SearchBaseConfiguration : syntax
+        
+          SearchBaseConfiguration ..> SearchTermSyntax : syntax
+        
       
 ```
 
@@ -38,14 +53,14 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
 | [search_terms](search_terms.md) | 0..* <br/> [SearchTerm](SearchTerm.md) | An individual search term | direct |
 | [syntax](syntax.md) | 0..1 <br/> [SearchTermSyntax](SearchTermSyntax.md) | Determines how the search term is interpreted | direct |
 | [properties](properties.md) | 0..* <br/> [SearchProperty](SearchProperty.md) | determines which properties are searched over | direct |
-| [limit](limit.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | the maximum number of search results to be returned in one batch | direct |
-| [cursor](cursor.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [is_partial](is_partial.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | allows matches where the search term is a subset of the full span | direct |
-| [is_complete](is_complete.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [is_fuzzy](is_fuzzy.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [categories](categories.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | categories that should be matched | direct |
-| [force_case_insensitive](force_case_insensitive.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | force case insensitive matching | direct |
+| [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) | the maximum number of search results to be returned in one batch | direct |
+| [cursor](cursor.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [is_partial](is_partial.md) | 0..1 <br/> [Boolean](Boolean.md) | allows matches where the search term is a subset of the full span | direct |
+| [is_complete](is_complete.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [is_fuzzy](is_fuzzy.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [categories](categories.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | categories that should be matched | direct |
+| [force_case_insensitive](force_case_insensitive.md) | 0..1 <br/> [Boolean](Boolean.md) | force case insensitive matching | direct |
 
 
 

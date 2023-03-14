@@ -24,7 +24,7 @@ URI: [ontosearch:limit](https://w3id.org/oak/search-datamodel/limit)
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

@@ -24,7 +24,7 @@ URI: [summary_statistics:contributor_name](https://w3id.org/oaklib/summary_stati
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

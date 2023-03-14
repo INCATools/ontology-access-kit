@@ -95,12 +95,27 @@
       PairwiseSimilarity &lt;|-- TermSetPairwiseSimilarity
       
       TermSetPairwiseSimilarity : average_score
+        
       TermSetPairwiseSimilarity : best_score
+        
       TermSetPairwiseSimilarity : metric
+        
       TermSetPairwiseSimilarity : object_best_matches
+        
+          TermSetPairwiseSimilarity ..&gt; BestMatch : object_best_matches
+        
       TermSetPairwiseSimilarity : object_termset
+        
+          TermSetPairwiseSimilarity ..&gt; TermInfo : object_termset
+        
       TermSetPairwiseSimilarity : subject_best_matches
+        
+          TermSetPairwiseSimilarity ..&gt; BestMatch : subject_best_matches
+        
       TermSetPairwiseSimilarity : subject_termset
+        
+          TermSetPairwiseSimilarity ..&gt; TermInfo : subject_termset
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -144,17 +159,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="average_score.html"><span class="doc std std-doc">average_score</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Float.html"><span class="doc std std-doc">Float</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="best_score.html"><span class="doc std std-doc">best_score</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Float.html"><span class="doc std std-doc">Float</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="metric.html"><span class="doc std std-doc">metric</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>

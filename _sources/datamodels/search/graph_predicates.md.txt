@@ -22,7 +22,7 @@ URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_p
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Multivalued: True
 
 

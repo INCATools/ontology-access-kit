@@ -95,6 +95,9 @@
       Report &lt;|-- RepairReport
       
       RepairReport : results
+        
+          RepairReport ..&gt; RepairOperation : results
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -169,7 +172,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: RepairOperation
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -187,7 +189,6 @@ slot_usage:
     name: results
     domain_of:
     - Report
-    - Report
     range: RepairOperation
 attributes:
   results:
@@ -200,7 +201,6 @@ attributes:
     alias: results
     owner: RepairReport
     domain_of:
-    - Report
     - Report
     range: RepairOperation
     inlined: true

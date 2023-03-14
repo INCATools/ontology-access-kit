@@ -28,7 +28,7 @@ URI: [xodiff:left_object_is_functional](https://w3id.org/oak/cross-ontology-diff
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

@@ -38,7 +38,7 @@ URI: [foaf:page](http://xmlns.com/foaf/0.1/page)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

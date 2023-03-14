@@ -36,25 +36,51 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
  classDiagram
     class RelationalDiff
       RelationalDiff : category
+        
+          RelationalDiff ..> DiffCategory : category
+        
       RelationalDiff : left_object_id
+        
       RelationalDiff : left_object_is_functional
+        
       RelationalDiff : left_object_label
+        
       RelationalDiff : left_predicate_id
+        
       RelationalDiff : left_predicate_label
+        
       RelationalDiff : left_subject_id
+        
       RelationalDiff : left_subject_is_functional
+        
       RelationalDiff : left_subject_label
+        
       RelationalDiff : object_mapping_cardinality
+        
+          RelationalDiff ..> MappingCardinalityEnum : object_mapping_cardinality
+        
       RelationalDiff : object_mapping_predicate
+        
       RelationalDiff : right_intermediate_ids
+        
       RelationalDiff : right_object_id
+        
       RelationalDiff : right_object_label
+        
       RelationalDiff : right_predicate_ids
+        
       RelationalDiff : right_predicate_labels
+        
       RelationalDiff : right_subject_id
+        
       RelationalDiff : right_subject_label
+        
       RelationalDiff : subject_mapping_cardinality
+        
+          RelationalDiff ..> MappingCardinalityEnum : subject_mapping_cardinality
+        
       RelationalDiff : subject_mapping_predicate
+        
       
 ```
 
@@ -81,8 +107,8 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
 | [right_subject_label](right_subject_label.md) | 0..1 <br/> [Label](Label.md) | The name of the subject (child) of the matched/right edge, if matchable | direct |
 | [right_object_label](right_object_label.md) | 0..1 <br/> [Label](Label.md) | The name of the object (parent) of the matched/right edge, if matchable | direct |
 | [right_predicate_labels](right_predicate_labels.md) | 0..* <br/> [Label](Label.md) | The names corresponding to the right_predicate_ids | direct |
-| [left_subject_is_functional](left_subject_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | True if a subject mapping is present, and maps uniquely within the same ontol... | direct |
-| [left_object_is_functional](left_object_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | True if an object mapping is present, and maps uniquely within the same ontol... | direct |
+| [left_subject_is_functional](left_subject_is_functional.md) | 0..1 <br/> [Boolean](Boolean.md) | True if a subject mapping is present, and maps uniquely within the same ontol... | direct |
+| [left_object_is_functional](left_object_is_functional.md) | 0..1 <br/> [Boolean](Boolean.md) | True if an object mapping is present, and maps uniquely within the same ontol... | direct |
 | [subject_mapping_predicate](subject_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_subject_id and right_subject_id | direct |
 | [object_mapping_predicate](object_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_object_id and right_object_id | direct |
 | [right_intermediate_ids](right_intermediate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md) |  | direct |

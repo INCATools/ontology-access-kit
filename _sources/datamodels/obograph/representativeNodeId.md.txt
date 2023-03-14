@@ -24,7 +24,7 @@ URI: [obographs:representativeNodeId](https://github.com/geneontology/obographs/
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

@@ -14,9 +14,15 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
       Result <|-- RepairOperation
       
       RepairOperation : info
+        
       RepairOperation : modified
+        
       RepairOperation : repairs
+        
+          RepairOperation ..> ValidationResult : repairs
+        
       RepairOperation : successful
+        
       
 ```
 
@@ -35,9 +41,9 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [repairs](repairs.md) | 0..1 <br/> [ValidationResult](ValidationResult.md) |  | direct |
-| [modified](modified.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [successful](successful.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | direct |
+| [modified](modified.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [successful](successful.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [info](info.md) | 0..1 <br/> [String](String.md) | additional information about the issue | direct |
 
 
 

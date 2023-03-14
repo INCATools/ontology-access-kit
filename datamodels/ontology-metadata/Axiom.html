@@ -93,26 +93,61 @@
              classDiagram
     class Axiom
       Axiom : annotatedProperty
+        
+          Axiom ..&gt; AnnotationProperty : annotatedProperty
+        
       Axiom : annotatedSource
+        
+          Axiom ..&gt; NamedObject : annotatedSource
+        
       Axiom : annotatedTarget
+        
+          Axiom ..&gt; Any : annotatedTarget
+        
       Axiom : annotations
+        
+          Axiom ..&gt; Annotation : annotations
+        
       Axiom : comment
+        
       Axiom : created_by
+        
       Axiom : database_cross_reference
+        
       Axiom : date_retrieved
+        
       Axiom : evidence
+        
       Axiom : external_ontology
+        
       Axiom : has_axiom_label
+        
+          Axiom ..&gt; Thing : has_axiom_label
+        
       Axiom : has_exact_synonym
+        
       Axiom : has_synonym_type
+        
+          Axiom ..&gt; AnnotationProperty : has_synonym_type
+        
       Axiom : is_a_defining_property_chain_axiom
+        
       Axiom : is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
+        
       Axiom : is_inferred
+        
       Axiom : label
+        
       Axiom : notes
+        
       Axiom : seeAlso
+        
+          Axiom ..&gt; Thing : seeAlso
+        
       Axiom : source
+        
       Axiom : url
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -147,22 +182,22 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_inferred.html"><span class="doc std std-doc">is_inferred</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="notes.html"><span class="doc std std-doc">notes</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="url.html"><span class="doc std std-doc">url</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -172,32 +207,32 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_a_defining_property_chain_axiom.html"><span class="doc std std-doc">is_a_defining_property_chain_axiom</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.html"><span class="doc std std-doc">is_a_defining_property_chain_axiom_where_second_argument_is_reflexive</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="created_by.html"><span class="doc std std-doc">created_by</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="date_retrieved.html"><span class="doc std std-doc">date_retrieved</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="evidence.html"><span class="doc std std-doc">evidence</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="external_ontology.html"><span class="doc std std-doc">external_ontology</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -217,7 +252,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -310,8 +345,6 @@ slot_usage:
     domain_of:
     - HasMappings
     - Axiom
-    - HasMappings
-    - Axiom
 class_uri: owl:Axiom
 represents_relationship: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -335,8 +368,6 @@ slot_usage:
     exact_mappings:
     - dcterms:source
     domain_of:
-    - HasMappings
-    - Axiom
     - HasMappings
     - Axiom
 attributes:
@@ -540,8 +571,6 @@ attributes:
     alias: database_cross_reference
     owner: Axiom
     domain_of:
-    - HasMappings
-    - Axiom
     - HasMappings
     - Axiom
     range: CURIELiteral

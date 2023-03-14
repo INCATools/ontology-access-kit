@@ -92,10 +92,23 @@
              classDiagram
     class ComplexQuery
       ComplexQuery : all_of
+        
+          ComplexQuery ..&gt; ComplexQuery : all_of
+        
       ComplexQuery : any_of
+        
+          ComplexQuery ..&gt; ComplexQuery : any_of
+        
       ComplexQuery : atom
+        
+          ComplexQuery ..&gt; SearchBaseConfiguration : atom
+        
       ComplexQuery : none_of
+        
+          ComplexQuery ..&gt; ComplexQuery : none_of
+        
       ComplexQuery : path_to
+        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -125,7 +138,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="path_to.html"><span class="doc std std-doc">path_to</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>

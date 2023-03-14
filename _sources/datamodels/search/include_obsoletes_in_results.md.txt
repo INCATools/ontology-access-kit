@@ -22,7 +22,7 @@ URI: [ontosearch:include_obsoletes_in_results](https://w3id.org/oak/search-datam
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

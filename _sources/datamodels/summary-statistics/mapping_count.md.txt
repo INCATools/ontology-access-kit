@@ -29,7 +29,7 @@ URI: [summary_statistics:mapping_count](https://w3id.org/oaklib/summary_statisti
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

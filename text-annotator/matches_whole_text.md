@@ -23,7 +23,7 @@ URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_who
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

@@ -11,20 +11,28 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
     class HasMappings
       AnnotationPropertyMixin <|-- HasMappings
       
-      HasMappings : broadMatch
-      HasMappings : closeMatch
-      HasMappings : database_cross_reference
-      HasMappings : exactMatch
-      HasMappings : narrowMatch
-      
 
       HasMappings <|-- Term
       
+      
       HasMappings : broadMatch
+        
+          HasMappings ..> Thing : broadMatch
+        
       HasMappings : closeMatch
+        
+          HasMappings ..> Thing : closeMatch
+        
       HasMappings : database_cross_reference
+        
       HasMappings : exactMatch
+        
+          HasMappings ..> Thing : exactMatch
+        
       HasMappings : narrowMatch
+        
+          HasMappings ..> Thing : narrowMatch
+        
       
 ```
 

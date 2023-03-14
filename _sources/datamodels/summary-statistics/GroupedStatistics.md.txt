@@ -14,11 +14,27 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
       SummaryStatisticsReport <|-- GroupedStatistics
       
       GroupedStatistics : agents
+        
+          GroupedStatistics ..> Agent : agents
+        
       GroupedStatistics : compared_with
+        
+          GroupedStatistics ..> Ontology : compared_with
+        
       GroupedStatistics : id
+        
       GroupedStatistics : ontologies
+        
+          GroupedStatistics ..> Ontology : ontologies
+        
       GroupedStatistics : partitions
+        
+          GroupedStatistics ..> UngroupedStatistics : partitions
+        
       GroupedStatistics : was_generated_by
+        
+          GroupedStatistics ..> SummaryStatisticsCalculationActivity : was_generated_by
+        
       
 ```
 
@@ -37,7 +53,7 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [partitions](partitions.md) | 0..* <br/> [UngroupedStatistics](UngroupedStatistics.md) | statistics grouped by a particular property | direct |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Unique handle for this report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | Unique handle for this report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |

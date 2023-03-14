@@ -95,9 +95,21 @@
       Axiom &lt;|-- LogicalDefinitionAxiom
       
       LogicalDefinitionAxiom : definedClassId
+        
+          LogicalDefinitionAxiom ..&gt; None : definedClassId
+        
       LogicalDefinitionAxiom : genusIds
+        
+          LogicalDefinitionAxiom ..&gt; None : genusIds
+        
       LogicalDefinitionAxiom : meta
+        
+          LogicalDefinitionAxiom ..&gt; Meta : meta
+        
       LogicalDefinitionAxiom : restrictions
+        
+          LogicalDefinitionAxiom ..&gt; ExistentialRestrictionExpression : restrictions
+        
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -121,12 +133,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="definedClassId.html"><span class="doc std std-doc">definedClassId</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>The class that is defined by this axiom</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="genusIds.html"><span class="doc std std-doc">genusIds</span></a></p></td>
-<td><p>0..* <em>recommended</em> <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <em>recommended</em> <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
 <td><p>The set of classes that are the genus of the defined class</p></td>
 <td><p>direct</p></td>
 </tr>

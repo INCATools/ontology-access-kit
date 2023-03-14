@@ -14,20 +14,35 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
       PairwiseSimilarity <|-- TermPairwiseSimilarity
       
       TermPairwiseSimilarity : ancestor_id
+        
       TermPairwiseSimilarity : ancestor_information_content
+        
       TermPairwiseSimilarity : ancestor_label
+        
       TermPairwiseSimilarity : ancestor_source
+        
       TermPairwiseSimilarity : dice_similarity
+        
       TermPairwiseSimilarity : jaccard_similarity
+        
       TermPairwiseSimilarity : object_id
+        
       TermPairwiseSimilarity : object_information_content
+        
       TermPairwiseSimilarity : object_label
+        
       TermPairwiseSimilarity : object_source
+        
       TermPairwiseSimilarity : phenodigm_score
+        
       TermPairwiseSimilarity : subject_id
+        
       TermPairwiseSimilarity : subject_information_content
+        
       TermPairwiseSimilarity : subject_label
+        
       TermPairwiseSimilarity : subject_source
+        
       
 ```
 
@@ -45,15 +60,15 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_id](subject_id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The first of the two entities being compared | direct |
-| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the label or name for the first entity | direct |
-| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the source for the first entity | direct |
-| [object_id](object_id.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The second of the two entities being compared | direct |
-| [object_label](object_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the label or name for the second entity | direct |
-| [object_source](object_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the source for the second entity | direct |
-| [ancestor_id](ancestor_id.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the most recent common ancestor of the two compared entities | direct |
-| [ancestor_label](ancestor_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the name or label of the ancestor concept | direct |
-| [ancestor_source](ancestor_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [subject_id](subject_id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | The first of the two entities being compared | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | the label or name for the first entity | direct |
+| [subject_source](subject_source.md) | 0..1 <br/> [String](String.md) | the source for the first entity | direct |
+| [object_id](object_id.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The second of the two entities being compared | direct |
+| [object_label](object_label.md) | 0..1 <br/> [String](String.md) | the label or name for the second entity | direct |
+| [object_source](object_source.md) | 0..1 <br/> [String](String.md) | the source for the second entity | direct |
+| [ancestor_id](ancestor_id.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | the most recent common ancestor of the two compared entities | direct |
+| [ancestor_label](ancestor_label.md) | 0..1 <br/> [String](String.md) | the name or label of the ancestor concept | direct |
+| [ancestor_source](ancestor_source.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [object_information_content](object_information_content.md) | 0..1 <br/> [NegativeLogValue](NegativeLogValue.md) | The IC of the object | direct |
 | [subject_information_content](subject_information_content.md) | 0..1 <br/> [NegativeLogValue](NegativeLogValue.md) | The IC of the subject | direct |
 | [ancestor_information_content](ancestor_information_content.md) | 0..1 <br/> [NegativeLogValue](NegativeLogValue.md) | The IC of the object | direct |

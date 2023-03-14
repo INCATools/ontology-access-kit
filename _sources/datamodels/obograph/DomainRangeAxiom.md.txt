@@ -14,10 +14,19 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
       Axiom <|-- DomainRangeAxiom
       
       DomainRangeAxiom : allValuesFromEdges
+        
+          DomainRangeAxiom ..> Edge : allValuesFromEdges
+        
       DomainRangeAxiom : domainClassIds
+        
       DomainRangeAxiom : meta
+        
+          DomainRangeAxiom ..> Meta : meta
+        
       DomainRangeAxiom : predicateId
+        
       DomainRangeAxiom : rangeClassIds
+        
       
 ```
 
@@ -35,9 +44,9 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicateId](predicateId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [domainClassIds](domainClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [rangeClassIds](rangeClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [predicateId](predicateId.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [domainClassIds](domainClassIds.md) | 0..* <br/> [String](String.md) |  | direct |
+| [rangeClassIds](rangeClassIds.md) | 0..* <br/> [String](String.md) |  | direct |
 | [allValuesFromEdges](allValuesFromEdges.md) | 0..* <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 

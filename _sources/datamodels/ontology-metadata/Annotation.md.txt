@@ -12,7 +12,9 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
  classDiagram
     class Annotation
       Annotation : object
+        
       Annotation : predicate
+        
       
 ```
 
@@ -26,8 +28,8 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [object](object.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [predicate](predicate.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object](object.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

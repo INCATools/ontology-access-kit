@@ -11,18 +11,22 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCatego
     class HasCategory
       AnnotationPropertyMixin <|-- HasCategory
       
-      HasCategory : category
-      HasCategory : conformsTo
-      HasCategory : has_obo_namespace
-      HasCategory : in_subset
-      
 
       HasCategory <|-- Term
       
+      
       HasCategory : category
+        
       HasCategory : conformsTo
+        
+          HasCategory ..> Thing : conformsTo
+        
       HasCategory : has_obo_namespace
+        
       HasCategory : in_subset
+        
+          HasCategory ..> Subset : in_subset
+        
       
 ```
 
@@ -40,8 +44,8 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCatego
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [category](category.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> [String](String.md) |  | direct |
+| [category](category.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [in_subset](in_subset.md) | 0..* <br/> [Subset](Subset.md) | Maps an ontology element to a subset it belongs to | direct |
 | [conformsTo](conformsTo.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
 

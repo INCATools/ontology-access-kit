@@ -12,7 +12,13 @@ URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex
  classDiagram
     class LexicalIndex
       LexicalIndex : groupings
+        
+          LexicalIndex ..> LexicalGrouping : groupings
+        
       LexicalIndex : pipelines
+        
+          LexicalIndex ..> LexicalTransformationPipeline : pipelines
+        
       
 ```
 
