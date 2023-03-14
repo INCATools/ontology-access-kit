@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Iterable, Iterator, List, Optional, Tuple
 
 import networkx as nx
-import rustsim
+# import rustsim
 
 from oaklib.datamodels.similarity import (
     BestMatch,
