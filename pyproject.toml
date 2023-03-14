@@ -25,7 +25,7 @@ kgcl-schema = "^0.3.1"
 funowl = "^0.1.12"
 gilda = {version = "^0.10.1", optional = true}
 kgcl-rdflib = "^0.3.0"
-pystow = "^0.4.4"
+pystow = "^0.5.0"
 class-resolver = "^0.3.10"
 ontoportal-client = "0.0.3"
 bioregistry = "^0.5.64"
@@ -33,6 +33,7 @@ prefixmaps = "^0.1.2"
 ols-client = "^0.1.1"
 pandas = "^1.5.1"
 linkml-renderer = "^0.1.2"
+airium = "^0.2.5"
 rustsim = {version = "^0.1.1", optional = true}
 
 [tool.poetry.dev-dependencies]
