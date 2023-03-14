@@ -108,7 +108,7 @@ from oaklib.datamodels.vocabulary import (
     SYNONYM_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,
-    omd_slots,
+    omd_slots, STANDARD_ANNOTATION_PROPERTIES, HAS_RELATED_SYNONYM,
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
@@ -537,7 +537,9 @@ class SqlImplementation(
             subquery = self.session.query(RdfTypeStatement.subject).filter(
                 RdfTypeStatement.object == "owl:AnnotationProperty"
             )
-            q = q.filter(Statements.predicate.in_(subquery))
+            annotation_properties = {row.subject for row in subquery}
+            annotation_properties = annotation_properties.union(STANDARD_ANNOTATION_PROPERTIES)
+            q = q.filter(Statements.predicate.in_(tuple(annotation_properties)))
         for row in q.filter(Statements.subject == curie):
             if row.value is not None:
                 v = _python_value(row.value, row.datatype)
@@ -972,6 +974,15 @@ class SqlImplementation(
         logging.info(f"RBOX query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
+
+    def node_exists(self, curie: CURIE) -> bool:
+        return self.session.query(Statements).filter(
+            Statements.subject == curie
+        ).count() > 0
+
+    def check_node_exists(self, curie: CURIE) -> None:
+        if not self.node_exists(curie):
+            raise ValueError(f"Node {curie} does not exist")
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         for row in self.session.query(HasMappingStatement).filter(
@@ -1936,9 +1947,18 @@ class SqlImplementation(
                     )
                 )
             elif isinstance(patch, kgcl.NodeObsoletion):
+                self.check_node_exists(about)
                 self._set_predicate_value(
                     about, DEPRECATED_PREDICATE, value="true", datatype="xsd:string"
                 )
+                if isinstance(patch, kgcl.NodeObsoletionWithDirectReplacement):
+                    # TODO: allow switching between value and object
+                    self._set_predicate_value(
+                        about,
+                        TERM_REPLACED_BY,
+                        value=patch.has_direct_replacement,
+                        datatype="xsd:string",
+                    )
             elif isinstance(patch, kgcl.NodeDeletion):
                 self._execute(delete(Statements).where(Statements.subject == about))
             elif isinstance(patch, kgcl.NameBecomesSynonym):
@@ -1949,8 +1969,37 @@ class SqlImplementation(
                 self.apply_patch(
                     kgcl.NewSynonym(id=f"{patch.id}-2", about_node=about, new_value=label)
                 )
+            elif isinstance(patch, kgcl.SynonymReplacement):
+                q = self.session.query(Statements).filter(Statements.subject == about,
+                                                          Statements.value == patch.old_value)
+                predicate = None
+                for row in q:
+                    if predicate is None:
+                        predicate = row.predicate
+                    else:
+                        if predicate != row.predicate:
+                            if predicate in SYNONYM_PREDICATES:
+                                predicate = row.predicate
+                            else:
+                                raise ValueError(f"Multiple predicates for synonym: {about} "+
+                                                 f"syn: {patch.old_value} preds={predicate}, {row.predicate}")
+                logging.debug(f"replacing synonym with predicate: {predicate}")
+                self._execute(
+                    delete(Statements).where(
+                        and_(
+                            Statements.subject == about,
+                            Statements.predicate == predicate,
+                            Statements.value == patch.old_value,
+                        )
+                    )
+                )
+                self._execute(
+                    insert(Statements).values(
+                        subject=about, predicate=predicate, value=patch.new_value
+                    )
+                )
             else:
-                raise NotImplementedError
+                raise NotImplementedError(f"Unknown patch type: {type(patch)}")
         elif isinstance(patch, kgcl.EdgeChange):
             about = patch.about_edge
             if isinstance(patch, kgcl.EdgeCreation):

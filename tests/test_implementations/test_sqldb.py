@@ -732,6 +732,14 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_patcher(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+
+        self.compliance_tester.test_patcher(
+            oi, self.oi,
+        )
+
+    def test_patcher_extra(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         # oi.autosave = True
         oi.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS))
         # with self.assertRaises(ValueError) as e:

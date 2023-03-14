@@ -63,7 +63,6 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn("GO:0005737", rels[PART_OF])
         rels = oi.outgoing_relationship_map(NUCLEUS)
-        print(rels)
 
     def test_instance_graph(self):
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_INST_RDF)))

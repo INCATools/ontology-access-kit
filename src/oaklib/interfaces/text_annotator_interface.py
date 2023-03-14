@@ -111,7 +111,7 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                 if k in text_lower:
                     ix = text_lower.index(k)
                     # TODO: make configurable. Exclude mid-word matches
-                    if ix > 0 and text_lower[ix].isalpha():
+                    if ix > 0 and text_lower[ix - 1].isalpha():
                         continue
                     # end = ix + len(k)
                     # if end < len(text_lower) and text_lower[end].isalpha():

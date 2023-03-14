@@ -1,3 +1,4 @@
+import logging
 import unittest
 
 from funowl import EquivalentClasses, SubClassOf
@@ -34,7 +35,7 @@ class TestFunOwlImplementation(unittest.TestCase):
         if isinstance(oi, OboGraphInterface):
             for curie in curies:
                 for rel in oi.outgoing_relationships(curie):
-                    print(rel)
+                    logging.info(rel)
         else:
             raise NotImplementedError
 
