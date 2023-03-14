@@ -73,6 +73,8 @@ class StreamingSssomWriter(StreamingWriter):
 
     def close(self):
         mset = MappingSet(mapping_set_id="temp", mappings=self.mappings, license="UNSPECIFIED")
-        doc = MappingSetDocument(prefix_map={}, mapping_set=mset)
+        prefix_map = self.ontology_interface.prefix_map()
+        doc = MappingSetDocument(prefix_map=prefix_map, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
+        msdf.clean_prefix_map()
         write_table(msdf, self.file)
