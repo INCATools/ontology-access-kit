@@ -392,6 +392,7 @@ class ProntoImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         for s in self._relationship_index.keys():
             if subjects is not None and s not in subjects:
@@ -807,6 +808,8 @@ class ProntoImplementation(
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._entity(patch.about_node, strict=True)
             t.obsolete = True
+            if isinstance(patch, kgcl.NodeObsoletionWithDirectReplacement):
+                t.replaced_by = [self._entity(patch.has_direct_replacement)]
         elif isinstance(patch, kgcl.NodeDeletion):
             t = self._entity(patch.about_node, strict=True)
             raise NotImplementedError

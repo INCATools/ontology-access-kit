@@ -1676,6 +1676,8 @@ def viz(
     logging.info(f"Drawing graph seeded from {curies}")
     if meta:
         impl.add_metadata(graph)
+    if not graph.nodes:
+        raise ValueError(f"No nodes in graph for {curies}")
     # TODO: abstract this out
     if output_type:
         write_graph(graph, format=output_type, output=output)

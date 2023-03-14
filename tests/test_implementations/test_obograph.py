@@ -134,8 +134,6 @@ class TestOboGraphImplementation(unittest.TestCase):
 
     def test_synonyms_extra(self):
         syns = self.oi.entity_aliases("GO:0005575")
-        print(syns)
-        # logging.info(syns)
         self.assertCountEqual(
             syns,
             [

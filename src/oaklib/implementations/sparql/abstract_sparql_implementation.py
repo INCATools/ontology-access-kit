@@ -448,6 +448,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = True,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships
