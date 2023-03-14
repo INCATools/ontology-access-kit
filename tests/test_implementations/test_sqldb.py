@@ -734,7 +734,8 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
 
         self.compliance_tester.test_patcher(
-            oi, self.oi,
+            oi,
+            self.oi,
         )
 
     def test_patcher_extra(self):

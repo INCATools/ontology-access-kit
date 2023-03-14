@@ -1,6 +1,5 @@
 import logging
 import unittest
-from copy import deepcopy
 
 import pronto
 from kgcl_schema.datamodel import kgcl
@@ -384,9 +383,7 @@ class TestProntoImplementation(unittest.TestCase):
             resource2 = OntologyResource(slug=out_file, local=True)
             return ProntoImplementation(resource2)
 
-        self.compliance_tester.test_patcher(
-            oi, self.oi, roundtrip_function=roundtrip
-        )
+        self.compliance_tester.test_patcher(oi, self.oi, roundtrip_function=roundtrip)
 
     def test_patcher_extra(self):
         resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)

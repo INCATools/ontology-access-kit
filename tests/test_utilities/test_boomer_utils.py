@@ -24,7 +24,7 @@ class TestBoomerUtils(unittest.TestCase):
         ]
         for minc, maxc, expected_n in cases:
             ms = list(ben.mappings(minimum_confidence=minc, maximum_confidence=maxc))
-            #for m in ms:
+            # for m in ms:
             #    print(m)
             self.assertEqual(expected_n, len(ms))
 

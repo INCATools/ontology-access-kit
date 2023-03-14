@@ -104,11 +104,12 @@ from oaklib.datamodels.vocabulary import (
     RDFS_DOMAIN,
     RDFS_RANGE,
     SEMAPV,
+    STANDARD_ANNOTATION_PROPERTIES,
     SUBPROPERTY_OF,
     SYNONYM_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,
-    omd_slots, STANDARD_ANNOTATION_PROPERTIES, HAS_RELATED_SYNONYM,
+    omd_slots,
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
@@ -976,9 +977,7 @@ class SqlImplementation(
             yield row.subject, row.predicate, row.object
 
     def node_exists(self, curie: CURIE) -> bool:
-        return self.session.query(Statements).filter(
-            Statements.subject == curie
-        ).count() > 0
+        return self.session.query(Statements).filter(Statements.subject == curie).count() > 0
 
     def check_node_exists(self, curie: CURIE) -> None:
         if not self.node_exists(curie):
@@ -1970,8 +1969,9 @@ class SqlImplementation(
                     kgcl.NewSynonym(id=f"{patch.id}-2", about_node=about, new_value=label)
                 )
             elif isinstance(patch, kgcl.SynonymReplacement):
-                q = self.session.query(Statements).filter(Statements.subject == about,
-                                                          Statements.value == patch.old_value)
+                q = self.session.query(Statements).filter(
+                    Statements.subject == about, Statements.value == patch.old_value
+                )
                 predicate = None
                 for row in q:
                     if predicate is None:
@@ -1981,13 +1981,16 @@ class SqlImplementation(
                             if predicate in SYNONYM_PREDICATES:
                                 predicate = row.predicate
                             else:
-                                raise ValueError(f"Multiple predicates for synonym: {about} "+
-                                                 f"syn: {patch.old_value} preds={predicate}, {row.predicate}")
+                                raise ValueError(
+                                    f"Multiple predicates for synonym: {about} "
+                                    + f"syn: {patch.old_value} preds={predicate}, {row.predicate}"
+                                )
                 logging.debug(f"replacing synonym with predicate: {predicate}")
                 self._execute(
                     delete(Statements).where(
                         and_(
                             Statements.subject == about,
+                            Statements.predicate == predicate,
                             Statements.predicate == predicate,
                             Statements.value == patch.old_value,
                         )

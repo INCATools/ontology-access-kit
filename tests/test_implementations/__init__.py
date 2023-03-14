@@ -14,7 +14,7 @@ import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
-from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.dumpers import json_dumper
 
 from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
 from oaklib.datamodels import obograph
@@ -869,16 +869,17 @@ class ComplianceTester:
                     ],
                     oi.entity_aliases(CELLULAR_COMPONENT),
                 ),
-                [kgcl.NewSynonym(
-                    id=generate_change_id(),
-                    about_node=CELLULAR_COMPONENT,
-                    new_value="foo bar",
-                ),
-                kgcl.RemoveSynonym(
-                    id=generate_change_id(),
-                    about_node=CELLULAR_COMPONENT,
-                    old_value="subcellular entity",
-                )
+                [
+                    kgcl.NewSynonym(
+                        id=generate_change_id(),
+                        about_node=CELLULAR_COMPONENT,
+                        new_value="foo bar",
+                    ),
+                    kgcl.RemoveSynonym(
+                        id=generate_change_id(),
+                        about_node=CELLULAR_COMPONENT,
+                        old_value="subcellular entity",
+                    ),
                 ],
             ),
             (
@@ -925,7 +926,7 @@ class ComplianceTester:
                     expanded_changes = [change]
                 for change in expanded_changes:
                     change_obj = _as_json_dict_no_id(change)
-                    #if "old_value" in change_obj:
+                    # if "old_value" in change_obj:
                     #    del change_obj["old_value"]
                     expected_changes.append(change_obj)
         # perform a diff between the original ontology and the post-change ontology;
@@ -937,7 +938,7 @@ class ComplianceTester:
                 logging.info(kgcl_diff)
                 change_obj = _as_json_dict_no_id(diff)
                 if "old_value" in change_obj and "new_value" in change_obj:
-                   del change_obj["old_value"]
+                    del change_obj["old_value"]
                 if change_obj in expected_changes:
                     expected_changes.remove(change_obj)
                 else:
