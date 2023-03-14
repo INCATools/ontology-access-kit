@@ -115,6 +115,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         hier_parents = list(oi.hierararchical_parents(VACUOLE))
         self.assertEqual([IMBO], hier_parents)
 
+    def test_rbox_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=str(DB)))
+        self.compliance_tester.test_rbox_relationships(oi)
+
     def test_instance_graph(self):
         oi = self.inst_oi
         entities = list(oi.entities())

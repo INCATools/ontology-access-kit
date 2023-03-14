@@ -92,16 +92,19 @@ from oaklib.datamodels.vocabulary import (
     HAS_SYNONYM_TYPE,
     IN_CATEGORY_PREDS,
     IN_SUBSET,
+    INVERSE_OF,
     IS_A,
     LABEL_PREDICATE,
     OBSOLETION_RELATIONSHIP_PREDICATES,
-    OWL_CLASS,
-    OWL_NAMED_INDIVIDUAL,
+    OWL_META_CLASSES,
     OWL_NOTHING,
     OWL_THING,
     PREFIX_PREDICATE,
     RDF_TYPE,
+    RDFS_DOMAIN,
+    RDFS_RANGE,
     SEMAPV,
+    SUBPROPERTY_OF,
     SYNONYM_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,
@@ -738,7 +741,7 @@ class SqlImplementation(
         for row in q:
             add(row)
         q = self.session.query(Statements.subject, Statements.predicate, Statements.object)
-        q = q.filter(Statements.predicate == RDF_TYPE)
+        q = q.filter(Statements.predicate.in_((RDF_TYPE, RDFS_DOMAIN, RDFS_RANGE, INVERSE_OF)))
         for row in q:
             add(row)
         q = self.session.query(Statements.subject, Statements.predicate, Statements.object)
@@ -777,7 +780,7 @@ class SqlImplementation(
                         continue
                     if exclude_blank and (_is_blank(s) or _is_blank(o)):
                         continue
-                    if p == RDF_TYPE and (o == OWL_CLASS or o == OWL_NAMED_INDIVIDUAL):
+                    if p == RDF_TYPE and o in OWL_META_CLASSES:
                         continue
                     yield s, p, o
             return
@@ -836,6 +839,10 @@ class SqlImplementation(
                     if exclude_blank and (_is_blank(s) or _is_blank(o)):
                         continue
                     yield o, p, s
+            for s, p, o in self._rbox_relationships(subjects, predicates, objects):
+                if exclude_blank and (_is_blank(s) or _is_blank(o)):
+                    continue
+                yield s, p, o
         if include_abox:
             for s, p, o in self._rdf_type_relationships(subjects, predicates, objects):
                 if exclude_blank and (_is_blank(s) or _is_blank(o)):
@@ -884,7 +891,9 @@ class SqlImplementation(
         if subjects:
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if predicates:
-            predicates = set(predicates).difference({IS_A, RDF_TYPE})
+            predicates = set(predicates).difference(
+                {IS_A, RDF_TYPE, SUBPROPERTY_OF, RDFS_DOMAIN, RDFS_RANGE, INVERSE_OF}
+            )
             if not predicates:
                 return
             q = q.filter(Statements.predicate.in_(tuple(predicates)))
@@ -940,6 +949,27 @@ class SqlImplementation(
         cls_subq = self.session.query(ClassNode.id)
         q = q.filter(Statements.object.in_(cls_subq))
         logging.info(f"ECA query: {q}")
+        for row in q:
+            yield row.subject, row.predicate, row.object
+
+    def _rbox_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        rbox_predicates = {RDFS_DOMAIN, RDFS_RANGE, INVERSE_OF}
+        if predicates:
+            rbox_predicates = rbox_predicates.intersection(predicates)
+            if not predicates:
+                return
+        q = self.session.query(Statements.subject, Statements.predicate, Statements.object)
+        q = q.filter(Statements.predicate.in_(tuple(rbox_predicates)))
+        if subjects:
+            q = q.filter(Statements.subject.in_(tuple(subjects)))
+        if objects:
+            q = q.filter(Statements.object.in_(tuple(objects)))
+        logging.info(f"RBOX query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 

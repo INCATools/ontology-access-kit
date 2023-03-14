@@ -14,6 +14,30 @@
             "arrowhead": "open",
             "label": "ⓘ"
         },
+        "rdfs:subPropertyOf": {
+            "color": "black",
+            "penwidth": 3,
+            "arrowhead": "open",
+            "label": "ⓘ"
+        },
+        "owl:inverseOf": {
+            "color": "blue:invis:blue",
+            "penwidth": 2,
+            "arrowhead": "none",
+            "label": "R⁻¹"
+        },
+        "rdfs:domain": {
+            "color": "chartreuse4",
+            "penwidth": 2,
+            "arrowhead": "crow",
+            "label": "Ⓓ"
+        },
+        "rdfs:range": {
+            "color": "chartreuse4",
+            "penwidth": 2,
+            "arrowhead": "crow",
+            "label": "Ⓡ"
+        },
         "rdf:type": {
             "color": "blue",
             "arrowhead": "open",

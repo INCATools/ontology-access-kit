@@ -31,6 +31,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
     HAS_PART,
+    INVERSE_OF,
     IS_A,
     LOCATED_IN,
     NEVER_IN_TAXON,
@@ -42,6 +43,9 @@ from oaklib.datamodels.vocabulary import (
     OWL_CLASS,
     OWL_THING,
     PART_OF,
+    RDFS_DOMAIN,
+    RDFS_RANGE,
+    SUBPROPERTY_OF,
     TERM_REPLACED_BY,
     TERM_TRACKER_ITEM,
 )
@@ -66,6 +70,7 @@ from tests import (
     BACTERIA,
     BIOLOGICAL_PROCESS,
     CATALYTIC_ACTIVITY,
+    CAUSALLY_UPSTREAM_OF,
     CELL,
     CELL_CORTEX,
     CELL_CORTEX_REGION,
@@ -99,8 +104,10 @@ from tests import (
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
     PLASMA_MEMBRANE,
+    PROCESS,
     PROTEIN1,
     PROTEIN2,
+    REGULATED_BY,
     REGULATES,
     SUBATOMIC_PARTICLE,
     VACUOLE,
@@ -422,6 +429,34 @@ class ComplianceTester:
                 test.assertEqual([expected_rel], rels)
                 irels = list(oi.incoming_relationships(o, predicates=[p]))
                 test.assertIn((p, s), irels)
+
+    def test_rbox_relationships(self, oi: BasicOntologyInterface):
+        """
+        Tests relationships between relationship types
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (REGULATES, [CAUSALLY_UPSTREAM_OF], REGULATED_BY, PROCESS, PROCESS),
+        ]
+        for curie, is_as, inv, domain, range in cases:
+            logging.info(f"TESTS FOR {curie}")
+            for p, expected in [
+                (SUBPROPERTY_OF, is_as),
+                (RDFS_DOMAIN, [domain]),
+                (RDFS_RANGE, [range]),
+                (INVERSE_OF, [inv]),
+            ]:
+                parents = [r[2] for r in oi.relationships([curie], predicates=[p])]
+                test.assertCountEqual(
+                    expected, parents, f"expected {p}({curie}) = {expected} got {parents}"
+                )
+                parents = [r[2] for r in oi.relationships([curie]) if r[1] == p]
+                test.assertCountEqual(
+                    expected, parents, f"expected {p}({curie}) = {expected} got {parents}"
+                )
 
     def test_equiv_relationships(self, oi: BasicOntologyInterface):
         """
