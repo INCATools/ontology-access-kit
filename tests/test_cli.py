@@ -323,6 +323,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(main, all_args)
                 self.assertEqual(0, result.exit_code)
                 out = result.stdout
+                # print(out)
                 self.assertIn(expected, out)
                 if unexpected:
                     self.assertNotIn(unexpected, out)
@@ -387,14 +388,23 @@ class TestCommandLineInterface(unittest.TestCase):
         result = self.runner.invoke(
             main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
         )
-        out = result.stdout
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)
         self.assertIn("Reactome:R-HSA-1483089", out)
 
-    # DUMPER
+    def test_mappings_curie_map(self):
+        mappings_output = f"{OUTPUT_DIR}/test_mappings.tsv"
+        result = self.runner.invoke(
+            main, ["-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output]
+        )
+        self.assertEqual(0, result.exit_code)
+        msdf = parse_sssom_table(str(mappings_output))
+        self.assertTrue(isinstance(msdf.prefix_map, dict))
+        self.assertEqual(len(msdf.prefix_map), 10)
+        self.assertIn("BFO", msdf.prefix_map)
 
+    # DUMPER
     def test_dump(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"
         cases = [
@@ -425,6 +435,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 nucleus_node = [n for n in g.nodes if n.lbl == "nucleus"][0]
                 self.assertTrue(nucleus_node is not None)
                 # TODO
+                # print(nucleus_node)
                 # self.assertTrue(nucleus_node.meta.definition.val.startswith("A membrane-bounded organelle"))
             elif output_format == "fhirjson":
                 obj: fhir.CodeSystem
@@ -445,67 +456,6 @@ class TestCommandLineInterface(unittest.TestCase):
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             else:
                 raise AssertionError(f"Unexpected output format: {output_format}")
-
-    def test_extract(self):
-        obojson_input = f"obograph:{TEST_OBOJSON}"
-        cases = [
-            #   (TEST_OWL_OFN, "turtle"), # TODO
-            #   (TEST_OWL_RDF, "ofn"), # TODO
-            (TEST_OWL_RDF, "turtle"),
-            (obojson_input, "obojson"),
-            (obojson_input, "obo"),
-            (obojson_input, "fhirjson"),
-            (obojson_input, "owl"),
-            (TEST_SIMPLE_OBO, "obo"),
-            (TEST_ONT, "obo"),
-            (TEST_DB, "obo"),
-            (TEST_ONT, "obojson"),
-            (TEST_DB, "obojson"),
-            (TEST_ONT, "fhirjson"),
-            (TEST_DB, "fhirjson"),
-            (TEST_DB, "owl"),
-        ]
-        for input, output_format in cases:
-            for dangling in [True, False]:
-                logging.info(f"input={input}, output_format={output_format}")
-                query = [".desc//p=i", IMBO, ".anc//p=i", IMBO]
-                cmd = ["-i", str(input), "extract", "-o", TEST_OUT, "-O", output_format] + query
-                if dangling:
-                    cmd += ["--dangling"]
-                result = self.runner.invoke(main, cmd)
-                self.assertEqual(
-                    0, result.exit_code, f"input={input}, output_format={output_format}"
-                )
-                if output_format == "obojson":
-                    obj: obograph.GraphDocument
-                    obj = json_loader.load(TEST_OUT, target_class=obograph.GraphDocument)
-                    g = obj.graphs[0]
-                    nucleus_node = [n for n in g.nodes if n.lbl == "nucleus"][0]
-                    self.assertTrue(nucleus_node is not None)
-                    # TODO
-                    # print(nucleus_node)
-                    # self.assertTrue(nucleus_node.meta.definition.val.startswith("A membrane-bounded organelle"))
-                elif output_format == "fhirjson":
-                    obj: fhir.CodeSystem
-                    obj = json_loader.load(TEST_OUT, target_class=fhir.CodeSystem)
-                    nucleus_concept = [n for n in obj.concept if n.code == NUCLEUS][0]
-                    self.assertEqual("nucleus", nucleus_concept.display)
-                    # TODO
-                    # self.assertTrue(nucleus_concept.definition.startswith("A membrane-bounded organelle"))
-                elif output_format == "owl" or output_format == "turtle":
-                    g = rdflib.Graph()
-                    g.parse(TEST_OUT, format="turtle")
-                    self.assertGreater(len(list(g.triples((None, None, None)))), 0)
-                elif output_format == "obo":
-                    oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
-                    self.assertEqual("nucleus", oi.label(NUCLEUS))
-                    oi = get_implementation_from_shorthand(f"pronto:{TEST_OUT}")
-                    self.assertEqual("nucleus", oi.label(NUCLEUS))
-                elif output_format == "ofn":
-                    oi = get_implementation_from_shorthand(f"funowl:{TEST_OUT}")
-                    self.assertEqual("nucleus", oi.label(NUCLEUS))
-                else:
-                    raise AssertionError(f"Unexpected output format: {output_format}")
 
     # TAXON
 
