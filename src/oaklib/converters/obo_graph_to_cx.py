@@ -3,7 +3,6 @@ import sys
 from dataclasses import dataclass
 from typing import Dict
 
-
 from oaklib.converters.data_model_converter import DataModelConverter
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.types import CURIE
@@ -46,11 +45,7 @@ class OboGraphToCXConverter(DataModelConverter):
         for g in source.graphs:
             for n in g.nodes:
                 node_id_map[n.id] = next_id
-                node = {
-                    "@id": next_id,
-                    "n": n.lbl,
-                    "r": self._id(n.id)
-                }
+                node = {"@id": next_id, "n": n.lbl, "r": self._id(n.id)}
                 next_id += 1
                 cx_nodes.append(node)
             for e in g.edges:
@@ -58,19 +53,10 @@ class OboGraphToCXConverter(DataModelConverter):
                 t = node_id_map.get(e.obj, None)
                 if not s or not t:
                     continue
-                edge = {
-                   "@id": next_id,
-                    "s": s,
-                    "t": t,
-                    "i": self._id(e.pred)
-                }
+                edge = {"@id": next_id, "s": s, "t": t, "i": self._id(e.pred)}
                 next_id += 1
                 cx_edges.append(edge)
-        doc = [
-            cx_metadata,
-            {"nodes": cx_nodes},
-            {"edges": cx_edges}
-        ]
+        doc = [cx_metadata, {"nodes": cx_nodes}, {"edges": cx_edges}]
         return doc
 
     def _id(self, uri: CURIE) -> CURIE:
