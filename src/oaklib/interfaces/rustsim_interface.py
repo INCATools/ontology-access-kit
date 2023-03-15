@@ -20,6 +20,8 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.obograph_utils import as_digraph
 
+# import rustsim
+
 
 class RustSimilarityInterface(BasicOntologyInterface, ABC):
     """
