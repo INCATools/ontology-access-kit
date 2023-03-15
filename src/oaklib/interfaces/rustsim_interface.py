@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Iterable, Iterator, List, Optional, Tuple
 
 import networkx as nx
-# import rustsim
+from rustsim import jaccard_similarity
 
 from oaklib.datamodels.similarity import (
     BestMatch,
@@ -19,9 +19,6 @@ from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.obograph_utils import as_digraph
-from oaklib.utilities.semsim.similarity_utils import (
-    setwise_jaccard_similarity,  # TODO: switch this out for a rustsim import
-)
 
 
 class RustSimilarityInterface(BasicOntologyInterface, ABC):
@@ -180,7 +177,7 @@ class RustSimilarityInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    # TODO: switch out jaccard and resnik functions for rustsim versions
+    # TODO: switch out resnik function for rustsim version
     def pairwise_similarity(
         self,
         subject: CURIE,
@@ -236,7 +233,7 @@ class RustSimilarityInterface(BasicOntologyInterface, ABC):
         if object_ancestors is None and isinstance(self, OboGraphInterface):
             object_ancestors = self.ancestors(object, predicates=predicates)
         if subject_ancestors is not None and object_ancestors is not None:
-            sim.jaccard_similarity = setwise_jaccard_similarity(subject_ancestors, object_ancestors)
+            sim.jaccard_similarity = jaccard_similarity(set(subject_ancestors), set(object_ancestors))
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(
                 sim.jaccard_similarity * sim.ancestor_information_content
