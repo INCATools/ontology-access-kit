@@ -17,6 +17,9 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from pronto import LiteralPropertyValue, Ontology, ResourcePropertyValue, Term
 
+from oaklib.converters.obo_graph_to_obo_format_converter import (
+    OboGraphToOboFormatConverter,
+)
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
 from oaklib.datamodels.search import SearchConfiguration
@@ -209,13 +212,16 @@ class ProntoImplementation(
 
     def load_graph(self, graph: Graph, replace: True) -> None:
         if replace:
-            self.load_graph_using_jsondoc(graph, replace)
-            return
-        if replace:
-            ont = self.wrapped_ontology
-        else:
-            ont = Ontology()
+            converter = OboGraphToOboFormatConverter()
+            gd = GraphDocument(graphs=[graph])
+            tf = tempfile.NamedTemporaryFile()
+            converter.dump(gd, tf.name)
+            tf.flush()
+            ont = Ontology(tf.name)
             self.wrapped_ontology = ont
+            self._relationship_index_cache = None
+            self._alt_id_to_replacement_map = None
+            return
         for n in graph.nodes:
             if n.id == IS_A:
                 pass
