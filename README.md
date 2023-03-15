@@ -1,4 +1,4 @@
-# Ontology Access Kit
+# Ontology Access Kit (OAK)
 
 Python lib for common ontology operations over a variety of backends.
 
