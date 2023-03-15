@@ -55,6 +55,7 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.obolegacy_interface import OboLegacyInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -96,6 +97,7 @@ class ProntoImplementation(
     SummaryStatisticsInterface,
     TaxonConstraintInterface,
     DumperInterface,
+    MergeInterface,
 ):
     """
     Pronto wraps local-file based ontologies in the following formats:
@@ -206,6 +208,9 @@ class ProntoImplementation(
             raise NotImplementedError(f"Cannot dump to {resource}")
 
     def load_graph(self, graph: Graph, replace: True) -> None:
+        if replace:
+            self.load_graph_using_jsondoc(graph, replace)
+            return
         if replace:
             ont = self.wrapped_ontology
         else:
@@ -431,14 +436,20 @@ class ProntoImplementation(
         label: Optional[str] = None,
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
+        replace=False,
     ) -> CURIE:
         ont = self.wrapped_ontology
-        if not type or type == "CLASS":
-            t = ont.create_term(curie)
-        elif type == "PROPERTY":
-            t = ont.create_relationship(curie)
-        else:
-            raise ValueError(f"Pronto cannot handle type of {type} for {curie}")
+        t = self._entity(curie, False)
+        if t:
+            if replace:
+                t = None
+        if not t:
+            if not type or type == "CLASS":
+                t = ont.create_term(curie)
+            elif type == "PROPERTY":
+                t = ont.create_relationship(curie)
+            else:
+                raise ValueError(f"Pronto cannot handle type of {type} for {curie}")
         t.name = label
         if relationships:
             for pred, fillers in relationships.items():

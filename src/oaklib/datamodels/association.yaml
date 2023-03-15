@@ -27,16 +27,40 @@ classes:
       - predicate
       - object
       - property_values
+
+  NegatedAssociation:
+    description: A negated association between a thing (subject) and another thing (object).
+    slots:
+      - subject
+      - predicate
+      - object
+      - property_values
+
   PropertyValue:
     description: A generic tag-value that can be associated with an association.
     slots:
       - predicate
       - object
+
   RollupGroup:
     slots:
       - group_object
       - sub_groups
       - associations
+
+  ParserConfiguration:
+    attributes:
+      preserve_negated_associations:
+        range: boolean
+        description: |-
+          If true, then the parser will keep negated associations in the output.
+          If false, then the parser will remove negated associations from the output.
+      include_association_attributes:
+        range: boolean
+        description: |-
+          If true, then the parser will include non S/P/O properties as additional attributes.
+          This may result in slower parsing
+      
 
 slots:
   subject:

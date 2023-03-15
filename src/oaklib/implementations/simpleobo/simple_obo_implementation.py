@@ -21,11 +21,15 @@ from typing import (
 import sssom_schema as sssom
 from kgcl_schema.datamodel import kgcl
 
+from oaklib.converters.obo_graph_to_obo_format_converter import (
+    OboGraphToOboFormatConverter,
+)
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import (
     Edge,
     ExistentialRestrictionExpression,
     Graph,
+    GraphDocument,
     LogicalDefinitionAxiom,
     SynonymPropertyValue,
 )
@@ -92,6 +96,7 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.obolegacy_interface import PRED_CODE, OboLegacyInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -123,6 +128,7 @@ class SimpleOboImplementation(
     SummaryStatisticsInterface,
     TaxonConstraintInterface,
     DumperInterface,
+    MergeInterface,
 ):
     """
     Simple OBO-file backed implementation
@@ -166,6 +172,14 @@ class SimpleOboImplementation(
                 od.dump(sys.stdout.buffer)
         else:
             raise NotImplementedError(f"Cannot dump to {resource}")
+
+    def load_graph(self, graph: Graph, replace: True) -> None:
+        if not replace:
+            raise NotImplementedError("Cannot merge obograph")
+        converter = OboGraphToOboFormatConverter()
+        self.obo_document = OboDocument()
+        gd = GraphDocument(graphs=[graph])
+        converter.convert(gd, self.obo_document)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
@@ -338,6 +352,7 @@ class SimpleOboImplementation(
         label: Optional[str] = None,
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
+        replace=False,
     ) -> CURIE:
         if type is None or type == OWL_CLASS:
             type = "Term"
@@ -345,9 +360,18 @@ class SimpleOboImplementation(
             type = "Typedef"
         else:
             raise ValueError(f"Cannot handle type: {type}")
-        stanza = Stanza(id=curie, type=type)
+        stanza = self._stanza(curie, False)
+        if stanza:
+            if replace:
+                stanza = None
+        if not stanza:
+            stanza = Stanza(id=curie, type=type)
         stanza.add_tag_value(TAG_NAME, label)
         self.obo_document.add_stanza(stanza)
+        if relationships:
+            for pred, fillers in relationships.items():
+                for filler in fillers:
+                    self.add_relationship(curie, pred, filler)
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
         t = self._stanza(curie)

@@ -105,6 +105,7 @@ from oaklib.interfaces.differ_interface import (
     DifferInterface,
 )
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
@@ -746,7 +747,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
         else:
             # term is not query syntax: feed directly to search
             if not isinstance(impl, SearchInterface):
-                raise NotImplementedError
+                raise NotImplementedError(f"Search not implemented for {type(impl)}")
             cfg = create_search_configuration(term)
             logging.info(f"Search config: {term} => {cfg}")
             chain_results(impl.basic_search(cfg.search_terms[0], config=cfg))
@@ -799,6 +800,12 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 @input_option
 @input_type_option
 @add_option
+@click.option(
+    "--merge/--no-merge",
+    default=False,
+    show_default=True,
+    help="Merge all inputs specified using --add",
+)
 def main(
     verbose: int,
     quiet: bool,
@@ -806,6 +813,7 @@ def main(
     input: str,
     input_type: str,
     add: List,
+    merge: bool,
     associations: List,
     associations_type: str,
     save_as: str,
@@ -849,11 +857,19 @@ def main(
         logging.info(f"RESOURCE={resource}")
         settings.impl = impl_class(resource)
         settings.impl.autosave = autosave
+    if merge and not add:
+        raise ValueError("Cannot use --merge without --add")
     if add:
         impls = [get_implementation_from_shorthand(d) for d in add]
-        if settings.impl:
-            impls = [settings.impl] + impls
-        settings.impl = AggregatorImplementation(implementations=impls)
+        if merge:
+            if isinstance(settings.impl, MergeInterface):
+                settings.impl.merge(impls)
+            else:
+                raise NotImplementedError(f"{type(settings.impl)} does not implement merging")
+        else:
+            if settings.impl:
+                impls = [settings.impl] + impls
+            settings.impl = AggregatorImplementation(implementations=impls)
     settings.associations_type = associations_type
     if associations:
         if isinstance(settings.impl, AssociationProviderInterface):

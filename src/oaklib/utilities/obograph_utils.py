@@ -372,6 +372,62 @@ def trim_graph(
     return new_graph
 
 
+def merge_graphs(source: Graph, target: Graph, replace: bool = False) -> Graph:
+    """
+    Merge two graphs into a single graph
+
+    :param source: source graph
+    :param target: target graph
+    :param replace: if true, replace nodes that share the same id
+    :return: merged graph
+    """
+    new_graph = deepcopy(target)
+    nix = index_graph_nodes(target)
+    for node in source.nodes:
+        if replace or node.id not in nix:
+            new_graph.nodes.append(node)
+        else:
+            nix[node.id] = merge_graph_nodes(nix[node.id], node)
+    for edge in source.edges:
+        if edge not in target.edges:
+            new_graph.edges.append(edge)
+    return new_graph
+
+
+def merge_graph_nodes(target: Node, source: Node) -> Node:
+    """
+    Merge two nodes into a single node
+
+    :param target:
+    :param source:
+    :return:
+    """
+    new_node = Node(id=target.id, lbl=target.lbl, meta=target.meta)
+    if source.lbl:
+        new_node.lbl = source.lbl
+    if not new_node.meta:
+        new_node.meta = source.meta
+        return new_node
+    source_meta = source.meta
+    if not source_meta:
+        return new_node
+    if source_meta.definition:
+        new_node.meta.definition = source_meta.definition
+    if source_meta.synonyms:
+        for s in source_meta.synonyms:
+            if s not in new_node.meta.synonyms:
+                new_node.meta.synonyms.append(s)
+    if source_meta.xrefs:
+        for x in source_meta.xrefs:
+            if x not in new_node.meta.xrefs:
+                new_node.meta.xrefs.append(x)
+    if source_meta.subsets:
+        for s in source_meta.subsets:
+            if s not in new_node.meta.subsets:
+                new_node.meta.subsets.append(s)
+    return new_node
+
+
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
     """
     Returns an index of all nodes key by node id

@@ -30,7 +30,7 @@ rules:
       predicate_id: skos:exactMatch
       weight: 0.5
 
-  - description: xref match
+  - description: shared xref match
     preconditions:
       subject_match_field_one_of:
         - oio:hasDbXref

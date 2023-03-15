@@ -10,12 +10,17 @@ __all__ = [
     "get_association_parser_resolver",
     # Concrete classes
     "AssociationParser",
+    "PairwiseAssociationParser",
     "GafAssociationParser",
+    "HpoaAssociationParser",
+    "HpoaG2PAssociationParser",
 ]
 
 from oaklib.parsers.hpoa_g2p_association_parser import HpoaG2PAssociationParser
+from oaklib.parsers.pairwise_association_parser import PairwiseAssociationParser
 
 GAF = "gaf"
+G2T = "g2t"
 HPOA = "hpoa"
 HPOA_G2P = "hpoa_g2p"
 KGX = "kgx"
@@ -31,6 +36,7 @@ def get_association_parser_resolver() -> ClassResolver[AssociationParser]:
         {
             GAF: GafAssociationParser,
             HPOA: HpoaAssociationParser,
+            G2T: PairwiseAssociationParser,
             HPOA_G2P: HpoaG2PAssociationParser,
         }
     )
