@@ -5,13 +5,8 @@ import curies
 from linkml_runtime.loaders import json_loader
 from ndex2 import create_nice_cx_from_file
 
-from oaklib import OntologyResource
 from oaklib.converters.obo_graph_to_cx_converter import OboGraphToCXConverter
-from oaklib.converters.obo_graph_to_obo_format_converter import (
-    OboGraphToOboFormatConverter,
-)
 from oaklib.datamodels.obograph import GraphDocument
-from oaklib.implementations import SimpleOboImplementation
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
 from tests import INPUT_DIR, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
