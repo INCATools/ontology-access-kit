@@ -183,7 +183,9 @@
     <span class="n">IS_A</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
     <span class="n">OBSOLETION_RELATIONSHIP_PREDICATES</span><span class="p">,</span>
+    <span class="n">OWL_CLASS</span><span class="p">,</span>
     <span class="n">OWL_META_CLASSES</span><span class="p">,</span>
+    <span class="n">OWL_NAMED_INDIVIDUAL</span><span class="p">,</span>
     <span class="n">OWL_NOTHING</span><span class="p">,</span>
     <span class="n">OWL_THING</span><span class="p">,</span>
     <span class="n">PREFIX_PREDICATE</span><span class="p">,</span>
@@ -216,6 +218,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.dumper_interface</span> <span class="kn">import</span> <span class="n">DumperInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.merge_interface</span> <span class="kn">import</span> <span class="n">MergeInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.metadata_interface</span> <span class="kn">import</span> <span class="n">MetadataInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">GraphTraversalMethod</span><span class="p">,</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.owl_interface</span> <span class="kn">import</span> <span class="n">OwlInterface</span>
@@ -335,6 +338,7 @@
     <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
     <span class="n">OwlInterface</span><span class="p">,</span>
     <span class="n">DumperInterface</span><span class="p">,</span>
+    <span class="n">MergeInterface</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.</span>
@@ -1234,7 +1238,7 @@
         <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="k">if</span> <span class="n">expand_curies</span> <span class="k">else</span> <span class="n">curie</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">uri</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">curie</span><span class="p">)</span>
-        <span class="n">builtin_preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">RDF_TYPE</span><span class="p">,</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">DISJOINT_WITH</span><span class="p">]</span>
+        <span class="n">builtin_preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">DISJOINT_WITH</span><span class="p">]</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">not_in</span><span class="p">(</span><span class="n">builtin_preds</span><span class="p">))</span>
         <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
@@ -1266,6 +1270,13 @@
             <span class="n">pred</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span>
             <span class="k">if</span> <span class="n">pred</span> <span class="o">==</span> <span class="n">omd_slots</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">curie</span><span class="p">:</span>
                 <span class="n">n</span><span class="o">.</span><span class="n">lbl</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">pred</span> <span class="o">==</span> <span class="n">RDF_TYPE</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">OWL_CLASS</span><span class="p">:</span>
+                    <span class="n">n</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;CLASS&quot;</span>
+                <span class="k">elif</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">OWL_NAMED_INDIVIDUAL</span><span class="p">]:</span>
+                    <span class="n">n</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;INDIVIDUAL&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">n</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;PROPERTY&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">include_metadata</span><span class="p">:</span>
                     <span class="n">anns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axiom_annotations</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>

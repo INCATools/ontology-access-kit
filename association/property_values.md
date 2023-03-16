@@ -14,6 +14,7 @@ URI: [ontoassoc:property_values](https://w3id.org/oak/association/property_value
 | Name | Description |
 | --- | --- |
 [Association](Association.md) | A generic association between a thing (subject) and another thing (object)
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
 
 
 
@@ -59,6 +60,7 @@ multivalued: true
 alias: property_values
 domain_of:
 - Association
+- NegatedAssociation
 range: PropertyValue
 inlined: true
 

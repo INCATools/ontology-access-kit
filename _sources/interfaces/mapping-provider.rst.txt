@@ -16,8 +16,6 @@ About
 
 This interface provides a "mappings" abstraction.
 
-The central datamodel used here is `SSSOM <http://w3id.org/sssom>`_
-
 .. note ::
 
     This interface is for serving pre-calculated mappings.
@@ -26,6 +24,12 @@ The central datamodel used here is `SSSOM <http://w3id.org/sssom>`_
 .. warning ::
 
     Some aspects may change, in particular how symmetrical mappings are handled
+
+Data Model
+-----------
+
+The central datamodel used here is `SSSOM <http://w3id.org/sssom>`_
+
 
 Implementations
 ---------------

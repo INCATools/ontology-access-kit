@@ -58,6 +58,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Mapping Provider</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#about">About</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-model">Data Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#implementations">Implementations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-use">Command Line Use</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a><ul>
@@ -72,7 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="class-enrichment.html">Semantic Similarity Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
@@ -127,7 +128,6 @@
 <section id="about">
 <h2>About<a class="headerlink" href="#about" title="Permalink to this headline"></a></h2>
 <p>This interface provides a “mappings” abstraction.</p>
-<p>The central datamodel used here is <a class="reference external" href="http://w3id.org/sssom">SSSOM</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This interface is for serving pre-calculated mappings.
@@ -137,6 +137,10 @@ See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping cre
 <p class="admonition-title">Warning</p>
 <p>Some aspects may change, in particular how symmetrical mappings are handled</p>
 </div>
+</section>
+<section id="data-model">
+<h2>Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline"></a></h2>
+<p>The central datamodel used here is <a class="reference external" href="http://w3id.org/sssom">SSSOM</a></p>
 </section>
 <section id="implementations">
 <h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this headline"></a></h2>
@@ -189,8 +193,7 @@ See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping cre
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.mapping_provider_interface.</span></span><span class="sig-name descname"><span class="pre">MappingProviderInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">typing.Optional[oaklib.resource.OntologyResource]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multilingual:</span> <span class="pre">typing.Optional[bool]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">typing.Optional[oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">typing.Optional[curies.api.Converter]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">typing.Optional[bool]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface" title="Permalink to this definition"></a></dt>
-<dd><p>An ontology provider that provides SSSOM mappings</p>
-<p>TODO: move code from mapping-walker</p>
+<dd><p>An ontology provider that provides SSSOM mappings.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings">
 <span class="sig-name descname"><span class="pre">all_sssom_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject_or_object_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">sssom_schema.datamodel.sssom_schema.Mapping</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.all_sssom_mappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings" title="Permalink to this definition"></a></dt>

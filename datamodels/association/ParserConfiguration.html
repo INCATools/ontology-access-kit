@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: subject &mdash; oaklib  documentation</title>
+  <title>Class: ParserConfiguration &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: subject</li>
+      <li class="breadcrumb-item active">Class: ParserConfiguration</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/association/subject.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/association/ParserConfiguration.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,34 +85,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-subject">
-<h1>Slot: subject<a class="headerlink" href="#slot-subject" title="Permalink to this headline"></a></h1>
-<p><em>The thing which the association is about.</em></p>
-<p>URI: <span class="xref myst">rdf:subject</span></p>
-<!-- no inheritance hierarchy -->
-<section id="applicable-classes">
-<h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
+  <section id="class-parserconfiguration">
+<h1>Class: ParserConfiguration<a class="headerlink" href="#class-parserconfiguration" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/association/ParserConfiguration">ontoassoc:ParserConfiguration</a></p>
+<div class="mermaid">
+             classDiagram
+    class ParserConfiguration
+      ParserConfiguration : include_association_attributes
+        
+      ParserConfiguration : preserve_negated_associations
+        
+      
+        </div><!-- no inheritance hierarchy -->
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Association.html"><span class="doc std std-doc">Association</span></a></p></td>
-<td><p>A generic association between a thing (subject) and another thing (object)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="preserve_negated_associations.html"><span class="doc std std-doc">preserve_negated_associations</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
+<td><p>If true, then the parser will keep negated associations in the output</p></td>
+<td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="NegatedAssociation.html"><span class="doc std std-doc">NegatedAssociation</span></a></p></td>
-<td><p>A negated association between a thing (subject) and another thing (object)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="include_association_attributes.html"><span class="doc std std-doc">include_association_attributes</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
+<td><p>If true, then the parser will include non S/P/O properties as additional attr…</p></td>
+<td><p>direct</p></td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="properties">
-<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
-<ul class="simple">
-<li><p>Range: <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></li>
-</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
@@ -123,25 +130,93 @@
 </ul>
 </section>
 </section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>ontoassoc:ParserConfiguration</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>ontoassoc:ParserConfiguration</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="linkml-source">
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: subject
-description: The thing which the association is about.
+name: ParserConfiguration
 from_schema: https://w3id.org/oak/association
-exact_mappings:
-- oa:hasBody
 rank: 1000
-slot_uri: rdf:subject
-alias: subject
-domain_of:
-- Association
-- NegatedAssociation
-range: uriorcurie
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+attributes:
+  preserve_negated_associations:
+    name: preserve_negated_associations
+    description: 'If true, then the parser will keep negated associations in the output.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  If false, then the parser will remove negated associations from the output.&#39;
+from_schema: https://w3id.org/oak/association
+rank: 1000
+range: boolean
 </pre></div>
 </div>
+<p>include_association_attributes:
+name: include_association_attributes
+description: ‘If true, then the parser will include non S/P/O properties as additional
+attributes.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  This may result in slower parsing&#39;
+from_schema: https://w3id.org/oak/association
+rank: 1000
+range: boolean
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: ParserConfiguration
+from_schema: https://w3id.org/oak/association
+rank: 1000
+attributes:
+  preserve_negated_associations:
+    name: preserve_negated_associations
+    description: &#39;If true, then the parser will keep negated associations in the output.
+
+      If false, then the parser will remove negated associations from the output.&#39;
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: preserve_negated_associations
+    owner: ParserConfiguration
+    domain_of:
+    - ParserConfiguration
+    range: boolean
+  include_association_attributes:
+    name: include_association_attributes
+    description: &#39;If true, then the parser will include non S/P/O properties as additional
+      attributes.
+
+      This may result in slower parsing&#39;
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: include_association_attributes
+    owner: ParserConfiguration
+    domain_of:
+    - ParserConfiguration
+    range: boolean
+
+</pre></div>
+</div>
+</details></section>
 </section>
 </section>
 

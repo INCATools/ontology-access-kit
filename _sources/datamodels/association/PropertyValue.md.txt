@@ -40,6 +40,7 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Association](Association.md) | [property_values](property_values.md) | range | [PropertyValue](PropertyValue.md) |
+| [NegatedAssociation](NegatedAssociation.md) | [property_values](property_values.md) | range | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -112,6 +113,7 @@ attributes:
     owner: PropertyValue
     domain_of:
     - Association
+    - NegatedAssociation
     - PropertyValue
     range: uriorcurie
   object:
@@ -126,6 +128,7 @@ attributes:
     owner: PropertyValue
     domain_of:
     - Association
+    - NegatedAssociation
     - PropertyValue
     range: uriorcurie
 

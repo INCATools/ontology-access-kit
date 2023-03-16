@@ -15,6 +15,8 @@ Name: association
 | Class | Description |
 | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |
+| [ParserConfiguration](ParserConfiguration.md) |  |
 | [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |
 | [RollupGroup](RollupGroup.md) |  |
 
@@ -25,8 +27,10 @@ Name: association
 | --- | --- |
 | [associations](associations.md) |  |
 | [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
+| [include_association_attributes](include_association_attributes.md) | If true, then the parser will include non S/P/O properties as additional attr... |
 | [object](object.md) | An ontology entity that is associated with the subject |
 | [predicate](predicate.md) | The type of relationship between the subject and object |
+| [preserve_negated_associations](preserve_negated_associations.md) | If true, then the parser will keep negated associations in the output |
 | [property_values](property_values.md) |  |
 | [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |

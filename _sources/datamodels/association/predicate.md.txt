@@ -16,6 +16,7 @@ URI: [rdf:predicate](rdf:predicate)
 | Name | Description |
 | --- | --- |
 [Association](Association.md) | A generic association between a thing (subject) and another thing (object)
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
 [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association
 
 
@@ -61,6 +62,7 @@ slot_uri: rdf:predicate
 alias: predicate
 domain_of:
 - Association
+- NegatedAssociation
 - PropertyValue
 range: uriorcurie
 

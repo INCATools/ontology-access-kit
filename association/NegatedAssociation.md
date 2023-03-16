@@ -1,19 +1,25 @@
-# Class: PropertyValue
-_A generic tag-value that can be associated with an association._
+# Class: NegatedAssociation
+_A negated association between a thing (subject) and another thing (object)._
 
 
 
 
-URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
+URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAssociation)
 
 
 
 ```{mermaid}
  classDiagram
-    class PropertyValue
-      PropertyValue : object
+    class NegatedAssociation
+      NegatedAssociation : object
         
-      PropertyValue : predicate
+      NegatedAssociation : predicate
+        
+      NegatedAssociation : property_values
+        
+          NegatedAssociation ..> PropertyValue : property_values
+        
+      NegatedAssociation : subject
         
       
 ```
@@ -28,19 +34,13 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+| [subject](subject.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The thing which the association is about | direct |
 | [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | direct |
 | [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | direct |
+| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) |  | direct |
 
 
 
-
-
-## Usages
-
-| used by | used in | type | used |
-| ---  | --- | --- | --- |
-| [Association](Association.md) | [property_values](property_values.md) | range | [PropertyValue](PropertyValue.md) |
-| [NegatedAssociation](NegatedAssociation.md) | [property_values](property_values.md) | range | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -68,8 +68,8 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ontoassoc:PropertyValue |
-| native | ontoassoc:PropertyValue |
+| self | ontoassoc:NegatedAssociation |
+| native | ontoassoc:NegatedAssociation |
 
 
 
@@ -83,13 +83,15 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 <details>
 ```yaml
-name: PropertyValue
-description: A generic tag-value that can be associated with an association.
+name: NegatedAssociation
+description: A negated association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
 rank: 1000
 slots:
+- subject
 - predicate
 - object
+- property_values
 
 ```
 </details>
@@ -98,11 +100,25 @@ slots:
 
 <details>
 ```yaml
-name: PropertyValue
-description: A generic tag-value that can be associated with an association.
+name: NegatedAssociation
+description: A negated association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
 rank: 1000
 attributes:
+  subject:
+    name: subject
+    description: The thing which the association is about.
+    from_schema: https://w3id.org/oak/association
+    exact_mappings:
+    - oa:hasBody
+    rank: 1000
+    slot_uri: rdf:subject
+    alias: subject
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: uriorcurie
   predicate:
     name: predicate
     description: The type of relationship between the subject and object.
@@ -110,7 +126,7 @@ attributes:
     rank: 1000
     slot_uri: rdf:predicate
     alias: predicate
-    owner: PropertyValue
+    owner: NegatedAssociation
     domain_of:
     - Association
     - NegatedAssociation
@@ -125,12 +141,24 @@ attributes:
     rank: 1000
     slot_uri: rdf:object
     alias: object
-    owner: PropertyValue
+    owner: NegatedAssociation
     domain_of:
     - Association
     - NegatedAssociation
     - PropertyValue
     range: uriorcurie
+  property_values:
+    name: property_values
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: property_values
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: PropertyValue
+    inlined: true
 
 ```
 </details>

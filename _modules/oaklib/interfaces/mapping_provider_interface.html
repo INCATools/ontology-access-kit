@@ -99,10 +99,11 @@
 
 <div class="viewcode-block" id="MappingProviderInterface"><a class="viewcode-back" href="../../../interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">[docs]</a><span class="k">class</span> <span class="nc">MappingProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An ontology provider that provides SSSOM mappings</span>
+<span class="sd">    An ontology provider that provides SSSOM mappings.</span>
 
-<span class="sd">    TODO: move code from mapping-walker</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO: move code from mapping-walker</span>
 
     <span class="k">def</span> <span class="nf">inject_mapping_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">mappings</span><span class="p">:</span>

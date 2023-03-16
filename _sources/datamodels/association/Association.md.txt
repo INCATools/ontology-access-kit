@@ -125,6 +125,7 @@ attributes:
     owner: Association
     domain_of:
     - Association
+    - NegatedAssociation
     range: uriorcurie
   predicate:
     name: predicate
@@ -136,6 +137,7 @@ attributes:
     owner: Association
     domain_of:
     - Association
+    - NegatedAssociation
     - PropertyValue
     range: uriorcurie
   object:
@@ -150,6 +152,7 @@ attributes:
     owner: Association
     domain_of:
     - Association
+    - NegatedAssociation
     - PropertyValue
     range: uriorcurie
   property_values:
@@ -161,6 +164,7 @@ attributes:
     owner: Association
     domain_of:
     - Association
+    - NegatedAssociation
     range: PropertyValue
     inlined: true
 class_uri: oa:Annotation

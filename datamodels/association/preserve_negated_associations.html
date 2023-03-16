@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: subject &mdash; oaklib  documentation</title>
+  <title>Slot: preserve_negated_associations &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: subject</li>
+      <li class="breadcrumb-item active">Slot: preserve_negated_associations</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/association/subject.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/association/preserve_negated_associations.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,10 +85,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-subject">
-<h1>Slot: subject<a class="headerlink" href="#slot-subject" title="Permalink to this headline"></a></h1>
-<p><em>The thing which the association is about.</em></p>
-<p>URI: <span class="xref myst">rdf:subject</span></p>
+  <section id="slot-preserve-negated-associations">
+<h1>Slot: preserve_negated_associations<a class="headerlink" href="#slot-preserve-negated-associations" title="Permalink to this headline"></a></h1>
+<p><em>If true, then the parser will keep negated associations in the output.
+If false, then the parser will remove negated associations from the output.</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/association/preserve_negated_associations">ontoassoc:preserve_negated_associations</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
@@ -99,11 +100,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Association.html"><span class="doc std std-doc">Association</span></a></p></td>
-<td><p>A generic association between a thing (subject) and another thing (object)</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="NegatedAssociation.html"><span class="doc std std-doc">NegatedAssociation</span></a></p></td>
-<td><p>A negated association between a thing (subject) and another thing (object)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ParserConfiguration.html"><span class="doc std std-doc">ParserConfiguration</span></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -111,7 +109,7 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></li>
+<li><p>Range: <a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -127,18 +125,18 @@
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <details>
 ```yaml
-name: subject
-description: The thing which the association is about.
+name: preserve_negated_associations
+description: 'If true, then the parser will keep negated associations in the output.
+<p>If false, then the parser will remove negated associations from the output.’
 from_schema: https://w3id.org/oak/association
-exact_mappings:
-- oa:hasBody
 rank: 1000
-slot_uri: rdf:subject
-alias: subject
-domain_of:
-- Association
-- NegatedAssociation
-range: uriorcurie
+alias: preserve_negated_associations
+owner: ParserConfiguration
+domain_of:</p>
+<ul class="simple">
+<li><p>ParserConfiguration
+range: boolean</p></li>
+</ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

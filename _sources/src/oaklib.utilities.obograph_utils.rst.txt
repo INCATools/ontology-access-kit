@@ -34,6 +34,8 @@
       index_graph_edges_by_subject_object
       index_graph_nodes
       induce_graph_prefix_map
+      merge_graph_nodes
+      merge_graphs
       mutate_graph_ids
       reflexive
       remove_nodes_from_graph

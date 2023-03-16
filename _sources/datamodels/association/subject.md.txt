@@ -16,6 +16,7 @@ URI: [rdf:subject](rdf:subject)
 | Name | Description |
 | --- | --- |
 [Association](Association.md) | A generic association between a thing (subject) and another thing (object)
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
 
 
 
@@ -62,6 +63,7 @@ slot_uri: rdf:subject
 alias: subject
 domain_of:
 - Association
+- NegatedAssociation
 range: uriorcurie
 
 ```

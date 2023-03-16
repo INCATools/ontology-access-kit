@@ -108,11 +108,15 @@
 <span class="kn">import</span> <span class="nn">sssom_schema</span> <span class="k">as</span> <span class="nn">sssom</span>
 <span class="kn">from</span> <span class="nn">kgcl_schema.datamodel</span> <span class="kn">import</span> <span class="n">kgcl</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.converters.obo_graph_to_obo_format_converter</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OboGraphToOboFormatConverter</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Edge</span><span class="p">,</span>
     <span class="n">ExistentialRestrictionExpression</span><span class="p">,</span>
     <span class="n">Graph</span><span class="p">,</span>
+    <span class="n">GraphDocument</span><span class="p">,</span>
     <span class="n">LogicalDefinitionAxiom</span><span class="p">,</span>
     <span class="n">SynonymPropertyValue</span><span class="p">,</span>
 <span class="p">)</span>
@@ -179,6 +183,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.dumper_interface</span> <span class="kn">import</span> <span class="n">DumperInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.merge_interface</span> <span class="kn">import</span> <span class="n">MergeInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obolegacy_interface</span> <span class="kn">import</span> <span class="n">PRED_CODE</span><span class="p">,</span> <span class="n">OboLegacyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.patcher_interface</span> <span class="kn">import</span> <span class="n">PatcherInterface</span>
@@ -210,6 +215,7 @@
     <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
     <span class="n">TaxonConstraintInterface</span><span class="p">,</span>
     <span class="n">DumperInterface</span><span class="p">,</span>
+    <span class="n">MergeInterface</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple OBO-file backed implementation</span>
@@ -253,6 +259,14 @@
                 <span class="n">od</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">buffer</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot dump to </span><span class="si">{</span><span class="n">resource</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">replace</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Cannot merge obograph&quot;</span><span class="p">)</span>
+        <span class="n">converter</span> <span class="o">=</span> <span class="n">OboGraphToOboFormatConverter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span> <span class="o">=</span> <span class="n">OboDocument</span><span class="p">()</span>
+        <span class="n">gd</span> <span class="o">=</span> <span class="n">GraphDocument</span><span class="p">(</span><span class="n">graphs</span><span class="o">=</span><span class="p">[</span><span class="n">graph</span><span class="p">])</span>
+        <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span><span class="p">)</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: BasicOntologyInterface</span>
@@ -425,6 +439,7 @@
         <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">relationships</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RELATIONSHIP_MAP</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CURIE</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">type</span> <span class="o">==</span> <span class="n">OWL_CLASS</span><span class="p">:</span>
             <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;Term&quot;</span>
@@ -432,9 +447,18 @@
             <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;Typedef&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot handle type: </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">stanza</span> <span class="o">=</span> <span class="n">Stanza</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span>
+        <span class="n">stanza</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stanza</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
+                <span class="n">stanza</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">stanza</span><span class="p">:</span>
+            <span class="n">stanza</span> <span class="o">=</span> <span class="n">Stanza</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span>
         <span class="n">stanza</span><span class="o">.</span><span class="n">add_tag_value</span><span class="p">(</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span><span class="o">.</span><span class="n">add_stanza</span><span class="p">(</span><span class="n">stanza</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">relationships</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">fillers</span> <span class="ow">in</span> <span class="n">relationships</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">filler</span> <span class="ow">in</span> <span class="n">fillers</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">filler</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">add_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicate</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">filler</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
@@ -727,6 +751,13 @@
         <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="n">types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">owl_type</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">OWL_CLASS</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+                <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;CLASS&quot;</span>
+            <span class="k">elif</span> <span class="n">OWL_OBJECT_PROPERTY</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+                <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;PROPERTY&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">typ</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">meta</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Meta</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">include_metadata</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_SUBSET</span><span class="p">):</span>
@@ -736,11 +767,11 @@
                     <span class="n">meta</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">DefinitionPropertyValue</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">defn</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">syn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">synonym_property_values</span><span class="p">([</span><span class="n">curie</span><span class="p">]):</span>
                     <span class="n">meta</span><span class="o">.</span><span class="n">synonyms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">syn</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">),</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="n">typ</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">as_obograph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">()]</span>
-        <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pred</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">obj</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_relationships</span><span class="p">()]</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pred</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">obj</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">()]</span>
         <span class="k">return</span> <span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;TODO&quot;</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">logical_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>

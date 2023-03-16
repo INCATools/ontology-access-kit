@@ -104,6 +104,9 @@
 <span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
 <span class="kn">from</span> <span class="nn">pronto</span> <span class="kn">import</span> <span class="n">LiteralPropertyValue</span><span class="p">,</span> <span class="n">Ontology</span><span class="p">,</span> <span class="n">ResourcePropertyValue</span><span class="p">,</span> <span class="n">Term</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.converters.obo_graph_to_obo_format_converter</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OboGraphToOboFormatConverter</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphDocument</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
@@ -142,6 +145,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.dumper_interface</span> <span class="kn">import</span> <span class="n">DumperInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.merge_interface</span> <span class="kn">import</span> <span class="n">MergeInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obolegacy_interface</span> <span class="kn">import</span> <span class="n">OboLegacyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.patcher_interface</span> <span class="kn">import</span> <span class="n">PatcherInterface</span>
@@ -183,6 +187,7 @@
     <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
     <span class="n">TaxonConstraintInterface</span><span class="p">,</span>
     <span class="n">DumperInterface</span><span class="p">,</span>
+    <span class="n">MergeInterface</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pronto wraps local-file based ontologies in the following formats:</span>
@@ -294,10 +299,14 @@
 
     <span class="k">def</span> <span class="nf">load_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
-            <span class="n">ont</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ont</span> <span class="o">=</span> <span class="n">Ontology</span><span class="p">()</span>
+            <span class="n">converter</span> <span class="o">=</span> <span class="n">OboGraphToOboFormatConverter</span><span class="p">()</span>
+            <span class="n">gd</span> <span class="o">=</span> <span class="n">GraphDocument</span><span class="p">(</span><span class="n">graphs</span><span class="o">=</span><span class="p">[</span><span class="n">graph</span><span class="p">])</span>
+            <span class="n">io</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">as_bytes_io</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span>
+            <span class="n">ont</span> <span class="o">=</span> <span class="n">Ontology</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span> <span class="o">=</span> <span class="n">ont</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_alt_id_to_replacement_map</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">IS_A</span><span class="p">:</span>
                 <span class="k">pass</span>
@@ -518,14 +527,20 @@
         <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">relationships</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RELATIONSHIP_MAP</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CURIE</span><span class="p">:</span>
         <span class="n">ont</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span> <span class="ow">or</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;CLASS&quot;</span><span class="p">:</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">ont</span><span class="o">.</span><span class="n">create_term</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;PROPERTY&quot;</span><span class="p">:</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">ont</span><span class="o">.</span><span class="n">create_relationship</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pronto cannot handle type of </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span> <span class="ow">or</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;CLASS&quot;</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">ont</span><span class="o">.</span><span class="n">create_term</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;PROPERTY&quot;</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">ont</span><span class="o">.</span><span class="n">create_relationship</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pronto cannot handle type of </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">label</span>
         <span class="k">if</span> <span class="n">relationships</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">fillers</span> <span class="ow">in</span> <span class="n">relationships</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -728,8 +743,10 @@
             <span class="n">meta</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Meta</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">pronto</span><span class="o">.</span><span class="n">Relationship</span><span class="p">):</span>
                 <span class="n">t_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pronto_relationship_type_curie</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;PROPERTY&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">t_id</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;CLASS&quot;</span>
             <span class="k">if</span> <span class="n">include_metadata</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">definition</span><span class="p">:</span>
                     <span class="n">defn_xrefs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">xrefs</span><span class="p">]</span>
@@ -755,7 +772,7 @@
                             <span class="n">xrefs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">xrefs</span><span class="p">],</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
-            <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">t_id</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">t_id</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">typ</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">as_obograph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
         <span class="n">om</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">metadata</span>
