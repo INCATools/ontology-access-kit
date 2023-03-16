@@ -1,6 +1,7 @@
 import logging
 import sys
 from dataclasses import dataclass
+from io import BytesIO, StringIO
 from typing import Any, Dict, List, Tuple
 
 import rdflib
@@ -62,6 +63,28 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         else:
             with open(target, "w", encoding="UTF-8") as f:
                 obodoc.dump(f)
+
+    def dumps(self, source: GraphDocument, **kwargs) -> str:
+        """
+        Dump an OBO Graph Document to a string
+
+        :param source:
+        :return:
+        """
+        obodoc = self.convert(source)
+        io = StringIO()
+        obodoc.dump(io)
+        return io.getvalue()
+
+    def as_bytes_io(self, source: GraphDocument, **kwargs) -> BytesIO:
+        """
+        Dump an OBO Graph Document to a string
+
+        :param source:
+        :return:
+        """
+        s = self.dumps(source)
+        return BytesIO(s.encode("UTF-8"))
 
     def convert(self, source: GraphDocument, target: OboDocument = None, **kwargs) -> OboDocument:
         """

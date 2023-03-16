@@ -214,10 +214,8 @@ class ProntoImplementation(
         if replace:
             converter = OboGraphToOboFormatConverter()
             gd = GraphDocument(graphs=[graph])
-            tf = tempfile.NamedTemporaryFile(mode="w")
-            converter.dump(gd, tf.name)
-            tf.flush()
-            ont = Ontology(tf.name)
+            io = converter.as_bytes_io(gd)
+            ont = Ontology(io)
             self.wrapped_ontology = ont
             self._relationship_index_cache = None
             self._alt_id_to_replacement_map = None
