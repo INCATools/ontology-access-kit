@@ -214,7 +214,7 @@ class ProntoImplementation(
         if replace:
             converter = OboGraphToOboFormatConverter()
             gd = GraphDocument(graphs=[graph])
-            tf = tempfile.NamedTemporaryFile()
+            tf = tempfile.NamedTemporaryFile(mode="w")
             converter.dump(gd, tf.name)
             tf.flush()
             ont = Ontology(tf.name)
