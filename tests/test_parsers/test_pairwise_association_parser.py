@@ -2,34 +2,28 @@ import logging
 import unittest
 
 from oaklib.datamodels.association import Association
-from oaklib.parsers import GAF
+from oaklib.parsers import G2T
 from oaklib.parsers.association_parser_factory import get_association_parser
 from tests import INPUT_DIR
 
-INPUT_GAF = INPUT_DIR / "test-uniprot.gaf"
+INPUT_TSV = INPUT_DIR / "test-pairwise-associations.tsv"
 
 
-class GafAssociationParserTest(unittest.TestCase):
-    """Tests parsing of GAF and GAF-like formats."""
+class PairwiseAssociationParserTest(unittest.TestCase):
+    """Tests parsing of simple pairwise TSVs."""
 
     def test_parser(self):
         """Tests parsing associations."""
-        parser = get_association_parser(GAF)
-        with open(INPUT_GAF) as file:
+        parser = get_association_parser(G2T)
+        with open(INPUT_TSV) as file:
             assocs = list(parser.parse(file))
             for association in assocs:
                 logging.info(association)
             self.assertIn(
                 Association(
-                    subject="UniProtKB:Q9BPZ7",
-                    predicate="is_active_in",
+                    subject="UniProtKB:Q9HC35",
                     object="GO:0005737",
                     property_values=[],
                 ),
                 assocs,
-            )
-            self.assertNotIn(
-                "UniProtKB:FAKE123",
-                [a.subject for a in assocs],
-                "by default, negated associations should be filtered",
             )

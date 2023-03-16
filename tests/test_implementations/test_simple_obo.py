@@ -311,6 +311,13 @@ class TestSimpleOboImplementation(unittest.TestCase):
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
 
+    def test_merge(self):
+        resource1 = OntologyResource(slug=TEST_ONT, directory=INPUT_DIR, local=True)
+        resource2 = OntologyResource(slug="interneuron.obo", directory=INPUT_DIR, local=True)
+        oi1 = SimpleOboImplementation(resource1)
+        oi2 = SimpleOboImplementation(resource2)
+        self.compliance_tester.test_merge(oi1, oi2)
+
     def test_reflexive_diff(self):
         self.compliance_tester.test_reflexive_diff(self.oi)
 

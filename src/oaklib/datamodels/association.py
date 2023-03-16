@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-28T16:17:00
+# Generation date: 2023-03-15T10:56:08
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -20,14 +20,20 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Uriorcurie
+from linkml_runtime.linkml_model.types import Boolean, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
-from linkml_runtime.utils.metamodelcore import URIorCURIE, bnode, empty_dict, empty_list
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.yamlutils import (
     YAMLRoot,
@@ -68,6 +74,48 @@ class Association(YAMLRoot):
     class_class_curie: ClassVar[str] = "oa:Annotation"
     class_name: ClassVar[str] = "Association"
     class_model_uri: ClassVar[URIRef] = ONTOASSOC.Association
+
+    subject: Optional[Union[str, URIorCURIE]] = None
+    predicate: Optional[Union[str, URIorCURIE]] = None
+    object: Optional[Union[str, URIorCURIE]] = None
+    property_values: Optional[
+        Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
+    ] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.subject is not None and not isinstance(self.subject, URIorCURIE):
+            self.subject = URIorCURIE(self.subject)
+
+        if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
+            self.predicate = URIorCURIE(self.predicate)
+
+        if self.object is not None and not isinstance(self.object, URIorCURIE):
+            self.object = URIorCURIE(self.object)
+
+        if not isinstance(self.property_values, list):
+            self.property_values = (
+                [self.property_values] if self.property_values is not None else []
+            )
+        self.property_values = [
+            v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
+            for v in self.property_values
+        ]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class NegatedAssociation(YAMLRoot):
+    """
+    A negated association between a thing (subject) and another thing (object).
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.NegatedAssociation
+    class_class_curie: ClassVar[str] = "ontoassoc:NegatedAssociation"
+    class_name: ClassVar[str] = "NegatedAssociation"
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.NegatedAssociation
 
     subject: Optional[Union[str, URIorCURIE]] = None
     predicate: Optional[Union[str, URIorCURIE]] = None
@@ -161,6 +209,32 @@ class RollupGroup(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
+@dataclass
+class ParserConfiguration(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.ParserConfiguration
+    class_class_curie: ClassVar[str] = "ontoassoc:ParserConfiguration"
+    class_name: ClassVar[str] = "ParserConfiguration"
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.ParserConfiguration
+
+    preserve_negated_associations: Optional[Union[bool, Bool]] = None
+    include_association_attributes: Optional[Union[bool, Bool]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.preserve_negated_associations is not None and not isinstance(
+            self.preserve_negated_associations, Bool
+        ):
+            self.preserve_negated_associations = Bool(self.preserve_negated_associations)
+
+        if self.include_association_attributes is not None and not isinstance(
+            self.include_association_attributes, Bool
+        ):
+            self.include_association_attributes = Bool(self.include_association_attributes)
+
+        super().__post_init__(**kwargs)
+
+
 # Enumerations
 
 
@@ -230,4 +304,22 @@ slots.associations = Slot(
     model_uri=ONTOASSOC.associations,
     domain=None,
     range=Optional[Union[Union[dict, Association], List[Union[dict, Association]]]],
+)
+
+slots.parserConfiguration__preserve_negated_associations = Slot(
+    uri=ONTOASSOC.preserve_negated_associations,
+    name="parserConfiguration__preserve_negated_associations",
+    curie=ONTOASSOC.curie("preserve_negated_associations"),
+    model_uri=ONTOASSOC.parserConfiguration__preserve_negated_associations,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.parserConfiguration__include_association_attributes = Slot(
+    uri=ONTOASSOC.include_association_attributes,
+    name="parserConfiguration__include_association_attributes",
+    curie=ONTOASSOC.curie("include_association_attributes"),
+    model_uri=ONTOASSOC.parserConfiguration__include_association_attributes,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )

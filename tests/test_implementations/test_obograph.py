@@ -40,6 +40,7 @@ from tests import (
 from tests.test_implementations import ComplianceTester
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
+TEST_ONT_JSON = INPUT_DIR / "go-nucleus.json"
 TEST_SIMPLE_ONT = INPUT_DIR / "go-nucleus-simple.obo"
 TEST_ONT_COPY = OUTPUT_DIR / "go-nucleus.copy.obo"
 TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
@@ -304,6 +305,13 @@ class TestOboGraphImplementation(unittest.TestCase):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
+
+    def test_merge(self):
+        resource1 = OntologyResource(slug=TEST_ONT_JSON, directory=INPUT_DIR, local=True)
+        resource2 = OntologyResource(slug="interneuron.json", directory=INPUT_DIR, local=True)
+        oi1 = OboGraphImplementation(resource1)
+        oi2 = OboGraphImplementation(resource2)
+        self.compliance_tester.test_merge(oi1, oi2)
 
     @unittest.skip("TODO")
     def test_patcher(self):

@@ -58,6 +58,7 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import OwlInterface
@@ -668,6 +669,28 @@ class ComplianceTester:
                 cds = list(oi.common_descendants(c, c, predicates=[IS_A]))
                 test.assertTrue(cds, f"Expected common descendants: {c}, {c}")
                 test.assertIn(c, cds, f"ExpectedIn: {c}, {cds}")
+
+    def test_merge(self, target: MergeInterface, source: BasicOntologyInterface):
+        """
+        Tests ability to merge a source ontology into a target.
+
+        :param target:
+        :param source:
+        :return:
+        """
+        test = self.test
+        target_entities = set(target.entities(owl_type=OWL_CLASS))
+        source_entities = set(source.entities(owl_type=OWL_CLASS))
+        target.merge([source])
+        merged_entities = set(target.entities(owl_type=OWL_CLASS))
+        diff = merged_entities.difference(target_entities.union(source_entities))
+        for x in diff:
+            print(x)
+        test.assertCountEqual(target_entities.union(source_entities), merged_entities)
+        in_both = target_entities.intersection(source_entities)
+        test.assertIn(CELL, in_both)
+        # TODO
+        # test.assertIn(PART_OF, list(target.entities()))
 
     def test_reflexive_diff(self, oi: DifferInterface):
         """
