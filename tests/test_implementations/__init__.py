@@ -683,7 +683,9 @@ class ComplianceTester:
         source_entities = set(source.entities(owl_type=OWL_CLASS))
         target.merge([source])
         merged_entities = set(target.entities(owl_type=OWL_CLASS))
-        # diff = target_entities.union(source_entities).difference(merged_entities)
+        diff = merged_entities.difference(target_entities.union(source_entities))
+        for x in diff:
+            print(x)
         test.assertCountEqual(target_entities.union(source_entities), merged_entities)
         in_both = target_entities.intersection(source_entities)
         test.assertIn(CELL, in_both)

@@ -402,7 +402,7 @@ def merge_graph_nodes(target: Node, source: Node) -> Node:
     :param source:
     :return:
     """
-    new_node = Node(id=target.id, lbl=target.lbl, meta=target.meta)
+    new_node = Node(id=target.id, lbl=target.lbl, type=target.type, meta=target.meta)
     if source.lbl:
         new_node.lbl = source.lbl
     if not new_node.meta:

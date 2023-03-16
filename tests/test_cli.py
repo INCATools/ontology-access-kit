@@ -470,6 +470,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 logging.info(f"input={input}, output_format={output_format}")
                 query = [".desc//p=i", IMBO, ".anc//p=i", IMBO]
                 cmd = ["-i", str(input), "extract", "-o", TEST_OUT, "-O", output_format] + query
+                # print(cmd)
                 if dangling:
                     cmd += ["--dangling"]
                 result = self.runner.invoke(main, cmd)
@@ -498,9 +499,9 @@ class TestCommandLineInterface(unittest.TestCase):
                     self.assertGreater(len(list(g.triples((None, None, None)))), 0)
                 elif output_format == "obo":
                     oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
-                    self.assertEqual("nucleus", oi.label(NUCLEUS))
+                    self.assertEqual("nucleus", oi.label(NUCLEUS), "failed with simpleobo")
                     oi = get_implementation_from_shorthand(f"pronto:{TEST_OUT}")
-                    self.assertEqual("nucleus", oi.label(NUCLEUS))
+                    self.assertEqual("nucleus", oi.label(NUCLEUS), "failed with pronto")
                 elif output_format == "ofn":
                     oi = get_implementation_from_shorthand(f"funowl:{TEST_OUT}")
                     self.assertEqual("nucleus", oi.label(NUCLEUS))

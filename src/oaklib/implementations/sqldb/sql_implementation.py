@@ -96,7 +96,9 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OBSOLETION_RELATIONSHIP_PREDICATES,
+    OWL_CLASS,
     OWL_META_CLASSES,
+    OWL_NAMED_INDIVIDUAL,
     OWL_NOTHING,
     OWL_THING,
     PREFIX_PREDICATE,
@@ -1149,7 +1151,7 @@ class SqlImplementation(
         uri = self.curie_to_uri(curie) if expand_curies else curie
         n = obograph.Node(id=uri, meta=meta)
         q = self.session.query(Statements).filter(Statements.subject == curie)
-        builtin_preds = [RDF_TYPE, IS_A, DISJOINT_WITH]
+        builtin_preds = [IS_A, DISJOINT_WITH]
         q = q.filter(Statements.predicate.not_in(builtin_preds))
         rows = list(q)
 
@@ -1181,6 +1183,13 @@ class SqlImplementation(
             pred = row.predicate
             if pred == omd_slots.label.curie:
                 n.lbl = v
+            elif pred == RDF_TYPE:
+                if v == OWL_CLASS:
+                    n.type = "CLASS"
+                elif v in [OWL_NAMED_INDIVIDUAL]:
+                    n.type = "INDIVIDUAL"
+                else:
+                    n.type = "PROPERTY"
             else:
                 if include_metadata:
                     anns = self._axiom_annotations(curie, pred, row.object, row.value)

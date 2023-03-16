@@ -116,7 +116,9 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         #    return
         if id.startswith("oio:"):
             return
-        typedef_type = typedef_type_map.get(t, "Term")
+        typedef_type = typedef_type_map.get(t, None)
+        if not typedef_type:
+            return
         stanza = Stanza(id=id, type=typedef_type)
         target.add_stanza(stanza)
         if source.lbl:

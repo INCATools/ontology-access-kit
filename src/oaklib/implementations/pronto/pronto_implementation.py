@@ -658,8 +658,10 @@ class ProntoImplementation(
             meta = obograph.Meta()
             if isinstance(t, pronto.Relationship):
                 t_id = self._get_pronto_relationship_type_curie(t)
+                typ = "PROPERTY"
             else:
                 t_id = t.id
+                typ = "CLASS"
             if include_metadata:
                 if t.definition:
                     defn_xrefs = [x.id for x in t.definition.xrefs]
@@ -685,7 +687,7 @@ class ProntoImplementation(
                             xrefs=[x.id for x in s.xrefs],
                         )
                     )
-            return obograph.Node(id=t_id, lbl=t.name, meta=meta)
+            return obograph.Node(id=t_id, lbl=t.name, type=typ, meta=meta)
 
     def as_obograph(self, expand_curies=False) -> Graph:
         om = self.wrapped_ontology.metadata

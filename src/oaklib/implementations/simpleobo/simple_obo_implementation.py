@@ -664,6 +664,13 @@ class SimpleOboImplementation(
         if t is None:
             return obograph.Node(id=curie)
         else:
+            types = self.owl_type(curie)
+            if OWL_CLASS in types:
+                typ = "CLASS"
+            elif OWL_OBJECT_PROPERTY in types:
+                typ = "PROPERTY"
+            else:
+                typ = None
             meta = obograph.Meta()
             if include_metadata:
                 for s in t.simple_values(TAG_SUBSET):
@@ -673,11 +680,11 @@ class SimpleOboImplementation(
                     meta.definition = obograph.DefinitionPropertyValue(val=defn)
                 for _, syn in self.synonym_property_values([curie]):
                     meta.synonyms.append(syn)
-            return obograph.Node(id=curie, lbl=self.label(curie), meta=meta)
+            return obograph.Node(id=curie, lbl=self.label(curie), type=typ, meta=meta)
 
     def as_obograph(self) -> Graph:
         nodes = [self.node(curie) for curie in self.entities()]
-        edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
+        edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.relationships()]
         return Graph(id="TODO", nodes=nodes, edges=edges)
 
     def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
