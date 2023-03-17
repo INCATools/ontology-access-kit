@@ -394,7 +394,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("Reactome:R-HSA-1483089", out)
 
     def test_mappings_curie_map(self):
-        mappings_output = f"{OUTPUT_DIR}/test_mappings.tsv"
+        mappings_output = OUTPUT_DIR / "test_mappings.tsv"
         result = self.runner.invoke(
             main, ["-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output]
         )
