@@ -2440,11 +2440,7 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if rust:
-        interface = RustSimilarityInterface()
-    else:
-        interface = SemanticSimilarityInterface()
-    if isinstance(impl, type(interface)):
+    if isinstance(impl, (SemanticSimilarityInterface, RustSimilarityInterface)):
         actual_predicates = _process_predicates_arg(predicates)
         sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
         if autolabel:
@@ -2565,11 +2561,7 @@ def similarity(
     logging.info(f"file={writer.file} {type(writer.output)}")
     if main_score_field and isinstance(writer, HeatmapWriter):
         writer.value_field = main_score_field
-    if rust:
-        interface = RustSimilarityInterface()
-    else:
-        interface = SemanticSimilarityInterface()
-    if isinstance(impl, type(interface)):
+    if isinstance(impl, (SemanticSimilarityInterface, RustSimilarityInterface)):
         set1it = None
         set2it = None
         if not (set1_file or set2_file):
@@ -2653,11 +2645,7 @@ def termset_similarity(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if rust:
-        interface = RustSimilarityInterface()
-    else:
-        interface = SemanticSimilarityInterface()
-    if not isinstance(impl, type(interface)):
+    if not isinstance(impl, (SemanticSimilarityInterface, RustSimilarityInterface)):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     terms = list(terms)
     ix = terms.index("@")
