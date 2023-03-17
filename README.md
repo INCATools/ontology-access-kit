@@ -1,6 +1,8 @@
-# Ontology Access Kit
+# Ontology Access Kit (OAK)
 
 Python lib for common ontology operations over a variety of backends.
+
+<img src="docs/logos/oak-logo_black-icon.png" width="20%">
 
 [![PyPI version](https://badge.fury.io/py/oaklib.svg)](https://badge.fury.io/py/oaklib)
 ![](https://github.com/incatools/ontology-access-kit/workflows/Build/badge.svg)
