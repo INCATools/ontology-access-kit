@@ -473,18 +473,18 @@ css = ["tinycss2 (>=1.1.0,<1.2)"]
 
 [[package]]
 name = "boto3"
-version = "1.26.93"
+version = "1.26.94"
 description = "The AWS SDK for Python"
 category = "main"
 optional = true
 python-versions = ">= 3.7"
 files = [
-    {file = "boto3-1.26.93-py3-none-any.whl", hash = "sha256:1e543a27a7f0cddef298492d70bf7ea67db02960ec704c1af26d2b543cdefb43"},
-    {file = "boto3-1.26.93.tar.gz", hash = "sha256:df541c06ff1018675097e102f2f2aa2abc31ea5d197c7fc229afbe30950ba131"},
+    {file = "boto3-1.26.94-py3-none-any.whl", hash = "sha256:619022059e255731f33cd9fe083b8fd62406efcbc07dc15660037bcaa1ba1255"},
+    {file = "boto3-1.26.94.tar.gz", hash = "sha256:9f156f4da4b0a15924196e1a8e3439d1b99cd4a463588e4bb103d1cfaf5618fa"},
 ]
 
 [package.dependencies]
-botocore = ">=1.29.93,<1.30.0"
+botocore = ">=1.29.94,<1.30.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.6.0,<0.7.0"
 
@@ -493,14 +493,14 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.29.93"
+version = "1.29.94"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = true
 python-versions = ">= 3.7"
 files = [
-    {file = "botocore-1.29.93-py3-none-any.whl", hash = "sha256:39c2ad2d44c7e1ef25a98e957b63fa760b87bcf32423a033dceeb359976c37d7"},
-    {file = "botocore-1.29.93.tar.gz", hash = "sha256:940201ae2f5edbf4ccbf1066e345cf7f5224568bd702fa9e80a92e5c479fa649"},
+    {file = "botocore-1.29.94-py3-none-any.whl", hash = "sha256:01b9e066b9eea719ee852e91841b92c7371f6bd388cf6186b5d55508e0f7fa1b"},
+    {file = "botocore-1.29.94.tar.gz", hash = "sha256:3748b79e6fc95c19d890aa7439a53b9d468a4c4918439b2ba5cc3c13bfaff817"},
 ]
 
 [package.dependencies]
@@ -4117,14 +4117,14 @@ test = ["asv", "gmpy2", "mpmath", "pytest", "pytest-cov", "pytest-xdist", "sciki
 
 [[package]]
 name = "semsql"
-version = "0.3.1"
+version = "0.3.2"
 description = ""
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "semsql-0.3.1-py3-none-any.whl", hash = "sha256:7fdef8e12d669c2c74c809c7a526cabd2aa688e8d773551b691de439f026e392"},
-    {file = "semsql-0.3.1.tar.gz", hash = "sha256:a96c3018ad3b15ed3419fe70f5bdd21cbeba9ddd4cd742f7ffd78731d34afa3b"},
+    {file = "semsql-0.3.2-py3-none-any.whl", hash = "sha256:326ba4247a8ff172d62ac9ce5ff64e86767f2678bb7c8c7425373789e155202f"},
+    {file = "semsql-0.3.2.tar.gz", hash = "sha256:6cfbfbb319f406102928d8c6e0ab1a2c19586eaba88881940ac88be28be623b6"},
 ]
 
 [package.dependencies]
@@ -4580,13 +4580,13 @@ url = ["furl (>=0.4.1)"]
 
 [[package]]
 name = "sssom"
-version = "0.3.24"
+version = "0.3.25"
 description = "Operations on SSSOM mapping tables"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "sssom-0.3.24.tar.gz", hash = "sha256:961e4e3a2029bee5a1159803d7e2ae93dc71e5687fcea7212746a9c181421f33"},
+    {file = "sssom-0.3.25.tar.gz", hash = "sha256:5674907c01dbf88e780a8909791e7bbfa046ae2a873cc89c4c62f40dc5f4a7e0"},
 ]
 
 [package.dependencies]
@@ -5238,4 +5238,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "daebfa1a45d49f7873b995083c194b55d34d528acb7c097790fe4c0eb347688b"
+content-hash = "a8ecdb1f12cf516d568893a2d7323df398b206a2b5dd3d8e65e9860df6f0a03a"
