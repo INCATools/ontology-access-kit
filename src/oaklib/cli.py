@@ -109,6 +109,7 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
@@ -2391,8 +2392,14 @@ def extract_triples(terms, predicates, output, output_type: str = "ttl"):
 @output_option
 @output_type_option
 @autolabel_option
+@click.option(
+    "--rust / --no-rust",
+    is_flag=True,
+    default=False,
+    help="Use rustsim backend for calculating similarity",
+)
 @click.argument("terms", nargs=-1)
-def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_type):
+def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_type, rust: bool):
     """
     Determine pairwise similarity between two terms using a variety of metrics
 
@@ -2433,7 +2440,11 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if isinstance(impl, SemanticSimilarityInterface):
+    if rust:
+        interface = RustSimilarityInterface()
+    else:
+        interface = SemanticSimilarityInterface()
+    if isinstance(impl, type(interface)):
         actual_predicates = _process_predicates_arg(predicates)
         sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
         if autolabel:
@@ -2472,6 +2483,12 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     show_default=True,
     help="Score used for summarization",
 )
+@click.option(
+    "--rust / --no-rust",
+    is_flag=True,
+    default=False,
+    help="Use rustsim backend for calculating similarity",
+)
 @autolabel_option
 @output_type_option
 @click.argument("terms", nargs=-1)
@@ -2486,6 +2503,7 @@ def similarity(
     main_score_field,
     output_type,
     output,
+    rust: bool,
 ):
     """
     All by all similarity.
@@ -2547,7 +2565,11 @@ def similarity(
     logging.info(f"file={writer.file} {type(writer.output)}")
     if main_score_field and isinstance(writer, HeatmapWriter):
         writer.value_field = main_score_field
-    if isinstance(impl, SemanticSimilarityInterface):
+    if rust:
+        interface = RustSimilarityInterface()
+    else:
+        interface = SemanticSimilarityInterface()
+    if isinstance(impl, type(interface)):
         set1it = None
         set2it = None
         if not (set1_file or set2_file):
@@ -2596,6 +2618,12 @@ def similarity(
 @output_option
 @output_type_option
 @autolabel_option
+@click.option(
+    "--rust / --no-rust",
+    is_flag=True,
+    default=False,
+    help="Use rustsim backend for calculating similarity",
+)
 @click.argument("terms", nargs=-1)
 def termset_similarity(
     terms,
@@ -2603,6 +2631,7 @@ def termset_similarity(
     autolabel,
     output_type,
     output: TextIO,
+    rust: bool
 ):
     """
     Termset similarity.
@@ -2624,7 +2653,11 @@ def termset_similarity(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if not isinstance(impl, SemanticSimilarityInterface):
+    if rust:
+        interface = RustSimilarityInterface()
+    else:
+        interface = SemanticSimilarityInterface()
+    if not isinstance(impl, type(interface)):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     terms = list(terms)
     ix = terms.index("@")

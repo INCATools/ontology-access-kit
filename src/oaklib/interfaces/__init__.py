@@ -6,6 +6,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.subsetter_interface import SubsetterInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 
 __all__ = [
     "BasicOntologyInterface",
@@ -16,4 +17,5 @@ __all__ = [
     "SubsetterInterface",
     "ValidatorInterface",
     "TextAnnotatorInterface",
+    "RustSimilarityInterface",
 ]
