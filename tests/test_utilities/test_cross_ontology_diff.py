@@ -151,13 +151,13 @@ class TestStructuralDiff(unittest.TestCase):
         entities = list(left_oi.descendants([CELLULAR_COMPONENT], [IS_A]))
         for patch_kgcl, expected_results in cases:
             # cumulatively apply patches
-            print(f"Patching with {patch_kgcl}")
+            # print(f"Patching with {patch_kgcl}")
             patch = kgcl_parser.parse_statement(patch_kgcl)
             if not isinstance(right_oi, PatcherInterface):
                 raise ValueError(f"{type(right_oi)} is not a patcher")
             right_oi.apply_patch(patch)
-            for r in right_oi.relationships([NUCLEUS]):
-                print(f"R={r}")
+            # for r in right_oi.relationships([NUCLEUS]):
+            #     print(f"R={r}")
             if not isinstance(right_oi, OboGraphInterface):
                 raise ValueError(f"{type(right_oi)} is not a patcher")
             results = list(

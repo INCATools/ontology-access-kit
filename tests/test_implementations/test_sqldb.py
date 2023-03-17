@@ -115,6 +115,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         hier_parents = list(oi.hierararchical_parents(VACUOLE))
         self.assertEqual([IMBO], hier_parents)
 
+    def test_rbox_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=str(DB)))
+        self.compliance_tester.test_rbox_relationships(oi)
+
     def test_instance_graph(self):
         oi = self.inst_oi
         entities = list(oi.entities())
@@ -726,6 +730,15 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(yaml_dumper.dumps(ax))
 
     def test_patcher(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+
+        self.compliance_tester.test_patcher(
+            oi,
+            self.oi,
+        )
+
+    def test_patcher_extra(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         # oi.autosave = True

@@ -55,18 +55,46 @@ IN_CATEGORY_PREDS = [BIOLINK_CATEGORY, "dbont:category"]
 OWL_CLASS = "owl:Class"
 OWL_NAMED_INDIVIDUAL = "owl:NamedIndividual"
 OWL_OBJECT_PROPERTY = "owl:ObjectProperty"
+OWL_DATATYPE_PROPERTY = "owl:DatatypeProperty"
+OWL_ANNOTATION_PROPERTY = "owl:AnnotationProperty"
+OWL_TRANSITIVE_PROPERTY = "owl:TransitiveProperty"
+OWL_SYMMETRIC_PROPERTY = "owl:SymmetricProperty"
 OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
 IS_DEFINED_BY = "rdfs:isDefinedBy"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 DISJOINT_WITH = "owl:disjointWith"
-SUBPROPERTY_OF = "owl:subPropertyOf"
+SUBPROPERTY_OF = "rdfs:subPropertyOf"
+RDFS_DOMAIN = "rdfs:domain"
+RDFS_RANGE = "rdfs:range"
 INVERSE_OF = "owl:inverseOf"
 RDF_TYPE = "rdf:type"
 EQUIVALENT_CLASS = "owl:equivalentClass"
 OWL_SAME_AS = "owl:sameAs"
 RDF_SEE_ALSO = "rdfs:seeAlso"
+
+OWL_META_CLASSES = [
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
+    OWL_NAMED_INDIVIDUAL,
+    OWL_DATATYPE_PROPERTY,
+    OWL_ANNOTATION_PROPERTY,
+    OWL_TRANSITIVE_PROPERTY,
+    OWL_SYMMETRIC_PROPERTY,
+]
+
+STANDARD_ANNOTATION_PROPERTIES = [
+    TERM_REPLACED_BY,
+    CONSIDER_REPLACEMENT,
+    DEPRECATED_PREDICATE,
+    HAS_OBSOLESCENCE_REASON,
+    TERMS_MERGED,
+    HAS_ONTOLOGY_ROOT_TERM,
+    HAS_OBO_NAMESPACE,
+    LABEL_PREDICATE,
+]
+
 PART_OF = "BFO:0000050"
 LOCATED_IN = "RO:0001025"
 DEVELOPS_FROM = "RO:0002202"

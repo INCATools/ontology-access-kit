@@ -1,3 +1,4 @@
+import logging
 import unittest
 from itertools import chain, combinations
 
@@ -37,12 +38,13 @@ class AssociationDiffsTest(unittest.TestCase):
         self.differ = AssociationDiffer(self.oi)
 
     def test_diffs_powerset(self):
+        # TODO: turn this into a test
         for assocs1 in _powerset(self.assocs):
             for assocs2 in _powerset(self.assocs):
                 changes = list(self.differ.changes(assocs1, assocs2, PREDS))
-                print(f"## DIFF {assocs1} -VS- {assocs2} == {len(changes)}")
+                logging.info(f"## DIFF {assocs1} -VS- {assocs2} == {len(changes)}")
                 for change in changes:
-                    print(change)
+                    logging.info(change)
 
     def test_diffs(self):
         assocs1 = [Association(PROTEIN1, LOCATED_IN, NUCLEUS)]

@@ -56,6 +56,6 @@ class GildaImplementation(TextAnnotatorInterface):
 
             yield nen_annotation(
                 text=text,
-                curie=curie,
-                label=match.term.entry_name,
+                object_id=curie,
+                object_label=match.term.entry_name,
             )

@@ -22,13 +22,15 @@ from oaklib.utilities.lexical.lexical_indexer import create_lexical_index
 TEXT = str
 
 
-def nen_annotation(text: str, curie: CURIE, label: str) -> TextAnnotation:
+def nen_annotation(text: str, object_id: CURIE, object_label: str) -> TextAnnotation:
     """Return an annotation appropriate for a grounding."""
     return TextAnnotation(
         subject_start=1,
         subject_end=len(text),
-        object_id=curie,
-        object_label=label,
+        subject_label=text,
+        object_id=object_id,
+        object_label=object_label,
+        matches_whole_text=True,
     )
 
 
@@ -88,18 +90,18 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                 search_config = SearchConfiguration(force_case_insensitive=True)
                 for object_id in self.basic_search(text, config=search_config):
                     label = self.label(object_id)
-                    yield nen_annotation(text=text, curie=object_id, label=label)
+                    yield nen_annotation(text=text, object_id=object_id, object_label=label)
                 search_config.properties = [SearchProperty(SearchProperty.ALIAS)]
                 logging.debug(f"Config, including synonyms: {search_config}")
                 for object_id in self.basic_search(text, config=search_config):
                     label = self.label(object_id)
-                    yield nen_annotation(text=text, curie=object_id, label=label)
+                    yield nen_annotation(text=text, object_id=object_id, object_label=label)
             else:
                 raise NotImplementedError(
                     f"{self.__class__.__name__} can't be used to match partial text"
                 )
         else:
-            logging.info("using highly inefficient annotation method")
+            logging.info("Indexing ontology...")
             if not self.lexical_index:
                 self.lexical_index = create_lexical_index(self)
             logging.info("Performing naive search using lexical index")
@@ -108,6 +110,12 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
             for k, grouping in li.groupings.items():
                 if k in text_lower:
                     ix = text_lower.index(k)
+                    # TODO: make configurable. Exclude mid-word matches
+                    if ix > 0 and text_lower[ix - 1].isalpha():
+                        continue
+                    # end = ix + len(k)
+                    # if end < len(text_lower) and text_lower[end].isalpha():
+                    #    continue
                     for r in grouping.relationships:
                         ann = TextAnnotation(
                             subject_start=ix + 1,
@@ -116,6 +124,7 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                             object_id=r.element,
                             object_label=r.element_term,
                             match_string=text[ix : ix + len(k)],
+                            matches_whole_text=(ix == 0 and len(k) == len(text)),
                         )
                         yield ann
 

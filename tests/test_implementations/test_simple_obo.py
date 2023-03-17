@@ -331,7 +331,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
             return SimpleOboImplementation(resource2)
 
         self.compliance_tester.test_patcher(
-            self.oi, original_oi=original_oi, roundtrip_function=roundtrip
+            oi, original_oi=original_oi, roundtrip_function=roundtrip
         )
 
     def test_patcher_obsoletion_chains(self):
