@@ -130,6 +130,7 @@ from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphI
 from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
@@ -244,6 +245,7 @@ class SqlImplementation(
     SummaryStatisticsInterface,
     OwlInterface,
     DumperInterface,
+    RustSimilarityInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.

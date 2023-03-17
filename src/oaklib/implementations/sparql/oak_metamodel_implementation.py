@@ -10,6 +10,7 @@ from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 
@@ -29,6 +30,7 @@ class OakMetaModelImplementation(
     OboGraphInterface,
     PatcherInterface,
     SemanticSimilarityInterface,
+    RustSimilarityInterface
 ):
     """
     Wraps the internal OAK data models.

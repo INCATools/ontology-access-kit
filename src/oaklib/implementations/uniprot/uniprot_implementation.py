@@ -38,6 +38,7 @@ from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -75,6 +76,7 @@ class UniprotImplementation(
     SubsetterInterface,
     AssociationProviderInterface,
     TextAnnotatorInterface,
+    RustSimilarityInterface,
 ):
     """
     Wraps the Uniprot sparql endpoint.

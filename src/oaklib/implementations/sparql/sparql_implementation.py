@@ -9,6 +9,7 @@ from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
@@ -24,6 +25,7 @@ class SparqlImplementation(
     PatcherInterface,
     SemanticSimilarityInterface,
     TaxonConstraintInterface,
+    RustSimilarityInterface,
 ):
     """
     Wraps any local or remote sparql endpoint
