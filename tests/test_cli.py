@@ -401,7 +401,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(0, result.exit_code)
         msdf = parse_sssom_table(str(mappings_output))
         self.assertTrue(isinstance(msdf.prefix_map, dict))
-        self.assertEqual(len(msdf.prefix_map), 10)
+        self.assertEqual(len(msdf.prefix_map), 14)
         self.assertIn("BFO", msdf.prefix_map)
 
     # DUMPER
