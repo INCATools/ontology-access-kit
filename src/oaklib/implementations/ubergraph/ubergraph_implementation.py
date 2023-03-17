@@ -21,6 +21,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.rdf_interface import TRIPLE
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -53,6 +54,7 @@ class UbergraphImplementation(
     MappingProviderInterface,
     SemanticSimilarityInterface,
     SubsetterInterface,
+    RustSimilarityInterface
 ):
     """
     Wraps the Ubergraph sparql endpoint
