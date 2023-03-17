@@ -2439,7 +2439,7 @@ def extract(terms, predicates, dangling: bool, output, output_type, **kwargs):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     actual_predicates = _process_predicates_arg(predicates)
     curies = list(set(query_terms_iterator(terms, impl)))
-    graph = impl.extract_graph(curies, actual_predicates, dangling=dangling, **kwargs)
+    graph = impl.extract_graph(curies, predicates=actual_predicates, dangling=dangling, **kwargs)
     graph_impl = OboGraphImplementation(obograph_document=GraphDocument(graphs=[graph]))
     if output_type is None:
         output_type = "obo"
