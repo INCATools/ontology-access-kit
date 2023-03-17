@@ -697,7 +697,10 @@ class ProntoImplementation(
             Edge(sub=r[0], pred="is_a" if r[1] == IS_A else r[1], obj=r[2])
             for r in self.relationships()
         ]
-        return Graph(id=om.ontology, nodes=nodes, edges=edges)
+        graph_id = om.ontology
+        if not graph_id:
+            graph_id = self.resource.slug
+        return Graph(id=graph_id, nodes=nodes, edges=edges)
 
     def synonym_property_values(
         self, subject: Union[CURIE, Iterable[CURIE]]

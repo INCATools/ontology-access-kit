@@ -26,7 +26,7 @@ def from_cx(net_cx: ndex2.NiceCXNetwork) -> GraphDocument:
         node = Node(id=obj.get("r", att_n), lbl=att_n, type="CLASS")
         node_index[nid] = node
         graph.nodes.append(node)
-    for edge_id, edge_obj in net_cx.get_edges():
+    for _edge_id, edge_obj in net_cx.get_edges():
         s = node_index[edge_obj.get("s")]
         t = node_index[edge_obj.get("t")]
         graph.edges.append(Edge(sub=s.id, obj=t.id, pred=edge_obj.get("i")))
