@@ -182,7 +182,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">obograph_document</span> <span class="o">=</span> <span class="n">gd</span>
 
     <span class="k">def</span> <span class="nf">uri_to_curie</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">URI</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_uri_fallback</span><span class="o">=</span><span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">URI</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_uri_fallback</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="c1"># TODO: use a map</span>
         <span class="k">if</span> <span class="n">uri</span> <span class="o">==</span> <span class="s2">&quot;is_a&quot;</span><span class="p">:</span>

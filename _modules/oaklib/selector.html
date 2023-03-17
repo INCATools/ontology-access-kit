@@ -93,6 +93,7 @@
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">datamodels</span> <span class="k">as</span> <span class="n">datamodels_package</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">GildaImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.cx.cx_implementation</span> <span class="kn">import</span> <span class="n">CXImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.funowl.funowl_implementation</span> <span class="kn">import</span> <span class="n">FunOwlImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.kgx.kgx_implementation</span> <span class="kn">import</span> <span class="n">KGXImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.obograph.obograph_implementation</span> <span class="kn">import</span> <span class="p">(</span>
@@ -147,6 +148,8 @@
 <span class="n">SCHEME_DICT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;sqlite&quot;</span><span class="p">:</span> <span class="n">SqlImplementation</span><span class="p">,</span>
     <span class="s2">&quot;kgx&quot;</span><span class="p">:</span> <span class="n">KGXImplementation</span><span class="p">,</span>
+    <span class="s2">&quot;cx&quot;</span><span class="p">:</span> <span class="n">CXImplementation</span><span class="p">,</span>
+    <span class="s2">&quot;ndexbio&quot;</span><span class="p">:</span> <span class="n">CXImplementation</span><span class="p">,</span>
     <span class="s2">&quot;ubergraph&quot;</span><span class="p">:</span> <span class="n">UbergraphImplementation</span><span class="p">,</span>
     <span class="s2">&quot;ontobee&quot;</span><span class="p">:</span> <span class="n">OntobeeImplementation</span><span class="p">,</span>
     <span class="s2">&quot;uniprot&quot;</span><span class="p">:</span> <span class="n">UniprotImplementation</span><span class="p">,</span>

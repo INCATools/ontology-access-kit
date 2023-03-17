@@ -97,6 +97,7 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:prefix
+    key: true
     range: string
   namespace:
     name: namespace
@@ -128,6 +129,7 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:prefix
+    key: true
     alias: prefix
     owner: PrefixDeclaration
     domain_of:
