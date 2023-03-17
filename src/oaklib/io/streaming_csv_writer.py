@@ -9,6 +9,7 @@ import oaklib.datamodels.summary_statistics_datamodel as summary_stats
 from oaklib.datamodels import obograph
 from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.io.streaming_writer import ID_KEY, LABEL_KEY, StreamingWriter
 from oaklib.types import CURIE
@@ -92,7 +93,7 @@ class StreamingCsvWriter(StreamingWriter):
             for k, vs in oi.outgoing_relationship_map(curie).items():
                 d[k] = "|".join(vs)
                 d[f"{k}_label"] = "|".join([str(oi.label(v)) for v in vs])
-        if isinstance(oi, SemanticSimilarityInterface):
+        if isinstance(oi, (SemanticSimilarityInterface, RustSimilarityInterface)):
             d["information_content_via_is_a"] = oi.get_information_content(curie, predicates=[IS_A])
             d["information_content_via_is_a_part_of"] = oi.get_information_content(
                 curie, predicates=[IS_A, PART_OF]
