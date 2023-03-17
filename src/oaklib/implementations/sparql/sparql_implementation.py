@@ -12,8 +12,8 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.merge_interface import MergeConfiguration, MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
-from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
