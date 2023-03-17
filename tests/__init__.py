@@ -1,11 +1,10 @@
 import math
-import os
 from pathlib import Path
 from typing import List
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
-ROOT = os.path.abspath(os.path.dirname(__file__))
+ROOT = Path(__file__).resolve().parent
 INPUT_DIR = Path(ROOT) / "input"
 OUTPUT_DIR = Path(ROOT) / "output"
 SCHEMA_DIR = Path(ROOT) / "../src/linkml"
