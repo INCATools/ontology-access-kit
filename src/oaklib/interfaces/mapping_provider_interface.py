@@ -12,10 +12,11 @@ from oaklib.types import CURIE
 
 class MappingProviderInterface(BasicOntologyInterface, ABC):
     """
-    An ontology provider that provides SSSOM mappings
+    An ontology provider that provides SSSOM mappings.
 
-    TODO: move code from mapping-walker
     """
+
+    # TODO: move code from mapping-walker
 
     def inject_mapping_labels(self, mappings: Iterable[Mapping]) -> None:
         for mapping in mappings:

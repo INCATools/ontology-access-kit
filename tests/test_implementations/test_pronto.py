@@ -368,6 +368,13 @@ class TestProntoImplementation(unittest.TestCase):
     def test_reflexive_diff(self):
         self.compliance_tester.test_reflexive_diff(self.oi)
 
+    def test_merge(self):
+        resource1 = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
+        resource2 = OntologyResource(slug="interneuron.obo", directory=INPUT_DIR, local=True)
+        oi1 = ProntoImplementation(resource1)
+        oi2 = ProntoImplementation(resource2)
+        self.compliance_tester.test_merge(oi1, oi2)
+
     def test_diff(self):
         resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
         oi_modified = ProntoImplementation(resource)

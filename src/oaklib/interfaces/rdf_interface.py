@@ -22,9 +22,6 @@ class RdfInterface(BasicOntologyInterface, ABC):
     def _triple_as_urirefs(self, triple: TRIPLE) -> RDF_TRIPLE:
         pass
 
-    def _triple_as_curies(self, triple: RDF_TRIPLE) -> TRIPLE:
-        pass
-
     def triples(self, pattern: TRIPLE) -> Iterator[TRIPLE]:
         """
         All triples matching triple pattern
@@ -32,8 +29,23 @@ class RdfInterface(BasicOntologyInterface, ABC):
         :param pattern: tuple of s,p,o, where None matches anything
         :return:
         """
-        for t in self.graph().triples(self._triple_as_urirefs(pattern)):
-            yield self._triple_as_curies(t)
+        raise NotImplementedError
+
+    def all_triples(self) -> Iterator[TRIPLE]:
+        """
+        All triples.
+
+        :return:
+        """
+        raise NotImplementedError
+
+    def all_rdflib_triples(self) -> Iterator[RDF_TRIPLE]:
+        """
+        All triples, as rdflib objects
+
+        :return:
+        """
+        raise NotImplementedError
 
     def objects(self, subject, predicate) -> Iterator[Any]:
         """

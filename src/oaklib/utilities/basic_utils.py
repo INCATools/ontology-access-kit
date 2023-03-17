@@ -17,6 +17,19 @@ def pairs_as_dict(pairs: Iterable[Tuple[Any, Any]]) -> Dict[Any, List[Any]]:
     return d
 
 
+def triples_as_dict(tuples: Iterable[Tuple[Any, Any, Any]]) -> Dict[Any, List[Tuple[Any, Any]]]:
+    """
+    Translates a collection of s-p-o pairs tuples a key-value dictionary keyed by subject
+
+    :param tuples:
+    :return:
+    """
+    d = defaultdict(list)
+    for t in tuples:
+        d[t[0]].append((t[1], t[2]))
+    return d
+
+
 def get_curie_prefix(curie: CURIE) -> Optional[str]:
     """
     Extract the prefix from a CURIE.
