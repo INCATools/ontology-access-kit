@@ -38,6 +38,7 @@ from oaklib.interfaces.basic_ontology_interface import (
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
@@ -65,6 +66,7 @@ class OboGraphImplementation(
     SearchInterface,
     PatcherInterface,
     DumperInterface,
+    MergeInterface,
 ):
     """
     OBO Graphs JSON backed implementation.
@@ -93,7 +95,7 @@ class OboGraphImplementation(
             self.obograph_document = gd
 
     def uri_to_curie(
-        self, uri: URI, strict: bool = False, use_uri_fallback=False
+        self, uri: URI, strict: bool = False, use_uri_fallback=True
     ) -> Optional[CURIE]:
         # TODO: use a map
         if uri == "is_a":
@@ -212,6 +214,9 @@ class OboGraphImplementation(
         if n:
             return n.meta
 
+    def ontologies(self) -> Iterable[CURIE]:
+        return [g.id for g in self.obograph_document.graphs]
+
     def subsets(self) -> Iterable[CURIE]:
         raise NotImplementedError
 
@@ -243,6 +248,7 @@ class OboGraphImplementation(
         label: Optional[str] = None,
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
+        **kwargs,
     ) -> CURIE:
         g = self._entire_graph()
         g.nodes.append(Node(curie, lbl=label, type=type))
@@ -284,6 +290,7 @@ class OboGraphImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         for s in self._relationship_index.keys():
             if subjects is not None and s not in subjects:
@@ -386,6 +393,11 @@ class OboGraphImplementation(
     ):
         logging.info("Committing and flushing changes")
         self.dump(self.resource.slug)
+
+    def load_graph(self, graph: Graph, replace: True) -> None:
+        if not replace:
+            raise NotImplementedError
+        self.obograph_document = GraphDocument(graphs=[graph])
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: MappingsInterface

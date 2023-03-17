@@ -26,6 +26,9 @@ class TestDefinitionOntologyRules(unittest.TestCase):
         self.rule = TextAndLogicalDefinitionMatchOntologyRule()
 
     def test_rule(self):
+        """
+        Checks logical definitions and text definitions are aligned.
+        """
         rule = self.rule
         cases = [
             (
@@ -72,9 +75,11 @@ class TestDefinitionOntologyRules(unittest.TestCase):
             self.assertEqual(differentia, pdef.differentia_text)
             self.assertEqual(gloss, pdef.gloss)
             results = list(rule.check_against_logical_definition(self.oi, pdef, ldef))
-            # for result in results:
-            #    print(result)
-            self.assertEqual(expected_results, len(results))
+            self.assertEqual(
+                expected_results,
+                len(results),
+                f"check_against_logical_definition unexpected; Case: {case}",
+            )
         results = list(rule.evaluate(self.oi))
         for result in results:
             print(result)

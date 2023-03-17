@@ -1023,7 +1023,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                         metadata_map[IS_DEFINED_BY] = [self.curie_to_uri(f"{prefix}:", False)]
 
     def create_entity(
-        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+        self,
+        curie: CURIE,
+        label: str = None,
+        relationships: RELATIONSHIP_MAP = None,
+        replace=False,
+        **kwargs,
     ) -> CURIE:
         """
         Creates and stores an entity.
@@ -1031,6 +1036,18 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :param label:
         :param relationships:
+        :param replace:
+        :param kwargs:
+        :return:
+        """
+        raise NotImplementedError
+
+    def delete_entity(self, curie: CURIE, label: str = None, **kwargs) -> CURIE:
+        """
+        Deletes an entity.
+
+        :param curie:
+        :param kwargs:
         :return:
         """
         raise NotImplementedError
@@ -1058,17 +1075,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Saves current state.
 
-        :return:
-        """
-        raise NotImplementedError
-
-    def dump(self, path: str = None, syntax: str = None, **kwargs):
-        """
-        Exports current state.
-
-        :param path: path to output file
-        :param syntax: format/syntax
-        :param kwargs: additional format-specific arguments
         :return:
         """
         raise NotImplementedError

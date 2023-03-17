@@ -37,7 +37,6 @@ from typing import (
 import click
 import kgcl_schema.grammar.parser as kgcl_parser
 import pystow
-import rdflib
 import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
@@ -57,6 +56,7 @@ from oaklib.datamodels.obograph import (
     BasicPropertyValue,
     Edge,
     Graph,
+    GraphDocument,
     Meta,
     PrefixDeclaration,
 )
@@ -83,6 +83,9 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
+from oaklib.implementations.obograph.obograph_implementation import (
+    OboGraphImplementation,
+)
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import (
     BasicOntologyInterface,
@@ -102,6 +105,7 @@ from oaklib.interfaces.differ_interface import (
     DifferInterface,
 )
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
@@ -661,8 +665,12 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
         elif term.startswith(".relations"):
             chain_results(impl.entities(owl_type=OWL_OBJECT_PROPERTY))
         elif term.startswith(".rand"):
+            params = _parse_params(term)
+            sample_size = params.get("n", "100")
             entities = list(impl.entities())
-            sample = [entities[secrets.randbelow(len(entities))] for x in range(1, 100)]
+            sample = [
+                entities[secrets.randbelow(len(entities))] for x in range(1, int(sample_size))
+            ]
             chain_results(sample)
         elif term.startswith(".in"):
             # subset query
@@ -741,7 +749,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
         else:
             # term is not query syntax: feed directly to search
             if not isinstance(impl, SearchInterface):
-                raise NotImplementedError
+                raise NotImplementedError(f"Search not implemented for {type(impl)}")
             cfg = create_search_configuration(term)
             logging.info(f"Search config: {term} => {cfg}")
             chain_results(impl.basic_search(cfg.search_terms[0], config=cfg))
@@ -767,6 +775,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 # )
 @click.option(
     "--autosave/--no-autosave",
+    show_default=True,
     help="For commands that mutate the ontology, this determines if these are automatically saved in place",
 )
 @click.option(
@@ -793,6 +802,12 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 @input_option
 @input_type_option
 @add_option
+@click.option(
+    "--merge/--no-merge",
+    default=False,
+    show_default=True,
+    help="Merge all inputs specified using --add",
+)
 def main(
     verbose: int,
     quiet: bool,
@@ -800,6 +815,7 @@ def main(
     input: str,
     input_type: str,
     add: List,
+    merge: bool,
     associations: List,
     associations_type: str,
     save_as: str,
@@ -843,11 +859,19 @@ def main(
         logging.info(f"RESOURCE={resource}")
         settings.impl = impl_class(resource)
         settings.impl.autosave = autosave
+    if merge and not add:
+        raise ValueError("Cannot use --merge without --add")
     if add:
         impls = [get_implementation_from_shorthand(d) for d in add]
-        if settings.impl:
-            impls = [settings.impl] + impls
-        settings.impl = AggregatorImplementation(implementations=impls)
+        if merge:
+            if isinstance(settings.impl, MergeInterface):
+                settings.impl.merge(impls)
+            else:
+                raise NotImplementedError(f"{type(settings.impl)} does not implement merging")
+        else:
+            if settings.impl:
+                impls = [settings.impl] + impls
+            settings.impl = AggregatorImplementation(implementations=impls)
     settings.associations_type = associations_type
     if associations:
         if isinstance(settings.impl, AssociationProviderInterface):
@@ -1670,6 +1694,8 @@ def viz(
     logging.info(f"Drawing graph seeded from {curies}")
     if meta:
         impl.add_metadata(graph)
+    if not graph.nodes:
+        raise ValueError(f"No nodes in graph for {curies}")
     # TODO: abstract this out
     if output_type:
         write_graph(graph, format=output_type, output=output)
@@ -2235,7 +2261,7 @@ def descendants(
 
 @main.command()
 @click.argument("terms", nargs=-1)
-@click.option("-o", "--output")
+@click.option("-o", "--output", help="Path to output file")
 @click.option(
     "--include-all-predicates/--no-include-all-predicates",
     default=False,
@@ -2358,33 +2384,68 @@ def prefixes(terms, used_only: bool, output, output_type: str):
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
-@output_option
+@click.option("-o", "--output", help="Path to output file")
+@click.option(
+    "--dangling/--no-dangling",
+    default=False,
+    show_default=True,
+    help="If True, allow dangling edges in the output",
+)
+@click.option(
+    "--include-metadata/--no-include-metadata",
+    default=False,
+    show_default=True,
+    help="If True, include term metadata such as definitions, synonyms",
+)
 @output_type_option
-def extract_triples(terms, predicates, output, output_type: str = "ttl"):
+def extract(terms, predicates, dangling: bool, output, output_type, **kwargs):
     """
-    Extracts a subontology as triples
+    Extracts a sub-ontology.
 
-    Currently the only endpoint to implement this is ubergraph. Ontobee seems
-    to have performance issues with the query
+    Simple example:
 
-    This will soon be supported in the SqlDatabase/Sqlite endpoint
+        runoak -i cl.db extract neuron
 
-    Example:
+    This will extract a single node for "neuron". No relationships will be included,
+    as --no-dangling is the default
 
-        runoak -v -i ubergraph: extract-triples GO:0005635 CL:0000099 -o test.ttl -O ttl
+    To include edges even if dangling:
+
+        runoak -i cl.db extract neuron --dangling
+
+    A subset of relationship types (predicates):
+
+        runoak -i cl.db extract neuron --dangling -p i
+
+    If you wish to get a fully connected is-a graph for all is-a ancestors:
+
+        runoak -i cl.db extract .anc//p=i neuron --dangling -p i
+
+    If you prefer, you can split this into 2 commands:
+
+        runoak -i cl.db ancestors -p i neuron > seed.txt
+
+    Then:
+
+        runoak -i cl.db extract .idfile seed.txt --dangling -p i
+
+    You can specify different output types and output paths:
+
+        runoak -i cl.db extract .idfile seed.txt -O owl -o neuron.owl.ttl
+
+    Allowed formats include: obo, obographs, owl/ttl, fhirjson
 
     """
     impl = settings.impl
-    if isinstance(impl, RdfInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        g = rdflib.Graph()
-        curies = list(query_terms_iterator(terms, impl))
-        for t in impl.extract_triples(curies, predicates=actual_predicates, map_to_curies=False):
-            logging.info(f"Triple: {t}")
-            g.add(t)
-        output.write(g.serialize())
-    else:
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    curies = list(set(query_terms_iterator(terms, impl)))
+    graph = impl.extract_graph(curies, predicates=actual_predicates, dangling=dangling, **kwargs)
+    graph_impl = OboGraphImplementation(obograph_document=GraphDocument(graphs=[graph]))
+    if output_type is None:
+        output_type = "obo"
+    graph_impl.dump(output, output_type)
 
 
 @main.command()

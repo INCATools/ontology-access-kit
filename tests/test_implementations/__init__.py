@@ -14,7 +14,7 @@ import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
-from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.dumpers import json_dumper
 
 from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
 from oaklib.datamodels import obograph
@@ -31,6 +31,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
     HAS_PART,
+    INVERSE_OF,
     IS_A,
     LOCATED_IN,
     NEVER_IN_TAXON,
@@ -42,6 +43,9 @@ from oaklib.datamodels.vocabulary import (
     OWL_CLASS,
     OWL_THING,
     PART_OF,
+    RDFS_DOMAIN,
+    RDFS_RANGE,
+    SUBPROPERTY_OF,
     TERM_REPLACED_BY,
     TERM_TRACKER_ITEM,
 )
@@ -54,6 +58,7 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import OwlInterface
@@ -66,6 +71,7 @@ from tests import (
     BACTERIA,
     BIOLOGICAL_PROCESS,
     CATALYTIC_ACTIVITY,
+    CAUSALLY_UPSTREAM_OF,
     CELL,
     CELL_CORTEX,
     CELL_CORTEX_REGION,
@@ -99,8 +105,10 @@ from tests import (
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
     PLASMA_MEMBRANE,
+    PROCESS,
     PROTEIN1,
     PROTEIN2,
+    REGULATED_BY,
     REGULATES,
     SUBATOMIC_PARTICLE,
     VACUOLE,
@@ -423,6 +431,34 @@ class ComplianceTester:
                 irels = list(oi.incoming_relationships(o, predicates=[p]))
                 test.assertIn((p, s), irels)
 
+    def test_rbox_relationships(self, oi: BasicOntologyInterface):
+        """
+        Tests relationships between relationship types
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (REGULATES, [CAUSALLY_UPSTREAM_OF], REGULATED_BY, PROCESS, PROCESS),
+        ]
+        for curie, is_as, inv, domain, range in cases:
+            logging.info(f"TESTS FOR {curie}")
+            for p, expected in [
+                (SUBPROPERTY_OF, is_as),
+                (RDFS_DOMAIN, [domain]),
+                (RDFS_RANGE, [range]),
+                (INVERSE_OF, [inv]),
+            ]:
+                parents = [r[2] for r in oi.relationships([curie], predicates=[p])]
+                test.assertCountEqual(
+                    expected, parents, f"expected {p}({curie}) = {expected} got {parents}"
+                )
+                parents = [r[2] for r in oi.relationships([curie]) if r[1] == p]
+                test.assertCountEqual(
+                    expected, parents, f"expected {p}({curie}) = {expected} got {parents}"
+                )
+
     def test_equiv_relationships(self, oi: BasicOntologyInterface):
         """
         Tests equivalence relationship methods for compliance.
@@ -634,6 +670,28 @@ class ComplianceTester:
                 test.assertTrue(cds, f"Expected common descendants: {c}, {c}")
                 test.assertIn(c, cds, f"ExpectedIn: {c}, {cds}")
 
+    def test_merge(self, target: MergeInterface, source: BasicOntologyInterface):
+        """
+        Tests ability to merge a source ontology into a target.
+
+        :param target:
+        :param source:
+        :return:
+        """
+        test = self.test
+        target_entities = set(target.entities(owl_type=OWL_CLASS))
+        source_entities = set(source.entities(owl_type=OWL_CLASS))
+        target.merge([source])
+        merged_entities = set(target.entities(owl_type=OWL_CLASS))
+        diff = merged_entities.difference(target_entities.union(source_entities))
+        for x in diff:
+            print(x)
+        test.assertCountEqual(target_entities.union(source_entities), merged_entities)
+        in_both = target_entities.intersection(source_entities)
+        test.assertIn(CELL, in_both)
+        # TODO
+        # test.assertIn(PART_OF, list(target.entities()))
+
     def test_reflexive_diff(self, oi: DifferInterface):
         """
         Tests that the reflexive diff is empty
@@ -769,10 +827,15 @@ class ComplianceTester:
 
         :param oi:
         :param original_oi:
-        :param roundtrip_function:
+        :param roundtrip_function: a function to create a new PatchInterface.
         :return:
         """
         test = self.test
+        # Each change is a tuple of:
+        #   - instantiated change object, following KGCL model
+        #   - expects_raises - if True then applying the change is expected to raise an exception
+        #   - test_func - a function that checks the state of the ontology post-change
+        #   - expanded_changes - in some cases a change will be expanded into multiple changes
         cases = [
             (
                 kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE"),
@@ -781,14 +844,16 @@ class ComplianceTester:
                     "VaCuOlE",
                     oi.label(VACUOLE),
                 ),
+                None,
             ),
             (
-                NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS),
+                NodeObsoletion(id=generate_change_id(), about_node=CELL_PERIPHERY),
                 False,
                 lambda oi: test.assertIn(
-                    NUCLEUS,
+                    CELL_PERIPHERY,
                     oi.obsoletes(),
                 ),
+                None,
             ),
             (
                 kgcl.NodeObsoletionWithDirectReplacement(
@@ -804,11 +869,12 @@ class ComplianceTester:
                     ),
                     lambda oi: test.assertEqual(
                         [NUCLEAR_MEMBRANE],
-                        oi.entity_metadata_map(NUCLEUS)[TERM_REPLACED_BY],
+                        oi.entity_metadata_map(NUCLEUS).get(TERM_REPLACED_BY, []),
                     ),
                 ],
+                None,
             ),
-            (NodeObsoletion(id=generate_change_id(), about_node="no such term"), True, None),
+            (NodeObsoletion(id=generate_change_id(), about_node=FAKE_ID), True, None, None),
             (
                 kgcl.SynonymReplacement(
                     id=generate_change_id(),
@@ -826,18 +892,32 @@ class ComplianceTester:
                     ],
                     oi.entity_aliases(CELLULAR_COMPONENT),
                 ),
+                [
+                    kgcl.NewSynonym(
+                        id=generate_change_id(),
+                        about_node=CELLULAR_COMPONENT,
+                        new_value="foo bar",
+                    ),
+                    kgcl.RemoveSynonym(
+                        id=generate_change_id(),
+                        about_node=CELLULAR_COMPONENT,
+                        old_value="subcellular entity",
+                    ),
+                ],
             ),
             (
-                kgcl.NewSynonym(id=generate_change_id(), about_node=HUMAN, new_value="people"),
+                kgcl.NewSynonym(id=generate_change_id(), about_node=FUNGI, new_value="shroom"),
                 False,
                 lambda oi: test.assertCountEqual(
-                    ["people", "Homo sapiens"],
-                    oi.entity_aliases(HUMAN),
+                    ["shroom", "fungi", "Fungi", "Mycota"],
+                    oi.entity_aliases(FUNGI),
                 ),
+                None,
             ),
         ]
+        # Apply changes and test the end-state is as expected
         for case in cases:
-            change, expects_raises, test_func = case
+            change, expects_raises, test_func, expanded_changes = case
             if expects_raises:
                 with test.assertRaises(ValueError):
                     oi.apply_patch(change)
@@ -848,39 +928,45 @@ class ComplianceTester:
                 else:
                     test_func(oi)
         if roundtrip_function:
+            # pass through a save and reload
             oi2 = roundtrip_function(oi)
         else:
+            # just use the original ontology
             oi2 = oi
+        # gather all changes that do not raise errors
+        # (gather as dict objects to make more comparable)
         expected_changes = []
         for case in cases:
-            change, expects_raises, test_func = case
+            change, expects_raises, test_func, expanded_changes = case
             if test_func:
+                # re-apply test function
                 if isinstance(test_func, list):
                     [t(oi2) for t in test_func]
                 else:
                     test_func(oi2)
             if not expects_raises:
-                change_obj = _as_json_dict_no_id(change)
-                expected_changes.append(change_obj)
-                logging.info(f"EXPECTS: {change_obj}")
+                if not expanded_changes:
+                    expanded_changes = [change]
+                for change in expanded_changes:
+                    change_obj = _as_json_dict_no_id(change)
+                    # if "old_value" in change_obj:
+                    #    del change_obj["old_value"]
+                    expected_changes.append(change_obj)
+        # perform a diff between the original ontology and the post-change ontology;
+        # compare these with the expected changes
         if original_oi:
             diffs = original_oi.diff(oi2)
             for diff in diffs:
                 kgcl_diff = render(diff)
                 logging.info(kgcl_diff)
-                # print(kgcl_diff)
                 change_obj = _as_json_dict_no_id(diff)
+                if "old_value" in change_obj and "new_value" in change_obj:
+                    del change_obj["old_value"]
                 if change_obj in expected_changes:
                     expected_changes.remove(change_obj)
-                # TODO: raise exception
-                logging.warning(f"Cannot find: {change_obj}")
-                # else:
-                #    raise ValueError(f"Cannot find: {change_obj}")
-            # not all changes are easily recapitulated yet; e.g.
-            for ch in expected_changes:
-                # TODO: raise exception
-                print(f"Expected change not found: {ch}")
-            test.assertLessEqual(len(expected_changes), 4)
+                else:
+                    raise ValueError(f"Cannot find: {change_obj} in {expected_changes}")
+            test.assertCountEqual([], expected_changes)
 
     def test_patcher_obsoletion_chains(self, get_adapter_function: Callable):
         """
@@ -1000,14 +1086,13 @@ class ComplianceTester:
         test = self.test
         oi.include_residuals = True
         stats = oi.branch_summary_statistics(include_entailed=True)
-        # print(yaml_dumper.dumps(stats))
         test.assertEqual(247, stats.class_count)
         test.assertEqual(94, stats.class_count_with_text_definitions)
         test.assertEqual(16, stats.subset_count)
         test.assertEqual(12, stats.class_count_by_subset["obo:go#goslim_yeast"].filtered_count)
         test.assertEqual(23, stats.edge_count_by_predicate[PART_OF].filtered_count)
         test.assertEqual(223, stats.edge_count_by_predicate[IS_A].filtered_count)
-        test.assertEqual(425754, stats.entailed_edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(591108, stats.entailed_edge_count_by_predicate[IS_A].filtered_count)
         test.assertEqual(255, stats.distinct_synonym_count)
         test.assertEqual(264, stats.synonym_statement_count)
         test.assertEqual(
@@ -1015,7 +1100,6 @@ class ComplianceTester:
         )
         test.assertEqual(152, stats.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count)
         stats_cc = oi.branch_summary_statistics("cc", branch_roots=[CELLULAR_COMPONENT])
-        print(yaml_dumper.dumps(stats_cc))
         test.assertEqual(23, stats_cc.class_count)
         test.assertEqual(23, stats_cc.class_count_with_text_definitions)
         test.assertEqual(19, stats_cc.edge_count_by_predicate[PART_OF].filtered_count)
@@ -1031,7 +1115,6 @@ class ComplianceTester:
         stats_ns = oi.branch_summary_statistics(
             "cc_namespace", property_values={"oio:hasOBONamespace": "cellular_component"}
         )
-        # print(yaml_dumper.dumps(stats_ns))
         test.assertEqual(23, stats_ns.class_count)
         test.assertEqual(23, stats_ns.class_count_with_text_definitions)
         test.assertEqual(19, stats_ns.edge_count_by_predicate[PART_OF].filtered_count)
@@ -1046,7 +1129,6 @@ class ComplianceTester:
         )
         logging.info("Test grouping by OBO Namespace")
         global_stats = oi.global_summary_statistics(group_by="oio:hasOBONamespace")
-        # print(yaml_dumper.dumps(global_stats))
         gs_cc = global_stats.partitions["cellular_component"]
         test.assertEqual(14, gs_cc.subset_count)
         test.assertEqual(8, gs_cc.class_count_by_subset["obo:go#goslim_yeast"].filtered_count)
@@ -1065,7 +1147,6 @@ class ComplianceTester:
                 test.assertEqual(v, getattr(gs_cc, k))
         logging.info("Test grouping by prefix")
         global_stats = oi.global_summary_statistics(group_by="sh:prefix")
-        # print(yaml_dumper.dumps(global_stats))
         ro_stats = global_stats.partitions["RO"]
         test.assertEqual(0, ro_stats.class_count)
         test.assertEqual(88, ro_stats.object_property_count)
@@ -1326,7 +1407,6 @@ class ComplianceTester:
         for child, parent in posets:
             if use_associations:
                 if child in m and parent in m:
-                    print(f"{m[child]} > {m[parent]}")
                     test.assertGreaterEqual(m[child], m[parent])
             else:
                 test.assertGreater(m[child], m[parent])
@@ -1336,7 +1416,6 @@ class ComplianceTester:
         # test non-existent item
         test.assertEqual([(OWL_THING, 0.0)], list(oi.information_content_scores([OWL_THING])))
         sim = oi.pairwise_similarity(NUCLEUS, FAKE_ID)
-        # print(sim)
         test.assertEqual(0.0, sim.ancestor_information_content)
         test.assertEqual(0.0, sim.jaccard_similarity)
         terms = [NUCLEUS, FAKE_ID]

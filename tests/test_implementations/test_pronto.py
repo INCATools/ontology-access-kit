@@ -209,7 +209,6 @@ class TestProntoImplementation(unittest.TestCase):
         """
         for slug in ["test_import_root.obo", "test_import_root.obo"]:
             resource = OntologyResource(slug=slug, directory=INPUT_DIR, local=True)
-            # print(resource.local_path)
             # currently throws exception
             pronto.Ontology(resource.local_path)
             oi = ProntoImplementation.create(resource)
@@ -369,12 +368,31 @@ class TestProntoImplementation(unittest.TestCase):
     def test_reflexive_diff(self):
         self.compliance_tester.test_reflexive_diff(self.oi)
 
+    def test_merge(self):
+        resource1 = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
+        resource2 = OntologyResource(slug="interneuron.obo", directory=INPUT_DIR, local=True)
+        oi1 = ProntoImplementation(resource1)
+        oi2 = ProntoImplementation(resource2)
+        self.compliance_tester.test_merge(oi1, oi2)
+
     def test_diff(self):
         resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
         oi_modified = ProntoImplementation(resource)
         self.compliance_tester.test_diff(self.oi, oi_modified)
 
     def test_patcher(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = ProntoImplementation(resource)
+
+        def roundtrip(oi_in: OntologyResource):
+            out_file = str(OUTPUT_DIR / "post-kgcl.obo")
+            oi_in.dump(out_file, syntax="obo")
+            resource2 = OntologyResource(slug=out_file, local=True)
+            return ProntoImplementation(resource2)
+
+        self.compliance_tester.test_patcher(oi, self.oi, roundtrip_function=roundtrip)
+
+    def test_patcher_extra(self):
         resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
         oi = ProntoImplementation(resource)
         oi.apply_patch(

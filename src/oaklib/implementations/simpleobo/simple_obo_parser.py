@@ -37,6 +37,7 @@ STANZA_TERM = "Term"
 STANZA_TYPEDEF = "Typedef"
 
 TAG = str
+TAG_ID = "id"
 TAG_ONTOLOGY = "ontology"
 TAG_ID_SPACE = "idspace"
 TAG_DATA_VERSION = "data-version"
@@ -60,10 +61,38 @@ TAG_INVERSE_OF = "inverse_of"
 TAG_EQUIVALENT_TO = "equivalent_to"
 TAG_RELATIONSHIP = "relationship"
 TAG_INTERSECTION_OF = "intersection_of"
+TAG_UNION_OF = "union_of"
+TAG_DISJOINT_FROM = "disjoint_from"
 TAG_CREATED_BY = "created_by"
 TAG_CREATION_DATE = "creation_date"
 SYNONYM_TUPLE = Tuple[PRED_CURIE, str, Optional[str], List[CURIE]]
 PROPERTY_VALUE_TUPLE = Tuple[PRED_CURIE, str, Optional[CURIE], Optional[List[CURIE]]]
+
+TERM_TAGS = [
+    TAG_ID,
+    # TAG_IS_ANONYMOUS,
+    TAG_NAME,
+    TAG_NAMESPACE,
+    TAG_ALT_ID,
+    TAG_DEF,
+    TAG_COMMENT,
+    TAG_SUBSET,
+    TAG_SYNONYM,
+    TAG_XREF,
+    # TAG_BUILTIN,
+    TAG_PROPERTY_VALUE,
+    TAG_IS_A,
+    TAG_INTERSECTION_OF,
+    TAG_UNION_OF,
+    TAG_EQUIVALENT_TO,
+    TAG_DISJOINT_FROM,
+    TAG_RELATIONSHIP,
+    TAG_CREATED_BY,
+    TAG_CREATION_DATE,
+    TAG_IS_OBSOLETE,
+    TAG_REPLACED_BY,
+    TAG_CONSIDER,
+]
 
 
 def _parse_list(as_str: str) -> List[str]:
@@ -142,6 +171,12 @@ class TagValue:
         toks = [curie_map.get(x, x) for x in toks]
         self.value = " ".join(toks)
 
+    def order(self) -> Tuple[int, int]:
+        t = self.tag
+        v1 = TERM_TAGS.index(t) if t in TERM_TAGS else 99
+        v2 = str(self.value)
+        return v1, v2
+
 
 @dataclass
 class Structure:
@@ -157,6 +192,9 @@ class Structure:
 
     def _values(self, tag: TAG) -> List[str]:
         return [tv.value for tv in self.tag_values if tv.tag == tag]
+
+    def normalize_order(self):
+        self.tag_values = sorted(self.tag_values, key=lambda x: x.order())
 
     def simple_values(self, tag: TAG) -> List[CURIE]:
         """
@@ -387,11 +425,18 @@ class OboDocument:
     def reindex(self) -> None:
         self.stanzas = {s.id: s for s in self.stanzas.values()}
 
-    def dump(self, file: TextIO) -> None:
+    def dump(self, file: TextIO, sort_tags=True) -> None:
         """Export to a file
 
         :param file:
         """
+        if sort_tags:
+            stanzas = self.stanzas.values()
+            stanzas = sorted(stanzas, key=lambda x: x.id)
+            self.stanzas = {s.id: s for s in stanzas}
+            for s in stanzas:
+                s.normalize_order()
+
         self._dump_tag_values(self.header.tag_values, file)
         for s in self.stanzas.values():
             file.write(f"[{s.type}]\n")
@@ -426,7 +471,7 @@ def parse_obo_document(path: Union[str, Path]) -> OboDocument:
                     raise ValueError(f"Cannot parse {line}")
                 typ = m.group(1)
                 if typ != STANZA_TERM and typ != STANZA_TYPEDEF:
-                    raise ValueError(f"Bad type: {typ}")
+                    raise ValueError(f"Bad type: {typ} in line {line}")
                 if obo_document is None:
                     obo_document = OboDocument(header=Header(tag_values=tag_values))
                 else:

@@ -44,7 +44,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.dumper_interface import DumperInterface
-from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
+from oaklib.interfaces.rdf_interface import RDF_TRIPLE, TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.utilities.basic_utils import pairs_as_dict
@@ -358,6 +358,36 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         for row in bindings:
             yield tuple([row[v]["value"] for v in vars])
 
+    def _triple_as_curies(self, triple: RDF_TRIPLE) -> TRIPLE:
+        s = self.uri_to_curie(triple[0])
+        p = self.uri_to_curie(triple[1])
+        o = self.uri_to_curie(triple[2])
+        return s, p, o
+
+    def triples(self, pattern: TRIPLE) -> Iterator[TRIPLE]:
+        """
+        All triples matching triple pattern
+
+        :param pattern: tuple of s,p,o, where None matches anything
+        :return:
+        """
+        if not self.graph:
+            raise NotImplementedError("Not implemented for SPARQL endpoints")
+        q = self._triple_as_urirefs(pattern)
+        for t in self.graph.triples(q):
+            yield self._triple_as_curies(t)
+
+    def all_triples(self) -> Iterator[TRIPLE]:
+        if not self.graph:
+            raise NotImplementedError("Not implemented for SPARQL endpoints")
+        for t in self.graph.triples((None, None, None)):
+            yield self._triple_as_curies(t)
+
+    def all_rdflib_triples(self) -> Iterator[RDF_TRIPLE]:
+        if not self.graph:
+            raise NotImplementedError("Not implemented for SPARQL endpoints")
+        yield from self.graph.triples((None, None, None))
+
     def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         uri = self.curie_to_uri(curie)
         is_a_pred = (
@@ -448,6 +478,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = True,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships

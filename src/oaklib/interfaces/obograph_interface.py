@@ -98,6 +98,18 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         self.transitive_query_cache = None
 
+    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> Node:
+        """
+        Look up a node object by CURIE
+
+        :param curie: identifier of node
+        :param strict: raise exception if node not found
+        :param include_metadata: include detailed metadata
+        :param expand_curies: if True expand CURIEs to URIs
+        :return:
+        """
+        raise NotImplementedError
+
     def nodes(self, expand_curies=False) -> Iterator[Node]:
         """
         Yields all nodes in all graphs
@@ -130,18 +142,6 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
                     p = "is_a"
                 yield Edge(sub=s, pred=p, obj=o)
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> Node:
-        """
-        Look up a node object by CURIE
-
-        :param curie: identifier of node
-        :param strict: raise exception if node not found
-        :param include_metadata: include detailed metadata
-        :param expand_curies: if True expand CURIEs to URIs
-        :return:
-        """
-        raise NotImplementedError
-
     def synonym_property_values(
         self, subject: Union[CURIE, Iterable[CURIE]]
     ) -> Iterator[Tuple[CURIE, SynonymPropertyValue]]:
@@ -169,6 +169,8 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
                 node_map[s] = self.node(s)
             if p not in node_map:
                 p_node = self.node(p)
+                if not p_node:
+                    p_node = Node(p)
                 p_node.type = "PROPERTY"
                 node_map[p] = p_node
             if o not in node_map:
@@ -336,19 +338,32 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         include_metadata=True,
     ) -> Graph:
         """
-        Extract a subgraph from the graph that contains the specified entities and predicates
+        Extract a subgraph from the graph that contains the specified entities and predicates.
 
         :param entities: entities to extract
         :param predicates: predicates to extract
         :param dangling: if true, include dangling nodes
         :return: subgraph
         """
+        logging.info(f"Extracting using seed of {len(entities)} entities")
         nodes = [self.node(e, include_metadata=include_metadata) for e in entities]
         edges = []
+        logging.info(f"extracting rels for {len(entities)} p={predicates} dangling={dangling}")
         for s, p, o in self.relationships(subjects=entities, predicates=predicates):
             if dangling or o in entities:
                 edges.append(Edge(sub=s, pred=p, obj=o))
-        g = Graph(id="TEMP", nodes=nodes, edges=edges)
+        ontologies = list(self.ontologies())
+        curr_id = ontologies[0]
+        g = Graph(id=f"{curr_id}-transformed", nodes=nodes, edges=edges)
+        for lda in self.logical_definitions(entities):
+            if predicates:
+                if any(r for r in lda.restrictions if r.propertyId not in predicates):
+                    continue
+            if not dangling:
+                signature = set(lda.genusIds + [r.fillerId for r in lda.restrictions])
+                if signature.difference(entities):
+                    continue
+            g.logicalDefinitionAxioms.append(lda)
         return g
 
     def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:

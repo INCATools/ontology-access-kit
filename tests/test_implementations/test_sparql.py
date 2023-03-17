@@ -35,6 +35,7 @@ from tests import (
 from tests.test_implementations import ComplianceTester
 
 TEST_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
+INTERNEURON_RDF = INPUT_DIR / "interneuron.owl.ttl"
 TEST_INST_RDF = INPUT_DIR / "inst.owl.ttl"
 TEST_MUTABLE_RDF = OUTPUT_DIR / "go-nucleus.owl.ttl"
 TEST_IMPORTER = INPUT_DIR / "test_import_root.owl"
@@ -63,7 +64,6 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn("GO:0005737", rels[PART_OF])
         rels = oi.outgoing_relationship_map(NUCLEUS)
-        print(rels)
 
     def test_instance_graph(self):
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_INST_RDF)))
@@ -318,3 +318,7 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_common_ancestors(self):
         # TODO: this is currently slow
         self.compliance_tester.test_common_ancestors(self.oi)
+
+    def test_merge(self):
+        source = SparqlImplementation(OntologyResource(slug=str(INTERNEURON_RDF)))
+        self.compliance_tester.test_merge(self.oi, source)

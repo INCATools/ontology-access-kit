@@ -115,6 +115,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         hier_parents = list(oi.hierararchical_parents(VACUOLE))
         self.assertEqual([IMBO], hier_parents)
 
+    def test_rbox_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=str(DB)))
+        self.compliance_tester.test_rbox_relationships(oi)
+
     def test_instance_graph(self):
         oi = self.inst_oi
         entities = list(oi.entities())
@@ -649,8 +653,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual("foo", label)
         oi.set_label(NUCLEUS, "bar")
         oi.set_label(NUCLEAR_ENVELOPE, "baz")
-        self.assertNotEqual("bar", oi.label(NUCLEUS))
-        self.assertNotEqual("baz", oi.label(NUCLEAR_ENVELOPE))
+        # note: behavior difference when switching to sqla2.0;
+        # even though changes are not committed, they are local to the
+        # connection.
+        oi_alt_conn = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+        self.assertNotEqual("bar", oi_alt_conn.label(NUCLEUS))
+        self.assertNotEqual("baz", oi_alt_conn.label(NUCLEUS))
         oi.save()
         self.assertEqual("bar", oi.label(NUCLEUS))
         self.assertEqual("baz", oi.label(NUCLEAR_ENVELOPE))
@@ -722,6 +730,15 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(yaml_dumper.dumps(ax))
 
     def test_patcher(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+
+        self.compliance_tester.test_patcher(
+            oi,
+            self.oi,
+        )
+
+    def test_patcher_extra(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         # oi.autosave = True

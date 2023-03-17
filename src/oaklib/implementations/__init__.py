@@ -2,6 +2,7 @@ from functools import cache
 
 from class_resolver import ClassResolver
 
+from oaklib.implementations.cx.cx_implementation import CXImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ols import (
@@ -48,6 +49,7 @@ __all__ = [
     # Concrete classes
     "AgroPortalImplementation",
     "BioPortalImplementation",
+    "CXImplementation",
     "EcoPortalImplementation",
     "MatPortalImplementation",
     "OlsImplementation",
@@ -84,6 +86,8 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
             "sqlite": SqlImplementation,
             "rdflib": SparqlImplementation,
             "oak": OakMetaModelImplementation,
+            "cx": CXImplementation,
+            "ndexbio": CXImplementation,
         }
     )
 

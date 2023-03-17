@@ -17,6 +17,9 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from pronto import LiteralPropertyValue, Ontology, ResourcePropertyValue, Term
 
+from oaklib.converters.obo_graph_to_obo_format_converter import (
+    OboGraphToOboFormatConverter,
+)
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
 from oaklib.datamodels.search import SearchConfiguration
@@ -55,6 +58,7 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.obolegacy_interface import OboLegacyInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -98,6 +102,7 @@ class ProntoImplementation(
     TaxonConstraintInterface,
     DumperInterface,
     RustSimilarityInterface,
+    MergeInterface,
 ):
     """
     Pronto wraps local-file based ontologies in the following formats:
@@ -209,10 +214,14 @@ class ProntoImplementation(
 
     def load_graph(self, graph: Graph, replace: True) -> None:
         if replace:
-            ont = self.wrapped_ontology
-        else:
-            ont = Ontology()
+            converter = OboGraphToOboFormatConverter()
+            gd = GraphDocument(graphs=[graph])
+            io = converter.as_bytes_io(gd)
+            ont = Ontology(io)
             self.wrapped_ontology = ont
+            self._relationship_index_cache = None
+            self._alt_id_to_replacement_map = None
+            return
         for n in graph.nodes:
             if n.id == IS_A:
                 pass
@@ -394,6 +403,7 @@ class ProntoImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         for s in self._relationship_index.keys():
             if subjects is not None and s not in subjects:
@@ -432,14 +442,20 @@ class ProntoImplementation(
         label: Optional[str] = None,
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
+        replace=False,
     ) -> CURIE:
         ont = self.wrapped_ontology
-        if not type or type == "CLASS":
-            t = ont.create_term(curie)
-        elif type == "PROPERTY":
-            t = ont.create_relationship(curie)
-        else:
-            raise ValueError(f"Pronto cannot handle type of {type} for {curie}")
+        t = self._entity(curie, False)
+        if t:
+            if replace:
+                t = None
+        if not t:
+            if not type or type == "CLASS":
+                t = ont.create_term(curie)
+            elif type == "PROPERTY":
+                t = ont.create_relationship(curie)
+            else:
+                raise ValueError(f"Pronto cannot handle type of {type} for {curie}")
         t.name = label
         if relationships:
             for pred, fillers in relationships.items():
@@ -642,8 +658,10 @@ class ProntoImplementation(
             meta = obograph.Meta()
             if isinstance(t, pronto.Relationship):
                 t_id = self._get_pronto_relationship_type_curie(t)
+                typ = "PROPERTY"
             else:
                 t_id = t.id
+                typ = "CLASS"
             if include_metadata:
                 if t.definition:
                     defn_xrefs = [x.id for x in t.definition.xrefs]
@@ -669,11 +687,11 @@ class ProntoImplementation(
                             xrefs=[x.id for x in s.xrefs],
                         )
                     )
-            return obograph.Node(id=t_id, lbl=t.name, meta=meta)
+            return obograph.Node(id=t_id, lbl=t.name, type=typ, meta=meta)
 
     def as_obograph(self, expand_curies=False) -> Graph:
         om = self.wrapped_ontology.metadata
-        entities = list(self.entities(filter_obsoletes=False, owl_type=OWL_CLASS))
+        entities = set(self.entities(filter_obsoletes=False, owl_type=OWL_CLASS))
         # entities.extend(self.entities(filter_obsoletes=False, owl_type=OWL_OBJECT_PROPERTY))
         nodes = [self.node(curie) for curie in entities]
         nodes = [n for n in nodes if n.lbl or n.meta]
@@ -681,7 +699,10 @@ class ProntoImplementation(
             Edge(sub=r[0], pred="is_a" if r[1] == IS_A else r[1], obj=r[2])
             for r in self.relationships()
         ]
-        return Graph(id=om.ontology, nodes=nodes, edges=edges)
+        graph_id = om.ontology
+        if not graph_id:
+            graph_id = self.resource.slug
+        return Graph(id=graph_id, nodes=nodes, edges=edges)
 
     def synonym_property_values(
         self, subject: Union[CURIE, Iterable[CURIE]]
@@ -809,6 +830,8 @@ class ProntoImplementation(
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._entity(patch.about_node, strict=True)
             t.obsolete = True
+            if isinstance(patch, kgcl.NodeObsoletionWithDirectReplacement):
+                t.replaced_by = [self._entity(patch.has_direct_replacement)]
         elif isinstance(patch, kgcl.NodeDeletion):
             t = self._entity(patch.about_node, strict=True)
             raise NotImplementedError
