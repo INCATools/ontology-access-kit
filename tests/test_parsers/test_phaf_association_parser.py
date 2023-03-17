@@ -21,7 +21,10 @@ class PhafAssociationParserTest(unittest.TestCase):
                 logging.info(association)
             self.assertIn(
                 Association(
-                    subject="PomBase:SPCC338.10c", predicate=None, object="FYPO:0000245", property_values=[]
+                    subject="PomBase:SPCC338.10c",
+                    predicate=None,
+                    object="FYPO:0000245",
+                    property_values=[],
                 ),
                 assocs,
             )
