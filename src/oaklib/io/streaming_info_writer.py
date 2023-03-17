@@ -4,6 +4,7 @@ from typing import Any
 from linkml_runtime import CurieNamespace
 
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.utilities.obograph_utils import DEFAULT_PREDICATE_CODE_MAP
@@ -54,7 +55,7 @@ class StreamingInfoWriter(StreamingWriter):
             if show_all or "db" in self.display_options:
                 self.file.write(f" isDefinedBy: {oi.defined_by(curie)}")
             if "ic" in self.display_options and (
-                show_all and isinstance(oi, SemanticSimilarityInterface)
+                show_all and isinstance(oi, (SemanticSimilarityInterface, RustSimilarityInterface))
             ):
                 ic = oi.get_information_content(curie)
                 self.file.write(f" IC: {ic}")
