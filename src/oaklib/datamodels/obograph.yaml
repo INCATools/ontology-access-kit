@@ -329,6 +329,7 @@ classes:
       A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)
     attributes:
       prefix:
+        key: true
         slot_uri: sh:prefix
         description: The prefix of a prefix declaration.
         range: string

@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-03-08T18:09:33
+# Generation date: 2023-03-16T14:19:05
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -91,6 +91,10 @@ class SynonymTypeIdentifierString(String):
 
 
 # Class references
+class PrefixDeclarationPrefix(extended_str):
+    pass
+
+
 class GraphId(OboIdentifierString):
     pass
 
@@ -125,8 +129,11 @@ class GraphDocument(YAMLRoot):
         Union[Dict[Union[str, GraphId], Union[dict, "Graph"]], List[Union[dict, "Graph"]]]
     ] = empty_dict()
     prefixes: Optional[
-        Union[Union[dict, "PrefixDeclaration"], List[Union[dict, "PrefixDeclaration"]]]
-    ] = empty_list()
+        Union[
+            Dict[Union[str, PrefixDeclarationPrefix], Union[dict, "PrefixDeclaration"]],
+            List[Union[dict, "PrefixDeclaration"]],
+        ]
+    ] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.meta is not None and not isinstance(self.meta, Meta):
@@ -136,12 +143,9 @@ class GraphDocument(YAMLRoot):
             slot_name="graphs", slot_type=Graph, key_name="id", keyed=True
         )
 
-        if not isinstance(self.prefixes, list):
-            self.prefixes = [self.prefixes] if self.prefixes is not None else []
-        self.prefixes = [
-            v if isinstance(v, PrefixDeclaration) else PrefixDeclaration(**as_dict(v))
-            for v in self.prefixes
-        ]
+        self._normalize_inlined_as_dict(
+            slot_name="prefixes", slot_type=PrefixDeclaration, key_name="prefix", keyed=True
+        )
 
         super().__post_init__(**kwargs)
 
@@ -159,12 +163,14 @@ class PrefixDeclaration(YAMLRoot):
     class_name: ClassVar[str] = "PrefixDeclaration"
     class_model_uri: ClassVar[URIRef] = OBOGRAPHS.PrefixDeclaration
 
-    prefix: Optional[str] = None
+    prefix: Union[str, PrefixDeclarationPrefix] = None
     namespace: Optional[Union[str, URI]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.prefix is not None and not isinstance(self.prefix, str):
-            self.prefix = str(self.prefix)
+        if self._is_empty(self.prefix):
+            self.MissingRequiredField("prefix")
+        if not isinstance(self.prefix, PrefixDeclarationPrefix):
+            self.prefix = PrefixDeclarationPrefix(self.prefix)
 
         if self.namespace is not None and not isinstance(self.namespace, URI):
             self.namespace = URI(self.namespace)
@@ -188,8 +194,11 @@ class Graph(YAMLRoot):
     id: Union[str, GraphId] = None
     lbl: Optional[str] = None
     prefixes: Optional[
-        Union[Union[dict, PrefixDeclaration], List[Union[dict, PrefixDeclaration]]]
-    ] = empty_list()
+        Union[
+            Dict[Union[str, PrefixDeclarationPrefix], Union[dict, PrefixDeclaration]],
+            List[Union[dict, PrefixDeclaration]],
+        ]
+    ] = empty_dict()
     subsetDefinitions: Optional[
         Union[
             Dict[Union[str, SubsetDefinitionId], Union[dict, "SubsetDefinition"]],
@@ -232,12 +241,9 @@ class Graph(YAMLRoot):
         if self.lbl is not None and not isinstance(self.lbl, str):
             self.lbl = str(self.lbl)
 
-        if not isinstance(self.prefixes, list):
-            self.prefixes = [self.prefixes] if self.prefixes is not None else []
-        self.prefixes = [
-            v if isinstance(v, PrefixDeclaration) else PrefixDeclaration(**as_dict(v))
-            for v in self.prefixes
-        ]
+        self._normalize_inlined_as_dict(
+            slot_name="prefixes", slot_type=PrefixDeclaration, key_name="prefix", keyed=True
+        )
 
         self._normalize_inlined_as_dict(
             slot_name="subsetDefinitions", slot_type=SubsetDefinition, key_name="id", keyed=True
@@ -1212,7 +1218,12 @@ slots.prefixes = Slot(
     curie=SH.curie("declare"),
     model_uri=OBOGRAPHS.prefixes,
     domain=None,
-    range=Optional[Union[Union[dict, PrefixDeclaration], List[Union[dict, PrefixDeclaration]]]],
+    range=Optional[
+        Union[
+            Dict[Union[str, PrefixDeclarationPrefix], Union[dict, PrefixDeclaration]],
+            List[Union[dict, PrefixDeclaration]],
+        ]
+    ],
 )
 
 slots.synonymTypeDefinitions = Slot(
@@ -1249,7 +1260,7 @@ slots.prefixDeclaration__prefix = Slot(
     curie=SH.curie("prefix"),
     model_uri=OBOGRAPHS.prefixDeclaration__prefix,
     domain=None,
-    range=Optional[str],
+    range=URIRef,
 )
 
 slots.prefixDeclaration__namespace = Slot(

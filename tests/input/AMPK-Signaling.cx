@@ -1,0 +1,4381 @@
+[
+  {
+    "numberVerification": [
+      {
+        "longNumber": 281474976710655
+      }
+    ]
+  },
+  {
+    "metaData": [
+      {
+        "name": "cyVisualProperties",
+        "elementCount": 3,
+        "version": "1.0",
+        "consistencyGroup": 1
+      },
+      {
+        "name": "nodes",
+        "elementCount": 26,
+        "idCounter": 26,
+        "version": "1.0",
+        "consistencyGroup": 1
+      },
+      {
+        "name": "edges",
+        "elementCount": 40,
+        "idCounter": 40,
+        "version": "1.0",
+        "consistencyGroup": 1
+      },
+      {
+        "name": "networkAttributes",
+        "elementCount": 15,
+        "idCounter": 15,
+        "version": "1.0",
+        "consistencyGroup": 1
+      },
+      {
+        "name": "nodeAttributes",
+        "elementCount": 58,
+        "idCounter": 58,
+        "version": "1.0",
+        "consistencyGroup": 1
+      },
+      {
+        "name": "edgeAttributes",
+        "elementCount": 400,
+        "idCounter": 400,
+        "version": "1.0",
+        "consistencyGroup": 1
+      },
+      {
+        "name": "cartesianLayout",
+        "elementCount": 26,
+        "idCounter": 27
+      }
+    ]
+  },
+  {
+    "cyVisualProperties": [
+      {
+        "properties_of": "network",
+        "properties": {
+          "NETWORK_ANNOTATION_SELECTION": "false",
+          "NETWORK_BACKGROUND_PAINT": "#FFFFFF",
+          "NETWORK_CENTER_X_LOCATION": "769.6255357464614",
+          "NETWORK_CENTER_Y_LOCATION": "252.4870281621604",
+          "NETWORK_CENTER_Z_LOCATION": "0.0",
+          "NETWORK_DEPTH": "0.0",
+          "NETWORK_EDGE_SELECTION": "true",
+          "NETWORK_FORCE_HIGH_DETAIL": "false",
+          "NETWORK_HEIGHT": "489.0",
+          "NETWORK_NODE_LABEL_SELECTION": "false",
+          "NETWORK_NODE_SELECTION": "true",
+          "NETWORK_SCALE_FACTOR": "0.3516097600295177",
+          "NETWORK_SIZE": "550.0",
+          "NETWORK_WIDTH": "690.0"
+        }
+      },
+      {
+        "properties_of": "nodes:default",
+        "properties": {
+          "COMPOUND_NODE_PADDING": "10.0",
+          "COMPOUND_NODE_SHAPE": "ROUND_RECTANGLE",
+          "NODE_BORDER_PAINT": "#2B8CB3",
+          "NODE_BORDER_STROKE": "SOLID",
+          "NODE_BORDER_TRANSPARENCY": "255",
+          "NODE_BORDER_WIDTH": "0.5",
+          "NODE_CUSTOMGRAPHICS_1": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_2": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_3": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_4": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_5": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_6": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_7": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_8": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_9": "org.cytoscape.cg.model.NullCustomGraphics,0,[ Remove Graphics ],",
+          "NODE_CUSTOMGRAPHICS_POSITION_1": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_2": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_3": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_4": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_5": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_6": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_7": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_8": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_POSITION_9": "C,C,c,0.00,0.00",
+          "NODE_CUSTOMGRAPHICS_SIZE_1": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_2": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_3": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_4": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_5": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_6": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_7": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_8": "0.0",
+          "NODE_CUSTOMGRAPHICS_SIZE_9": "0.0",
+          "NODE_CUSTOMPAINT_1": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_1, name=Node Custom Paint 1)",
+          "NODE_CUSTOMPAINT_2": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_2, name=Node Custom Paint 2)",
+          "NODE_CUSTOMPAINT_3": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_3, name=Node Custom Paint 3)",
+          "NODE_CUSTOMPAINT_4": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_4, name=Node Custom Paint 4)",
+          "NODE_CUSTOMPAINT_5": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_5, name=Node Custom Paint 5)",
+          "NODE_CUSTOMPAINT_6": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_6, name=Node Custom Paint 6)",
+          "NODE_CUSTOMPAINT_7": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_7, name=Node Custom Paint 7)",
+          "NODE_CUSTOMPAINT_8": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_8, name=Node Custom Paint 8)",
+          "NODE_CUSTOMPAINT_9": "DefaultVisualizableVisualProperty(id=NODE_CUSTOMPAINT_9, name=Node Custom Paint 9)",
+          "NODE_DEPTH": "0.0",
+          "NODE_FILL_COLOR": "#E5E5E5",
+          "NODE_HEIGHT": "40.0",
+          "NODE_LABEL_COLOR": "#262626",
+          "NODE_LABEL_FONT_FACE": "Dialog,plain,12",
+          "NODE_LABEL_FONT_SIZE": "10",
+          "NODE_LABEL_POSITION": "C,C,c,0.00,0.00",
+          "NODE_LABEL_ROTATION": "0.0",
+          "NODE_LABEL_TRANSPARENCY": "255",
+          "NODE_LABEL_WIDTH": "200.0",
+          "NODE_NESTED_NETWORK_IMAGE_VISIBLE": "true",
+          "NODE_PAINT": "#787878",
+          "NODE_SELECTED": "false",
+          "NODE_SELECTED_PAINT": "#FFFF00",
+          "NODE_SHAPE": "ELLIPSE",
+          "NODE_SIZE": "50.0",
+          "NODE_TRANSPARENCY": "255",
+          "NODE_VISIBLE": "true",
+          "NODE_WIDTH": "40.0",
+          "NODE_X_LOCATION": "0.0",
+          "NODE_Y_LOCATION": "0.0",
+          "NODE_Z_LOCATION": "0.0"
+        },
+        "dependencies": {
+          "nodeCustomGraphicsSizeSync": "true",
+          "nodeSizeLocked": "false"
+        },
+        "mappings": {
+          "NODE_BORDER_PAINT": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=smallmolecule,V=0=#D0D378,K=1=geneproduct,V=1=#0099CC,K=2=antibody,V=2=#333333,K=3=gene,V=3=#467CA8,K=4=proteinfamily,V=4=#285FF0,K=5=complex,V=5=#0099FF,K=6=variant,V=6=#80DFCD,K=7=pathway,V=7=#666666,K=8=miRNA,V=8=#F46761,K=9=tissue,V=9=#FFCCCC,K=10=mrna,V=10=#F46761"
+          },
+          "NODE_BORDER_WIDTH": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=disease,V=0=3.0,K=1=antibody,V=1=2.0,K=2=gene,V=2=4.0,K=3=proteinfamily,V=3=4.0,K=4=stimulus,V=4=0.0,K=5=biologicalprocess,V=5=0.0,K=6=tissue,V=6=8.0,K=7=mrna,V=7=2.0,K=8=cellularcomponent,V=8=0.0,K=9=molecularfunction,V=9=0.0,K=10=smallmolecule,V=10=0.0,K=11=geneproduct,V=11=2.0,K=12=complex,V=12=8.0,K=13=variant,V=13=4.0,K=14=pathway,V=14=4.0,K=15=miRNA,V=15=2.0,K=16=signal,V=16=3.0"
+          },
+          "NODE_FILL_COLOR": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=phenotype,V=0=#CCCCCC,K=1=antibody,V=1=#FFFFFF,K=2=disease,V=2=#FFFFFF,K=3=rna,V=3=#F46761,K=4=gene,V=4=#FFFFFF,K=5=proteinfamily,V=5=#FFFFFF,K=6=stimulus,V=6=#666666,K=7=biologicalprocess,V=7=#009999,K=8=tissue,V=8=#FFFFFF,K=9=mrna,V=9=#FFFFFF,K=10=cellularcomponent,V=10=#009999,K=11=drug,V=11=#DAE10E,K=12=molecularfunction,V=12=#009999,K=13=geneproduct,V=13=#FFFFFF,K=14=smallmolecule,V=14=#FFCC00,K=15=chemical,V=15=#97CC2C,K=16=protein,V=16=#94EFFD,K=17=complex,V=17=#FFFFFF,K=18=mirna,V=18=#EF7F23,K=19=variant,V=19=#FFFFFF,K=20=pathway,V=20=#FFFFFF,K=21=miRNA,V=21=#EF7F23,K=22=signal,V=22=#FFFFFF"
+          },
+          "NODE_HEIGHT": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=cellularcompartment,V=0=75.0,K=1=disease,V=1=50.0,K=2=rna,V=2=8.0,K=3=gene,V=3=25.0,K=4=proteinfamily,V=4=65.0,K=5=stimulus,V=5=60.0,K=6=biologicalprocess,V=6=20.0,K=7=tissue,V=7=60.0,K=8=mrna,V=8=8.0,K=9=cellularcomponent,V=9=20.0,K=10=drug,V=10=20.0,K=11=molecularfunction,V=11=20.0,K=12=smallmolecule,V=12=15.0,K=13=geneproduct,V=13=25.0,K=14=chemical,V=14=15.0,K=15=complex,V=15=50.0,K=16=protein,V=16=35.0,K=17=mirna,V=17=8.0,K=18=variant,V=18=15.0,K=19=pathway,V=19=55.0,K=20=miRNA,V=20=8.0,K=21=signal,V=21=20.0"
+          },
+          "NODE_LABEL": {
+            "type": "PASSTHROUGH",
+            "definition": "COL=name,T=string"
+          },
+          "NODE_LABEL_COLOR": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=phenotype,V=0=#191919,K=1=molecularfunction,V=1=#FFFFFF,K=2=complex,V=2=#000000,K=3=protein,V=3=#000000,K=4=variant,V=4=#000000,K=5=biologicalprocess,V=5=#FFFFFF,K=6=cellularcomponent,V=6=#FFFFFF"
+          },
+          "NODE_LABEL_FONT_SIZE": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=phenotype,V=0=16,K=1=complex,V=1=14,K=2=protein,V=2=12,K=3=variant,V=3=8,K=4=tissue,V=4=12"
+          },
+          "NODE_LABEL_POSITION": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=antibody,V=0=S,,NW,,c,,0.00,,0.00,K=1=smallmolecule,V=1=S,,NW,,c,,0.00,,0.00,K=2=rna,V=2=N,,S,,c,,0.00,,0.00,K=3=chemical,V=3=S,,NW,,c,,0.00,,0.00,K=4=stimulus,V=4=S,,NW,,c,,0.00,,0.00,K=5=miRNA,V=5=N,,S,,c,,0.00,,0.00,K=6=mrna,V=6=N,,S,,c,,0.00,,0.00,K=7=signal,V=7=S,,NW,,c,,0.00,,0.00,K=8=drug,V=8=S,,NW,,c,,0.00,,0.00"
+          },
+          "NODE_LABEL_WIDTH": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=cellularcompartment,V=0=50.0,K=1=disease,V=1=60.0,K=2=pathway,V=2=140.0,K=3=tissue,V=3=100.0"
+          },
+          "NODE_SHAPE": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=phenotype,V=0=ROUND_RECTANGLE,K=1=antibody,V=1=VEE,K=2=disease,V=2=HEXAGON,K=3=rna,V=3=RECTANGLE,K=4=gene,V=4=ROUND_RECTANGLE,K=5=stimulus,V=5=TRIANGLE,K=6=biologicalprocess,V=6=ROUND_RECTANGLE,K=7=tissue,V=7=DIAMOND,K=8=mrna,V=8=RECTANGLE,K=9=cellularcomponent,V=9=ROUND_RECTANGLE,K=10=drug,V=10=DIAMOND,K=11=molecularfunction,V=11=ROUND_RECTANGLE,K=12=geneproduct,V=12=ROUND_RECTANGLE,K=13=smallmolecule,V=13=RECTANGLE,K=14=chemical,V=14=ELLIPSE,K=15=mirna,V=15=RECTANGLE,K=16=variant,V=16=ROUND_RECTANGLE,K=17=pathway,V=17=ROUND_RECTANGLE,K=18=miRNA,V=18=RECTANGLE,K=19=signal,V=19=TRIANGLE"
+          },
+          "NODE_TRANSPARENCY": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=phenotype,V=0=100"
+          },
+          "NODE_WIDTH": {
+            "type": "DISCRETE",
+            "definition": "COL=type,T=string,K=0=phenotype,V=0=120.0,K=1=cellularcompartment,V=1=75.0,K=2=antibody,V=2=30.0,K=3=disease,V=3=80.0,K=4=rna,V=4=100.0,K=5=gene,V=5=60.0,K=6=proteinfamily,V=6=70.0,K=7=stimulus,V=7=15.0,K=8=biologicalprocess,V=8=60.0,K=9=tissue,V=9=110.0,K=10=mrna,V=10=100.0,K=11=cellularcomponent,V=11=60.0,K=12=drug,V=12=20.0,K=13=molecularfunction,V=13=60.0,K=14=smallmolecule,V=14=15.0,K=15=geneproduct,V=15=120.0,K=16=chemical,V=16=15.0,K=17=complex,V=17=120.0,K=18=protein,V=18=60.0,K=19=mirna,V=19=45.0,K=20=variant,V=20=60.0,K=21=pathway,V=21=160.0,K=22=miRNA,V=22=45.0,K=23=signal,V=23=30.0"
+          }
+        }
+      },
+      {
+        "properties_of": "edges:default",
+        "properties": {
+          "EDGE_CURVED": "true",
+          "EDGE_LABEL_COLOR": "#000000",
+          "EDGE_LABEL_FONT_FACE": "Dialog,plain,10",
+          "EDGE_LABEL_FONT_SIZE": "10",
+          "EDGE_LABEL_ROTATION": "0.0",
+          "EDGE_LABEL_TRANSPARENCY": "255",
+          "EDGE_LABEL_WIDTH": "200.0",
+          "EDGE_LINE_TYPE": "SOLID",
+          "EDGE_PAINT": "#323232",
+          "EDGE_SELECTED": "false",
+          "EDGE_SELECTED_PAINT": "#FF0000",
+          "EDGE_SOURCE_ARROW_SELECTED_PAINT": "#FFFF00",
+          "EDGE_SOURCE_ARROW_SHAPE": "NONE",
+          "EDGE_SOURCE_ARROW_SIZE": "6.0",
+          "EDGE_SOURCE_ARROW_UNSELECTED_PAINT": "#000000",
+          "EDGE_STACKING": "AUTO_BEND",
+          "EDGE_STACKING_DENSITY": "0.5",
+          "EDGE_STROKE_SELECTED_PAINT": "#FF0000",
+          "EDGE_STROKE_UNSELECTED_PAINT": "#5B5B5B",
+          "EDGE_TARGET_ARROW_SELECTED_PAINT": "#FFFF00",
+          "EDGE_TARGET_ARROW_SHAPE": "DELTA",
+          "EDGE_TARGET_ARROW_SIZE": "6.0",
+          "EDGE_TARGET_ARROW_UNSELECTED_PAINT": "#000000",
+          "EDGE_TRANSPARENCY": "255",
+          "EDGE_UNSELECTED_PAINT": "#999999",
+          "EDGE_VISIBLE": "true",
+          "EDGE_WIDTH": "1.0",
+          "EDGE_Z_ORDER": "0.0"
+        },
+        "dependencies": {
+          "arrowColorMatchesEdge": "true"
+        },
+        "mappings": {
+          "EDGE_LINE_TYPE": {
+            "type": "DISCRETE",
+            "definition": "COL=direct,T=boolean,K=0=false,V=0=LONG_DASH"
+          },
+          "EDGE_TARGET_ARROW_SHAPE": {
+            "type": "DISCRETE",
+            "definition": "COL=mechanism,T=string,K=0=transcriptional repression,V=0=T,K=1=binding,V=1=SQUARE,K=2=chemical inhibition,V=2=T"
+          },
+          "EDGE_UNSELECTED_PAINT": {
+            "type": "DISCRETE",
+            "definition": "COL=interaction,T=string,K=0=down-regulates quantity,V=0=#990066,K=1=up-regulates quantity,V=1=#0099FF,K=2=form complex,V=2=#00CC66,K=3=down-regulates activity,V=3=#990066,K=4=down-regulates quantity by destabilization,V=4=#990066,K=5=down-regulates quantity by repression,V=5=#990066,K=6=up-regulates activity,V=6=#0099FF,K=7=up-regulates quantity by destabilization,V=7=#0099FF,K=8=up-regulates,V=8=#0099FF,K=9=down-regulates,V=9=#990066,K=10=unknown,V=10=#000000,K=11=up-regulates quantity by expression,V=11=#0099FF"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nodes": [
+      {
+        "@id": 0,
+        "n": "Starvation",
+        "r": "signor:SIGNOR-ST4"
+      },
+      {
+        "@id": 1,
+        "n": "SIRT1",
+        "r": "uniprot:Q96EB6"
+      },
+      {
+        "@id": 2,
+        "n": "AMPK",
+        "r": "signor:SIGNOR-C15"
+      },
+      {
+        "@id": 3,
+        "n": "mTORC1",
+        "r": "signor:SIGNOR-C3"
+      },
+      {
+        "@id": 4,
+        "n": "Autophagy",
+        "r": "signor:SIGNOR-PH31"
+      },
+      {
+        "@id": 5,
+        "n": "ULK1/Atg13/Fip200",
+        "r": "signor:SIGNOR-C100"
+      },
+      {
+        "@id": 6,
+        "n": "Proliferation",
+        "r": "signor:SIGNOR-PH4"
+      },
+      {
+        "@id": 7,
+        "n": "TSC",
+        "r": "signor:SIGNOR-C101"
+      },
+      {
+        "@id": 8,
+        "n": "RHEB",
+        "r": "uniprot:Q15382"
+      },
+      {
+        "@id": 9,
+        "n": "ERK1/2",
+        "r": "signor:SIGNOR-PF1"
+      },
+      {
+        "@id": 10,
+        "n": "STK11",
+        "r": "uniprot:Q15831"
+      },
+      {
+        "@id": 11,
+        "n": "RPS6KA1",
+        "r": "uniprot:Q15418"
+      },
+      {
+        "@id": 12,
+        "n": "PFKFB2",
+        "r": "uniprot:O60825"
+      },
+      {
+        "@id": 13,
+        "n": "FOXO3",
+        "r": "uniprot:O43524"
+      },
+      {
+        "@id": 14,
+        "n": "INSR",
+        "r": "uniprot:P06213"
+      },
+      {
+        "@id": 15,
+        "n": "PPARGC1A",
+        "r": "uniprot:Q9UBK2"
+      },
+      {
+        "@id": 16,
+        "n": "AKT",
+        "r": "signor:SIGNOR-PF24"
+      },
+      {
+        "@id": 17,
+        "n": "PIP3",
+        "r": "CHEBI:16618"
+      },
+      {
+        "@id": 18,
+        "n": "PDPK1",
+        "r": "uniprot:O15530"
+      },
+      {
+        "@id": 19,
+        "n": "STRADA",
+        "r": "uniprot:Q7RTN6"
+      },
+      {
+        "@id": 20,
+        "n": "Gluconeogenesis",
+        "r": "signor:SIGNOR-PH35"
+      },
+      {
+        "@id": 21,
+        "n": "PIK3CA",
+        "r": "uniprot:P42336"
+      },
+      {
+        "@id": 22,
+        "n": "IRS1",
+        "r": "uniprot:P35568"
+      },
+      {
+        "@id": 23,
+        "n": "CREB1",
+        "r": "uniprot:P16220"
+      },
+      {
+        "@id": 24,
+        "n": "INS",
+        "r": "uniprot:P01308"
+      },
+      {
+        "@id": 25,
+        "n": "Glycolysis",
+        "r": "signor:SIGNOR-PH34"
+      }
+    ]
+  },
+  {
+    "edges": [
+      {
+        "@id": 0,
+        "s": 0,
+        "t": 1,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 1,
+        "s": 0,
+        "t": 2,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 3,
+        "s": 3,
+        "t": 4,
+        "i": "down-regulates"
+      },
+      {
+        "@id": 4,
+        "s": 3,
+        "t": 5,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 5,
+        "s": 3,
+        "t": 6,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 6,
+        "s": 5,
+        "t": 2,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 7,
+        "s": 5,
+        "t": 4,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 8,
+        "s": 5,
+        "t": 3,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 9,
+        "s": 7,
+        "t": 8,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 10,
+        "s": 9,
+        "t": 10,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 11,
+        "s": 9,
+        "t": 11,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 17,
+        "s": 2,
+        "t": 12,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 18,
+        "s": 2,
+        "t": 13,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 25,
+        "s": 2,
+        "t": 14,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 26,
+        "s": 2,
+        "t": 15,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 27,
+        "s": 2,
+        "t": 7,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 28,
+        "s": 2,
+        "t": 5,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 29,
+        "s": 16,
+        "t": 13,
+        "i": "down-regulates quantity by destabilization"
+      },
+      {
+        "@id": 32,
+        "s": 16,
+        "t": 7,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 33,
+        "s": 17,
+        "t": 18,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 36,
+        "s": 19,
+        "t": 10,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 37,
+        "s": 1,
+        "t": 15,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 39,
+        "s": 1,
+        "t": 15,
+        "i": "up-regulates quantity"
+      },
+      {
+        "@id": 40,
+        "s": 1,
+        "t": 16,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 41,
+        "s": 15,
+        "t": 20,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 42,
+        "s": 8,
+        "t": 3,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 44,
+        "s": 21,
+        "t": 17,
+        "i": "up-regulates quantity"
+      },
+      {
+        "@id": 46,
+        "s": 22,
+        "t": 21,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 48,
+        "s": 18,
+        "t": 16,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 50,
+        "s": 11,
+        "t": 10,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 51,
+        "s": 11,
+        "t": 23,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 52,
+        "s": 11,
+        "t": 7,
+        "i": "down-regulates activity"
+      },
+      {
+        "@id": 53,
+        "s": 11,
+        "t": 3,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 64,
+        "s": 14,
+        "t": 22,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 65,
+        "s": 24,
+        "t": 14,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 67,
+        "s": 23,
+        "t": 6,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 68,
+        "s": 13,
+        "t": 4,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 69,
+        "s": 10,
+        "t": 2,
+        "i": "up-regulates"
+      },
+      {
+        "@id": 71,
+        "s": 10,
+        "t": 2,
+        "i": "up-regulates activity"
+      },
+      {
+        "@id": 72,
+        "s": 12,
+        "t": 25,
+        "i": "up-regulates"
+      }
+    ]
+  },
+  {
+    "networkAttributes": [
+      {
+        "n": "@context",
+        "v": "{\"signor\": \"http://signor.uniroma2.it/relation_result.php?id=\", \"BTO\": \"http://identifiers.org/bto/BTO:\", \"uniprot\": \"http://identifiers.org/uniprot/\", \"pubmed\": \"http://identifiers.org/pubmed/\", \"CID\": \"http://identifiers.org/pubchem.compound/\", \"SID\": \"http://identifiers.org/pubchem.substance/\", \"chebi\": \"http://identifiers.org/chebi/CHEBI:\", \"hgnc.symbol\": \"http://identifiers.org/hgnc.symbol/\"}"
+      },
+      {
+        "n": "name",
+        "v": "AMPK Signaling"
+      },
+      {
+        "n": "labels",
+        "v": [
+          "SIGNOR-AMPK"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "n": "author",
+        "v": "Livia Perfetto"
+      },
+      {
+        "n": "description",
+        "v": "Maintaining a balanced level of ATP (the immediate source of cellular energy) is essential for the proper functioning of all living cells. AMP-activated protein kinase (AMPK) is a master regulator of cellular energy homeostasis: AMP-activated protein kinase (AMPK) is activated in response to a fall in ATP (concomitant with a rise in ADP and AMP) level, resulting in the activation of catabolic processes and the inhibition of anabolic processes."
+      },
+      {
+        "n": "organism",
+        "v": "Homo Sapiens (human)"
+      },
+      {
+        "n": "rightsHolder",
+        "v": "Prof. Gianni Cesareni"
+      },
+      {
+        "n": "rights",
+        "v": "Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)"
+      },
+      {
+        "n": "reference",
+        "v": "<div>Perfetto L., <i>et al.</i></div><div><b>SIGNOR: a database of causal relationships between biological entities</b><i>.</i></div><div>Nucleic Acids Res. 2016 Jan 4;44(D1):D548-54</div><div><span><a href=\"https://doi.org/10.1093/nar/gkv1048\" target=\"_blank\">doi: 10.1093/nar/gkv1048</a></span></div>"
+      },
+      {
+        "n": "version",
+        "v": "26-Jan-2023"
+      },
+      {
+        "n": "networkType",
+        "v": [
+          "pathway",
+          "Signalling Pathway"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "n": "prov:wasGeneratedBy",
+        "v": "<a href=\"https://github.com/ndexcontent/ndexsignorloader\">ndexsignorloader 1.2.0</a>"
+      },
+      {
+        "n": "__normalizationversion",
+        "v": "0.1"
+      },
+      {
+        "n": "prov:wasDerivedFrom",
+        "v": "https://signor.uniroma2.it/pathway_browser.php?organism=&pathway_list=SIGNOR-AMPK"
+      },
+      {
+        "n": "notes",
+        "v": "Edges have been collapsed with attributes converted to lists with exception of direct attribute"
+      }
+    ]
+  },
+  {
+    "nodeAttributes": [
+      {
+        "po": 0,
+        "n": "type",
+        "v": "stimulus"
+      },
+      {
+        "po": 0,
+        "n": "location",
+        "v": "extracellular"
+      },
+      {
+        "po": 1,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 1,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 2,
+        "n": "type",
+        "v": "complex"
+      },
+      {
+        "po": 2,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 2,
+        "n": "member",
+        "v": [
+          "hgnc.symbol:PRKAA1",
+          "hgnc.symbol:PRKAG2",
+          "hgnc.symbol:PRKAG3",
+          "hgnc.symbol:PRKAG1",
+          "hgnc.symbol:PRKAB2",
+          "hgnc.symbol:PRKAA2",
+          "hgnc.symbol:PRKAB1"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "type",
+        "v": "complex"
+      },
+      {
+        "po": 3,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 3,
+        "n": "member",
+        "v": [
+          "hgnc.symbol:MLST8",
+          "hgnc.symbol:AKT1S1",
+          "hgnc.symbol:MTOR",
+          "hgnc.symbol:RPTOR",
+          "hgnc.symbol:DEPTOR"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "type",
+        "v": "phenotype"
+      },
+      {
+        "po": 4,
+        "n": "location",
+        "v": ""
+      },
+      {
+        "po": 5,
+        "n": "type",
+        "v": "complex"
+      },
+      {
+        "po": 5,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 5,
+        "n": "member",
+        "v": [
+          "hgnc.symbol:ATG13",
+          "hgnc.symbol:ULK1",
+          "hgnc.symbol:RB1CC1"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "type",
+        "v": "phenotype"
+      },
+      {
+        "po": 6,
+        "n": "location",
+        "v": ""
+      },
+      {
+        "po": 7,
+        "n": "type",
+        "v": "complex"
+      },
+      {
+        "po": 7,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 7,
+        "n": "member",
+        "v": [
+          "hgnc.symbol:TSC2",
+          "hgnc.symbol:TSC1"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 8,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 9,
+        "n": "type",
+        "v": "proteinfamily"
+      },
+      {
+        "po": 9,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 9,
+        "n": "member",
+        "v": [
+          "hgnc.symbol:MAPK3",
+          "hgnc.symbol:MAPK1"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 10,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 11,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 11,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 12,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 12,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 13,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 13,
+        "n": "location",
+        "v": "factor"
+      },
+      {
+        "po": 14,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 14,
+        "n": "location",
+        "v": "receptor"
+      },
+      {
+        "po": 15,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 15,
+        "n": "location",
+        "v": "factor"
+      },
+      {
+        "po": 16,
+        "n": "type",
+        "v": "proteinfamily"
+      },
+      {
+        "po": 16,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 16,
+        "n": "member",
+        "v": [
+          "hgnc.symbol:AKT3",
+          "hgnc.symbol:AKT1",
+          "hgnc.symbol:AKT2"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "type",
+        "v": "smallmolecule"
+      },
+      {
+        "po": 17,
+        "n": "location",
+        "v": "receptor"
+      },
+      {
+        "po": 18,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 18,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 19,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 19,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 20,
+        "n": "type",
+        "v": "phenotype"
+      },
+      {
+        "po": 20,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 21,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 21,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 22,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 22,
+        "n": "location",
+        "v": "cytoplasm"
+      },
+      {
+        "po": 23,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 23,
+        "n": "location",
+        "v": "factor"
+      },
+      {
+        "po": 24,
+        "n": "type",
+        "v": "protein"
+      },
+      {
+        "po": 24,
+        "n": "location",
+        "v": "extracellular"
+      },
+      {
+        "po": 25,
+        "n": "type",
+        "v": "phenotype"
+      },
+      {
+        "po": 25,
+        "n": "location",
+        "v": ""
+      }
+    ]
+  },
+  {
+    "edgeAttributes": [
+      {
+        "po": 0,
+        "n": "citation",
+        "v": [
+          "pubmed:15744310"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "tissue_data",
+        "v": [
+          "BTO:0000759"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "notes",
+        "v": [
+          "AMPK pathway"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "annotator",
+        "v": [
+          "Gianni"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/15744310\">pubmed:15744310</a> We show here that the Sir2 homologue, SIRT1—which modulates ageing in several species —controls the gluconeogenic/glycolytic pathways in liver in response to fasting signals through the transcriptional coactivator PGC-1α. A nutrient signalling response that is mediated by pyruvate induces SIRT1 protein in liver during fasting."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 0,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 1,
+        "n": "citation",
+        "v": [
+          "pubmed:23000343",
+          "pubmed:20810907"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "cell_data",
+        "v": [
+          "",
+          "BTO:0001760"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/23000343\">pubmed:23000343</a>  Starvation-induced autophagy is regulated by mitochondrial reactive oxygen species leading to AMPK activationSTARV",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20810907\">pubmed:20810907</a> L6 myotubes were incubated in serum-containing or serum-free medium for 3 h. Levels of phosphorylated AMPK, Akt, and ATM were greater in serum-starved cells than in control cells."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 1,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 3,
+        "n": "citation",
+        "v": [
+          "pubmed:23863160"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/23863160\">pubmed:23863160</a> Historically, it was known that autophagy was switched off when mTORC1 was active and that inhibition of mTORC1 was a potent autophagy inducer."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 3,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 4,
+        "n": "citation",
+        "v": [
+          "pubmed:23863160"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/23863160\">pubmed:23863160</a> Several studies published simultaneously illustrated that the equivalent mammalian ULK1Atg13FIP200 complex was also negatively regulated by mTORC1 in an analogous manner [17,18,24]. In mammalian cells, amino acid starvation or rapamycin treatment causes dephosphorylation of both Atg13 and ULK1, indicating that an mTORC1 input regulates the ULK1Atg13FIP200 complex mTORC1 modulates the kinase activity of ULK1 directly, with rapamycin treatment of cells leading to enhanced ULK1 kinase activity, whereas Rheb overexpression causes a decrease in ULK1 kinase activity"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 4,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 5,
+        "n": "citation",
+        "v": [
+          "pubmed:20508131"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "tissue_data",
+        "v": [
+          "BTO:0000007"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "annotator",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20508131\">pubmed:20508131</a> The mammalian target of rapamycin complex 1 (mTORC1) integrates mitogen and nutrient signals to control cell proliferation and cell size."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 5,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 6,
+        "n": "citation",
+        "v": [
+          "pubmed:21460634"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/21460634\">pubmed:21460634</a> Here we report that ulk1/2 in turn phosphorylates all three subunits of ampk and thereby negatively regulates its activity. Thus, we propose that ulk1 is not only involved in the induction of autophagy, but also in terminating signaling events that trigger autophagy. In our model, phosphorylation of ampk by ulk1 represents a negative feedback circuit."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 6,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 7,
+        "n": "citation",
+        "v": [
+          "pubmed:23863160"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/23863160\">pubmed:23863160</a> In mammals, two protein complexes, namely the ULK1/Atg13/FIP200 (200kDa focal adhesion kinase family-interacting protein) complex and the Beclin/Vps34 complex, function jointly to produce the phagophore membrane, the initial phase of autophagosome formation."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 7,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 8,
+        "n": "citation",
+        "v": [
+          "pubmed:23863160"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/23863160\">pubmed:23863160</a> Raptor phosphorylation by ULK1 was sufficient to completely block Rheb-induced mTORC1 activity in cells as well as mTORC1 kinase activity invitro"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 8,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 9,
+        "n": "citation",
+        "v": [
+          "pubmed:15340059"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "mechanism",
+        "v": [
+          "gtpase-activating protein"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/15340059\">pubmed:15340059</a> Tsc2 functions as a gap to inhibit rheb activity. Tsc2 displays gap (gtpase-activating protein) activity specifically towards the small g protein rheb and inhibits its ability to stimulate the mtor signaling pathway. It has recently been shown that tsc2 has gtpase-activating protein (gap) activity towards the ras family small gtpase rheb (ras homolog enriched in brain), and tsc1/2 antagonizes the mtor signaling pathway via stimulation of gtp hydrolysis of rheb."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 9,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 10,
+        "n": "citation",
+        "v": [
+          "pubmed:25846811"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "residue",
+        "v": [
+          "Ser428"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "sequence",
+        "v": [
+          "SSKIRRLsACKQQ"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/25846811\">pubmed:25846811</a> Directly and/or through the activation of p90RSK, ERK phosphorylates LKB-1 at Ser325 and Ser428. The phosphorylation of LKB-1 causes the dissociation of LKB-1 from AMPK, resulting in the impaired activation of AMPK."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 10,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 11,
+        "n": "citation",
+        "v": [
+          "pubmed:9430688"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "residue",
+        "v": [
+          "Ser380",
+          "Ser732",
+          "Thr573",
+          "Thr359",
+          "Ser363",
+          "Ser221"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "sequence",
+        "v": [
+          "TSRTPKDsPGIPPSA",
+          "RRVRKLPsTTL",
+          "HQLFRGFsFVATGLM",
+          "AENGLLMtPCYTANF",
+          "DTEFTSRtPKDSPGI",
+          "DHEKKAYsFCGTVEY"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "cell_data",
+        "v": [
+          "BTO:0004055"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/9430688\">pubmed:9430688</a>  Several lines of evidence indicate that the mapkap-k1 isoforms are also activated by mapks in vivo via the ras-dependent protein kinase cascade that is triggered by growth factors or tumor-promoting phorbol esters, such as phorbol 12-myristate 13-acetate (pma). here we identify six sites in mapkap-k1a that become phosphorylated in transfected cos-1 cells. The inactive form of mapkap-k1a in unstimulated cells is partially phosphorylated at ser222 and ser733. Stimulation with phorbol 12-myristate 13-acetate induces the phosphorylation of thr360, ser364, thr574, and ser381 and increases the phosphorylation of ser222 and ser733.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/9430688\">pubmed:9430688</a> Several lines of evidence indicate that the mapkap-k1 isoforms are also activated by mapks in vivo via the ras-dependent protein kinase cascade that is triggered by growth factors or tumor-promoting phorbol esters, such as phorbol 12-myristate 13-acetate (pma). here we identify six sites in mapkap-k1a that become phosphorylated in transfected cos-1 cells. The inactive form of mapkap-k1a in unstimulated cells is partially phosphorylated at ser222 and ser733. Stimulation with phorbol 12-myristate 13-acetate induces the phosphorylation of thr360, ser364, thr574, and ser381 and increases the phosphorylation of ser222 and ser733."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 11,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 17,
+        "n": "citation",
+        "v": [
+          "pubmed:20640476"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "residue",
+        "v": [
+          "Ser466"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "sequence",
+        "v": [
+          "PVRMRRNsFTPLSSS"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20640476\">pubmed:20640476</a> The decreased glycogen synthesis rates upon acute AMPK activation are generally coupled to an increase in the glycolytic flux, thanks to the activation of 6-phosphofructo-2-kinase (PFK-2) through direct phosphorylation on Ser466 [35]. PFK-2 catalyzes the synthesis of fructose 2,6-bisphosphate, a potent stimulator of glycolysis. Therefore, activation of AMPK rapidly mobilizes glucose into ATP-generating processes."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 17,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 18,
+        "n": "citation",
+        "v": [
+          "pubmed:17711846",
+          "pubmed:17900900"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "residue",
+        "v": [
+          "",
+          "Ser399",
+          "Ser413",
+          "Thr179",
+          "Ser555",
+          "Ser626",
+          "Ser588"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "sequence",
+        "v": [
+          "",
+          "GLMQRSSsFPYTTKG",
+          "SSPDKRLtLSQIYEW",
+          "RALSNSVsNMGLSES",
+          "DNITLPPsQPSPTGG",
+          "SLECDMEsIIRSELM",
+          "QTLSDSLsGSSLYST"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "cell_data",
+        "v": [
+          "",
+          "BTO:0000007"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "annotator",
+        "v": [
+          "gcesareni",
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/17900900\">pubmed:17900900</a>  We have recently found that AMPK phosphorylates human FOXO3 in mammalian cells at novel regulatory sites that are distinct from the AKT sites",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/17711846\">pubmed:17711846</a>  Phosphorylation by AMPK leads to the activtion of FOXO3 transcriptional activity without affecting FOXO3 subcellular localization."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 18,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 25,
+        "n": "citation",
+        "v": [
+          "pubmed:22207502"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "tissue_data",
+        "v": [
+          "BTO:0000887"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/22207502\">pubmed:22207502</a> Ampk phosphorylates and activates theinsulinreceptor, providing a direct link between ampk and theinsulin pathway."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 25,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 26,
+        "n": "citation",
+        "v": [
+          "pubmed:20640476"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "residue",
+        "v": [
+          "Thr178"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "sequence",
+        "v": [
+          "NHNHRIRtNPAIVKT"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20640476\">pubmed:20640476</a> AMPK can directly phosphorylate PGC-1a at Thr177 and Ser538 in in vitro assays PGC-1a phosphorylation might not directly affect its intrinsic coactivation activity, but, rather, release it from its repressor protein p160myb [79] and/or allow deacetylation and subsequent activation by SIRT1"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 26,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 27,
+        "n": "citation",
+        "v": [
+          "pubmed:16959574"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "cell_data",
+        "v": [
+          "BTO:0002572"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/16959574\">pubmed:16959574</a> GSK3 inhibits the mTOR pathway by phosphorylating TSC2 in a manner dependent on AMPK-priming phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 27,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 28,
+        "n": "citation",
+        "v": [
+          "pubmed:23863160"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/23863160\">pubmed:23863160</a> Under energy deprivation, AMPK positively regulates ULK1 to induce autophagy, with various studies revealing that AMPK binds to and phosphorylates ULK1"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 28,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 29,
+        "n": "citation",
+        "v": [
+          "pubmed:19951971"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "residue",
+        "v": [
+          "Ser253",
+          "Thr32",
+          "Ser315"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "sequence",
+        "v": [
+          "APRRRAVsMDNSNKY",
+          "QSRPRSCtWPLQRPE",
+          "DFRSRTNsNASTVSG"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/19951971\">pubmed:19951971</a>  AKT phosphorylates FOXO3a at three conserved sites (Thr32, Ser253 and Ser315), therefore creating binding sites for the 14-3-3 chaperone proteins and leading to the active export of FOXO3a to the cytoplasm where it is targeted for proteasomal degradation.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/19951971\">pubmed:19951971</a> AKT phosphorylates FOXO3a at three conserved sites (Thr32, Ser253 and Ser315), therefore creating binding sites for the 14-3-3 chaperone proteins and leading to the active export of FOXO3a to the cytoplasm where it is targeted for proteasomal degradation."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 29,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 32,
+        "n": "citation",
+        "v": [
+          "pubmed:19593385"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "cell_data",
+        "v": [
+          "BTO:0000011"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/19593385\">pubmed:19593385</a> In examining the requirements for different Akt-mediated phosphorylation sites on TSC2, we find that only TSC2 mutants lacking all five previously identified Akt sites fully block insulin-stimulated mTORC1 signaling in reconstituted Tsc2 null cells, and this mutant also inhibits adipogenesis"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 32,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 33,
+        "n": "citation",
+        "v": [
+          "pubmed:9637919",
+          "pubmed:9094314",
+          "pubmed:21798082"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "mechanism",
+        "v": [
+          "relocalization",
+          "chemical activation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "annotator",
+        "v": [
+          "gcesareni",
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/21798082\">pubmed:21798082</a> Pip3 acts in turn as a docking site for two kinases, phosphoinositide-dependent kinase 1 (PDK1) and AKT, and the subsequent phosphorylation of AKT at serine 308 by PDK1, leading to AKT activation.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/9094314\">pubmed:9094314</a>  We tested the kinase in the presence of several inositol phospholipids and found that only low micromolar concentrations of the D enantiomers of either phosphatidylinositol 3,4,5-triphosphate (PtdIns(3,4,5)P3) or PtdIns(3,4)P2 were effective in potently activating the kinase, which has been named PtdIns(3,4,5)P3-dependent protein kinase-1 (PDK1)",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/9637919\">pubmed:9637919</a>  In response to PDGF, binding of ptdlns (3,4,5)p3 and/or ptdlns(3,4)p2 to the PH domain of PDK-1 causes its translocation to the plasma membrane where it co-localises with PKB, significantly contributing to the scale of PKB activation."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 33,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 36,
+        "n": "citation",
+        "v": [
+          "pubmed:12805220"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "mechanism",
+        "v": [
+          "binding"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "annotator",
+        "v": [
+          "Gianni"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/12805220\">pubmed:12805220</a> Endogenous LKB1 and STRAD form a complex in which STRAD activates LKB1, resulting in phosphorylation of both partners.LKB1 phosphorylates STRAD at Thr329 and Thr419"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 36,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 37,
+        "n": "citation",
+        "v": [
+          "pubmed:24003218",
+          "pubmed:20640476"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "mechanism",
+        "v": [
+          "deacetylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "tissue_data",
+        "v": [
+          "",
+          "BTO:0001103"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20640476\">pubmed:20640476</a>  AMPK can directly phosphorylate PGC-1a at Thr177 and Ser538 in in vitro assays PGC-1a phosphorylation might not directly affect its intrinsic coactivation activity, but, rather, release it from its repressor protein p160myb [79] and/or allow deacetylation and subsequent activation by SIRT1",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/24003218\">pubmed:24003218</a> SIRT1 overexpression reduces muscle wasting by blocking the activation of FoxO1 and 3 SIRT1 activation has been reported to increase dramatically endurance exercise through the activation of PGC-1_ in muscle, which stimulates fatty acid oxidation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 37,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 39,
+        "n": "citation",
+        "v": [
+          "pubmed:19553684"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "mechanism",
+        "v": [
+          "transcriptional regulation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "annotator",
+        "v": [
+          "gcesareni"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/19553684\">pubmed:19553684</a> Collectively, these data indicate that SIRT1 controls PGC-1alpha gene expression in skeletal muscle and that MyoD is a key mediator of this action"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 39,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 40,
+        "n": "citation",
+        "v": [
+          "pubmed:21775285"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "mechanism",
+        "v": [
+          "deacetylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "residue",
+        "v": [
+          "Lys14"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "sequence",
+        "v": [
+          "VKEGWLHkRGEYIKT"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "tissue_data",
+        "v": [
+          "BTO:0000562"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "annotator",
+        "v": [
+          "gcesareni"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/21775285\">pubmed:21775285</a> We show that Akt and PDK1 are acetylated at lysine residues in their pleckstrin homology domains, which mediate PIP(3) binding. Acetylation blocked binding of Akt and PDK1 to PIP(3), thereby preventing membrane localization and phosphorylation of Akt. Deacetylation by SIRT1 enhanced binding of Akt and PDK1 to PIP(3) and promoted their activation."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 40,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 41,
+        "n": "citation",
+        "v": [
+          "pubmed:20640476"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "annotator",
+        "v": [
+          "Gianni"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20640476\">pubmed:20640476</a> However, in contrast to the role of AMPK, most reports to date indicate that PGC-1a induces gluconeogenesis"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 41,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 42,
+        "n": "citation",
+        "v": [
+          "pubmed:19222999",
+          "pubmed:19299511"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "cell_data",
+        "v": [
+          "",
+          "BTO:0000011"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/19299511\">pubmed:19299511</a> These results suggest that Rheb induces alteration in the binding of 4E-BP1 with mTORC1 to regulate mTORC1 activation.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/19222999\">pubmed:19222999</a>  Recent studies document that Rheb activates mTORC1 via direct, GTP-dependent interaction with the peptidyl-prolyl-cis/trans-isomerase FKBP38, which is proposed to act as an inhibitor of mTORC1."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 42,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 44,
+        "n": "citation",
+        "v": [
+          "pubmed:24367090",
+          "pubmed:24647478"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "mechanism",
+        "v": [
+          "chemical modification"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "notes",
+        "v": [
+          "AKT is a serine-threonine protein kinase that plays important roles in cell growth, proliferation and apoptosis. It is activated after binding to phosphatidylinositol phosphates (PIPs) with phosphate s at positions 3, 4 and 3,4,5 on the inositol ring"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "annotator",
+        "v": [
+          "miannu"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/24647478\">pubmed:24647478</a> Stimulation of tyrosine kinase receptors initiates a signaling cascade that activates pi3k. Activated pi3k uses pip2 to generate pip3, which recruit akt to the plasma membrane through its pleckstrin homology (ph) domain, permitting its activation by pdks.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/24367090\">pubmed:24367090</a>  Insulin activation of phosphoinositide 3-kinase (pi3k) signaling regulates glucose homeostasis through the production of phosphatidylinositol 3,4,5-trisphosphate (pip3). The dual-specificity phosphatase and tensin homolog deleted on chromosome 10 (pten) blocks pi3k signaling by dephosphorylating pip3, and is inhibited through its interaction with phosphatidylinositol 3,4,5-trisphosphate-dependent rac exchanger 2"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 44,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 46,
+        "n": "citation",
+        "v": [
+          "pubmed:20966354"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "mechanism",
+        "v": [
+          "binding"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20966354\">pubmed:20966354</a> Irs proteins are capable of both regulating and activating pi3k, depending on the cell of origin."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 46,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 48,
+        "n": "citation",
+        "v": [
+          "pubmed:10226025",
+          "pubmed:9512493",
+          "pubmed:15743829"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "residue",
+        "v": [
+          "",
+          "Thr308"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "sequence",
+        "v": [
+          "",
+          "KDGATMKtFCGTPEY"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "tissue_data",
+        "v": [
+          "",
+          "BTO:0001103",
+          "BTO:0000142",
+          "BTO:0000887",
+          "BTO:0001760"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/15743829\">pubmed:15743829</a>  3-phosphoinositide-dependent kinase 1 (PDK1) phosphorylates the activation loop of a number of protein serine/threonine kinases of the AGC kinase superfamily, including protein kinase B (PKB; also called Akt),",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/10226025\">pubmed:10226025</a> Protein kinase B (PKB) is activated by phosphorylation of Thr308 and of Ser473. Thr308 is phosphorylated by the 3-phosphoinositide-dependent protein kinase-1 (PDK1) but the identity of the kinase that phosphorylates Ser473 (provisionally termed PDK2) is unknown.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/9512493\">pubmed:9512493</a>  The activation of PKBbeta and PKBamma by PDK11 was accompanied by the phosphorylation of the residues equivalent to Thr308 in PKBalpha, namely Thr309 (PKBbeta) and Thr305 (PKBgamma)"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 48,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 50,
+        "n": "citation",
+        "v": [
+          "pubmed:25846811"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "residue",
+        "v": [
+          "Ser428"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "sequence",
+        "v": [
+          "SSKIRRLsACKQQ"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "cell_data",
+        "v": [
+          "BTO:0001271"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/25846811\">pubmed:25846811</a> Negative regulation of the LKB1/AMPK pathway by ERK in human acute myeloid leukemia cellsBRAFV600E activates downstream molecules, including ERK and p90 ribosomal S6 kinase (RSK), and leads to the phosphorylation of LKB-1 at Ser428 by these kinases. This cascade results in the dissociation of LKB1 from AMPK."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 50,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 51,
+        "n": "citation",
+        "v": [
+          "pubmed:10558990"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "residue",
+        "v": [
+          "Ser119"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "sequence",
+        "v": [
+          "EILSRRPsYRKILND"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/10558990\">pubmed:10558990</a> The rsks phosphorylate the trascription factor creb at serine 133 to promote cell survival."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 51,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 52,
+        "n": "citation",
+        "v": [
+          "pubmed:15342917"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "cell_data",
+        "v": [
+          "BTO:0000007"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/15342917\">pubmed:15342917</a> The mitogen-activated protein kinase (mapk)-activated kinase, p90 ribosomal s6 kinase (rsk) 1, was found to interact with and phosphorylate tuberin at a regulatory site, ser-1798, located at the evolutionarily conserved c terminus of tuberin. Rsk1 phosphorylation of ser-1798 inhibits the tumor suppressor function of the tuberin/hamartin complex, resulting in increased mtor signaling to s6k1"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 52,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 53,
+        "n": "citation",
+        "v": [
+          "pubmed:18722121"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/18722121\">pubmed:18722121</a> Ser719, ser721, and ser722 are the predominant rsk-dependent phosphorylation sites in raptor  raptor phosphorylation regulates mtorc1 activity"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 53,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 64,
+        "n": "citation",
+        "v": [
+          "pubmed:7651388",
+          "pubmed:12220227",
+          "pubmed:11416002"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "residue",
+        "v": [
+          "Tyr632",
+          "Tyr896",
+          "Tyr465",
+          "Tyr612",
+          "Tyr989",
+          "Tyr1229",
+          "Tyr941"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "sequence",
+        "v": [
+          "TLHTDDGyMPMSPGV",
+          "GRKGSGDyMPMSPKS",
+          "VPSSRGDyMTMQMSC",
+          "EETGTEEyMKMDLGP",
+          "SSEDLSAyASISFQK",
+          "GEEELSNyICMGGKG",
+          "EPKSPGEyVNIEFGS"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "cell_data",
+        "v": [
+          "BTO:0000246",
+          "BTO:0000443",
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/7651388\">pubmed:7651388</a> All known IRS proteins contain multiple YXXM motifs that upon phosphorylation by activated insulin receptors A previous study using phosphopeptides suggested that tyrosine-phosphorylated YXXM motifs at positions 608 and 939 in rat IRS-1 bind with high affinity to SH2 domains of p85, and motifs at positions 460 and 987 bind with lower affinity (10).",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/11416002\">pubmed:11416002</a>  All known IRS proteins contain multiple YXXM motifs that upon phosphorylation by activated insulin re- ceptors Tyr(612) and Tyr(632) in human insulin receptor substrate-1 are important for full activation of insulin-stimulated phosphatidylinositol 3-kinase activity and translocation of GLUT4 in adipose cells",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/12220227\">pubmed:12220227</a>  Here we show that stimulation by insulin of freshly isolated primary adipocytes resulted in the expected rapid tyrosine phosphorylation of the insulin receptor, IRS-1 and IRS-3. Inhibition of PI 3-kinase enhanced the insulin-stimulated phosphorylation of IRS-1 on (i) Tyr(612) and Tyr(941) (p85 binding sites), concomitant with an increased association of the p85 subunit of PI 3-kinase; (ii) Tyr(896) (a Grb2 binding site); and (iii) Tyr(1229) (an SHP-2 binding site), although little or no binding of SHP-2 to IRS-1 was detectable under any conditions.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/7651388\">pubmed:7651388</a>  All known IRS proteins contain multiple YXXM motifs that upon phosphorylation by activated insulin receptors A previous study using phosphopeptides suggested that tyrosine-phosphorylated YXXM motifs at positions 608 and 939 in rat IRS-1 bind with high affinity to SH2 domains of p85, and motifs at positions 460 and 987 bind with lower affinity (10).",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/7651388\">pubmed:7651388</a>  Therefore, during insulin stimulation irs-1 undergoes tyrosine phosphorylation, and a portion of tyrosine phosphorylated irs-1 associated with the insulin receptor. The insulin receptor substrate-1 (irs-1) is rapidly phosphorylated on several tyrosine residues by the activated insulin receptor. Insulin signals are mediated through tyrosine phosphorylation of specific proteins such as insulin receptor substrate 1 (irs-1) and shc by the activated insulin receptor (ir)."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 64,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 65,
+        "n": "citation",
+        "v": [
+          "pubmed:2550426",
+          "pubmed:16956584"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "mechanism",
+        "v": [
+          "binding"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/2550426\">pubmed:2550426</a>  Our previous studies indicated that amino acid residues 240-250 in the cysteine-rich region of the human insulin receptor alpha-subunit constitute a site in which insulin binds.",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/16956584\">pubmed:16956584</a> Insulin binds to the alpha subunit of the insulin receptor (IR) on the cell surface."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 65,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 67,
+        "n": "citation",
+        "v": [
+          "pubmed:20660310"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "tissue_data",
+        "v": [
+          "BTO:0000763"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "annotator",
+        "v": [
+          "Luana"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20660310\">pubmed:20660310</a> Beta-catenin/CBP-driven transcription is critical for maintenance of an undifferentiated/proliferative state"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 67,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 68,
+        "n": "citation",
+        "v": [
+          "pubmed:22931788"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "cell_data",
+        "v": [
+          "BTO:0000007"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "notes",
+        "v": [
+          "AMPK signaling"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "annotator",
+        "v": [
+          "Gianni"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/22931788\">pubmed:22931788</a> Forkhead box O (FOXO) transcriptional protein family members, including FOXO1 and FOXO3, are involved in the modulation of autophagy. However, whether there is redundancy between FOXO1 and FOXO3 in the ability to induce autophagy remains unclear. In this study, we showed that FOXO3 induced a transcription-dependent autophagy, and FOXO1 was required for this process."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 68,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      },
+      {
+        "po": 69,
+        "n": "citation",
+        "v": [
+          "pubmed:14614828",
+          "pubmed:14976552"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/14614828\">pubmed:14614828</a> We demonstrated that lkb1 phosphorylates ampk on the activation loop threonine (thr172) within the catalytic subunit and activates ampk in vitro. Here, we have investigated whether lkb1 corresponds to the major ampkk activity present in cell extracts. Ampkk purified from rat liver corresponds to lkb1, and blocking lkb1 activity in cells abolishes ampk activation in response to different stimuli",
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/14976552\">pubmed:14976552</a>  We demonstrated that lkb1 phosphorylates ampk on the activation loop threonine (thr172) within the catalytic subunit and activates ampk in vitro. Here, we have investigated whether lkb1 corresponds to the major ampkk activity present in cell extracts. Ampkk purified from rat liver corresponds to lkb1, and blocking lkb1 activity in cells abolishes ampk activation in response to different stimuli"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 69,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 71,
+        "n": "citation",
+        "v": [
+          "pubmed:14976552"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "mechanism",
+        "v": [
+          "phosphorylation"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/14976552\">pubmed:14976552</a> We recently demonstrated that the LKB1 tumour suppressor kinase, in complex with the pseudokinase STRAD and the scaffolding protein MO25, phosphorylates and activates AMP_activated protein kinase (AMPK)."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 71,
+        "n": "direct",
+        "v": "true",
+        "d": "boolean"
+      },
+      {
+        "po": 72,
+        "n": "citation",
+        "v": [
+          "pubmed:20640476"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "mechanism",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "residue",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "sequence",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "cell_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "tissue_data",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "notes",
+        "v": [
+          ""
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "annotator",
+        "v": [
+          "lperfetto"
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "sentence",
+        "v": [
+          "<a target=\"_blank\" href=\"http://identifiers.org/pubmed/20640476\">pubmed:20640476</a> The decreased glycogen synthesis rates upon acute AMPK activation are generally coupled to an increase in the glycolytic flux, thanks to the activation of 6-phosphofructo-2-kinase (PFK-2) through direct phosphorylation on Ser466 [35]. PFK-2 catalyzes the synthesis of fructose 2,6-bisphosphate, a potent stimulator of glycolysis. Therefore, activation of AMPK rapidly mobilizes glucose into ATP-generating processes."
+        ],
+        "d": "list_of_string"
+      },
+      {
+        "po": 72,
+        "n": "direct",
+        "v": "false",
+        "d": "boolean"
+      }
+    ]
+  },
+  {
+    "cartesianLayout": [
+      {
+        "node": 0,
+        "x": 145.38090708603806,
+        "y": -461.07326545639523
+      },
+      {
+        "node": 1,
+        "x": -220.28892420028905,
+        "y": -184.418135999213
+      },
+      {
+        "node": 2,
+        "x": -293.8173283137946,
+        "y": -119.88658374690263
+      },
+      {
+        "node": 3,
+        "x": 439.41683487080996,
+        "y": 1.7813373822524148
+      },
+      {
+        "node": 4,
+        "x": -391.5055722785902,
+        "y": 349.5182755708269
+      },
+      {
+        "node": 5,
+        "x": 263.85199640841813,
+        "y": 80.63247197313409
+      },
+      {
+        "node": 6,
+        "x": -81.17528285887103,
+        "y": 442.57626047798743
+      },
+      {
+        "node": 7,
+        "x": -304.6553600005886,
+        "y": 46.841364187749214
+      },
+      {
+        "node": 8,
+        "x": -121.1177663527897,
+        "y": -202.1759376123442
+      },
+      {
+        "node": 9,
+        "x": -386.0938955120471,
+        "y": -50.05469378486828
+      },
+      {
+        "node": 10,
+        "x": 6.4913837710857845,
+        "y": -230.6186604726854
+      },
+      {
+        "node": 11,
+        "x": 357.5364880349451,
+        "y": -13.96454202635135
+      },
+      {
+        "node": 12,
+        "x": 157.38552122238883,
+        "y": -179.78908993196717
+      },
+      {
+        "node": 13,
+        "x": 262.638081380458,
+        "y": 297.022600613558
+      },
+      {
+        "node": 14,
+        "x": 348.6145643943475,
+        "y": -287.0376797659495
+      },
+      {
+        "node": 15,
+        "x": -332.97534943405833,
+        "y": 247.11122425606172
+      },
+      {
+        "node": 16,
+        "x": 285.1120309498897,
+        "y": -112.16273643859056
+      },
+      {
+        "node": 17,
+        "x": 152.5259650403722,
+        "y": -341.5674742387725
+      },
+      {
+        "node": 18,
+        "x": 34.064546445981705,
+        "y": 190.23346937006232
+      },
+      {
+        "node": 19,
+        "x": 168.10067772072114,
+        "y": 144.51965993047673
+      },
+      {
+        "node": 20,
+        "x": 409.4401111650213,
+        "y": -57.36028643023819
+      },
+      {
+        "node": 21,
+        "x": -222.91867090420675,
+        "y": 138.84837574511766
+      },
+      {
+        "node": 22,
+        "x": -420.075410289908,
+        "y": -31.764318503609143
+      },
+      {
+        "node": 23,
+        "x": 404.5351341521455,
+        "y": 231.22081924776745
+      },
+      {
+        "node": 24,
+        "x": -310.78842064182913,
+        "y": -426.05209172087
+      },
+      {
+        "node": 25,
+        "x": -263.37588899699614,
+        "y": 427.8932211668959
+      }
+    ]
+  },
+  {
+    "status": [
+      {
+        "error": "",
+        "success": true
+      }
+    ]
+  }
+]
