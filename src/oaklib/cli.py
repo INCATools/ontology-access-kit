@@ -2393,7 +2393,7 @@ def prefixes(terms, used_only: bool, output, output_type: str):
     "--include-metadata/--no-include-metadata",
     default=False,
     show_default=True,
-    help="If True, include term metadata such as definitions, synonyms"
+    help="If True, include term metadata such as definitions, synonyms",
 )
 @output_type_option
 def extract(terms, predicates, dangling: bool, output, output_type, **kwargs):

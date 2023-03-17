@@ -50,8 +50,11 @@ class OboGraphToCXConverter(DataModelConverter):
                 n_iid = cxn.create_node(n.lbl, node_represents=self._id(n.id))
                 node_id_map[n.id] = n_iid
                 if n.meta:
-                    for s in n.meta.synonyms:
-                        cxn.add_node_attribute(n_iid, "altname", s.val)
+                    if n.meta.synonyms:
+                        # cx does not appear to allow repeated attributes, so we join synonyms
+                        cxn.add_node_attribute(
+                            n_iid, "altname", "; ".join([s.val for s in n.meta.synonyms])
+                        )
             for e in g.edges:
                 s = node_id_map.get(e.sub, None)
                 t = node_id_map.get(e.obj, None)

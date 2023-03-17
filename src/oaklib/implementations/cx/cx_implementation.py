@@ -16,7 +16,6 @@ __all__ = [
 
 
 def from_cx(net_cx: ndex2.NiceCXNetwork) -> GraphDocument:
-    net_cx.print_summary()
     gd = GraphDocument()
     graph = Graph(net_cx.get_name())
     node_index = {}
