@@ -97,7 +97,7 @@ class ProntoImplementation(
     SummaryStatisticsInterface,
     TaxonConstraintInterface,
     DumperInterface,
-    RustSimilarityInterface
+    RustSimilarityInterface,
 ):
     """
     Pronto wraps local-file based ontologies in the following formats:

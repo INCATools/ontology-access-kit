@@ -54,7 +54,7 @@ class UbergraphImplementation(
     MappingProviderInterface,
     SemanticSimilarityInterface,
     SubsetterInterface,
-    RustSimilarityInterface
+    RustSimilarityInterface,
 ):
     """
     Wraps the Ubergraph sparql endpoint

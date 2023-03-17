@@ -235,7 +235,9 @@ class RustSimilarityInterface(BasicOntologyInterface, ABC):
         if object_ancestors is None and isinstance(self, OboGraphInterface):
             object_ancestors = self.ancestors(object, predicates=predicates)
         if subject_ancestors is not None and object_ancestors is not None:
-            sim.jaccard_similarity = jaccard_similarity(set(subject_ancestors), set(object_ancestors))
+            sim.jaccard_similarity = jaccard_similarity(
+                set(subject_ancestors), set(object_ancestors)
+            )
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(
                 sim.jaccard_similarity * sim.ancestor_information_content

@@ -107,9 +107,9 @@ from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphI
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
+from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-from oaklib.interfaces.rustsim_interface import RustSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
@@ -2617,14 +2617,7 @@ def similarity(
     help="Use rustsim backend for calculating similarity",
 )
 @click.argument("terms", nargs=-1)
-def termset_similarity(
-    terms,
-    predicates,
-    autolabel,
-    output_type,
-    output: TextIO,
-    rust: bool
-):
+def termset_similarity(terms, predicates, autolabel, output_type, output: TextIO, rust: bool):
     """
     Termset similarity.
 

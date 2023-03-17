@@ -30,7 +30,7 @@ class OakMetaModelImplementation(
     OboGraphInterface,
     PatcherInterface,
     SemanticSimilarityInterface,
-    RustSimilarityInterface
+    RustSimilarityInterface,
 ):
     """
     Wraps the internal OAK data models.
