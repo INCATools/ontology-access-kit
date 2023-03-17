@@ -4,6 +4,7 @@ from typing import Any, Dict
 
 from linkml_runtime.dumpers import json_dumper
 
+from oaklib.converters.obo_graph_to_cx_converter import OboGraphToCXConverter
 from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
 from oaklib.converters.obo_graph_to_obo_format_converter import (
     OboGraphToOboFormatConverter,
@@ -21,6 +22,7 @@ OBOGRAPH_CONVERTERS = {
     "owl": OboGraphToRdfOwlConverter,
     "turtle": OboGraphToRdfOwlConverter,
     "rdf": OboGraphToRdfOwlConverter,
+    "cx": OboGraphToCXConverter,
     "obojson": None,
 }
 

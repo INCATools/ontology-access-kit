@@ -2389,8 +2389,14 @@ def prefixes(terms, used_only: bool, output, output_type: str):
     show_default=True,
     help="If True, allow dangling edges in the output",
 )
+@click.option(
+    "--include-metadata/--no-include-metadata",
+    default=False,
+    show_default=True,
+    help="If True, include term metadata such as definitions, synonyms",
+)
 @output_type_option
-def extract(terms, predicates, dangling: bool, output, output_type):
+def extract(terms, predicates, dangling: bool, output, output_type, **kwargs):
     """
     Extracts a sub-ontology.
 
@@ -2433,7 +2439,7 @@ def extract(terms, predicates, dangling: bool, output, output_type):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     actual_predicates = _process_predicates_arg(predicates)
     curies = list(set(query_terms_iterator(terms, impl)))
-    graph = impl.extract_graph(curies, actual_predicates, dangling=dangling)
+    graph = impl.extract_graph(curies, predicates=actual_predicates, dangling=dangling, **kwargs)
     graph_impl = OboGraphImplementation(obograph_document=GraphDocument(graphs=[graph]))
     if output_type is None:
         output_type = "obo"

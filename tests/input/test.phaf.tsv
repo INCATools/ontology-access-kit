@@ -1,0 +1,3 @@
+#Database name	Gene systematic ID	FYPO ID	Allele description	Expression	Parental strain	Strain name (background)	Genotype description	Gene name	Allele name	Allele synonym	Allele type	Evidence	Condition	Penetrance	Severity	Extension	Reference	Taxon	Date	Ploidy
+PomBase	SPCC338.10c	FYPO:0000245			972 h-			cox5	cox5delta		deletion	cell growth assay evidence	FYECO:0000123,FYECO:0000005,FYECO:0000137				PMID:34250083	4896	2021-08-11	haploid
+PomBase	SPCC338.10c	FYPO:0002060			972 h-			cox5	cox5delta		deletion	Microscopy	FYECO:0000137,FYECO:0000005				PMID:20473289	4896	2010-04-06	haploid

@@ -345,7 +345,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param dangling: if true, include dangling nodes
         :return: subgraph
         """
-        logging.info(f"Extracting usings seed of {len(entities)} entities")
+        logging.info(f"Extracting using seed of {len(entities)} entities")
         nodes = [self.node(e, include_metadata=include_metadata) for e in entities]
         edges = []
         logging.info(f"extracting rels for {len(entities)} p={predicates} dangling={dangling}")
