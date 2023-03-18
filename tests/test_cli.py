@@ -399,7 +399,7 @@ class TestCommandLineInterface(unittest.TestCase):
             main, ["-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output]
         )
         self.assertEqual(0, result.exit_code)
-        msdf = parse_sssom_table(str(mappings_output))
+        msdf = parse_sssom_table(mappings_output)
         self.assertTrue(isinstance(msdf.prefix_map, dict))
         self.assertEqual(len(msdf.prefix_map), 14)
         self.assertIn("BFO", msdf.prefix_map)
