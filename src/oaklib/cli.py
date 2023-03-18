@@ -2168,7 +2168,12 @@ def paths(
             if stylemap is None:
                 stylemap = default_stylemap_path()
             graph_to_image(
-                path_graph, seeds=all_curies, imgfile=output, stylemap=stylemap, configure=configure, view=viz,
+                path_graph,
+                seeds=all_curies,
+                imgfile=output,
+                stylemap=stylemap,
+                configure=configure,
+                view=viz,
             )
 
 

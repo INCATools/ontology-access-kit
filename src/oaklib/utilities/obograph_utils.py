@@ -81,7 +81,9 @@ def draw_graph(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=
     subprocess.run(["open", imgfile])
 
 
-def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None, view=None) -> str:
+def graph_to_image(
+    graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None, view=None
+) -> str:
     """
     Renders a graph to png using obographviz
 
@@ -134,7 +136,7 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         if seeds is not None:
             for seed in seeds:
                 cmdtoks += ["-H", seed]
-        if sys.platform == 'win32':
+        if sys.platform == "win32":
             cmdtoks = ["cmd.exe", "/c"] + cmdtoks
             opencmd = ["cmd.exe", "/c", "start", imgfile]
         else:
