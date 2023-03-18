@@ -134,16 +134,17 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         if seeds is not None:
             for seed in seeds:
                 cmdtoks += ["-H", seed]
-        logging.debug(f"Run: {cmdtoks}")
-
         if sys.platform == 'win32':
-            subprocess.run(cmdtoks, shell=True)
-            if view:
-                subprocess.run([imgfile], shell=True)
+            cmdtoks = ["cmd.exe", "/c"] + cmdtoks
+            opencmd = ["cmd.exe", "/c", "start", imgfile]
         else:
-            subprocess.run(cmdtoks)
-            if view:
-                subprocess.run(["open", imgfile])
+            opencmd = ["open", imgfile]
+        logging.debug(f"Run: {cmdtoks}")
+        subprocess.run(cmdtoks)
+
+        if view:
+            logging.debug(f"Run: {opencmd}")
+            subprocess.run(opencmd)
 
 
 def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: str = None) -> Graph:
