@@ -11,7 +11,6 @@ import logging
 import os
 import re
 import secrets
-import subprocess
 import sys
 from collections import defaultdict
 from dataclasses import dataclass
