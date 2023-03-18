@@ -394,7 +394,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("Reactome:R-HSA-1483089", out)
 
     def test_mappings_curie_map(self):
-        mappings_output = OUTPUT_DIR / "test_mappings.tsv"
+        mappings_output = OUTPUT_DIR.joinpath("test_mappings.tsv")
         import subprocess
 
         result = subprocess.run(
