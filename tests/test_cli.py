@@ -395,10 +395,12 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_mappings_curie_map(self):
         mappings_output = OUTPUT_DIR / "test_mappings.tsv"
-        result = self.runner.invoke(
-            main, ["-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output]
+        import subprocess
+
+        result = subprocess.run(
+            ["runoak", "-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output]
         )
-        self.assertEqual(0, result.exit_code)
+        self.assertEqual(0, result.returncode)
         msdf = parse_sssom_table(mappings_output)
         self.assertTrue(isinstance(msdf.prefix_map, dict))
         self.assertEqual(len(msdf.prefix_map), 14)
