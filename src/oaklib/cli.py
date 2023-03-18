@@ -1698,11 +1698,9 @@ def viz(
     if output_type:
         write_graph(graph, format=output_type, output=output)
     else:
-        imgfile = graph_to_image(
-            graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
+        graph_to_image(
+            graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output, view=view
         )
-        if view:
-            subprocess.run(["open", imgfile])
 
 
 @main.command()
@@ -2169,10 +2167,9 @@ def paths(
         else:
             if stylemap is None:
                 stylemap = default_stylemap_path()
-            imgfile = graph_to_image(
-                path_graph, seeds=all_curies, imgfile=output, stylemap=stylemap, configure=configure
+            graph_to_image(
+                path_graph, seeds=all_curies, imgfile=output, stylemap=stylemap, configure=configure, view=viz,
             )
-            subprocess.run(["open", imgfile])
 
 
 @main.command()
