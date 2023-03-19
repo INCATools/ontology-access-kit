@@ -398,7 +398,8 @@ class TestCommandLineInterface(unittest.TestCase):
         import subprocess
 
         result = subprocess.run(
-            ["runoak", "-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output]
+            ["runoak", "-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output],
+            shell=True,
         )
         self.assertEqual(0, result.returncode)
         msdf = parse_sssom_table(mappings_output)
