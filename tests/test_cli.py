@@ -1,7 +1,9 @@
 import csv
 import json
 import logging
+import os
 import re
+import subprocess
 import unittest
 from typing import Optional
 
@@ -395,11 +397,22 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_mappings_curie_map(self):
         mappings_output = OUTPUT_DIR.joinpath("test_mappings.tsv")
-        import subprocess
-
+        if os.name == "nt":
+            shell = True
+        else:
+            shell = False
         result = subprocess.run(
-            ["runoak", "-i", f"sqlite:{TEST_DB}", "mappings", "-O", "sssom", "-o", mappings_output],
-            shell=True,
+            [
+                "runoak",
+                "-i",
+                f"sqlite:{TEST_DB}",
+                "mappings",
+                "-O",
+                "sssom",
+                "-o",
+                mappings_output,
+            ],
+            shell=shell,
         )
         self.assertEqual(0, result.returncode)
         msdf = parse_sssom_table(mappings_output)
