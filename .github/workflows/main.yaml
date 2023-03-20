@@ -57,9 +57,10 @@ jobs:
       #          install & configure poetry
       #----------------------------------------------
       - name: Install Poetry
-        run: |
-          pip install poetry
-          poetry cache clear . --all
+        uses: snok/install-poetry@v1.3.3
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
 
       #----------------------------------------------
       #       load cached venv if cache exists
