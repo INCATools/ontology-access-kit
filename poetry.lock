@@ -3186,11 +3186,6 @@ gilda = ["gilda"]
 rustsim = ["rustsim"]
 seaborn = []
 
-[metadata]
-lock-version = "1.1"
-python-versions = ">=3.9,<4.0.0"
-content-hash = "f38aef745fc2c4c12d78887ed40c67114fb80721342d861193e996a1d8aafc9a"
-
 [metadata.files]
 adeft = [
     {file = "adeft-0.11.2.tar.gz", hash = "sha256:bf9b239d7989217b7d673eaf46ac2e8c1bfc97a0aac9a75cc2231e07438fc0a5"},
