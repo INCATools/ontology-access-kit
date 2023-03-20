@@ -57,8 +57,9 @@ jobs:
       #          install & configure poetry
       #----------------------------------------------
       - name: Install Poetry
-        run:
+        run: |
           pip install poetry
+          poetry cache cear . --all
 
       #----------------------------------------------
       #       load cached venv if cache exists
