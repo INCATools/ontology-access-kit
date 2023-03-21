@@ -412,7 +412,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "-o",
                 mappings_output,
             ],
-            shell=shell, # noqa
+            shell=shell,  # noqa
         )
         self.assertEqual(0, result.returncode)
         msdf = parse_sssom_table(mappings_output)
