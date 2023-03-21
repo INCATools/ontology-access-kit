@@ -87,12 +87,14 @@
   <h1>Source code for oaklib.implementations.aggregator.aggregator_implementation</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">TextIOWrapper</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">sssom_schema</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.text_annotator</span> <span class="kn">import</span> <span class="n">TextAnnotation</span><span class="p">,</span> <span class="n">TextAnnotationConfiguration</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.validation_datamodel</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ValidationConfiguration</span><span class="p">,</span>
     <span class="n">ValidationResult</span><span class="p">,</span>
@@ -109,7 +111,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.rdf_interface</span> <span class="kn">import</span> <span class="n">RdfInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.text_annotator_interface</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.text_annotator_interface</span> <span class="kn">import</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">TextAnnotatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 
@@ -208,7 +210,19 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_simple_tuple_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">incoming_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_simple_tuple_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">incoming_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_simple_tuple_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">incoming_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TextAnnotationConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">annotate_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">configuration</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">annotate_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text_file</span><span class="p">:</span> <span class="n">TextIOWrapper</span><span class="p">,</span>
+        <span class="n">configuration</span><span class="p">:</span> <span class="n">TextAnnotationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">annotate_file</span><span class="p">(</span><span class="n">text_file</span><span class="p">,</span> <span class="n">configuration</span><span class="p">))</span></div>
 </pre></div>
 
            </div>
