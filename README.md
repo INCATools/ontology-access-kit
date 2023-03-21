@@ -267,5 +267,5 @@ poetry install --extras rustsim
 ### example usage
 
 ```shell
- poetry run runoak -i sqlite:obo:bfo similarity -p i,p .all @ .all 
+ poetry run runoak -i sqlite:obo:bfo similarity -p i,p .all @ .all --rust
 ```
