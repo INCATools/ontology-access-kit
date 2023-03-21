@@ -1,7 +1,9 @@
 import csv
 import json
 import logging
+import os
 import re
+import subprocess
 import unittest
 from typing import Optional
 
@@ -48,7 +50,7 @@ TEST_SIMPLE_OBO = f'simpleobo:{INPUT_DIR / "go-nucleus.obo"}'
 TEST_OBOJSON = INPUT_DIR / "go-nucleus.json"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_OWL_OFN = INPUT_DIR / "go-nucleus.ofn"
-TEST_DB = INPUT_DIR / "go-nucleus.db"
+TEST_DB = INPUT_DIR.joinpath("go-nucleus.db")
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
 TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
@@ -323,6 +325,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(main, all_args)
                 self.assertEqual(0, result.exit_code)
                 out = result.stdout
+                # print(out)
                 self.assertIn(expected, out)
                 if unexpected:
                     self.assertNotIn(unexpected, out)
@@ -387,14 +390,37 @@ class TestCommandLineInterface(unittest.TestCase):
         result = self.runner.invoke(
             main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
         )
-        out = result.stdout
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)
         self.assertIn("Reactome:R-HSA-1483089", out)
 
-    # DUMPER
+    def test_mappings_curie_map(self):
+        mappings_output = OUTPUT_DIR.joinpath("test_mappings.tsv")
+        if os.name == "nt":
+            shell = True
+        else:
+            shell = False
+        result = subprocess.run(
+            [
+                "runoak",
+                "-i",
+                f"sqlite:{TEST_DB}",
+                "mappings",
+                "-O",
+                "sssom",
+                "-o",
+                mappings_output,
+            ],
+            shell=shell, # noqa
+        )
+        self.assertEqual(0, result.returncode)
+        msdf = parse_sssom_table(mappings_output)
+        self.assertTrue(isinstance(msdf.prefix_map, dict))
+        self.assertEqual(len(msdf.prefix_map), 14)
+        self.assertIn("BFO", msdf.prefix_map)
 
+    # DUMPER
     def test_dump(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"
         cases = [

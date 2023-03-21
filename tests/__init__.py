@@ -1,13 +1,12 @@
 import math
-import os
 from pathlib import Path
 from typing import List
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
-ROOT = os.path.abspath(os.path.dirname(__file__))
+ROOT = Path(__file__).resolve().parent
 INPUT_DIR = Path(ROOT) / "input"
-OUTPUT_DIR = Path(ROOT) / "output"
+OUTPUT_DIR = Path(ROOT).joinpath("output")
 SCHEMA_DIR = Path(ROOT) / "../src/linkml"
 EXTERNAL_DB_DIR = Path(ROOT) / "../db"  # for integration tests: optional
 EXAMPLE_ONTOLOGY_OBO = Path(INPUT_DIR) / "go-nucleus.obo"
