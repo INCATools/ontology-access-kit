@@ -1,5 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
+from io import TextIOWrapper
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
@@ -128,3 +129,10 @@ class AggregatorImplementation(
         self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
     ) -> Iterable[TextAnnotation]:
         return self._delegate_iterator(lambda i: i.annotate_text(text, configuration))
+
+    def annotate_file(
+        self,
+        text_file: TextIOWrapper,
+        configuration: TextAnnotationConfiguration = None,
+    ) -> Iterator[TextAnnotation]:
+        return self._delegate_iterator(lambda i: i.annotate_file(text_file, configuration))
