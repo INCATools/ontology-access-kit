@@ -1,11 +1,13 @@
 from collections import defaultdict
 from dataclasses import dataclass
+from io import TextIOWrapper
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
 
 from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import (
     ValidationConfiguration,
     ValidationResult,
@@ -22,7 +24,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
-from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.interfaces.text_annotator_interface import TEXT, TextAnnotatorInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
@@ -122,3 +124,15 @@ class AggregatorImplementation(
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.incoming_relationship_map(curie))
+
+    def annotate_text(
+        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
+    ) -> Iterable[TextAnnotation]:
+        return self._delegate_iterator(lambda i: i.annotate_text(text, configuration))
+
+    def annotate_file(
+        self,
+        text_file: TextIOWrapper,
+        configuration: TextAnnotationConfiguration = None,
+    ) -> Iterator[TextAnnotation]:
+        return self._delegate_iterator(lambda i: i.annotate_file(text_file, configuration))
