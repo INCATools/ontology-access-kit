@@ -4,12 +4,14 @@ import unittest
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations import UbergraphImplementation
+from rustsim import jaccard_similarity
 from tests import (
     CELL,
     CELLULAR_ANATOMICAL_ENTITY,
     CELLULAR_COMPONENT,
     CYTOPLASM,
     DIGIT,
+    ENDOMEMBRANE_SYSTEM,
     INPUT_DIR,
     INTRACELLULAR,
     NEURON,
@@ -239,3 +241,11 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = self.oi
         for t in oi.extract_triples([SHAPE]):
             logging.info(t)
+
+    def test_rustsim_jaccard(self):
+        """Tests Rust implementations of Jaccard semantic similarity."""
+        subj_ancs = set(self.oi.ancestors(VACUOLE, predicates=[IS_A, PART_OF]))
+        obj_ancs = set(self.oi.ancestors(ENDOMEMBRANE_SYSTEM, predicates=[IS_A, PART_OF]))
+        jaccard = jaccard_similarity(subj_ancs, obj_ancs)
+        calculated_jaccard = len(subj_ancs.intersection(obj_ancs)) / len(subj_ancs.union(obj_ancs))
+        self.assertAlmostEqual(calculated_jaccard, jaccard)
