@@ -251,8 +251,21 @@ Code quality locally:
 poetry run tox
 ```
 
-
 ### Potential Refactoring
 Currently all implementations exist in this repo/module, this results in a lot of dependencies
 
 One possibility is to split out each implementation into its own repo and use a plugin architecture
+
+## Experimental rustsim implementation of semantic similarity
+
+### installation instructions
+
+```shell
+poetry install --extras rustsim
+```
+
+### example usage
+
+```shell
+ poetry run runoak -i sqlite:obo:bfo similarity -p i,p .all @ .all --rust
+```
