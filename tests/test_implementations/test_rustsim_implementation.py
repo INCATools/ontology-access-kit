@@ -24,9 +24,9 @@ class TestRustSimImplementation(unittest.TestCase):
 
     def test_rustsim_jaccard(self):
         """Tests Rust implementations of Jaccard semantic similarity."""
-        # subj_ancs = set(self.oi.ancestors(VACUOLE, predicates=[IS_A, PART_OF]))
-        # obj_ancs = set(self.oi.ancestors(ENDOMEMBRANE_SYSTEM, predicates=[IS_A, PART_OF]))
-        # jaccard = jaccard_similarity(subj_ancs, obj_ancs)
-        # calculated_jaccard = len(subj_ancs.intersection(obj_ancs)) / len(subj_ancs.union(obj_ancs))
-        # self.assertAlmostEqual(calculated_jaccard, jaccard)
-        self.assertTrue(True)
+        subj_ancs = set(self.oi.ancestors(VACUOLE, predicates=[IS_A, PART_OF]))
+        obj_ancs = set(self.oi.ancestors(ENDOMEMBRANE_SYSTEM, predicates=[IS_A, PART_OF]))
+        jaccard = jaccard_similarity(subj_ancs, obj_ancs)
+        calculated_jaccard = len(subj_ancs.intersection(obj_ancs)) / len(subj_ancs.union(obj_ancs))
+        self.assertAlmostEqual(calculated_jaccard, jaccard)
+        # self.assertTrue(True)

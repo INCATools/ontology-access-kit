@@ -1,10 +1,10 @@
 """Rust implementation of semantic similarity measures."""
+import inspect
 import logging
 import math
 from dataclasses import dataclass
-from typing import Iterable, Iterator, List, Tuple
+from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple
 
-from pyparsing import Optional
 from rustsim import jaccard_similarity
 
 from oaklib.datamodels.similarity import (
@@ -12,12 +12,15 @@ from oaklib.datamodels.similarity import (
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import OWL_THING
-from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+# from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-from oaklib.resource import OntologyResource
+# from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE
-from oaklib.selector import get_implementation_from_shorthand
+
+wrapped_adapter: BasicOntologyInterface = None
 
 __all__ = [
     "RustSimImplementation",
@@ -29,12 +32,28 @@ class RustSimImplementation(
     OboGraphInterface
 ):
     """Rust implementation of semantic similarity measures."""
+    delegated_methods: ClassVar[List[str]] = [
+        BasicOntologyInterface.label,
+        BasicOntologyInterface.labels,
+        BasicOntologyInterface.curie_to_uri,
+        BasicOntologyInterface.uri_to_curie,
+        BasicOntologyInterface.ontologies,
+        BasicOntologyInterface.obsoletes,
+        SearchInterface.basic_search,
+        OboGraphInterface.node,
+        OboGraphInterface.ancestors,
+    ]
+    
     def __post_init__(self):
         slug = self.resource.slug
-        if slug.startswith("rustsim:"):
-            slug = slug.replace("rustsim:", "")
-            logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
-            self.oi = get_implementation_from_shorthand(slug)
+        from oaklib.selector import get_implementation_from_shorthand
+        slug = slug.replace("rustsim:", "")
+        logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
+        self.wrapped_adapter = get_implementation_from_shorthand(slug)
+        methods = dict(inspect.getmembers(self.wrapped_adapter))
+        for m in self.delegated_methods:
+            mn = m if isinstance(m, str) else m.__name__
+            setattr(RustSimImplementation, mn, methods[mn])
 
     def most_recent_common_ancestors(
         self,
