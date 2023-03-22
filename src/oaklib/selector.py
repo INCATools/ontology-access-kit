@@ -5,45 +5,7 @@ from typing import Optional, Type
 
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
-from oaklib.implementations import GildaImplementation
-from oaklib.implementations.cx.cx_implementation import CXImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
-from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
-from oaklib.implementations.obograph.obograph_implementation import (
-    OboGraphImplementation,
-)
-from oaklib.implementations.ols.ols_implementation import OlsImplementation
-from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
-from oaklib.implementations.ontoportal.agroportal_implementation import (
-    AgroPortalImplementation,
-)
-from oaklib.implementations.ontoportal.bioportal_implementation import (
-    BioPortalImplementation,
-)
-from oaklib.implementations.ontoportal.ecoportal_implementation import (
-    EcoPortalImplementation,
-)
-from oaklib.implementations.ontoportal.matportal_implementation import (
-    MatPortalImplementation,
-)
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.implementations.simpleobo.simple_obo_implementation import (
-    SimpleOboImplementation,
-)
-from oaklib.implementations.sparql.lov_implementation import LovImplementation
-from oaklib.implementations.sparql.oak_metamodel_implementation import (
-    OakMetaModelImplementation,
-)
-from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
-from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.implementations.translator.translator_implementation import (
-    TranslatorImplementation,
-)
-from oaklib.implementations.ubergraph import UbergraphImplementation
-from oaklib.implementations.uniprot.uniprot_implementation import UniprotImplementation
-from oaklib.implementations.wikidata.wikidata_implementation import (
-    WikidataImplementation,
-)
 from oaklib.interfaces import OntologyInterface
 from oaklib.resource import OntologyResource
 
@@ -58,26 +20,77 @@ RDF_SUFFIX_TO_FORMAT = {
 }
 
 
-def get_implementation_from_shorthand(
-    descriptor: str, format: str = None
-) -> BasicOntologyInterface:
+def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
     """
-    See :ref:`get_resource_from_shorthand`
+    Gets an adapter (implementation) for a given descriptor.
+
+    OAK allows for multiple different *adapters* (aka *implementations*);
+    for example, :ref:`SQLImplementation` and :ref:`BioPortalImplementation`.
+
+    This function allows you to get an adapter for a given descriptor.
+    A descriptor combines a *scheme* followed by a colon symbol, and then
+    optionally additional information that specifies how to access a particular
+    resource or ontology within that scheme.
 
     Example:
 
     .. code :: python
 
-        >>> oi = get_implementation_from_shorthand('my-ont.owl')
-        >>> for term in oi.all_entities():
-        >>>     ...
+        >>> from oaklib import get_adapter
+        >>>
+        >>> ## Use the simpleobo adapter to read a local OBO file:
+        >>> adapter = get_adapter('simpleobo:my-ont.obo')
+        >>> for label in oi.label("GO:0005634"):
+        >>>     print(label)
+        >>>
+        >>> ## Use the ubergraph adapter, querying within GO
+        >>> adapter = get_adapter('ubergraph:go')
+        >>> for label in oi.label("GO:0005634"):
+        >>>     print(label)
+        >>>
+        >>> ## Use the ubergraph adapter, querying within all
+        >>> adapter = get_adapter('ubergraph:')
+        >>> for label in oi.label("GO:0005634"):
+        >>>     print(label)
+
+    If you omit the scheme then OAK will try to guess the scheme based on the
+    suffix of the descriptor
+
+    .. code :: python
+
+        >>> from oaklib import get_adapter
+        >>>
+        >>> ## Use an adapter that is able to read OBO Format:
+        >>> ## (currently defaults to pronot)
+        >>> adapter = get_adapter('my-ont.obo')
+        >>> for label in oi.label("GO:0005634"):
+        >>>     print(label)
+        >>>
+        >>> ## Use an adapter that is able to read SQLIte:
+        >>> adapter = get_adapter('my-ont.db')
+        >>> for label in oi.label("GO:0005634"):
+        >>>     print(label)
 
     :param descriptor:
     :param format:
     :return:
     """
     res = get_resource_from_shorthand(descriptor, format)
-    return res.implementation_class(res)
+    return res.adapter
+
+
+def get_implementation_from_shorthand(self, **kwargs) -> BasicOntologyInterface:
+    """
+    Gets an adapter (implementation) for a given descriptor.
+
+    NOTE: this is an alias for `get_adapter` - use this instead,
+    get_implementation_from_shorthand will be deprecated in future.
+
+    :param descriptor:
+    :param format:
+    :return:
+    """
+    return self.get_adapter(**kwargs)
 
 
 def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]:
