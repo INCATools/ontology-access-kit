@@ -5,7 +5,7 @@ import math
 from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple
 
-from rustsim import jaccard_similarity
+from rustsim import jaccard_similarity  # , mrca_and_score
 
 from oaklib.datamodels.similarity import (
     TermPairwiseSimilarity,
@@ -241,9 +241,13 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
             for a, ic in self.information_content_scores(cas, object_closure_predicates=predicates)
         }
         if len(ics) > 0:
-            max_ic = max(ics.values())
-            best_mrcas = [a for a in ics.keys() if math.isclose(ics[a], max_ic, rel_tol=0.001)]
-            anc = best_mrcas[0]
+            # TODO: Uncomment anc, max_ic = rustsim.mrca_and_score(ics)
+            # max_ic = max(ics.values())
+            # best_mrcas = [a for a in ics.keys() if math.isclose(ics[a], max_ic, rel_tol=0.001)]
+            # anc = best_mrcas[0]
+
+            # anc, max_ic = mrca_and_score(ics)
+            pass
         else:
             max_ic = 0.0
             anc = None
