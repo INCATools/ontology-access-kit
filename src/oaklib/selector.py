@@ -57,35 +57,6 @@ RDF_SUFFIX_TO_FORMAT = {
     "n3": "n3",
 }
 
-# Deprecated?
-SCHEME_DICT = {
-    "sqlite": SqlImplementation,
-    "kgx": KGXImplementation,
-    "cx": CXImplementation,
-    "ndexbio": CXImplementation,
-    "ubergraph": UbergraphImplementation,
-    "ontobee": OntobeeImplementation,
-    "uniprot": UniprotImplementation,
-    "lov": LovImplementation,
-    "sparql": SparqlImplementation,
-    "rdflib": SparqlImplementation,
-    "bioportal": BioPortalImplementation,
-    "agroportal": AgroPortalImplementation,
-    "ecoportal": EcoPortalImplementation,
-    "matportal": MatPortalImplementation,
-    "wikidata": WikidataImplementation,
-    "ols": OlsImplementation,
-    "funowl": FunOwlImplementation,
-    "pronto": ProntoImplementation,
-    "simpleobo": SimpleOboImplementation,
-    "obograph": OboGraphImplementation,
-    "obolibrary": ProntoImplementation,
-    "prontolib": ProntoImplementation,
-    "gilda": GildaImplementation,
-    "translator": TranslatorImplementation,
-    "oak": OakMetaModelImplementation,
-}
-
 
 def get_implementation_from_shorthand(
     descriptor: str, format: str = None
