@@ -12,14 +12,29 @@ from oaklib.datamodels.similarity import (
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.selector import get_implementation_from_shorthand
 
+__all__ = [
+    "RustSimImplementation",
+]
 
 @dataclass
-class RustSimImplementation(SemanticSimilarityInterface):
+class RustSimImplementation(
+    SemanticSimilarityInterface,
+    OboGraphInterface
+):
     """Rust implementation of semantic similarity measures."""
+    def __post_init__(self):
+        slug = self.resource.slug
+        if slug.startswith("rustsim:"):
+            slug = slug.replace("rustsim:", "")
+            logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
+            self.oi = get_implementation_from_shorthand(slug)
 
     def most_recent_common_ancestors(
         self,
