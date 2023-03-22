@@ -17,8 +17,10 @@ class TestRustSimImplementation(unittest.TestCase):
     def setUp(self) -> None:
         """Set up"""
         # Calling get_implementation_from_shorthand() alone fails on Windows
-        # oi = get_implementation_from_shorthand(f"rustsim:sqlite:///{str(DB)}")
-        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        try:
+            oi = get_implementation_from_shorthand(f"rustsim:sqlite:///{str(DB)}")
+        except FileNotFoundError:
+            oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.oi = oi
 
     # def test_pairwise_similarity(self):
