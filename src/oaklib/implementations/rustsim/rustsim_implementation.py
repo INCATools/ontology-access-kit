@@ -12,12 +12,10 @@ from oaklib.datamodels.similarity import (
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import OWL_THING
-# from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-# from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE
 
 wrapped_adapter: BasicOntologyInterface = None
@@ -26,12 +24,11 @@ __all__ = [
     "RustSimImplementation",
 ]
 
+
 @dataclass
-class RustSimImplementation(
-    SemanticSimilarityInterface,
-    OboGraphInterface
-):
+class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
     """Rust implementation of semantic similarity measures."""
+
     delegated_methods: ClassVar[List[str]] = [
         BasicOntologyInterface.label,
         BasicOntologyInterface.labels,
@@ -42,12 +39,13 @@ class RustSimImplementation(
         SearchInterface.basic_search,
         OboGraphInterface.node,
         OboGraphInterface.ancestors,
-        SemanticSimilarityInterface.common_ancestors
+        SemanticSimilarityInterface.common_ancestors,
     ]
 
     def __post_init__(self):
         slug = self.resource.slug
         from oaklib.selector import get_implementation_from_shorthand
+
         slug = slug.replace("rustsim:", "")
         logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
         self.wrapped_adapter = get_implementation_from_shorthand(slug)

@@ -3,8 +3,6 @@ import unittest
 from rustsim import jaccard_similarity
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.implementations.rustsim.rustsim_implementation import RustSimImplementation
-from oaklib.resource import OntologyResource
 from oaklib.selector import get_implementation_from_shorthand
 from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
 
