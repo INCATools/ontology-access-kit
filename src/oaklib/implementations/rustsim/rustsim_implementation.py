@@ -105,19 +105,19 @@ class RustSimImplementation(SemanticSimilarityInterface):
         :param include_owl_thing:
         :return:
         """
-        # if subject_ancestors is not None and object_ancestors is not None:
-        #     subject_ancestors = set(subject_ancestors)
-        #     object_ancestors = set(object_ancestors)
-        # elif isinstance(self, OboGraphInterface):
-        #     subject_ancestors = set(self.ancestors(subject, predicates))
-        #     object_ancestors = set(self.ancestors(object, predicates))
-        # else:
-        raise NotImplementedError
-        # if include_owl_thing:
-        #     subject_ancestors.add(OWL_THING)
-        #     object_ancestors.add(OWL_THING)
-        # for a in subject_ancestors.intersection(object_ancestors):
-        #     yield a
+        if subject_ancestors is not None and object_ancestors is not None:
+            subject_ancestors = set(subject_ancestors)
+            object_ancestors = set(object_ancestors)
+        elif isinstance(self, OboGraphInterface):
+            subject_ancestors = set(self.ancestors(subject, predicates))
+            object_ancestors = set(self.ancestors(object, predicates))
+        else:
+            raise NotImplementedError
+        if include_owl_thing:
+            subject_ancestors.add(OWL_THING)
+            object_ancestors.add(OWL_THING)
+        for a in subject_ancestors.intersection(object_ancestors):
+            yield a
 
     def common_descendants(
         self,
