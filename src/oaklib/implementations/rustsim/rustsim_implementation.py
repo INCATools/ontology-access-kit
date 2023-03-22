@@ -42,8 +42,9 @@ class RustSimImplementation(
         SearchInterface.basic_search,
         OboGraphInterface.node,
         OboGraphInterface.ancestors,
+        SemanticSimilarityInterface.common_ancestors
     ]
-    
+
     def __post_init__(self):
         slug = self.resource.slug
         from oaklib.selector import get_implementation_from_shorthand
@@ -119,39 +120,39 @@ class RustSimImplementation(
         # else:
         raise NotImplementedError
 
-    def common_ancestors(
-        self,
-        subject: CURIE,
-        object: CURIE,
-        predicates: List[PRED_CURIE] = None,
-        subject_ancestors: List[CURIE] = None,
-        object_ancestors: List[CURIE] = None,
-        include_owl_thing: bool = True,
-    ) -> Iterable[CURIE]:
-        """
-        Common ancestors of a subject-object pair
+    # def common_ancestors(
+    #     self,
+    #     subject: CURIE,
+    #     object: CURIE,
+    #     predicates: List[PRED_CURIE] = None,
+    #     subject_ancestors: List[CURIE] = None,
+    #     object_ancestors: List[CURIE] = None,
+    #     include_owl_thing: bool = True,
+    # ) -> Iterable[CURIE]:
+    #     """
+    #     Common ancestors of a subject-object pair
 
-        :param subject:
-        :param object:
-        :param predicates:
-        :param subject_ancestors: optional pre-generated ancestor list
-        :param object_ancestors: optional pre-generated ancestor list
-        :param include_owl_thing:
-        :return:
-        """
-        if subject_ancestors is not None and object_ancestors is not None:
-            subject_ancestors = set(subject_ancestors)
-            object_ancestors = set(object_ancestors)
-        elif isinstance(self, OboGraphInterface):
-            subject_ancestors = set(self.ancestors(subject, predicates))
-            object_ancestors = set(self.ancestors(object, predicates))
-        else:
-            raise NotImplementedError
-        if include_owl_thing:
-            subject_ancestors.add(OWL_THING)
-            object_ancestors.add(OWL_THING)
-        for a in subject_ancestors.intersection(object_ancestors):
-            yield a
+    #     :param subject:
+    #     :param object:
+    #     :param predicates:
+    #     :param subject_ancestors: optional pre-generated ancestor list
+    #     :param object_ancestors: optional pre-generated ancestor list
+    #     :param include_owl_thing:
+    #     :return:
+    #     """
+    #     if subject_ancestors is not None and object_ancestors is not None:
+    #         subject_ancestors = set(subject_ancestors)
+    #         object_ancestors = set(object_ancestors)
+    #     elif isinstance(self, OboGraphInterface):
+    #         subject_ancestors = set(self.ancestors(subject, predicates))
+    #         object_ancestors = set(self.ancestors(object, predicates))
+    #     else:
+    #         raise NotImplementedError
+    #     if include_owl_thing:
+    #         subject_ancestors.add(OWL_THING)
+    #         object_ancestors.add(OWL_THING)
+    #     for a in subject_ancestors.intersection(object_ancestors):
+    #         yield a
 
     def common_descendants(
         self,
