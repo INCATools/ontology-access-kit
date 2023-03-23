@@ -3,9 +3,10 @@ import unittest
 from rustsim import jaccard_similarity
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
+
 # from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 # from oaklib.resource import OntologyResource
-from oaklib.selector import get_adapter  #, get_implementation_from_shorthand
+from oaklib.selector import get_adapter  # , get_implementation_from_shorthand
 from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
 
 DB = INPUT_DIR.joinpath("go-nucleus.db")
