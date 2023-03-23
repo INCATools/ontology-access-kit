@@ -8,7 +8,7 @@ from oaklib.resource import OntologyResource
 from oaklib.selector import get_implementation_from_shorthand
 from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
 
-DB = INPUT_DIR / "go-nucleus.db"
+DB = INPUT_DIR.joinpath("go-nucleus.db")
 
 
 class TestRustSimImplementation(unittest.TestCase):
@@ -17,10 +17,11 @@ class TestRustSimImplementation(unittest.TestCase):
     def setUp(self) -> None:
         """Set up"""
         # Calling get_implementation_from_shorthand() alone fails on Windows
-        try:
-            oi = get_implementation_from_shorthand(f"rustsim:sqlite:///{str(DB)}")
-        except FileNotFoundError:
-            oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        # try:
+        #     oi = get_implementation_from_shorthand(f"rustsim:sqlite:///{str(DB)}")
+        # except FileNotFoundError:
+        #     oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        oi = get_implementation_from_shorthand(f"rustsim:sqlite:///{str(DB)}")
         self.oi = oi
 
     # def test_pairwise_similarity(self):
