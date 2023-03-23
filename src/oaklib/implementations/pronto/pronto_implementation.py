@@ -582,10 +582,14 @@ class ProntoImplementation(
         shutil.copyfile(self.resource.slug, resource.slug)
         return type(self)(resource)
 
-    def dump(self, path: str = None, syntax: str = "obo", **kwargs):
+    def dump(
+        self, path: str = None, syntax: str = "obo", enforce_canonical_ordering=False, **kwargs
+    ):
         if syntax is None:
             syntax = "obo"
         if syntax in ["obo", "json"]:
+            if enforce_canonical_ordering:
+                raise NotImplementedError("enforce_canonical_ordering not implemented for pronto")
             # TODO: simplify the logic here; not clear why pronto wants a binary file
             if isinstance(path, str):
                 with open(path, "wb") as file:

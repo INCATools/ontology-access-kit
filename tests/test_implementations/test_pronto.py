@@ -1,3 +1,4 @@
+import filecmp
 import logging
 import unittest
 
@@ -364,6 +365,19 @@ class TestProntoImplementation(unittest.TestCase):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
+
+    @unittest.skip("Pronto does not currently preserve line ordering")
+    def test_sort_order_no_edits(self):
+        """
+        Ensures that dump does not perturb ordering of terms.
+        """
+        input_path = str(INPUT_DIR / "sort-test.obo")
+        output_path = str(OUTPUT_DIR / "sort-test.obo")
+        resource = OntologyResource(input_path, local=True)
+        oi = ProntoImplementation(resource)
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp.cmp(input_path, output_path))
 
     def test_reflexive_diff(self):
         self.compliance_tester.test_reflexive_diff(self.oi)

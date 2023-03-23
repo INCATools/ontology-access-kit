@@ -80,18 +80,18 @@ TERM_TAGS = [
     TAG_SYNONYM,
     TAG_XREF,
     # TAG_BUILTIN,
-    TAG_PROPERTY_VALUE,
     TAG_IS_A,
     TAG_INTERSECTION_OF,
     TAG_UNION_OF,
     TAG_EQUIVALENT_TO,
     TAG_DISJOINT_FROM,
     TAG_RELATIONSHIP,
-    TAG_CREATED_BY,
-    TAG_CREATION_DATE,
+    TAG_PROPERTY_VALUE,
     TAG_IS_OBSOLETE,
     TAG_REPLACED_BY,
     TAG_CONSIDER,
+    TAG_CREATED_BY,
+    TAG_CREATION_DATE,
 ]
 
 
@@ -99,6 +99,47 @@ def _parse_list(as_str: str) -> List[str]:
     if as_str == "":
         return []
     return as_str.split(", ")
+
+
+@dataclass
+class ValueComponent:
+    pass
+
+    def order(self) -> Tuple:
+        pass
+
+
+@dataclass
+class QuotedText(ValueComponent):
+    value: str
+
+    def order(self) -> Tuple[str, str]:
+        return self.value.lower(), self.value
+
+
+@dataclass
+class SimpleValue(ValueComponent):
+    value: str
+
+    def order(self) -> Tuple[str, str]:
+        return (self.value,)
+        # return self.value.lower(), self.value
+
+
+@dataclass
+class XrefList(ValueComponent):
+    values: List[str]
+
+    def order(self) -> Tuple:
+        return tuple(self.values)
+
+
+@dataclass
+class Comment(ValueComponent):
+    value: str
+
+    def order(self) -> Tuple:
+        return (0,)
 
 
 @dataclass
@@ -171,11 +212,101 @@ class TagValue:
         toks = [curie_map.get(x, x) for x in toks]
         self.value = " ".join(toks)
 
-    def order(self) -> Tuple[int, int]:
+    def values_as_tuple(self) -> Tuple:
+        """
+        Return a tuple of values for sorting
+
+        :return:
+        """
+        toks = [x for x in self.value.split(" ") if x]
+        tpl = []
+        for t in toks:
+            if t.startswith("!"):
+                break
+            tpl.append(t)
+        return tuple(tpl)
+
+    def tokenize(self) -> List[ValueComponent]:
+        """
+        Tokenize the value
+
+        :return:
+        """
+        if self.tag == TAG_NAME:
+            return [SimpleValue(self.value)]
+        toks = [x for x in self.value.split(" ") if x]
+        cmt = ""
+        components = []
+        while toks:
+            t = toks.pop(0)
+            if t.startswith("!"):
+                cmt = " ".join(toks)
+                break
+            if t.startswith('"'):
+                toks.insert(0, t)
+                s = ""
+                while True:
+                    if not toks:
+                        raise ValueError(f"Badly quoted value: {self.value}")
+                    if s:
+                        s += " "
+                    s += toks.pop(0)
+                    closed = False
+                    if '"' in s:
+                        for i, char in enumerate(s):
+                            # Check if the current character is a quote and not escaped
+                            if char == '"' and i > 0 and s[i - 1] != "\\":
+                                s = s[0:i]
+                                rest = s[i + 1 :]
+                                if len(rest) > 0:
+                                    toks.insert(0, rest)
+                                closed = True
+                                break
+                    if closed:
+                        break
+                components.append(QuotedText(s))
+            elif t.startswith("["):
+                toks.insert(0, t[1:])
+                xrefs = []
+                while True:
+                    if not toks:
+                        raise ValueError(f"Xref list does not terminate: {self.value}")
+                    next_tok = toks.pop(0)
+                    if next_tok.endswith("]"):
+                        xrefs.append(next_tok[:-1])
+                        break
+                    xrefs.append(next_tok)
+                # TODO
+                components.append(XrefList(xrefs))
+            else:
+                components.append(SimpleValue(t))
+        if cmt:
+            components.append(Comment(cmt))
+        return components
+
+    def order(self) -> Tuple:
+        """
+        Order for sorting tag-value pairs.
+
+        Note: we aim for consistency with OWLAPI, which differs partially from
+        https://owlcollab.github.io/oboformat/doc/GO.format.obo-1_4.html
+        :return:
+        """
         t = self.tag
         v1 = TERM_TAGS.index(t) if t in TERM_TAGS else 99
-        v2 = str(self.value)
-        return v1, v2
+        toks = self.tokenize()
+        if self.tag == TAG_SYNONYM:
+            # normalize a synonym by placing a blank type if not present
+            if isinstance(toks[2], XrefList):
+                # necessary to preserve owlapi order
+                toks.insert(2, SimpleValue("zzzzz"))
+        order_values = []
+        for x in toks:
+            order_values.append(x.order())
+        if self.tag == TAG_INTERSECTION_OF:
+            tpl = self.values_as_tuple()
+            order_values = [chr(96 + len(list(tpl)))] + order_values
+        return tuple([v1] + order_values)
 
 
 @dataclass
@@ -420,28 +551,56 @@ class OboDocument:
     stanzas: Mapping[CURIE, Stanza] = field(default_factory=lambda: {})
 
     def add_stanza(self, stanza: Stanza) -> None:
+        """
+        Adds a stanza to the document.
+
+        Ensures stanza added in order.
+        :param stanza:
+        :return:
+        """
         self.stanzas[stanza.id] = stanza
+        self.order_stanzas()
 
     def reindex(self) -> None:
         self.stanzas = {s.id: s for s in self.stanzas.values()}
 
-    def dump(self, file: TextIO, sort_tags=True) -> None:
+    def order_stanzas(self) -> None:
+        """
+        Orders stanzas by ID
+
+        Does not change tag-value ordering within stanzas
+        """
+        stanzas = self.stanzas.values()
+        stanzas = sorted(stanzas, key=lambda x: x.id)
+        self.stanzas = {s.id: s for s in stanzas}
+
+    def normalize_line_order(self) -> None:
+        """
+        Normalizes line order within stanzas
+        """
+        for s in self.stanzas.values():
+            s.normalize_order()
+
+    def dump(self, file: TextIO, ensure_sorted=False, normalize_line_order=False) -> None:
         """Export to a file
 
         :param file:
+        :param ensure_sorted: Sort stanzas
+        :param normalize_line_order: Sort tags within stanzas
         """
-        if sort_tags:
-            stanzas = self.stanzas.values()
-            stanzas = sorted(stanzas, key=lambda x: x.id)
-            self.stanzas = {s.id: s for s in stanzas}
-            for s in stanzas:
-                s.normalize_order()
+        if ensure_sorted:
+            self.order_stanzas()
+        if normalize_line_order:
+            self.normalize_line_order()
 
         self._dump_tag_values(self.header.tag_values, file)
         for s in self.stanzas.values():
-            file.write(f"[{s.type}]\n")
-            file.write(f"id: {s.id}\n")
-            self._dump_tag_values(s.tag_values, file)
+            self._dump_stanza(s, file)
+
+    def _dump_stanza(self, stanza: Stanza, file: TextIO):
+        file.write(f"[{stanza.type}]\n")
+        file.write(f"id: {stanza.id}\n")
+        self._dump_tag_values(stanza.tag_values, file)
 
     def _dump_tag_values(self, tag_values: List[TagValue], file: TextIO):
         for tv in tag_values:
