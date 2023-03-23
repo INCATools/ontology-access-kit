@@ -2,7 +2,7 @@ import unittest
 
 from linkml_runtime.loaders import json_loader
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import GraphDocument
@@ -18,7 +18,7 @@ class LogicalDefinitionFlattenerTest(unittest.TestCase):
     """Tests turning logical definition axioms into tuples."""
 
     def setUp(self):
-        self.oi = get_implementation_from_shorthand(f"obograph:{ONT}")
+        self.oi = get_adapter(f"obograph:{ONT}")
         self.converter = LogicalDefinitionFlattener(
             labeler=lambda x: self.oi.label(x), curie_converter=self.oi.converter
         )

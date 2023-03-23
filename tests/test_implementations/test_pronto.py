@@ -4,7 +4,7 @@ import unittest
 import pronto
 from kgcl_schema.datamodel import kgcl
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -435,13 +435,13 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_create_ontology_via_patches(self):
-        oi = get_implementation_from_shorthand("pronto:")
+        oi = get_adapter("pronto:")
         if isinstance(oi, PatcherInterface):
 
             def _roundtrip(original_oi: PatcherInterface) -> PatcherInterface:
                 out = str(OUTPUT_DIR / "test-create.obo")
                 original_oi.dump(out)
-                return get_implementation_from_shorthand(f"pronto:{out}")
+                return get_adapter(f"pronto:{out}")
 
             self.compliance_tester.test_create_ontology_via_patches(
                 oi, roundtrip_function=_roundtrip

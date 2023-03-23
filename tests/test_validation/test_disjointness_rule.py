@@ -2,7 +2,7 @@ import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.utilities.validation.disjointness_rule import DisjointnessRule
 from oaklib.utilities.validation.rule_runner import RuleRunner
 from tests import INPUT_DIR, OUTPUT_DIR, SUBATOMIC_PARTICLE
@@ -13,7 +13,7 @@ TERM_X1 = "X:1"
 
 class TestDisjointnessRule(unittest.TestCase):
     def setUp(self) -> None:
-        oi = get_implementation_from_shorthand(f"{INPUT_DIR}/go-nucleus.db")
+        oi = get_adapter(f"{INPUT_DIR}/go-nucleus.db")
         self.oi = oi
         self.rule_runner = RuleRunner()
         self.rule = DisjointnessRule()
