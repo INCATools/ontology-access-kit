@@ -429,6 +429,13 @@
 </li>
       </ul></li>
       <li>
+    --enforce-canonical-ordering
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-dump-enforce-canonical-ordering">runoak-dump command line option</a>
+</li>
+      </ul></li>
+      <li>
     --ensure-strict-prefixes
 
       <ul>
@@ -944,6 +951,13 @@
         <li><a href="cli.html#cmdoption-runoak-apply-dry-run">runoak-apply command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-lint-dry-run">runoak-lint command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --no-enforce-canonical-ordering
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-dump-enforce-canonical-ordering">runoak-dump command line option</a>
 </li>
       </ul></li>
       <li>
@@ -2618,6 +2632,8 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+      <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.enforce_canonical_ordering">enforce_canonical_ordering (oaklib.converters.data_model_converter.DataModelConverter attribute)</a>
+</li>
       <li><a href="interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes">enriched_classes() (oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface method)</a>
 </li>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships">entailed_incoming_relationships() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
@@ -2628,10 +2644,10 @@
 </li>
       <li><a href="implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">EntailedEdge (class in semsql.sqla.semsql)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities_metadata_statements">entities_metadata_statements() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map">entity_alias_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -3529,7 +3545,11 @@
     runoak-dump command line option
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-dump-enforce-canonical-ordering">--enforce-canonical-ordering</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-dump-include-all-predicates">--include-all-predicates</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-dump-enforce-canonical-ordering">--no-enforce-canonical-ordering</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-dump-include-all-predicates">--no-include-all-predicates</a>
 </li>
@@ -4665,6 +4685,8 @@
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label">set_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_metamodel_mappings">set_metamodel_mappings() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.setwise_most_recent_common_ancestors">setwise_most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings">simple_mappings() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>

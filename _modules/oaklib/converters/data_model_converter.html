@@ -108,6 +108,9 @@
     <span class="n">labeler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A function that returns a label for a given CURIE&quot;&quot;&quot;</span>
 
+    <span class="n">enforce_canonical_ordering</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If True, will enforce canonical ordering of keys in the output&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 

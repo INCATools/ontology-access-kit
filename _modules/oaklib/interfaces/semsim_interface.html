@@ -152,6 +152,42 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
+<div class="viewcode-block" id="SemanticSimilarityInterface.setwise_most_recent_common_ancestors"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.setwise_most_recent_common_ancestors">[docs]</a>    <span class="k">def</span> <span class="nf">setwise_most_recent_common_ancestors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_owl_thing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Most recent common ancestors (MRCAs) for a set of entities</span>
+
+<span class="sd">        The MRCAs are the set of Common Ancestors (CAs) that are not themselves proper</span>
+<span class="sd">        ancestors of another CA</span>
+
+<span class="sd">        :param subjects:</span>
+<span class="sd">        :param predicates:</span>
+<span class="sd">        :param include_owl_thing:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">ancs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="n">ancs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">([</span><span class="n">s</span><span class="p">],</span> <span class="n">predicates</span><span class="p">)))</span>
+        <span class="n">common</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="o">*</span><span class="n">ancs</span><span class="p">)</span>
+        <span class="n">ancs_of_common</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ca</span> <span class="ow">in</span> <span class="n">common</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">caa</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">ca</span><span class="p">,</span> <span class="n">predicates</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">caa</span> <span class="o">!=</span> <span class="n">ca</span><span class="p">:</span>
+                    <span class="n">ancs_of_common</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">caa</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">common</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ancs_of_common</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">a</span>
+                <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">include_owl_thing</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">OWL_THING</span></div>
+
 <div class="viewcode-block" id="SemanticSimilarityInterface.multiset_most_recent_common_ancestors"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.multiset_most_recent_common_ancestors">[docs]</a>    <span class="k">def</span> <span class="nf">multiset_most_recent_common_ancestors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">asymmetric</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
