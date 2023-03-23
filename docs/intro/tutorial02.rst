@@ -49,7 +49,7 @@ Then create a python program: ``my_oak_demo/demo.py`` and add the following:
 
 .. code-block:: python
 
-    oi = get_implementation_from_shorthand("fbbt.obo")
+    oi = get_adapter("fbbt.obo")
 
 Next, let's perform some basic lookup operations on the ontology:
 

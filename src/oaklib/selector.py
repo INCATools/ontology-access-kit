@@ -79,7 +79,9 @@ def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
     return res.implementation_class(res)
 
 
-def get_implementation_from_shorthand(descriptor: str, format: str = None) -> BasicOntologyInterface:
+def get_implementation_from_shorthand(
+    descriptor: str, format: str = None
+) -> BasicOntologyInterface:
     """
     Gets an adapter (implementation) for a given descriptor.
 
