@@ -212,7 +212,7 @@ as either lists of strings associated with entities, or predicate-string tuples.
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">entity_aliases</span></code> method returns a list of strings.</p>
 <p>Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
 </pre></div>
@@ -224,7 +224,7 @@ as either lists of strings associated with entities, or predicate-string tuples.
 </ul>
 <p>This is too simplistic for some purposes - often we want to know more about
 the predicate, so we can use <code class="docutils literal notranslate"><span class="pre">alias_relationships</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">alias</span><span class="p">)</span>
 </pre></div>
@@ -280,7 +280,7 @@ conforming to the OboGraph datamodel.</p>
 <p class="admonition-title">Note</p>
 <p>For full documentation , see <span class="xref std std-ref">obo_graph_interface</span></p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">spv</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">synonym_property_values</span><span class="p">([</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">]):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> pred: </span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">pred</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">syn</span><span class="o">.</span><span class="n">synonymType</span><span class="si">}</span><span class="s2">) &#39;</span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">val</span><span class="si">}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  xref: </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">spv</span><span class="o">.</span><span class="n">xrefs</span><span class="p">)</span>

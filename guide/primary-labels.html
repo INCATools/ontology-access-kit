@@ -135,7 +135,7 @@ other ontologies. Some ontologies may use a different property like:</p>
 other properties. Here you can either specify a specific <em>profiles</em>, or
 provide a set of mappings in SSSOM form.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># use the standard sparql adapter over local files</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;soil-profile.skos.nt&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;soil-profile.skos.nt&quot;</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># add a custom prefix</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a mapper for mapping OMO to a custom vocab</span>

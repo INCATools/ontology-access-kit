@@ -179,7 +179,7 @@ resources such as schema.org.</p>
 <h2>Non-default prefixmaps<a class="headerlink" href="#non-default-prefixmaps" title="Permalink to this headline"></a></h2>
 <p>You can also choose to override the default prefixmap with your own, using the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> or <code class="docutils literal notranslate"><span class="pre">--named-prefix-map</span></code> options.</p>
 <p>In python this can be done by accessing the prefixmap directly:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;soil-profile.skos.nt&quot;</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;soil-profile.skos.nt&quot;</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># trivial example: show all CURIEs and labels</span>

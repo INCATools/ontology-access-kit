@@ -146,7 +146,7 @@ the instructions.</p>
 <p>As preparation, we expect <code class="docutils literal notranslate"><span class="pre">fbbt.obo</span></code> to exist in the top level directory.</p>
 <p><code class="code docutils literal notranslate"><span class="pre">fbbt.obo</span></code> can be downloaded here: <a class="reference external" href="http://purl.obolibrary.org/obo/fbbt.obo">http://purl.obolibrary.org/obo/fbbt.obo</a></p>
 <p>Then create a python program: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.py</span></code> and add the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;fbbt.obo&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;fbbt.obo&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Next, let’s perform some basic lookup operations on the ontology:</p>

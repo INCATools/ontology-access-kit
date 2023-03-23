@@ -92,45 +92,7 @@
 
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">datamodels</span> <span class="k">as</span> <span class="n">datamodels_package</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">GildaImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.cx.cx_implementation</span> <span class="kn">import</span> <span class="n">CXImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.funowl.funowl_implementation</span> <span class="kn">import</span> <span class="n">FunOwlImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.kgx.kgx_implementation</span> <span class="kn">import</span> <span class="n">KGXImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.obograph.obograph_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">OboGraphImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ols.ols_implementation</span> <span class="kn">import</span> <span class="n">OlsImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.agroportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AgroPortalImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.bioportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BioPortalImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.ecoportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">EcoPortalImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.matportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">MatPortalImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.simpleobo.simple_obo_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SimpleOboImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.lov_implementation</span> <span class="kn">import</span> <span class="n">LovImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.oak_metamodel_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">OakMetaModelImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.sparql_implementation</span> <span class="kn">import</span> <span class="n">SparqlImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.translator.translator_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TranslatorImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.uniprot.uniprot_implementation</span> <span class="kn">import</span> <span class="n">UniprotImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.wikidata.wikidata_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">WikidataImplementation</span><span class="p">,</span>
-<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 
@@ -144,49 +106,57 @@
     <span class="s2">&quot;n3&quot;</span><span class="p">:</span> <span class="s2">&quot;n3&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="c1"># Deprecated?</span>
-<span class="n">SCHEME_DICT</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;sqlite&quot;</span><span class="p">:</span> <span class="n">SqlImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;kgx&quot;</span><span class="p">:</span> <span class="n">KGXImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;cx&quot;</span><span class="p">:</span> <span class="n">CXImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;ndexbio&quot;</span><span class="p">:</span> <span class="n">CXImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;ubergraph&quot;</span><span class="p">:</span> <span class="n">UbergraphImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;ontobee&quot;</span><span class="p">:</span> <span class="n">OntobeeImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;uniprot&quot;</span><span class="p">:</span> <span class="n">UniprotImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;lov&quot;</span><span class="p">:</span> <span class="n">LovImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;sparql&quot;</span><span class="p">:</span> <span class="n">SparqlImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;rdflib&quot;</span><span class="p">:</span> <span class="n">SparqlImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;bioportal&quot;</span><span class="p">:</span> <span class="n">BioPortalImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;agroportal&quot;</span><span class="p">:</span> <span class="n">AgroPortalImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;ecoportal&quot;</span><span class="p">:</span> <span class="n">EcoPortalImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;matportal&quot;</span><span class="p">:</span> <span class="n">MatPortalImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;wikidata&quot;</span><span class="p">:</span> <span class="n">WikidataImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;ols&quot;</span><span class="p">:</span> <span class="n">OlsImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;funowl&quot;</span><span class="p">:</span> <span class="n">FunOwlImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;pronto&quot;</span><span class="p">:</span> <span class="n">ProntoImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;simpleobo&quot;</span><span class="p">:</span> <span class="n">SimpleOboImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;obograph&quot;</span><span class="p">:</span> <span class="n">OboGraphImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;obolibrary&quot;</span><span class="p">:</span> <span class="n">ProntoImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;prontolib&quot;</span><span class="p">:</span> <span class="n">ProntoImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;gilda&quot;</span><span class="p">:</span> <span class="n">GildaImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;translator&quot;</span><span class="p">:</span> <span class="n">TranslatorImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;oak&quot;</span><span class="p">:</span> <span class="n">OakMetaModelImplementation</span><span class="p">,</span>
-<span class="p">}</span>
 
-
-<div class="viewcode-block" id="get_implementation_from_shorthand"><a class="viewcode-back" href="../../selectors.html#oaklib.selector.get_implementation_from_shorthand">[docs]</a><span class="k">def</span> <span class="nf">get_implementation_from_shorthand</span><span class="p">(</span>
-    <span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
+<div class="viewcode-block" id="get_adapter"><a class="viewcode-back" href="../../selectors.html#oaklib.selector.get_adapter">[docs]</a><span class="k">def</span> <span class="nf">get_adapter</span><span class="p">(</span><span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    See :ref:`get_resource_from_shorthand`</span>
+<span class="sd">    Gets an adapter (implementation) for a given descriptor.</span>
+
+<span class="sd">    OAK allows for multiple different *adapters* (aka *implementations*);</span>
+<span class="sd">    for example, :ref:`SQLImplementation` and :ref:`BioPortalImplementation`.</span>
+
+<span class="sd">    This function allows you to get an adapter for a given descriptor.</span>
+<span class="sd">    A descriptor combines a *scheme* followed by a colon symbol, and then</span>
+<span class="sd">    optionally additional information that specifies how to access a particular</span>
+<span class="sd">    resource or ontology within that scheme.</span>
 
 <span class="sd">    Example:</span>
 
 <span class="sd">    .. code :: python</span>
 
-<span class="sd">        &gt;&gt;&gt; oi = get_implementation_from_shorthand(&#39;my-ont.owl&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; for term in oi.all_entities():</span>
-<span class="sd">        &gt;&gt;&gt;     ...</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; ## Use the simpleobo adapter to read a local OBO file:</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;simpleobo:my-ont.obo&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
+<span class="sd">        &gt;&gt;&gt;     print(label)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; ## Use the ubergraph adapter, querying within GO</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;ubergraph:go&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
+<span class="sd">        &gt;&gt;&gt;     print(label)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; ## Use the ubergraph adapter, querying within all</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;ubergraph:&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
+<span class="sd">        &gt;&gt;&gt;     print(label)</span>
+
+<span class="sd">    If you omit the scheme then OAK will try to guess the scheme based on the</span>
+<span class="sd">    suffix of the descriptor</span>
+
+<span class="sd">    .. code :: python</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; ## Use an adapter that is able to read OBO Format:</span>
+<span class="sd">        &gt;&gt;&gt; ## (currently defaults to pronot)</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;my-ont.obo&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
+<span class="sd">        &gt;&gt;&gt;     print(label)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; ## Use an adapter that is able to read SQLIte:</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;my-ont.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
+<span class="sd">        &gt;&gt;&gt;     print(label)</span>
 
 <span class="sd">    :param descriptor:</span>
 <span class="sd">    :param format:</span>
@@ -194,6 +164,22 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">get_resource_from_shorthand</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">implementation_class</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_implementation_from_shorthand"><a class="viewcode-back" href="../../selectors.html#oaklib.selector.get_implementation_from_shorthand">[docs]</a><span class="k">def</span> <span class="nf">get_implementation_from_shorthand</span><span class="p">(</span>
+    <span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets an adapter (implementation) for a given descriptor.</span>
+
+<span class="sd">    NOTE: this is an alias for `get_adapter` - use this instead,</span>
+<span class="sd">    get_implementation_from_shorthand will be deprecated in future.</span>
+
+<span class="sd">    :param descriptor:</span>
+<span class="sd">    :param format:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">get_implementation_class_from_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]:</span>

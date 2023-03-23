@@ -214,15 +214,69 @@ to simplify things for you the user, please be patient!</p>
 <section id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
 <span class="target" id="module-oaklib.selector"></span><dl class="py function">
-<dt class="sig sig-object py" id="oaklib.selector.get_implementation_from_shorthand">
-<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_implementation_from_shorthand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface</span></a></span></span><a class="reference internal" href="_modules/oaklib/selector.html#get_implementation_from_shorthand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_implementation_from_shorthand" title="Permalink to this definition"></a></dt>
-<dd><p>See <span class="xref std std-ref">get_resource_from_shorthand</span></p>
+<dt class="sig sig-object py" id="oaklib.selector.get_adapter">
+<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface</span></a></span></span><a class="reference internal" href="_modules/oaklib/selector.html#get_adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_adapter" title="Permalink to this definition"></a></dt>
+<dd><p>Gets an adapter (implementation) for a given descriptor.</p>
+<p>OAK allows for multiple different <em>adapters</em> (aka <em>implementations</em>);
+for example, <span class="xref std std-ref">SQLImplementation</span> and <span class="xref std std-ref">BioPortalImplementation</span>.</p>
+<p>This function allows you to get an adapter for a given descriptor.
+A descriptor combines a <em>scheme</em> followed by a colon symbol, and then
+optionally additional information that specifies how to access a particular
+resource or ontology within that scheme.</p>
 <p>Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s1">&#39;my-ont.owl&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">all_entities</span><span class="p">():</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="o">...</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## Use the simpleobo adapter to read a local OBO file:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;simpleobo:my-ont.obo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## Use the ubergraph adapter, querying within GO</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;ubergraph:go&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## Use the ubergraph adapter, querying within all</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>If you omit the scheme then OAK will try to guess the scheme based on the
+suffix of the descriptor</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## Use an adapter that is able to read OBO Format:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## (currently defaults to pronot)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;my-ont.obo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## Use an adapter that is able to read SQLIte:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;my-ont.db&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – </p></li>
+<li><p><strong>format</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oaklib.selector.get_implementation_from_shorthand">
+<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_implementation_from_shorthand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface</span></a></span></span><a class="reference internal" href="_modules/oaklib/selector.html#get_implementation_from_shorthand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_implementation_from_shorthand" title="Permalink to this definition"></a></dt>
+<dd><p>Gets an adapter (implementation) for a given descriptor.</p>
+<p>NOTE: this is an alias for <cite>get_adapter</cite> - use this instead,
+get_implementation_from_shorthand will be deprecated in future.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

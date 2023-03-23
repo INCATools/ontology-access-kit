@@ -132,11 +132,11 @@ access to OWL reasoners through robot.</p>
 </pre></div>
 </div>
 <p>This can also be used programmatically</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_resource_from_shorthand</span><span class="p">,</span> <span class="n">discovered_plugins</span><span class="p">,</span> <span class="n">get_implementation_from_shorthand</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_resource_from_shorthand</span><span class="p">,</span> <span class="n">discovered_plugins</span><span class="p">,</span> <span class="n">get_adapter</span>
 <span class="kn">from</span> <span class="nn">oakx_robot.robot_implementation</span> <span class="kn">import</span> <span class="n">RobotImplementation</span><span class="p">,</span> <span class="n">OWL_NOTHING</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;tests/input/go-nucleus-unsat.owl&#39;</span>
-<span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;robot:</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;robot:</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">oi</span><span class="o">.</span><span class="n">is_coherent</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Congratulations! The ontology is coherent&#39;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
