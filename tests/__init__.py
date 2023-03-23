@@ -5,7 +5,7 @@ from typing import List
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 ROOT = Path(__file__).resolve().parent
-INPUT_DIR = Path(ROOT) / "input"
+INPUT_DIR = Path(ROOT).joinpath("input")
 OUTPUT_DIR = Path(ROOT).joinpath("output")
 SCHEMA_DIR = Path(ROOT) / "../src/linkml"
 EXTERNAL_DB_DIR = Path(ROOT) / "../db"  # for integration tests: optional
