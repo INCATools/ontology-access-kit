@@ -4,7 +4,7 @@ import kgcl_schema.grammar.parser as kgcl_parser
 import yaml
 from linkml_runtime.dumpers import yaml_dumper
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.datamodels.cross_ontology_diff import DiffCategory, RelationalDiff
 from oaklib.datamodels.vocabulary import HAS_PART, IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -106,8 +106,8 @@ class TestStructuralDiff(unittest.TestCase):
         Note that the diffs are non-monotonic: adding a new patch can change
         an older diff
         """
-        left_oi = get_implementation_from_shorthand(str(EXAMPLE_ONTOLOGY_OBO))
-        right_oi = get_implementation_from_shorthand(str(EXAMPLE_ONTOLOGY_OBO))
+        left_oi = get_adapter(str(EXAMPLE_ONTOLOGY_OBO))
+        right_oi = get_adapter(str(EXAMPLE_ONTOLOGY_OBO))
         if not isinstance(left_oi, OboGraphInterface):
             raise ValueError("Left implementation must be OboGraphInterface")
         if not isinstance(right_oi, OboGraphInterface):

@@ -76,7 +76,7 @@ In python this can be done by accessing the prefixmap directly:
 
 .. code-block:: python
 
-    >>> soil_oi = get_implementation_from_shorthand("soil-profile.skos.nt"))
+    >>> soil_oi = get_adapter("soil-profile.skos.nt"))
     >>> soil_oi.prefix_map()["soilprofile"] = "http://anzsoil.org/def/au/asls/soil-profile/"
 
     >>> # trivial example: show all CURIEs and labels

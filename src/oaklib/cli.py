@@ -743,6 +743,18 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 chain_results(impl.ancestors(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
+        elif term.startswith(".mrca"):
+            # graph query: most recent common ancestors
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
+            if isinstance(impl, SemanticSimilarityInterface):
+                chain_results(
+                    impl.setwise_most_recent_common_ancestors(rest, predicates=this_predicates)
+                )
+            else:
+                raise NotImplementedError
         else:
             # term is not query syntax: feed directly to search
             if not isinstance(impl, SearchInterface):
@@ -2266,6 +2278,12 @@ def descendants(
     default=False,
     show_default=True,
     help="For formats that export only IS_A by default, this will include all possible predicates",
+)
+@click.option(
+    "--enforce-canonical-ordering/--no-enforce-canonical-ordering",
+    default=False,
+    show_default=True,
+    help="Forces the serialization to be in canonical order, which is useful for diffing",
 )
 @output_type_option
 def dump(terms, output, output_type: str, **kwargs):

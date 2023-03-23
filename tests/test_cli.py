@@ -1,7 +1,9 @@
 import csv
 import json
 import logging
+import os
 import re
+import subprocess
 import unittest
 from typing import Optional
 
@@ -12,7 +14,7 @@ from kgcl_schema.datamodel.kgcl import NodeChange
 from linkml_runtime.loaders import json_loader, yaml_loader
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.cli import main
 from oaklib.datamodels import fhir, obograph, taxon_constraints
 from oaklib.datamodels.vocabulary import (
@@ -48,7 +50,7 @@ TEST_SIMPLE_OBO = f'simpleobo:{INPUT_DIR / "go-nucleus.obo"}'
 TEST_OBOJSON = INPUT_DIR / "go-nucleus.json"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_OWL_OFN = INPUT_DIR / "go-nucleus.ofn"
-TEST_DB = INPUT_DIR / "go-nucleus.db"
+TEST_DB = INPUT_DIR.joinpath("go-nucleus.db")
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
 TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
@@ -323,6 +325,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(main, all_args)
                 self.assertEqual(0, result.exit_code)
                 out = result.stdout
+                # print(out)
                 self.assertIn(expected, out)
                 if unexpected:
                     self.assertNotIn(unexpected, out)
@@ -387,14 +390,37 @@ class TestCommandLineInterface(unittest.TestCase):
         result = self.runner.invoke(
             main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
         )
-        out = result.stdout
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)
         self.assertIn("Reactome:R-HSA-1483089", out)
 
-    # DUMPER
+    def test_mappings_curie_map(self):
+        mappings_output = OUTPUT_DIR.joinpath("test_mappings.tsv")
+        if os.name == "nt":
+            shell = True
+        else:
+            shell = False
+        result = subprocess.run(
+            [
+                "runoak",
+                "-i",
+                f"sqlite:{TEST_DB}",
+                "mappings",
+                "-O",
+                "sssom",
+                "-o",
+                mappings_output,
+            ],
+            shell=shell,  # noqa
+        )
+        self.assertEqual(0, result.returncode)
+        msdf = parse_sssom_table(mappings_output)
+        self.assertTrue(isinstance(msdf.prefix_map, dict))
+        self.assertEqual(len(msdf.prefix_map), 14)
+        self.assertIn("BFO", msdf.prefix_map)
 
+    # DUMPER
     def test_dump(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"
         cases = [
@@ -438,10 +464,10 @@ class TestCommandLineInterface(unittest.TestCase):
                 g.parse(TEST_OUT, format="turtle")
                 self.assertGreater(len(list(g.triples((None, None, None)))), 0)
             elif output_format == "obo":
-                oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
+                oi = get_adapter(f"simpleobo:{TEST_OUT}")
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             elif output_format == "ofn":
-                oi = get_implementation_from_shorthand(f"funowl:{TEST_OUT}")
+                oi = get_adapter(f"funowl:{TEST_OUT}")
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             else:
                 raise AssertionError(f"Unexpected output format: {output_format}")
@@ -498,12 +524,12 @@ class TestCommandLineInterface(unittest.TestCase):
                     g.parse(TEST_OUT, format="turtle")
                     self.assertGreater(len(list(g.triples((None, None, None)))), 0)
                 elif output_format == "obo":
-                    oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
+                    oi = get_adapter(f"simpleobo:{TEST_OUT}")
                     self.assertEqual("nucleus", oi.label(NUCLEUS), "failed with simpleobo")
-                    oi = get_implementation_from_shorthand(f"pronto:{TEST_OUT}")
+                    oi = get_adapter(f"pronto:{TEST_OUT}")
                     self.assertEqual("nucleus", oi.label(NUCLEUS), "failed with pronto")
                 elif output_format == "ofn":
-                    oi = get_implementation_from_shorthand(f"funowl:{TEST_OUT}")
+                    oi = get_adapter(f"funowl:{TEST_OUT}")
                     self.assertEqual("nucleus", oi.label(NUCLEUS))
                 else:
                     raise AssertionError(f"Unexpected output format: {output_format}")

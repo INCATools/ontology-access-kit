@@ -11,6 +11,8 @@ from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix
 
+UNSPECIFIED_MAPPING_SET_ID = "https://w3id.org/sssom/license/unspecified"
+
 
 def create_sssom_mapping(
     subject_id: CURIE, object_id: CURIE, strict=False, **kwargs
@@ -72,7 +74,11 @@ class StreamingSssomWriter(StreamingWriter):
         self.mappings.append(obj)
 
     def close(self):
-        mset = MappingSet(mapping_set_id="temp", mappings=self.mappings, license="UNSPECIFIED")
-        doc = MappingSetDocument(prefix_map={}, mapping_set=mset)
+        mset = MappingSet(
+            mapping_set_id="temp", mappings=self.mappings, license=UNSPECIFIED_MAPPING_SET_ID
+        )
+        prefix_map = self.ontology_interface.prefix_map()
+        doc = MappingSetDocument(prefix_map=prefix_map, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
+        msdf.clean_prefix_map(strict=False)
         write_table(msdf, self.file)

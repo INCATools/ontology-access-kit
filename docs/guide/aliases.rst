@@ -134,7 +134,7 @@ Example:
 
 .. code-block:: python
 
-    >>> oi = get_implementation_from_shorthand("sqlite:obo:hp")
+    >>> oi = get_adapter("sqlite:obo:hp")
     >>> for alias in oi.entity_aliases("HP:0001698"):
     >>>     print(alias)
 
@@ -148,7 +148,7 @@ the predicate, so we can use ``alias_relationships``
 
 .. code-block:: python
 
-    >>> oi = get_implementation_from_shorthand("sqlite:obo:hp")
+    >>> oi = get_adapter("sqlite:obo:hp")
     >>> for pred, alias in oi.alias_relationships("HP:0001698"):
     >>>     print(pred, alias)
 
@@ -189,7 +189,7 @@ conforming to the OboGraph datamodel.
 
 .. code-block:: python
 
-    >>> oi = get_implementation_from_shorthand("sqlite:obo:hp")
+    >>> oi = get_adapter("sqlite:obo:hp")
     >>> for entity, spv in oi.synonym_property_values(["HP:0001698"]):
     >>>     print(f"{entity} pred: {spv.pred} ({syn.synonymType}) '{spv.val}' ")
     >>>     print(f"  xref: {x} " for x in spv.xrefs)

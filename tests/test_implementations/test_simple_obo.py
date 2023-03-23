@@ -1,3 +1,4 @@
+import filecmp
 import logging
 import unittest
 from copy import deepcopy
@@ -17,6 +18,13 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
+)
+from oaklib.implementations.simpleobo.simple_obo_parser import (
+    TAG_DEF,
+    TAG_SYNONYM,
+    QuotedText,
+    TagValue,
+    XrefList,
 )
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
@@ -58,6 +66,27 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi = SimpleOboImplementation(resource)
         self.oi = oi
         self.compliance_tester = ComplianceTester(self)
+
+    def test_parser(self):
+        """
+        Tests low-level parser methods.
+
+        This may be moved to a separate test class in future, as it does
+        not pertain to testing of the interface.
+        """
+        obodoc = self.oi.obo_document
+        nuc = obodoc.stanzas[NUCLEUS]
+        tvs = nuc.tag_values
+        [defn] = [tv for tv in tvs if tv.tag == TAG_DEF]
+        self.assertEqual(TAG_DEF, defn.tag)
+        self.assertTrue(defn.value.startswith('"A membrane-bounded organelle'))
+        toks = defn.tokenize()
+        tok0, tok1 = toks
+        self.assertIsInstance(tok0, QuotedText)
+        self.assertIsInstance(tok1, XrefList)
+        tv = TagValue(TAG_SYNONYM, '"abc def ghi" EXACT [PMID:1, PMID:2]')
+        toks = tv.tokenize()
+        self.assertGreater(len(toks), 2)
 
     def test_custom_prefixes(self):
         resource = OntologyResource(slug="alignment-test.obo", directory=INPUT_DIR, local=True)
@@ -310,6 +339,38 @@ class TestSimpleOboImplementation(unittest.TestCase):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
+
+    def test_sort_order_no_edits(self):
+        """
+        Ensures that dump does not perturb ordering of terms.
+        """
+        input_path = str(INPUT_DIR / "sort-test.obo")
+        output_path = str(OUTPUT_DIR / "sort-test.obo")
+        resource = OntologyResource(input_path, local=True)
+        oi = SimpleOboImplementation(resource)
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp.cmp(input_path, output_path))
+        # try ordering stanzas (but do not ordering within a stanza)
+        oi.obo_document.order_stanzas()
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp.cmp(input_path, output_path))
+
+    @unittest.skip(
+        "Currently not guaranteed same as OWLAPI: see https://github.com/owlcollab/oboformat/issues/138"
+    )
+    def test_sort_order_with_forced_reorder(self):
+        """
+        Ensures that dump does not perturb ordering of terms after normalization
+        """
+        input_path = str(INPUT_DIR / "sort-test.obo")
+        output_path = str(OUTPUT_DIR / "sort-test.obo")
+        resource = OntologyResource(input_path, local=True)
+        oi = SimpleOboImplementation(resource)
+        oi.obo_document.normalize_line_order()
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp.cmp(input_path, output_path))
 
     def test_merge(self):
         resource1 = OntologyResource(slug=TEST_ONT, directory=INPUT_DIR, local=True)

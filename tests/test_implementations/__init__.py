@@ -16,7 +16,7 @@ from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper
 
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
@@ -572,7 +572,7 @@ class ComplianceTester:
         with tempfile.TemporaryDirectory() as tmpdirname:
             fname = Path(tmpdirname) / "tmp_obograph.json"
             oi.dump(str(fname), "json")
-            oi2 = get_implementation_from_shorthand(f"obograph:{fname.as_posix()}")
+            oi2 = get_adapter(f"obograph:{fname.as_posix()}")
 
         self.test_labels(oi2)
         self.test_definitions(oi2)
