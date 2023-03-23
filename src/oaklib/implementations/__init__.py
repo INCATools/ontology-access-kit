@@ -1,3 +1,6 @@
+"""
+This package serves as the master index for all implementations.
+"""
 from functools import cache
 
 from class_resolver import ClassResolver
@@ -70,6 +73,26 @@ __all__ = [
 
 @cache
 def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
+    """
+    Get a class resolver for all implementations (adapters).
+
+    See `<https://class-resolver.readthedocs.io/>`_
+
+    Note that typical OAK users should never need to call this directly;
+    this is used by OAK to dynamically select the right implementation given
+    a selector descriptions
+
+    As far as possible we try and use generic mechanisms to resolve.
+
+    Any class specified in __all__ above will be checked to see if it inherits from
+    OntologyInterface.
+
+    If the class name ends with "Implementation" (which is the convention in OAK
+    for all implementations), then it should be available here, wiith a descriptor
+    name that is downcases class name, with "Implementation" removed.
+
+    :return: A ClassResolver capable of resolving an OntologyInterface implementation
+    """
     implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
         OntologyInterface,
         suffix="Implementation",
@@ -78,6 +101,9 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
             BaseOlsImplementation,
         },
     )
+    # if an implementation uses a shorthand name that is
+    # different from the class name (minus Implementation), then
+    # it should be added here
     implementation_resolver.synonyms.update(
         {
             "obolibrary": ProntoImplementation,

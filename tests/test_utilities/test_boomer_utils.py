@@ -1,6 +1,6 @@
 import unittest
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.utilities.mapping.boomer_utils import BoomerEngine, DiffType
 from tests import EXAMPLE_ONTOLOGY_DB, INPUT_DIR, NUCLEUS, VACUOLE
@@ -34,7 +34,7 @@ class TestBoomerUtils(unittest.TestCase):
         """
         ben = BoomerEngine()
         ben.load(GO_EXAMPLE)
-        adapter = get_implementation_from_shorthand(str(EXAMPLE_ONTOLOGY_DB))
+        adapter = get_adapter(str(EXAMPLE_ONTOLOGY_DB))
         if not isinstance(adapter, MappingProviderInterface):
             raise AssertionError(f"{EXAMPLE_ONTOLOGY_DB} can't supply mappings")
         current_mappings = list(adapter.all_sssom_mappings())

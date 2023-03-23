@@ -18,8 +18,8 @@ We will use the ``relationships`` method from :ref:`basic_ontology_interface`.
 
 .. code-block:: python
 
-    >>> from oaklib.selector import get_implementation_from_shorthand
-    >>> adapter = get_implementation_from_shorthand("sqlite:obo:uberon")
+    >>> from oaklib.selector import get_adapter
+    >>> adapter = get_adapter("sqlite:obo:uberon")
     >>> for rel in adapter.relationships(["UBERON:0002398", "UBERON:0002387"]):
     ...    print(rel)
     ('UBERON:0002387', 'BFO:0000050', 'UBERON:0002103')
@@ -37,8 +37,8 @@ We can make this more human readable:
 
 .. code-block:: python
 
-    >>> from oaklib.selector import get_implementation_from_shorthand
-    >>> adapter = get_implementation_from_shorthand("sqlite:obo:uberon")
+    >>> from oaklib.selector import get_adapter
+    >>> adapter = get_adapter("sqlite:obo:uberon")
     >>> for s, p, o in adapter.relationships(["UBERON:0002398", "UBERON:0002387"]):
     ...    print((adapter.label(s), adapter.label(p), adapter.label(o)))
     ('pes', 'part of', 'hindlimb')
@@ -71,9 +71,9 @@ We will use the ``ancestors`` method from :ref:`basic_ontology_interface`.
 
 .. code-block:: python
 
-    >>> from oaklib.selector import get_implementation_from_shorthand
+    >>> from oaklib.selector import get_adapter
     >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
-    >>> adapter = get_implementation_from_shorthand("sqlite:obo:uberon")
+    >>> adapter = get_adapter("sqlite:obo:uberon")
     >>> for anc in adapter.ancestors("UBERON:0002398", predicates=[IS_A, PART_OF]):
     ...    print(f"{anc} '{adapter.label(anc)}'")
     BFO:0000001 'entity'
