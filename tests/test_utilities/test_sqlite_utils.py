@@ -19,6 +19,7 @@ class TestSqliteUtils(unittest.TestCase):
         sqlite_bulk_load(DB, TSV, TBL_NAME, cols=["a", "b", "c"])
         con = sqlite3.connect(str(DB))
         rows = list(con.execute(f"SELECT * FROM {TBL_NAME}"))
+        con.close()
         self.assertEqual(len(rows), 16)
         # Check first row which could be interpreted as column names.
         self.assertIn(("MGI", "MGI:1918911", "0610005C13Rik"), rows)
@@ -32,6 +33,7 @@ class TestSqliteUtils(unittest.TestCase):
         sqlite_bulk_load2(DB, TSV, TBL_NAME, read_csv_args=args)
         con = sqlite3.connect(str(DB))
         rows = list(con.execute(f"SELECT * FROM {TBL_NAME}"))
+        con.close()
         self.assertEqual(len(rows), 16)
         # first row from first chunk
         self.assertIn(("MGI", "MGI:1918911", "0610005C13Rik"), rows)
