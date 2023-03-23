@@ -137,7 +137,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                             id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
                         )
                 else:
-                    yield kgcl.NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
+                    yield kgcl.EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=filler)
             for rel in e2_rels.difference(e1_rels):
                 pred, filler = rel
                 edge = kgcl.Edge(subject=e1, predicate=pred, object=filler)

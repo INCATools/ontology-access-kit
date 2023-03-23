@@ -65,6 +65,42 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         else:
             raise NotImplementedError
 
+    def setwise_most_recent_common_ancestors(
+        self,
+        subjects: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        include_owl_thing: bool = True,
+    ) -> Iterable[CURIE]:
+        """
+        Most recent common ancestors (MRCAs) for a set of entities
+
+        The MRCAs are the set of Common Ancestors (CAs) that are not themselves proper
+        ancestors of another CA
+
+        :param subjects:
+        :param predicates:
+        :param include_owl_thing:
+        :return:
+        """
+        if not isinstance(self, OboGraphInterface):
+            raise NotImplementedError
+        ancs = []
+        for s in subjects:
+            ancs.append(set(self.ancestors([s], predicates)))
+        common = set.intersection(*ancs)
+        ancs_of_common = []
+        for ca in common:
+            for caa in self.ancestors(ca, predicates):
+                if caa != ca:
+                    ancs_of_common.append(caa)
+        n = 0
+        for a in common:
+            if a not in ancs_of_common:
+                yield a
+                n += 1
+        if n == 0 and include_owl_thing:
+            yield OWL_THING
+
     def multiset_most_recent_common_ancestors(
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, asymmetric=True
     ) -> Iterable[Tuple[CURIE, CURIE, CURIE]]:

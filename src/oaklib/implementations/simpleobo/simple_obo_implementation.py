@@ -774,21 +774,26 @@ class SimpleOboImplementation(
         od = self.obo_document
         tidy_change_object(patch)
         logging.debug(f"Applying {patch}")
+        modified_entities = []
         if isinstance(patch, kgcl.NodeRename):
             # self.set_label(patch.about_node, _clean(patch.new_value))
             self.set_label(patch.about_node, patch.new_value)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._stanza(patch.about_node, strict=True)
             t.set_singular_tag(TAG_IS_OBSOLETE, "true")
             if isinstance(patch, kgcl.NodeObsoletionWithDirectReplacement):
                 t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeDeletion):
             t = self._stanza(patch.about_node, strict=True)
             od.stanzas = [s for s in od.stanzas if s.id != patch.about_node]
         elif isinstance(patch, kgcl.NodeCreation):
             self.create_entity(patch.about_node, patch.name)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.ClassCreation):
             self.create_entity(patch.about_node, patch.name)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.SynonymReplacement):
             t = self._stanza(patch.about_node, strict=True)
             n = 0
@@ -800,6 +805,7 @@ class SimpleOboImplementation(
                         n += 1
             if not n:
                 raise ValueError(f"Failed to find synonym {patch.old_value} for {t.id}")
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._stanza(patch.about_node, strict=True)
             for tv in t.tag_values:
@@ -808,6 +814,7 @@ class SimpleOboImplementation(
         elif isinstance(patch, kgcl.NewTextDefinition):
             t = self._stanza(patch.about_node, strict=True)
             t.add_tag_value(TAG_DEFINITION, patch.new_value)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
@@ -818,6 +825,7 @@ class SimpleOboImplementation(
                 scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             v = patch.new_value.replace('"', '\\"')
             t.add_tag_value(TAG_SYNONYM, f'"{v}" {scope} []')
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.RemoveSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
@@ -825,6 +833,7 @@ class SimpleOboImplementation(
             t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
+            modified_entities.append(patch.subject)
         elif isinstance(patch, kgcl.EdgeDeletion):
             self.remove_relationship(patch.subject, patch.predicate, patch.object)
         elif isinstance(patch, kgcl.NodeMove):
@@ -844,8 +853,13 @@ class SimpleOboImplementation(
             else:
                 t.add_tag_value(TAG_RELATIONSHIP, f"{patch.new_value} {object}")
             self._clear_relationship_index()
+            modified_entities.append(subject)
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
         if patch.contributor:
             self.add_contributors(patch.about_node, [patch.contributor])
+            modified_entities.append(patch.about_node)
+        for e in modified_entities:
+            stanza = self._stanza(e, strict=True)
+            stanza.normalize_order()
         return patch

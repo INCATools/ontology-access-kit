@@ -32,12 +32,16 @@ class DumperInterface(BasicOntologyInterface, ABC):
     An OntologyInterface that is capable of exporting entire contents.
     """
 
-    def dump(self, path: str = None, syntax: str = None, **kwargs):
+    def dump(
+        self, path: str = None, syntax: str = None, enforce_canonical_ordering=False, **kwargs
+    ):
         """
         Exports current contents.
 
-        :param path:
-        :param syntax:
+        :param path: Path to file to write to. If None, then write to stdout.
+        :param syntax: Syntax to use. If None, then use the default syntax.
+        :param enforce_canonical_ordering:
+        :param kwargs: Additional arguments to pass to the dumper
         :return:
         """
         logging.info(f"Dumping graph to {path} in {syntax}")
@@ -58,6 +62,7 @@ class DumperInterface(BasicOntologyInterface, ABC):
                 print(json_str)
         else:
             converter = OBOGRAPH_CONVERTERS[syntax]()
+            converter.enforce_canonical_ordering = enforce_canonical_ordering
             logging.info(f"Using {converter}")
             converter.curie_converter = self.converter
             kwargs = {k: v for k, v in kwargs.items() if v is not None}
