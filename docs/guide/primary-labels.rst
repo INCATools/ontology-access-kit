@@ -41,7 +41,7 @@ provide a set of mappings in SSSOM form.
 .. code-block:: python
 
     >>> # use the standard sparql adapter over local files
-    >>> soil_oi = get_implementation_from_shorthand("soil-profile.skos.nt"))
+    >>> soil_oi = get_adapter("soil-profile.skos.nt"))
     >>> # add a custom prefix
     >>> soil_oi.prefix_map()["soilprofile"] = "http://anzsoil.org/def/au/asls/soil-profile/"
     >>> # create a mapper for mapping OMO to a custom vocab

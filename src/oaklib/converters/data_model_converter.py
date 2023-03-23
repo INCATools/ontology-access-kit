@@ -21,6 +21,9 @@ class DataModelConverter(ABC):
     labeler: Callable[[CURIE], Optional[str]] = None
     """A function that returns a label for a given CURIE"""
 
+    enforce_canonical_ordering: Optional[bool] = None
+    """If True, will enforce canonical ordering of keys in the output"""
+
     def __hash__(self):
         return hash(str(self))
 

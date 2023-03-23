@@ -1,10 +1,11 @@
+import filecmp
 import logging
 import unittest
 
 import pronto
 from kgcl_schema.datamodel import kgcl
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -365,6 +366,19 @@ class TestProntoImplementation(unittest.TestCase):
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
 
+    @unittest.skip("Pronto does not currently preserve line ordering")
+    def test_sort_order_no_edits(self):
+        """
+        Ensures that dump does not perturb ordering of terms.
+        """
+        input_path = str(INPUT_DIR / "sort-test.obo")
+        output_path = str(OUTPUT_DIR / "sort-test.obo")
+        resource = OntologyResource(input_path, local=True)
+        oi = ProntoImplementation(resource)
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp.cmp(input_path, output_path))
+
     def test_reflexive_diff(self):
         self.compliance_tester.test_reflexive_diff(self.oi)
 
@@ -435,13 +449,13 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_create_ontology_via_patches(self):
-        oi = get_implementation_from_shorthand("pronto:")
+        oi = get_adapter("pronto:")
         if isinstance(oi, PatcherInterface):
 
             def _roundtrip(original_oi: PatcherInterface) -> PatcherInterface:
                 out = str(OUTPUT_DIR / "test-create.obo")
                 original_oi.dump(out)
-                return get_implementation_from_shorthand(f"pronto:{out}")
+                return get_adapter(f"pronto:{out}")
 
             self.compliance_tester.test_create_ontology_via_patches(
                 oi, roundtrip_function=_roundtrip

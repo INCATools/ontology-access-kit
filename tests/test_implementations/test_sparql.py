@@ -9,7 +9,7 @@ from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.resource import OntologyResource
-from oaklib.selector import get_implementation_from_shorthand
+from oaklib.selector import get_adapter
 from oaklib.utilities.obograph_utils import (
     graph_as_dict,
     index_graph_edges_by_object,
@@ -121,7 +121,7 @@ class TestSparqlImplementation(unittest.TestCase):
         This makes use of a skos profile, which is a mapping from OMO
         properties to SKOS
         """
-        soil_oi = get_implementation_from_shorthand(str(INPUT_DIR / "soil-profile.skos.nt"))
+        soil_oi = get_adapter(str(INPUT_DIR / "soil-profile.skos.nt"))
         soil_oi.prefix_map()["soilprofile"] = "http://anzsoil.org/def/au/asls/soil-profile/"
         soil_oi.ontology_metamodel_mapper = OntologyMetadataMapper(
             [], curie_converter=soil_oi.converter

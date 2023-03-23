@@ -14,7 +14,7 @@ from kgcl_schema.datamodel.kgcl import NodeChange
 from linkml_runtime.loaders import json_loader, yaml_loader
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.cli import main
 from oaklib.datamodels import fhir, obograph, taxon_constraints
 from oaklib.datamodels.vocabulary import (
@@ -464,10 +464,10 @@ class TestCommandLineInterface(unittest.TestCase):
                 g.parse(TEST_OUT, format="turtle")
                 self.assertGreater(len(list(g.triples((None, None, None)))), 0)
             elif output_format == "obo":
-                oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
+                oi = get_adapter(f"simpleobo:{TEST_OUT}")
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             elif output_format == "ofn":
-                oi = get_implementation_from_shorthand(f"funowl:{TEST_OUT}")
+                oi = get_adapter(f"funowl:{TEST_OUT}")
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             else:
                 raise AssertionError(f"Unexpected output format: {output_format}")
@@ -524,12 +524,12 @@ class TestCommandLineInterface(unittest.TestCase):
                     g.parse(TEST_OUT, format="turtle")
                     self.assertGreater(len(list(g.triples((None, None, None)))), 0)
                 elif output_format == "obo":
-                    oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
+                    oi = get_adapter(f"simpleobo:{TEST_OUT}")
                     self.assertEqual("nucleus", oi.label(NUCLEUS), "failed with simpleobo")
-                    oi = get_implementation_from_shorthand(f"pronto:{TEST_OUT}")
+                    oi = get_adapter(f"pronto:{TEST_OUT}")
                     self.assertEqual("nucleus", oi.label(NUCLEUS), "failed with pronto")
                 elif output_format == "ofn":
-                    oi = get_implementation_from_shorthand(f"funowl:{TEST_OUT}")
+                    oi = get_adapter(f"funowl:{TEST_OUT}")
                     self.assertEqual("nucleus", oi.label(NUCLEUS))
                 else:
                     raise AssertionError(f"Unexpected output format: {output_format}")
