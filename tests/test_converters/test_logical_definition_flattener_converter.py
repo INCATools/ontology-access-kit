@@ -46,7 +46,7 @@ class LogicalDefinitionFlattenerTest(unittest.TestCase):
         for case in cases:
             self.assertIn(case, objs)
 
-    def test_convert(self):
+    def test_convert_objects(self):
         """Tests parsing then converting to tuples."""
         restrictions = []
         restrictions.append(

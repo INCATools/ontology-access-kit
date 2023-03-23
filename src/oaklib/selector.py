@@ -76,10 +76,10 @@ def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
     :return:
     """
     res = get_resource_from_shorthand(descriptor, format)
-    return res.adapter
+    return res.implementation_class(res)
 
 
-def get_implementation_from_shorthand(self, **kwargs) -> BasicOntologyInterface:
+def get_implementation_from_shorthand(descriptor: str, format: str = None) -> BasicOntologyInterface:
     """
     Gets an adapter (implementation) for a given descriptor.
 
@@ -90,7 +90,7 @@ def get_implementation_from_shorthand(self, **kwargs) -> BasicOntologyInterface:
     :param format:
     :return:
     """
-    return self.get_adapter(**kwargs)
+    return get_adapter(descriptor, format)
 
 
 def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]:
