@@ -3,6 +3,8 @@ import unittest
 from rustsim import jaccard_similarity
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.resource import OntologyResource
 from oaklib.selector import get_implementation_from_shorthand
 from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
 
@@ -14,7 +16,12 @@ class TestRustSimImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up"""
-        oi = get_implementation_from_shorthand(f"rustsim:sqlite:///{DB}")
+        # Calling get_implementation_from_shorthand() alone fails on Windows
+        try:
+            oi = get_implementation_from_shorthand(f"rustsim:sqlite:///{str(DB)}")
+        except FileNotFoundError:
+            oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+
         self.oi = oi
 
     # def test_pairwise_similarity(self):
