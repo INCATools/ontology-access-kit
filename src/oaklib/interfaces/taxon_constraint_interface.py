@@ -12,7 +12,7 @@ from oaklib.datamodels.vocabulary import (
     ONLY_IN_TAXON,
     PRESENT_IN_TAXON,
 )
-from oaklib.interfaces.obograph_interface import GraphTraversalMethod
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE, TAXON_CURIE
 
 TAXON_PREDICATES = [NEVER_IN_TAXON, ONLY_IN_TAXON, IN_TAXON, PRESENT_IN_TAXON]
@@ -77,6 +77,7 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         curie: CURIE,
         predicates: List[PRED_CURIE] = None,
         include_redundant=False,
+        include_never_in_even_if_redundant_with_only_in=False,
         add_labels=True,
         direct=False,
     ) -> SubjectTerm:
@@ -98,7 +99,8 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         #    raise ValueError(f"Unknown term: {curie}")
         st = SubjectTerm(curie, label=label)
         # find all taxon constraints, including redundant
-        logging.info(f"Inferring taxon constraints for {curie}")
+        traversal_method = self.subject_graph_traversal_method or GraphTraversalMethod.HOP
+        logging.info(f"Inferring taxon constraints for {curie} via {traversal_method}")
         subject_ancs = (
             [curie]
             if direct
@@ -106,11 +108,12 @@ class TaxonConstraintInterface(BasicOntologyInterface):
                 self.ancestors(
                     curie,
                     predicates,
-                    method=self.subject_graph_traversal_method or GraphTraversalMethod.HOP,
+                    method=traversal_method,
                 )
             )
         )
-        logging.info(f"Ancestors of {curie}: {len(subject_ancs)}")
+        subject_ancs = list(set(subject_ancs))
+        logging.info(f"Ancestors of {curie}: {len(subject_ancs)} via {traversal_method}")
         for anc in subject_ancs:
             logging.debug(f"Checking ancestor {anc} of {curie} over predicates: {predicates}")
             if anc.startswith("NCBITaxon:"):
@@ -130,9 +133,13 @@ class TaxonConstraintInterface(BasicOntologyInterface):
                 elif predicate == IN_TAXON:
                     st.only_in.append(tc)
                 elif predicate == PRESENT_IN_TAXON:
-                    st.present_in.append(tc)
+                    pass
+                    # if anc == curie:
+                    #    st.present_in.append(tc)
                 else:
                     raise ValueError(f"Unexpected taxon pred: {predicate}")
+        for tc in self.calculate_present_in_taxon_constraints(curie, predicates):
+            st.present_in.append(tc)
         if not direct:
             self._compute_redundancies(st, predicates)
         logging.info("Filling missing info")
@@ -144,20 +151,49 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         st.description = self.get_taxon_constraints_description(st)
         if not include_redundant:
             st.only_in = [tc for tc in st.only_in if not tc.redundant]
-            st.never_in = [tc for tc in st.never_in if not tc.redundant]
+            st.never_in = [
+                tc
+                for tc in st.never_in
+                if not tc.redundant
+                and (
+                    not tc.redundant_with_only_in or include_never_in_even_if_redundant_with_only_in
+                )
+            ]
+            st.present_in = [tc for tc in st.present_in if not tc.redundant]
         return st
+
+    def calculate_present_in_taxon_constraints(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[TaxonConstraint]:
+        """
+        Get all present_in taxon constraints for a given term
+
+        :param curie:
+        :return:
+        """
+        if not isinstance(self, OboGraphInterface):
+            raise ValueError("This method requires an OboGraphInterface")
+        descendants = list(self.descendants(curie, predicates))
+        for s, p, o in self.relationships(descendants, [PRESENT_IN_TAXON]):
+            yield TaxonConstraint(
+                taxon=Taxon(id=o),
+                subject=curie,
+                predicate=p,
+                via_terms=[SubjectTerm(s)],
+                asserted=True,
+            )
 
     def _compute_redundancies(self, st: SubjectTerm, predicates: List[PRED_CURIE] = None):
         logging.info(f"Checking {len(st.only_in)} only-in constraints")
         for tc in st.only_in:
             # calculate redundancy for only-ins
-            taxon_ancs = list(self.ancestors(tc.taxon.id, [IS_A]))
+            present_in_taxon_ancs = list(self.ancestors(tc.taxon.id, [IS_A]))
             tc_subject_ancs = list(self.ancestors(tc.subject, predicates))
             for other_tc in st.only_in:
                 # check if other TCs are redundant with this one:
                 # i.e. the other TC is to a more general taxon
                 # e.g. tc=only_in(Mammals), other_tc=only_in(Animals)
-                if other_tc.taxon.id in taxon_ancs:
+                if other_tc.taxon.id in present_in_taxon_ancs:
                     reflexive = tc.taxon.id == other_tc.taxon.id
                     if not reflexive:
                         other_tc.redundant = True
@@ -180,12 +216,17 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         logging.info(f"Checking {len(st.present_in)} present-in constraints")
         for tc in st.present_in:
             # calculate redundancy for present-ins
-            taxon_ancs = list(self.ancestors(tc.taxon.id, [IS_A]))
+            present_in_taxon_ancs = list(self.ancestors(tc.taxon.id, [IS_A]))
             if st.only_in:
-                if any(only_in.taxon.id not in taxon_ancs for only_in in st.only_in):
-                    st.unsatisfiable = True
-                    st.description = f"Unsat, present_in {tc.taxon.id} conflict with only_in"
-            if any(never_in.taxon.id in taxon_ancs for never_in in st.never_in):
+                for only_in in st.only_in:
+                    only_in_taxon_ancs = list(self.ancestors(only_in.taxon.id, [IS_A]))
+                    if (
+                        tc.taxon.id not in only_in_taxon_ancs
+                        and only_in.taxon.id not in present_in_taxon_ancs
+                    ):
+                        st.unsatisfiable = True
+                        st.description = f"Unsat, present_in {tc.taxon.id} conflict with only_in"
+            if any(never_in.taxon.id in present_in_taxon_ancs for never_in in st.never_in):
                 st.unsatisfiable = True
                 st.description = f"Unsat, present_in {tc.taxon.id} conflict with never_in"
         # TODO: consider adding default to root
@@ -193,12 +234,12 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         logging.info(f"Checking {len(st.never_in)} never-in constraints")
         for tc in st.never_in:
             # calculate redundancy for never-ins, and also consistency with only-ins
-            taxon_ancs = list(self.ancestors(tc.taxon.id, [IS_A]))
+            present_in_taxon_ancs = list(self.ancestors(tc.taxon.id, [IS_A]))
             # check if this TC is redundant with any others:
             # i.e. the other TC is to a more general taxon
             # e.g. tc=never_in(Mammals), other_tc=never_in(Animals)
             for other_tc in st.never_in:
-                if other_tc.taxon.id != tc.taxon.id and other_tc.taxon.id in taxon_ancs:
+                if other_tc.taxon.id != tc.taxon.id and other_tc.taxon.id in present_in_taxon_ancs:
                     tc.redundant = True
                     tc.redundant_with.append(_tc(other_tc))
             # check for cross-redundancy
@@ -280,6 +321,7 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         return list(include)
 
     def _fill_missing(self, st: SubjectTerm):
+        # fills in trivial inferrable information
         for tc in st.only_in:
             if not tc.subject:
                 tc.subject = st.id
@@ -308,10 +350,14 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         """
         Evaluate a proposed SubjectTerm plus its taxon constraints against the existing database.
 
+        The input SubjectTerm is not modified - instead a fresh instance is created, annotated
+        with redundancy statements.
+
         :param candidate_st:
         :param predicates: predicates to use in evaluation
         :return: An evaluated TaxonConstraint
         """
+        # do not mutate: make a copy and initialize candidate status.
         candidate_st = deepcopy(candidate_st)
         for tc in (
             candidate_st.only_in
@@ -321,14 +367,18 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         ):
             tc.candidate = True
         self._fill_missing(candidate_st)
+        # fetch current taxon constraints
         curr_st = self.get_term_with_taxon_constraints(candidate_st.id, predicates)
-        merged_st = deepcopy(candidate_st)
+        merged_st = deepcopy(candidate_st)  # why do we copy again?
+        # trivial direct redundancy checks
         for tc in merged_st.only_in:
+            # check for redundancy of only-ins
             for otc in curr_st.only_in:
                 if otc.taxon.id == tc.taxon.id:
                     tc.redundant = True
                     tc.redundant_with.append(_tc(otc))
         for tc in merged_st.never_in:
+            # check for redundancy of never-ins
             for otc in curr_st.never_in:
                 if otc.taxon.id == tc.taxon.id:
                     tc.redundant = True

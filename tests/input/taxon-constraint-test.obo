@@ -764,11 +764,12 @@ id: GO:0016310
 name: phosphorylation
 namespace: biological_process
 def: "The process of introducing a phosphate group into a molecule, usually with the formation of a phosphoric ester, a phosphoric anhydride or a phosphoric amide." [ISBN:0198506732]
+comment: This term contains a deliberate taxon constraint error
 subset: goslim_chembl
 subset: goslim_metagenomics
 xref: Wikipedia:Phosphorylation
 is_a: GO:0006796 ! phosphate-containing compound metabolic process
-relationship: present_in_taxon NCBITaxon:40674 ! Mammalia
+relationship: only_in_taxon NCBITaxon:40674 ! Mammalia !!! DELIBERATE ERROR
 
 [Term]
 id: GO:0016740

@@ -538,16 +538,19 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_taxon_constraints_local(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
-            result = self.runner.invoke(
-                main, ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT]
-            )
-            self.assertEqual(0, result.exit_code)
-            contents = self._out()
-            self.assertIn("Eukaryota", contents)
-            st = yaml_loader.load(TEST_OUT, target_class=taxon_constraints.SubjectTerm)
-            only_in = st.only_in[0]
-            self.assertEqual(NUCLEUS, only_in.subject)
-            self.assertEqual(EUKARYOTA, only_in.taxon.id)
+            for fmt in ["yaml", "csv", "html"]:
+                result = self.runner.invoke(
+                    main,
+                    ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT, "-O", fmt],
+                )
+                self.assertEqual(0, result.exit_code)
+                contents = self._out()
+                self.assertIn("Eukaryota", contents)
+                if fmt == "yaml":
+                    st = yaml_loader.load(TEST_OUT, target_class=taxon_constraints.SubjectTerm)
+                    only_in = st.only_in[0]
+                    self.assertEqual(NUCLEUS, only_in.subject)
+                    self.assertEqual(EUKARYOTA, only_in.taxon.id)
 
     # SEARCH
 

@@ -19,7 +19,7 @@ class HTMLWriter(StreamingWriter):
 
     uses_schemaview = True
     cached_objects: List[YAMLRoot] = field(default_factory=lambda: [])
-    render_rules: List[RenderRule] = None
+    render_rules: List[RenderRule] = field(default_factory=lambda: [])
 
     def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields: Optional[List[str]] = None):
         """
@@ -33,6 +33,8 @@ class HTMLWriter(StreamingWriter):
             self.emit_curie(obj)
         elif isinstance(obj, dict):
             self.emit_obj(obj)
+        elif isinstance(obj, YAMLRoot):
+            self.emit_obj(obj)
 
     def emit_obj(self, obj: YAMLRoot, **kwargs):
         logging.debug(f"Emitting obj {type(obj)}")
@@ -41,6 +43,8 @@ class HTMLWriter(StreamingWriter):
     def finish(self):
         renderer = HTMLRenderer()
         config = Configuration(rules=self.render_rules)
+        if not self.schemaview:
+            raise ValueError("HTMLWriter requires a schemaview")
         se = StyleEngine(self.schemaview, configuration=config)
         renderer.style_engine = se
         for obj in self.cached_objects:
