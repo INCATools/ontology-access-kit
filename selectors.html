@@ -272,6 +272,20 @@ suffix of the descriptor</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="oaklib.selector.get_implementation_class_from_scheme">
+<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_implementation_class_from_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.interfaces.ontology_interface.OntologyInterface</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/oaklib/selector.html#get_implementation_class_from_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_implementation_class_from_scheme" title="Permalink to this definition"></a></dt>
+<dd><p>Given a selector schema (e.g. sqlite, ubergraph, pronto, etc.) return the adapter class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>scheme</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>adapter (implementation) class that implements the OntologyInterface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="oaklib.selector.get_implementation_from_shorthand">
 <span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_implementation_from_shorthand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface</span></a></span></span><a class="reference internal" href="_modules/oaklib/selector.html#get_implementation_from_shorthand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_implementation_from_shorthand" title="Permalink to this definition"></a></dt>
 <dd><p>Gets an adapter (implementation) for a given descriptor.</p>

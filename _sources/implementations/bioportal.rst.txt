@@ -12,9 +12,9 @@ any OntoPortal endpoint.
 
 So far this only implements:
 
-- :ref:`SearchInterface`
-- :ref:`TextAnnotatorInterface`
-- :ref:`MappingProviderInterface`
+- :ref:`search_interface`
+- :ref:`text_annotator_interface`
+- :ref:`mapping_provider_interface`
 
 API Keys
 --------------------

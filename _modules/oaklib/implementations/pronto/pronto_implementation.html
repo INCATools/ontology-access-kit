@@ -376,7 +376,8 @@
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">owl_type</span> <span class="ow">and</span> <span class="n">owl_type</span> <span class="o">!=</span> <span class="n">OWL_OBJECT_PROPERTY</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">yield</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pronto_relationship_type_curie</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">curie</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">synonym_types</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">owl_type</span> <span class="ow">and</span> <span class="n">owl_type</span> <span class="o">!=</span> <span class="n">OIO_SYNONYM_TYPE_PROPERTY</span><span class="p">:</span>
                 <span class="k">continue</span>

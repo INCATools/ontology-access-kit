@@ -24,7 +24,9 @@ URI: [ontolexindex:params](https://w3id.org/oak/lexical-index/params)
 
 ## Properties
 
-* Range: [String](String.md)
+* Range: [Any](Any.md)
+* Multivalued: True
+
 
 
 
@@ -56,11 +58,14 @@ name: params
 description: Any parameters to be applied to the transformation algorithm
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
+multivalued: true
 alias: params
 owner: LexicalTransformation
 domain_of:
 - LexicalTransformation
-range: string
+range: Any
+inlined: true
+inlined_as_list: true
 
 ```
 </details>

@@ -88,9 +88,11 @@
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">TextIOWrapper</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.lexical_index</span> <span class="kn">import</span> <span class="n">LexicalIndex</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.mapping_rules_datamodel</span> <span class="kn">import</span> <span class="n">MappingRuleCollection</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="n">SearchProperty</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.text_annotator</span> <span class="kn">import</span> <span class="n">TextAnnotation</span><span class="p">,</span> <span class="n">TextAnnotationConfiguration</span>
@@ -104,7 +106,7 @@
     <span class="s2">&quot;TextAnnotatorInterface&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.utilities.lexical.lexical_indexer</span> <span class="kn">import</span> <span class="n">create_lexical_index</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.lexical.lexical_indexer</span> <span class="kn">import</span> <span class="n">create_or_load_lexical_index</span>
 
 <span class="n">TEXT</span> <span class="o">=</span> <span class="nb">str</span>
 
@@ -123,20 +125,44 @@
 
 <div class="viewcode-block" id="TextAnnotatorInterface"><a class="viewcode-back" href="../../../interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">[docs]</a><span class="k">class</span> <span class="nc">TextAnnotatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Performs Named Entity Recognition on texts</span>
+<span class="sd">    Finds occurrences of ontology terms in text.</span>
 
-<span class="sd">    Currently this is only partially implemented by :class:`.BioportalInterface`</span>
+<span class="sd">    This interface defines methods for providing Concept Recognition (CR) (grounding)</span>
+<span class="sd">    on texts.</span>
 
-<span class="sd">    potential implementations:</span>
+<span class="sd">    For example, given a text:</span>
 
-<span class="sd">    - zooma</span>
-<span class="sd">    - scigraph-annotator</span>
-<span class="sd">    - ontorunner</span>
-<span class="sd">    - spacy</span>
+<span class="sd">        &quot;the mitochondrion of hippocampal neurons&quot;</span>
+
+<span class="sd">    An annotator might recognize the concepts &quot;mitochondrion&quot; and &quot;hippocampus neuron&quot;</span>
+<span class="sd">    from GO and CL respectively.</span>
+
+<span class="sd">    Different adapters may choose to implement this differently. The default implementation is</span>
+<span class="sd">    to build a simple textual index from an ontology, using all labels and synonyms, and to perform</span>
+<span class="sd">    simple string matching.</span>
+
+<span class="sd">    Adapters that talk to a remote endpoint may leverage more advanced strategies, and may obviate</span>
+<span class="sd">    the need for a local indexing step. For example, the :ref:`bioportal_implementation` will use</span>
+<span class="sd">    the OntoPortal annotate endpoint which is pre-indexed over all &gt;1000 ontologies in bioportal.</span>
+
+
+
+<span class="sd">    All return payloads conform to the `TextAnnotation` data model:</span>
+
+<span class="sd">     - `&lt;https://w3id.org/oak/text-annotator&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">lexical_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LexicalIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;If present, some implementations may choose to use this&quot;&quot;&quot;</span>
+
+    <span class="n">cache_directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If present, some implementations may choose to cache any ontology indexes here.</span>
+<span class="sd">    These may be used in subsequent invocations, it is up to the user to manage this cache.&quot;&quot;&quot;</span>
+
+    <span class="n">rule_collection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MappingRuleCollection</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mapping rules to apply to the results of the annotation, including synonymizer rules.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TextAnnotatorInterface.annotate_text"><a class="viewcode-back" href="../../../interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">[docs]</a>    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -146,9 +172,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Annotate a piece of text.</span>
 
-<span class="sd">        .. note ::</span>
-
-<span class="sd">           the signature of this method may change</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;go.db&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for annotation in adapter.annotate_text(&quot;The mitochondrion is a membrane-bound organelle&quot;):</span>
+<span class="sd">        &gt;&gt;&gt;     print(annotation)</span>
 
 <span class="sd">        :param text: Text to be annotated.</span>
 <span class="sd">        :param configuration: Text annotation configuration.</span>
@@ -173,6 +200,8 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No token exclusion list provided. Proceeding ...&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">configuration</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule_collection</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Synonymizer rules not applied for whole text matching&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">):</span>
                 <span class="n">search_config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">force_case_insensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">object_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">search_config</span><span class="p">):</span>
@@ -189,8 +218,15 @@
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Indexing ontology...&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span> <span class="o">=</span> <span class="n">create_lexical_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_directory</span><span class="p">:</span>
+                <span class="n">index_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="si">}</span><span class="s2">-index.yaml&quot;</span>
+                <span class="n">index_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache_directory</span><span class="p">)</span> <span class="o">/</span> <span class="n">index_name</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Caching to </span><span class="si">{</span><span class="n">index_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">index_path</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span> <span class="o">=</span> <span class="n">create_or_load_lexical_index</span><span class="p">(</span>
+                <span class="n">index_path</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">mapping_rule_collection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rule_collection</span>
+            <span class="p">)</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Performing naive search using lexical index&quot;</span><span class="p">)</span>
             <span class="n">li</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span>
             <span class="n">text_lower</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -206,7 +242,7 @@
                     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">grouping</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span>
                         <span class="n">ann</span> <span class="o">=</span> <span class="n">TextAnnotation</span><span class="p">(</span>
                             <span class="n">subject_start</span><span class="o">=</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                            <span class="n">subject_end</span><span class="o">=</span><span class="n">ix</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="n">subject_end</span><span class="o">=</span><span class="n">ix</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">),</span>
                             <span class="n">predicate_id</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
                             <span class="n">object_id</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">element</span><span class="p">,</span>
                             <span class="n">object_label</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">element_term</span><span class="p">,</span>

@@ -18,6 +18,7 @@
       apply_transformation
       create_lexical_index
       create_mapping
+      create_or_load_lexical_index
       inferred_mapping
       inverse_logit
       invert_mapping_predicate

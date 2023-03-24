@@ -96,6 +96,8 @@
       
       LexicalTransformation : params
         
+          LexicalTransformation ..&gt; Any : params
+        
       LexicalTransformation : type
         
           LexicalTransformation ..&gt; TransformationType : type
@@ -128,7 +130,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
 <td><p>Any parameters to be applied to the transformation algorithm</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -206,6 +208,10 @@ attributes:
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    multivalued: true
+    range: Any
+    inlined: true
+    inlined_as_list: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -234,11 +240,14 @@ attributes:
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    multivalued: true
     alias: params
     owner: LexicalTransformation
     domain_of:
     - LexicalTransformation
-    range: string
+    range: Any
+    inlined: true
+    inlined_as_list: true
 
 </pre></div>
 </div>

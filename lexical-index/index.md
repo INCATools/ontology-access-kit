@@ -12,6 +12,7 @@ Name: lexical-index
 | Class | Description |
 | --- | --- |
 | [Activity](Activity.md) | Generic grouping for any lexical operation |
+| [Any](Any.md) |  |
 | [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |
 | [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |
 | [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |

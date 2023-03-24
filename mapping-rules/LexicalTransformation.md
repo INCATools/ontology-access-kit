@@ -15,6 +15,8 @@ URI: [mappingrules:LexicalTransformation](https://w3id.org/oak/mapping-rules-dat
       
       LexicalTransformation : params
         
+          LexicalTransformation ..> Any : params
+        
       LexicalTransformation : type
         
           LexicalTransformation ..> TransformationType : type
@@ -37,7 +39,7 @@ URI: [mappingrules:LexicalTransformation](https://w3id.org/oak/mapping-rules-dat
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation | direct |
-| [params](params.md) | 0..1 <br/> [String](String.md) | Any parameters to be applied to the transformation algorithm | direct |
+| [params](params.md) | 0..* <br/> [Any](Any.md) | Any parameters to be applied to the transformation algorithm | direct |
 
 
 
@@ -108,6 +110,10 @@ attributes:
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    multivalued: true
+    range: Any
+    inlined: true
+    inlined_as_list: true
 
 ```
 </details>
@@ -138,11 +144,14 @@ attributes:
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    multivalued: true
     alias: params
     owner: LexicalTransformation
     domain_of:
     - LexicalTransformation
-    range: string
+    range: Any
+    inlined: true
+    inlined_as_list: true
 
 ```
 </details>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: LexicalTransformation &mdash; oaklib  documentation</title>
+  <title>Slot: predicate_id_one_of &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: LexicalTransformation</li>
+      <li class="breadcrumb-item active">Slot: predicate_id_one_of</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/lexical-index/LexicalTransformation.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/mapping-rules/predicate_id_one_of.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,173 +85,57 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-lexicaltransformation">
-<h1>Class: LexicalTransformation<a class="headerlink" href="#class-lexicaltransformation" title="Permalink to this headline"></a></h1>
-<p><em>An atomic lexical transformation applied on a term (string) yielding a transformed string</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/LexicalTransformation">ontolexindex:LexicalTransformation</a></p>
-<div class="mermaid">
-             classDiagram
-    class LexicalTransformation
-      Activity &lt;|-- LexicalTransformation
-      
-      LexicalTransformation : params
-        
-          LexicalTransformation ..&gt; Any : params
-        
-      LexicalTransformation : type
-        
-          LexicalTransformation ..&gt; TransformationType : type
-        
-      
-        </div><section id="inheritance">
-<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="Activity.html"><span class="doc std std-doc">Activity</span></a></p>
-<ul>
-<li><p><strong>LexicalTransformation</strong></p></li>
-</ul>
-</li>
-</ul>
-</section>
-<section id="slots">
-<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+  <section id="slot-predicate-id-one-of">
+<h1>Slot: predicate_id_one_of<a class="headerlink" href="#slot-predicate-id-one-of" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/predicate_id_one_of">mappingrules:predicate_id_one_of</a></p>
+<!-- no inheritance hierarchy -->
+<section id="applicable-classes">
+<h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Inheritance</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="TransformationType.html"><span class="doc std std-doc">TransformationType</span></a></p></td>
-<td><p>The type of transformation</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
-<td><p>Any parameters to be applied to the transformation algorithm</p></td>
-<td><p>direct</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Precondition.html"><span class="doc std std-doc">Precondition</span></a></p></td>
+<td><p>A pattern to be matched against an individual SSSOM mapping</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="usages">
-<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>used by</p></th>
-<th class="head"><p>used in</p></th>
-<th class="head"><p>type</p></th>
-<th class="head"><p>used</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="LexicalTransformationPipeline.html"><span class="doc std std-doc">LexicalTransformationPipeline</span></a></p></td>
-<td><p><a class="reference internal" href="transformations.html"><span class="doc std std-doc">transformations</span></a></p></td>
-<td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="doc std std-doc">LexicalTransformation</span></a></p></td>
-</tr>
-</tbody>
-</table>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Range: <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></li>
+<li><p>Multivalued: True</p></li>
+</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/oak/lexical-index</p></li>
+<li><p>from schema: https://w3id.org/oak/mapping-rules-datamodel</p></li>
 </ul>
 </section>
 </section>
-<section id="mappings">
-<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
-<th class="head"><p>Mapped Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>self</p></td>
-<td><p>ontolexindex:LexicalTransformation</p></td>
-</tr>
-<tr class="row-odd"><td><p>native</p></td>
-<td><p>ontolexindex:LexicalTransformation</p></td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="linkml-source">
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
-<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
-<section id="direct">
-<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: LexicalTransformation
-description: An atomic lexical transformation applied on a term (string) yielding
-  a transformed string
-from_schema: https://w3id.org/oak/lexical-index
+name: predicate_id_one_of
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
-is_a: Activity
-attributes:
-  type:
-    name: type
-    description: The type of transformation
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    range: TransformationType
-  params:
-    name: params
-    description: Any parameters to be applied to the transformation algorithm
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    multivalued: true
-    range: Any
-    inlined: true
-    inlined_as_list: true
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
-
-### Induced
-
-&lt;details&gt;
-```yaml
-name: LexicalTransformation
-description: An atomic lexical transformation applied on a term (string) yielding
-  a transformed string
-from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
-is_a: Activity
-attributes:
-  type:
-    name: type
-    description: The type of transformation
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    alias: type
-    owner: LexicalTransformation
-    domain_of:
-    - LexicalTransformation
-    range: TransformationType
-  params:
-    name: params
-    description: Any parameters to be applied to the transformation algorithm
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    multivalued: true
-    alias: params
-    owner: LexicalTransformation
-    domain_of:
-    - LexicalTransformation
-    range: Any
-    inlined: true
-    inlined_as_list: true
-
+multivalued: true
+alias: predicate_id_one_of
+owner: Precondition
+domain_of:
+- Precondition
+range: string
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</details></section>
 </section>
 </section>
 

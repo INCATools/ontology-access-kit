@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: LexicalTransformation &mdash; oaklib  documentation</title>
+  <title>Class: Any &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: LexicalTransformation</li>
+      <li class="breadcrumb-item active">Class: Any</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/lexical-index/LexicalTransformation.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/lexical-index/Any.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,34 +85,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-lexicaltransformation">
-<h1>Class: LexicalTransformation<a class="headerlink" href="#class-lexicaltransformation" title="Permalink to this headline"></a></h1>
-<p><em>An atomic lexical transformation applied on a term (string) yielding a transformed string</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/lexical-index/LexicalTransformation">ontolexindex:LexicalTransformation</a></p>
+  <section id="class-any">
+<h1>Class: Any<a class="headerlink" href="#class-any" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/Any">linkml:Any</a></p>
 <div class="mermaid">
              classDiagram
-    class LexicalTransformation
-      Activity &lt;|-- LexicalTransformation
+    class Any
       
-      LexicalTransformation : params
-        
-          LexicalTransformation ..&gt; Any : params
-        
-      LexicalTransformation : type
-        
-          LexicalTransformation ..&gt; TransformationType : type
-        
-      
-        </div><section id="inheritance">
-<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="Activity.html"><span class="doc std std-doc">Activity</span></a></p>
-<ul>
-<li><p><strong>LexicalTransformation</strong></p></li>
-</ul>
-</li>
-</ul>
-</section>
+        </div><!-- no inheritance hierarchy -->
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
@@ -123,18 +103,6 @@
 <th class="head"><p>Inheritance</p></th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="TransformationType.html"><span class="doc std std-doc">TransformationType</span></a></p></td>
-<td><p>The type of transformation</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
-<td><p>Any parameters to be applied to the transformation algorithm</p></td>
-<td><p>direct</p></td>
-</tr>
-</tbody>
 </table>
 </section>
 <section id="usages">
@@ -148,10 +116,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="LexicalTransformationPipeline.html"><span class="doc std std-doc">LexicalTransformationPipeline</span></a></p></td>
-<td><p><a class="reference internal" href="transformations.html"><span class="doc std std-doc">transformations</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="LexicalTransformation.html"><span class="doc std std-doc">LexicalTransformation</span></a></p></td>
+<td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
 <td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="doc std std-doc">LexicalTransformation</span></a></p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Any</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -175,10 +143,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>ontolexindex:LexicalTransformation</p></td>
+<td><p>linkml:Any</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ontolexindex:LexicalTransformation</p></td>
+<td><p>ontolexindex:Any</p></td>
 </tr>
 </tbody>
 </table>
@@ -190,64 +158,20 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: LexicalTransformation
-description: An atomic lexical transformation applied on a term (string) yielding
-  a transformed string
+name: Any
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-is_a: Activity
-attributes:
-  type:
-    name: type
-    description: The type of transformation
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    range: TransformationType
-  params:
-    name: params
-    description: Any parameters to be applied to the transformation algorithm
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    multivalued: true
-    range: Any
-    inlined: true
-    inlined_as_list: true
+class_uri: linkml:Any
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: LexicalTransformation
-description: An atomic lexical transformation applied on a term (string) yielding
-  a transformed string
+name: Any
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-is_a: Activity
-attributes:
-  type:
-    name: type
-    description: The type of transformation
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    alias: type
-    owner: LexicalTransformation
-    domain_of:
-    - LexicalTransformation
-    range: TransformationType
-  params:
-    name: params
-    description: Any parameters to be applied to the transformation algorithm
-    from_schema: https://w3id.org/oak/lexical-index
-    rank: 1000
-    multivalued: true
-    alias: params
-    owner: LexicalTransformation
-    domain_of:
-    - LexicalTransformation
-    range: Any
-    inlined: true
-    inlined_as_list: true
+class_uri: linkml:Any
 
 </pre></div>
 </div>

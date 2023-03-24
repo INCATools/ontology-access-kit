@@ -108,7 +108,8 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></li>
+<li><p>Range: <a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -128,11 +129,14 @@ name: params
 description: Any parameters to be applied to the transformation algorithm
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
+multivalued: true
 alias: params
 owner: LexicalTransformation
 domain_of:
 - LexicalTransformation
-range: string
+range: Any
+inlined: true
+inlined_as_list: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

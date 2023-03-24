@@ -12,6 +12,7 @@ Name: mapping-rules-datamodel
 | Class | Description |
 | --- | --- |
 | [Activity](Activity.md) | Generic grouping for any lexical operation |
+| [Any](Any.md) |  |
 | [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |
 | [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |
 | [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |
@@ -47,6 +48,7 @@ Name: mapping-rules-datamodel
 | [preconditions](preconditions.md) | all of the criteria that must be true before a rule is fired |
 | [predicate](predicate.md) |  |
 | [predicate_id](predicate_id.md) |  |
+| [predicate_id_one_of](predicate_id_one_of.md) |  |
 | [qualifier](qualifier.md) | Type of match for the new synonym generated |
 | [relationships](relationships.md) | All ontology elements grouped and their relationship to the normalized term |
 | [replacement](replacement.md) | Reg-ex rule to replace substrings in labels |

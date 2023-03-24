@@ -17,6 +17,8 @@ URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Pr
         
       Precondition : object_source_one_of
         
+      Precondition : predicate_id_one_of
+        
       Precondition : subject_match_field_one_of
         
       Precondition : subject_source_one_of
@@ -42,6 +44,7 @@ URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Pr
 | [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
 | [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
 | [transformations_included_in](transformations_included_in.md) | 0..* <br/> [String](String.md) |  | direct |
+| [predicate_id_one_of](predicate_id_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
 
 
 
@@ -129,6 +132,11 @@ attributes:
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
+  predicate_id_one_of:
+    name: predicate_id_one_of
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    multivalued: true
 
 ```
 </details>
@@ -198,6 +206,16 @@ attributes:
     rank: 1000
     multivalued: true
     alias: transformations_included_in
+    owner: Precondition
+    domain_of:
+    - Precondition
+    range: string
+  predicate_id_one_of:
+    name: predicate_id_one_of
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    multivalued: true
+    alias: predicate_id_one_of
     owner: Precondition
     domain_of:
     - Precondition
