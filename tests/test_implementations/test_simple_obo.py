@@ -136,7 +136,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         entities = list(self.oi.entities())
         self.assertIn(NUCLEUS, entities)
         self.assertIn(CELLULAR_COMPONENT, entities)
-        self.assertIn("part_of", entities)
+        self.assertIn(PART_OF, entities)
 
     @unittest.skip("TODO")
     def test_relations(self):
@@ -517,3 +517,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
                     alias_list.append(dict(curie=curie, pred=pred, alias=alias))
 
         self.assertEqual(len(alias_list), 3)
+
+    # TextAnnotatorInterface tests
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)

@@ -83,6 +83,9 @@ classes:
         multivalued: true
       transformations_included_in:
         multivalued: true
+      predicate_id_one_of:
+        multivalued: true
+
 
   Postcondition:
     attributes:
