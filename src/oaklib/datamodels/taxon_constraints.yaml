@@ -171,3 +171,12 @@ classes:
         range: boolean
         description: >-
           true if this is a proposed candidate constraint
+
+enums:
+
+  ConfigurationOption:
+    permissible_values:
+      ExcludeRedundant:
+      IncludeRedundant:
+      IncludeNeverInIfRedundantWithOnlyIn:
+      ExcludeNeverInIfRedundantWithOnlyIn:

@@ -1,5 +1,5 @@
 # Auto generated from taxon_constraints.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-17T16:15:28
+# Generation date: 2023-03-24T10:02:05
 # Schema: taxon-constraints
 #
 # id: https://w3id.org/linkml/taxon_constraints
@@ -339,6 +339,19 @@ class TaxonConstraint(YAMLRoot):
 
 
 # Enumerations
+class ConfigurationOption(EnumDefinitionImpl):
+    ExcludeRedundant = PermissibleValue(text="ExcludeRedundant")
+    IncludeRedundant = PermissibleValue(text="IncludeRedundant")
+    IncludeNeverInIfRedundantWithOnlyIn = PermissibleValue(
+        text="IncludeNeverInIfRedundantWithOnlyIn"
+    )
+    ExcludeNeverInIfRedundantWithOnlyIn = PermissibleValue(
+        text="ExcludeNeverInIfRedundantWithOnlyIn"
+    )
+
+    _defn = EnumDefinition(
+        name="ConfigurationOption",
+    )
 
 
 # Slots
