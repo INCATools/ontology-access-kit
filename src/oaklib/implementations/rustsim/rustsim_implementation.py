@@ -5,13 +5,14 @@ import math
 from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple
 
-from rustsim import jaccard_similarity  # , mrca_and_score
+from rustsim import jaccard_similarity , mrca_and_score
 
 from oaklib.datamodels.similarity import (
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -40,6 +41,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         OboGraphInterface.node,
         OboGraphInterface.ancestors,
         SemanticSimilarityInterface.common_ancestors,
+        SqlImplementation.information_content_scores
     ]
 
     def __post_init__(self):
@@ -241,13 +243,8 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
             for a, ic in self.information_content_scores(cas, object_closure_predicates=predicates)
         }
         if len(ics) > 0:
-            # TODO: Uncomment anc, max_ic = rustsim.mrca_and_score(ics)
-            # max_ic = max(ics.values())
-            # best_mrcas = [a for a in ics.keys() if math.isclose(ics[a], max_ic, rel_tol=0.001)]
-            # anc = best_mrcas[0]
+            anc, max_ic = mrca_and_score(ics)
 
-            # anc, max_ic = mrca_and_score(ics)
-            pass
         else:
             max_ic = 0.0
             anc = None
@@ -260,9 +257,9 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         )
         sim.ancestor_information_content = max_ic
         if subject_ancestors is None and isinstance(self, OboGraphInterface):
-            subject_ancestors = self.ancestors(subject, predicates=predicates)
+            subject_ancestors = set(self.ancestors(subject, predicates=predicates))
         if object_ancestors is None and isinstance(self, OboGraphInterface):
-            object_ancestors = self.ancestors(object, predicates=predicates)
+            object_ancestors = set(self.ancestors(object, predicates=predicates))
         if subject_ancestors is not None and object_ancestors is not None:
             sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
         if sim.ancestor_information_content and sim.jaccard_similarity:

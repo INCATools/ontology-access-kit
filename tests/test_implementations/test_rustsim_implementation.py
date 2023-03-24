@@ -1,12 +1,13 @@
 import unittest
 
-from rustsim import jaccard_similarity
+from rustsim import jaccard_similarity, mrca_and_score
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter
 from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
+from tests.test_implementations import ComplianceTester
 
 DB = INPUT_DIR.joinpath("go-nucleus.db")
 
@@ -23,9 +24,15 @@ class TestRustSimImplementation(unittest.TestCase):
             oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
 
         self.oi = oi
+        self.information_content_scores = {
+            "CARO:0000000": 21.05,
+            "BFO:0000002": 0.7069,
+            "BFO:0000003": 14.89
+        }
+        self.compliance_tester = ComplianceTester(self)
 
-    # def test_pairwise_similarity(self):
-    #     pass
+    def test_pairwise_similarity(self):
+        self.compliance_tester.test_pairwise_similarity(self.oi)
 
     def test_rustsim_jaccard(self):
         """Tests Rust implementations of Jaccard semantic similarity."""
@@ -34,3 +41,8 @@ class TestRustSimImplementation(unittest.TestCase):
         jaccard = jaccard_similarity(subj_ancs, obj_ancs)
         calculated_jaccard = len(subj_ancs.intersection(obj_ancs)) / len(subj_ancs.union(obj_ancs))
         self.assertAlmostEqual(calculated_jaccard, jaccard)
+
+    def test_rustsim_mrca(self):
+        expected_tuple = ("CARO:0000000", 21.05)
+        mrca = mrca_and_score(self.information_content_scores)
+        self.assertEqual(mrca, expected_tuple)
