@@ -480,7 +480,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         fake_oi = self.fake_oi
         cases = [
             (PHOTOSYNTHETIC_MEMBRANE, None, False, "direct conflict with fake only_in to Mammalia"),
-            (NUCLEUS, None, True, "no conflicts"),
+            (NUCLEUS, None, False, "conflicts due to nuclear envelope"),
             (NUCLEAR_ENVELOPE, None, False, "conflicts with fake present-in to Bacteria"),
             (
                 REGULATION_OF_BIOLOGICAL_PROCESS,
