@@ -482,3 +482,9 @@ class TestProntoImplementation(unittest.TestCase):
         rule = TextAndLogicalDefinitionMatchOntologyRule()
         results = list(rule.evaluate(self.oi))
         self.assertGreater(len(results), 5)
+
+    # TextAnnotatorInterface tests
+
+    @unittest.skip("TODO: OP labels")
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)

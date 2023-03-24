@@ -49,7 +49,11 @@ from oaklib.datamodels.vocabulary import (
     TERM_REPLACED_BY,
     TERM_TRACKER_ITEM,
 )
-from oaklib.interfaces import MappingProviderInterface, SearchInterface
+from oaklib.interfaces import (
+    MappingProviderInterface,
+    SearchInterface,
+    TextAnnotatorInterface,
+)
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
     associations_subjects,
@@ -1485,3 +1489,25 @@ class ComplianceTester:
                 abs(sim.average_score - expected_avg), error_range, f"TermSet: {ts} Sim: {sim}"
             )
             test.assertLess(abs(sim.best_score - expected_max), error_range)
+
+    # TextAnnotatorInterface tests
+    def test_annotate_text(self, oi: TextAnnotatorInterface):
+        test = self.test
+        cases = [
+            (
+                "The nucleus is the part of the cell that contains the DNA.",
+                3,
+                [(NUCLEUS, "nucleus", 5, 11), (PART_OF, "part of", 20, 26), (CELL, "cell", 32, 35)],
+            ),
+        ]
+        for text, n, expected in cases:
+            anns = list(oi.annotate_text(text))
+            anns = sorted(anns, key=lambda x: x.subject_start)
+            test.assertEqual(n, len(anns))
+            for i, ann in enumerate(anns):
+                print(ann)
+                object_id, object_label, subject_start, subject_end = expected[i]
+                test.assertEqual(object_id, ann.object_id)
+                test.assertEqual(object_label, ann.object_label)
+                test.assertEqual(subject_start, ann.subject_start)
+                test.assertEqual(subject_end, ann.subject_end)

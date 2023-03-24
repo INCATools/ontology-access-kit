@@ -1,9 +1,11 @@
 import logging
 from abc import ABC
 from io import TextIOWrapper
+from pathlib import Path
 from typing import Iterable, Iterator, Optional
 
 from oaklib.datamodels.lexical_index import LexicalIndex
+from oaklib.datamodels.mapping_rules_datamodel import MappingRuleCollection
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
@@ -17,7 +19,7 @@ __all__ = [
     "TextAnnotatorInterface",
 ]
 
-from oaklib.utilities.lexical.lexical_indexer import create_lexical_index
+from oaklib.utilities.lexical.lexical_indexer import create_or_load_lexical_index
 
 TEXT = str
 
@@ -36,20 +38,44 @@ def nen_annotation(text: str, object_id: CURIE, object_label: str) -> TextAnnota
 
 class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     """
-    Performs Named Entity Recognition on texts
+    Finds occurrences of ontology terms in text.
 
-    Currently this is only partially implemented by :class:`.BioportalInterface`
+    This interface defines methods for providing Concept Recognition (CR) (grounding)
+    on texts.
 
-    potential implementations:
+    For example, given a text:
 
-    - zooma
-    - scigraph-annotator
-    - ontorunner
-    - spacy
+        "the mitochondrion of hippocampal neurons"
+
+    An annotator might recognize the concepts "mitochondrion" and "hippocampus neuron"
+    from GO and CL respectively.
+
+    Different adapters may choose to implement this differently. The default implementation is
+    to build a simple textual index from an ontology, using all labels and synonyms, and to perform
+    simple string matching.
+
+    Adapters that talk to a remote endpoint may leverage more advanced strategies, and may obviate
+    the need for a local indexing step. For example, the :ref:`bioportal_implementation` will use
+    the OntoPortal annotate endpoint which is pre-indexed over all >1000 ontologies in bioportal.
+
+
+
+    All return payloads conform to the `TextAnnotation` data model:
+
+     - `<https://w3id.org/oak/text-annotator>`_
     """
 
     lexical_index: Optional[LexicalIndex] = None
     """If present, some implementations may choose to use this"""
+
+    cache_directory: Optional[str] = None
+    """If present, some implementations may choose to cache any ontology indexes here.
+    These may be used in subsequent invocations, it is up to the user to manage this cache."""
+
+    rule_collection: Optional[MappingRuleCollection] = None
+    """
+    Mapping rules to apply to the results of the annotation, including synonymizer rules.
+    """
 
     def annotate_text(
         self,
@@ -59,9 +85,10 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         """
         Annotate a piece of text.
 
-        .. note ::
-
-           the signature of this method may change
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("go.db")
+        >>> for annotation in adapter.annotate_text("The mitochondrion is a membrane-bound organelle"):
+        >>>     print(annotation)
 
         :param text: Text to be annotated.
         :param configuration: Text annotation configuration.
@@ -86,6 +113,8 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
             logging.info("No token exclusion list provided. Proceeding ...")
 
         if configuration.matches_whole_text:
+            if self.rule_collection:
+                logging.warning("Synonymizer rules not applied for whole text matching")
             if isinstance(self, SearchInterface):
                 search_config = SearchConfiguration(force_case_insensitive=True)
                 for object_id in self.basic_search(text, config=search_config):
@@ -102,8 +131,15 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                 )
         else:
             logging.info("Indexing ontology...")
-            if not self.lexical_index:
-                self.lexical_index = create_lexical_index(self)
+            if self.cache_directory:
+                index_name = f"{self.resource.scheme}-{self.resource.slug}-index.yaml"
+                index_path = str(Path(self.cache_directory) / index_name)
+                logging.info(f"Caching to {index_path}")
+            else:
+                index_path = None
+            self.lexical_index = create_or_load_lexical_index(
+                index_path, self, mapping_rule_collection=self.rule_collection
+            )
             logging.info("Performing naive search using lexical index")
             li = self.lexical_index
             text_lower = text.lower()
@@ -119,7 +155,7 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                     for r in grouping.relationships:
                         ann = TextAnnotation(
                             subject_start=ix + 1,
-                            subject_end=ix + len(k) - 1,
+                            subject_end=ix + len(k),
                             predicate_id=r.predicate,
                             object_id=r.element,
                             object_label=r.element_term,

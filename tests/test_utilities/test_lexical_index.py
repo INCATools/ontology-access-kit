@@ -56,19 +56,19 @@ class TestLexicalIndex(unittest.TestCase):
         syn_param = [
             Synonymizer(
                 the_rule="Remove parentheses bound info from the label.",
-                match="r'\([^)]*\)'",  # noqa W605
+                match=r"\([^)]*\)",  # noqa W605
                 match_scope="*",
                 replacement="",
             ),
             Synonymizer(
                 the_rule="Remove box brackets bound info from the label.",
-                match="r'\[[^)]*\]'",  # noqa W605
+                match=r"\[[^)]*\]",  # noqa W605
                 match_scope="*",
                 replacement="",
             ),
             Synonymizer(
                 the_rule="Broad match terms with the term 'other' in them.",
-                match="r'(?i)^Other '",  # noqa W605
+                match=r"(?i)^Other ",  # noqa W605
                 match_scope="*",
                 replacement="",
                 qualifier="broad",
@@ -159,7 +159,7 @@ class TestLexicalIndex(unittest.TestCase):
         syn_param = [
             Synonymizer(
                 the_rule="Broad match terms with the term 'other' in them.",
-                match="r'(?i)^Other '",  # noqa W605
+                match="(?i)^Other ",  # noqa W605
                 match_scope="*",
                 replacement="",
                 qualifier="broad",
