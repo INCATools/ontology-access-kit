@@ -96,6 +96,12 @@ def get_implementation_from_shorthand(
 
 
 def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]:
+    """
+    Given a selector schema (e.g. sqlite, ubergraph, pronto, etc.) return the adapter class.
+
+    :param scheme:
+    :return: adapter (implementation) class that implements the OntologyInterface
+    """
     if scheme == "http" or scheme == "https":
         raise NotImplementedError("Web requests not implemented yet")
     else:

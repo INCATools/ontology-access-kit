@@ -87,6 +87,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     _synonym_scope_pred,
     parse_obo_document,
 )
+from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
@@ -127,6 +128,7 @@ class SimpleOboImplementation(
     PatcherInterface,
     SummaryStatisticsInterface,
     TaxonConstraintInterface,
+    TextAnnotatorInterface,
     DumperInterface,
     MergeInterface,
 ):
@@ -230,7 +232,10 @@ class SimpleOboImplementation(
                 or (owl_type == OWL_CLASS and s.type == "Term")
                 or (owl_type == OWL_OBJECT_PROPERTY and s.type == "Typedef")
             ):
-                yield s_id
+                if s.type == "Typedef":
+                    yield self.map_shorthand_to_curie(s_id)
+                else:
+                    yield s_id
         if not owl_type or owl_type == OWL_CLASS:
             # note that in the case of alt_ids, metadata such as
             # original owl_type is lost. We assume that the original
@@ -687,7 +692,9 @@ class SimpleOboImplementation(
         edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.relationships()]
         return Graph(id="TODO", nodes=nodes, edges=edges)
 
-    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+    def logical_definitions(
+        self, subjects: Optional[Iterable[CURIE]] = None
+    ) -> Iterable[LogicalDefinitionAxiom]:
         for s in subjects:
             t = self._stanza(s, strict=False)
             if not t:

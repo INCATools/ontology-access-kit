@@ -191,7 +191,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
             if isinstance(change, kgcl.NodeChange):
                 about = change.about_node
             elif isinstance(change, kgcl.EdgeChange):
-                about = change.about_edge.subject
+                if isinstance(change, kgcl.EdgeDeletion):
+                    about = change.subject
+                else:
+                    about = change.about_edge.subject
             else:
                 about = None
             partition = RESIDUAL_KEY

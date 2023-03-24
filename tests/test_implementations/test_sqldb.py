@@ -817,3 +817,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_disjoint_with(self):
         self.compliance_tester.test_disjoint_with(self.oi)
+
+    # TextAnnotatorInterface tests
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)

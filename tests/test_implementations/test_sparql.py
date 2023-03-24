@@ -322,3 +322,6 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_merge(self):
         source = SparqlImplementation(OntologyResource(slug=str(INTERNEURON_RDF)))
         self.compliance_tester.test_merge(self.oi, source)
+
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)

@@ -11,7 +11,6 @@ import logging
 import os
 import re
 import secrets
-import subprocess
 import sys
 from collections import defaultdict
 from dataclasses import dataclass
@@ -1467,6 +1466,11 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     help="Text file or list of tokens to filter from input prior to annotation.\
         If passed as text file, each newline separated entry is a distinct text.",
 )
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to https://w3id.org/oak/mapping-rules-datamodel",
+)
 @output_option
 @output_type_option
 def annotate(
@@ -1476,6 +1480,7 @@ def annotate(
     matches_whole_text: bool,
     include_aliases: bool,
     exclude_tokens: str,
+    rules_file: str,
     text_file: TextIO,
     model: str,
     output_type: str,
@@ -1531,36 +1536,36 @@ def annotate(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
     writer.output = output
-
-    if isinstance(impl, TextAnnotatorInterface):
-        if lexical_index_file:
-            if not Path(lexical_index_file).exists():
-                logging.info(f"Creating new index: {lexical_index_file}")
-                impl.lexical_index = create_lexical_index(impl)
-                save_lexical_index(impl.lexical_index, lexical_index_file)
-            else:
-                impl.lexical_index = load_lexical_index(lexical_index_file)
-        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
-        if exclude_tokens:
-            token_exclusion_list = get_exclusion_token_list(exclude_tokens)
-            configuration.token_exclusion_list = token_exclusion_list
-        if model:
-            configuration.model = model
-        configuration.include_aliases = include_aliases
-        # if plugin_config:
-        #     with open(plugin_config, "r") as p:
-        #         configuration.plugin_configuration = yaml.safe_load(p)
-        if words and text_file:
-            raise ValueError("Specify EITHER text-file OR a list of words as arguments")
-        if text_file:
-            for ann in impl.annotate_file(text_file, configuration):
-                writer.emit(ann)
-        else:
-            logging.info(f"Annotating: {words}")
-            for ann in impl.annotate_text(" ".join(list(words)), configuration):
-                writer.emit(ann)
-    else:
+    if not isinstance(impl, TextAnnotatorInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if rules_file:
+        impl.rule_collection = load_mapping_rules(rules_file)
+    if lexical_index_file:
+        if not Path(lexical_index_file).exists():
+            logging.info(f"Creating new index: {lexical_index_file}")
+            impl.lexical_index = create_lexical_index(impl)
+            save_lexical_index(impl.lexical_index, lexical_index_file)
+        else:
+            impl.lexical_index = load_lexical_index(lexical_index_file)
+    configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
+    if exclude_tokens:
+        token_exclusion_list = get_exclusion_token_list(exclude_tokens)
+        configuration.token_exclusion_list = token_exclusion_list
+    if model:
+        configuration.model = model
+    configuration.include_aliases = include_aliases
+    # if plugin_config:
+    #     with open(plugin_config, "r") as p:
+    #         configuration.plugin_configuration = yaml.safe_load(p)
+    if words and text_file:
+        raise ValueError("Specify EITHER text-file OR a list of words as arguments")
+    if text_file:
+        for ann in impl.annotate_file(text_file, configuration):
+            writer.emit(ann)
+    else:
+        logging.info(f"Annotating: {words}")
+        for ann in impl.annotate_text(" ".join(list(words)), configuration):
+            writer.emit(ann)
 
 
 @main.command()
@@ -1710,11 +1715,9 @@ def viz(
     if output_type:
         write_graph(graph, format=output_type, output=output)
     else:
-        imgfile = graph_to_image(
-            graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
+        graph_to_image(
+            graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output, view=view
         )
-        if view:
-            subprocess.run(["open", imgfile])
 
 
 @main.command()
@@ -2181,10 +2184,14 @@ def paths(
         else:
             if stylemap is None:
                 stylemap = default_stylemap_path()
-            imgfile = graph_to_image(
-                path_graph, seeds=all_curies, imgfile=output, stylemap=stylemap, configure=configure
+            graph_to_image(
+                path_graph,
+                seeds=all_curies,
+                imgfile=output,
+                stylemap=stylemap,
+                configure=configure,
+                view=viz,
             )
-            subprocess.run(["open", imgfile])
 
 
 @main.command()

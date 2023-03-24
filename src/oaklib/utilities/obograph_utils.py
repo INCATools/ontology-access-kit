@@ -11,6 +11,7 @@ import logging
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from collections import defaultdict
 from copy import deepcopy
@@ -80,7 +81,9 @@ def draw_graph(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=
     subprocess.run(["open", imgfile])
 
 
-def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None) -> str:
+def graph_to_image(
+    graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None, view=None
+) -> str:
     """
     Renders a graph to png using obographviz
 
@@ -102,7 +105,7 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         raise Exception(
             f"Cannot find {exec} on path. Install from https://github.com/INCATools/obographviz"
         )
-    with tempfile.NamedTemporaryFile(dir="/tmp", mode="w") as tmpfile:
+    with tempfile.NamedTemporaryFile(mode="w") as tmpfile:
         style = {}
         logging.info(f"Seed nodes: {seeds}")
         # if seeds is not None:
@@ -122,6 +125,7 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         tmpfile.write(json_dump)
         logging.debug(f"JSON {json_dump}")
         tmpfile.flush()
+
         if imgfile is None:
             imgfile = f"{temp_file_name}.png"
         style_json = json.dumps(style).replace("'", "\\'")
@@ -132,9 +136,17 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         if seeds is not None:
             for seed in seeds:
                 cmdtoks += ["-H", seed]
+        if sys.platform == "win32":
+            cmdtoks = ["cmd.exe", "/c"] + cmdtoks
+            opencmd = ["cmd.exe", "/c", "start", imgfile]
+        else:
+            opencmd = ["open", imgfile]
         logging.debug(f"Run: {cmdtoks}")
         subprocess.run(cmdtoks)
-        return imgfile
+
+        if view:
+            logging.debug(f"Run: {opencmd}")
+            subprocess.run(opencmd)
 
 
 def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: str = None) -> Graph:

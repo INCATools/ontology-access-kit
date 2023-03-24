@@ -102,6 +102,13 @@ classes:
         description: The type of transformation
       params:
         description: Any parameters to be applied to the transformation algorithm
+        range: Any
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+
+  Any:
+    class_uri: linkml:Any
 
 enums:
   TransformationType:

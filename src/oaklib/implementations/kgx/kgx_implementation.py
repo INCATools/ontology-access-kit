@@ -419,6 +419,9 @@ class KGXImplementation(
         self.add_missing_property_values(curie, m)
         return dict(m)
 
+    def ontologies(self) -> Iterable[CURIE]:
+        yield "TODO"
+
     def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
         return self.entity_metadata_map(ontology, include_all_triples=True)
 

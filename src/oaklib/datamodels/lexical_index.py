@@ -1,5 +1,5 @@
 # Auto generated from lexical_index.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-27T09:56:24
+# Generation date: 2023-03-23T19:29:20
 # Schema: lexical-index
 #
 # id: https://w3id.org/oak/lexical-index
@@ -72,6 +72,10 @@ class LexicalGroupingTerm(extended_str):
 
 
 class LexicalTransformationPipelineName(extended_str):
+    pass
+
+
+class ParameterName(extended_str):
     pass
 
 
@@ -269,16 +273,41 @@ class LexicalTransformation(Activity):
     class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalTransformation
 
     type: Optional[Union[str, "TransformationType"]] = None
-    params: Optional[str] = None
+    params: Optional[Union[Union[dict, "Any"], List[Union[dict, "Any"]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.type is not None and not isinstance(self.type, TransformationType):
             self.type = TransformationType(self.type)
 
-        if self.params is not None and not isinstance(self.params, str):
-            self.params = str(self.params)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Parameter(YAMLRoot):
+    """
+    A parameter to be applied to a transformation
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.Parameter
+    class_class_curie: ClassVar[str] = "ontolexindex:Parameter"
+    class_name: ClassVar[str] = "Parameter"
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.Parameter
+
+    name: Union[str, ParameterName] = None
+    value: Optional[Union[dict, "Any"]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.name):
+            self.MissingRequiredField("name")
+        if not isinstance(self.name, ParameterName):
+            self.name = ParameterName(self.name)
 
         super().__post_init__(**kwargs)
+
+
+Any = Any
 
 
 # Enumerations
@@ -472,5 +501,23 @@ slots.lexicalTransformation__params = Slot(
     curie=ONTOLEXINDEX.curie("params"),
     model_uri=ONTOLEXINDEX.lexicalTransformation__params,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[Union[dict, Any], List[Union[dict, Any]]]],
+)
+
+slots.parameter__name = Slot(
+    uri=ONTOLEXINDEX.name,
+    name="parameter__name",
+    curie=ONTOLEXINDEX.curie("name"),
+    model_uri=ONTOLEXINDEX.parameter__name,
+    domain=None,
+    range=URIRef,
+)
+
+slots.parameter__value = Slot(
+    uri=ONTOLEXINDEX.value,
+    name="parameter__value",
+    curie=ONTOLEXINDEX.curie("value"),
+    model_uri=ONTOLEXINDEX.parameter__value,
+    domain=None,
+    range=Optional[Union[dict, Any]],
 )

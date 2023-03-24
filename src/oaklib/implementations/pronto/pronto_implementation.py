@@ -289,7 +289,8 @@ class ProntoImplementation(
                 continue
             if owl_type and owl_type != OWL_OBJECT_PROPERTY:
                 continue
-            yield t.id
+            curie = self._get_pronto_relationship_type_curie(t)
+            yield curie
         for t in self.wrapped_ontology.synonym_types():
             if owl_type and owl_type != OIO_SYNONYM_TYPE_PROPERTY:
                 continue
