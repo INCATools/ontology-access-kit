@@ -27,7 +27,7 @@ class TestRustSimImplementation(unittest.TestCase):
         self.information_content_scores = {
             "CARO:0000000": 21.05,
             "BFO:0000002": 0.7069,
-            "BFO:0000003": 14.89
+            "BFO:0000003": 14.89,
         }
         self.compliance_tester = ComplianceTester(self)
 
@@ -43,6 +43,7 @@ class TestRustSimImplementation(unittest.TestCase):
         self.assertAlmostEqual(calculated_jaccard, jaccard)
 
     def test_rustsim_mrca(self):
+        """Tests Rust implementations of Most Recent Common Ancestor (mrca) with score."""
         expected_tuple = ("CARO:0000000", 21.05)
         mrca = mrca_and_score(self.information_content_scores)
         self.assertEqual(mrca, expected_tuple)
