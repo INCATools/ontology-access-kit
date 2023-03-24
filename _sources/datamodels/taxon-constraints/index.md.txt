@@ -50,6 +50,7 @@ Name: taxon-constraints
 
 | Enumeration | Description |
 | --- | --- |
+| [ConfigurationOption](ConfigurationOption.md) |  |
 
 
 ## Types
