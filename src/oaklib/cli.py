@@ -1566,6 +1566,7 @@ def annotate(
         logging.info(f"Annotating: {words}")
         for ann in impl.annotate_text(" ".join(list(words)), configuration):
             writer.emit(ann)
+    writer.finish()
 
 
 @main.command()
@@ -1974,6 +1975,7 @@ def ancestors(
                 raise NotImplementedError
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    writer.finish()
 
 
 @main.command()
@@ -2274,6 +2276,7 @@ def descendants(
         curies, predicates=actual_predicates, method=graph_traversal_method
     )
     writer.emit_multiple(result_it)
+    writer.finish()
 
 
 @main.command()
@@ -2528,6 +2531,7 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
         writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    writer.finish()
 
 
 @main.command()
@@ -3466,6 +3470,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
                 if autolabel:
                     impl.inject_mapping_labels([mapping])
                 writer.emit(mapping)
+    writer.finish()
 
 
 @main.command()
@@ -3569,6 +3574,7 @@ def aliases(terms, output, output_type, obo_model):
                         writer.emit(dict(curie=curie, pred=pred, alias=alias))
         else:
             raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    writer.finish()
 
 
 @main.command()
