@@ -1566,6 +1566,7 @@ def annotate(
         logging.info(f"Annotating: {words}")
         for ann in impl.annotate_text(" ".join(list(words)), configuration):
             writer.emit(ann)
+    writer.finish()
 
 
 @main.command()
@@ -3569,6 +3570,7 @@ def aliases(terms, output, output_type, obo_model):
                         writer.emit(dict(curie=curie, pred=pred, alias=alias))
         else:
             raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    writer.finish()
 
 
 @main.command()
