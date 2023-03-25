@@ -1975,6 +1975,7 @@ def ancestors(
                 raise NotImplementedError
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    writer.finish()
 
 
 @main.command()
@@ -2275,6 +2276,7 @@ def descendants(
         curies, predicates=actual_predicates, method=graph_traversal_method
     )
     writer.emit_multiple(result_it)
+    writer.finish()
 
 
 @main.command()
@@ -2529,6 +2531,7 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
         writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    writer.finish()
 
 
 @main.command()
