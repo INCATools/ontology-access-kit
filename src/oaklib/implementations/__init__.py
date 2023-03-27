@@ -40,6 +40,9 @@ from oaklib.implementations.sparql.oak_metamodel_implementation import (
 )
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.implementations.translator.translator_implementation import (
+    TranslatorImplementation,
+)
 from oaklib.implementations.ubergraph.ubergraph_implementation import (
     UbergraphImplementation,
 )
@@ -69,6 +72,7 @@ __all__ = [
     "FunOwlImplementation",
     "GildaImplementation",
     "KGXImplementation",
+    "TranslatorImplementation",
     "OakMetaModelImplementation",
 ]
 
