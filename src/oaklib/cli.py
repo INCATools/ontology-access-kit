@@ -3754,7 +3754,9 @@ def taxon_constraints(
     - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer = _get_writer(
+        output_type, impl, StreamingYamlWriter, datamodel=datamodels.taxon_constraints
+    )
     writer.output = output
     if all:
         if terms:
@@ -3782,6 +3784,7 @@ def taxon_constraints(
             logging.debug(f"{st.id} has no direct constraints - skipping")
             continue
         writer.emit(st)
+    writer.finish()
 
 
 @main.command()

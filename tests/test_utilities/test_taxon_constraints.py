@@ -36,7 +36,7 @@ from tests import (
 )
 
 GAIN_LOSS_FILE = INPUT_DIR / "go-evo-gains-losses.csv"
-TEST_INCONSISTENT = INPUT_DIR / "taxon-constraint-test.obo"
+TEST_INCONSISTENT = INPUT_DIR / "taxon-constraint-test.obo"  # contains deliberate errors
 DB = INPUT_DIR / "go-nucleus.db"
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
@@ -73,11 +73,38 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         """
         Tests multiple possible combinations of taxon constraints.
         """
+        # CASES TUPLES:
+        # subject_id,
+        # predicates,
+        # include_redundant,
+        # include_redundant_with_only_in,
+        # expected_never,
+        # expected_only,
+        # expected_present_in,
+        # desc,
         cases = [
-            (MEMBRANE, None, True, True, [], [], [], "No TCs on general term"),
-            (INTRACELLULAR, [IS_A, PART_OF], True, True, [], [CELLULAR_ORGANISMS], [], ""),
-            (INTRACELLULAR, [IS_A, PART_OF], False, True, [], [CELLULAR_ORGANISMS], [], ""),
-            (NUCLEUS, [], True, True, [BACTERIA], [EUKARYOTA], [], "TCs are direct"),
+            (MEMBRANE, None, True, True, [], [], [HUMAN, FUNGI], "No TCs on general term"),
+            (
+                INTRACELLULAR,
+                [IS_A, PART_OF],
+                True,
+                True,
+                [],
+                [CELLULAR_ORGANISMS],
+                [HUMAN, FUNGI],
+                "intracellular implies cell, which implies cellular organism",
+            ),
+            (
+                INTRACELLULAR,
+                [IS_A, PART_OF],
+                False,
+                True,
+                [],
+                [CELLULAR_ORGANISMS],
+                [HUMAN, FUNGI],
+                "intracellular implies cell, which implies cellular organism (nr)",
+            ),
+            (NUCLEUS, [], True, True, [BACTERIA], [EUKARYOTA], [HUMAN, FUNGI], "TCs are direct"),
             (NUCLEAR_MEMBRANE, [], True, True, [], [], [HUMAN, FUNGI], "direct present-in"),
             (
                 NUCLEAR_MEMBRANE,
@@ -92,11 +119,11 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             (
                 NUCLEUS,
                 [],
-                True,
+                False,
                 False,
                 [],
                 [EUKARYOTA],
-                [],
+                [HUMAN, FUNGI],
                 "never in bacteria redundant with only in eukaryota",
             ),
             (
@@ -106,7 +133,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 True,
                 [BACTERIA],
                 [EUKARYOTA],
-                [],
+                [HUMAN, FUNGI],
                 "use ALL predicates (no redundant)",
             ),
             (NUCLEUS, [IS_A], True, True, [BACTERIA], [EUKARYOTA], [], "use is-a only"),
@@ -117,8 +144,8 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 True,
                 [BACTERIA],
                 [EUKARYOTA, CELLULAR_ORGANISMS],
-                [],
-                "includes redundant from ancestors",
+                [HUMAN, FUNGI],
+                "includes redundant from ancestors (nucleus)",
             ),
             (
                 NUCLEUS,
@@ -127,10 +154,10 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 True,
                 [BACTERIA],
                 [EUKARYOTA],
-                [],
-                "excludes redundant from ancestors",
+                [HUMAN, FUNGI],
+                "excludes redundant from ancestors (nucleus)",
             ),
-            (NUCLEAR_ENVELOPE, [], True, True, [], [], [], "No TCs on direct"),
+            (NUCLEAR_ENVELOPE, [], True, True, [], [], [HUMAN, FUNGI], "No TCs on direct"),
             (
                 NUCLEAR_ENVELOPE,
                 [IS_A, PART_OF],
@@ -138,8 +165,8 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 True,
                 [BACTERIA],
                 [EUKARYOTA, CELLULAR_ORGANISMS],
-                [],
-                "includes redundant from ancestors",
+                [HUMAN, FUNGI],
+                "includes redundant from ancestors (nuclear envelope)",
             ),
             (
                 NUCLEAR_ENVELOPE,
@@ -148,8 +175,8 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 True,
                 [BACTERIA],
                 [EUKARYOTA],
-                [],
-                "excludes redundant from ancestors",
+                [HUMAN, FUNGI],
+                "excludes redundant from ancestors (nuclear envelope)",
             ),
             (
                 PHOTOSYNTHETIC_MEMBRANE,
@@ -172,35 +199,37 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 "plants and some bacteria",
             ),
         ]
-        for (
-            subject_id,
-            predicates,
-            include_redundant,
-            include_redundant_with_only_in,
-            expected_never,
-            expected_only,
-            expected_present_in,
-            desc,
-        ) in cases:
-            desc = f"{desc} ({subject_id})"
+        for case in cases:
+            (
+                subject_id,
+                predicates,
+                include_redundant,
+                include_redundant_with_only_in,
+                expected_never,
+                expected_only,
+                expected_present_in,
+                desc,
+            ) = case
+            logging.debug(f"Case={case}")
+            desc = f""""DESC={desc}
+                        term={subject_id} preds={predicates}
+                        redundant? {include_redundant} ({include_redundant_with_only_in})
+                        N={expected_never}
+                        O={expected_only}
+                        P={expected_present_in}"""
             st = self.oi.get_term_with_taxon_constraints(
-                subject_id, predicates, include_redundant=include_redundant is not False
+                subject_id,
+                predicates,
+                include_redundant=include_redundant is not False,
+                include_never_in_even_if_redundant_with_only_in=include_redundant_with_only_in,
             )
-            never = list(
-                set(
-                    [
-                        tc.taxon.id
-                        for tc in st.never_in
-                        if not tc.redundant_with_only_in or include_redundant_with_only_in
-                    ]
-                )
-            )
+            never = list(set([tc.taxon.id for tc in st.never_in]))
             only = list(set([tc.taxon.id for tc in st.only_in]))
             present_in = list(set([tc.taxon.id for tc in st.present_in]))
-            print(
+            logging.debug(
                 f"D: {desc}, preds={predicates}, only_in={only}, never_in={never}, present_in={present_in}"
             )
-            self.assertCountEqual(expected_never, never, desc)
+            self.assertCountEqual(expected_never, never, f"Never in mismatch: {desc}")
             self.assertCountEqual(expected_only, only, desc)
             self.assertCountEqual(expected_present_in, present_in, desc)
             test_st = self.oi.get_term_with_taxon_constraints(
@@ -237,22 +266,22 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 [HUMAN],
                 [],
                 [],
-                True,
+                False,
                 [],
                 [],
                 [],
-                "fake: membrane only in humans would be novel",
+                "fake: membrane only in humans conflicts with present-in Fungi",
             ),
             (
                 MEMBRANE,
                 [],
                 [HUMAN],
                 [],
-                True,
+                False,
                 [],
                 [],
                 [],
-                "fake: membrane never in humans would be novel",
+                "fake: membrane never in humans conflicts with present-in Human",
             ),
             (
                 SOROCARP_STALK_DEVELOPMENT,
@@ -278,7 +307,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             ),
         ]
         for case in cases:
-            print(case)
+            logging.debug(case)
             (
                 subject_id,
                 only,
@@ -293,7 +322,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             desc = f"{desc} ({subject_id})"
             candidate_st = make_tcs(subject_id, only, never, present)
             st = oi.eval_candidate_taxon_constraint(candidate_st)
-            print(yaml_dumper.dumps(st))
+            logging.info(yaml_dumper.dumps(st))
             self.assertEqual(satisfiable, not st.unsatisfiable, desc)
             self.assertCountEqual(
                 only_in_redundant, [tc.taxon.id for tc in st.only_in if tc.redundant], desc
@@ -359,7 +388,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 [DICTYOSTELIUM_DISCOIDEUM],
             ),
         )
-        print(yaml_dumper.dumps(st))
+        logging.info(yaml_dumper.dumps(st))
         # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.unsatisfiable)
         [never_in_fungi] = [tc for tc in st.never_in if tc.taxon.id == FUNGI]
@@ -378,7 +407,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertTrue(only_in_union.redundant)
         self.assertEqual(only_in_union.redundant_with[0].taxon.id, DICTYOSTELIUM)
         # self.assertEqual(only_in_union.redundant_with[0].via_terms[0].id, SOROCARP_STALK_DEVELOPMENT)
-        # test: nuclear envelope, redundant assertsion
+        # test: nuclear envelope, redundant assertion
         st = oi.eval_candidate_taxon_constraint(
             make_tcs(
                 NUCLEAR_ENVELOPE,
@@ -387,21 +416,21 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 [HUMAN, DICTYOSTELIUM_DISCOIDEUM],
             ),
         )
-        # logging.info(yaml_dumper.dumps(st))
+        logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.unsatisfiable)
-        self.assertTrue(st.never_in[0].redundant)
-        self.assertTrue(st.never_in[0].redundant_with_only_in)
         self.assertTrue(st.only_in[0].redundant)
+        self.assertEqual(EUKARYOTA, st.only_in[0].redundant_with[0].taxon.id)
+        self.assertEqual(NUCLEUS, st.only_in[0].redundant_with[0].via_terms[0].id)
+        self.assertFalse(st.never_in[0].redundant, "not strictly redundant")
+        self.assertTrue(st.never_in[0].redundant_with_only_in)
         # self.assertEqual(st.only_in[0].redundant_with[0].subject, NUCLEUS)
-        self.assertEqual(st.only_in[0].redundant_with[0].taxon.id, EUKARYOTA)
-        self.assertEqual(st.only_in[0].redundant_with[0].via_terms[0].id, NUCLEUS)
         # test: nuclear envelope, [fake] non-redundant
         st = oi.eval_candidate_taxon_constraint(
             make_tcs(NUCLEAR_ENVELOPE, [CELLULAR_ORGANISMS], [BACTERIA], [HUMAN, DICTYOSTELIUM])
         )
         # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.unsatisfiable)
-        self.assertTrue(st.never_in[0].redundant)
+        self.assertFalse(st.never_in[0].redundant, "not strictly redundant")
         self.assertTrue(st.never_in[0].redundant_with_only_in)
         self.assertTrue(st.only_in[0].redundant)
         # self.assertEqual(st.only_in[0].redundant_with[0].subject, NUCLEUS)
@@ -447,10 +476,11 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         """
         Tests detection of inconsistencies.
         """
+        # use a fake ontology with a deliberate error (phosphorylation is only in mammals)
         fake_oi = self.fake_oi
         cases = [
             (PHOTOSYNTHETIC_MEMBRANE, None, False, "direct conflict with fake only_in to Mammalia"),
-            (NUCLEUS, None, True, "no conflicts"),
+            (NUCLEUS, None, False, "conflicts due to nuclear envelope"),
             (NUCLEAR_ENVELOPE, None, False, "conflicts with fake present-in to Bacteria"),
             (
                 REGULATION_OF_BIOLOGICAL_PROCESS,
@@ -473,8 +503,8 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         ]
         for subject, preds, satisfiable, desc in cases:
             st = fake_oi.get_term_with_taxon_constraints(subject, predicates=preds)
-            # logging.info(yaml_dumper.dumps(st))
-            self.assertEqual(bool(st.unsatisfiable), not satisfiable, desc)
+            logging.debug(yaml_dumper.dumps(st))
+            self.assertEqual(bool(st.unsatisfiable), not satisfiable, f"{desc} // {subject}")
 
     def test_all_entities(self):
         oi = self.oi

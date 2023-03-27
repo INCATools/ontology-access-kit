@@ -202,6 +202,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         # this implements a traversal approach that iteratively walks up the graph;
         # this may be inefficient. It is recommended that different implementations
         # override this with a more efficient method that leverages cached tables
+        logging.info(f"Computing ancestor graph for {start_curies} using graph walking")
         g = self._graph(walk_up(self, start_curies, predicates=predicates))
         if self.transitive_query_cache is not None:
             self.transitive_query_cache[key] = g
