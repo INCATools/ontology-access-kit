@@ -3470,7 +3470,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
                 if autolabel:
                     impl.inject_mapping_labels([mapping])
                 writer.emit(mapping)
-    # writer.finish()
+    writer.finish()
 
 
 @main.command()
