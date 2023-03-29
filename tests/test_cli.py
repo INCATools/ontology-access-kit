@@ -420,7 +420,6 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(len(msdf.prefix_map), 14)
         self.assertIn("BFO", msdf.prefix_map)
 
-
     def test_mappings_json(self):
         mappings_output = OUTPUT_DIR.joinpath("test_mappings.json")
 
