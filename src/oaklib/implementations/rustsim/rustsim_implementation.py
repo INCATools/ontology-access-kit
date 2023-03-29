@@ -1,13 +1,17 @@
 """Rust implementation of semantic similarity measures."""
+from collections import defaultdict
 import inspect
 import logging
 import math
 from dataclasses import dataclass
+import statistics
 from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple
 
-from rustsim import jaccard_similarity, mrca_and_score
+from rustsim import get_intersection, jaccard_similarity, mrca_and_score
 
 from oaklib.datamodels.similarity import (
+    BestMatch,
+    TermInfo,
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
@@ -39,9 +43,8 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         BasicOntologyInterface.obsoletes,
         SearchInterface.basic_search,
         OboGraphInterface.node,
-        OboGraphInterface.ancestors,
-        SemanticSimilarityInterface.common_ancestors,
         SqlImplementation.information_content_scores,
+        SqlImplementation.ancestors,
     ]
 
     def __post_init__(self):
@@ -120,39 +123,39 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         # else:
         raise NotImplementedError
 
-    # def common_ancestors(
-    #     self,
-    #     subject: CURIE,
-    #     object: CURIE,
-    #     predicates: List[PRED_CURIE] = None,
-    #     subject_ancestors: List[CURIE] = None,
-    #     object_ancestors: List[CURIE] = None,
-    #     include_owl_thing: bool = True,
-    # ) -> Iterable[CURIE]:
-    #     """
-    #     Common ancestors of a subject-object pair
+    def common_ancestors(
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        subject_ancestors: List[CURIE] = None,
+        object_ancestors: List[CURIE] = None,
+        include_owl_thing: bool = True,
+    ) -> Iterable[CURIE]:
+        """
+        Common ancestors of a subject-object pair
 
-    #     :param subject:
-    #     :param object:
-    #     :param predicates:
-    #     :param subject_ancestors: optional pre-generated ancestor list
-    #     :param object_ancestors: optional pre-generated ancestor list
-    #     :param include_owl_thing:
-    #     :return:
-    #     """
-    #     if subject_ancestors is not None and object_ancestors is not None:
-    #         subject_ancestors = set(subject_ancestors)
-    #         object_ancestors = set(object_ancestors)
-    #     elif isinstance(self, OboGraphInterface):
-    #         subject_ancestors = set(self.ancestors(subject, predicates))
-    #         object_ancestors = set(self.ancestors(object, predicates))
-    #     else:
-    #         raise NotImplementedError
-    #     if include_owl_thing:
-    #         subject_ancestors.add(OWL_THING)
-    #         object_ancestors.add(OWL_THING)
-    #     for a in subject_ancestors.intersection(object_ancestors):
-    #         yield a
+        :param subject:
+        :param object:
+        :param predicates:
+        :param subject_ancestors: optional pre-generated ancestor list
+        :param object_ancestors: optional pre-generated ancestor list
+        :param include_owl_thing:
+        :return:
+        """
+        if subject_ancestors is not None and object_ancestors is not None:
+            subject_ancestors = set(subject_ancestors)
+            object_ancestors = set(object_ancestors)
+        elif isinstance(self, OboGraphInterface):
+            subject_ancestors = set(self.ancestors(subject, predicates))
+            object_ancestors = set(self.ancestors(object, predicates))
+        else:
+            raise NotImplementedError
+        if include_owl_thing:
+            subject_ancestors.add(OWL_THING)
+            object_ancestors.add(OWL_THING)
+        for a in get_intersection(subject_ancestors, object_ancestors):
+            yield a
 
     def common_descendants(
         self,
@@ -175,12 +178,11 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         :param predicates:
         :return:
         """
-        # pairs = list(self.information_content_scores([curie], object_closure_predicates=predicates))
-        # if pairs:
-        #     if len(pairs) > 1:
-        #         raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
-        #     return pairs[0][1]
-        raise NotImplementedError
+        pairs = list(self.information_content_scores([curie], object_closure_predicates=predicates))
+        if pairs:
+            if len(pairs) > 1:
+                raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
+            return pairs[0][1]
 
     def information_content_scores(
         self,
@@ -205,6 +207,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         :param object_closure_predicates:
         :return:
         """
+        # * Currently implemented via SQLImplementation
         raise NotImplementedError
 
     def pairwise_similarity(
@@ -258,8 +261,10 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         sim.ancestor_information_content = max_ic
         if subject_ancestors is None and isinstance(self, OboGraphInterface):
             subject_ancestors = set(self.ancestors(subject, predicates=predicates))
+            subject_ancestors.add(subject)
         if object_ancestors is None and isinstance(self, OboGraphInterface):
             object_ancestors = set(self.ancestors(object, predicates=predicates))
+            object_ancestors.add(object)
         if subject_ancestors is not None and object_ancestors is not None:
             sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
         if sim.ancestor_information_content and sim.jaccard_similarity:
@@ -275,64 +280,63 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         predicates: List[PRED_CURIE] = None,
         labels=False,
     ) -> TermSetPairwiseSimilarity:
-        # curies = set(subjects + objects)
-        # pairs = list(self.all_by_all_pairwise_similarity(subjects, objects, predicates=predicates))
-        # bm_subject_score = defaultdict(float)
-        # bm_subject = {}
-        # bm_subject_sim = {}
-        # bm_object_score = defaultdict(float)
-        # bm_object = {}
-        # bm_object_sim = {}
-        # sim = TermSetPairwiseSimilarity()
-        # for x in subjects:
-        #     sim.subject_termset[x] = TermInfo(x)
-        # for x in objects:
-        #     sim.object_termset[x] = TermInfo(x)
-        # for pair in pairs:
-        #     st = pair.subject_id
-        #     ot = pair.object_id
-        #     if pair.ancestor_information_content > bm_subject_score[st]:
-        #         bm_subject_score[st] = pair.ancestor_information_content
-        #         bm_subject[st] = ot
-        #         bm_subject_sim[st] = pair
-        #         curies.add(ot)
-        #         curies.add(pair.ancestor_id)
-        #     if pair.ancestor_information_content > bm_object_score[ot]:
-        #         bm_object_score[ot] = pair.ancestor_information_content
-        #         bm_object[ot] = st
-        #         bm_object_sim[ot] = pair
-        #         curies.add(ot)
-        #         curies.add(pair.ancestor_id)
-        # scores = []
-        # for s, t in bm_subject.items():
-        #     score = bm_subject_score[s]
-        #     sim.subject_best_matches[s] = BestMatch(
-        #         s, match_target=t, score=score, similarity=bm_subject_sim[s]
-        #     )
-        #     scores.append(score)
-        # for s, t in bm_object.items():
-        #     score = bm_object_score[s]
-        #     sim.object_best_matches[s] = BestMatch(
-        #         s, match_target=t, score=score, similarity=bm_object_sim[s]
-        #     )
-        #     scores.append(score)
-        # if not scores:
-        #     scores = [0.0]
-        # sim.average_score = statistics.mean(scores)
-        # sim.best_score = max(scores)
-        # if labels:
-        #     label_ix = {k: v for k, v in self.labels(curies)}
-        #     for x in list(sim.subject_termset.values()) + list(sim.object_termset.values()):
-        #         x.label = label_ix.get(x.id, None)
-        #     for x in list(sim.subject_best_matches.values()) + list(
-        #         sim.object_best_matches.values()
-        #     ):
-        #         x.match_target_label = label_ix.get(x.match_target, None)
-        #         x.match_source_label = label_ix.get(x.match_source, None)
-        #         x.similarity.ancestor_label = label_ix.get(x.similarity.ancestor_id, None)
+        curies = set(subjects + objects)
+        pairs = list(self.all_by_all_pairwise_similarity(subjects, objects, predicates=predicates))
+        bm_subject_score = defaultdict(float)
+        bm_subject = {}
+        bm_subject_sim = {}
+        bm_object_score = defaultdict(float)
+        bm_object = {}
+        bm_object_sim = {}
+        sim = TermSetPairwiseSimilarity()
+        for x in subjects:
+            sim.subject_termset[x] = TermInfo(x)
+        for x in objects:
+            sim.object_termset[x] = TermInfo(x)
+        for pair in pairs:
+            st = pair.subject_id
+            ot = pair.object_id
+            if pair.ancestor_information_content > bm_subject_score[st]:
+                bm_subject_score[st] = pair.ancestor_information_content
+                bm_subject[st] = ot
+                bm_subject_sim[st] = pair
+                curies.add(ot)
+                curies.add(pair.ancestor_id)
+            if pair.ancestor_information_content > bm_object_score[ot]:
+                bm_object_score[ot] = pair.ancestor_information_content
+                bm_object[ot] = st
+                bm_object_sim[ot] = pair
+                curies.add(ot)
+                curies.add(pair.ancestor_id)
+        scores = []
+        for s, t in bm_subject.items():
+            score = bm_subject_score[s]
+            sim.subject_best_matches[s] = BestMatch(
+                s, match_target=t, score=score, similarity=bm_subject_sim[s]
+            )
+            scores.append(score)
+        for s, t in bm_object.items():
+            score = bm_object_score[s]
+            sim.object_best_matches[s] = BestMatch(
+                s, match_target=t, score=score, similarity=bm_object_sim[s]
+            )
+            scores.append(score)
+        if not scores:
+            scores = [0.0]
+        sim.average_score = statistics.mean(scores)
+        sim.best_score = max(scores)
+        if labels:
+            label_ix = {k: v for k, v in self.labels(curies)}
+            for x in list(sim.subject_termset.values()) + list(sim.object_termset.values()):
+                x.label = label_ix.get(x.id, None)
+            for x in list(sim.subject_best_matches.values()) + list(
+                sim.object_best_matches.values()
+            ):
+                x.match_target_label = label_ix.get(x.match_target, None)
+                x.match_source_label = label_ix.get(x.match_source, None)
+                x.similarity.ancestor_label = label_ix.get(x.similarity.ancestor_id, None)
 
-        # return sim
-        raise NotImplementedError
+        return sim
 
     def all_by_all_pairwise_similarity(
         self,
@@ -348,8 +352,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         :param predicates:
         :return:
         """
-        # objects = list(objects)
-        # for s in subjects:
-        #     for o in objects:
-        #         yield self.pairwise_similarity(s, o, predicates=predicates)
-        raise NotImplementedError
+        objects = list(objects)
+        for s in subjects:
+            for o in objects:
+                yield self.pairwise_similarity(s, o, predicates=predicates)

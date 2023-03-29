@@ -473,18 +473,18 @@ css = ["tinycss2 (>=1.1.0,<1.2)"]
 
 [[package]]
 name = "boto3"
-version = "1.26.98"
+version = "1.26.101"
 description = "The AWS SDK for Python"
 category = "main"
 optional = true
 python-versions = ">= 3.7"
 files = [
-    {file = "boto3-1.26.98-py3-none-any.whl", hash = "sha256:983ec9e539431c29b5265e435b91af7c0d77a75809e173427798edb4ede1d69c"},
-    {file = "boto3-1.26.98.tar.gz", hash = "sha256:f35a42c6d0130a75e58485efa94383256d9b8c72c3a31ad872807873a8800363"},
+    {file = "boto3-1.26.101-py3-none-any.whl", hash = "sha256:5f5279a63b359ba8889e9a81b319e745b14216608ffb5a39fcbf269d1af1ea83"},
+    {file = "boto3-1.26.101.tar.gz", hash = "sha256:670ae4d1875a2162e11c6e941888817c3e9cf1bb9a3335b3588d805b7d24da31"},
 ]
 
 [package.dependencies]
-botocore = ">=1.29.98,<1.30.0"
+botocore = ">=1.29.101,<1.30.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.6.0,<0.7.0"
 
@@ -493,14 +493,14 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.29.98"
+version = "1.29.101"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = true
 python-versions = ">= 3.7"
 files = [
-    {file = "botocore-1.29.98-py3-none-any.whl", hash = "sha256:ae906c1feb56063a38ffd2280232fa44d634057825470d3beed274925088cb42"},
-    {file = "botocore-1.29.98.tar.gz", hash = "sha256:b74283ff71eb4e57edfa5cf6dc36d959b1eec618a2b1e5e781643184857dd1c4"},
+    {file = "botocore-1.29.101-py3-none-any.whl", hash = "sha256:60c7a7bf8e2a288735e507007a6769be03dc24815f7dc5c7b59b12743f4a31cf"},
+    {file = "botocore-1.29.101.tar.gz", hash = "sha256:7bb60d9d4c49500df55dfb6005c16002703333ff5f69dada565167c8d493dfd5"},
 ]
 
 [package.dependencies]
@@ -1094,19 +1094,19 @@ files = [
 
 [[package]]
 name = "filelock"
-version = "3.10.4"
+version = "3.10.7"
 description = "A platform independent file lock."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "filelock-3.10.4-py3-none-any.whl", hash = "sha256:6d332dc5c896f18ba93a21d987155e97c434a96d3fe4042ca70d0b3b46e3b470"},
-    {file = "filelock-3.10.4.tar.gz", hash = "sha256:9fc1734dbddcdcd4aaa02c160dd94db5272b92dfa859b44ec8df28e160b751f0"},
+    {file = "filelock-3.10.7-py3-none-any.whl", hash = "sha256:bde48477b15fde2c7e5a0713cbe72721cb5a5ad32ee0b8f419907960b9d75536"},
+    {file = "filelock-3.10.7.tar.gz", hash = "sha256:892be14aa8efc01673b5ed6589dbccb95f9a8596f0507e232626155495c18105"},
 ]
 
 [package.extras]
 docs = ["furo (>=2022.12.7)", "sphinx (>=6.1.3)", "sphinx-autodoc-typehints (>=1.22,!=1.23.4)"]
-testing = ["covdefaults (>=2.3)", "coverage (>=7.2.2)", "pytest (>=7.2.2)", "pytest-cov (>=4)", "pytest-timeout (>=2.1)"]
+testing = ["covdefaults (>=2.3)", "coverage (>=7.2.2)", "diff-cover (>=7.5)", "pytest (>=7.2.2)", "pytest-cov (>=4)", "pytest-mock (>=3.10)", "pytest-timeout (>=2.1)"]
 
 [[package]]
 name = "flask"
@@ -1709,21 +1709,22 @@ files = [
 
 [[package]]
 name = "ipywidgets"
-version = "8.0.5"
+version = "8.0.6"
 description = "Jupyter interactive widgets"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "ipywidgets-8.0.5-py3-none-any.whl", hash = "sha256:a6e5c0392f86207fae304688a670afb26b2fd819592cfc0812777c2fdf22dbad"},
-    {file = "ipywidgets-8.0.5.tar.gz", hash = "sha256:89a1930b9ef255838571a2415cc4a15e824e4316b8f067805d1d03b98b6a8c5f"},
+    {file = "ipywidgets-8.0.6-py3-none-any.whl", hash = "sha256:a60bf8d2528997e05ac83fd19ea2fbe65f2e79fbe1b2b35779bdfc46c2941dcc"},
+    {file = "ipywidgets-8.0.6.tar.gz", hash = "sha256:de7d779f2045d60de9f6c25f653fdae2dba57898e6a1284494b3ba20b6893bb8"},
 ]
 
 [package.dependencies]
+ipykernel = ">=4.5.1"
 ipython = ">=6.1.0"
-jupyterlab-widgets = ">=3.0,<4.0"
+jupyterlab-widgets = ">=3.0.7,<3.1.0"
 traitlets = ">=4.3.1"
-widgetsnbextension = ">=4.0,<5.0"
+widgetsnbextension = ">=4.0.7,<4.1.0"
 
 [package.extras]
 test = ["ipykernel", "jsonschema", "pytest (>=3.6.0)", "pytest-cov", "pytz"]
@@ -2135,14 +2136,14 @@ files = [
 
 [[package]]
 name = "jupyterlab-widgets"
-version = "3.0.6"
+version = "3.0.7"
 description = "Jupyter interactive widgets for JupyterLab"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "jupyterlab_widgets-3.0.6-py3-none-any.whl", hash = "sha256:e95d08adf4f9c37a57da5fff8a65d00480199885fd2ecd2583fd9560b594b4e9"},
-    {file = "jupyterlab_widgets-3.0.6.tar.gz", hash = "sha256:a464d68a7b9ebabdc135196389381412a39503d89302be0867d0ff3b2428ebb8"},
+    {file = "jupyterlab_widgets-3.0.7-py3-none-any.whl", hash = "sha256:c73f8370338ec19f1bec47254752d6505b03601cbd5a67e6a0b184532f73a459"},
+    {file = "jupyterlab_widgets-3.0.7.tar.gz", hash = "sha256:c3a50ed5bf528a0c7a869096503af54702f86dda1db469aee1c92dc0c01b43ca"},
 ]
 
 [[package]]
@@ -2198,14 +2199,14 @@ regex = ["regex"]
 
 [[package]]
 name = "linkml"
-version = "1.4.11"
+version = "1.5.0"
 description = "Linked Open Data Modeling Language"
 category = "main"
 optional = false
 python-versions = ">=3.7.6,<4.0.0"
 files = [
-    {file = "linkml-1.4.11-py3-none-any.whl", hash = "sha256:2811af5c6a69fb5b8acc4c85741b6aa6d17ef5579a0118a5028025d8a2480866"},
-    {file = "linkml-1.4.11.tar.gz", hash = "sha256:ac5260a0cab15b36dbf2929afc43d7bc8e8af0e198ade7ee90be1dad8fd8d743"},
+    {file = "linkml-1.5.0-py3-none-any.whl", hash = "sha256:8f8d23f7f7bd6a10a5130d28ea576f7ceccd14e123ad4c0365bb53bc58664ba0"},
+    {file = "linkml-1.5.0.tar.gz", hash = "sha256:120fac9dd5a27d3dabc5e45fdeaf0b2fe187fe5f59bf7bc0806ebb5a884e6942"},
 ]
 
 [package.dependencies]
@@ -2218,7 +2219,7 @@ jinja2 = ">=3.1.0"
 jsonasobj2 = ">=1.0.3,<2.0.0"
 jsonschema = {version = ">=4.0.0", extras = ["format"]}
 linkml-dataops = "*"
-linkml-runtime = ">=1,<2"
+linkml-runtime = ">=1.5.0"
 myst-parser = "*"
 openpyxl = "*"
 parse = "*"
@@ -2283,14 +2284,14 @@ docs = ["myst-parser[docs] (>=0.18.1,<0.19.0)", "sphinx-autodoc-typehints[docs] 
 
 [[package]]
 name = "linkml-runtime"
-version = "1.4.10"
+version = "1.5.0"
 description = "Runtime environment for LinkML, the Linked open data modeling language"
 category = "main"
 optional = false
 python-versions = ">=3.7.6,<4.0.0"
 files = [
-    {file = "linkml_runtime-1.4.10-py3-none-any.whl", hash = "sha256:d0bebb2b67eecb3887d41cb61e192106eb61a06cfb25439234dbf830fac34b0c"},
-    {file = "linkml_runtime-1.4.10.tar.gz", hash = "sha256:1dd5fe05374d971fe58b0df6111c719b3bec5f87e64d80ad098e79af52e1590d"},
+    {file = "linkml_runtime-1.5.0-py3-none-any.whl", hash = "sha256:ddc3d224d9db39be2df33a02718cd75462942009454aca7f828b726129357a37"},
+    {file = "linkml_runtime-1.5.0.tar.gz", hash = "sha256:dd80aec72f6d3226b39415cf4aa8cdda482dc73fcc227f938c6fff72afd80b20"},
 ]
 
 [package.dependencies]
@@ -3113,19 +3114,19 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "3.1.1"
+version = "3.2.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.1.1-py3-none-any.whl", hash = "sha256:e5986afb596e4bb5bde29a79ac9061aa955b94fca2399b7aaac4090860920dd8"},
-    {file = "platformdirs-3.1.1.tar.gz", hash = "sha256:024996549ee88ec1a9aa99ff7f8fc819bb59e2c3477b410d90a16d32d6e707aa"},
+    {file = "platformdirs-3.2.0-py3-none-any.whl", hash = "sha256:ebe11c0d7a805086e99506aa331612429a72ca7cd52a1f0d277dc4adc20cb10e"},
+    {file = "platformdirs-3.2.0.tar.gz", hash = "sha256:d5b638ca397f25f979350ff789db335903d7ea010ab28903f57b27e1b16c2b08"},
 ]
 
 [package.extras]
 docs = ["furo (>=2022.12.7)", "proselint (>=0.13)", "sphinx (>=6.1.3)", "sphinx-autodoc-typehints (>=1.22,!=1.23.4)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.2.2)", "pytest (>=7.2.1)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.2.2)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
 
 [[package]]
 name = "pluggy"
@@ -3600,38 +3601,38 @@ sortedcontainers = "*"
 
 [[package]]
 name = "pytz"
-version = "2022.7.1"
+version = "2023.2"
 description = "World timezone definitions, modern and historical"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pytz-2022.7.1-py2.py3-none-any.whl", hash = "sha256:78f4f37d8198e0627c5f1143240bb0206b8691d8d7ac6d78fee88b78733f8c4a"},
-    {file = "pytz-2022.7.1.tar.gz", hash = "sha256:01a0681c4b9684a28304615eba55d1ab31ae00bf68ec157ec3708a8182dbbcd0"},
+    {file = "pytz-2023.2-py2.py3-none-any.whl", hash = "sha256:8a8baaf1e237175b02f5c751eea67168043a749c843989e2b3015aa1ad9db68b"},
+    {file = "pytz-2023.2.tar.gz", hash = "sha256:a27dcf612c05d2ebde626f7d506555f10dfc815b3eddccfaadfc7d99b11c9a07"},
 ]
 
 [[package]]
 name = "pywin32"
-version = "305"
+version = "306"
 description = "Python for Window Extensions"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pywin32-305-cp310-cp310-win32.whl", hash = "sha256:421f6cd86e84bbb696d54563c48014b12a23ef95a14e0bdba526be756d89f116"},
-    {file = "pywin32-305-cp310-cp310-win_amd64.whl", hash = "sha256:73e819c6bed89f44ff1d690498c0a811948f73777e5f97c494c152b850fad478"},
-    {file = "pywin32-305-cp310-cp310-win_arm64.whl", hash = "sha256:742eb905ce2187133a29365b428e6c3b9001d79accdc30aa8969afba1d8470f4"},
-    {file = "pywin32-305-cp311-cp311-win32.whl", hash = "sha256:19ca459cd2e66c0e2cc9a09d589f71d827f26d47fe4a9d09175f6aa0256b51c2"},
-    {file = "pywin32-305-cp311-cp311-win_amd64.whl", hash = "sha256:326f42ab4cfff56e77e3e595aeaf6c216712bbdd91e464d167c6434b28d65990"},
-    {file = "pywin32-305-cp311-cp311-win_arm64.whl", hash = "sha256:4ecd404b2c6eceaca52f8b2e3e91b2187850a1ad3f8b746d0796a98b4cea04db"},
-    {file = "pywin32-305-cp36-cp36m-win32.whl", hash = "sha256:48d8b1659284f3c17b68587af047d110d8c44837736b8932c034091683e05863"},
-    {file = "pywin32-305-cp36-cp36m-win_amd64.whl", hash = "sha256:13362cc5aa93c2beaf489c9c9017c793722aeb56d3e5166dadd5ef82da021fe1"},
-    {file = "pywin32-305-cp37-cp37m-win32.whl", hash = "sha256:a55db448124d1c1484df22fa8bbcbc45c64da5e6eae74ab095b9ea62e6d00496"},
-    {file = "pywin32-305-cp37-cp37m-win_amd64.whl", hash = "sha256:109f98980bfb27e78f4df8a51a8198e10b0f347257d1e265bb1a32993d0c973d"},
-    {file = "pywin32-305-cp38-cp38-win32.whl", hash = "sha256:9dd98384da775afa009bc04863426cb30596fd78c6f8e4e2e5bbf4edf8029504"},
-    {file = "pywin32-305-cp38-cp38-win_amd64.whl", hash = "sha256:56d7a9c6e1a6835f521788f53b5af7912090674bb84ef5611663ee1595860fc7"},
-    {file = "pywin32-305-cp39-cp39-win32.whl", hash = "sha256:9d968c677ac4d5cbdaa62fd3014ab241718e619d8e36ef8e11fb930515a1e918"},
-    {file = "pywin32-305-cp39-cp39-win_amd64.whl", hash = "sha256:50768c6b7c3f0b38b7fb14dd4104da93ebced5f1a50dc0e834594bff6fbe1271"},
+    {file = "pywin32-306-cp310-cp310-win32.whl", hash = "sha256:06d3420a5155ba65f0b72f2699b5bacf3109f36acbe8923765c22938a69dfc8d"},
+    {file = "pywin32-306-cp310-cp310-win_amd64.whl", hash = "sha256:84f4471dbca1887ea3803d8848a1616429ac94a4a8d05f4bc9c5dcfd42ca99c8"},
+    {file = "pywin32-306-cp311-cp311-win32.whl", hash = "sha256:e65028133d15b64d2ed8f06dd9fbc268352478d4f9289e69c190ecd6818b6407"},
+    {file = "pywin32-306-cp311-cp311-win_amd64.whl", hash = "sha256:a7639f51c184c0272e93f244eb24dafca9b1855707d94c192d4a0b4c01e1100e"},
+    {file = "pywin32-306-cp311-cp311-win_arm64.whl", hash = "sha256:70dba0c913d19f942a2db25217d9a1b726c278f483a919f1abfed79c9cf64d3a"},
+    {file = "pywin32-306-cp312-cp312-win32.whl", hash = "sha256:383229d515657f4e3ed1343da8be101000562bf514591ff383ae940cad65458b"},
+    {file = "pywin32-306-cp312-cp312-win_amd64.whl", hash = "sha256:37257794c1ad39ee9be652da0462dc2e394c8159dfd913a8a4e8eb6fd346da0e"},
+    {file = "pywin32-306-cp312-cp312-win_arm64.whl", hash = "sha256:5821ec52f6d321aa59e2db7e0a35b997de60c201943557d108af9d4ae1ec7040"},
+    {file = "pywin32-306-cp37-cp37m-win32.whl", hash = "sha256:1c73ea9a0d2283d889001998059f5eaaba3b6238f767c9cf2833b13e6a685f65"},
+    {file = "pywin32-306-cp37-cp37m-win_amd64.whl", hash = "sha256:72c5f621542d7bdd4fdb716227be0dd3f8565c11b280be6315b06ace35487d36"},
+    {file = "pywin32-306-cp38-cp38-win32.whl", hash = "sha256:e4c092e2589b5cf0d365849e73e02c391c1349958c5ac3e9d5ccb9a28e017b3a"},
+    {file = "pywin32-306-cp38-cp38-win_amd64.whl", hash = "sha256:e8ac1ae3601bee6ca9f7cb4b5363bf1c0badb935ef243c4733ff9a393b1690c0"},
+    {file = "pywin32-306-cp39-cp39-win32.whl", hash = "sha256:e25fd5b485b55ac9c057f67d94bc203f3f6595078d1fb3b458c9c28b7153a802"},
+    {file = "pywin32-306-cp39-cp39-win_amd64.whl", hash = "sha256:39b61c15272833b5c329a2989999dcae836b1eed650252ab1b7bfbe1d59f30f4"},
 ]
 
 [[package]]
@@ -4115,28 +4116,28 @@ files = [
 
 [[package]]
 name = "rustsim"
-version = "0.1.6"
+version = "0.1.7"
 description = ""
 category = "main"
 optional = true
 python-versions = ">=3.7"
 files = [
-    {file = "rustsim-0.1.6-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:bcbfc326b75cca69f198bf2621a165cfaf0de57e058a57477f491da0289fc54b"},
-    {file = "rustsim-0.1.6-cp310-cp310-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:433ef1e4a9edf9b40e3734e7c449d6eba33e9e4f9386cf0faedc5719189fd8a0"},
-    {file = "rustsim-0.1.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:58fe91f9bb25a3df92db6c00a9317c00030d650a352bafcfa692924b9457f734"},
-    {file = "rustsim-0.1.6-cp310-none-win_amd64.whl", hash = "sha256:c4cbe0e9dfc08151424de071cf0651878d18bd7b78c3196791dc5ab1cccfa190"},
-    {file = "rustsim-0.1.6-cp37-cp37m-macosx_10_7_x86_64.whl", hash = "sha256:a2beeff33b5720cd8e960475d9b6b6203f9bfb16d85ad6ab0b068ab60200786d"},
-    {file = "rustsim-0.1.6-cp37-cp37m-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:7ef2bd57d2777752662f802854cff8d7edb38766878d6c3adc3e209acafdb0fa"},
-    {file = "rustsim-0.1.6-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1123ac26930421cd770528aef0c2d204559977abf0d382cb2b9d85b6b06d4d51"},
-    {file = "rustsim-0.1.6-cp37-none-win_amd64.whl", hash = "sha256:d3672758ffa338957c695a7c7de8c78472168ef3d2fa2cc3a2b378b9b8cdf3a4"},
-    {file = "rustsim-0.1.6-cp38-cp38-macosx_10_7_x86_64.whl", hash = "sha256:e03d308e406a7c9ce49ba3cf9037d60d11beb78dda0e580290fd164bd9aab780"},
-    {file = "rustsim-0.1.6-cp38-cp38-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:b20d49795214b7455c08478eaea35d5906426ff3af96a8b5693e6bee31493488"},
-    {file = "rustsim-0.1.6-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:86f6798c339e1d2af79128fd1514c2ee6f20a2c08a5c7b4adc98837b45443b02"},
-    {file = "rustsim-0.1.6-cp38-none-win_amd64.whl", hash = "sha256:cf44d58d27714c33bdbaab0e95474f8a70102b91c2801c93ae059ec8378b89b4"},
-    {file = "rustsim-0.1.6-cp39-cp39-macosx_10_7_x86_64.whl", hash = "sha256:3dba02b212691b78333b6ccf202ca16b3f86f377b9f516300ffb43c382ede614"},
-    {file = "rustsim-0.1.6-cp39-cp39-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:6c1e3059d16df5047c2a0fd2c700be924b1013af9372e9617b33c24b99f0d1f0"},
-    {file = "rustsim-0.1.6-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:37540999a078a717a3b24df22518a29459261f110629ff8602eb15dd4cccabb3"},
-    {file = "rustsim-0.1.6-cp39-none-win_amd64.whl", hash = "sha256:688a57f5fb5a10655ae3f534a35626c03082dff3e614fef67696cb9d6bf933dd"},
+    {file = "rustsim-0.1.7-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:500430b8f2895781a702d44bd9ba58c9034c5b4640436a1793196ea8a9cde36f"},
+    {file = "rustsim-0.1.7-cp310-cp310-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:f8483bf72382e07ead5095b6501631a3d5a3285707f9a85856c7c5219d11bbc6"},
+    {file = "rustsim-0.1.7-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:77b9ab8fceb08a5e3157ab0c22e398f71aa6ae6e9cba8f57222505e570347dc6"},
+    {file = "rustsim-0.1.7-cp310-none-win_amd64.whl", hash = "sha256:fbef1492cf2720d8a713d09c7b88b19e51e8ca1529918481d8fc5089c6a7025a"},
+    {file = "rustsim-0.1.7-cp37-cp37m-macosx_10_7_x86_64.whl", hash = "sha256:d1ada9134920012d9bfe0abf0c1da5252dec1e7584dedfc49a378685c233305a"},
+    {file = "rustsim-0.1.7-cp37-cp37m-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:e87ad98a68039191d8da5dff527fbf03e979f6fb05992a19c3df68beee09d1f0"},
+    {file = "rustsim-0.1.7-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9354a510351006b556824a534ca0611610a58ac5bdac9021fa0e6d871b360eb6"},
+    {file = "rustsim-0.1.7-cp37-none-win_amd64.whl", hash = "sha256:32bab677e1d9e099e9892e5b8e44b2c8a1046a4680c986ae0e7d2835f3968be9"},
+    {file = "rustsim-0.1.7-cp38-cp38-macosx_10_7_x86_64.whl", hash = "sha256:fd623f166e5d68dc638bb882554bcb6ac2071a95beacb3940b2e56cae8b109b8"},
+    {file = "rustsim-0.1.7-cp38-cp38-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:215b257d1c45745f1224a22d8d8d42fe2b53535c890af59e7d0820a6602be857"},
+    {file = "rustsim-0.1.7-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:25d454059719579e2d14e5c54b7bca69de54bce8fb12fe04a4b11a8072d29cc6"},
+    {file = "rustsim-0.1.7-cp38-none-win_amd64.whl", hash = "sha256:af97231c5942951b5111a18725f582ec003838da8a7f33568729f25acbac4169"},
+    {file = "rustsim-0.1.7-cp39-cp39-macosx_10_7_x86_64.whl", hash = "sha256:a7c56593f6a0221fbe5c77a8833c6bd5aefb477abdda70bd2d2b045eb25010ce"},
+    {file = "rustsim-0.1.7-cp39-cp39-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:8ed47244fefd76c6e408a47984c71e7c2dce20559d9967d5779bf48cb32796d7"},
+    {file = "rustsim-0.1.7-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:04ea89ac009ce2a9dfdb81949162ecaf6f77337de3773f051bfc33b578dc4b03"},
+    {file = "rustsim-0.1.7-cp39-none-win_amd64.whl", hash = "sha256:c4da03af665362ae1942c2274d0af99caf6a0007388727e75fe043649d29f5cb"},
 ]
 
 [[package]]
@@ -4275,14 +4276,14 @@ win32 = ["pywin32"]
 
 [[package]]
 name = "setuptools"
-version = "67.6.0"
+version = "67.6.1"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "setuptools-67.6.0-py3-none-any.whl", hash = "sha256:b78aaa36f6b90a074c1fa651168723acbf45d14cb1196b6f02c0fd07f17623b2"},
-    {file = "setuptools-67.6.0.tar.gz", hash = "sha256:2ee892cd5f29f3373097f5a814697e397cf3ce313616df0af11231e2ad118077"},
+    {file = "setuptools-67.6.1-py3-none-any.whl", hash = "sha256:e728ca814a823bf7bf60162daf9db95b93d532948c4c0bea762ce62f60189078"},
+    {file = "setuptools-67.6.1.tar.gz", hash = "sha256:257de92a9d50a60b8e22abfcbb771571fde0dbf3ec234463212027a4eeecbe9a"},
 ]
 
 [package.extras]
@@ -5080,15 +5081,19 @@ files = [
 
 [[package]]
 name = "webcolors"
-version = "1.12"
-description = "A library for working with color names and color values formats defined by HTML and CSS."
+version = "1.13"
+description = "A library for working with the color formats defined by HTML and CSS."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "webcolors-1.12-py3-none-any.whl", hash = "sha256:d98743d81d498a2d3eaf165196e65481f0d2ea85281463d856b1e51b09f62dce"},
-    {file = "webcolors-1.12.tar.gz", hash = "sha256:16d043d3a08fd6a1b1b7e3e9e62640d09790dce80d2bdd4792a175b35fe794a9"},
+    {file = "webcolors-1.13-py3-none-any.whl", hash = "sha256:29bc7e8752c0a1bd4a1f03c14d6e6a72e93d82193738fa860cbff59d0fcc11bf"},
+    {file = "webcolors-1.13.tar.gz", hash = "sha256:c225b674c83fa923be93d235330ce0300373d02885cef23238813b0d5668304a"},
 ]
+
+[package.extras]
+docs = ["furo", "sphinx", "sphinx-copybutton", "sphinx-inline-tabs", "sphinx-notfound-page", "sphinxext-opengraph"]
+tests = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "webencodings"
@@ -5139,14 +5144,14 @@ watchdog = ["watchdog"]
 
 [[package]]
 name = "widgetsnbextension"
-version = "4.0.6"
+version = "4.0.7"
 description = "Jupyter interactive widgets for Jupyter Notebook"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "widgetsnbextension-4.0.6-py3-none-any.whl", hash = "sha256:7df2bffa274b0b416c1fa0789e321451858a9e276e1220b40a16cc994192e2b7"},
-    {file = "widgetsnbextension-4.0.6.tar.gz", hash = "sha256:1a07d06c881a7c16ca7ab4541b476edbe2e404f5c5f0cf524ffa2406a8bd7c80"},
+    {file = "widgetsnbextension-4.0.7-py3-none-any.whl", hash = "sha256:be3228a73bbab189a16be2d4a3cd89ecbd4e31948bfdc64edac17dcdee3cd99c"},
+    {file = "widgetsnbextension-4.0.7.tar.gz", hash = "sha256:ea67c17a7cd4ae358f8f46c3b304c40698bc0423732e3f273321ee141232c8be"},
 ]
 
 [[package]]
