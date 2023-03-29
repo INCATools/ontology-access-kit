@@ -45,6 +45,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         OboGraphInterface.node,
         SqlImplementation.information_content_scores,
         SqlImplementation.ancestors,
+        SqlImplementation.entities
     ]
 
     def __post_init__(self):
