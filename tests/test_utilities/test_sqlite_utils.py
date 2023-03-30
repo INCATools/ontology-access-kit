@@ -1,7 +1,7 @@
+import os
 import sqlite3
 import stat
 import unittest
-import os
 
 from oaklib.implementations.sqldb.sqlite_utils import (
     sqlite_bulk_load,
@@ -17,7 +17,7 @@ TBL_NAME = "my_tbl"
 class TestSqliteUtils(unittest.TestCase):
     def test_bulkload(self):
         if DB.exists():
-            os.chmod(DB , stat.S_IWRITE)
+            os.chmod(DB, stat.S_IWRITE)
             DB.unlink()
         sqlite_bulk_load(DB, TSV, TBL_NAME, cols=["a", "b", "c"])
         con = sqlite3.connect(str(DB))
@@ -31,7 +31,7 @@ class TestSqliteUtils(unittest.TestCase):
 
     def test_chunked_bulkload(self):
         if DB.exists():
-            os.chmod(DB , stat.S_IWRITE)
+            os.chmod(DB, stat.S_IWRITE)
             DB.unlink()
         args = dict(chunksize=10, sep="\t", comment="!", names=list("abc"))
         sqlite_bulk_load2(DB, TSV, TBL_NAME, read_csv_args=args)
