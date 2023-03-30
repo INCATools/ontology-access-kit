@@ -53,7 +53,8 @@ SCOPE_DISPLAY = {
 
 @dataclass
 class OboGraphToFHIRConverter(DataModelConverter):
-    # TODO: Fix: these are currently unresolvable (noinspection PyUnresolvedReferences):
+    # TODO: change to inherit from OboGraphToOboFormatConverter instead?
+    # todo: Fix: these are currently unresolvable (noinspection PyUnresolvedReferences):
     #  from oaklib.utilities.obograph_utils import load_obograph
     #  from oaklib.utilities.curie_converter import CurieConverter
     # noinspection PyUnresolvedReferences
@@ -104,17 +105,31 @@ class OboGraphToFHIRConverter(DataModelConverter):
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
         use_curies_foreign_concepts: bool = True,
+        predicate_period_replacement: bool = False,
         **kwargs,
     ) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem.
 
-        By default, only IS_A predicates are converted to ConceptProperties. To override this,
-        specify ``include_all_predicates=True``.
-
-        :param source:
-        :param target:
-        :param include_all_predicates: include the maximal amount of predicates
+        :param source: Source serialization.
+        :param target: Target serialization.
+        :param code_system_id: The code system ID to use for identification on the server uploaded to.
+        See: https://hl7.org/fhir/resource-definitions.html#Resource.id
+        :param code_system_url: Canonical URL for the code system.
+        See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url
+        :param native_uri_stems: A comma-separated list of URI stems that will be used to determine whether a
+        concept is native to the CodeSystem. For example, for OMIM, the following URI stems are native:
+        https://omim.org/entry/, https://omim.org/phenotypicSeries/PS
+        :param include_all_predicates: Include the maximal amount of predicates. Changes the default behavior from only
+        exporting: IS_A
+        :param use_curies_native_concepts: FHIR conventionally uses codes for references to
+        concepts that are native to a given CodeSystem. With this option, references will be CURIEs instead.
+        :param use_curies_foreign_concepts: Typical FHIR CodeSystems do not contain any
+        concepts that are not native to that CodeSystem. In cases where they do appear, this converter defaults to URIs
+        for references, unless this flag is present, in which case the converter will attempt to construct CURIEs.
+        :param predicate_period_replacement: Predicates URIs populated into `CodeSystem.concept.property.code`
+        and `CodeSystem.concept.property.code`, but the popular FHIR server "HAPI" has a bug in whih periods '.' cause
+        errors. If this flag is present, periods will be replaced with underscores '_'.
         """
         cs = self.convert(
             source,
@@ -124,6 +139,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
             native_uri_stems=native_uri_stems,
             use_curies_native_concepts=use_curies_native_concepts,
             use_curies_foreign_concepts=use_curies_foreign_concepts,
+            predicate_period_replacement=predicate_period_replacement,
             **kwargs,
         )
         json_str = json_dumper.dumps(cs, inject_type=False)
@@ -144,14 +160,12 @@ class OboGraphToFHIRConverter(DataModelConverter):
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
         use_curies_foreign_concepts: bool = True,
+        predicate_period_replacement: bool = False,
         **kwargs,
     ) -> CodeSystem:
         """
         Convert an OBO Graph Document to a FHIR CodingSystem
 
-        :param source:
-        :param target: if None, one will be created
-        :param include_all_predicates: include the maximal amount of predicates
         :return:
         """
         if target is None:
@@ -165,6 +179,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
                 native_uri_stems=native_uri_stems,
                 use_curies_native_concepts=use_curies_native_concepts,
                 use_curies_foreign_concepts=use_curies_foreign_concepts,
+                predicate_period_replacement=predicate_period_replacement,
             )
         target.id = code_system_id
         if not code_system_id:
@@ -191,6 +206,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
         use_curies_foreign_concepts: bool = True,
+        predicate_period_replacement: bool = False,
     ) -> CodeSystem:
         target.id = source.id
         edges_by_subject = index_graph_edges_by_subject(source)
@@ -207,6 +223,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
                 native_uri_stems=native_uri_stems,
                 use_curies_native_concepts=use_curies_native_concepts,
                 use_curies_foreign_concepts=use_curies_foreign_concepts,
+                predicate_period_replacement=predicate_period_replacement,
             )
         # CodeSystem.property
         # todo's
@@ -229,6 +246,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
         use_curies_foreign_concepts: bool = True,
+        predicate_period_replacement: bool = False,
     ) -> Concept:
         """Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property."""
         # TODO: Use new flags
@@ -247,6 +265,8 @@ class OboGraphToFHIRConverter(DataModelConverter):
             )
             if include_all_predicates or e.pred in DIRECT_PREDICATE_MAP:
                 pred: str = DIRECT_PREDICATE_MAP.get(e.pred, e.pred)
+                if predicate_period_replacement:
+                    pred = pred.replace(".", "_")
                 concept.property.append(ConceptProperty(code=pred, valueCode=obj))
                 self.predicates_to_export.add(pred)
             else:

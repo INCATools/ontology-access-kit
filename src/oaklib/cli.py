@@ -7,6 +7,7 @@ Executed using "runoak" command
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
+import json
 import logging
 import os
 import re
@@ -2286,36 +2287,49 @@ def descendants(
 @main.command()
 @click.argument("terms", nargs=-1)
 @click.option("-o", "--output", help="Path to output file")
+@output_type_option
 @click.option(
-    "--code-system-id",
-    default=False,
-    help="For `fhirjson` only. The code system ID to use for identification on the server uploaded to. "
-    "See: https://hl7.org/fhir/resource-definitions.html#Resource.id",
-)
-@click.option(
-    "--code-system-url",
-    default=False,
-    help="For `fhirjson` only. Canonical URL for the code system. "
-    "See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url",
-)
-@click.option(
-    "--use-curies-native-concepts/--no-use-curies-native-concepts",
-    default=False,
-    help="For `fhirjson` only. FHIR conventionally uses codes for references to concepts that are native to a given "
-    "CodeSystem. With this option, references will be CURIEs instead.",
-)
-@click.option(
-    "--use-curies-foreign-concepts/--no-use-curies-foreign-concepts",
-    default=False,
-    help="For `fhirjson` only. Typical FHIR CodeSystems do not contain any concepts that are not native to that "
-    "CodeSystem. In cases where they do appear, this converter defaults to URIs for references, unless this flag is "
-    "present, in which case the converter will attempt to construct CURIEs.",
-)
-@click.option(
-    "--native-uri-stems",
-    help="For `fhirjson` only. A comma-separated list of URI stems that will be used to determine whether a concept is "
-    "native to the CodeSystem. For example, for OMIM, the following URI stems are native: "
-    "https://omim.org/entry/,https://omim.org/phenotypicSeries/PS",
+    "-c",
+    "--config-file",
+    help="""Config file for additional params. Presently used by  `fhirjson` only.
+
+    Options:
+    code_system_id: For `fhirjson` only. The code system ID to use for identification on the server uploaded to.
+    See: https://hl7.org/fhir/resource-definitions.html#Resource.id
+
+    code_system_url: For `fhirjson` only. Canonical URL for the code system.
+    See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url
+
+    native_uri_stems: For `fhirjson` only. A comma-separated list of URI stems that will be used to determine whether a
+    concept is native to the CodeSystem. For example, for OMIM, the following URI stems are native:
+    https://omim.org/entry/, https://omim.org/phenotypicSeries/PS
+
+    include_all_predicates (default=True): Include the maximal amount of predicates. Changes the default behavior from
+    only exporting: IS_A
+
+    use_curies_native_concepts (default=False): For `fhirjson` only. FHIR conventionally uses codes for references to
+    concepts that are native to a given CodeSystem. With this option, references will be CURIEs instead.
+
+    use_curies_foreign_concepts (default=False): For `fhirjson` only. Typical FHIR CodeSystems do not contain any
+    concepts that are not native to that CodeSystem. In cases where they do appear, this converter defaults to URIs for
+    references, unless this flag is present, in which case the converter will attempt to construct CURIEs.
+
+    predicate_period_replacement (default=False): For `fhirjson` only. Predicates URIs populated into `CodeSystem.
+    concept.property.code` and `CodeSystem.concept.property.code`, but the popular FHIR server "HAPI" has a bug in which
+    periods '.' cause errors. If this flag is present, periods will be replaced with underscores '_'.
+
+    Example:
+    {
+        "code_system_id": "HPO",
+        "code_system_url": "http://purl.obolibrary.org/obo/hp.owl",
+            "native_uri_stems": [
+                "http://purl.obolibrary.org/obo/HP_"
+            ],
+        "include_all_predicates": true,
+        "use_curies_native_concepts": false,
+        "use_curies_foreign_concepts": false,
+        "predicate_period_replacement": true
+    }""",
 )
 @click.option(
     "--enforce-canonical-ordering/--no-enforce-canonical-ordering",
@@ -2323,10 +2337,14 @@ def descendants(
     show_default=True,
     help="Forces the serialization to be in canonical order, which is useful for diffing",
 )
-@output_type_option
-def dump(terms, output, output_type: str, **kwargs):
+def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     """
     Exports (dumps) the entire contents of an ontology.
+
+    :param terms: A list of terms to dump. If not specified, the entire ontology will be dumped.
+    :param output: Path to output file
+    :param output_type: The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl
+    :param config_file: Path to a configuration JSON file for additional params (which may be required for some formats)
 
     Example:
 
@@ -2337,11 +2355,6 @@ def dump(terms, output, output_type: str, **kwargs):
         runoak -i pato.owl dump -o pato.ttl -O turtle
 
     Currently each implementation only supports a subset of formats.
-
-    Some dumpers accept additional options. For example, dumping
-    to fhirjson accepts --include-all-predicates, which changes
-    the default behavior from only exporting IS_A to all mappable
-    predicates.
 
     The dump command is also blocked for remote endpoints such as Ubergraph,
     to avoid killer queries.
@@ -2355,6 +2368,9 @@ def dump(terms, output, output_type: str, **kwargs):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         logging.info(f"Out={output} syntax={output_type}")
+        if config_file:
+            with open(config_file) as file:
+                kwargs |= json.load(file)
         impl.dump(output, syntax=output_type, **kwargs)
     else:
         raise NotImplementedError
