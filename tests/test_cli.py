@@ -420,6 +420,33 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(len(msdf.prefix_map), 14)
         self.assertIn("BFO", msdf.prefix_map)
 
+    def test_mappings_json(self):
+        mappings_output = OUTPUT_DIR.joinpath("test_mappings.json")
+
+        if os.name == "nt":
+            shell = True
+        else:
+            shell = False
+        result = subprocess.run(
+            [
+                "runoak",
+                "-i",
+                f"sqlite:{TEST_DB}",
+                "mappings",
+                "-O",
+                "json",
+                "-o",
+                mappings_output,
+            ],
+            shell=shell,  # noqa
+        )
+
+        self.assertEqual(0, result.returncode)
+
+        with open(mappings_output) as f:
+            parsed_mapping = json.load(f)
+            self.assertEqual(len(parsed_mapping), 123)
+
     # DUMPER
     def test_dump(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"

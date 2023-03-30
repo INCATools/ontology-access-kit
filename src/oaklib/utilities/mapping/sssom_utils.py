@@ -73,7 +73,7 @@ class StreamingSssomWriter(StreamingWriter):
     def emit(self, obj: Mapping):
         self.mappings.append(obj)
 
-    def close(self):
+    def finish(self):
         mset = MappingSet(
             mapping_set_id="temp", mappings=self.mappings, license=UNSPECIFIED_MAPPING_SET_ID
         )
