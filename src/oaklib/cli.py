@@ -967,14 +967,15 @@ def search(terms, output_type: str, output: TextIO):
 
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingInfoWriter)
-    writer.output = output
     if isinstance(impl, SearchInterface):
+        writer = _get_writer(output_type, impl, StreamingInfoWriter)
+        writer.output = output
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             logging.info("** Next chunk:")
             # TODO: move chunking logic to writer
             for curie, label in impl.labels(curie_it):
                 writer.emit(dict(id=curie, label=label))
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1090,6 +1091,7 @@ def obsoletes(
                     objs[curie][rel].append(filler)
             for obj in objs.values():
                 writer.emit(obj)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1424,6 +1426,7 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
                         p: metadata.get(p, None) for p in _process_predicates_arg(predicates)
                     }
                 writer.emit(metadata)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2176,6 +2179,7 @@ def paths(
                 dict(subject=s, object=o, path=path),
                 label_fields=["subject", "object", "path"],
             )
+        writer.finish()
     if viz:
         for node_id in node_ids:
             [n] = [n for n in graph.nodes if n.id == node_id]
@@ -2227,7 +2231,7 @@ def siblings(terms, predicates, output_type: str, output: str):
                         sibs.append(child)
         for sib in sibs:
             writer.emit(sib, impl.label(sib))
-
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2726,6 +2730,7 @@ def termset_similarity(
         set1, set2, predicates=actual_predicates, labels=autolabel
     )
     writer.emit(sim)
+    writer.finish()
 
 
 @main.command()
@@ -2852,6 +2857,7 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set
     if n == 0:
         raise ValueError(f"No results for input: {terms}")
     _apply_changes(impl, changes)
+    writer.finish()
 
 
 @main.command()
@@ -3076,6 +3082,7 @@ def relationships(
                 kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
             )
         _apply_changes(impl, changes)
+    writer.finish()
 
 
 @main.command()
@@ -3264,6 +3271,7 @@ def query(query, autolabel: bool, output: str, output_type: str, prefixes: str, 
             else:
                 new_r = r
             writer.emit(new_r)
+    writer.finish()
 
 
 @main.command()
@@ -3346,6 +3354,7 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
         ):
             writer.emit(dict(id=curie, label=impl.label(curie)))
             # print(f"{curie} ! {impl.label(curie)}")
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -3514,6 +3523,7 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
         if not mapping.object_id.startswith(f"{maps_to_source}:"):
             continue
         writer.emit_curie(mapping.object_id, mapping.object_label)
+    writer.finish()
 
 
 @main.command()
@@ -3595,11 +3605,12 @@ def term_subsets(terms, output, output_type):
 
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     if isinstance(impl, BasicOntologyInterface):
+        writer = _get_writer(output_type, impl, StreamingCsvWriter)
         curies_it = query_terms_iterator(terms, impl)
         for curie, subset in impl.terms_subsets(curies_it):
             writer.emit(dict(curie=curie, subset=subset))
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -3656,6 +3667,7 @@ def term_categories(terms, category_system, output, output_type):
     curies_it = query_terms_iterator(terms, impl)
     for curie, subset in impl.terms_categories(curies_it):
         writer.emit(dict(curie=curie, subset=subset))
+    writer.finish()
 
 
 @main.command()
@@ -4140,14 +4152,14 @@ def enrichment(
     Run class enrichment analysis.
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingYamlWriter)
-    writer.autolabel = autolabel
-    writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     subjects = list(curies_from_file(sample_file))
     background = list(curies_from_file(background_file)) if background_file else None
     if isinstance(impl, ClassEnrichmentCalculationInterface):
+        writer = _get_writer(output_type, impl, StreamingYamlWriter)
+        writer.autolabel = autolabel
+        writer.output = output
         curies = list(query_terms_iterator(terms, impl))
         results = impl.enriched_classes(
             subjects,
@@ -4160,6 +4172,7 @@ def enrichment(
         )
         for result in results:
             writer.emit(result)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -4212,6 +4225,7 @@ def diff_associations(
                         {"entity": change[0], "set": change[1], "term": change[2]},
                         label_fields=["term"],
                     )
+    writer.finish()
 
 
 @main.command()
@@ -4303,6 +4317,7 @@ def validate(
                 rr.set_rules(rule)
             for result in rr.run(impl):
                 writer.emit(result)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -4435,6 +4450,7 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
         )
         for vr in definition_rule.evaluate(impl, entities=entities):
             writer.emit(vr)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
