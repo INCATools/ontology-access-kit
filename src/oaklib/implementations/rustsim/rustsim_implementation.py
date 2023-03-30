@@ -1,10 +1,10 @@
 """Rust implementation of semantic similarity measures."""
-from collections import defaultdict
 import inspect
 import logging
 import math
-from dataclasses import dataclass
 import statistics
+from collections import defaultdict
+from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple
 
 from rustsim import get_intersection, jaccard_similarity, mrca_and_score
@@ -45,7 +45,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         OboGraphInterface.node,
         SqlImplementation.information_content_scores,
         SqlImplementation.ancestors,
-        SqlImplementation.entities
+        SqlImplementation.entities,
     ]
 
     def __post_init__(self):
