@@ -1,5 +1,6 @@
 import sqlite3
 import unittest
+import shutil
 
 from oaklib.implementations.sqldb.sqlite_utils import (
     sqlite_bulk_load,
@@ -15,7 +16,8 @@ TBL_NAME = "my_tbl"
 class TestSqliteUtils(unittest.TestCase):
     def test_bulkload(self):
         if DB.exists():
-            DB.unlink()
+            shutil.rmtree(DB)
+            # DB.unlink()
         sqlite_bulk_load(DB, TSV, TBL_NAME, cols=["a", "b", "c"])
         con = sqlite3.connect(str(DB))
         rows = list(con.execute(f"SELECT * FROM {TBL_NAME}"))
