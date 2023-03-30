@@ -17,7 +17,7 @@ class TestSqliteUtils(unittest.TestCase):
     def test_bulkload(self):
         if DB.exists():
             DB.unlink()
-        
+
         with contextlib.closing(sqlite3.connect(str(DB))) as con:
             sqlite_bulk_load(DB, TSV, TBL_NAME, cols=["a", "b", "c"])
             rows = list(con.execute(f"SELECT * FROM {TBL_NAME}"))
@@ -34,7 +34,7 @@ class TestSqliteUtils(unittest.TestCase):
         args = dict(chunksize=10, sep="\t", comment="!", names=list("abc"))
         with contextlib.closing(sqlite3.connect(str(DB))) as con:
             sqlite_bulk_load2(DB, TSV, TBL_NAME, read_csv_args=args)
-        # con = sqlite3.connect(str(DB))
+            # con = sqlite3.connect(str(DB))
             rows = list(con.execute(f"SELECT * FROM {TBL_NAME}"))
         # con.close()
         self.assertEqual(len(rows), 16)
