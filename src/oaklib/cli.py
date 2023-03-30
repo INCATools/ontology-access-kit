@@ -3822,7 +3822,7 @@ def apply_taxon_constraints(
 
     Example:
 
-        runoak  -i db/go.db eval-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
+        runoak  -i db/go.db apply-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
         never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
 
     The --evolution-file (-E) option can be used to pass in a file of candidates.
