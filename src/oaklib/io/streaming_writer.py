@@ -100,7 +100,7 @@ class StreamingWriter(ABC):
         pass
 
     def finish(self):
-        # always ensure a file is writter
+        # always ensure a file is writer
         self.file.write("")
 
     def line(self, v: str):
