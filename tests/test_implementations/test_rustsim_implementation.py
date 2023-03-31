@@ -3,8 +3,8 @@ import unittest
 from rustsim import get_intersection, jaccard_similarity, mrca_and_score
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.resource import OntologyResource
+# from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+# from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter
 from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
 from tests.test_implementations import ComplianceTester

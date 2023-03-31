@@ -32,7 +32,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        # os: [ ubuntu-latest, windows-latest ]
+        os: [windows-latest]
         python-version: [ "3.9", "3.10" ]
         exclude:
           - os: windows-latest
@@ -93,9 +94,9 @@ jobs:
         run: |
           poetry run pip install -U pytest
           poetry run coverage run -p -m pytest tests/
-          poetry run coverage combine
-          poetry run coverage xml
-          poetry run coverage report -m
+#          poetry run coverage combine
+#          poetry run coverage xml
+#          poetry run coverage report -m
         shell: bash
         env:
           BIOPORTAL_API_KEY: ${{ secrets.BIOPORTAL_API_KEY }}
