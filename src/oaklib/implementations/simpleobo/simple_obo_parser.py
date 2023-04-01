@@ -319,7 +319,10 @@ class Structure:
     """List of all tag-value pairs for this stanza or header"""
 
     def _simple_value(self, v) -> str:
-        return v.split(" ")[0]
+        if "\"" in v:
+            return "\"" + re.findall('"([^"]*)"', v)[0] + "\""
+        else:
+            return v.split(" ")[0]
 
     def _values(self, tag: TAG) -> List[str]:
         return [tv.value for tv in self.tag_values if tv.tag == tag]
