@@ -3,6 +3,10 @@ RUN = poetry run
 test:
 	$(RUN) python -m unittest tests/test_*py tests/*/test_*py
 
+# not yet deployed
+doctest:
+	find src docs -type f \( -name "*.rst" -o -name "*.md" -o -name "*.py" \) -print0 | xargs -0 $(RUN) python -m doctest
+
 ## Compiled
 
 MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff association class_enrichment value_set_configuration fhir mapping_cluster_datamodel cx

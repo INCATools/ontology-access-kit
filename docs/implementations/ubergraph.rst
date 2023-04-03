@@ -1,7 +1,7 @@
 .. _ubergraph_implementation:
 
-Ubergraph Endpoint
-==================
+Ubergraph Adapter
+=================
 
 About
 -----

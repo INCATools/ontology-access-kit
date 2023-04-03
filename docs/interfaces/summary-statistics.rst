@@ -1,3 +1,5 @@
+.. _summary_statistics_interface:
+
 Summary Statistics
 ==================
 

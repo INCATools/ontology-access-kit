@@ -9,7 +9,7 @@ Part 1: Getting Started
   No programming knowledge is necessary for this part, but some basic understanding of the command line and how to install Python is assumed.
 
 First we will install the package and then we will try some command line examples
-querying the Drosophila anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
+querying the Drosophila (fruit fly) anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
 
 Installation
 -------------
@@ -58,7 +58,7 @@ You can get help on a specific command:
 
     runoak search --help
 
-See also the :ref:`cli` section of this documentation
+See also the :ref:`command_line_interface` section of this documentation
 
 Basics
 -------
@@ -67,21 +67,20 @@ Query the OBO Library
 ^^^^^^^^^^^^^^^^^^
 
 Next try using the `info command <https://incatools.github.io/ontology-access-kit/cli.html#runoak-info>`_
-to search for a term in the *Drosophila* (fruitfly) anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
+to search for a term in the *Drosophila* (fruit fly) anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
 
 The base command takes an ``--input`` (or just ``-i``) option that specifies the input
-implementation. We will return to the `full syntax <https://incatools.github.io/ontology-access-kit/selectors.html>`_ later,
-but one pattern that is useful to know is ``prontolib:<ontology-file>``, which uses the :term:`Pronto` library to fetch
-and parse an OBO file.
+:term:`selector`. We will return to the `full syntax <https://incatools.github.io/ontology-access-kit/selectors.html>`_ later,
+but one pattern that is useful to know is ``sqlite:obo:<ontology-id>``, which uses the :ref:`sql_implementation` to fetch
+and use the SQLite version of an ontology.
 
 To do a basic lookup, using either a name or ID:
 
 .. code-block::
 
-    runoak --input prontolib:fbbt.obo info 'wing vein'
+    runoak --input sqlite:obo:fbbt info 'wing vein'
 
-The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
-library under the hood). The results should be:
+The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. The results should be:
 
 .. code-block::
 
@@ -91,13 +90,7 @@ You get the same results by specifying the :term:`CURIE`:
 
 .. code-block::
 
-    runoak --input prontolib:fbbt.obo info FBbt:00004751
-
-.. note::
-
-   not all OBO libraries can be accessed via Pronto, and using Pronto for non OBO-Libraries can involve additional steps.
-   However, using the pronto adapter is a great way to get started with OAK, as obo files are small in size, and pronto
-   can parse them very quickly. Later on we will learn about different :term:`implementation`s
+    runoak --input sqlite:obo:fbbt info FBbt:00004751
 
 Search
 ^^^^^^^^
@@ -107,7 +100,7 @@ You can also use a special search syntax like this:
 
 .. code-block::
 
-    runoak -i prontolib:fbbt.obo search 't^wing vein'
+    runoak -i sqlite:obo:fbbt search 't^wing vein'
 
 .. note::
 
@@ -136,7 +129,7 @@ then you can use the ``~`` symbol:
 
 .. code-block::
 
-    runoak -i prontolib:fbbt.obo search 't~wing vein'
+    runoak -i sqlite:obo:fbbt search 't~wing vein'
 
 The results should include the previous results, and include broader matches such as:
 
@@ -152,7 +145,7 @@ You can use the ``/`` symbol to perform a :term:`regular expression` search:
 
 .. code-block::
 
-    runoak -i prontolib:fbbt.obo search 't/^wing vein L\d+$'
+    runoak -i sqlite:obo:fbbt search 't/^wing vein L\d+$'
 
     FBbt:00004754 ! axillary vein
     FBbt:00004759 ! wing vein L1
@@ -162,11 +155,8 @@ You can use the ``/`` symbol to perform a :term:`regular expression` search:
     FBbt:00004763 ! wing vein L5
     FBbt:00004764 ! wing vein L6
 
-
-
-
 Working with local files
-^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 To work with a local ontology file, you can provide the filename as input:
 
@@ -181,12 +171,7 @@ can be passed in directly:
 
     runoak --input fbbt.obo search 'wing vein'
 
-This should give the same results as when you used ``prontolib``. Note you can also be
-specific about the method in which a file is parsed:
-
-.. code-block::
-
-    runoak --input prontolib:fbbt.obo search 'wing vein'
+This should give the same results as when you used the sqlite adapter.
 
 
 Introduction to graphs and trees
@@ -197,11 +182,11 @@ Fetching ancestors
 
 Next we will try a different command, plugging in an ID (:term:`CURIE`) we got from the previous search.
 
-We will use the :ref:`ancestors` command to find all subclass-of (``rdfs:subClassOf``) and part-of (``BFO:0000050``) ancestors of 'wing vein'.
+We will use the `ancestors command <https://incatools.github.io/ontology-access-kit/cli.html#runoak-ancestors>`_ to find all subclass-of (``rdfs:subClassOf``) and part-of (``BFO:0000050``) :term:`Ancestors` of 'wing vein'.
 
 .. code-block::
 
-    runoak --input prontolib:fbbt.obo ancestors FBbt:00004751 --predicates i,p
+    runoak --input sqlite:obo:fbbt ancestors FBbt:00004751 --predicates i,p
 
 You should see body parts such as cuticle, wing, etc, alongside their ID:
 
@@ -238,7 +223,7 @@ have any indication of distance. The ``--statistics`` option can provide this in
 
 .. code-block::
 
-    runoak --input prontolib:fbbt.obo ancestors FBbt:00004751 --predicates i,p --statistics
+    runoak --input sqlite:obo:fbbt ancestors FBbt:00004751 --predicates i,p --statistics
 
 This generates a TSV table that shows all ancestors plus (a) the number of input terms that count this as an ancestor
 [only meaningful if multiple inputs provided] (b) minimum distance up from input term to ancestor
@@ -263,7 +248,7 @@ The :ref:`tree` command will generate an ascii tree for a term
 
 .. code-block::
 
-    runoak -i prontolib:fbbt.obo tree FBbt:00004751 -p i
+    runoak -i sqlite:obo:fbbt tree FBbt:00004751 -p i
 
 .. code-block::
 
@@ -296,7 +281,7 @@ Search terms can be used as input for *any* OAK command:
 
 .. code-block::
 
-    runoak -i prontolib:fbbt.obo tree "t/^wing vein L.*$" -p i
+    runoak -i sqlite:obo:fbbt tree "t/^wing vein L.*$" -p i
 
 This will feed the search results into the tree command:
 
@@ -326,7 +311,7 @@ The output of one command can be passed in as input to another. Just specify ``-
 
 .. code-block::
 
-    runoak -i prontolib:fbbt.obo search "t/^wing vein L.*$" | runoak -i prontolib:fbbt.obo tree -p i -
+    runoak -i sqlite:obo:fbbt search "t/^wing vein L.*$" | runoak -i sqlite:obo:fbbt tree -p i -
 
 This will give the same results as the above
 
@@ -341,14 +326,13 @@ Later on we will see how we can  use the :ref:`viz` command to make images like:
 Using other backends
 --------------------
 
-So far we have used :term:`Pronto` and :term:`OBO Format` files as input because they are small in size and fast to parse,
-and are thus good for illustrative purposes.
+So far we have used :ref:`sql_implementation`.
 
 In fact, OAK allows a number of other backends (also called :term:`Implementations<Implementation>`). We will give a brief overview of some here
 
 
 Using Ubergraph
-^^^^^^^^^^
+^^^^^^^^^^^^^^^
 
 :term:`Ubergraph` is an integrated ontology store that contains a merged set of mutually referential OBO ontologies.
 
@@ -373,7 +357,7 @@ You can constrain search to a particular ontology in Ubergraph:
 
     runoak -i ubergraph:fbbt search 'wing vein'
 
-The ubergraph implementation largely allows for the same operations as the pronto one we have seen previously.
+The ubergraph implementation largely allows for the same operations as the SQL one we have seen previously.
 However, not every implementation implements every operation. And some operations may be more efficient on some implementations.
 There are a variety of space-time tradeoffs as well. See the :ref:`architecture` document to learn more.
 
@@ -394,9 +378,13 @@ generates obo:
     xref: Beilstein:1721406
     xref: CAS:3374-22-9
     ...
+    is_a: CHEBI:33704 ! alpha-amino acid
+    is_a: CHEBI:26167 ! polar amino acid
+    is_a: CHEBI:26834 ! sulfur-containing amino acid
+
 
 Using Ontobee
-^^^^^^^^^^
+^^^^^^^^^^^^^
 
 Another triplestore you can use is ontobee
 
@@ -406,12 +394,12 @@ Another triplestore you can use is ontobee
 
 Currently the ontobee implementation does not handle non-isa hierarchical queries.
 
-Using BioPortal
-^^^^^^^^^^^
+Using BioPortal and OntoPortal
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:term:`BioPortal` is a comprehensive repository of biomedical ontologies.
+:term:`BioPortal` is a comprehensive repository of biomedical ontologies. It is part of the OntoPortal Alliance, which provides access to multiple ontologies outside the life sciences.
 
-To query BioPortal, first you will need to go to `BioPortal <https://bioportal.bioontology.org/>`_ and get an :term:`API key` (if you don't already have one).
+To query BioPortal (or any OntoPortal endpoint), first you will need to go to `BioPortal <https://bioportal.bioontology.org/>`_ and get an :term:`API key` (if you don't already have one).
 
 .. note:: The API Key is assigned to each user upon creating an account on BioPortal.
 
@@ -434,7 +422,7 @@ Again the results are relevance ranked, and there are a lot of them, as this inc
 
 Currently the bioportal implementation is not as fully featured as some of the others, and doesn't take full advantage of all API routes
 
-One of the unique features of bioportal is the comprehensivity of computed lexical mappings. These can be exported in various :term:`SSSOM` formats such
+One of the unique features of bioportal is the comprehensiveness of computed lexical mappings. These can be exported in various :term:`SSSOM` formats such
 as yaml or TSV:
 
 .. code-block::
@@ -511,22 +499,6 @@ OLS also aggregates curated mappings, these can be exported in the same way:
     CHEBI:15356,cysteine,skos:closeMatch,KNApSAcK:C00007323,Unspecified,CHEBI,KNApSAcK,ZP
     CHEBI:15356,cysteine,skos:closeMatch,Wikipedia:Cysteine,Unspecified,CHEBI,Wikipedia,ZP
 
-
-Using SQLIte
-^^^^^^^^^^
-
-The SQLite backend will be covered fully in part 7
-
-But if you want to jump ahead and start using SQLite you can do this with any existing OBO ontology:
-
-.. code-block::
-
-    runoak -i sqlite:obo:iao search t~information
-
-Here we are searching IAO for any term loosely matching "information"
-
-Note there is an initial lag as the sqlite database is downloaded from S3. These can be quite
-large as they include pre-cached relation graphs. Once downloaded, responsivity will be fast.
 
 Next steps
 ----------

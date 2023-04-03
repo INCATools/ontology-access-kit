@@ -122,7 +122,6 @@ from oaklib.interfaces.basic_ontology_interface import (
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP,
-    RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
 from oaklib.interfaces.class_enrichment_calculation_interface import (
@@ -143,7 +142,6 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
 from oaklib.utilities.identifier_utils import (
     string_as_base64_curie,
@@ -681,53 +679,10 @@ class SqlImplementation(
             for row in q.distinct():
                 yield str(row.object) if row.object else str(row.value)
 
-    def outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        if entailed:
-            tbl = EntailedEdge
-        else:
-            tbl = Edge
-        q = self.session.query(tbl).filter(tbl.subject == curie)
-        if predicates:
-            q = q.filter(tbl.predicate.in_(predicates))
-        logging.debug(f"Querying outgoing, curie={curie}, predicates={predicates}, q={q}")
-        for row in q:
-            if self.exclude_owl_top_and_bottom and row.object == OWL_THING:
-                continue
-            yield row.predicate, row.object
-        if not predicates or RDF_TYPE in predicates:
-            q = self.session.query(RdfTypeStatement.object).filter(
-                RdfTypeStatement.subject == curie
-            )
-            cls_subq = self.session.query(ClassNode.id)
-            q = q.filter(RdfTypeStatement.object.in_(cls_subq))
-            for row in q:
-                if self.exclude_owl_top_and_bottom and row.object == OWL_THING:
-                    continue
-                yield RDF_TYPE, row.object
-        if tbl == Edge and (not predicates or EQUIVALENT_CLASS in predicates):
-            q = self.session.query(OwlEquivalentClassStatement.object).filter(
-                OwlEquivalentClassStatement.subject == curie
-            )
-            cls_subq = self.session.query(ClassNode.id)
-            q = q.filter(OwlEquivalentClassStatement.object.in_(cls_subq))
-            for row in q:
-                yield EQUIVALENT_CLASS, row.object
-
-    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
-
     def entailed_outgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self.outgoing_relationships(curie, predicates, entailed=True)
-
-    def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        rmap = defaultdict(list)
-        for row in self.session.query(Edge).filter(Edge.object == curie):
-            rmap[row.predicate].append(row.subject)
-        return rmap
 
     def precompute_lookups(self) -> None:
         if self._relationships_by_subject_index is None:

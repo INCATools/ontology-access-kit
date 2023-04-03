@@ -1,7 +1,7 @@
 .. simple_obo_implementation:
 
-Simple OBO Implementation
-=================================
+Simple OBO Adapter
+==================
 
 About
 -----

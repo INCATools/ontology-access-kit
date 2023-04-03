@@ -1,7 +1,7 @@
 .. _converters:
 
 Converters
-===============
+==========
 
 OAK uses a number of different Data Models (See  :ref:`datamodels`) for representing ontologies and
 ontology-related information.

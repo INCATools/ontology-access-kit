@@ -1,7 +1,7 @@
 .. _sql_implementation:
 
-SQL Database Implementation
-===========================
+SQL Database Adapter
+====================
 
 This wraps either a local or remote SQL Database
 

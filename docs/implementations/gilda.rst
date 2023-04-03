@@ -1,9 +1,11 @@
 .. _gilda_implementation:
 
-Gilda Endpoint
-==============
+Gilda Adapter
+=============
+
 Command Line Examples
 ----------------------
+
 Use the :code:`gilda` selector:
 
 .. code:: shell

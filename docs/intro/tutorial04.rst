@@ -1,7 +1,7 @@
 Part 4: OboGraphs
-=======
+=================
 
-So far we have been using the :ref:`BasicOntologyInterface` which provides basic lookup operations. All methods in this interface
+So far we have been using the :ref:`basic_ontology_interface` which provides basic lookup operations. All methods in this interface
 return 'simple' python objects, such as strings, lists of strings, or dictionaries or :ref:`iterators` composing these elements.
 
 Sometimes more powerful abstractions are required. For example, many bioinformatics applications work with a :term:`Graph` level abstraction
