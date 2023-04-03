@@ -64,25 +64,11 @@ class OboGraphToFHIRConverter(DataModelConverter):
     - Each node in the OboGraph is converted to a _FHIR Concept_.
     - Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a code (e.g. "HP:0000001")
 
-         - TODO: make this configurable
-
     - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is
       True. Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.
     - Each synonym in the OboGraph is converted to a _FHIR ConceptDesignation_.
 
         - The synonym predicate is mapped to a _FHIR Coding_, using the `SCOPE_MAP`.
-
-    To use:
-
-        >>> from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
-        >>> from oaklib.datamodels.obograph import GraphDocument
-        >>> from oaklib.utilities.obograph_utils import load_obograph
-        >>> from oaklib.utilities.curie_converter import CurieConverter
-        >>> from linkml_runtime.dumpers import json_dumper
-        >>> converter = OboGraphToFHIRConverter(curie_converter=CurieConverter())
-        >>> graph = load_obograph("hp.obo.json")
-        >>> code_system = converter.convert(graph)
-        >>> print(json_dumper.dumps(code_system))
 
     To run on the command line:
 
@@ -165,6 +151,26 @@ class OboGraphToFHIRConverter(DataModelConverter):
     ) -> CodeSystem:
         """
         Convert an OBO Graph Document to a FHIR CodingSystem
+
+        To use:
+
+        >>> from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
+        >>> from oaklib.datamodels.obograph import GraphDocument
+        >>> from linkml_runtime.dumpers import json_dumper
+        >>> from linkml_runtime.loaders import json_loader
+        >>> converter = OboGraphToFHIRConverter()
+        >>> graph = json_loader.load("tests/input/hp_test.json", target_class=GraphDocument)
+        >>> code_system = converter.convert(graph)
+        >>> print(json_dumper.dumps(code_system))
+        <BLANKLINE>
+        ...
+         "concept": [
+            {
+            "code": "HP:0012639",
+            "display": "Abnormal nervous system morphology",
+            "definition": "A structural anomaly of the nervous system.",
+            "designation": [
+         ...
 
         :return:
         """
