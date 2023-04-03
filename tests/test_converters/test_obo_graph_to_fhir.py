@@ -1,5 +1,8 @@
 """Tests for: Obographs to FHIR converter"""
+import json
 import os
+import shutil
+import tarfile
 import unittest
 from typing import List
 
@@ -7,7 +10,10 @@ import curies
 import requests
 from linkml_runtime.loaders import json_loader
 
-from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
+from oaklib.converters.obo_graph_to_fhir_converter import (
+    OboGraphToFhirJsonConverter,
+    OboGraphToFhirNpmConverter,
+)
 from oaklib.datamodels.fhir import CodeSystem
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
@@ -34,7 +40,33 @@ class OboGraphToFHIRTest(unittest.TestCase):
             return json_loader.load(str(download_path), target_class=GraphDocument)
         return json_loader.load(url, target_class=GraphDocument)
 
-    def _load_and_convert(
+    def _load_and_convert_npm(
+        self,
+        outdir: str,
+        obograph_path: str,
+        dl_url: str = None,
+        code_system_url: str = None,
+        code_system_id: str = None,
+        native_uri_stems: List[str] = None,
+        manifest_path: str = None,
+    ) -> str:
+        """Loads and converts an ontology."""
+        if dl_url:
+            gd: GraphDocument = self._load_ontology(dl_url, obograph_path)
+        else:
+            gd: GraphDocument = json_loader.load(str(obograph_path), target_class=GraphDocument)
+        outpath: str = self.npm_converter.dump(
+            gd,
+            outdir,
+            code_system_id=code_system_id,
+            code_system_url=code_system_url,
+            include_all_predicates=True,
+            native_uri_stems=native_uri_stems,
+            manifest_path=manifest_path,
+        )
+        return outpath
+
+    def _load_and_convert_json(
         self,
         outpath: str,
         obograph_path: str,
@@ -48,7 +80,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             gd: GraphDocument = self._load_ontology(dl_url, obograph_path)
         else:
             gd: GraphDocument = json_loader.load(str(obograph_path), target_class=GraphDocument)
-        self.converter.dump(
+        self.json_converter.dump(
             gd,
             outpath,
             code_system_id=code_system_id,
@@ -60,8 +92,14 @@ class OboGraphToFHIRTest(unittest.TestCase):
 
     def setUp(self):
         """Set up tests"""
-        self.converter = OboGraphToFHIRConverter()
-        self.converter.curie_converter = curies.Converter.from_prefix_map(get_default_prefix_map())
+        self.json_converter = OboGraphToFhirJsonConverter()
+        self.json_converter.curie_converter = curies.Converter.from_prefix_map(
+            get_default_prefix_map()
+        )
+        self.npm_converter = OboGraphToFhirNpmConverter()
+        self.npm_converter.curie_converter = curies.Converter.from_prefix_map(
+            get_default_prefix_map()
+        )
         self.compliance_tester = ComplianceTester(self)
 
     def test_convert_go_nucleus(self):
@@ -69,7 +107,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
         filename = "CodeSystem-go-nucleus"
         ont = INPUT_DIR / "go-nucleus.json"
         out = OUTPUT_DIR / f"{filename}.json"
-        cs: CodeSystem = self._load_and_convert(
+        cs: CodeSystem = self._load_and_convert_json(
             out,
             ont,
             code_system_id=filename.replace("CodeSystem-", ""),
@@ -89,7 +127,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
         filename = "CodeSystem-hp_test"
         ont = INPUT_DIR / "hp_test.json"
         out = OUTPUT_DIR / f"{filename}.json"
-        cs: CodeSystem = self._load_and_convert(
+        cs: CodeSystem = self._load_and_convert_json(
             out,
             ont,
             code_system_id=filename.replace("CodeSystem-", ""),
@@ -100,7 +138,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
         [nucleus_concept] = [c for c in cs.concept if c.code == "HP:0012639"]
         self.assertEqual("Abnormal nervous system morphology", nucleus_concept.display)
 
-    @unittest.skip("TODO: change to an integration test")
+    @unittest.skip("Skipping due to long run time (file download)")  # todo: also change to integration test
     def test_convert_mondo(self):
         """Tests specific to Mondo."""
         if DOWNLOAD_TESTS_ON:
@@ -111,7 +149,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             )
             dl_path = OUTPUT_DIR / "mondo.owl.obographs.json"
             out = OUTPUT_DIR / f"{filename}.json"
-            cs: CodeSystem = self._load_and_convert(
+            cs: CodeSystem = self._load_and_convert_json(
                 out,
                 dl_path,
                 dl_url=dl_url,
@@ -123,7 +161,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             prop_uris: List[str] = [p.uri for p in cs.property]
             self.assertIn("http://purl.obolibrary.org/obo/RO_0002353", prop_uris)
 
-    @unittest.skip("TODO: change to an integration test")
+    @unittest.skip("Skipping due to long run time (file download)")  # todo: also change to integration test
     def test_convert_hpo(self):
         """Tests specific to HPO."""
         if DOWNLOAD_TESTS_ON:
@@ -134,7 +172,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             )
             dl_path = OUTPUT_DIR / "hpo.owl.obographs.json"
             out = OUTPUT_DIR / f"{filename}.json"
-            cs: CodeSystem = self._load_and_convert(
+            cs: CodeSystem = self._load_and_convert_json(
                 out,
                 dl_path,
                 dl_url=dl_url,
@@ -146,7 +184,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             prop_uris: List[str] = [p.uri for p in cs.property]
             self.assertIn("http://purl.obolibrary.org/obo/RO_0002353", prop_uris)
 
-    @unittest.skip("TODO: change to an integration test")
+    @unittest.skip("Skipping due to long run time (file download)")  # todo: also change to integration test
     def test_convert_comploinc(self):
         """Tests specific to CompLOINC."""
         if DOWNLOAD_TESTS_ON:
@@ -157,7 +195,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             )
             dl_path = OUTPUT_DIR / "comploinc.owl.obographs.json"
             out = OUTPUT_DIR / f"{filename}.json"
-            cs: CodeSystem = self._load_and_convert(
+            cs: CodeSystem = self._load_and_convert_json(
                 out,
                 dl_path,
                 dl_url=dl_url,
@@ -170,7 +208,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             prop_uris: List[str] = [p.uri for p in cs.property]
             self.assertIn("https://loinc.org/hasComponent", prop_uris)
 
-    @unittest.skip("TODO: change to an integration test")
+    @unittest.skip("Skipping due to long run time (file download)")  # todo: also change to integration test
     def test_convert_rxnorm(self):
         """Tests specific to Bioportal RXNORM.ttl."""
         if DOWNLOAD_TESTS_ON:
@@ -181,7 +219,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             )
             dl_path = OUTPUT_DIR / "RXNORM-fixed.ttl.obographs.json"
             out = OUTPUT_DIR / f"{filename}.json"
-            cs: CodeSystem = self._load_and_convert(
+            cs: CodeSystem = self._load_and_convert_json(
                 out,
                 dl_path,
                 dl_url=dl_url,
@@ -189,13 +227,13 @@ class OboGraphToFHIRTest(unittest.TestCase):
                 code_system_url="http://purl.bioontology.org/ontology/RXNORM",
                 native_uri_stems=["http://purl.bioontology.org/ontology/RXNORM/"],
             )
-            # TODO: choose a better threshold
+            # todo: choose a better threshold
             self.assertGreater(len(cs.concept), 100)
-            # TODO: choose a property to assert
+            # todo: choose a property to assert
             # prop_uris: List[str] = [p.uri for p in cs.property]
             # self.assertIn("", prop_uris)
 
-    @unittest.skip("TODO: change to an integration test")
+    @unittest.skip("Skipping due to long run time (file download)")  # todo: also change to integration test
     def test_convert_so(self):
         """Tests specific to Sequence Ontology (SO)."""
         if DOWNLOAD_TESTS_ON:
@@ -206,7 +244,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             )
             dl_path = OUTPUT_DIR / "so.owl.obographs.json"
             out = OUTPUT_DIR / f"{filename}.json"
-            cs: CodeSystem = self._load_and_convert(
+            cs: CodeSystem = self._load_and_convert_json(
                 out,
                 dl_path,
                 dl_url=dl_url,
@@ -214,8 +252,35 @@ class OboGraphToFHIRTest(unittest.TestCase):
                 code_system_url="http://purl.obolibrary.org/obo/so.owl",
                 native_uri_stems=["http://purl.obolibrary.org/obo/SO_"],
             )
-            # TODO: choose a better threshold
+            # todo: choose a better threshold
             self.assertGreater(len(cs.concept), 100)
-            # TODO: choose a property to assert
+            # todo: choose a property to assert
             # prop_uris: List[str] = [p.uri for p in cs.property]
             # self.assertIn("", prop_uris)
+
+    @unittest.skip("Skipping due to long run time (file download)")  # todo: also change to integration test
+    def test_convert_so_package(self):
+        """Tests specific to Sequence Ontology (SO)."""
+        if DOWNLOAD_TESTS_ON:
+            filename = "CodeSystem-sequence-ontology"
+            dl_url = (
+                "https://github.com/"
+                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-13/so.owl.obographs.json"
+            )
+            dl_path = OUTPUT_DIR / "so.owl.obographs.json"
+            zip_outpath: str = self._load_and_convert_npm(
+                OUTPUT_DIR,
+                dl_path,
+                dl_url=dl_url,
+                code_system_id=filename.replace("CodeSystem-", ""),
+                code_system_url="http://purl.obolibrary.org/obo/so.owl",
+                native_uri_stems=["http://purl.obolibrary.org/obo/SO_"],
+                manifest_path=INPUT_DIR / "fhir_npm_manifest_so.json",
+            )
+            unzip_path = os.path.join(OUTPUT_DIR, os.path.basename(zip_outpath).replace(".tgz", ""))
+            with tarfile.open(zip_outpath, "r:gz") as tar:
+                tar.extractall(unzip_path, members=tar.getmembers())
+            with open(os.path.join(unzip_path, "package", filename + ".json")) as f:
+                cs = json.load(f)
+            shutil.rmtree(unzip_path)
+            self.assertGreater(len(cs["concept"]), 100)

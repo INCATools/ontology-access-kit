@@ -1,0 +1,24 @@
+{
+    "name": "sequence-ontology",
+    "version": "0.1.0",
+    "canonical": "http://purl.obolibrary.org/obo/so.owl",
+    "title": "Sequence Ontology",
+    "description": "The Sequence Ontology is a set of terms and relationships used to describe the features and attributes of biological sequence.",
+    "homepage": "http://www.sequenceontology.org/",
+    "keywords": [
+        "SO",
+        "Sequence Ontology"
+    ],
+    "author": "TIMS",
+    "maintainers": [
+        {
+            "name": "Joe Flack",
+            "email": "jflack@jhu.edu"
+        },
+        {
+            "name": "Shahim Essaid",
+            "email": "shahim@essaid.com"
+        }
+    ],
+    "license": "MIT"
+}

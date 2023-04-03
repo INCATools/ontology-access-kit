@@ -5,5 +5,5 @@ OBO Graph to FHIR Converter
 
 .. currentmodule:: oaklib.converters.obo_graph_to_fhir_converter
                    
-.. autoclass:: OboGraphToFHIRConverter
+.. autoclass:: OboGraphToFhirJsonConverter
     :members:
