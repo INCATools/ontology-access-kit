@@ -11,7 +11,7 @@ from oaklib.resource import OntologyResource
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, VACUOLE
 
 
-@unittest.skip("Skipping until we replace with mock tests - https://github.com/INCATools/ontology-access-kit/issues/510")
+@unittest.skip("Skipping until we have mock tests - https://github.com/INCATools/ontology-access-kit/issues/510")
 class TestOlsImplementation(unittest.TestCase):
     def setUp(self) -> None:
         oi = OlsImplementation(OntologyResource("go"))
