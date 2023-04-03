@@ -863,6 +863,12 @@ class ProntoImplementation(
             self.add_relationship(patch.subject, patch.predicate, patch.object)
         elif isinstance(patch, kgcl.EdgeDeletion):
             self.remove_relationship(patch.subject, patch.predicate, patch.object)
+        elif isinstance(patch, kgcl.RemoveSynonym):
+            t = self._entity(patch.about_node, strict=True)
+            synonym_to_remove = [
+                syn for syn in t._data().synonyms if syn.description == patch.old_value
+            ][0]
+            t._data().synonyms.discard(synonym_to_remove)
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
         return patch
