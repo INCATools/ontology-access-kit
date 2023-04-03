@@ -65,28 +65,28 @@ Schemes
 pronto
 ^^^^
 
-Implementation: :ref:`ProntoImplementation`
+Implementation: :ref:`pronto_implementation`
 
 The slug is a path to a file on disk. Must be in obo or owl or json
 
 prontolib
 ^^^^
 
-Implementation: :ref:`ProntoImplementation`
+Implementation: :ref:`pronto_implementation`
 
 The slug is the name of the resource on obo, e.g. pato.obo, cl.owl
 
 sqlite
 ^^^^
 
-Implementation: :ref:`SqlImplementation`
+Implementation: :ref:`sql_implementation`
 
 The slug is the path to the sqlite .db file on local disk
 
 obosqlite
 ^^^^
 
-Implementation: :ref:`SqlImplementation`
+Implementation: :ref:`sql_implementation`
 
 The slug is the name of the ontology, e.g 'hp', 'uberon'
 
@@ -95,35 +95,28 @@ TODO: download from s3
 ontobee
 ^^^^
 
-Implementation: :ref:`OntobeeImplementation`
+Implementation: :ref:`ontobee_implementation`
 
 Currently the slug is ignored
 
 ols
 ^^^^
 
-Implementation: :ref:`OlsImplementation`
+Implementation: :ref:`ols_implementation`
 
 Currently the slug is ignored
 
 bioportal
 ^^^^
 
-Implementation: :ref:`BioportalImplementation`
+Implementation: :ref:`bioportal_implementation`
 
 Currently the slug is ignored
 
 funowl
 ^^^^
 
-Implementation: :ref:`OwlImplementation`
-
-NOT IMPLEMENTED YET
-
-owlery
-^^^^
-
-Implementation: :ref:`OwleryImplementation`
+Implementation: :ref:`funowl_implementation`
 
 NOT IMPLEMENTED YET
 

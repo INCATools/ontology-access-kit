@@ -56,6 +56,17 @@ templates_path = ["_templates"]
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# https://stackoverflow.com/questions/37209921/python-how-not-to-sort-sphinx-output-in-alphabetical-order
+autodoc_member_order = "bysource"
+
+# https://sphinx-copybutton.readthedocs.io/en/latest/use.html
+# https://github.com/executablebooks/sphinx-copybutton/issues/185
+copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
+# workaround
+# https://sphinx-copybutton-exclude-issue.readthedocs.io/en/v0.5.1-go/
+# https://github.com/executablebooks/sphinx-copybutton/issues/185
+copybutton_exclude = ".linenos"
 
 # -- Options for HTML output -------------------------------------------------
 

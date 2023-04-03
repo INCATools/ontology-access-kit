@@ -1,6 +1,6 @@
 .. _bioportal_implementation:
 
-Bioportal Endpoint
+Bioportal Adapter
 ==================
 
 The Bioportal adapter uses `ontoportal-client <https://github.com/cthoyt/ontoportal-client>`_ to connect to

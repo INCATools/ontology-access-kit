@@ -1,7 +1,7 @@
 .. ols:
 
-Ontology Lookup Service (OLS) Endpoint
-==================
+Ontology Lookup Service (OLS) Adapter
+=====================================
 
 Provides access to ontologies provided via the EMBL-EBI `Ontology Lookup Service <https://www.ebi.ac.uk/ols/>`_ (OLS)
 

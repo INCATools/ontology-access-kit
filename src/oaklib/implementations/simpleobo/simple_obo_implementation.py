@@ -108,7 +108,6 @@ from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterfac
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.kgcl_utilities import tidy_change_object
 
 
@@ -485,26 +484,6 @@ class SimpleOboImplementation(
                     if objects is not None and o not in objects:
                         continue
                     yield s, p, o
-
-    def outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        for s, p, o in self.relationships([curie], predicates, include_entailed=entailed):
-            if s == curie:
-                yield p, o
-
-    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
-
-    def incoming_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        for s, p, o in self.relationships(None, predicates, [curie], include_entailed=entailed):
-            if o == curie:
-                yield p, s
-
-    def incoming_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.incoming_relationships(*args, **kwargs))
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
         # TODO: move up, avoid repeating code

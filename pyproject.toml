@@ -45,7 +45,7 @@ sphinx-click = "^3.1.0"
 myst-parser = "^0.17.0"
 linkml = "^1.2.14"
 sphinxcontrib-mermaid = "^0.7.1"
-sphinx-copybutton = "*"
+sphinx-copybutton = "0.5.1"
 coverage = "^6.3.2"
 
 [build-system]

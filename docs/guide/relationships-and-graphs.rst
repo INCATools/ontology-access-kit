@@ -3,11 +3,20 @@
 Relationships and Graphs
 ========================
 
-One of the main uses of an ontology is to precisely state the *relationships* between different entities or concepts.
+One of the main uses of an ontology is to precisely state the :term:`Relationships<Relationship>` between different entities or concepts.
 
-In OAK, classes in ontologies can be related to one another via different *relationship types*. These
-may come from a relationship type ontology such as RO, or they may be part of the RDF/OWL framework, such
-as :ref:`SubClassOf`.
+In OAK, classes in ontologies can be related to one another via different :term:`Relationship Types<Predicate>`. These
+may come from a relationship type ontology such as :term:`RO`, or they may be a "builtin" construct in :term:`RDF` or :term:`OWL`
+such as ``rdfs:subClassOf``.
+
+These can be thought of as a :term:`Graph` of concepts and relationships. This is a common idiom
+for bioinformatics users of ontologies - but perhaps surprisingly, graphs do not
+feature heavily in Description Logic formalisms of ontologies like :term:`OWL`.
+
+Instead there exist a number of different :term:`Ontology Graph Projection` methods that
+project from OWL to a graph. The fact there is no one standard method can lead to confusion.
+
+But let's start with a standard bio-ontology example - the :term:`UBERON` ontology.
 
 Exploring relationships
 ------------------------
@@ -18,7 +27,7 @@ We will use the ``relationships`` method from :ref:`basic_ontology_interface`.
 
 .. code-block:: python
 
-    >>> from oaklib.selector import get_adapter
+    >>> from oaklib import get_adapter
     >>> adapter = get_adapter("sqlite:obo:uberon")
     >>> for rel in adapter.relationships(["UBERON:0002398", "UBERON:0002387"]):
     ...    print(rel)
@@ -37,8 +46,6 @@ We can make this more human readable:
 
 .. code-block:: python
 
-    >>> from oaklib.selector import get_adapter
-    >>> adapter = get_adapter("sqlite:obo:uberon")
     >>> for s, p, o in adapter.relationships(["UBERON:0002398", "UBERON:0002387"]):
     ...    print((adapter.label(s), adapter.label(p), adapter.label(o)))
     ('pes', 'part of', 'hindlimb')
@@ -64,8 +71,9 @@ We can make this more human readable:
 Graph Traversal and Relation Graph Reasoning
 --------------------------------------------
 
-The above examples show *direct* relationships between concepts. A common
-use case for ontologies is exploring *indirect* or *entailed* relationships.
+The above examples show :term:`Direct Relationships` between concepts. A common
+use case for ontologies is exploring *indirect* or :term:`Entailed Relationships<Entailed Relationship>`,
+which roughly corresponds to the concept of :term:`Ancestor` in a graph.
 
 We will use the ``ancestors`` method from :ref:`basic_ontology_interface`.
 
@@ -111,8 +119,8 @@ Graph Traversal Strategies
 
 There are actually *two* strategies for getting indirect relationships in OAK:
 
-- HOP, aka *graph walking*
-- ENTAILMENT, aka *reasoning*
+- HOP, aka :term:`Graph Traversal`
+- ENTAILMENT, aka term:`Reasoning`
 
 You can specify which you would like, but if you leave this open the adapter will choose a
 default. Not all adapters can implement both strategies.
@@ -129,7 +137,8 @@ Currently the only OAK adapters to implement ENTAILMENT are:
 - :ref:`ubergraph_implementation`
 - :ref:`sql_implementation`
 
-In both cases the entailment is done ahead of time using :ref:`relation_graph`.
+In both cases the entailment is done ahead of time using :term:`Relation Graph` to compute the
+entailed edges.
 
 An example of a case where results between these approaches differ is in computing
 the ancestors of ``GO:1901494`` *regulation of cysteine metabolic process*.

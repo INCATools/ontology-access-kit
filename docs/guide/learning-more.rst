@@ -1,12 +1,11 @@
-.. _formats:
+.. _learning_more:
 
-Ontology Languages and Formats
-==============================
+Learning More
+=============
 
-There are a number of different formats and data models for representing ontologies. The
-most commonly used is the Web Ontology Language (OWL), which is a logic-based language that
-has a number of different serializations and mappings.
+More details will be added to this guide over time.
 
-However, there are a number of other ways of exchanging and representing ontologies.
-This can be confusing for both new and even experienced users.
+For now, you can explore some more advanced OAK concepts through the use of different
+:term:`Interfaces<Interface>`.
 
+See the :ref:`interfaces` section for more information.

@@ -27,7 +27,7 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
-from oaklib.utilities.basic_utils import get_curie_prefix
+from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
 
 LANGUAGE_TAG = str
 NC_NAME = str
@@ -783,11 +783,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie: the 'child' term
         :return:
         """
-        raise NotImplementedError()
-
-    @deprecated("Use outgoing_relationship_map(curie)")
-    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self.outgoing_relationship_map(curie)
+        return pairs_as_dict([(p, o) for _, p, o in self.relationships([curie])])
 
     def outgoing_relationships(
         self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
@@ -799,17 +795,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.outgoing_relationship_map(curie).items():
-            if predicates is not None and p not in predicates:
-                continue
-            for v in vs:
-                yield p, v
-
-    @deprecated("Use outgoing_relationships()")
-    def get_outgoing_relationships(
-        self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        return self.outgoing_relationships(curie, predicates)
+        for _, p, o in self.relationships([curie], predicates=predicates):
+            yield p, o
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
@@ -820,11 +807,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :return:
         """
-        raise NotImplementedError
-
-    @deprecated("Use incoming_relationship_map(curie)")
-    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self.incoming_relationship_map(curie)
+        return pairs_as_dict([(p, s) for s, p, _ in self.relationships(objects=[curie])])
 
     def incoming_relationships(
         self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
@@ -836,15 +819,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.incoming_relationship_map(curie).items():
-            if predicates is None or p not in predicates:
-                continue
-            for v in vs:
-                yield p, v
-
-    @deprecated("Replaced by incoming_relationships(...)")
-    def get_incoming_relationships(self, **kwargs) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        return self.incoming_relationships(**kwargs)
+        for s, p, _ in self.relationships(objects=[curie], predicates=predicates):
+            yield p, s
 
     def relationships(
         self,
@@ -879,10 +855,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                     if objects and this_object not in objects:
                         continue
                     yield subject, this_predicate, this_object
-
-    @deprecated("Use relationships()")
-    def get_relationships(self, **kwargs) -> Iterator[RELATIONSHIP]:
-        return self.relationships(**kwargs)
 
     @deprecated("Use relationships()")
     def all_relationships(self) -> Iterable[RELATIONSHIP]:

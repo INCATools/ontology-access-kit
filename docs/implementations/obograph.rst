@@ -1,7 +1,7 @@
 .. obograph_implementation:
 
-OBO Graph Implementation
-=================================
+OBO Graph Adapter
+=================
 
 About
 -----

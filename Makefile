@@ -3,6 +3,7 @@ RUN = poetry run
 test:
 	$(RUN) python -m unittest tests/test_*py tests/*/test_*py
 
+# not yet deployed
 doctest:
 	find src docs -type f \( -name "*.rst" -o -name "*.md" -o -name "*.py" \) -print0 | xargs -0 $(RUN) python -m doctest
 

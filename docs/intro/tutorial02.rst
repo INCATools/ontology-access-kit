@@ -45,58 +45,56 @@ Then create a python program: ``my_oak_demo/demo.py`` and add the following:
 
 .. code-block:: python
 
+    >>> from oaklib import get_adapter
     >>> adapter = get_adapter("sqlite:obo:cl")
 
 Next, let's perform some basic lookup operations on the ontology:
 
 .. code-block:: python
 
-    >>> for rel in adapter.relationships('FBbt:00004751')
-    >>>
-    >>> for rel, parents in rels.items():
-    >>>     print(f'  {rel} ! {oi.label(rel)}')
-    >>>     for parent in parents:
-    >>>         print(f'    {parent} ! {oi.label(parent)}')
+    >>> print(adapter.label('CL:4023017'))
+    sst GABAergic cortical interneuron
+    >>> print(adapter.definition('CL:4023017'))
+    A GABAergic neuron located in the cerebral cortex that expresses somatostatin (sst)
 
-We first obtain all of the outgoing relationships from the 
-FBbt class for "wing vein", which has the id of ``FBbt:00004751``.
+You can look up the methods above in the documentation for the :ref:`basic_ontology_interface`
 
-Next, we iterate through all the relationships, and print the labels for 
-both the relationship and the connected entities (here named ``parents``) using
-the ``label()`` method of :ref:`basic_ontology_interface` object.
-
-.. note::
-
-   behind the scenes, the :ref:`pronto` implementation is being used, but as an application
-   programmer you shouldn't care about the specific implementation - code to the interface.
-   The beauty of OAK is that the *same code* will work with other backends!
-
-You should see something similar to:
+Now we will query for outgoing relationships from the sst GABAergic cortical interneuron:
 
 .. code-block:: python
 
-    rdfs:subClassOf ! subClassOf
-      FBbt:00007245 ! cuticular specialization
-    RO:0002202 ! develops_from
-      FBbt:00046035 ! presumptive wing vein
-    BFO:0000050 ! part_of
-      FBbt:00006015 ! wing blade
+    >>> for s, p, o in adapter.relationships(['CL:4023017']):
+    ...     print(s, p, o)
+    CL:4023017 RO:0002292 PR:000015665
+    CL:4023017 rdfs:subClassOf CL:0010011
 
 Extending the example
 ---------
 
 Next we will write a function that takes as input
 
-- an ontology handle
-- a term ID (CURIE)
+- an ontology :term:`adapter`
+- a term ID (term:`CURIE`)
 
-And writes out information about that term
+And write out information about that term
 
 .. code-block:: python
 
-    def show_info(oi: BasicOntologyInterface, term_id: str):
-        print("ID: {term_id}")
-        print("Name: {oi.label(term_id)}")
-        print("Definition: {oi.definition(term_id)}")
-        for rel, parent in oi.outgoing_relationships(term_id):
-            print(f'  {rel} {oi.label(rel)} {parent} {oi.label(parent)}')
+    >>> from oaklib import BasicOntologyInterface
+    >>> def show_info(adapter: BasicOntologyInterface, term_id: str):
+    ...     print(f"ID: {term_id}")
+    ...     print(f"Name: {adapter.label(term_id)}")
+    ...     print(f"Definition: {adapter.definition(term_id)}")
+    ...     for rel, parent in adapter.outgoing_relationships(term_id):
+    ...         print(f'  {rel} ({adapter.label(rel)}) {parent} ({adapter.label(parent)})')
+
+We can now try this:
+
+.. code-block:: python
+
+    >>> show_info(adapter, 'CL:4023017')
+    ID: CL:4023017
+    Name: sst GABAergic cortical interneuron
+    Definition: A GABAergic neuron located in the cerebral cortex that expresses somatostatin (sst)
+      RO:0002292 (expresses) PR:000015665 (somatostatin)
+      rdfs:subClassOf (None) CL:0010011 (cerebral cortex GABAergic interneuron)
