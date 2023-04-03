@@ -1911,6 +1911,21 @@ class SqlImplementation(
                         subject=about, predicate=HAS_EXACT_SYNONYM, value=patch.new_value
                     )
                 )
+            elif isinstance(patch, kgcl.RemoveSynonym):
+                q = self.session.query(Statements).filter(
+                    Statements.subject == about, Statements.value == patch.old_value
+                )
+                for syn_type in SYNONYM_PREDICATES:
+                    self._execute(
+                        delete(Statements).where(
+                            and_(
+                                Statements.subject == about,
+                                Statements.predicate == syn_type,
+                                Statements.value == patch.old_value,
+                            )
+                        )
+                    )
+
             elif isinstance(patch, kgcl.NodeObsoletion):
                 self.check_node_exists(about)
                 self._set_predicate_value(
@@ -1956,7 +1971,6 @@ class SqlImplementation(
                     delete(Statements).where(
                         and_(
                             Statements.subject == about,
-                            Statements.predicate == predicate,
                             Statements.predicate == predicate,
                             Statements.value == patch.old_value,
                         )
