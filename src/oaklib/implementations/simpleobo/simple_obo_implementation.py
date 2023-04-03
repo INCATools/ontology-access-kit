@@ -836,8 +836,8 @@ class SimpleOboImplementation(
         elif isinstance(patch, kgcl.RemoveSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
-            v = patch.old_value.replace('"', '\\"')
-            t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
+            v = patch.old_value.strip('"')  # Handling a bug where quotes are accidentally introduced.
+            t.remove_tag_quoted_value(TAG_SYNONYM, v)
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
             modified_entities.append(patch.subject)
