@@ -18,7 +18,9 @@ DOWNLOAD_TESTS_ON = True
 
 
 class OboGraphToFHIRTest(unittest.TestCase):
-    """Tests OBO JSON -> FHIR. Different ontologies have unique structures, so test some specifics for those."""
+    """Tests OBO JSON -> FHIR.
+
+    Different ontologies have unique structures, so test some specifics for those."""
 
     @staticmethod
     def _load_ontology(url: str, download_path: str, use_cache: bool = True) -> GraphDocument:
@@ -63,7 +65,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
         self.compliance_tester = ComplianceTester(self)
 
     def test_convert_go_nucleus(self):
-        """General test & specifis for go nucleus."""
+        """General test & specific to go nucleus."""
         filename = "CodeSystem-go-nucleus"
         ont = INPUT_DIR / "go-nucleus.json"
         out = OUTPUT_DIR / f"{filename}.json"
@@ -82,6 +84,23 @@ class OboGraphToFHIRTest(unittest.TestCase):
         self.assertEqual(len(parents), 1)
         self.assertTrue(parents[0].valueCode == IMBO)
 
+    def test_convert_hp_subset(self):
+        """Test extracted subset of HPO."""
+        filename = "CodeSystem-hp_test"
+        ont = INPUT_DIR / "hp_test.json"
+        out = OUTPUT_DIR / f"{filename}.json"
+        cs: CodeSystem = self._load_and_convert(
+            out,
+            ont,
+            code_system_id=filename.replace("CodeSystem-", ""),
+            code_system_url="http://purl.obolibrary.org/obo/hp.owl",
+            native_uri_stems=["http://purl.obolibrary.org/obo/HP_"],
+        )
+        self.assertEqual("CodeSystem", cs.resourceType)
+        [nucleus_concept] = [c for c in cs.concept if c.code == "HP:0012639"]
+        self.assertEqual("Abnormal nervous system morphology", nucleus_concept.display)
+
+    @unittest.skip("TODO: change to an integration test")
     def test_convert_mondo(self):
         """Tests specific to Mondo."""
         if DOWNLOAD_TESTS_ON:
@@ -104,6 +123,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             prop_uris: List[str] = [p.uri for p in cs.property]
             self.assertIn("http://purl.obolibrary.org/obo/RO_0002353", prop_uris)
 
+    @unittest.skip("TODO: change to an integration test")
     def test_convert_hpo(self):
         """Tests specific to HPO."""
         if DOWNLOAD_TESTS_ON:
@@ -126,6 +146,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             prop_uris: List[str] = [p.uri for p in cs.property]
             self.assertIn("http://purl.obolibrary.org/obo/RO_0002353", prop_uris)
 
+    @unittest.skip("TODO: change to an integration test")
     def test_convert_comploinc(self):
         """Tests specific to CompLOINC."""
         if DOWNLOAD_TESTS_ON:
@@ -149,6 +170,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             prop_uris: List[str] = [p.uri for p in cs.property]
             self.assertIn("https://loinc.org/hasComponent", prop_uris)
 
+    @unittest.skip("TODO: change to an integration test")
     def test_convert_rxnorm(self):
         """Tests specific to Bioportal RXNORM.ttl."""
         if DOWNLOAD_TESTS_ON:
@@ -173,6 +195,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
             # prop_uris: List[str] = [p.uri for p in cs.property]
             # self.assertIn("", prop_uris)
 
+    @unittest.skip("TODO: change to an integration test")
     def test_convert_so(self):
         """Tests specific to Sequence Ontology (SO)."""
         if DOWNLOAD_TESTS_ON:
