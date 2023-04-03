@@ -13,12 +13,12 @@ How-To Guides
    :maxdepth: 3
    :caption: Contents:
 
-   fhir-conversions
    perform-lexical-matching
    roll-up-annotations-to-a-subset
    validate-an-obo-ontology
    visualize-ontology-subgraphs
    write-a-plugin
+   fhir-conversions
 
 
 

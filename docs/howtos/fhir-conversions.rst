@@ -1,15 +1,37 @@
 FHIR Conversions
-========================
+================
+
+:term:`FHIR` (Fast Healthcare Interoperability Resources) is a standard for exchanging healthcare data.
+
+OAK includes methods for converting ontologies or ontology fragments to FHIR CodeSystems.
+However, there is no agreed-upon standard way of converting ontologies to FHIR, because
+each ontology has its own conventions and metadata vocabularies, and FHIR makes some
+assumptions that don't hold for ontologies in OBO such as all terms belonging to
+the same code system.
+
+For this reason we make FHIR conversion highly configurable to suit the needs
+of a particular project or FHIR server.
 
 CLI
-===============
-The general pattern is from the CLI is:
+---
+
+Here we will use the OAK ``dump`` command to export an entire ontology to FHIR.
+
+The general pattern for the ``dump`` command is from the CLI is:
 
 .. code-block:: bash
 
-    $ runoak -i INPUT-SPEC dump -O FORMAT -o OUTPUT-FILE
+    $ runoak -i INPUT dump -O FORMAT -o OUTPUT-FILE
+
+For dumping to the FHIR json serialization, use ``fhirjson`` as the format:
+
+.. code-block:: bash
+
+    $ runoak -i INPUT dump -O fhirjson -o OUTPUT-FILE
+
 
 The `fhirjson` format includes a --config-file / -c parameter for its additional parameters.
+
 
 Example:
 
@@ -18,7 +40,7 @@ Example:
     $ runoak --i go-nucleus.obo dump -o CodeSystem-go-nucleus.json -O fhirjson -c tests/input/fhir_config_example.json
 
 Config file
-===============
+-----------
 
 Options:  
 
