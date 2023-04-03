@@ -1,7 +1,7 @@
 .. ontobee:
 
-Ontobee Endpoint
-==================
+Ontobee Adapter
+===============
 
 Specializes the :ref:`sparql` implementation to allow access for ontologies on the `Ontobee <https://www.ontobee.org/>`_ linked data server.
 

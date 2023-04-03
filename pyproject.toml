@@ -45,6 +45,7 @@ sphinx-click = "^3.1.0"
 myst-parser = "^0.17.0"
 linkml = "^1.2.14"
 sphinxcontrib-mermaid = "^0.7.1"
+sphinx-copybutton = "0.5.1"
 coverage = "^6.3.2"
 
 [build-system]
@@ -57,7 +58,7 @@ vskit = "oaklib.utilities.subsets.value_set_expander:main"
 boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 
 [tool.poetry.extras]
-docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
+docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid", "sphinx-copybutton"]
 gilda = ["scipy", "gilda"]
 seaborn = ["seaborn"]
 

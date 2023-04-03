@@ -1,3 +1,5 @@
+.. _mapping_provider_interface:
+
 Mapping Provider
 ==============
 

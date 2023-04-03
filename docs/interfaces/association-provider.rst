@@ -1,3 +1,6 @@
+.. association_provider_interface:
+
+
 Association Provider
 ==============
 

@@ -1,6 +1,6 @@
 .. _aggregator_implementation:
 
-Aggregator Implementation
+Aggregator Adapter
 ==================
 
 .. warning ::

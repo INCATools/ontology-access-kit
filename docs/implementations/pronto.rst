@@ -1,7 +1,7 @@
 .. pronto_implementation:
 
-Pronto / OBO Files Implementation
-=================================
+Pronto / OBO Files Adapter
+==========================
 
 About
 -----

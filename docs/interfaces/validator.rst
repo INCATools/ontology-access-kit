@@ -1,4 +1,4 @@
-.. _validator
+.. _validator_interface:
 
 Validator Interface
 --------------------

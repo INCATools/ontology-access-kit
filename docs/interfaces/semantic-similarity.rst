@@ -1,3 +1,5 @@
+.. _semantic_similarity_interface:
+
 Semantic Similarity Interface
 --------------------
 

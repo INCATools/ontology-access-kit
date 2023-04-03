@@ -1,7 +1,9 @@
-Merge Interface
+.. _dumper_interface:
+
+Dumper Interface
 --------------------
 
-.. currentmodule:: oaklib.interfaces.merge_interface
+.. currentmodule:: oaklib.interfaces.dumper_interface
                    
-.. autoclass:: MergeInterface
+.. autoclass:: DumperInterface
     :members:
