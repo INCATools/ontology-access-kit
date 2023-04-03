@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FHIR Conversions &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Notebooks" href="../notebooks.html" />
+    <link rel="prev" title="How to write a plugin" href="write-a-plugin.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html">How to write a plugin</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FHIR Conversions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cli">CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config-file">Config file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How-To Guides</a></li>
+      <li class="breadcrumb-item active">FHIR Conversions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/howtos/fhir-conversions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fhir-conversions">
+<h1>FHIR Conversions<a class="headerlink" href="#fhir-conversions" title="Permalink to this headline"></a></h1>
+<p><span class="xref std std-term">FHIR</span> (Fast Healthcare Interoperability Resources) is a standard for exchanging healthcare data.</p>
+<p>OAK includes methods for converting ontologies or ontology fragments to FHIR CodeSystems.
+However, there is no agreed-upon standard way of converting ontologies to FHIR, because
+each ontology has its own conventions and metadata vocabularies, and FHIR makes some
+assumptions that don’t hold for ontologies in OBO such as all terms belonging to
+the same code system.</p>
+<p>For this reason we make FHIR conversion highly configurable to suit the needs
+of a particular project or FHIR server.</p>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this headline"></a></h2>
+<p>Here we will use the OAK <code class="docutils literal notranslate"><span class="pre">dump</span></code> command to export an entire ontology to FHIR.</p>
+<p>The general pattern for the <code class="docutils literal notranslate"><span class="pre">dump</span></code> command is from the CLI is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>INPUT<span class="w"> </span>dump<span class="w"> </span>-O<span class="w"> </span>FORMAT<span class="w"> </span>-o<span class="w"> </span>OUTPUT-FILE
+</pre></div>
+</div>
+<p>For dumping to the FHIR json serialization, use <code class="docutils literal notranslate"><span class="pre">fhirjson</span></code> as the format:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>INPUT<span class="w"> </span>dump<span class="w"> </span>-O<span class="w"> </span>fhirjson<span class="w"> </span>-o<span class="w"> </span>OUTPUT-FILE
+</pre></div>
+</div>
+<p>The <cite>fhirjson</cite> format includes a –config-file / -c parameter for its additional parameters.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>--i<span class="w"> </span>go-nucleus.obo<span class="w"> </span>dump<span class="w"> </span>-o<span class="w"> </span>CodeSystem-go-nucleus.json<span class="w"> </span>-O<span class="w"> </span>fhirjson<span class="w"> </span>-c<span class="w"> </span>tests/input/fhir_config_example.json
+</pre></div>
+</div>
+</section>
+<section id="config-file">
+<h2>Config file<a class="headerlink" href="#config-file" title="Permalink to this headline"></a></h2>
+<p>See <a class="reference internal" href="../converters/obo-graph-to-fhir.html#obo-graph-to-fhir-converter"><span class="std std-ref">OBO Graph to FHIR Converter</span></a> for the full list of options.</p>
+<p>Options:</p>
+<p>code_system_id: _The code system ID to use for identification on the server uploaded to.
+See: <a class="reference external" href="https://hl7.org/fhir/resource-definitions.html#Resource.id">https://hl7.org/fhir/resource-definitions.html#Resource.id</a></p>
+<p>code_system_url: _Canonical URL for the code system.
+See: <a class="reference external" href="https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url">https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url</a></p>
+<p>native_uri_stems: _A comma-separated list of URI stems that will be used to determine whether a
+concept is native to the CodeSystem. For example, for OMIM, the following URI stems are native:
+<a class="reference external" href="https://omim.org/entry/">https://omim.org/entry/</a>, <a class="reference external" href="https://omim.org/phenotypicSeries/PS">https://omim.org/phenotypicSeries/PS</a></p>
+<p>include_all_predicates (default=True): Include the maximal amount of predicates. Changes the default behavior from
+only exporting: IS_A</p>
+<p>use_curies_native_concepts (default=False): _FHIR conventionally uses codes for references to
+concepts that are native to a given CodeSystem. With this option, references will be CURIEs instead.</p>
+<p>use_curies_foreign_concepts (default=False): _Typical FHIR CodeSystems do not contain any
+concepts that are not native to that CodeSystem. In cases where they do appear, this converter defaults to URIs for
+references, unless this flag is present, in which case the converter will attempt to construct CURIEs.</p>
+<p>predicate_period_replacement (default=False): _Predicates URIs populated into <cite>CodeSystem.
+concept.property.code</cite> and <cite>CodeSystem.concept.property.code</cite>, but the popular FHIR server “HAPI” has a bug in whih
+periods ‘.’ cause errors. If this flag is present, periods will be replaced with underscores ‘_’.</p>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;code_system_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HPO&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;code_system_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://purl.obolibrary.org/obo/hp.owl&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;native_uri_stems&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;http://purl.obolibrary.org/obo/HP_&quot;</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;include_all_predicates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;use_curies_native_concepts&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;use_curies_foreign_concepts&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;predicate_period_replacement&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="write-a-plugin.html" class="btn btn-neutral float-left" title="How to write a plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../notebooks.html" class="btn btn-neutral float-right" title="Notebooks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -96,7 +96,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">rdflib</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
@@ -117,7 +117,7 @@
     <span class="n">HAS_NARROW_SYNONYM</span><span class="p">,</span>
     <span class="n">HAS_RELATED_SYNONYM</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">URI</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.obograph_utils</span> <span class="kn">import</span> <span class="n">index_graph_edges_by_subject</span>
 
 <span class="n">TRIPLE</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">,</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
@@ -149,28 +149,11 @@
 <span class="sd">    - Each node in the OboGraph is converted to a _FHIR Concept_.</span>
 <span class="sd">    - Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a code (e.g. &quot;HP:0000001&quot;)</span>
 
-<span class="sd">         - TODO: make this configurable</span>
-
-<span class="sd">    - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is True.</span>
-<span class="sd">      Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.</span>
+<span class="sd">    - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is</span>
+<span class="sd">      True. Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.</span>
 <span class="sd">    - Each synonym in the OboGraph is converted to a _FHIR ConceptDesignation_.</span>
 
 <span class="sd">        - The synonym predicate is mapped to a _FHIR Coding_, using the `SCOPE_MAP`.</span>
-
-<span class="sd">    # TODO: These currently unresolvable</span>
-<span class="sd">        from oaklib.utilities.obograph_utils import load_obograph</span>
-<span class="sd">        from oaklib.utilities.curie_converter import CurieConverter</span>
-<span class="sd">    To use:</span>
-
-<span class="sd">        &gt;&gt;&gt; from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter</span>
-<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.obograph import GraphDocument</span>
-<span class="sd">        &gt;&gt;&gt; from oaklib.utilities.obograph_utils import load_obograph</span>
-<span class="sd">        &gt;&gt;&gt; from oaklib.utilities.curie_converter import CurieConverter</span>
-<span class="sd">        &gt;&gt;&gt; from linkml_runtime.dumpers import json_dumper</span>
-<span class="sd">        &gt;&gt;&gt; converter = OboGraphToFHIRConverter(curie_converter=CurieConverter())</span>
-<span class="sd">        &gt;&gt;&gt; graph = load_obograph(&quot;hp.obo.json&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; code_system = converter.dump(graph)</span>
-<span class="sd">        &gt;&gt;&gt; print(json_dumper.dumps(code_system))</span>
 
 <span class="sd">    To run on the command line:</span>
 
@@ -187,51 +170,116 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump an OBO Graph Document to a FHIR CodeSystem.</span>
 
-<span class="sd">        By default, only IS_A predicates are converted to ConceptProperties. To override this,</span>
-<span class="sd">        specify ``include_all_predicates=True``.</span>
-
-<span class="sd">        :param source:</span>
-<span class="sd">        :param target:</span>
-<span class="sd">        :param include_all_predicates: include the maximal amount of predicates</span>
+<span class="sd">        :param source: Source serialization.</span>
+<span class="sd">        :param target: Target serialization.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments passed to :ref:`convert`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">include_all_predicates</span><span class="o">=</span><span class="n">include_all_predicates</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">json_str</span> <span class="o">=</span> <span class="n">json_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">source</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">json_str</span> <span class="o">=</span> <span class="n">json_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">inject_type</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span></div>
 
+    <span class="c1"># todo: id/url: any way to try to ascertain ID or URL if not passed? and warn if not determined?</span>
 <div class="viewcode-block" id="OboGraphToFHIRConverter.convert"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">code_system_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">code_system_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">native_uri_stems</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_curies_native_concepts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">use_curies_foreign_concepts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">predicate_period_replacement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodeSystem</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an OBO Graph Document to a FHIR CodingSystem</span>
 
-<span class="sd">        :param source:</span>
-<span class="sd">        :param target: if None, one will be created</span>
-<span class="sd">        :param include_all_predicates: include the maximal amount of predicates</span>
-<span class="sd">        :return:</span>
+<span class="sd">        To use:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.obograph import GraphDocument</span>
+<span class="sd">        &gt;&gt;&gt; from linkml_runtime.dumpers import json_dumper</span>
+<span class="sd">        &gt;&gt;&gt; from linkml_runtime.loaders import json_loader</span>
+<span class="sd">        &gt;&gt;&gt; converter = OboGraphToFHIRConverter()</span>
+<span class="sd">        &gt;&gt;&gt; graph = json_loader.load(&quot;tests/input/hp_test.json&quot;, target_class=GraphDocument)</span>
+<span class="sd">        &gt;&gt;&gt; code_system = converter.convert(graph)</span>
+<span class="sd">        &gt;&gt;&gt; print(json_dumper.dumps(code_system))</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">         &quot;concept&quot;: [</span>
+<span class="sd">            {</span>
+<span class="sd">            &quot;code&quot;: &quot;HP:0012639&quot;,</span>
+<span class="sd">            &quot;display&quot;: &quot;Abnormal nervous system morphology&quot;,</span>
+<span class="sd">            &quot;definition&quot;: &quot;A structural anomaly of the nervous system.&quot;,</span>
+<span class="sd">            &quot;designation&quot;: [</span>
+<span class="sd">         ...</span>
+
+<span class="sd">        :param code_system_id: The code system ID to use for identification on the server uploaded to.</span>
+<span class="sd">                               See: https://hl7.org/fhir/resource-definitions.html#Resource.id</span>
+<span class="sd">        :param code_system_url: Canonical URL for the code system.</span>
+<span class="sd">                                See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url</span>
+<span class="sd">        :param native_uri_stems: A list of URI stems that will be used to determine whether a</span>
+<span class="sd">                                 concept is native to the CodeSystem. (not implemented)</span>
+<span class="sd">                                 For example, for OMIM, the following URI stems are native:</span>
+<span class="sd">                                 https://omim.org/entry/, https://omim.org/phenotypicSeries/PS</span>
+<span class="sd">        :param include_all_predicates: Include the maximal amount of predicates.</span>
+<span class="sd">                                       Changes the default behavior from only</span>
+<span class="sd">                                       exporting: IS_A (rdfs:subClassOf)</span>
+<span class="sd">        :param use_curies_native_concepts: FHIR conventionally uses codes for references to</span>
+<span class="sd">                                           concepts that are native to a given CodeSystem. With this option,</span>
+<span class="sd">                                           references will be CURIEs instead. (not implemented)</span>
+<span class="sd">        :param use_curies_foreign_concepts: Typical FHIR CodeSystems do not contain any</span>
+<span class="sd">                                            concepts that are not native to that CodeSystem. In cases where they</span>
+<span class="sd">                                            do appear, this converter defaults to URIs</span>
+<span class="sd">                                            for references, unless this flag is present, in which case the converter</span>
+<span class="sd">                                            will attempt to construct CURIEs. (not implemented)</span>
+<span class="sd">        :param predicate_period_replacement: Predicates URIs populated into `CodeSystem.concept.property.code`</span>
+<span class="sd">                                             and `CodeSystem.concept.property.code`, but the popular FHIR server &quot;HAPI&quot;</span>
+<span class="sd">                                             has a bug in whih periods &#39;.&#39; cause errors. If this flag is present,</span>
+<span class="sd">                                             periods will be replaced with underscores &#39;_&#39;.</span>
+<span class="sd">        :return: FHIR CodeSystem object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">CodeSystem</span><span class="p">()</span>
         <span class="n">target</span><span class="o">.</span><span class="n">resourceType</span> <span class="o">=</span> <span class="n">CodeSystem</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">include_all_predicates</span><span class="o">=</span><span class="n">include_all_predicates</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_graph</span><span class="p">(</span>
+                <span class="n">g</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                <span class="n">include_all_predicates</span><span class="o">=</span><span class="n">include_all_predicates</span><span class="p">,</span>
+                <span class="n">native_uri_stems</span><span class="o">=</span><span class="n">native_uri_stems</span><span class="p">,</span>
+                <span class="n">use_curies_native_concepts</span><span class="o">=</span><span class="n">use_curies_native_concepts</span><span class="p">,</span>
+                <span class="n">use_curies_foreign_concepts</span><span class="o">=</span><span class="n">use_curies_foreign_concepts</span><span class="p">,</span>
+                <span class="n">predicate_period_replacement</span><span class="o">=</span><span class="n">predicate_period_replacement</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">target</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">code_system_id</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">code_system_id</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">target</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">if</span> <span class="n">code_system_id</span><span class="p">:</span>
+            <span class="n">target</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">code_system_url</span>
         <span class="k">return</span> <span class="n">target</span></div>
 
 <div class="viewcode-block" id="OboGraphToFHIRConverter.code"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">[docs]</a>    <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a code&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a code.</span>
+
+<span class="sd">        This is a wrapper onto curie_converter.compress</span>
+
+<span class="sd">        :param uri: URI or CURIE to convert</span>
+<span class="sd">        :return: CURIE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_converter</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">uri</span>
         <span class="n">curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
@@ -241,7 +289,14 @@
             <span class="k">return</span> <span class="n">curie</span></div>
 
     <span class="k">def</span> <span class="nf">_convert_graph</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">,</span> <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">,</span>
+        <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">native_uri_stems</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_curies_native_concepts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">use_curies_foreign_concepts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">predicate_period_replacement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodeSystem</span><span class="p">:</span>
         <span class="n">target</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">id</span>
         <span class="n">edges_by_subject</span> <span class="o">=</span> <span class="n">index_graph_edges_by_subject</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
@@ -255,6 +310,10 @@
                 <span class="n">index</span><span class="o">=</span><span class="n">edges_by_subject</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
                 <span class="n">include_all_predicates</span><span class="o">=</span><span class="n">include_all_predicates</span><span class="p">,</span>
+                <span class="n">native_uri_stems</span><span class="o">=</span><span class="n">native_uri_stems</span><span class="p">,</span>
+                <span class="n">use_curies_native_concepts</span><span class="o">=</span><span class="n">use_curies_native_concepts</span><span class="p">,</span>
+                <span class="n">use_curies_foreign_concepts</span><span class="o">=</span><span class="n">use_curies_foreign_concepts</span><span class="p">,</span>
+                <span class="n">predicate_period_replacement</span><span class="o">=</span><span class="n">predicate_period_replacement</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># CodeSystem.property</span>
         <span class="c1"># todo&#39;s</span>
@@ -271,11 +330,18 @@
     <span class="k">def</span> <span class="nf">_convert_node</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span>
-        <span class="n">index</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">]],</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">URI</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">]],</span>
         <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">,</span>
         <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">native_uri_stems</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_curies_native_concepts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">use_curies_foreign_concepts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">predicate_period_replacement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Concept</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property.&quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Use new flags</span>
+        <span class="c1">#  self.uri(source.id)  # &lt;--- self.uri does not exist</span>
+        <span class="c1">#  self.code is actually a curie. change to self.curie and add a self.code func?</span>
         <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting node </span><span class="si">{</span><span class="n">_id</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">concept</span> <span class="o">=</span> <span class="n">Concept</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">_id</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="n">source</span><span class="o">.</span><span class="n">lbl</span><span class="p">)</span>
@@ -289,6 +355,8 @@
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">include_all_predicates</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">pred</span> <span class="ow">in</span> <span class="n">DIRECT_PREDICATE_MAP</span><span class="p">:</span>
                 <span class="n">pred</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DIRECT_PREDICATE_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">pred</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">pred</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">predicate_period_replacement</span><span class="p">:</span>
+                    <span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
                 <span class="n">concept</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ConceptProperty</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="n">valueCode</span><span class="o">=</span><span class="n">obj</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">predicates_to_export</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>

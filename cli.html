@@ -1559,6 +1559,20 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <h4>dump<a class="headerlink" href="#runoak-dump" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Exports (dumps) the entire contents of an ontology.</p>
+<dl class="field-list simple">
+<dt class="field-odd">param terms</dt>
+<dd class="field-odd"><p>A list of terms to dump. If not specified, the entire ontology will be dumped.</p>
+</dd>
+<dt class="field-even">param output</dt>
+<dd class="field-even"><p>Path to output file</p>
+</dd>
+<dt class="field-odd">param output_type</dt>
+<dd class="field-odd"><p>The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl</p>
+</dd>
+<dt class="field-even">param config_file</dt>
+<dd class="field-even"><p>Path to a configuration JSON file for additional params (which may be required for some formats)</p>
+</dd>
+</dl>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i pato.obo dump -o pato.json -O json</p>
@@ -1567,11 +1581,14 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <blockquote>
 <div><p>runoak -i pato.owl dump -o pato.ttl -O turtle</p>
 </div></blockquote>
+<p>You can also pass in a JSON configuration file to parameterize the dump process.</p>
+<p>Currently this is only used for fhirjson dumps, the configuration options are specified here:</p>
+<p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html">https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html</a></p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json</p>
+</div></blockquote>
 <p>Currently each implementation only supports a subset of formats.</p>
-<p>Some dumpers accept additional options. For example, dumping
-to fhirjson accepts –include-all-predicates, which changes
-the default behavior from only exporting IS_A to all mappable
-predicates.</p>
 <p>The dump command is also blocked for remote endpoints such as Ubergraph,
 to avoid killer queries.</p>
 <p>Python API:</p>
@@ -1590,14 +1607,15 @@ to avoid killer queries.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-dump-include-all-predicates">
-<span id="cmdoption-runoak-dump-no-include-all-predicates"></span><span class="sig-name descname"><span class="pre">--include-all-predicates</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-all-predicates</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-dump-include-all-predicates" title="Permalink to this definition"></a></dt>
-<dd><p>For formats that export only IS_A by default, this will include all possible predicates</p>
-<dl class="field-list simple">
-<dt class="field-odd">Default</dt>
-<dd class="field-odd"><p>False</p>
-</dd>
-</dl>
+<dt class="sig sig-object std" id="cmdoption-runoak-dump-O">
+<span id="cmdoption-runoak-dump-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-dump-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-dump-c">
+<span id="cmdoption-runoak-dump-config-file"></span><span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--config-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;config_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-dump-c" title="Permalink to this definition"></a></dt>
+<dd><p>Config file for additional params. Presently used by  <cite>fhirjson</cite> only.</p>
 </dd></dl>
 
 <dl class="std option">
@@ -1609,12 +1627,6 @@ to avoid killer queries.</p>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-dump-O">
-<span id="cmdoption-runoak-dump-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-dump-O" title="Permalink to this definition"></a></dt>
-<dd><p>Desired output type</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
