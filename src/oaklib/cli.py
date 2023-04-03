@@ -2300,7 +2300,7 @@ def descendants(
     code_system_url: For `fhirjson` only. Canonical URL for the code system.
     See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url
 
-    native_uri_stems: For `fhirjson` only. A comma-separated list of URI stems that will be used to determine whether a
+    native_uri_stems: For `fhirjson` only. A list of URI stems that will be used to determine whether a
     concept is native to the CodeSystem. For example, for OMIM, the following URI stems are native:
     https://omim.org/entry/, https://omim.org/phenotypicSeries/PS
 
@@ -2353,6 +2353,8 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     Example:
 
         runoak -i pato.owl dump -o pato.ttl -O turtle
+
+
 
     Currently each implementation only supports a subset of formats.
 
