@@ -33,34 +33,30 @@ Basic Concepts
 
 The two basic concepts you will learn here are:
 
-- Implementations: How to create a connector object that can talk to a backend or work with a particular file format
+- Adaptors (Implementations): How to create a connector object that can talk to a backend or work with a particular file format
 - Interfaces: How to perform operations on a basic ontology interface, regardless of the backend
 
 Code the first example
 ----------
 
-We are going to use an example from the :ref:`basic_ontology_interface`, using a :ref:`pronto` implementation.
-
-As preparation, we expect ``fbbt.obo`` to exist in the top level directory.
-
-:code:`fbbt.obo` can be downloaded here: http://purl.obolibrary.org/obo/fbbt.obo
+We are going to use an example from the :ref:`basic_ontology_interface`, using the Cell Ontology (CL).
 
 Then create a python program: ``my_oak_demo/demo.py`` and add the following:
 
 .. code-block:: python
 
-    oi = get_adapter("fbbt.obo")
+    >>> adapter = get_adapter("sqlite:obo:cl")
 
 Next, let's perform some basic lookup operations on the ontology:
 
 .. code-block:: python
 
-    rels = oi.outgoing_relationship_map('FBbt:00004751')
-
-    for rel, parents in rels.items():
-        print(f'  {rel} ! {oi.label(rel)}')
-        for parent in parents:
-            print(f'    {parent} ! {oi.label(parent)}')
+    >>> for rel in adapter.relationships('FBbt:00004751')
+    >>>
+    >>> for rel, parents in rels.items():
+    >>>     print(f'  {rel} ! {oi.label(rel)}')
+    >>>     for parent in parents:
+    >>>         print(f'    {parent} ! {oi.label(parent)}')
 
 We first obtain all of the outgoing relationships from the 
 FBbt class for "wing vein", which has the id of ``FBbt:00004751``.

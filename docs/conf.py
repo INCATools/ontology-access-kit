@@ -39,6 +39,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "myst_parser",
     "sphinx.ext.intersphinx",
+    "sphinx_copybutton",
     "sphinxcontrib.mermaid",
 ]
 

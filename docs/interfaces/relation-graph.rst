@@ -1,3 +1,5 @@
+.. _relation_graph_interface
+
 Relation Graph
 ==============
 

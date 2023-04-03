@@ -1,3 +1,5 @@
+.. _class_enrichment_calculation_interface:
+
 Class Enrichment Calculation Interface
 --------------------
 

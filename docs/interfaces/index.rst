@@ -9,18 +9,18 @@ perform on an ontology. Developers can code to the interface largely without
 worrying about whether the implementation is a relational database, a local
 file, etc.
 
-For example, the :ref:`UbergraphImplementation` implements :ref:`SearchInterface` which
-has the method :ref:`SearchInterface.basic_search()`, so you can write code like this:
+For example, the :ref:`ubergraph_implementation` implements :ref:`search_interface` which
+has the method :meth:`oaklib.interfaces.search_interface.SearchInterface.basic_search`, so you can write code like this:
 
 .. code:: python
 
-    >>> from oaklib.implementations.ubergraph import UbergraphImplementation
-    >>> oi = UbergraphImplementation()
-    >>> for r in oi.basic_search('CA4 hippocampus'):
+    >>> from oaklib.implementations import UbergraphImplementation
+    >>> adapter = UbergraphImplementation()
+    >>> for r in adapter.basic_search('CA4 hippocampus'):
     ...     print(r)
 
 
-The most common operations are found in the :ref:`BasicOntologyInterface`
+The most common operations are found in the :ref:`basic_ontology_interface`
 
 
 .. toctree::

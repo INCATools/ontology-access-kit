@@ -127,6 +127,11 @@ Glossary
      * is-a
      * part-of (BFO:0000050)
 
+   Ancestor
+    The :term:`Ancestor` of an entity is the set of all entities that are reachable by following
+    all :term:`Relationship`s, from :term:`subject` or :term:`object`. Ancestor traversal is frequently
+    paramaterized by a set of :term:`Predicates`.
+
    Subset
     An :term:`Ontology element` that represents a named collection of elements, typically grouped for some purpose
 
