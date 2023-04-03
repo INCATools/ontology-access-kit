@@ -7,6 +7,7 @@ Executed using "runoak" command
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
+import json
 import logging
 import os
 import re
@@ -2286,11 +2287,11 @@ def descendants(
 @main.command()
 @click.argument("terms", nargs=-1)
 @click.option("-o", "--output", help="Path to output file")
+@output_type_option
 @click.option(
-    "--include-all-predicates/--no-include-all-predicates",
-    default=False,
-    show_default=True,
-    help="For formats that export only IS_A by default, this will include all possible predicates",
+    "-c",
+    "--config-file",
+    help="""Config file for additional params. Presently used by  `fhirjson` only.""",
 )
 @click.option(
     "--enforce-canonical-ordering/--no-enforce-canonical-ordering",
@@ -2298,10 +2299,14 @@ def descendants(
     show_default=True,
     help="Forces the serialization to be in canonical order, which is useful for diffing",
 )
-@output_type_option
-def dump(terms, output, output_type: str, **kwargs):
+def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     """
     Exports (dumps) the entire contents of an ontology.
+
+    :param terms: A list of terms to dump. If not specified, the entire ontology will be dumped.
+    :param output: Path to output file
+    :param output_type: The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl
+    :param config_file: Path to a configuration JSON file for additional params (which may be required for some formats)
 
     Example:
 
@@ -2311,12 +2316,17 @@ def dump(terms, output, output_type: str, **kwargs):
 
         runoak -i pato.owl dump -o pato.ttl -O turtle
 
-    Currently each implementation only supports a subset of formats.
+    You can also pass in a JSON configuration file to parameterize the dump process.
 
-    Some dumpers accept additional options. For example, dumping
-    to fhirjson accepts --include-all-predicates, which changes
-    the default behavior from only exporting IS_A to all mappable
-    predicates.
+    Currently this is only used for fhirjson dumps, the configuration options are specified here:
+
+    https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
+
+    Currently each implementation only supports a subset of formats.
 
     The dump command is also blocked for remote endpoints such as Ubergraph,
     to avoid killer queries.
@@ -2330,6 +2340,9 @@ def dump(terms, output, output_type: str, **kwargs):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         logging.info(f"Out={output} syntax={output_type}")
+        if config_file:
+            with open(config_file) as file:
+                kwargs |= json.load(file)
         impl.dump(output, syntax=output_type, **kwargs)
     else:
         raise NotImplementedError

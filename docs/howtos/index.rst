@@ -18,6 +18,7 @@ How-To Guides
    validate-an-obo-ontology
    visualize-ontology-subgraphs
    write-a-plugin
+   fhir-conversions
 
 
 
