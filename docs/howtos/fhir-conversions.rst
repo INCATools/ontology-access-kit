@@ -42,6 +42,8 @@ Example:
 Config file
 -----------
 
+See :ref:`obo_graph_to_fhir_converter` for the full list of options.
+
 Options:  
 
 code_system_id: _The code system ID to use for identification on the server uploaded to.

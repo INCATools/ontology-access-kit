@@ -138,22 +138,28 @@ class OboGraphToFHIRConverter(DataModelConverter):
          ...
 
         :param code_system_id: The code system ID to use for identification on the server uploaded to.
-        See: https://hl7.org/fhir/resource-definitions.html#Resource.id
+                               See: https://hl7.org/fhir/resource-definitions.html#Resource.id
         :param code_system_url: Canonical URL for the code system.
-        See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url
-        :param native_uri_stems: A comma-separated list of URI stems that will be used to determine whether a
-        concept is native to the CodeSystem. For example, for OMIM, the following URI stems are native:
-        https://omim.org/entry/, https://omim.org/phenotypicSeries/PS
-        :param include_all_predicates: Include the maximal amount of predicates. Changes the default behavior from only
-        exporting: IS_A
+                                See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url
+        :param native_uri_stems: A list of URI stems that will be used to determine whether a
+                                 concept is native to the CodeSystem. (not implemented)
+                                 For example, for OMIM, the following URI stems are native:
+                                 https://omim.org/entry/, https://omim.org/phenotypicSeries/PS
+        :param include_all_predicates: Include the maximal amount of predicates.
+                                       Changes the default behavior from only
+                                       exporting: IS_A (rdfs:subClassOf)
         :param use_curies_native_concepts: FHIR conventionally uses codes for references to
-        concepts that are native to a given CodeSystem. With this option, references will be CURIEs instead.
+                                           concepts that are native to a given CodeSystem. With this option,
+                                           references will be CURIEs instead. (not implemented)
         :param use_curies_foreign_concepts: Typical FHIR CodeSystems do not contain any
-        concepts that are not native to that CodeSystem. In cases where they do appear, this converter defaults to URIs
-        for references, unless this flag is present, in which case the converter will attempt to construct CURIEs.
+                                            concepts that are not native to that CodeSystem. In cases where they
+                                            do appear, this converter defaults to URIs
+                                            for references, unless this flag is present, in which case the converter
+                                            will attempt to construct CURIEs. (not implemented)
         :param predicate_period_replacement: Predicates URIs populated into `CodeSystem.concept.property.code`
-        and `CodeSystem.concept.property.code`, but the popular FHIR server "HAPI" has a bug in whih periods '.' cause
-        errors. If this flag is present, periods will be replaced with underscores '_'.
+                                             and `CodeSystem.concept.property.code`, but the popular FHIR server "HAPI"
+                                             has a bug in whih periods '.' cause errors. If this flag is present,
+                                             periods will be replaced with underscores '_'.
         :return: FHIR CodeSystem object
         """
         if target is None:
@@ -177,7 +183,13 @@ class OboGraphToFHIRConverter(DataModelConverter):
         return target
 
     def code(self, uri: CURIE) -> str:
-        """Convert a code"""
+        """Convert a code.
+
+        This is a wrapper onto curie_converter.compress
+
+        :param uri: URI or CURIE to convert
+        :return: CURIE
+        """
         if not self.curie_converter:
             return uri
         curie = self.curie_converter.compress(uri)
