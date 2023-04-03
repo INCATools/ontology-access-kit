@@ -53,11 +53,6 @@ SCOPE_DISPLAY = {
 
 @dataclass
 class OboGraphToFHIRConverter(DataModelConverter):
-    # TODO: change to inherit from OboGraphToOboFormatConverter instead?
-    # todo: Fix: these are currently unresolvable (noinspection PyUnresolvedReferences):
-    #  from oaklib.utilities.obograph_utils import load_obograph
-    #  from oaklib.utilities.curie_converter import CurieConverter
-    # noinspection PyUnresolvedReferences
     """Converts from OboGraph to FHIR.
 
     - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
@@ -85,13 +80,6 @@ class OboGraphToFHIRConverter(DataModelConverter):
         self,
         source: GraphDocument,
         target: str = None,
-        code_system_id: str = None,
-        code_system_url: str = None,
-        include_all_predicates: bool = True,
-        native_uri_stems: List[str] = None,
-        use_curies_native_concepts: bool = False,
-        use_curies_foreign_concepts: bool = True,
-        predicate_period_replacement: bool = False,
         **kwargs,
     ) -> None:
         """
@@ -119,13 +107,6 @@ class OboGraphToFHIRConverter(DataModelConverter):
         """
         cs = self.convert(
             source,
-            code_system_id=code_system_id,
-            code_system_url=code_system_url,
-            include_all_predicates=include_all_predicates,
-            native_uri_stems=native_uri_stems,
-            use_curies_native_concepts=use_curies_native_concepts,
-            use_curies_foreign_concepts=use_curies_foreign_concepts,
-            predicate_period_replacement=predicate_period_replacement,
             **kwargs,
         )
         json_str = json_dumper.dumps(cs, inject_type=False)
