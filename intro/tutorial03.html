@@ -7,6 +7,7 @@
   <title>Part 3: Triplestore Backends &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -53,7 +56,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#triplestore-concepts">Triplestore Concepts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ubergraph">Ubergraph</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#connecting">Connecting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#operations">Operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#basic-operations">Basic Operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relationships">Relationships</a></li>
 </ul>
 </li>
 </ul>
@@ -108,16 +112,16 @@
              
   <section id="part-3-triplestore-backends">
 <h1>Part 3: Triplestore Backends<a class="headerlink" href="#part-3-triplestore-backends" title="Permalink to this headline"></a></h1>
-<p>Previously we have been working with <em>local</em> ontology files in <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>. We will now show how OAK
-can be used to access information in a remote <span class="xref std std-term">Triplestore</span>. The same approach can be used to
-query local files in any RDF format such as turtle.</p>
+<p>Previously we have been working with <em>local</em> ontology files in sqlite format, following the <a class="reference internal" href="../glossary.html#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a> schema.
+We will now show how OAK can be used to access information in a remote <a class="reference internal" href="../glossary.html#term-Triplestore"><span class="xref std std-term">Triplestore</span></a>. The same approach can be used to
+query local files in any <a class="reference internal" href="../glossary.html#term-RDF"><span class="xref std std-term">RDF</span></a> format such as <span class="xref std std-term">Turtle</span>.</p>
 <section id="triplestore-concepts">
 <h2>Triplestore Concepts<a class="headerlink" href="#triplestore-concepts" title="Permalink to this headline"></a></h2>
-<p>There are a number of triplestores that include ontology content queryable using <span class="xref std std-term">SPARQL</span>.</p>
+<p>There are a number of triplestores that include ontology content queryable using <a class="reference internal" href="../glossary.html#term-SPARQL"><span class="xref std std-term">SPARQL</span></a>.</p>
 <p>OAK includes built in support for a number of triplestores, including:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, an enriched triplestore containing a core set of biological ontologies</p></li>
-<li><p><span class="xref std std-term">Ontobee</span>, a triplestore including all <span class="xref std std-term">OBO Foundry</span> ontologies</p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-Ontobee"><span class="xref std std-term">Ontobee</span></a>, a triplestore including all <span class="xref std std-term">OBO Foundry</span> ontologies</p></li>
 <li><p><span class="xref std std-term">Wikidata</span>, a triplestore containing a broad set of knowledge encodes as triples</p></li>
 <li><p><span class="xref std std-term">LOV</span>, (Linked Open Vocabularies), a triplestore containing generic semantic web ontologies and ontology-like schemas</p></li>
 </ul>
@@ -129,30 +133,56 @@ OAK interfaces specify the logical operation, and behind the scenes, OAK will em
 </section>
 <section id="ubergraph">
 <h2>Ubergraph<a class="headerlink" href="#ubergraph" title="Permalink to this headline"></a></h2>
-<p>See:</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Endpoint</span></a></p></li>
-</ul>
+<p>For full documentation, see <a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a></p>
 <section id="connecting">
 <h3>Connecting<a class="headerlink" href="#connecting" title="Permalink to this headline"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<p>In this example we will use the <code class="docutils literal notranslate"><span class="pre">ontologies()</span></code> method for <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> to list
+all ontologies the adapter knows about.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ubergraph:&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">ont</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ontologies</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">ont</span><span class="p">)</span>
 
-<span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="go">bspo.owl</span>
+<span class="go">chebi.owl</span>
+<span class="gp">...</span>
 </pre></div>
 </div>
 </section>
-<section id="operations">
-<h3>Operations<a class="headerlink" href="#operations" title="Permalink to this headline"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">term_id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0002544&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
+<section id="basic-operations">
+<h3>Basic Operations<a class="headerlink" href="#basic-operations" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">term_id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0002544&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
+<span class="go">digit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
+<span class="go">A subdivision of the autopod that has as part a...</span>
 </pre></div>
 </div>
-<p>This will write out “digit”</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">entailed_outgoing_relationships_by_curie</span><span class="p">(</span><span class="n">term_id</span><span class="p">):</span>
-   <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+</section>
+<section id="relationships">
+<h3>Relationships<a class="headerlink" href="#relationships" title="Permalink to this headline"></a></h3>
+<p>We can query for <span class="xref std std-term">Asserted Relationships</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="n">term_id</span><span class="p">]):</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+
+<span class="gp">...</span>
+<span class="go">(&#39;UBERON:0002544&#39;, &#39;RO:0002160&#39;, &#39;NCBITaxon:32523&#39;)</span>
+<span class="gp">...</span>
+<span class="go">(&#39;UBERON:0002544&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0005881&#39;)</span>
 </pre></div>
 </div>
-<p>This will write out all relationships where digit is a subject</p>
+<p>And also for <span class="xref std std-term">Entailed Relationships</span> – this time specifying
+the predicate <span class="xref std std-term">IS_A</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="n">term_id</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">],</span> <span class="n">include_entailed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+
+<span class="gp">...</span>
+<span class="go">(&#39;UBERON:0002544&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0001062&#39;)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
 </section>
 </section>
 </section>

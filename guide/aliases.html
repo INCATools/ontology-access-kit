@@ -7,6 +7,7 @@
   <title>Aliases and Synonyms &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -70,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -114,19 +118,21 @@
              
   <section id="aliases-and-synonyms">
 <span id="aliases"></span><h1>Aliases and Synonyms<a class="headerlink" href="#aliases-and-synonyms" title="Permalink to this headline"></a></h1>
-<p>Most ontologies allow for multiple aliases or synonyms for a given entity. These are typically
-distinguished from the <a class="reference internal" href="primary-labels.html#primary-labels"><span class="std std-ref">primary label</span></a>.</p>
-<p>There is a wide variety of ways in which aliases are represented in ontologies, reflecting
-both different historic practice, and different uses cases.</p>
+<p>Most ontologies allow for multiple aliases or <span class="xref std std-term">Synonyms</span> for a given entity. These are typically
+distinguished from the <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">primary label</span></a>.</p>
+<p>There exists a wide variety of ways in which aliases are represented in ontologies, reflecting
+both different historic practice, and different uses cases. Most ontologies represent synonyms/aliases
+as strings / <span class="xref std std-term">Literal</span> values, but note that some systems (e.g. SKOS) may occasionally
+represent a synonym as a distinct <a class="reference internal" href="../glossary.html#term-Node"><span class="xref std std-term">Node</span></a> in the RDF graph.</p>
 <section id="use-cases">
 <h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline"></a></h2>
 <section id="search">
 <h3>Search<a class="headerlink" href="#search" title="Permalink to this headline"></a></h3>
-<p>One of the most common use cases for aliases is to allow for search.</p>
-<p>For example, in GO, the entity <code class="docutils literal notranslate"><span class="pre">GO:0000050</span></code> has the primary label “urea cycle”, but a user
+<p>One of the most common use cases for aliases is to allow for <span class="xref std std-term">Search</span>.</p>
+<p>For example, in the :term:&lt;Gene Ontology&gt;, the entity <code class="docutils literal notranslate"><span class="pre">GO:0000050</span></code> has the primary label “urea cycle”, but a user
 may be searching using the string “ornithine cycle”. In this case, the search system should
 be able to return the right concept using a synonym in GO.</p>
-<p>In OBO format, a partial representation of this term is:</p>
+<p>In <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>, a partial representation of this class is:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000050</span>
 <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">urea cycle</span>
 <span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ornithine</span><span class="nv"> </span><span class="s">cycle&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXACT []</span>
@@ -138,7 +144,7 @@ may want to boost search, or allow for contextual info in search (see contextual
 </section>
 <section id="text-mining-and-nlp">
 <h3>Text mining and NLP<a class="headerlink" href="#text-mining-and-nlp" title="Permalink to this headline"></a></h3>
-<p>Many text mining and NLP tasks rely on being able to recognize or ground concepts in text.</p>
+<p>Many text mining and NLP tasks rely on being able to <a class="reference internal" href="../glossary.html#term-Text-Annotation"><span class="xref std std-term">recognize or ground concepts in text</span></a>.</p>
 <p>For example, a phrase:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Inherited</span> <span class="n">mutations</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">PTEN</span> <span class="n">gene</span> <span class="n">increase</span> <span class="n">the</span> <span class="n">risk</span> <span class="n">of</span> <span class="n">developing</span> <span class="n">breast</span> <span class="n">cancer</span>
 </pre></div>
@@ -150,10 +156,10 @@ use of synonyms may be required to ground this concept.</p>
 </section>
 <section id="different-aliases-for-different-communities">
 <h3>Different aliases for different communities<a class="headerlink" href="#different-aliases-for-different-communities" title="Permalink to this headline"></a></h3>
-<p>Ontologies aim to provide a largely terminology-neutral view of concepts or entities. In practice, this
+<p>Ontologies aim to provide a largely <em>terminology-neutral</em> view of concepts or entities. In practice, this
 means that sometimes some communities are prioritized when providing primary labels; e.g</p>
 <ul class="simple">
-<li><p>in Uberon, species-neutral terms and terms from comparative anatomy are prioritized, e.g “manus” over “hand”</p></li>
+<li><p>in <span class="xref std std-term">Uberon</span>, species-neutral terms and terms from comparative anatomy are prioritized, e.g “manus” over “hand”</p></li>
 <li><p>Scientific or medical terminology is typically favored over less precise layperson terminology</p></li>
 </ul>
 <p>However, it can be very important to provide strings that are intended for use within a particular community
@@ -175,22 +181,22 @@ with community synonyms replacing primary labels.</p>
 <section id="different-approaches-to-representing-synonym-metadata">
 <h2>Different approaches to representing synonym metadata<a class="headerlink" href="#different-approaches-to-representing-synonym-metadata" title="Permalink to this headline"></a></h2>
 <p><strong>There is no universal standard for representing synonyms in ontologies.</strong></p>
-<p>Ontologies vary in both structure and vocabularies used.</p>
-<p>Some ontologies like SWEET create a different concept/class URI for each synonym,
-and related these to the “primary” concept using an equivalence axiom.</p>
-<p>It is more common to represent synonyms as <em>literals</em>, so that there is a clear separation
+<p>Ontologies vary in both structure and vocabularies (<span class="xref std std-term">Annotation Properties</span>) used.</p>
+<p>Some ontologies like <span class="xref std std-term">SWEET</span> create a different concept/class URI for each synonym,
+and related these to the “primary” concept using an <span class="xref std std-term">Equivalence Axiom</span>.</p>
+<p>It is more common to represent synonyms as <span class="xref std std-term">Literals</span>, so that there is a clear separation
 between the concept and its string forms – but this is by no means universal.</p>
 <p>There are a lot of different predicates used for connecting entities to these literals:</p>
 <ul class="simple">
-<li><p>SKOS provides <cite>skos:altLabel</cite></p></li>
-<li><p>oboInOwl (oio) provides 4 different predicates: <cite>oio:hasExactSynonym</cite>, <cite>oio:hasRelatedSynonym</cite>,
+<li><p><span class="xref std std-term">SKOS</span> provides <cite>skos:altLabel</cite></p></li>
+<li><p><span class="xref std std-term">oboInOwl</span> (oio) provides 4 different predicates: <cite>oio:hasExactSynonym</cite>, <cite>oio:hasRelatedSynonym</cite>,
 <cite>oio:hasBroadSynonym</cite>, <cite>oio:hasNarrowSynonym</cite></p></li>
-<li><p>IAO has <cite>IAO:0000118</cite> (has alternative label)</p></li>
+<li><p><span class="xref std std-term">IAO</span> has <cite>IAO:0000118</cite> (has alternative label)</p></li>
 <li><p>Many ontologies mint their own specific properties</p></li>
 </ul>
-<p>Within the context of OBO ontologies, the OMO vocabulary attempts to unify these different models,
+<p>Within the context of OBO ontologies, the <span class="xref std std-term">OMO</span> vocabulary attempts to unify these different models,
 but there is still wide variation, even within OBO.</p>
-<p>One area where there is standardization is language tags in RDF. However, there is still
+<p>One area where there <em>is</em> standardization is <span class="xref std std-term">Language Tags</span> in RDF. However, there is still
 a lack of consensus in many ontologies whose primary language is english whether to
 tag each element with a <code class="docutils literal notranslate"><span class="pre">&#64;en</span></code> or to leave as an untyped or string literal.</p>
 </section>
@@ -201,7 +207,7 @@ and use cases, both for bio-ontologies, and any kind of ontology.</p>
 <p>The approach we take is a multi-level representation. The core OAK data model
 has a simple representation of synonyms, and then we provide different interfaces
 for different ways of representing synonyms.</p>
-<p>The primary advanced interface is the OboGraph interface.</p>
+<p>The primary advanced interface is the <a class="reference internal" href="../interfaces/obograph.html#obograph-interface"><span class="std std-ref">OboGraph Interface</span></a>.</p>
 <section id="simple-core-model">
 <h3>Simple Core Model<a class="headerlink" href="#simple-core-model" title="Permalink to this headline"></a></h3>
 <p>The BasicOntologyInterface in OAK allows for a simple representation of synonyms,
@@ -212,34 +218,29 @@ as either lists of strings associated with entities, or predicate-string tuples.
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">entity_aliases</span></code> method returns a list of strings.</p>
 <p>Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+<span class="go">Fluid around heart</span>
+<span class="go">Pericardial effusion</span>
+<span class="go">Pericardial effusions</span>
 </pre></div>
 </div>
-<p>Returns:</p>
-<ul class="simple">
-<li><p>Fluid around heart</p></li>
-<li><p>Pericardial effusions</p></li>
-</ul>
 <p>This is too simplistic for some purposes - often we want to know more about
 the predicate, so we can use <code class="docutils literal notranslate"><span class="pre">alias_relationships</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">alias</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">alias</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">alias</span><span class="p">)</span>
+<span class="go">oio:hasExactSynonym Fluid around heart</span>
+<span class="go">oio:hasExactSynonym Pericardial effusions</span>
+<span class="go">rdfs:label Pericardial effusion</span>
 </pre></div>
 </div>
-<p>Returns:</p>
-<ul class="simple">
-<li><p>rdfs:label Pericardial effusion</p></li>
-<li><p>oboInOwl:hasExactSynonym Fluid around heart</p></li>
-<li><p>oboInOwl:hasExactSynonym Pericardial effusions</p></li>
-</ul>
 <p>(note that label is treated as an alias by default, but you can pass <code class="docutils literal notranslate"><span class="pre">exclude_labels=True</span></code> to
 override this)</p>
 <p>You can get the same information on the command line with the <code class="docutils literal notranslate"><span class="pre">aliases</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">hp</span><span class="o">=</span><span class="s1">&#39;runoak -i sqlite:obo:hp&#39;</span>
-hp<span class="w"> </span>aliases<span class="w"> </span>HP:0001698
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nv">hp</span><span class="o">=</span><span class="s1">&#39;runoak -i sqlite:obo:hp&#39;</span>
+$<span class="w"> </span>hp<span class="w"> </span>aliases<span class="w"> </span>HP:0001698
 </pre></div>
 </div>
 <p>This will give a table:</p>
@@ -274,20 +275,22 @@ hp<span class="w"> </span>aliases<span class="w"> </span>HP:0001698
 </section>
 <section id="obo-graph-data-model">
 <h3>Obo Graph Data Model<a class="headerlink" href="#obo-graph-data-model" title="Permalink to this headline"></a></h3>
-<p>The OboGraphInterface provides a more advanced representation of synonyms,
-conforming to the OboGraph datamodel.</p>
+<p>The <a class="reference internal" href="../interfaces/obograph.html#obograph-interface"><span class="std std-ref">OboGraph Interface</span></a> provides a more advanced representation of synonyms,
+conforming to the <span class="xref std std-ref">obograph_datamodel</span>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For full documentation , see <span class="xref std std-ref">obo_graph_interface</span></p>
+<p>For full documentation , see <a class="reference internal" href="../interfaces/obograph.html#obograph-interface"><span class="std std-ref">OboGraph Interface</span></a></p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">spv</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">synonym_property_values</span><span class="p">([</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">]):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> pred: </span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">pred</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">syn</span><span class="o">.</span><span class="n">synonymType</span><span class="si">}</span><span class="s2">) &#39;</span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">val</span><span class="si">}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  xref: </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">spv</span><span class="o">.</span><span class="n">xrefs</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">spv</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">synonym_property_values</span><span class="p">([</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="n">xrefs</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spv</span><span class="o">.</span><span class="n">xrefs</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> pred: </span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">pred</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">synonymType</span><span class="si">}</span><span class="s2">) &#39;</span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">val</span><span class="si">}</span><span class="s2">&#39; [</span><span class="si">{</span><span class="n">xrefs</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="go">HP:0001698 pred: hasExactSynonym (layperson) &#39;Fluid around heart&#39; [ORCID:0000-0002-6548-5200]</span>
+<span class="go">HP:0001698 pred: hasExactSynonym (None) &#39;Pericardial effusions&#39; []</span>
 </pre></div>
 </div>
 <p>You can also get similar behavior by passing <code class="docutils literal notranslate"><span class="pre">--obo-model</span></code> to the <code class="docutils literal notranslate"><span class="pre">aliases</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hp<span class="w"> </span>aliases<span class="w"> </span>HP:0001698<span class="w"> </span>--obo-model
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>hp<span class="w"> </span>aliases<span class="w"> </span>HP:0001698<span class="w"> </span>--obo-model
 </pre></div>
 </div>
 <table class="docutils align-default" id="id2">

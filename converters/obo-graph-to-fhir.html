@@ -7,6 +7,7 @@
   <title>OBO Graph to FHIR Converter &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,12 +16,14 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="OBO Graph to OWL Converter" href="obo-graph-to-owl.html" />
+    <link rel="next" title="OBO Graph to OBO Format Converter" href="obo-graph-to-obo-format.html" />
     <link rel="prev" title="Abstract Class" href="data-model-converter.html" /> 
 </head>
 
@@ -59,6 +62,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#converting-from-obo-graphs">Converting from Obo Graphs</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="data-model-converter.html">Abstract Class</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">OBO Graph to FHIR Converter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obo-graph-to-obo-format.html">OBO Graph to OBO Format Converter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="obo-graph-to-owl.html">OBO Graph to OWL Converter</a></li>
 </ul>
 </li>
@@ -152,9 +156,20 @@ from oaklib.utilities.curie_converter import CurieConverter</p>
 </ul>
 </div></blockquote>
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">
-<span class="sig-name descname"><span class="pre">code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code" title="Permalink to this definition"></a></dt>
-<dd><p>Convert a code</p>
+<dt class="sig sig-object py" id="oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">oaklib.datamodels.obograph.GraphDocument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_all_predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump" title="Permalink to this definition"></a></dt>
+<dd><p>Dump an OBO Graph Document to a FHIR CodeSystem.</p>
+<p>By default, only IS_A predicates are converted to ConceptProperties. To override this,
+specify <code class="docutils literal notranslate"><span class="pre">include_all_predicates=True</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – </p></li>
+<li><p><strong>target</strong> – </p></li>
+<li><p><strong>include_all_predicates</strong> – include the maximal amount of predicates</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -176,20 +191,9 @@ from oaklib.utilities.curie_converter import CurieConverter</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">
-<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">oaklib.datamodels.obograph.GraphDocument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_all_predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump" title="Permalink to this definition"></a></dt>
-<dd><p>Dump an OBO Graph Document to a FHIR CodeSystem.</p>
-<p>By default, only IS_A predicates are converted to ConceptProperties. To override this,
-specify <code class="docutils literal notranslate"><span class="pre">include_all_predicates=True</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> – </p></li>
-<li><p><strong>target</strong> – </p></li>
-<li><p><strong>include_all_predicates</strong> – include the maximal amount of predicates</p></li>
-</ul>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">
+<span class="sig-name descname"><span class="pre">code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a code</p>
 </dd></dl>
 
 </dd></dl>
@@ -201,7 +205,7 @@ specify <code class="docutils literal notranslate"><span class="pre">include_all
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="data-model-converter.html" class="btn btn-neutral float-left" title="Abstract Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="obo-graph-to-owl.html" class="btn btn-neutral float-right" title="OBO Graph to OWL Converter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="obo-graph-to-obo-format.html" class="btn btn-neutral float-right" title="OBO Graph to OBO Format Converter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

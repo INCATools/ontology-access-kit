@@ -6,6 +6,7 @@
   <title>Index &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,6 +15,8 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
@@ -93,6 +96,7 @@
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
@@ -2449,12 +2453,14 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">all_subset_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li><a href="glossary.html#term-Ancestor"><strong>Ancestor</strong></a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">ancestor_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors">ancestors() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors">ancestors() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
-</li>
       <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file">annotate_file() (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface method)</a>
 </li>
       <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">annotate_text() (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface method)</a>
@@ -2463,9 +2469,15 @@
 </li>
       <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms">annotation_assertion_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
+      <li><a href="glossary.html#term-AnnotationProperty"><strong>AnnotationProperty</strong></a>
+</li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">apply_patch() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
+      <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.as_bytes_io">as_bytes_io() (oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">as_obograph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
+      <li><a href="glossary.html#term-Association"><strong>Association</strong></a>
 </li>
       <li><a href="interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_subject_counts">association_subject_counts() (oaklib.interfaces.association_provider_interface.AssociationProviderInterface method)</a>
 </li>
@@ -2516,6 +2528,8 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.cache_lookups">cache_lookups (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
+      <li><a href="glossary.html#term-Category"><strong>Category</strong></a>
+</li>
       <li><a href="glossary.html#term-Class"><strong>Class</strong></a>
 </li>
       <li><a href="interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface">ClassEnrichmentCalculationInterface (class in oaklib.interfaces.class_enrichment_calculation_interface)</a>
@@ -2549,7 +2563,11 @@
       <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.convert">convert() (oaklib.converters.data_model_converter.DataModelConverter method)</a>
 
       <ul>
+        <li><a href="converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.convert">(oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter method)</a>
+</li>
         <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">(oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
+</li>
+        <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.convert">(oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
 </li>
       </ul></li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.converter">converter (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface property)</a>
@@ -2587,6 +2605,8 @@
 </li>
       <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter">DataModelConverter (class in oaklib.converters.data_model_converter)</a>
 </li>
+      <li><a href="glossary.html#term-DatatypeProperty"><strong>DatatypeProperty</strong></a>
+</li>
       <li>
     DBS
 
@@ -2602,15 +2622,19 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definitions">definitions() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.delete_entity">delete_entity() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="glossary.html#term-Descendant"><strong>Descendant</strong></a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_count">descendant_count() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">descendants() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
+      <li><a href="glossary.html#term-Diff"><strong>Diff</strong></a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">disable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
@@ -2619,9 +2643,19 @@
       <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.dump">dump() (oaklib.converters.data_model_converter.DataModelConverter method)</a>
 
       <ul>
+        <li><a href="converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.dump">(oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter method)</a>
+</li>
         <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">(oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
 </li>
+        <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dump">(oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
+</li>
+        <li><a href="interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.dump">(oaklib.interfaces.dumper_interface.DumperInterface method)</a>
+</li>
       </ul></li>
+      <li><a href="interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface">DumperInterface (class in oaklib.interfaces.dumper_interface)</a>
+</li>
+      <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dumps">dumps() (oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -2677,6 +2711,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-FunOWL"><strong>FunOWL</strong></a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -2692,10 +2734,6 @@
 </li>
       <li><a href="selectors.html#oaklib.selector.get_implementation_from_shorthand">get_implementation_from_shorthand() (in module oaklib.selector)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationship_map_by_curie">get_incoming_relationship_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships">get_incoming_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
       <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.get_information_content">get_information_content() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">get_label_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -2704,13 +2742,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies">get_labels_for_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationship_map_by_curie">get_outgoing_relationship_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships">get_outgoing_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">get_prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_relationships">get_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="selectors.html#oaklib.selector.get_resource_from_shorthand">get_resource_from_shorthand() (in module oaklib.selector)</a>
 </li>
@@ -2738,6 +2770,8 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-Identifier"><strong>Identifier</strong></a>
+</li>
       <li><a href="glossary.html#term-Implementation"><strong>Implementation</strong></a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationship_map">incoming_relationship_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -2751,6 +2785,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Interface"><strong>Interface</strong></a>
+</li>
+      <li><a href="glossary.html#term-IS_A"><strong>IS_A:</strong></a>
 </li>
       <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">is_coherent() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
@@ -2811,10 +2847,6 @@
 </li>
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">MappingProviderInterface (class in oaklib.interfaces.mapping_provider_interface)</a>
 </li>
-      <li><a href="interfaces/dumper.html#oaklib.interfaces.merge_interface.MergeInterface.merge">merge() (oaklib.interfaces.merge_interface.MergeInterface method)</a>
-</li>
-      <li><a href="interfaces/dumper.html#oaklib.interfaces.merge_interface.MergeInterface">MergeInterface (class in oaklib.interfaces.merge_interface)</a>
-</li>
       <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">metadata_property_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies">migrate_curies() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
@@ -2866,6 +2898,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-Node"><strong>Node</strong></a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">node() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">nodes() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
@@ -2946,15 +2980,23 @@
         <li><a href="src/oaklib.utilities.taxon.html#module-oaklib.utilities.taxon">module</a>
 </li>
       </ul></li>
+      <li><a href="glossary.html#term-ObjectProperty"><strong>ObjectProperty</strong></a>
+</li>
       <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
+</li>
+      <li><a href="glossary.html#term-OBO-Graphs"><strong>OBO Graphs</strong></a>
 </li>
       <li><a href="implementations/obograph.html#oaklib.implementations.obograph.obograph_implementation.OboGraphImplementation">OboGraphImplementation (class in oaklib.implementations.obograph.obograph_implementation)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
 </li>
+      <li><a href="converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter">OboGraphToCXConverter (class in oaklib.converters.obo_graph_to_cx_converter)</a>
+</li>
+      <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">OboGraphToFHIRConverter (class in oaklib.converters.obo_graph_to_fhir_converter)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">OboGraphToFHIRConverter (class in oaklib.converters.obo_graph_to_fhir_converter)</a>
+      <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter">OboGraphToOboFormatConverter (class in oaklib.converters.obo_graph_to_obo_format_converter)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">obsoletes() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
@@ -2963,6 +3005,8 @@
       <li><a href="glossary.html#term-OLS"><strong>OLS</strong></a>
 </li>
       <li><a href="implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">OlsImplementation (class in oaklib.implementations.ols.ols_implementation)</a>
+</li>
+      <li><a href="glossary.html#term-Ontobee"><strong>Ontobee</strong></a>
 </li>
       <li><a href="implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">OntobeeImplementation (class in oaklib.implementations.ontobee.ontobee_implementation)</a>
 </li>
@@ -2979,7 +3023,11 @@
 </li>
       <li><a href="glossary.html#term-Ontology"><strong>Ontology</strong></a>
 </li>
-      <li><a href="glossary.html#term-Ontology-element"><strong>Ontology element</strong></a>
+      <li><a href="glossary.html#term-Ontology-Element"><strong>Ontology Element</strong></a>
+</li>
+      <li><a href="glossary.html#term-Ontology-Format"><strong>Ontology Format</strong></a>
+</li>
+      <li><a href="glossary.html#term-Ontology-Graph-Projection"><strong>Ontology Graph Projection</strong></a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_curies">ontology_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
@@ -3013,16 +3061,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.pairwise_similarity">pairwise_similarity() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
+      <li><a href="glossary.html#term-Part-Of"><strong>Part Of</strong></a>
+</li>
+      <li><a href="glossary.html#term-Patch"><strong>Patch</strong></a>
+</li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">PatcherInterface (class in oaklib.interfaces.patcher_interface)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.paths">paths() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.precompute_lookups">precompute_lookups() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="glossary.html#term-Predicate"><strong>Predicate</strong></a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-Predicate"><strong>Predicate</strong></a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language">preferred_language (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -3052,6 +3104,8 @@
       <li><a href="glossary.html#term-Reasoner"><strong>Reasoner</strong></a>
 </li>
       <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.reasoner_configurations">reasoner_configurations() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+</li>
+      <li><a href="glossary.html#term-Relation-Graph"><strong>Relation Graph</strong></a>
 </li>
       <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">RelationGraphEnum (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
 </li>
@@ -4712,12 +4766,16 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons">singletons() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li><a href="glossary.html#term-SPARQL"><strong>SPARQL</strong></a>
+</li>
       <li><a href="implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">SparqlImplementation (class in oaklib.implementations.sparql.sparql_implementation)</a>
 </li>
-      <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in oaklib.implementations.sqldb.sql_implementation)</a>
+      <li><a href="glossary.html#term-SQL"><strong>SQL</strong></a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in oaklib.implementations.sqldb.sql_implementation)</a>
+</li>
       <li><a href="glossary.html#term-SSSOM"><strong>SSSOM</strong></a>
 </li>
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
@@ -4866,6 +4924,8 @@
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration">TraversalConfiguration (class in oaklib.interfaces.obograph_interface)</a>
 </li>
       <li><a href="glossary.html#term-Triple"><strong>Triple</strong></a>
+</li>
+      <li><a href="glossary.html#term-Triplestore"><strong>Triplestore</strong></a>
 </li>
   </ul></td>
 </tr></table>

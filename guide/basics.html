@@ -7,6 +7,7 @@
   <title>OAK Basics &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -60,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -104,44 +108,44 @@
              
   <section id="oak-basics">
 <span id="basics"></span><h1>OAK Basics<a class="headerlink" href="#oak-basics" title="Permalink to this headline"></a></h1>
-<p>OAK is a library for accessing and working with ontologies, controlled vocabularies,
-and terminologies.</p>
-<p>OAK is written in Python, and can be used in Python programs, or from the command line.
-Command line use doesn’t require any programming experience or programming knowledge, but
-some knowledge of the command line is helpful.</p>
+<p>OAK is a library for accessing and working with <a class="reference internal" href="../glossary.html#term-Ontology"><span class="xref std std-term">Ontologies</span></a>, controlled vocabularies,
+and terminologies (from here on we will simply use “Ontology” in a very inclusive sense).</p>
+<p>OAK is written in Python, and can be used in Python programs, or from the <span class="xref std std-term">Command Line</span>.
+Command line usage doesn’t require any programming experience or programming knowledge, but
+some knowledge of unix conventions might be helpful.</p>
 <p>If you are looking for a quickstart guide to command line interfaces in general,
 see the <a class="reference external" href="https://oboacademy.github.io/obook/tutorial/intro-cli-1/">Command line short intro</a>.</p>
 <section id="what-is-an-ontology-and-why-would-i-want-to-access-one">
 <h2>What is an ontology and why would I want to access one?<a class="headerlink" href="#what-is-an-ontology-and-why-would-i-want-to-access-one" title="Permalink to this headline"></a></h2>
 <p>Ontologies, controlled vocabularies, terminologies, and taxonomies are all ways of
-organizing information and knowledge. Although OAK standards for Ontology Access Kit,
+organizing data, information, and knowledge. Although OAK stands for <em>Ontology</em> Access Kit,
 we use the term “ontology” to refer to any of these types of knowledge organization.</p>
-<p>An ontology typically consists of a set of terms (also known as concepts, or classes) that
+<p>An ontology typically consists of a set of <a class="reference internal" href="../glossary.html#term-Term"><span class="xref std std-term">Terms</span></a> (also known as concepts, or classes) that
 serve as descriptors. For example, the <a class="reference external" href="http://obofoundry.org/ontology/envo">Environment Ontology</a>
 consists of classes representing different environments or environmental features, such as
 glaciers, lakes, and oceans.</p>
-<p>These terms are often hierarchically organized, and may include other kinds of hierarchical information.</p>
+<p>These terms are often <span class="xref std std-term">hierarchically organized</span>, and may include other kinds of hierarchical information.</p>
 <figure class="align-default" id="id3">
-<a class="reference internal image-reference" href="../_images/schema-article.png"><img alt="Schema.dot hierarchy of article types" src="../_images/schema-article.png" style="width: 377.5px; height: 208.5px;" /></a>
+<a class="reference internal image-reference" href="../_images/schema-article.png"><img alt="hierarchy of article types from schema.org" src="../_images/schema-article.png" style="width: 377.5px; height: 208.5px;" /></a>
 <figcaption>
-<p><span class="caption-text">Example of a part of a vocabulary: schema.org article types.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+<p><span class="caption-text">Example of a part of a vocabulary: <a class="reference external" href="http://schema.org">Schema.org</a> article types.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
 <div class="legend">
 <p>This example shows a small example of the portion of schema.org with some
 types of article. The vocabulary is organized in a hierarchy, with hierarchical
-relationships shown where ⓘ denotes an is-a relationship. Note that although
+relationships shown where ⓘ denotes an is-a <a class="reference internal" href="../glossary.html#term-Relationship"><span class="xref std std-term">Relationship</span></a>. Note that although
 schema.org is more of a vocabulary than an ontology, you can use OAK to access it.
 This example was drawn using the OAK “viz” command.</p>
 </div>
 </figcaption>
 </figure>
-<p>Ontologies are used for many different tasks, but one of the most common ones is to annotate
+<p>Ontologies are used for many different tasks, but one of the most common ones is to <a class="reference internal" href="../glossary.html#term-Annotation"><span class="xref std std-term">annotate</span></a>
 or “tag” pieces of data or data elements. For example, schema.org can be used to tag web pages,
 the <a class="reference external" href="http://obofoundry.org/ontology/hp">Human Phenotype Ontology</a> is
 used to annotate individual patients with a set of phenotypic features. In more formal ontology
-systems, the classes in an ontology are used to type instances or individuals. And
+systems, the classes in an ontology are used to type instances or <a class="reference internal" href="../glossary.html#term-Named-Individual"><span class="xref std std-term">individuals</span></a>. And
 in fact, an ontology can contain individuals too.</p>
-<p>Ontologies may also include rich lexical information or other metadata. These include
-textual definitions, to help guide curators or users of the ontology, or aliases to help
+<p>Ontologies may also include rich lexical information or other <span class="xref std std-term">Metadata</span>. These include
+textual <span class="xref std std-term">Definitions</span>, to help guide curators or users of the ontology, or aliases to help
 guide search.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -150,27 +154,36 @@ in the <a class="reference external" href="https://oboacademy.github.io/obook/">
 </div>
 </section>
 <section id="ontology-languages-standards-and-formats">
-<h2>Ontology languages, standards, and formats<a class="headerlink" href="#ontology-languages-standards-and-formats" title="Permalink to this headline"></a></h2>
-<p>The Web Ontology Language (OWL) is a standard for modeling ontologies. OWL is not a format
+<span id="guide-ontology-languages"></span><h2>Ontology languages, standards, and formats<a class="headerlink" href="#ontology-languages-standards-and-formats" title="Permalink to this headline"></a></h2>
+<p>The Web Ontology Language (<a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>) is a standard for modeling ontologies. OWL is not a format
 in itself, but it has a number of different serializations, including RDF/XML, RDF/turtle, functional syntax,
-and manchester syntax.</p>
+and <span class="xref std std-term">Manchester Syntax</span>.</p>
 <p>It is not necessary to understand OWL to use OAK for many tasks. In fact, OWL is not the
 only way in which ontologies and vocabularies are represented.</p>
 <ul class="simple">
 <li><p>Many biological ontologies have historically used <a class="reference external" href="https://owlcollab.github.io/oboformat/doc/obo-syntax.html">OBO-Format</a>, a simple text format. OBO-Format is mapped to and defined in terms of OWL.</p></li>
 <li><p>A lot of terminologies and thesauri are represented in SKOS, a standard for representing controlled vocabularies.</p></li>
-<li><p>Some vocabularies such as schema.org use a lightweight RDF Schema representation.</p></li>
+<li><p>Clinical vocabularies and ontologies are often represented as <span class="xref std std-term">FHIR</span> concepts or via formats like <span class="xref std std-term">RRF</span></p></li>
+<li><p>Some vocabularies such as schema.org use a lightweight <span class="xref std std-term">RDF Schema</span> representation.</p></li>
 </ul>
 <p>OAK is able to read (and in some cases write) ontologies in all of these formats. Different
 <a class="reference internal" href="../interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> handle different formats and backends. You can use <a class="reference internal" href="../selectors.html#selectors"><span class="std std-ref">Ontology Implementation Selectors</span></a> to choose
 which implementation to use (alternatively, this is done automatically based on the file extension).</p>
 <p>For example, on the command line, to list all terms a downloaded OBO Format file of the Human Phenotype Ontology:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>hp.obo<span class="w"> </span>terms
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>hp.obo<span class="w"> </span>terms
+...
+HP:0005671<span class="w"> </span>!<span class="w"> </span>Bilateral<span class="w"> </span>intracerebral<span class="w"> </span>calcifications
+HP:0005676<span class="w"> </span>!<span class="w"> </span>Rudimentary<span class="w"> </span>postaxial<span class="w"> </span>polydactyly<span class="w"> </span>of<span class="w"> </span>hands
+HP:0005678<span class="w"> </span>!<span class="w"> </span>Anterior<span class="w"> </span>atlanto-occipital<span class="w"> </span>dislocation
+...
 </pre></div>
 </div>
-<p>Even when ontologies are represented in OWL, it doesn’t mean that everything is standardized.
-Two OWL ontologies could choose to indicate primary labels, synonyms, mappings, and definitions in
-different ways. OAK attempts to provide a common layer on top of all these variants.
+<p>Note that each term has its own unique <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a> (in this case, a <a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>).</p>
+<p>Even when ontologies are represented in OWL, <em>it doesn’t mean that everything is standardized</em>.
+Two OWL ontologies could choose to indicate primary <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">Labels</span></a>, synonyms, mappings, and definitions in
+different ways. OWL provides a framework for standardizing on the meaning of logical  <span class="xref std std-term">Axioms</span>, but
+not on the different ways to represent metadata.</p>
+<p>OAK attempts to provide a common layer on top of all these variants.
 See further sections of this guide for more details on how this is done.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -190,8 +203,9 @@ in the <a href="#id1"><span class="problematic" id="id2">`</span></a>OBO Academy
 <li><p><span class="xref std std-term">Metadata</span></p></li>
 <li><p>“other” logical constructs</p></li>
 </ul>
-<p>In OAK, “entity” is a general grouping for any identifiable thing. This includes
-classes, individuals, and relationship types, as well as ontologies themselves.</p>
+<p>In OAK, <span class="xref std std-term">Entity</span> is a general grouping for any identifiable thing. This includes
+<a class="reference internal" href="../glossary.html#term-Class"><span class="xref std std-term">Classes</span></a>, <span class="xref std std-term">Individuals</span>, and <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Relationship Types</span></a>,
+as well as ontologies themselves.</p>
 </section>
 </section>
 

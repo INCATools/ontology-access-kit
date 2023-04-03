@@ -7,6 +7,7 @@
   <title>Identifying entities: CURIEs and URIs &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -54,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#querying-prefixmaps">Querying prefixmaps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#non-default-prefixmaps">Non-default prefixmaps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#structure-of-identifiers">Structure of identifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#futher-reading">Futher reading</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
@@ -61,6 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -107,20 +112,23 @@
 <span id="identifying-entities-curies-and-uris"></span><h1>Identifying entities: CURIEs and URIs<a class="headerlink" href="#curies-and-uris" title="Permalink to this headline"></a></h1>
 <section id="prefix-maps">
 <h2>Prefix maps<a class="headerlink" href="#prefix-maps" title="Permalink to this headline"></a></h2>
-<p>Every entity in OAK has a unique identifier. OAK is consistent with semantic
-web formalisms where everything is identified by an IRI, but in OAK these are
-typically compressed into a CURIE, using a prefix map.</p>
+<p>Every <span class="xref std std-term">Entity</span> in OAK has a unique <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a>. OAK is consistent with semantic
+web formalisms where everything is identified by an <span class="xref std std-term">IRI</span>, but in OAK these are
+typically compressed into a <a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>, using a <span class="xref std std-term">Prefix Map</span>.</p>
 <p>For example, to reference the concept of “heart” in the <a class="reference external" href="http://obofoundry.org/ontology/uberon.html">Uberon</a> ontology,
-we use the curie <code class="docutils literal notranslate"><span class="pre">UBERON:0000948</span></code>. This is a compressed form of the URL <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0000948">http://purl.obolibrary.org/obo/UBERON_0000948</a>.</p>
-<p>Most OAK commands take CURIEs or lists of CURIEs as inputs (although primary labels and
+we use the curie <code class="docutils literal notranslate"><span class="pre">UBERON:0000948</span></code>. This is a compressed form of the URL <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0000948">http://purl.obolibrary.org/obo/UBERON_0000948</a>,
+using the <span class="xref std std-term">OBO Foundry</span> prefix map.</p>
+<p>On the command line, most OAK commands take CURIEs or lists of CURIEs as inputs (although primary labels and
 queries can also be supplied). For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>ubergraph<span class="w"> </span>info<span class="w"> </span>UBERON:0000948
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>ubergraph<span class="w"> </span>info<span class="w"> </span>UBERON:0000948
+UBERON:0000948<span class="w"> </span>!<span class="w"> </span>heart
 </pre></div>
 </div>
-<p>Under the hood, on the backend (in this case, <a class="reference internal" href="../intro/tutorial03.html#ubergraph"><span class="std std-ref">Ubergraph</span></a>), the concept is stored
+<p>Under the hood, on the backend (in this case, <a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a>), the concept is stored
 as a full URI.</p>
 <p>Similarly, in Python:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_implementation_from_selector</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0000948&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ont</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
 <span class="go">heart</span>
@@ -136,11 +144,18 @@ resources such as schema.org.</p>
 <section id="querying-prefixmaps">
 <h2>Querying prefixmaps<a class="headerlink" href="#querying-prefixmaps" title="Permalink to this headline"></a></h2>
 <p>You can get a list of all prefixes known to OAK using the <code class="docutils literal notranslate"><span class="pre">prefixes</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>prefixes
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>prefixes
+...
+PO<span class="w">  </span>http://purl.obolibrary.org/obo/PO_
+PORO<span class="w">        </span>http://purl.obolibrary.org/obo/PORO_
+...
+owl<span class="w"> </span>http://www.w3.org/2002/07/owl#
+skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
+...
 </pre></div>
 </div>
 <p>You can also query the prefixmap for a particular prefix or set of prefixes:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>prefixes<span class="w"> </span>UBERON<span class="w"> </span>CL<span class="w"> </span>oio<span class="w"> </span>skos<span class="w"> </span>schema
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>prefixes<span class="w"> </span>UBERON<span class="w"> </span>CL<span class="w"> </span>oio<span class="w"> </span>skos<span class="w"> </span>schema
 </pre></div>
 </div>
 <p>This will return a table:</p>
@@ -177,14 +192,15 @@ resources such as schema.org.</p>
 </section>
 <section id="non-default-prefixmaps">
 <h2>Non-default prefixmaps<a class="headerlink" href="#non-default-prefixmaps" title="Permalink to this headline"></a></h2>
+<p>For most purposes, the default prefixmap should suffice.</p>
 <p>You can also choose to override the default prefixmap with your own, using the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> or <code class="docutils literal notranslate"><span class="pre">--named-prefix-map</span></code> options.</p>
 <p>In python this can be done by accessing the prefixmap directly:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;soil-profile.skos.nt&quot;</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/soil-profile.skos.nt&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
-
+<span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># trivial example: show all CURIEs and labels</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">soil_oi</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">soil_oi</span><span class="o">.</span><span class="n">entities</span><span class="p">()):</span>
-<span class="gp">&gt;&gt;&gt; </span>       <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> ! </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>       <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> ! </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -196,9 +212,18 @@ which is the prefix (typically all uppercase) followed by a local identifier whi
 all numeric (typically zero-padded with 7 digits). However, this is not a requirement for OAK.</p>
 <p>Many semantic web ontologies such as schema.org use “semantic” URIs that a human
 can understand. These can be used in the same way:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>schema.rdf<span class="w"> </span>info<span class="w"> </span>Schema:Person
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://schema.org/version/latest/schemaorg-all-http.ttl<span class="w"> </span>-O<span class="w"> </span>tests/output/schema.rdf
+$<span class="w"> </span>runoak<span class="w"> </span>--prefix<span class="w"> </span><span class="nv">schema</span><span class="o">=</span>http://schema.org/<span class="w"> </span>-i<span class="w"> </span>tests/output/schema.rdf<span class="w"> </span>relationships<span class="w"> </span>schema:Person
+subject<span class="w">     </span>subject_label<span class="w">   </span>predicate<span class="w">       </span>predicate_label<span class="w"> </span>object<span class="w">  </span>object_label
+schema:Person<span class="w">       </span>Person<span class="w">  </span>rdfs:subClassOf<span class="w"> </span>None<span class="w">    </span>schema:Thing<span class="w">    </span>Thing
 </pre></div>
 </div>
+</section>
+<section id="futher-reading">
+<h2>Futher reading<a class="headerlink" href="#futher-reading" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://obofoundry.org/id-policy">OBO Foundry Identifiers</a></p></li>
+</ul>
 </section>
 </section>
 

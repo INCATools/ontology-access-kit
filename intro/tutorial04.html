@@ -7,6 +7,7 @@
   <title>Part 4: OboGraphs &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -106,7 +109,7 @@
              
   <section id="part-4-obographs">
 <h1>Part 4: OboGraphs<a class="headerlink" href="#part-4-obographs" title="Permalink to this headline"></a></h1>
-<p>So far we have been using the <span class="xref std std-ref">BasicOntologyInterface</span> which provides basic lookup operations. All methods in this interface
+<p>So far we have been using the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> which provides basic lookup operations. All methods in this interface
 return ‘simple’ python objects, such as strings, lists of strings, or dictionaries or <a class="reference internal" href="../best-practice.html#iterators"><span class="std std-ref">Iterators</span></a> composing these elements.</p>
 <p>Sometimes more powerful abstractions are required. For example, many bioinformatics applications work with a <a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> level abstraction
 of an ontology which allows for graph-theoretic operations and visualizations. In contrast, many ontology management and QC
@@ -122,7 +125,7 @@ applications require an OWL <span class="xref std std-term">Axiom</span> oriente
 <p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/obograph/index.html">OboGraph Datamodel</a></p>
 <p>In this datamodel, an ontology is conceived of as a Graph, with a graph consisting of</p>
 <ul class="simple">
-<li><p><span class="xref std std-term">Node</span> objects</p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-Node"><span class="xref std std-term">Node</span></a> objects</p></li>
 <li><p><a class="reference internal" href="../glossary.html#term-Edge"><span class="xref std std-term">Edge</span></a> objects</p></li>
 </ul>
 <p>Nodes are typically ontology <a class="reference internal" href="../glossary.html#term-Class"><span class="xref std std-term">Classes</span></a> but are not restricted to this.</p>

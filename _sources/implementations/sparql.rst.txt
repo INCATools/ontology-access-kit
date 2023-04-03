@@ -1,9 +1,9 @@
 .. sparql_implementation:
 
-Sparql Endpoint
-==================
+Sparql Adapter
+==============
 
-This is an abstract base class for any SPARQL endpoint, whether they are remote or local.
+This is an abstract base class for any SPARQL adapter, whether they are remote or local.
 
 Currently there are two main implementations:
 

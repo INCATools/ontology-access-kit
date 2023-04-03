@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ontology Lookup Service (OLS) Endpoint &mdash; oaklib  documentation</title>
+  <title>Ontology Lookup Service (OLS) Adapter &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,13 +16,15 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Simple OBO Implementation" href="simple_obo.html" />
-    <link rel="prev" title="SQL Database Implementation" href="sqldb.html" /> 
+    <link rel="next" title="Simple OBO Adapter" href="simple_obo.html" />
+    <link rel="prev" title="SQL Database Adapter" href="sqldb.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,24 +54,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Implementations</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pronto.html">Pronto / OBO Files Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Ontology Lookup Service (OLS) Endpoint</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pronto.html">Pronto / OBO Files Adapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Adapter</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ontology Lookup Service (OLS) Adapter</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="simple_obo.html">Simple OBO Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="obograph.html">OBO Graph Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ontobee.html">Ontobee Endpoint</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Ontology Lookup Service (OLS) Endpoint</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html">Simple OBO Adapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OBO Graph Adapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Adapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Adapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Adapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ontobee.html">Ontobee Adapter</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ontology Lookup Service (OLS) Adapter</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="gilda.html">Gilda Endpoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aggregator.html">Aggregator Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gilda.html">Gilda Adapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aggregator.html">Aggregator Adapter</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
@@ -98,7 +101,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Implementations</a></li>
-      <li class="breadcrumb-item active">Ontology Lookup Service (OLS) Endpoint</li>
+      <li class="breadcrumb-item active">Ontology Lookup Service (OLS) Adapter</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/implementations/ols.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -108,8 +111,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ontology-lookup-service-ols-endpoint">
-<h1>Ontology Lookup Service (OLS) Endpoint<a class="headerlink" href="#ontology-lookup-service-ols-endpoint" title="Permalink to this headline"></a></h1>
+  <section id="ontology-lookup-service-ols-adapter">
+<h1>Ontology Lookup Service (OLS) Adapter<a class="headerlink" href="#ontology-lookup-service-ols-adapter" title="Permalink to this headline"></a></h1>
 <p>Provides access to ontologies provided via the EMBL-EBI <a class="reference external" href="https://www.ebi.ac.uk/ols/">Ontology Lookup Service</a> (OLS)</p>
 <p>Also provides interface to <a class="reference external" href="https://www.ebi.ac.uk/spot/oxo/">OxO</a> mapping endpoint</p>
 <p>This adapter uses <a class="reference external" href="https://github.com/cthoyt/ols-client">ols-client</a> to connect to
@@ -133,8 +136,8 @@ any OLS endpoint.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="sqldb.html" class="btn btn-neutral float-left" title="SQL Database Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="simple_obo.html" class="btn btn-neutral float-right" title="Simple OBO Implementation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sqldb.html" class="btn btn-neutral float-left" title="SQL Database Adapter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="simple_obo.html" class="btn btn-neutral float-right" title="Simple OBO Adapter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

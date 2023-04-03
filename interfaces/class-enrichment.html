@@ -7,6 +7,7 @@
   <title>Class Enrichment Calculation Interface &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -58,6 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
@@ -103,7 +107,7 @@
            <div itemprop="articleBody">
              
   <section id="class-enrichment-calculation-interface">
-<h1>Class Enrichment Calculation Interface<a class="headerlink" href="#class-enrichment-calculation-interface" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Class Enrichment Calculation Interface<a class="headerlink" href="#class-enrichment-calculation-interface" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.class_enrichment_calculation_interface.</span></span><span class="sig-name descname"><span class="pre">ClassEnrichmentCalculationInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">typing.Optional[oaklib.resource.OntologyResource]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multilingual:</span> <span class="pre">typing.Optional[bool]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">typing.Optional[oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">typing.Optional[curies.api.Converter]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">typing.Optional[bool]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/class_enrichment_calculation_interface.html#ClassEnrichmentCalculationInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface" title="Permalink to this definition"></a></dt>

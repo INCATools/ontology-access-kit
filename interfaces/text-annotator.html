@@ -7,6 +7,7 @@
   <title>Text Annotator Interface &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,12 +16,14 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="owl.html" />
+    <link rel="next" title="OWL Interface" href="owl.html" />
     <link rel="prev" title="OboGraph Interface" href="obograph.html" /> 
 </head>
 
@@ -58,6 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Text Annotator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
@@ -120,7 +124,7 @@ from GO and CL respectively.</p>
 to build a simple textual index from an ontology, using all labels and synonyms, and to perform
 simple string matching.</p>
 <p>Adapters that talk to a remote endpoint may leverage more advanced strategies, and may obviate
-the need for a local indexing step. For example, the <a class="reference internal" href="../implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Endpoint</span></a> will use
+the need for a local indexing step. For example, the <a class="reference internal" href="../implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a> will use
 the OntoPortal annotate endpoint which is pre-indexed over all &gt;1000 ontologies in bioportal.</p>
 <p>All return payloads conform to the <cite>TextAnnotation</cite> data model:</p>
 <blockquote>
@@ -128,21 +132,23 @@ the OntoPortal annotate endpoint which is pre-indexed over all &gt;1000 ontologi
 <li><p><a class="reference external" href="https://w3id.org/oak/text-annotator">https://w3id.org/oak/text-annotator</a></p></li>
 </ul>
 </div></blockquote>
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file">
-<span class="sig-name descname"><span class="pre">annotate_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_io.TextIOWrapper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.text_annotator.TextAnnotationConfiguration</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.datamodels.text_annotator.TextAnnotation" title="oaklib.datamodels.text_annotator.TextAnnotation"><span class="pre">oaklib.datamodels.text_annotator.TextAnnotation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/text_annotator_interface.html#TextAnnotatorInterface.annotate_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file" title="Permalink to this definition"></a></dt>
-<dd><p>Annotate text in a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>text_file</strong> – Text file that is iterated line-by-line.</p></li>
-<li><p><strong>configuration</strong> – Text annotation configuration, defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Yield</dt>
-<dd class="field-even"><p>Annotation of each line.</p>
-</dd>
-</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.lexical_index">
+<span class="sig-name descname"><span class="pre">lexical_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.lexical_index.LexicalIndex</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.lexical_index" title="Permalink to this definition"></a></dt>
+<dd><p>If present, some implementations may choose to use this</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.cache_directory">
+<span class="sig-name descname"><span class="pre">cache_directory</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.cache_directory" title="Permalink to this definition"></a></dt>
+<dd><p>If present, some implementations may choose to cache any ontology indexes here.
+These may be used in subsequent invocations, it is up to the user to manage this cache.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.rule_collection">
+<span class="sig-name descname"><span class="pre">rule_collection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.mapping_rules_datamodel.MappingRuleCollection</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.rule_collection" title="Permalink to this definition"></a></dt>
+<dd><p>Mapping rules to apply to the results of the annotation, including synonymizer rules.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -168,23 +174,21 @@ the OntoPortal annotate endpoint which is pre-indexed over all &gt;1000 ontologi
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.cache_directory">
-<span class="sig-name descname"><span class="pre">cache_directory</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.cache_directory" title="Permalink to this definition"></a></dt>
-<dd><p>If present, some implementations may choose to cache any ontology indexes here.
-These may be used in subsequent invocations, it is up to the user to manage this cache.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.lexical_index">
-<span class="sig-name descname"><span class="pre">lexical_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.lexical_index.LexicalIndex</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.lexical_index" title="Permalink to this definition"></a></dt>
-<dd><p>If present, some implementations may choose to use this</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.rule_collection">
-<span class="sig-name descname"><span class="pre">rule_collection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.mapping_rules_datamodel.MappingRuleCollection</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.rule_collection" title="Permalink to this definition"></a></dt>
-<dd><p>Mapping rules to apply to the results of the annotation, including synonymizer rules.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file">
+<span class="sig-name descname"><span class="pre">annotate_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_io.TextIOWrapper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.text_annotator.TextAnnotationConfiguration</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.datamodels.text_annotator.TextAnnotation" title="oaklib.datamodels.text_annotator.TextAnnotation"><span class="pre">oaklib.datamodels.text_annotator.TextAnnotation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/text_annotator_interface.html#TextAnnotatorInterface.annotate_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file" title="Permalink to this definition"></a></dt>
+<dd><p>Annotate text in a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_file</strong> – Text file that is iterated line-by-line.</p></li>
+<li><p><strong>configuration</strong> – Text annotation configuration, defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yield</dt>
+<dd class="field-even"><p>Annotation of each line.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -202,7 +206,7 @@ These may be used in subsequent invocations, it is up to the user to manage this
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="obograph.html" class="btn btn-neutral float-left" title="OboGraph Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="owl.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="owl.html" class="btn btn-neutral float-right" title="OWL Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

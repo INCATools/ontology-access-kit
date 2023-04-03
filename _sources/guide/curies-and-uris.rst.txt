@@ -6,28 +6,31 @@ Identifying entities: CURIEs and URIs
 Prefix maps
 -----------
 
-Every entity in OAK has a unique identifier. OAK is consistent with semantic
-web formalisms where everything is identified by an IRI, but in OAK these are
-typically compressed into a CURIE, using a prefix map.
+Every :term:`Entity` in OAK has a unique :term:`Identifier`. OAK is consistent with semantic
+web formalisms where everything is identified by an :term:`IRI`, but in OAK these are
+typically compressed into a :term:`CURIE`, using a :term:`Prefix Map`.
 
 For example, to reference the concept of "heart" in the `Uberon <http://obofoundry.org/ontology/uberon.html>`_ ontology,
-we use the curie ``UBERON:0000948``. This is a compressed form of the URL `<http://purl.obolibrary.org/obo/UBERON_0000948>`_.
+we use the curie ``UBERON:0000948``. This is a compressed form of the URL `<http://purl.obolibrary.org/obo/UBERON_0000948>`_,
+using the :term:`OBO Foundry` prefix map.
 
-Most OAK commands take CURIEs or lists of CURIEs as inputs (although primary labels and
+On the command line, most OAK commands take CURIEs or lists of CURIEs as inputs (although primary labels and
 queries can also be supplied). For example:
 
 .. code-block:: bash
 
-    runoak -i ubergraph info UBERON:0000948
+    $ runoak -i ubergraph info UBERON:0000948
+    UBERON:0000948 ! heart
 
-Under the hood, on the backend (in this case, :ref:`ubergraph`), the concept is stored
+Under the hood, on the backend (in this case, :ref:`ubergraph_implementation`), the concept is stored
 as a full URI.
 
 Similarly, in Python:
 
 .. code-block:: python
 
-    >>> ont = get_implementation_from_selector('ubergraph:')
+    >>> from oaklib import get_adapter
+    >>> ont = get_adapter('ubergraph:')
     >>> id = "UBERON:0000948"
     >>> print(ont.label(id))
     heart
@@ -46,13 +49,21 @@ You can get a list of all prefixes known to OAK using the ``prefixes`` command:
 
 .. code-block:: bash
 
-    runoak prefixes
+    $ runoak prefixes
+    ...
+    PO	http://purl.obolibrary.org/obo/PO_
+    PORO	http://purl.obolibrary.org/obo/PORO_
+    ...
+    owl	http://www.w3.org/2002/07/owl#
+    skos	http://www.w3.org/2004/02/skos/core#
+    ...
+
 
 You can also query the prefixmap for a particular prefix or set of prefixes:
 
 .. code-block:: bash
 
-    runoak prefixes UBERON CL oio skos schema
+    $ runoak prefixes UBERON CL oio skos schema
 
 This will return a table:
 
@@ -70,18 +81,21 @@ See the `prefixes <https://incatools.github.io/ontology-access-kit/cli.html#runo
 Non-default prefixmaps
 ----------------------
 
+For most purposes, the default prefixmap should suffice.
+
 You can also choose to override the default prefixmap with your own, using the ``--prefix`` or ``--named-prefix-map`` options.
 
 In python this can be done by accessing the prefixmap directly:
 
 .. code-block:: python
 
-    >>> soil_oi = get_adapter("soil-profile.skos.nt"))
+    >>> soil_oi = get_adapter("tests/input/soil-profile.skos.nt")
     >>> soil_oi.prefix_map()["soilprofile"] = "http://anzsoil.org/def/au/asls/soil-profile/"
-
+    >>>
     >>> # trivial example: show all CURIEs and labels
     >>> for entity, label in soil_oi.labels(soil_oi.entities()):
-    >>>        print(f"{entity} ! {label}")
+    ...        print(f"{entity} ! {label}")
+
 
 Structure of identifiers
 ------------------------
@@ -97,6 +111,12 @@ can understand. These can be used in the same way:
 
 .. code-block:: bash
 
-    runoak -i schema.rdf info Schema:Person
+    $ wget https://schema.org/version/latest/schemaorg-all-http.ttl -O tests/output/schema.rdf
+    $ runoak --prefix schema=http://schema.org/ -i tests/output/schema.rdf relationships schema:Person
+    subject	subject_label	predicate	predicate_label	object	object_label
+    schema:Person	Person	rdfs:subClassOf	None	schema:Thing	Thing
 
+Futher reading
+--------------
 
+* `OBO Foundry Identifiers <https://obofoundry.org/id-policy>`_

@@ -7,6 +7,7 @@
   <title>Primary Labels &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -62,6 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -108,9 +112,10 @@
 <span id="id1"></span><h1>Primary Labels<a class="headerlink" href="#primary-labels" title="Permalink to this headline"></a></h1>
 <section id="looking-up-labels">
 <h2>Looking up labels<a class="headerlink" href="#looking-up-labels" title="Permalink to this headline"></a></h2>
-<p>The <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> provides a way to look up the primary label for an
+<p>The <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> provides a way to look up the primary <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">Label</span></a> for an
 entity or set of entities. For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_implementation_from_selector</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0000948&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ont</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
 <span class="go">heart</span>
@@ -119,8 +124,9 @@ entity or set of entities. For example:</p>
 <p>Note the assumption here is that there is at most a single primary label for an entity,
 but this assumption turns out to not universally hold.</p>
 <p>First, not all entities will have a primary label. It’s common practice for
-many semantic web ontologies to use semantic identifiers, and omit a label.</p>
-<p>In these cases, if no label is found, OAK simply returns <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+many semantic web ontologies to use <span class="xref std std-term">Semantic Identifiers</span>, and omit a label.</p>
+<p>In these cases, if no label is found, OAK simply returns <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>Additionally, some ontologies may have multiple primary labels, one per language.</p>
 </section>
 <section id="custom-label-annotation-properties">
 <h2>Custom label annotation properties<a class="headerlink" href="#custom-label-annotation-properties" title="Permalink to this headline"></a></h2>
@@ -134,25 +140,37 @@ other ontologies. Some ontologies may use a different property like:</p>
 <p>Some adapters will allow you to use custom mappings from rdfs:label to these
 other properties. Here you can either specify a specific <em>profiles</em>, or
 provide a set of mappings in SSSOM form.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># use the standard sparql adapter over local files</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;soil-profile.skos.nt&quot;</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.mappers</span> <span class="kn">import</span> <span class="n">OntologyMetadataMapper</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># use the standard sparql adapter over local files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/soil-profile.skos.nt&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># add a custom prefix</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a mapper for mapping OMO to a custom vocab</span>
-<span class="gp">&gt;&gt;&gt; </span> <span class="n">soil_oi</span><span class="o">.</span><span class="n">ontology_metamodel_mapper</span> <span class="o">=</span> <span class="n">OntologyMetadataMapper</span><span class="p">(</span>
-<span class="gp">&gt;&gt;&gt; </span>       <span class="p">[],</span> <span class="n">curie_converter</span><span class="o">=</span><span class="n">soil_oi</span><span class="o">.</span><span class="n">converter</span>
-<span class="gp">&gt;&gt;&gt; </span>   <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapper</span> <span class="o">=</span> <span class="n">OntologyMetadataMapper</span><span class="p">([],</span> <span class="n">curie_converter</span><span class="o">=</span><span class="n">adapter</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapper</span><span class="o">.</span><span class="n">use_skos_profile</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span><span class="o">.</span><span class="n">ontology_metamodel_mapper</span> <span class="o">=</span> <span class="n">mapper</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span>
+
+<span class="gp">...</span>
+<span class="go">soilprofile:voids-cracks-1 Fine (voids cracks)</span>
+<span class="go">soilprofile:voids-cracks-2 Medium (voids cracks)</span>
+<span class="go">soilprofile:voids-cracks-3 Coarse (voids cracks)</span>
+<span class="go">soilprofile:voids-cracks-4 Very coarse (voids cracks)</span>
+<span class="go">soilprofile:voids-cracks-5 Extremely coarse (voids cracks)</span>
+<span class="gp">...</span>
 </pre></div>
 </div>
 </section>
 <section id="multilingual-ontologies">
 <h2>Multilingual ontologies<a class="headerlink" href="#multilingual-ontologies" title="Permalink to this headline"></a></h2>
 <p>Many ontologies assume English as a default, and only provide a single
-primary label (whether this is via rdfs:label, or via another property).</p>
+primary label (whether this is via rdfs:label, or via another <span class="xref std std-term">Annotation Property</span>).</p>
 <p>Others may provide multiple primary labels, with a maximum of one per language.</p>
 <p>OAK still makes the maximum one primary label assumption, but you can
 set the language as a property of the adapter. For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">oi</span><span class="o">.</span><span class="n">preferred_language</span> <span class="o">=</span> <span class="s2">&quot;fr&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">adapter</span><span class="o">.</span><span class="n">preferred_language</span> <span class="o">=</span> <span class="s2">&quot;fr&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -162,9 +180,14 @@ set the language as a property of the adapter. For example:</p>
 where we may find multiple labels for a single entity. This can
 happen when two or more ontologies are merged, and these ontologies
 contain the same entity, but with different labels.</p>
+<p>This is not infrequent when we have triplestores that merge together
+multiple ontologies as in Ubergraph.</p>
 <p>Even when an ontology is not intended to be multilingual, there is no standard way
 to type a label literal; some are typed as xsd:string, and some using a <code class="docutils literal notranslate"><span class="pre">en</span></code> language tag.
 This is important because queries for one may not work for another.</p>
+<p>OAK is intended to abstract over some of these implementation differences,
+and to provide a <em>common interface</em> such that intererable code can be
+written that will work with a wide variety of ontologies and vocabularies.</p>
 </section>
 <section id="further-reading">
 <h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline"></a></h2>

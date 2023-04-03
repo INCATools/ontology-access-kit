@@ -7,6 +7,7 @@
   <title>Frequently Asked Questions &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
@@ -132,7 +135,7 @@ mapping, and OWL processing.</p>
 <dt>The Command Line</dt><dd><p>OAK provides a fully-featured command line interface. See <a class="reference internal" href="intro/tutorial08.html#tutorial08"><span class="std std-ref">Part 8: Applying Changes to Ontologies</span></a> of the tutorial.</p>
 </dd>
 <dt>Bioportal</dt><dd><p>OAK can be used to query any ontology in Bioportal - or many of the Portals in the OntoPortal alliance.
-See <a class="reference internal" href="implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Endpoint</span></a>.</p>
+See <a class="reference internal" href="implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a>.</p>
 </dd>
 <dt>OLS</dt><dd><p>OAK can be used to query any ontology in OLS.
 See <span class="xref std std-ref">ols_implementation</span>.</p>
@@ -159,7 +162,7 @@ You can use “i” as a shortcut for is_a (rdfs:subClassOf) and “p” as a sh
 the input option is one of the few options that are shared across <em>all</em> subcommands.
 For example, you should write <code class="code docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">-i</span> <span class="pre">my-ont.owl</span> <span class="pre">lexmatch</span> <span class="pre">-o</span> <span class="pre">results.sssom.tsv</span></code></p>
 </dd>
-<dt>… How do I get a bioportal API key</dt><dd><p>See the instructions on <a class="reference internal" href="implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Endpoint</span></a>.</p>
+<dt>… How do I get a bioportal API key</dt><dd><p>See the instructions on <a class="reference internal" href="implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a>.</p>
 </dd>
 <dt>… My OBO Format file won’t parse</dt><dd><p>The default parser used for obo files is <a class="reference internal" href="glossary.html#term-Pronto"><span class="xref std std-term">Pronto</span></a>. Pronto strictly enforces obo format syntax rules, and
 not all ontologies conform. To get around this, current best practice is to convert the obo to owl, and then

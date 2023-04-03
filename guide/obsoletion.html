@@ -7,6 +7,7 @@
   <title>Obsoletion &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -61,9 +64,11 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#merged-entities">Merged entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further Reading</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -110,29 +115,49 @@
 <span id="id1"></span><h1>Obsoletion<a class="headerlink" href="#obsoletion" title="Permalink to this headline"></a></h1>
 <section id="looking-up-obsoleted-entities">
 <h2>Looking up obsoleted entities<a class="headerlink" href="#looking-up-obsoleted-entities" title="Permalink to this headline"></a></h2>
-<p>In OAK, the terms “obsolete” and “deprecated” are used interchangeably.</p>
-<p>The way in which is to specify an entity is obsolete is fairly standard, using an <code class="docutils literal notranslate"><span class="pre">owl:deprecated</span></code> annotation. For example:</p>
-<p>In turtle:</p>
-<div class="highlight-turtle notranslate"><div class="highlight"><pre><span></span><span class="nn">MYO</span><span class="p">:</span><span class="nt">123456</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">deprecated</span> <span class="l">true</span> <span class="p">.</span>
+<p>In OAK, the terms <span class="xref std std-term">Obsolete</span> and “deprecated” are used interchangeably.</p>
+<p>Obsoletion is an important part of any ontology’s lifecycle. Sometimes it is necessary to
+obsolete an <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a> because it is no longer a good representation of a concept,
+or because it becomes out of scope, or it is discovered to be equivalent to an existing concept.</p>
+<p>A good ontology will never <em>delete</em> an identifier, but will instead mark it as obsolete.</p>
+<p>The way in which is to specify an entity is obsolete is fairly standard, using an <code class="docutils literal notranslate"><span class="pre">owl:deprecated</span></code> <span class="xref std std-term">Annotation Assertion</span>.</p>
+<p>In <span class="xref std std-term">Turtle</span>:</p>
+<div class="highlight-turtle notranslate"><div class="highlight"><pre><span></span><span class="nn">MYO</span><span class="p">:</span><span class="nt">123456</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">deprecated</span> <span class="l">true</span> <span class="p">;</span>
+           <span class="nn">rdfs</span><span class="p">:</span><span class="nt">label</span> <span class="s">&quot;obsolete foo&quot;</span> <span class="p">.</span>
 </pre></div>
 </div>
-<p>In OBO Format:</p>
+<p>In <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYO:123456</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">obsolete foo</span>
 <span class="nt">is_obsolete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 </div>
+<p>Note the use of the <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">Label</span></a> prefixed with “obsolete” is purely a convention, the
+standard way to mark an entity as obsolete is to use the <code class="docutils literal notranslate"><span class="pre">owl:deprecated</span></code> annotation assertion.</p>
 <p>You can query for all obsolete entities in an ontology using the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-obsoletes">obsoletes</a> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>myontology.db<span class="w"> </span>obsoletes
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>obsoletes
+...
+HP:0040180<span class="w">  </span>obsolete<span class="w"> </span>Hyperkeratosis<span class="w"> </span>pilaris
+HP:0040193<span class="w">  </span>obsolete<span class="w"> </span>Pinealoblastoma
+HP:0040199<span class="w">  </span>obsolete<span class="w"> </span>Flat<span class="w"> </span>midface
+...
 </pre></div>
 </div>
 <p>You can also use <code class="docutils literal notranslate"><span class="pre">.is_obsolete</span></code> as a query term as input to other commands, e.g</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>myontology.db<span class="w"> </span>info<span class="w"> </span>.is_obsolete
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>term-metadata<span class="w"> </span>.is_obsolete
 </pre></div>
 </div>
 <p>In python, querying obsoleted entities is provided by the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_implentation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;myontology.db&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">ont</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">():</span>
-<span class="gp">&gt;&gt;&gt; </span>   <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">()):</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+<span class="gp">...</span>
+<span class="go">HP:0040180</span>
+<span class="gp">...</span>
+<span class="go">HP:0040199</span>
+<span class="gp">...</span>
 </pre></div>
 </div>
 </section>
@@ -155,7 +180,7 @@ are not yet fully standardized within OMO:</p>
 </ul>
 <p>In OAK, this can be retrieved like any other metadata using the entity_metadata methods from <span class="xref std std-ref">BasicOntologyInterface</span>.</p>
 <p>On the command line:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>term-metadata<span class="w"> </span>GO:0000005
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>term-metadata<span class="w"> </span>GO:0000005
 </pre></div>
 </div>
 <p>returns:</p>
@@ -185,7 +210,7 @@ are not yet fully standardized within OMO:</p>
 </pre></div>
 </div>
 <p>To get information about all obsolete entities in an ontology, use the <code class="docutils literal notranslate"><span class="pre">.is_obsolete</span></code> query term:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>term-metadata<span class="w"> </span>.is_obsolete
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>term-metadata<span class="w"> </span>.is_obsolete
 </pre></div>
 </div>
 </section>
@@ -203,8 +228,8 @@ about the merged entity is lost.</p>
 </div>
 <p>Here, there was previously an entity <code class="docutils literal notranslate"><span class="pre">X:2</span></code>, this was merged into <code class="docutils literal notranslate"><span class="pre">X:1</span></code>, and all metadata
 about <code class="docutils literal notranslate"><span class="pre">X:2</span></code> is lost (although some of it may have been copied into metadata for <code class="docutils literal notranslate"><span class="pre">X:1</span></code>).</p>
-<p>Note that there is no seperate entry for X:2 in the OBO file.</p>
-<p>In the Obo to OWL translation, this is treated just like obsoletion with replacement,
+<p>Note that there is no separate entry for X:2 in the OBO file.</p>
+<p>In the OBO Format to OWL Translation, this is treated just like obsoletion with replacement,
 except there is no metadata about the original class (other than its deprecated axiom), and
 there is an additional IAO “obsoletion reason” annotation, with type “term merged”.</p>
 <p>The above example would be translated to:</p>
@@ -219,7 +244,7 @@ there is an additional IAO “obsoletion reason” annotation, with type “term
 <p>OAK uses the underlying OWL model as the standard, so from OAK’s perspective, the structure of merged terms and terms that have been obsoleted with
 replacement is this is largely similar.</p>
 <p>If you run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>obsoletes
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>obsoletes
 </pre></div>
 </div>
 <p>It will show all deprecated IDs, regardless of whether they were merged or not (i.e
@@ -227,9 +252,15 @@ alt_ids from OBO format are included). Note that merged entities will show “No
 label.</p>
 <p>If you wish to exclude merged IDs (i.e. the equivalent of OBO Format stanzas that have
 an <code class="docutils literal notranslate"><span class="pre">is_obsolete:</span> <span class="pre">true</span></code>) then pass <code class="docutils literal notranslate"><span class="pre">--no-include-merged</span></code> to the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>obsoletes<span class="w"> </span>--no-include-merged
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>obsoletes<span class="w"> </span>--no-include-merged
 </pre></div>
 </div>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="http://w3id.org/kgcl/NodeObsoletion">kgcl:NodeObsoletion</a></p></li>
+</ul>
 </section>
 </section>
 

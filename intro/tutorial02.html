@@ -7,6 +7,7 @@
   <title>Part 2: Basic Python &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -136,46 +139,31 @@ the instructions.</p>
 <h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline"></a></h2>
 <p>The two basic concepts you will learn here are:</p>
 <ul class="simple">
-<li><p>Implementations: How to create a connector object that can talk to a backend or work with a particular file format</p></li>
+<li><p>Adaptors (Implementations): How to create a connector object that can talk to a backend or work with a particular file format</p></li>
 <li><p>Interfaces: How to perform operations on a basic ontology interface, regardless of the backend</p></li>
 </ul>
 </section>
 <section id="code-the-first-example">
 <h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this headline"></a></h2>
-<p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> implementation.</p>
-<p>As preparation, we expect <code class="docutils literal notranslate"><span class="pre">fbbt.obo</span></code> to exist in the top level directory.</p>
-<p><code class="code docutils literal notranslate"><span class="pre">fbbt.obo</span></code> can be downloaded here: <a class="reference external" href="http://purl.obolibrary.org/obo/fbbt.obo">http://purl.obolibrary.org/obo/fbbt.obo</a></p>
+<p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>, using the Cell Ontology (CL).</p>
 <p>Then create a python program: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.py</span></code> and add the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;fbbt.obo&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Next, let’s perform some basic lookup operations on the ontology:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="s1">&#39;FBbt:00004751&#39;</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s1">&#39;CL:4023017&#39;</span><span class="p">))</span>
+<span class="go">sst GABAergic cortical interneuron</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="s1">&#39;CL:4023017&#39;</span><span class="p">))</span>
+<span class="go">A GABAergic neuron located in the cerebral cortex that expresses somatostatin (sst)</span>
 </pre></div>
 </div>
-<p>We first obtain all of the outgoing relationships from the
-FBbt class for “wing vein”, which has the id of <code class="docutils literal notranslate"><span class="pre">FBbt:00004751</span></code>.</p>
-<p>Next, we iterate through all the relationships, and print the labels for
-both the relationship and the connected entities (here named <code class="docutils literal notranslate"><span class="pre">parents</span></code>) using
-the <code class="docutils literal notranslate"><span class="pre">label()</span></code> method of <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> object.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>behind the scenes, the <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> implementation is being used, but as an application
-programmer you shouldn’t care about the specific implementation - code to the interface.
-The beauty of OAK is that the <em>same code</em> will work with other backends!</p>
-</div>
-<p>You should see something similar to:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>rdfs:subClassOf ! subClassOf
-  FBbt:00007245 ! cuticular specialization
-RO:0002202 ! develops_from
-  FBbt:00046035 ! presumptive wing vein
-BFO:0000050 ! part_of
-  FBbt:00006015 ! wing blade
+<p>You can look up the methods above in the documentation for the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a></p>
+<p>Now we will query for outgoing relationships from the sst GABAergic cortical interneuron:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s1">&#39;CL:4023017&#39;</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+<span class="go">CL:4023017 RO:0002292 PR:000015665</span>
+<span class="go">CL:4023017 rdfs:subClassOf CL:0010011</span>
 </pre></div>
 </div>
 </section>
@@ -183,16 +171,26 @@ BFO:0000050 ! part_of
 <h2>Extending the example<a class="headerlink" href="#extending-the-example" title="Permalink to this headline"></a></h2>
 <p>Next we will write a function that takes as input</p>
 <ul class="simple">
-<li><p>an ontology handle</p></li>
-<li><p>a term ID (CURIE)</p></li>
+<li><p>an ontology <span class="xref std std-term">adapter</span></p></li>
+<li><p>a term ID (term:<cite>CURIE</cite>)</p></li>
 </ul>
-<p>And writes out information about that term</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">show_info</span><span class="p">(</span><span class="n">oi</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">term_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ID: </span><span class="si">{term_id}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name: {oi.label(term_id)}&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Definition: {oi.definition(term_id)}&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationships</span><span class="p">(</span><span class="n">term_id</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<p>And write out information about that term</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">show_info</span><span class="p">(</span><span class="n">adapter</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">term_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ID: </span><span class="si">{</span><span class="n">term_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Name: </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Definition: </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">term_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">outgoing_relationships</span><span class="p">(</span><span class="n">term_id</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">) </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now try this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">show_info</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="s1">&#39;CL:4023017&#39;</span><span class="p">)</span>
+<span class="go">ID: CL:4023017</span>
+<span class="go">Name: sst GABAergic cortical interneuron</span>
+<span class="go">Definition: A GABAergic neuron located in the cerebral cortex that expresses somatostatin (sst)</span>
+<span class="go">  RO:0002292 (expresses) PR:000015665 (somatostatin)</span>
+<span class="go">  rdfs:subClassOf (None) CL:0010011 (cerebral cortex GABAergic interneuron)</span>
 </pre></div>
 </div>
 </section>

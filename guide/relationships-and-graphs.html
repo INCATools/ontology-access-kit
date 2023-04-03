@@ -7,6 +7,7 @@
   <title>Relationships and Graphs &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,12 +16,14 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Architecture" href="../architecture.html" />
+    <link rel="next" title="Learning More" href="learning-more.html" />
     <link rel="prev" title="Obsoletion" href="obsoletion.html" /> 
 </head>
 
@@ -62,6 +65,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -106,15 +110,21 @@
              
   <section id="relationships-and-graphs">
 <span id="id1"></span><h1>Relationships and Graphs<a class="headerlink" href="#relationships-and-graphs" title="Permalink to this headline"></a></h1>
-<p>One of the main uses of an ontology is to precisely state the <em>relationships</em> between different entities or concepts.</p>
-<p>In OAK, classes in ontologies can be related to one another via different <em>relationship types</em>. These
-may come from a relationship type ontology such as RO, or they may be part of the RDF/OWL framework, such
-as <span class="xref std std-ref">SubClassOf</span>.</p>
+<p>One of the main uses of an ontology is to precisely state the <a class="reference internal" href="../glossary.html#term-Relationship"><span class="xref std std-term">Relationships</span></a> between different entities or concepts.</p>
+<p>In OAK, classes in ontologies can be related to one another via different <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Relationship Types</span></a>. These
+may come from a relationship type ontology such as <span class="xref std std-term">RO</span>, or they may be a “builtin” construct in <a class="reference internal" href="../glossary.html#term-RDF"><span class="xref std std-term">RDF</span></a> or <a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>
+such as <code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf</span></code>.</p>
+<p>These can be thought of as a <a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> of concepts and relationships. This is a common idiom
+for bioinformatics users of ontologies - but perhaps surprisingly, graphs do not
+feature heavily in Description Logic formalisms of ontologies like <a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>.</p>
+<p>Instead there exist a number of different <a class="reference internal" href="../glossary.html#term-Ontology-Graph-Projection"><span class="xref std std-term">Ontology Graph Projection</span></a> methods that
+project from OWL to a graph. The fact there is no one standard method can lead to confusion.</p>
+<p>But let’s start with a standard bio-ontology example - the <span class="xref std std-term">UBERON</span> ontology.</p>
 <section id="exploring-relationships">
 <h2>Exploring relationships<a class="headerlink" href="#exploring-relationships" title="Permalink to this headline"></a></h2>
 <p>Let’s explore Uberon, looking at the relationships for <em>hand</em> (“manus”) and <em>foot</em> (“pes”)</p>
 <p>We will use the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> method from <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0002387&quot;</span><span class="p">]):</span>
 <span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
@@ -131,9 +141,7 @@ as <span class="xref std std-ref">SubClassOf</span>.</p>
 </pre></div>
 </div>
 <p>We can make this more human readable:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0002387&quot;</span><span class="p">]):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0002387&quot;</span><span class="p">]):</span>
 <span class="gp">... </span>   <span class="nb">print</span><span class="p">((</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">)))</span>
 <span class="go">(&#39;pes&#39;, &#39;part of&#39;, &#39;hindlimb&#39;)</span>
 <span class="go">(&#39;pes&#39;, &#39;develops from&#39;, &#39;embryonic footplate&#39;)</span>
@@ -158,8 +166,9 @@ constructs like existential restriction. We will return to this later.</p>
 </section>
 <section id="graph-traversal-and-relation-graph-reasoning">
 <h2>Graph Traversal and Relation Graph Reasoning<a class="headerlink" href="#graph-traversal-and-relation-graph-reasoning" title="Permalink to this headline"></a></h2>
-<p>The above examples show <em>direct</em> relationships between concepts. A common
-use case for ontologies is exploring <em>indirect</em> or <em>entailed</em> relationships.</p>
+<p>The above examples show <span class="xref std std-term">Direct Relationships</span> between concepts. A common
+use case for ontologies is exploring <em>indirect</em> or <span class="xref std std-term">Entailed Relationships</span>,
+which roughly corresponds to the concept of <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestor</span></a> in a graph.</p>
 <p>We will use the <code class="docutils literal notranslate"><span class="pre">ancestors</span></code> method from <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
@@ -201,8 +210,8 @@ use case for ontologies is exploring <em>indirect</em> or <em>entailed</em> rela
 <h3>Graph Traversal Strategies<a class="headerlink" href="#graph-traversal-strategies" title="Permalink to this headline"></a></h3>
 <p>There are actually <em>two</em> strategies for getting indirect relationships in OAK:</p>
 <ul class="simple">
-<li><p>HOP, aka <em>graph walking</em></p></li>
-<li><p>ENTAILMENT, aka <em>reasoning</em></p></li>
+<li><p>HOP, aka <span class="xref std std-term">Graph Traversal</span></p></li>
+<li><p>ENTAILMENT, aka term:<cite>Reasoning</cite></p></li>
 </ul>
 <p>You can specify which you would like, but if you leave this open the adapter will choose a
 default. Not all adapters can implement both strategies.</p>
@@ -215,10 +224,11 @@ whose entailed predicate matches the input list</p></li>
 </ul>
 <p>Currently the only OAK adapters to implement ENTAILMENT are:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Endpoint</span></a></p></li>
-<li><p><a class="reference internal" href="../implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Implementation</span></a></p></li>
+<li><p><a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a></p></li>
+<li><p><a class="reference internal" href="../implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a></p></li>
 </ul>
-<p>In both cases the entailment is done ahead of time using <span class="xref std std-ref">relation_graph</span>.</p>
+<p>In both cases the entailment is done ahead of time using <a class="reference internal" href="../glossary.html#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a> to compute the
+entailed edges.</p>
 <p>An example of a case where results between these approaches differ is in computing
 the ancestors of <code class="docutils literal notranslate"><span class="pre">GO:1901494</span></code> <em>regulation of cysteine metabolic process</em>.</p>
 <p>Following a path of two hops, we can traverse over a <em>regulates</em> relationship to get to <em>cysteine metabolic process</em>,
@@ -236,7 +246,7 @@ an axiom that if A has-part B and B part-of C, then it necessarily follows that 
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="obsoletion.html" class="btn btn-neutral float-left" title="Obsoletion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="learning-more.html" class="btn btn-neutral float-right" title="Learning More" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

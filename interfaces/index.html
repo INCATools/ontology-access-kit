@@ -7,6 +7,7 @@
   <title>Interfaces &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -58,6 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
@@ -108,15 +112,15 @@ implementation details and provide a coherent set of operations to
 perform on an ontology. Developers can code to the interface largely without
 worrying about whether the implementation is a relational database, a local
 file, etc.</p>
-<p>For example, the <span class="xref std std-ref">UbergraphImplementation</span> implements <span class="xref std std-ref">SearchInterface</span> which
-has the method <span class="xref std std-ref">SearchInterface.basic_search()</span>, so you can write code like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s1">&#39;CA4 hippocampus&#39;</span><span class="p">):</span>
+<p>For example, the <a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a> implements <a class="reference internal" href="search.html#search-interface"><span class="std std-ref">Search Interface</span></a> which
+has the method <a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search" title="oaklib.interfaces.search_interface.SearchInterface.basic_search"><code class="xref py py-meth docutils literal notranslate"><span class="pre">oaklib.interfaces.search_interface.SearchInterface.basic_search()</span></code></a>, so you can write code like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s1">&#39;CA4 hippocampus&#39;</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The most common operations are found in the <span class="xref std std-ref">BasicOntologyInterface</span></p>
+<p>The most common operations are found in the <a class="reference internal" href="basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a></p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -148,6 +152,7 @@ has the method <span class="xref std std-ref">SearchInterface.basic_search()</sp
 </li>
 <li class="toctree-l1"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>

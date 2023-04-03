@@ -1,6 +1,6 @@
 .. owlery:
 
-Owlery Endpoint
+Owlery Adapter
 ==================
 
 TODO

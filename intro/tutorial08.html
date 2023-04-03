@@ -7,6 +7,7 @@
   <title>Part 8: Applying Changes to Ontologies &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,6 +16,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -159,7 +162,7 @@ implemented.</p>
 <li><p>exporting to a different kind of resource or format using a command-specific <code class="docutils literal notranslate"><span class="pre">--output</span></code></p></li>
 </ul>
 <p>The behavior of these options may vary depending on the input, and some may be inapplicable.</p>
-<p>For example, if the input is an external triplestore such as <span class="xref std std-term">Ontobee</span> or <a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, or
+<p>For example, if the input is an external triplestore such as <a class="reference internal" href="../glossary.html#term-Ontobee"><span class="xref std std-term">Ontobee</span></a> or <a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, or
 an external read-only API like <a class="reference internal" href="../glossary.html#term-Bioportal"><span class="xref std std-term">BioPortal</span></a> or <a class="reference internal" href="../glossary.html#term-OLS"><span class="xref std std-term">OLS</span></a> then saving in place is not allowed.</p>
 <section id="example-sqlite3">
 <h3>Example: Sqlite3<a class="headerlink" href="#example-sqlite3" title="Permalink to this headline"></a></h3>

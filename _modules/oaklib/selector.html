@@ -6,6 +6,7 @@
   <title>oaklib.selector &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,6 +15,8 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
@@ -126,19 +129,17 @@
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; ## Use the simpleobo adapter to read a local OBO file:</span>
-<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;simpleobo:my-ont.obo&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
-<span class="sd">        &gt;&gt;&gt;     print(label)</span>
-<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;simpleobo:tests/input/go-nucleus.obo&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; print(adapter.label(&quot;GO:0005634&quot;))</span>
+<span class="sd">        nucleus</span>
 <span class="sd">        &gt;&gt;&gt; ## Use the ubergraph adapter, querying within GO</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;ubergraph:go&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
-<span class="sd">        &gt;&gt;&gt;     print(label)</span>
-<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; print(adapter.label(&quot;GO:0005634&quot;))</span>
+<span class="sd">        nucleus</span>
 <span class="sd">        &gt;&gt;&gt; ## Use the ubergraph adapter, querying within all</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;ubergraph:&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
-<span class="sd">        &gt;&gt;&gt;     print(label)</span>
+<span class="sd">        &gt;&gt;&gt; print(adapter.label(&quot;GO:0005634&quot;))</span>
+<span class="sd">        nucleus</span>
 
 <span class="sd">    If you omit the scheme then OAK will try to guess the scheme based on the</span>
 <span class="sd">    suffix of the descriptor</span>
@@ -146,17 +147,15 @@
 <span class="sd">    .. code :: python</span>
 
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
-<span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; ## Use an adapter that is able to read OBO Format:</span>
 <span class="sd">        &gt;&gt;&gt; ## (currently defaults to pronot)</span>
-<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;my-ont.obo&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
-<span class="sd">        &gt;&gt;&gt;     print(label)</span>
-<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.obo&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; print(adapter.label(&quot;GO:0005634&quot;))</span>
+<span class="sd">        nucleus</span>
 <span class="sd">        &gt;&gt;&gt; ## Use an adapter that is able to read SQLIte:</span>
-<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;my-ont.db&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; for label in oi.label(&quot;GO:0005634&quot;):</span>
-<span class="sd">        &gt;&gt;&gt;     print(label)</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.obo&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; print(adapter.label(&quot;GO:0005634&quot;))</span>
+<span class="sd">        nucleus</span>
 
 <span class="sd">    :param descriptor:</span>
 <span class="sd">    :param format:</span>
@@ -172,8 +171,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets an adapter (implementation) for a given descriptor.</span>
 
-<span class="sd">    NOTE: this is an alias for `get_adapter` - use this instead,</span>
-<span class="sd">    get_implementation_from_shorthand will be deprecated in future.</span>
+<span class="sd">    .. warning ::</span>
+
+<span class="sd">       this is an alias for `get_adapter` - use this instead,</span>
+<span class="sd">       get_implementation_from_shorthand will be deprecated in future.</span>
 
 <span class="sd">    :param descriptor:</span>
 <span class="sd">    :param format:</span>
