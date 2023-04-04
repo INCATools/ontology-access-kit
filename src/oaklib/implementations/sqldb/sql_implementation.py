@@ -1915,16 +1915,15 @@ class SqlImplementation(
                 q = self.session.query(Statements).filter(
                     Statements.subject == about, Statements.value == patch.old_value
                 )
-                for syn_type in SYNONYM_PREDICATES:
-                    self._execute(
-                        delete(Statements).where(
-                            and_(
-                                Statements.subject == about,
-                                Statements.predicate == syn_type,
-                                Statements.value == patch.old_value,
-                            )
+                self._execute(
+                    delete(Statements).where(
+                        and_(
+                            Statements.subject == about,
+                            Statements.predicate.in_(SYNONYM_PREDICATES),
+                            Statements.value == patch.old_value,
                         )
                     )
+                )
 
             elif isinstance(patch, kgcl.NodeObsoletion):
                 self.check_node_exists(about)
