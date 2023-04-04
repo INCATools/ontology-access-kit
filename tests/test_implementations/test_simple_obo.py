@@ -450,9 +450,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi.apply_patch(
             kgcl.EdgeDeletion(id="x", subject=NUCLEAR_MEMBRANE, object=NUCLEUS, predicate=PART_OF)
         )
-        oi.apply_patch(
-            kgcl.NodeDeletion(id=generate_change_id(), about_node=BIOLOGICAL_ENTITY)
-        )
+        oi.apply_patch(kgcl.NodeDeletion(id=generate_change_id(), about_node=BIOLOGICAL_ENTITY))
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
