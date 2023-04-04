@@ -36,6 +36,7 @@ from oaklib.utilities.obograph_utils import (
     index_graph_nodes,
 )
 from tests import (
+    BIOLOGICAL_ENTITY,
     CELL,
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
@@ -449,6 +450,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi.apply_patch(
             kgcl.EdgeDeletion(id="x", subject=NUCLEAR_MEMBRANE, object=NUCLEUS, predicate=PART_OF)
         )
+        oi.apply_patch(
+            kgcl.NodeDeletion(id=generate_change_id(), about_node=BIOLOGICAL_ENTITY)
+        )
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
@@ -474,6 +478,8 @@ class TestSimpleOboImplementation(unittest.TestCase):
                 self.assertIn(rel, rels)
             else:
                 self.assertNotIn(rel, rels)
+
+        self.assertTrue(BIOLOGICAL_ENTITY not in oi2.entities())
 
     def test_migrate_curies(self):
         """
