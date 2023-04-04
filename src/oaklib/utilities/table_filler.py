@@ -218,10 +218,10 @@ class TableFiller:
         }
         fwd_mapping = {}
         rev_mapping = {}
-        # Note to developers: it may be tempting to genericize the code below,
+        # Note to developers: it may be tempting to genericize the packages below,
         # but be very careful before doing this. Logic for different properties
         # may be subtly different, and over-genericizing may lead to overly
-        # abstract or less efficient code
+        # abstract or less efficient packages
         if rel == LABEL_KEY:
             if pk_vals:
                 for curie, label in oi.labels(list(pk_vals)):
@@ -327,7 +327,7 @@ class TableFiller:
 
         For example, with the following schema
 
-        .. code-block ::
+        .. packages-block ::
 
             classes:
               Person:

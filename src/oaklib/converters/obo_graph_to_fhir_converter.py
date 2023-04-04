@@ -57,7 +57,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
 
     - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
     - Each node in the OboGraph is converted to a _FHIR Concept_.
-    - Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a code (e.g. "HP:0000001")
+    - Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a packages (e.g. "HP:0000001")
 
     - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is
       True. Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.
@@ -131,15 +131,15 @@ class OboGraphToFHIRConverter(DataModelConverter):
         ...
          "concept": [
             {
-            "code": "HP:0012639",
+            "packages": "HP:0012639",
             "display": "Abnormal nervous system morphology",
             "definition": "A structural anomaly of the nervous system.",
             "designation": [
          ...
 
-        :param code_system_id: The code system ID to use for identification on the server uploaded to.
+        :param code_system_id: The packages system ID to use for identification on the server uploaded to.
                                See: https://hl7.org/fhir/resource-definitions.html#Resource.id
-        :param code_system_url: Canonical URL for the code system.
+        :param code_system_url: Canonical URL for the packages system.
                                 See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url
         :param native_uri_stems: A list of URI stems that will be used to determine whether a
                                  concept is native to the CodeSystem. (not implemented)
@@ -156,8 +156,8 @@ class OboGraphToFHIRConverter(DataModelConverter):
                                             do appear, this converter defaults to URIs
                                             for references, unless this flag is present, in which case the converter
                                             will attempt to construct CURIEs. (not implemented)
-        :param predicate_period_replacement: Predicates URIs populated into `CodeSystem.concept.property.code`
-                                             and `CodeSystem.concept.property.code`, but the popular FHIR server "HAPI"
+        :param predicate_period_replacement: Predicates URIs populated into `CodeSystem.concept.property.packages`
+                                             and `CodeSystem.concept.property.packages`, but the HAPI FHIR server
                                              has a bug in whih periods '.' cause errors. If this flag is present,
                                              periods will be replaced with underscores '_'.
         :return: FHIR CodeSystem object
@@ -183,7 +183,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         return target
 
     def code(self, uri: CURIE) -> str:
-        """Convert a code.
+        """Convert a packages.
 
         This is a wrapper onto curie_converter.compress
 
@@ -227,13 +227,13 @@ class OboGraphToFHIRConverter(DataModelConverter):
             )
         # CodeSystem.property
         # todo's
-        #  i. code: mostly URIs, which don't conform to [^\s]+(\s[^\s]+)* (https://hl7.org/fhir/datatypes.html#code)
+        #  i. packages: mostly URIs, which don't conform to [^\s]+(\s[^\s]+)* (https://hl7.org/fhir/datatypes.html#code)
         #  ii. description: can get, but tedious; downloading and caching and looking up in source ontologies
-        #  iii. type: ideally Coding (https://build.fhir.org/datatypes.html#Coding). The property value is a code
-        #  defined in an external code system. This may be used for translations, but is not the intent.
+        #  iii. type: ideally Coding (https://build.fhir.org/datatypes.html#Coding). The property value is a packages
+        #  defined in an external packages system. This may be used for translations, but is not the intent.
         #  https://hl7.org/fhir/codesystem-concept-property-type.htm
         target.property = [
-            CodeSystemProperty(code=x, uri=x, type="code") for x in self.predicates_to_export
+            CodeSystemProperty(code=x, uri=x, type="packages") for x in self.predicates_to_export
         ]
         return target
 
@@ -251,7 +251,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         """Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property."""
         # TODO: Use new flags
         #  self.uri(source.id)  # <--- self.uri does not exist
-        #  self.code is actually a curie. change to self.curie and add a self.code func?
+        #  self.packages is actually a curie. change to self.curie and add a self.packages func?
         _id = self.code(source.id)
         logging.debug(f"Converting node {_id} from {source}")
         concept = Concept(code=_id, display=source.lbl)

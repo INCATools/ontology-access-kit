@@ -2,8 +2,6 @@
 
 All contributions are welcome!
 
-But we warned until [v0.2.0](https://github.com/INCATools/ontology-access-kit/milestone/1) things may be in flux!
-
 ## Reporting issues and giving general feedback
 
 Please use the [issue tracker](https://github.com/INCATools/ontology-access-kit/issues) for questions, bugs, enhancements, feature requests, etc

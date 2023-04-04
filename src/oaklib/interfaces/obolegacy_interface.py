@@ -16,7 +16,7 @@ class OboLegacyInterface(BasicOntologyInterface, ABC):
 
     def map_shorthand_to_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
         """
-        Maps either a true relationship type CURIE or a shorthand code to a CURIE.
+        Maps either a true relationship type CURIE or a shorthand packages to a CURIE.
 
         See `section 5.9 <https://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9>`_
 

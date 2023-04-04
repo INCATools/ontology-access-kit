@@ -20,7 +20,7 @@ class OntobeeImplementation(
 
     An OntobeeImplementation can be initialed by:
 
-        .. code:: python
+        .. packages:: python
 
            >>>  oi = OntobeeImplementation()
 
@@ -28,7 +28,7 @@ class OntobeeImplementation(
 
     Alternatively, use a selector:
 
-    .. code :: python
+    .. packages :: python
 
         >>> oi = get_implementation_from_shorthand("ontobee:")
         >>> for a in oi.ancestors("UBERON:0002398", predicates=[IS_A]):

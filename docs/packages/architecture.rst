@@ -16,7 +16,7 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
 
 .. mermaid::
 
-  classDiagram
+   classDiagram
       class OntologyInterface {
           +interfaces_implemented()
       }
