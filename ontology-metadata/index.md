@@ -192,6 +192,7 @@ Name: Ontology-Metadata
 | Type | Description |
 | --- | --- |
 | [Boolean](Boolean.md) | A binary (true or false) value |
+| [Curie](Curie.md) | a compact URI |
 | [CURIELiteral](CURIELiteral.md) | A string representation of a CURIE |
 | [Date](Date.md) | a date (year, month and day) in an idealized calendar |
 | [DateOrDatetime](DateOrDatetime.md) | Either a date or a datetime |

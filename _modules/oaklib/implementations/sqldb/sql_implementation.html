@@ -2001,6 +2001,20 @@
                         <span class="n">subject</span><span class="o">=</span><span class="n">about</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">HAS_EXACT_SYNONYM</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">RemoveSynonym</span><span class="p">):</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">patch</span><span class="o">.</span><span class="n">old_value</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span>
+                    <span class="n">delete</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                        <span class="n">and_</span><span class="p">(</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">SYNONYM_PREDICATES</span><span class="p">),</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">patch</span><span class="o">.</span><span class="n">old_value</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletion</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">check_node_exists</span><span class="p">(</span><span class="n">about</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_set_predicate_value</span><span class="p">(</span>
@@ -2046,7 +2060,6 @@
                     <span class="n">delete</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                         <span class="n">and_</span><span class="p">(</span>
                             <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span>
-                            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">predicate</span><span class="p">,</span>
                             <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">predicate</span><span class="p">,</span>
                             <span class="n">Statements</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">patch</span><span class="o">.</span><span class="n">old_value</span><span class="p">,</span>
                         <span class="p">)</span>

@@ -73,6 +73,7 @@ Name: similarity
 | Type | Description |
 | --- | --- |
 | [Boolean](Boolean.md) | A binary (true or false) value |
+| [Curie](Curie.md) | a compact URI |
 | [Date](Date.md) | a date (year, month and day) in an idealized calendar |
 | [DateOrDatetime](DateOrDatetime.md) | Either a date or a datetime |
 | [Datetime](Datetime.md) | The combination of a date and time |
