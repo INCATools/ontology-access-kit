@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Introduction &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -55,17 +56,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -86,7 +81,7 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Introduction</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/introduction.md.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -95,46 +90,51 @@
            <div itemprop="articleBody">
              
   <section id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h1>
-<p>Ontology Access Toolkit (OAK) is a Python library for common ontology operations over a variety of backends.</p>
-<p>This library provides a collection of different interfaces for different kinds of ontology operations, including:</p>
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h1>
+<p>Ontology Access Toolkit (OAK) is a Python library for common
+<a class="reference internal" href="glossary.html#term-Ontology"><span class="xref std std-term">Ontology</span></a> operations over a variety of <span class="xref std std-term">Adapters</span>.</p>
+<p>This library provides a collection of different <a class="reference internal" href="glossary.html#term-Interface"><span class="xref std std-term">Interfaces</span></a> for different
+kinds of ontology operations, including:</p>
 <ul class="simple">
-<li><p>basic features of an ontology element, such as its label, definition, relationships, or aliases.</p></li>
-<li><p>search an ontology for a term.</p></li>
-<li><p>update, delete, or modify terms.</p></li>
-<li><p>provide specialized object models for more advanced operations, such as graph traversal, or OWL axiom processing, or text annotation.</p></li>
+<li><p>basic features of an <a class="reference internal" href="glossary.html#term-Ontology-Element"><span class="xref std std-term">Ontology Element</span></a>, such as its <a class="reference internal" href="glossary.html#term-Label"><span class="xref std std-term">Label</span></a>, <span class="xref std std-term">Definition</span>,
+<a class="reference internal" href="glossary.html#term-Relationship"><span class="xref std std-term">Relationships</span></a>, or <span class="xref std std-term">Synonyms</span>.</p></li>
+<li><p><span class="xref std std-term">Search</span> an ontology for a term.</p></li>
+<li><p><span class="xref std std-term">Apply</span> modifications to terms, including adding, deleting, or updating</p></li>
+<li><p>numerous specialized operations, such as <span class="xref std std-term">Graph Traversal</span>, or <span class="xref std std-term">Axiom</span> processing,
+<span class="xref std std-term">Ontology Alignment</span>, or :term`Text Annotation`.</p></li>
 </ul>
-<p>These interfaces are <em>separated</em> from any particular backend. This means the same API can be used regardless of whether the ontology:</p>
+<p>These interfaces are <em>separated</em> from any particular backend. This means
+the same API can be used regardless of whether the ontology:</p>
 <ul class="simple">
-<li><p>is served by a remote API such as OLS or BioPortal.</p></li>
-<li><p>is present locally on the filesystem in owl, obo, obojson, or sqlite formats.</p></li>
-<li><p>is to be downloaded from a remote repository such as the OBO library.</p></li>
-<li><p>is queried from a remote database, including SPARQL endpoints, A SQL database, a Solr/ES endpoint.</p></li>
+<li><p>is served by a remote API such as <a class="reference internal" href="glossary.html#term-OLS"><span class="xref std std-term">OLS</span></a> or <a class="reference internal" href="glossary.html#term-Bioportal"><span class="xref std std-term">BioPortal</span></a>.</p></li>
+<li><p>is present locally on the filesystem in <a class="reference internal" href="glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>, <a class="reference internal" href="glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>,
+<a class="reference internal" href="glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a>, or <span class="xref std std-term">SQLite</span> formats.</p></li>
+<li><p>is to be downloaded from a remote <span class="xref std std-term">Ontology Repository</span> such as the <span class="xref std std-term">OBO Library</span>.</p></li>
+<li><p>is queried from a remote database, including <a class="reference internal" href="glossary.html#term-SPARQL"><span class="xref std std-term">SPARQL</span></a> endpoints, A SQL
+database, a Solr/ES endpoint.</p></li>
 </ul>
 <section id="basic-python-example">
-<h2>Basic Python Example<a class="headerlink" href="#basic-python-example" title="Permalink to this headline"></a></h2>
-<p>The following code will load an ontology from a SQLite3 database, lookup
+<h2>Basic Python Example<a class="headerlink" href="#basic-python-example" title="Permalink to this heading"></a></h2>
+<p>The following code will load an ontology from a <span class="xref std std-term">SQLite</span> database, lookup
 basic information on terms matching a search</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">src.oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
-<span class="kn">from</span> <span class="nn">src.oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
-
-<span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;tests/input/go-nucleus.db&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">si</span> <span class="o">=</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">si</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;nucleus&quot;</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Definition: </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">fillers</span> <span class="ow">in</span> <span class="n">si</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  RELATION: </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">filler</span> <span class="ow">in</span> <span class="n">fillers</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;     * </span><span class="si">{</span><span class="n">filler</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">filler</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;T cell&quot;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Definition: </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">fillers</span> <span class="ow">in</span> <span class="n">si</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  RELATION: </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">filler</span> <span class="ow">in</span> <span class="n">fillers</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;     * </span><span class="si">{</span><span class="n">filler</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">filler</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="basic-command-line-example">
-<h2>Basic Command Line Example<a class="headerlink" href="#basic-command-line-example" title="Permalink to this headline"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>obi.db<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;assay&quot;</span>
+<h2>Basic Command Line Example<a class="headerlink" href="#basic-command-line-example" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:obi<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;assay&quot;</span>
 </pre></div>
 </div>
+<p>This does a basic lookup of the term “assay” in <span class="xref std std-term">OBI</span></p>
 </section>
 </section>
 

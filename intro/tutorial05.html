@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Part 5: Graph Visualization &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -68,17 +69,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -109,20 +104,20 @@
            <div itemprop="articleBody">
              
   <section id="part-5-graph-visualization">
-<h1>Part 5: Graph Visualization<a class="headerlink" href="#part-5-graph-visualization" title="Permalink to this headline"></a></h1>
+<h1>Part 5: Graph Visualization<a class="headerlink" href="#part-5-graph-visualization" title="Permalink to this heading"></a></h1>
 <p>This section of the tutorial requires two dependencies that are outside OAK.</p>
 <ul class="simple">
 <li><p>Graphviz</p></li>
 <li><p>OBOGraphViz</p></li>
 </ul>
 <section id="install-graphviz">
-<h2>Install Graphviz<a class="headerlink" href="#install-graphviz" title="Permalink to this headline"></a></h2>
+<h2>Install Graphviz<a class="headerlink" href="#install-graphviz" title="Permalink to this heading"></a></h2>
 <p>Graphviz is an open-source graph visualization software that provides a way to
 represent information about graphs and networks.</p>
 <p>For installation refer to <a class="reference external" href="https://graphviz.org/download/">Graphviz.org/download/</a>.</p>
 </section>
 <section id="install-obographviz">
-<h2>Install OBOGraphViz<a class="headerlink" href="#install-obographviz" title="Permalink to this headline"></a></h2>
+<h2>Install OBOGraphViz<a class="headerlink" href="#install-obographviz" title="Permalink to this heading"></a></h2>
 <p>OBOGraphViz is a Javascript package that allows you to visualize OBOGraphs using Graphviz.</p>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">npm</span></code> or <code class="docutils literal notranslate"><span class="pre">yarn</span></code> to install the OBOGraphViz package.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="n">obographviz</span>
@@ -130,7 +125,7 @@ represent information about graphs and networks.</p>
 </div>
 </section>
 <section id="command-line-usage">
-<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this headline"></a></h2>
+<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this heading"></a></h2>
 <p>Using OAK, you can generate graph visualizations directly from the command line as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">viz</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">-</span><span class="n">o</span> <span class="n">wing</span><span class="o">-</span><span class="n">vein</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
@@ -142,17 +137,17 @@ represent information about graphs and networks.</p>
 </div>
 </section>
 <section id="how-this-works">
-<h2>How this works<a class="headerlink" href="#how-this-works" title="Permalink to this headline"></a></h2>
+<h2>How this works<a class="headerlink" href="#how-this-works" title="Permalink to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>First, the <span class="xref std std-ref">OboGraphInterface</span> is invoked to query all ancestors of the term</p></li>
-<li><p>in this case the implementation is <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> plus graph walking code</p></li>
+<li><p>in this case the implementation is <a class="reference internal" href="../packages/selectors.html#pronto"><span class="std std-ref">pronto</span></a> plus graph walking code</p></li>
 <li><p>after an obograph is generated this is passed to the obographviz library</p></li>
 </ul>
 </div></blockquote>
 </section>
 <section id="programmatic-usage">
-<h2>Programmatic usage<a class="headerlink" href="#programmatic-usage" title="Permalink to this headline"></a></h2>
+<h2>Programmatic usage<a class="headerlink" href="#programmatic-usage" title="Permalink to this heading"></a></h2>
 <p>TODO: use test_obograph_utils for example</p>
 </section>
 </section>

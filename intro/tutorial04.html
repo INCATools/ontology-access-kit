@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Part 4: OboGraphs &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -67,17 +68,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -108,9 +103,9 @@
            <div itemprop="articleBody">
              
   <section id="part-4-obographs">
-<h1>Part 4: OboGraphs<a class="headerlink" href="#part-4-obographs" title="Permalink to this headline"></a></h1>
-<p>So far we have been using the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> which provides basic lookup operations. All methods in this interface
-return ‘simple’ python objects, such as strings, lists of strings, or dictionaries or <a class="reference internal" href="../best-practice.html#iterators"><span class="std std-ref">Iterators</span></a> composing these elements.</p>
+<h1>Part 4: OboGraphs<a class="headerlink" href="#part-4-obographs" title="Permalink to this heading"></a></h1>
+<p>So far we have been using the <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> which provides basic lookup operations. All methods in this interface
+return ‘simple’ python objects, such as strings, lists of strings, or dictionaries or <a class="reference internal" href="../packages/best-practice.html#iterators"><span class="std std-ref">Iterators</span></a> composing these elements.</p>
 <p>Sometimes more powerful abstractions are required. For example, many bioinformatics applications work with a <a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> level abstraction
 of an ontology which allows for graph-theoretic operations and visualizations. In contrast, many ontology management and QC
 applications require an OWL <span class="xref std std-term">Axiom</span> oriented view of an ontology.</p>
@@ -121,7 +116,7 @@ applications require an OWL <span class="xref std std-term">Axiom</span> oriente
 </ul>
 <p>To illustrate this we will first introduce the <span class="xref std std-ref">OboGraphInterface</span> which uses the <span class="xref std std-ref">OboGraph</span> datamodel</p>
 <section id="obographs">
-<h2>OboGraphs<a class="headerlink" href="#obographs" title="Permalink to this headline"></a></h2>
+<h2>OboGraphs<a class="headerlink" href="#obographs" title="Permalink to this heading"></a></h2>
 <p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/obograph/index.html">OboGraph Datamodel</a></p>
 <p>In this datamodel, an ontology is conceived of as a Graph, with a graph consisting of</p>
 <ul class="simple">
@@ -134,13 +129,13 @@ applications require an OWL <span class="xref std std-term">Axiom</span> oriente
 <img alt="../_images/wing-vein.png" src="../_images/wing-vein.png" />
 </section>
 <section id="obograph-interface">
-<h2>OboGraph Interface<a class="headerlink" href="#obograph-interface" title="Permalink to this headline"></a></h2>
+<h2>OboGraph Interface<a class="headerlink" href="#obograph-interface" title="Permalink to this heading"></a></h2>
 <p>Like most datamodels in OAK, the OboGraph datamodel follows a Data Access Object (DAO) pattern - the objects are intentionally limited
 in their behavior. For example, you cannot ask a node what edges come out or go in; these are stored at the top level graph object.</p>
 <p>“Smarter” operations are provided by the interface</p>
 </section>
 <section id="commands">
-<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline"></a></h2>
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this heading"></a></h2>
 <p>There are a number of commands that work with OBOGraph abstractions:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../cli.html#runoak-viz"><span class="std std-ref">viz</span></a></p></li>
@@ -151,7 +146,7 @@ in their behavior. For example, you cannot ask a node what edges come out or go 
 </ul>
 </section>
 <section id="code-examples">
-<h2>Code examples<a class="headerlink" href="#code-examples" title="Permalink to this headline"></a></h2>
+<h2>Code examples<a class="headerlink" href="#code-examples" title="Permalink to this heading"></a></h2>
 <p>TODO: see tests for examples for now</p>
 </section>
 </section>

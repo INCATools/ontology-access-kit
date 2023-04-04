@@ -11,13 +11,14 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -48,17 +49,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -145,7 +140,7 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;prefix(prefix=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="si">}</span><span class="s2">,base=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="si">}</span><span class="s2">,)&quot;</span>
 
 
-<div class="viewcode-block" id="Statements"><a class="viewcode-back" href="../../../implementations/sqldb.html#semsql.sqla.semsql.Statements">[docs]</a><span class="k">class</span> <span class="nc">Statements</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<div class="viewcode-block" id="Statements"><a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.Statements">[docs]</a><span class="k">class</span> <span class="nc">Statements</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an RDF triple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -588,7 +583,7 @@
     <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;concrete&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="Edge"><a class="viewcode-back" href="../../../implementations/sqldb.html#semsql.sqla.semsql.Edge">[docs]</a><span class="k">class</span> <span class="nc">Edge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
+<div class="viewcode-block" id="Edge"><a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.Edge">[docs]</a><span class="k">class</span> <span class="nc">Edge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A relation graph edge that connects two entities by a predicate. Note an edge is distinct from a statement, in that an axiom such as A SubClassOf R some B is represented as multiple statements, but is a single relation graph edge</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -626,7 +621,7 @@
     <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;concrete&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="EntailedEdge"><a class="viewcode-back" href="../../../implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">[docs]</a><span class="k">class</span> <span class="nc">EntailedEdge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
+<div class="viewcode-block" id="EntailedEdge"><a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">[docs]</a><span class="k">class</span> <span class="nc">EntailedEdge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A relation graph edge that is inferred</span>
 <span class="sd">    &quot;&quot;&quot;</span>

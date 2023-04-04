@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Datamodels &mdash; oaklib  documentation</title>
@@ -12,19 +12,20 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Ontology Metadata Ontology Schema" href="ontology-metadata/index.html" />
-    <link rel="prev" title="Ontology Implementation Selectors" href="../selectors.html" /> 
+    <link rel="prev" title="Command Line" href="../cli.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,11 +52,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Datamodels</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ontology-metadata/index.html">Ontology Metadata Ontology Schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="search/index.html">search datamodel</a></li>
@@ -74,11 +72,8 @@
 <li class="toctree-l2"><a class="reference internal" href="association/index.html">OAK Association Data Model</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -108,7 +103,7 @@
            <div itemprop="articleBody">
              
   <section id="datamodels">
-<span id="id1"></span><h1>Datamodels<a class="headerlink" href="#datamodels" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Datamodels<a class="headerlink" href="#datamodels" title="Permalink to this heading"></a></h1>
 <p>This library provides different datamodels designed for different
 purposes. They are intentionally overlapping in content, and may be
 lossy with respect to one another.</p>
@@ -117,7 +112,7 @@ lossy with respect to one another.</p>
 <p>You don’t need to use <em>any</em> of these to use the
 BasicOntologyInterface, which uses simple python datatypes.</p>
 </div>
-<p>Each datamodel represents the perspective of one or more <a class="reference internal" href="../interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a>. For example,
+<p>Each datamodel represents the perspective of one or more <a class="reference internal" href="../packages/interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a>. For example,
 the funowl datamodel is used by OwlInterface, and represents the perspective of an ontology
 as being a collection of Owl <em>axioms</em>. Other interfaces present different views and do
 not need this.</p>
@@ -231,7 +226,7 @@ not need this.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../selectors.html" class="btn btn-neutral float-left" title="Ontology Implementation Selectors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cli.html" class="btn btn-neutral float-left" title="Command Line" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ontology-metadata/index.html" class="btn btn-neutral float-right" title="Ontology Metadata Ontology Schema" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

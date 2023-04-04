@@ -10,17 +10,11 @@ Ontology Access Kit (OAK) Documentation
    introduction
    intro/index
    guide/index
-   architecture
-   interfaces/index
-   implementations/index
+   packages/index
    cli
-   selectors
    datamodels/index
-   converters/index
-   utilities
    howtos/index
    notebooks
-   concepts
    glossary
    faq
 

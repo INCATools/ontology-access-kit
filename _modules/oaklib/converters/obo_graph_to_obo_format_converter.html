@@ -11,13 +11,14 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -48,17 +49,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -135,11 +130,11 @@
     <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">n&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="OboGraphToOboFormatConverter"><a class="viewcode-back" href="../../../converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="OboGraphToOboFormatConverter"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">OboGraphToOboFormatConverter</span><span class="p">(</span><span class="n">DataModelConverter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from OboGraph to OBO Format.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="OboGraphToOboFormatConverter.dump"><a class="viewcode-back" href="../../../converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToOboFormatConverter.dump"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump an OBO Graph Document to a FHIR CodeSystem</span>
 
@@ -154,7 +149,7 @@
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">obodoc</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OboGraphToOboFormatConverter.dumps"><a class="viewcode-back" href="../../../converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dumps">[docs]</a>    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToOboFormatConverter.dumps"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dumps">[docs]</a>    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump an OBO Graph Document to a string</span>
 
@@ -166,7 +161,7 @@
         <span class="n">obodoc</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="OboGraphToOboFormatConverter.as_bytes_io"><a class="viewcode-back" href="../../../converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.as_bytes_io">[docs]</a>    <span class="k">def</span> <span class="nf">as_bytes_io</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BytesIO</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToOboFormatConverter.as_bytes_io"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.as_bytes_io">[docs]</a>    <span class="k">def</span> <span class="nf">as_bytes_io</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BytesIO</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump an OBO Graph Document to a string</span>
 
@@ -176,7 +171,7 @@
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="OboGraphToOboFormatConverter.convert"><a class="viewcode-back" href="../../../converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">OboDocument</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OboDocument</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToOboFormatConverter.convert"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">OboDocument</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OboDocument</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an OBO Format Document.</span>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Part 8: Applying Changes to Ontologies &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -69,17 +70,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -110,7 +105,7 @@
            <div itemprop="articleBody">
              
   <section id="part-8-applying-changes-to-ontologies">
-<span id="tutorial08"></span><h1>Part 8: Applying Changes to Ontologies<a class="headerlink" href="#part-8-applying-changes-to-ontologies" title="Permalink to this headline"></a></h1>
+<span id="tutorial08"></span><h1>Part 8: Applying Changes to Ontologies<a class="headerlink" href="#part-8-applying-changes-to-ontologies" title="Permalink to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Apply changes is an experimental feature. This documentation is provided for alpha testers
@@ -126,7 +121,7 @@ implemented.</p>
 </ul>
 <p>Like most aspects of OAK, all changes in OAK conform to a <a class="reference internal" href="../glossary.html#term-Datamodel"><span class="xref std std-term">Datamodel</span></a>. The datamodel used by OAK is <a class="reference internal" href="../glossary.html#term-KGCL"><span class="xref std std-term">KGCL</span></a>.</p>
 <section id="about-kgcl">
-<h2>About KGCL<a class="headerlink" href="#about-kgcl" title="Permalink to this headline"></a></h2>
+<h2>About KGCL<a class="headerlink" href="#about-kgcl" title="Permalink to this heading"></a></h2>
 <p>KGCL is a datamodel for describing changes to ontologies at a high level.</p>
 <p>The KGCL datamodel can be expressed in different forms:</p>
 <ul class="simple">
@@ -148,7 +143,7 @@ implemented.</p>
 </ul>
 </section>
 <section id="command-line">
-<h2>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline"></a></h2>
+<h2>Command Line<a class="headerlink" href="#command-line" title="Permalink to this heading"></a></h2>
 <p>A subset of commands <em>mutate</em> the ontology specified via the <code class="docutils literal notranslate"><span class="pre">--input</span></code> option. This includes</p>
 <ul class="simple">
 <li><p>set-obsolete</p></li>
@@ -165,7 +160,7 @@ implemented.</p>
 <p>For example, if the input is an external triplestore such as <a class="reference internal" href="../glossary.html#term-Ontobee"><span class="xref std std-term">Ontobee</span></a> or <a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, or
 an external read-only API like <a class="reference internal" href="../glossary.html#term-Bioportal"><span class="xref std std-term">BioPortal</span></a> or <a class="reference internal" href="../glossary.html#term-OLS"><span class="xref std std-term">OLS</span></a> then saving in place is not allowed.</p>
 <section id="example-sqlite3">
-<h3>Example: Sqlite3<a class="headerlink" href="#example-sqlite3" title="Permalink to this headline"></a></h3>
+<h3>Example: Sqlite3<a class="headerlink" href="#example-sqlite3" title="Permalink to this heading"></a></h3>
 <p>We assume here that we have a local sqlite3 file called <code class="docutils literal notranslate"><span class="pre">go-edit.db</span></code> and we want to obsolete
 a concept “nucleus”.</p>
 <p>To do this in place:</p>
@@ -180,7 +175,7 @@ a concept “nucleus”.</p>
 <p>Note that <em>exports</em> are not currently implemented for sqlite</p>
 </section>
 <section id="example-obo-files">
-<h3>Example: OBO Files<a class="headerlink" href="#example-obo-files" title="Permalink to this headline"></a></h3>
+<h3>Example: OBO Files<a class="headerlink" href="#example-obo-files" title="Permalink to this heading"></a></h3>
 <p>To make edits and export to a new file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span>  <span class="o">-</span><span class="n">i</span> <span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">.</span><span class="n">obo</span> <span class="nb">set</span><span class="o">-</span><span class="n">obsolete</span> <span class="n">nucleus</span> <span class="o">-</span><span class="n">o</span> <span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">out</span><span class="o">.</span><span class="n">obo</span> <span class="o">-</span><span class="n">O</span> <span class="n">obo</span>
 </pre></div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ontology Access Kit (OAK) Documentation &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -50,17 +51,11 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -90,7 +85,7 @@
            <div itemprop="articleBody">
              
   <section id="ontology-access-kit-oak-documentation">
-<h1>Ontology Access Kit (OAK) Documentation<a class="headerlink" href="#ontology-access-kit-oak-documentation" title="Permalink to this headline"></a></h1>
+<h1>Ontology Access Kit (OAK) Documentation<a class="headerlink" href="#ontology-access-kit-oak-documentation" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -121,56 +116,19 @@
 <li class="toctree-l2"><a class="reference internal" href="guide/learning-more.html">Learning More</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#ontology-interfaces">Ontology Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#implementations">Implementations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#other-interfaces">Other Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#partial-and-complete-implementation">Partial and Complete Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#datamodels-used">Datamodels used</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/basic.html">Basic Ontology Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/search.html">Search Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/subsetting.html">Subsetting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/validator.html">Validator Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/relation-graph.html">Relation Graph</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/mapping-provider.html">Mapping Provider</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/obograph.html">OboGraph Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/text-annotator.html">Text Annotator Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/owl.html">OWL Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/summary-statistics.html">Summary Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/patcher.html">Patcher Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/semantic-similarity.html">Semantic Similarity Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="interfaces/class-enrichment.html">Class Enrichment Calculation Interface</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="implementations/pronto.html">Pronto / OBO Files Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/sqldb.html">SQL Database Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/ols.html">Ontology Lookup Service (OLS) Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/simple_obo.html">Simple OBO Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/obograph.html">OBO Graph Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/bioportal.html">Bioportal Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/sparql.html">Sparql Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/ubergraph.html">Ubergraph Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/ontobee.html">Ontobee Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/ols.html">Ontology Lookup Service (OLS) Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/gilda.html">Gilda Adapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="implementations/aggregator.html">Aggregator Adapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages/architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages/implementations/index.html">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages/selectors.html">Ontology Adapter Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages/converters/index.html">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages/utilities.html">Utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#general-guidelines">General Guidelines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#common-patterns">Common Patterns</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#commands">Commands</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="selectors.html#syntax">Syntax</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selectors.html#examples">Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selectors.html#schemes">Schemes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selectors.html#functions">Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a><ul>
@@ -191,21 +149,6 @@
 <li class="toctree-l2"><a class="reference internal" href="datamodels/association/index.html">OAK Association Data Model</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="converters/index.html">Converters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="converters/index.html#command-line-usage">Command Line Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="converters/index.html#converting-from-obo-graphs">Converting from Obo Graphs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="src/oaklib.utilities.obograph_utils.html">oaklib.utilities.obograph_utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/oaklib.utilities.graph.relationship_walker.html">oaklib.utilities.graph.relationship_walker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/oaklib.utilities.graph.networkx_bridge.html">oaklib.utilities.graph.networkx_bridge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/oaklib.utilities.lexical.lexical_indexer.html">oaklib.utilities.lexical.lexical_indexer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/oaklib.utilities.subsets.slimmer_utils.html">oaklib.utilities.subsets.slimmer_utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/oaklib.utilities.apikey_manager.html">oaklib.utilities.apikey_manager</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/oaklib.utilities.table_filler.html">oaklib.utilities.table_filler</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="howtos/validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howtos/write-a-plugin.html">How to write a plugin</a></li>
@@ -213,20 +156,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#ontology">Ontology</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#ontology-element">Ontology Element</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#imports-and-ontologies-within-ontologies">Imports and Ontologies within Ontologies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#uris-and-curies-and-identifiers">URIs and CURIEs and identifiers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#prefix-maps">Prefix Maps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#relationships-edges">Relationships / Edges</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#mappings">Mappings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#ontology-format">Ontology Format</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#statements-and-axioms">Statements and Axioms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#subsets">Subsets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#labels-names">Labels/Names</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i">How do I…</a></li>
@@ -240,11 +169,11 @@
 </div>
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="intro/tutorial01.html#search"><span class="std std-ref">Search</span></a></p></li>
+<li><p><a class="reference internal" href="packages/implementations/ubergraph.html#search"><span class="std std-ref">Search</span></a></p></li>
 </ul>
 </section>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glossary &mdash; oaklib  documentation</title>
@@ -12,19 +12,20 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Frequently Asked Questions" href="faq.html" />
-    <link rel="prev" title="Ontology Concepts" href="concepts.html" /> 
+    <link rel="prev" title="Notebooks" href="notebooks.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,17 +52,11 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -91,7 +86,7 @@
            <div itemprop="articleBody">
              
   <section id="glossary">
-<h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline"></a></h1>
+<h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this heading"></a></h1>
 <p>This section contains a glossary of the terms used in the OAK documentation
 and API, as well as terms used more broadly by different ontology communities.</p>
 <p>For a deeper dive into some of these concepts, see the <a class="reference internal" href="guide/index.html#guide"><span class="std std-ref">The OAK Guide</span></a>.</p>
@@ -290,7 +285,7 @@ Subsets are commonly used in ontologies like the <span class="xref std std-term"
 to determine if an ontology is logically <span class="xref std std-term">Coherent</span>.</p>
 </dd>
 <dt id="term-Bioportal">Bioportal<a class="headerlink" href="#term-Bioportal" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Ontology Repository</span> that is a comprehensive collection of multiple biologically relevant ontologies.
-Bioportal exposes an <span class="xref std std-term">API</span> endpoint, that is utilized by the OAK <a class="reference internal" href="implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a>.</p>
+Bioportal exposes an <span class="xref std std-term">API</span> endpoint, that is utilized by the OAK <a class="reference internal" href="packages/implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a>.</p>
 </dd>
 <dt id="term-OLS">OLS<a class="headerlink" href="#term-OLS" title="Permalink to this term"></a></dt><dd><p>Ontology Lookup Service. An <span class="xref std std-term">Ontology Repository</span> that is a curated collection of multiple biologically relevant ontologies,
 many from <span class="xref std std-term">OBO</span>.
@@ -309,7 +304,7 @@ SPARQL.</p>
 for ontologies, one of the most performant OAK <a class="reference internal" href="#term-Implementation"><span class="xref std std-term">Implementations</span></a> is a <a class="reference internal" href="#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a> database.</p>
 </dd>
 <dt id="term-Ubergraph">Ubergraph<a class="headerlink" href="#term-Ubergraph" title="Permalink to this term"></a></dt><dd><p>A:term:<cite>Triplestore</cite> and a <span class="xref std std-term">Ontology Repository</span> that allows for <a class="reference internal" href="#term-SPARQL"><span class="xref std std-term">SPARQL</span></a> querying of integrated <span class="xref std std-term">OBO</span> ontologies.
-Accessible via <a class="reference internal" href="implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a>.
+Accessible via <a class="reference internal" href="packages/implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a>.
 Ubergraph includes inferred <a class="reference internal" href="#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a> edges as triples.</p>
 </dd>
 <dt id="term-Ontobee">Ontobee<a class="headerlink" href="#term-Ontobee" title="Permalink to this term"></a></dt><dd><p>A <a class="reference internal" href="#term-Triplestore"><span class="xref std std-term">Triplestore</span></a> and a <span class="xref std std-term">Ontology Repository</span> that allows for <a class="reference internal" href="#term-SPARQL"><span class="xref std std-term">SPARQL</span></a> querying of integrated <span class="xref std std-term">OBO</span> ontologies.
@@ -346,7 +341,7 @@ be exposed, and developers of applications that use OAK should always <span clas
 For example, the method to query for all <a class="reference internal" href="#term-Relationship"><span class="xref std std-term">Relationships</span></a> from a term should
 have the same meaning regardless of whether the adapter <em>implementing</em> the interface is a remote
 triplestore like <a class="reference internal" href="#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, a <a class="reference internal" href="#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a> adapter, or a local <a class="reference internal" href="#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> file.
-See the list of <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">all implementations</span></a></p>
+See the list of <a class="reference internal" href="packages/interfaces/mapping-provider.html#implementations"><span class="std std-ref">all implementations</span></a></p>
 </dd>
 <dt id="term-Datamodel">Datamodel<a class="headerlink" href="#term-Datamodel" title="Permalink to this term"></a></dt><dd><p>Aka schema. OAK follows a pluralistic worldview, and includes many different
 datamodels for different purposes. Examples include:</p>
@@ -359,7 +354,7 @@ datamodels for different purposes. Examples include:</p>
 <li><p>A data model for representing <a class="reference internal" href="#term-Semantic-Similarity"><span class="xref std std-term">Semantic Similarity</span></a> results</p></li>
 </ul>
 </div></blockquote>
-<p>See the list of all <a class="reference internal" href="interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a>.</p>
+<p>See the list of all <a class="reference internal" href="packages/interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a>.</p>
 </dd>
 </dl>
 </section>
@@ -368,7 +363,7 @@ datamodels for different purposes. Examples include:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="concepts.html" class="btn btn-neutral float-left" title="Ontology Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="notebooks.html" class="btn btn-neutral float-left" title="Notebooks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="faq.html" class="btn btn-neutral float-right" title="Frequently Asked Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

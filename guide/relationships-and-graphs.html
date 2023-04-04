@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Relationships and Graphs &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -68,17 +69,11 @@
 <li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -109,7 +104,7 @@
            <div itemprop="articleBody">
              
   <section id="relationships-and-graphs">
-<span id="id1"></span><h1>Relationships and Graphs<a class="headerlink" href="#relationships-and-graphs" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Relationships and Graphs<a class="headerlink" href="#relationships-and-graphs" title="Permalink to this heading"></a></h1>
 <p>One of the main uses of an ontology is to precisely state the <a class="reference internal" href="../glossary.html#term-Relationship"><span class="xref std std-term">Relationships</span></a> between different entities or concepts.</p>
 <p>In OAK, classes in ontologies can be related to one another via different <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Relationship Types</span></a>. These
 may come from a relationship type ontology such as <span class="xref std std-term">RO</span>, or they may be a “builtin” construct in <a class="reference internal" href="../glossary.html#term-RDF"><span class="xref std std-term">RDF</span></a> or <a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>
@@ -121,9 +116,9 @@ feature heavily in Description Logic formalisms of ontologies like <a class="ref
 project from OWL to a graph. The fact there is no one standard method can lead to confusion.</p>
 <p>But let’s start with a standard bio-ontology example - the <span class="xref std std-term">UBERON</span> ontology.</p>
 <section id="exploring-relationships">
-<h2>Exploring relationships<a class="headerlink" href="#exploring-relationships" title="Permalink to this headline"></a></h2>
+<h2>Exploring relationships<a class="headerlink" href="#exploring-relationships" title="Permalink to this heading"></a></h2>
 <p>Let’s explore Uberon, looking at the relationships for <em>hand</em> (“manus”) and <em>foot</em> (“pes”)</p>
-<p>We will use the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> method from <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> method from <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0002387&quot;</span><span class="p">]):</span>
@@ -165,11 +160,11 @@ constructs like existential restriction. We will return to this later.</p>
 </div>
 </section>
 <section id="graph-traversal-and-relation-graph-reasoning">
-<h2>Graph Traversal and Relation Graph Reasoning<a class="headerlink" href="#graph-traversal-and-relation-graph-reasoning" title="Permalink to this headline"></a></h2>
+<h2>Graph Traversal and Relation Graph Reasoning<a class="headerlink" href="#graph-traversal-and-relation-graph-reasoning" title="Permalink to this heading"></a></h2>
 <p>The above examples show <span class="xref std std-term">Direct Relationships</span> between concepts. A common
 use case for ontologies is exploring <em>indirect</em> or <span class="xref std std-term">Entailed Relationships</span>,
 which roughly corresponds to the concept of <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestor</span></a> in a graph.</p>
-<p>We will use the <code class="docutils literal notranslate"><span class="pre">ancestors</span></code> method from <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">ancestors</span></code> method from <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
@@ -207,7 +202,7 @@ which roughly corresponds to the concept of <a class="reference internal" href="
 </pre></div>
 </div>
 <section id="graph-traversal-strategies">
-<h3>Graph Traversal Strategies<a class="headerlink" href="#graph-traversal-strategies" title="Permalink to this headline"></a></h3>
+<h3>Graph Traversal Strategies<a class="headerlink" href="#graph-traversal-strategies" title="Permalink to this heading"></a></h3>
 <p>There are actually <em>two</em> strategies for getting indirect relationships in OAK:</p>
 <ul class="simple">
 <li><p>HOP, aka <span class="xref std std-term">Graph Traversal</span></p></li>
@@ -224,8 +219,8 @@ whose entailed predicate matches the input list</p></li>
 </ul>
 <p>Currently the only OAK adapters to implement ENTAILMENT are:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a></p></li>
-<li><p><a class="reference internal" href="../implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a></p></li>
+<li><p><a class="reference internal" href="../packages/implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a></p></li>
+<li><p><a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a></p></li>
 </ul>
 <p>In both cases the entailment is done ahead of time using <a class="reference internal" href="../glossary.html#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a> to compute the
 entailed edges.</p>

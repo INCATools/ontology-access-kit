@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ontology Adapter Selectors &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Converters" href="converters/index.html" />
+    <link rel="prev" title="Aggregator Adapter" href="implementations/aggregator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ontology Adapter Selectors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#syntax">Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#schemes">Schemes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pronto">pronto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prontolib">prontolib</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite">sqlite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#obosqlite">obosqlite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ontobee">ontobee</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ols">ols</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bioportal">bioportal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#funowl">funowl</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.selector.get_adapter"><code class="docutils literal notranslate"><span class="pre">get_adapter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.selector.get_implementation_from_shorthand"><code class="docutils literal notranslate"><span class="pre">get_implementation_from_shorthand()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.selector.get_implementation_class_from_scheme"><code class="docutils literal notranslate"><span class="pre">get_implementation_class_from_scheme()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.selector.get_resource_from_shorthand"><code class="docutils literal notranslate"><span class="pre">get_resource_from_shorthand()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="converters/index.html">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Package Documentation</a></li>
+      <li class="breadcrumb-item active">Ontology Adapter Selectors</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/packages/selectors.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ontology-adapter-selectors">
+<span id="selectors"></span><h1>Ontology Adapter Selectors<a class="headerlink" href="#ontology-adapter-selectors" title="Permalink to this heading"></a></h1>
+<p>In the command line interface and in Python code, <em>descriptors</em> can be used as a shorthand way to refer to either a local or remote ontology, plus
+a method for parsing/querying it. The OntologyResource that is returned can be used
+to instantiate an implementation. The descriptors can also be used in the <a class="reference internal" href="../howtos/fhir-conversions.html#cli"><span class="std std-ref">CLI</span></a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ontologies are available in a sometimes bewildering range of formats. One thing that constantly
+trips people up is the distinction between ontology <em>language</em> and <em>serialization</em>. OWL is an ontology
+language, <em>not</em> a syntax. OWL has its own syntaxes such as <span class="xref std std-term">Manchester Syntax</span>, OWL-XML and <span class="xref std std-term">Functional Syntax’ – additionally
+it can be *mapped* to RDF, which is its *own* datamodel/language, with its *own* serializations (:term:`Turtle</span>,
+RDF/XML (NOT the same as OWL-XML), JSON-LD, …). Confusing, huh? We are doing our best in this library
+to simplify things for you the user, please be patient!</p>
+</div>
+<section id="syntax">
+<h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this heading"></a></h2>
+<p>A descriptor is EITHER:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>prefixed with a <em>scheme</em> OR</p></li>
+<li><p>is a <a href="#id1"><span class="problematic" id="id2">*</span></a>path (in which case the scheme is inferred)</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<p>Examples of scheme-less descriptors, implicit implementation:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.obo</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded with pronto</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.json</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> json format file loaded with pronto</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.owl</span></code> - local OWL rdf/xml format file (loaded with rdflib at the moment, may change)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.owl.ttl</span></code> - local OWL <span class="xref std std-term">Turtle</span> file (loaded with rdflib at the moment, may change)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">tests/input/go-nucleus.db</span></code> - local sqlite3 db loaded with SqlImplementation</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">http://purl.obolibrary.org/obo/pato.obo</span></code> - NOT IMPLEMENTED; download locally for now</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">http://purl.obolibrary.org/obo/pato.owl</span></code> - NOT IMPLEMENTED; download locally for now</p></li>
+</ul>
+<p>Examples of explicit schemes:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">sparql:tests/input/go-nucleus.owl.ttl</span></code> - local OWL file in turtle serialization</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">sparql:tests/input/go-nucleus.owl</span></code> - local OWL file (RDF/XML assumed unless explicit format option passed)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.obo</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded with pronto</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.json</span></code> - local <a class="reference internal" href="../glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> json format file loaded with pronto</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.owl</span></code> - local OWL rdf/xml format file (loaded with pronto at the moment may change)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.db</span></code> - local sqlite3 db loaded with SqlImplementation</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">prontolib:pato.obo</span></code> - remote <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> file loaded from OBO Library with pronto</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">prontolib:pato.owl</span></code> - remote owl format file loaded from OBO Library with pronto</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">sqlite:tests/input/go-nucleus.db</span></code> - local SQLite file</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">sqlite:tests/input/go-nucleus.owl</span></code> - convert OWL to SQLite and query using sql_implementation</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">sqlite:obo:go</span></code> - pre-made SQLite from <a class="reference internal" href="../glossary.html#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a> registry</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">bioportal:</span></code> all of bioportal</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">bioportal:pato</span></code> pato in bioportal</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ontobee:</span></code> all of ontobee</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ontobee:pato</span></code> pato in ontobee</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ols:</span></code> all of OLS</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ols:pato</span></code> pato in OLS (NOT IMPLEMENTED)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ubergraph:</span></code> all of OLS</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ubergraph:pato</span></code> pato in ubergraph</p></li>
+</ul>
+<p>See <a class="reference internal" href="../howtos/fhir-conversions.html#cli"><span class="std std-ref">CLI</span></a> for more examples</p>
+</section>
+<section id="schemes">
+<h2>Schemes<a class="headerlink" href="#schemes" title="Permalink to this heading"></a></h2>
+<section id="pronto">
+<h3>pronto<a class="headerlink" href="#pronto" title="Permalink to this heading"></a></h3>
+<p>Implementation: <span class="xref std std-ref">pronto_implementation</span></p>
+<p>The slug is a path to a file on disk. Must be in obo or owl or json</p>
+</section>
+<section id="prontolib">
+<h3>prontolib<a class="headerlink" href="#prontolib" title="Permalink to this heading"></a></h3>
+<p>Implementation: <span class="xref std std-ref">pronto_implementation</span></p>
+<p>The slug is the name of the resource on obo, e.g. pato.obo, cl.owl</p>
+</section>
+<section id="sqlite">
+<h3>sqlite<a class="headerlink" href="#sqlite" title="Permalink to this heading"></a></h3>
+<p>Implementation: <a class="reference internal" href="implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a></p>
+<p>The slug is the path to the sqlite .db file on local disk</p>
+</section>
+<section id="obosqlite">
+<h3>obosqlite<a class="headerlink" href="#obosqlite" title="Permalink to this heading"></a></h3>
+<p>Implementation: <a class="reference internal" href="implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a></p>
+<p>The slug is the name of the ontology, e.g ‘hp’, ‘uberon’</p>
+<p>TODO: download from s3</p>
+</section>
+<section id="ontobee">
+<h3>ontobee<a class="headerlink" href="#ontobee" title="Permalink to this heading"></a></h3>
+<p>Implementation: <span class="xref std std-ref">ontobee_implementation</span></p>
+<p>Currently the slug is ignored</p>
+</section>
+<section id="ols">
+<h3>ols<a class="headerlink" href="#ols" title="Permalink to this heading"></a></h3>
+<p>Implementation: <span class="xref std std-ref">ols_implementation</span></p>
+<p>Currently the slug is ignored</p>
+</section>
+<section id="bioportal">
+<h3>bioportal<a class="headerlink" href="#bioportal" title="Permalink to this heading"></a></h3>
+<p>Implementation: <a class="reference internal" href="implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a></p>
+<p>Currently the slug is ignored</p>
+</section>
+<section id="funowl">
+<h3>funowl<a class="headerlink" href="#funowl" title="Permalink to this heading"></a></h3>
+<p>Implementation: <span class="xref std std-ref">funowl_implementation</span></p>
+<p>NOT IMPLEMENTED YET</p>
+</section>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h2>
+<span class="target" id="module-oaklib.selector"></span><dl class="py function">
+<dt class="sig sig-object py" id="oaklib.selector.get_adapter">
+<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a></span></span><a class="reference internal" href="../_modules/oaklib/selector.html#get_adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_adapter" title="Permalink to this definition"></a></dt>
+<dd><p>Gets an adapter (implementation) for a given descriptor.</p>
+<p>OAK allows for multiple different <em>adapters</em> (aka <em>implementations</em>);
+for example, <span class="xref std std-ref">SQLImplementation</span> and <span class="xref std std-ref">BioPortalImplementation</span>.</p>
+<p>This function allows you to get an adapter for a given descriptor.
+A descriptor combines a <em>scheme</em> followed by a colon symbol, and then
+optionally additional information that specifies how to access a particular
+resource or ontology within that scheme.</p>
+<p>Example:</p>
+<p>If you omit the scheme then OAK will try to guess the scheme based on the
+suffix of the descriptor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – </p></li>
+<li><p><strong>format</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oaklib.selector.get_implementation_from_shorthand">
+<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_implementation_from_shorthand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a></span></span><a class="reference internal" href="../_modules/oaklib/selector.html#get_implementation_from_shorthand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_implementation_from_shorthand" title="Permalink to this definition"></a></dt>
+<dd><p>Gets an adapter (implementation) for a given descriptor.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>this is an alias for <cite>get_adapter</cite> - use this instead,
+get_implementation_from_shorthand will be deprecated in future.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – </p></li>
+<li><p><strong>format</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oaklib.selector.get_implementation_class_from_scheme">
+<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_implementation_class_from_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">OntologyInterface</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/selector.html#get_implementation_class_from_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_implementation_class_from_scheme" title="Permalink to this definition"></a></dt>
+<dd><p>Given a selector schema (e.g. sqlite, ubergraph, pronto, etc.) return the adapter class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scheme</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>adapter (implementation) class that implements the OntologyInterface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oaklib.selector.get_resource_from_shorthand">
+<span class="sig-prename descclassname"><span class="pre">oaklib.selector.</span></span><span class="sig-name descname"><span class="pre">get_resource_from_shorthand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">import_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OntologyResource</span></span></span><a class="reference internal" href="../_modules/oaklib/selector.html#get_resource_from_shorthand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.selector.get_resource_from_shorthand" title="Permalink to this definition"></a></dt>
+<dd><p>Maps from a shorthand descriptor to an OntologyResource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – </p></li>
+<li><p><strong>format</strong> – file format/syntax, e.g obo, turtle</p></li>
+<li><p><strong>import_depth</strong> – maximum import depth to traverse</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="implementations/aggregator.html" class="btn btn-neutral float-left" title="Aggregator Adapter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="converters/index.html" class="btn btn-neutral float-right" title="Converters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

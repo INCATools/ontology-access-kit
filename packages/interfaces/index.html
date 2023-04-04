@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interfaces &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Basic Ontology Interface" href="basic.html" />
+    <link rel="prev" title="Architecture" href="../architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Interfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html">Search Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html">Validator Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../selectors.html">Ontology Adapter Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../converters/index.html">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Package Documentation</a></li>
+      <li class="breadcrumb-item active">Interfaces</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/packages/interfaces/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="interfaces">
+<span id="id1"></span><h1>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this heading"></a></h1>
+<p>oaklib provides a variety of <em>interfaces</em> that abstract away from
+implementation details and provide a coherent set of operations to
+perform on an ontology. Developers can code to the interface largely without
+worrying about whether the implementation is a relational database, a local
+file, etc.</p>
+<p>For example, the <a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a> implements <a class="reference internal" href="search.html#search-interface"><span class="std std-ref">Search Interface</span></a> which
+has the method <a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search" title="oaklib.interfaces.search_interface.SearchInterface.basic_search"><code class="xref py py-meth docutils literal notranslate"><span class="pre">oaklib.interfaces.search_interface.SearchInterface.basic_search()</span></code></a>, so you can write code like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s1">&#39;CA4 hippocampus&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The most common operations are found in the <a class="reference internal" href="basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a></p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Ontology Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basic.html#code">Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="search.html#command-line">Command Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search.html#datamodels">Datamodels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search.html#code">Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface"><code class="docutils literal notranslate"><span class="pre">SearchInterface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchConfiguration"><code class="docutils literal notranslate"><span class="pre">SearchConfiguration</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subsetting.html">Subsetting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface"><code class="docutils literal notranslate"><span class="pre">SubsetterInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology"><code class="docutils literal notranslate"><span class="pre">SubsetterInterface.extract_subset_ontology()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.gap_fill_relationships"><code class="docutils literal notranslate"><span class="pre">SubsetterInterface.gap_fill_relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.preferred_language"><code class="docutils literal notranslate"><span class="pre">SubsetterInterface.preferred_language</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.autosave"><code class="docutils literal notranslate"><span class="pre">SubsetterInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">SubsetterInterface.exclude_owl_top_and_bottom</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="validator.html">Validator Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.term_curies_without_definitions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.validate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.repair()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.is_coherent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.unsatisfiable_classes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.preferred_language"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.preferred_language</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.autosave"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.exclude_owl_top_and_bottom</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="relation-graph.html">Relation Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface.entailed_outgoing_relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface.entailed_incoming_relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface.entailed_relationships_between()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.preferred_language"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface.preferred_language</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.autosave"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface.exclude_owl_top_and_bottom</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#synopsis">Synopsis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#data-model">Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#implementations">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#command-line-use">Command Line Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#code">Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#autodoc">Autodoc</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="obograph.html">OboGraph Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.enable_transitive_query_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.disable_transitive_query_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.synonym_map_for_curies"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.synonym_map_for_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.ancestor_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.descendant_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.ancestors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.descendants()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_count"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.descendant_count()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph_from_traversal"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.subgraph_from_traversal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.extract_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.extract_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.relationships_to_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.walk_up_relationship_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.walk_up_relationship_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.paths"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.logical_definitions"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.logical_definitions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.add_metadata"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.add_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.as_obograph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.load_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.load_graph()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration"><code class="docutils literal notranslate"><span class="pre">TraversalConfiguration</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface"><code class="docutils literal notranslate"><span class="pre">TextAnnotatorInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.lexical_index"><code class="docutils literal notranslate"><span class="pre">TextAnnotatorInterface.lexical_index</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.cache_directory"><code class="docutils literal notranslate"><span class="pre">TextAnnotatorInterface.cache_directory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.rule_collection"><code class="docutils literal notranslate"><span class="pre">TextAnnotatorInterface.rule_collection</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text"><code class="docutils literal notranslate"><span class="pre">TextAnnotatorInterface.annotate_text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file"><code class="docutils literal notranslate"><span class="pre">TextAnnotatorInterface.annotate_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="text-annotator.html#oaklib.datamodels.text_annotator.TextAnnotation"><code class="docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="owl.html">OWL Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface"><code class="docutils literal notranslate"><span class="pre">OwlInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.subclass_axioms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.equivalence_axioms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.annotation_assertion_axioms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.disjoint_pairs"><code class="docutils literal notranslate"><span class="pre">OwlInterface.disjoint_pairs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_disjoint"><code class="docutils literal notranslate"><span class="pre">OwlInterface.is_disjoint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_satisfiable"><code class="docutils literal notranslate"><span class="pre">OwlInterface.is_satisfiable()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.reasoner_configurations"><code class="docutils literal notranslate"><span class="pre">OwlInterface.reasoner_configurations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_is_about"><code class="docutils literal notranslate"><span class="pre">OwlInterface.axiom_is_about()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_references"><code class="docutils literal notranslate"><span class="pre">OwlInterface.axiom_references()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface"><code class="docutils literal notranslate"><span class="pre">SummaryStatisticsInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics"><code class="docutils literal notranslate"><span class="pre">SummaryStatisticsInterface.global_summary_statistics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.branch_summary_statistics"><code class="docutils literal notranslate"><span class="pre">SummaryStatisticsInterface.branch_summary_statistics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics"><code class="docutils literal notranslate"><span class="pre">SummaryStatisticsInterface.metadata_property_summary_statistics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description"><code class="docutils literal notranslate"><span class="pre">SummaryStatisticsInterface.summary_statistic_description()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="patcher.html">Patcher Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface"><code class="docutils literal notranslate"><span class="pre">PatcherInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.auto_add_contributor_using"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.auto_add_contributor_using</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.apply_patch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.migrate_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.save"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_changes"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.expand_changes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.expand_change()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.undo"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.undo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.reverse_changes"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.reverse_changes()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.most_recent_common_ancestors"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.most_recent_common_ancestors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.setwise_most_recent_common_ancestors"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.setwise_most_recent_common_ancestors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.multiset_most_recent_common_ancestors"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.multiset_most_recent_common_ancestors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.common_ancestors"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.common_ancestors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.get_information_content"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.get_information_content()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.information_content_scores"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.information_content_scores()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.pairwise_similarity"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.pairwise_similarity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.all_by_all_pairwise_similarity"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.all_by_all_pairwise_similarity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.preferred_language"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.preferred_language</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.autosave"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">SemanticSimilarityInterface.exclude_owl_top_and_bottom</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface.enriched_classes()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some interfaces may not be “pure” interfaces is that they may provide
+a default implementation, which may or may not be overridden by an
+implementation</p>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../architecture.html" class="btn btn-neutral float-left" title="Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="basic.html" class="btn btn-neutral float-right" title="Basic Ontology Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

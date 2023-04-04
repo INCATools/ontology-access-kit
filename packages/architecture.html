@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Interfaces" href="interfaces/index.html" />
+    <link rel="prev" title="Package Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ontology-interfaces">Ontology Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implementations">Implementations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-interfaces">Other Interfaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example-owl-ontology-interface">Example: OWL Ontology Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#partial-and-complete-implementation">Partial and Complete Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datamodels-used">Datamodels used</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selectors.html">Ontology Adapter Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="converters/index.html">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Package Documentation</a></li>
+      <li class="breadcrumb-item active">Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/packages/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h1>
+<section id="ontology-interfaces">
+<h2>Ontology Interfaces<a class="headerlink" href="#ontology-interfaces" title="Permalink to this heading"></a></h2>
+<p>This library provides a collection of ontology <a class="reference internal" href="interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a> that describe a set of operations
+that can be performed on an ontology</p>
+<p>The core interface is <span class="xref std std-ref">BasicOntologyInterface</span> which provides some of the most common operations
+you can do on an ontology, mostly simple lookup operations. Here is a simplified picture:</p>
+<div class="mermaid">
+            classDiagram
+   class OntologyInterface {
+       +interfaces_implemented()
+   }
+   class BasicOntologyInterface {
+       +get_label_by_curie(curie)
+       +get_definition_by_curie(curie)
+       +all_entity_curies(curie)
+       +basic_search(search_term)
+       +get_outgoing_relationships_by_curie(curie)
+       +...()
+   }
+   OntologyInterface &lt;|-- BasicOntologyInterface
+        </div></section>
+<section id="implementations">
+<h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this heading"></a></h2>
+<p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
+<p>Here is an example of code that uses an Ubergraph implementation to do a simple lookup:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
+<span class="n">paranasal</span> <span class="n">sinus</span>
+</pre></div>
+</div>
+<p>Behind the scenes, this is implemented using a SPARQL query over the Ubergraph endpoint.</p>
+<p>You can do the same thing using a different implementation. This one uses the pronto library and the OBO library registry of OBO files</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">from</span> <span class="n">oaklib</span><span class="o">.</span><span class="n">implementations</span><span class="o">.</span><span class="n">pronto</span><span class="o">.</span><span class="n">pronto_basic_impl</span> <span class="kn">import</span> <span class="nn">ProntoImplementation</span>
+<span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go.obo&#39;</span><span class="p">))</span>
+<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
+<span class="n">paranasal</span> <span class="n">sinus</span>
+</pre></div>
+</div>
+<p>There are other implementations - for relational databases, for ontology portal APIs, for OWL ontologies…</p>
+<p>Why so many implementations? The answer is that different use cases require different implementations.</p>
+<p>Ontology portal APIs work great, so long as the ontology you care about is loaded, and you don’t have to repeated calls with high
+network latency. Local files work great, but they require downloads, and have a high memory burden for large ontologies (most
+ontologies are small, but there is a long tail of very large ontologies like PRO, CHEBI, NCBITaxon, DRON, …).</p>
+</section>
+<section id="other-interfaces">
+<h2>Other Interfaces<a class="headerlink" href="#other-interfaces" title="Permalink to this heading"></a></h2>
+<p>The basic interface is only intended for, well, basic operations. These typically serve 80% of use cases. But
+there are many many uses for ontologies. Some of these demand particular <em>abstractions</em> over an ontology; e.g
+as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lexical artefact.</p>
+<p>We provide a number of different interfaces, designed for these different purposes. Here are a few:</p>
+<div class="mermaid">
+            classDiagram
+    class OntologyInterface {
+        +interfaces_implemented()
+    }
+    class BasicOntologyInterface {
+        +get_label_by_curie(curie)
+        +get_definition_by_curie(curie)
+        +all_entity_curies(curie)
+        +basic_search(search_term)
+        +get_outgoing_relationships_by_curie(curie)
+        +...()
+    }
+    OntologyInterface &lt;|-- BasicOntologyInterface
+    class OwlInterface {
+        +all_axioms()
+        +get_axioms_about(curie)
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- OwlInterface
+    class RelationGraphInterface {
+        +entailed_relationships(curies)
+        +ancestors(curie)
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- RelationGraphInterface
+    class PatcherInterface {
+        +apply_patch(patch)
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- PatcherInterface
+    class QCInterface {
+        +terms_without_definitions()
+        +get_obo_conformance_report()
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- QCInterface
+    class SubsetterInterface {
+        +extract_subset(seed_curies)
+        +fill_gaps(seed_curies)
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- SubsetterInterface
+        </div><p>It’s highly unlikely you will care about all of these - in fact most applications will only need one!</p>
+<section id="example-owl-ontology-interface">
+<h3>Example: OWL Ontology Interface<a class="headerlink" href="#example-owl-ontology-interface" title="Permalink to this heading"></a></h3>
+<p>Some interfaces may require
+a particular <em>object model</em> (note that the BasicOntologyInterface avoids an object model, with operations
+accepting and returning simple scalars, dicts, and lists). See <a class="reference internal" href="interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a> for a description of data models used.</p>
+<p>An example would be an OWL interface that uses an OWL object model (here funowl)</p>
+<div class="mermaid">
+            classDiagram
+    class OntologyInterface {
+        +interfaces_implemented()
+    }
+    class BasicOntologyInterface {
+        +get_label_by_curie(curie)
+        +get_definition_by_curie(curie)
+        +all_entity_curies(curie)
+        +basic_search(search_term)
+        +get_outgoing_relationships_by_curie(curie)
+        +...()
+    }
+    OntologyInterface &lt;|-- BasicOntologyInterface
+    class OwlInterface {
+        +all_axioms()
+        +get_axioms_about(curie)
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- OwlInterface
+    OwlInterface --&gt; OwlOntology
+    class OwlOntology {
+        +axioms()
+        +...
+    }
+    class Axiom {
+        +Annotation annotations[]
+    }
+    OwlOntology --&gt; Axiom
+    class SubClassOf {
+        +ClassExpression subClass
+        +ClassExpression superClass
+    }
+    Axiom &lt;|-- SubClassOf
+    class EquivalentClasses {
+        +ClassExpression ops[]
+    }
+    Axiom &lt;|-- EquivalentClasses
+        </div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If this seems a little involved, don’t worry! You don’t need to use the OWL interface
+or the OWL datamodel. It is intended for use cases where there is a <em>particular need</em>
+for this level of abstraction!</p>
+</div>
+</section>
+</section>
+<section id="partial-and-complete-implementation">
+<h2>Partial and Complete Implementation<a class="headerlink" href="#partial-and-complete-implementation" title="Permalink to this heading"></a></h2>
+<p>Not all implementations work with all interfaces. Even if an implementation implements an
+interface, it may not implement all operations.</p>
+<p>See <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> for full documentation on each implementation (more coming soon), but
+to give you a sense:</p>
+<ul class="simple">
+<li><p>the Pronto based implementation will not support all of OWL (which is fine for most purposes)</p></li>
+<li><p>Same for the Ontology Portal APIs, which focus on the most common operations a developer may need</p></li>
+<li><p>Search/autocomplete are the specialization of ontology portal APIs, as these are backed by powerful lexical indexes</p></li>
+<li><p>In theory any SPARQL endpoint can support all of OWL in the future, but this will take some work to implement</p></li>
+<li><p>we plan to have full OWL support for the SQL Database endpoint</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>At this stage in development of this library, most implementations are partial and things are subject to change!</p>
+</div>
+</section>
+<section id="datamodels-used">
+<h2>Datamodels used<a class="headerlink" href="#datamodels-used" title="Permalink to this heading"></a></h2>
+<p>See <a class="reference internal" href="interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Package Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="interfaces/index.html" class="btn btn-neutral float-right" title="Interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

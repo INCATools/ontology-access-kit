@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Command Line &mdash; oaklib  documentation</title>
@@ -12,19 +12,20 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Ontology Implementation Selectors" href="selectors.html" />
-    <link rel="prev" title="Aggregator Adapter" href="implementations/aggregator.html" /> 
+    <link rel="next" title="Datamodels" href="datamodels/index.html" />
+    <link rel="prev" title="oaklib.utilities.table_filler" href="packages/src/oaklib.utilities.table_filler.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,9 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-guidelines">General Guidelines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#common-patterns">Common Patterns</a><ul>
@@ -130,13 +129,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -166,13 +161,13 @@
            <div itemprop="articleBody">
              
   <section id="command-line">
-<span id="command-line-interface"></span><h1>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline"></a></h1>
+<span id="command-line-interface"></span><h1>Command Line<a class="headerlink" href="#command-line" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>we follow the <a class="reference external" href="https://clig.dev/">CLIG</a> guidelines as far as possible</p>
 </div>
 <section id="general-guidelines">
-<h2>General Guidelines<a class="headerlink" href="#general-guidelines" title="Permalink to this headline"></a></h2>
+<h2>General Guidelines<a class="headerlink" href="#general-guidelines" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>if you are running this as an internal OAK developer you need to precede the command with <code class="code docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code></p>
@@ -181,7 +176,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--input<span class="w"> </span>HANDLE<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
-<p>The value for <code class="code docutils literal notranslate"><span class="pre">--input</span></code> (which can be shorted to <code class="code docutils literal notranslate"><span class="pre">-i</span></code>) is specified in the <a class="reference internal" href="selectors.html#selectors"><span class="std std-ref">Ontology Implementation Selectors</span></a> documentation.</p>
+<p>The value for <code class="code docutils literal notranslate"><span class="pre">--input</span></code> (which can be shorted to <code class="code docutils literal notranslate"><span class="pre">-i</span></code>) is specified in the <a class="reference internal" href="packages/selectors.html#selectors"><span class="std std-ref">Ontology Adapter Selectors</span></a> documentation.</p>
 <p>Examples:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--input<span class="w"> </span>ubergraph:<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
 runoak<span class="w"> </span>--input<span class="w"> </span>fbbt.obo<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
@@ -197,9 +192,9 @@ runoak<span class="w"> </span>--input<span class="w"> </span>sqlite:obo:cl<span 
 multiple implementations. For example, you can multiplex queries over different endpoints.</p>
 </section>
 <section id="common-patterns">
-<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Permalink to this headline"></a></h2>
+<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Permalink to this heading"></a></h2>
 <section id="term-lists">
-<h3>Term Lists<a class="headerlink" href="#term-lists" title="Permalink to this headline"></a></h3>
+<h3>Term Lists<a class="headerlink" href="#term-lists" title="Permalink to this heading"></a></h3>
 <p>Many commands take a <em>term</em> or a <em>list of terms</em> as their primary argument. These are typically one of:</p>
 <ul>
 <li><p>a <span class="xref std std-ref">CURIE</span> such as <code class="code docutils literal notranslate"><span class="pre">UBERON:0000955</span></code></p></li>
@@ -223,7 +218,7 @@ multiple implementations. For example, you can multiplex queries over different 
 </div>
 </section>
 <section id="predicates">
-<h3>Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline"></a></h3>
+<h3>Predicates<a class="headerlink" href="#predicates" title="Permalink to this heading"></a></h3>
 <p>Many commands take a <code class="code docutils literal notranslate"><span class="pre">--predicates</span></code> option (shortened to <code class="code docutils literal notranslate"><span class="pre">-p</span></code>). This specifies a list of predicates
 (aka <em>relationship types</em>, see <a class="reference internal" href="#predicates"><span class="std std-ref">Predicates</span></a>) to be used in filtering. The list is specified as a comma-delimited
 list (no spaces) of CURIEs.</p>
@@ -241,14 +236,14 @@ and tracing upwards through is_a and part_of relationships:</p>
 </section>
 </section>
 <section id="commands">
-<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline"></a></h2>
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this heading"></a></h2>
 <p>The following section is autogenerated from the inline docs.
 You should get the same results by running:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>COMMAND<span class="w"> </span>--help
 </pre></div>
 </div>
 <section id="runoak">
-<h3>runoak<a class="headerlink" href="#runoak" title="Permalink to this headline"></a></h3>
+<h3>runoak<a class="headerlink" href="#runoak" title="Permalink to this heading"></a></h3>
 <p>Run the oaklib Command Line.</p>
 <blockquote>
 <div><p>A subcommand must be passed - for example: ancestors, terms, …</p>
@@ -280,7 +275,7 @@ You should get the same results by running:</p>
 <span id="cmdoption-runoak-no-stacktrace"></span><span class="sig-name descname"><span class="pre">--stacktrace</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-stacktrace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-stacktrace" title="Permalink to this definition"></a></dt>
 <dd><p>If set then show full stacktrace on error</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -297,7 +292,7 @@ You should get the same results by running:</p>
 <span id="cmdoption-runoak-no-autosave"></span><span class="sig-name descname"><span class="pre">--autosave</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autosave</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-autosave" title="Permalink to this definition"></a></dt>
 <dd><p>For commands that mutate the ontology, this determines if these are automatically saved in place</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -362,14 +357,14 @@ You should get the same results by running:</p>
 <span id="cmdoption-runoak-no-merge"></span><span class="sig-name descname"><span class="pre">--merge</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-merge</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-merge" title="Permalink to this definition"></a></dt>
 <dd><p>Merge all inputs specified using –add</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
 </dd></dl>
 
 <section id="runoak-aliases">
-<h4>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this headline"></a></h4>
+<h4>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List aliases for a term or set of terms.</p>
 <p>Example:</p>
@@ -420,7 +415,7 @@ richer data if present in the ontology, including synonym categories/types, syno
 
 </section>
 <section id="runoak-ancestors">
-<h4>ancestors<a class="headerlink" href="#runoak-ancestors" title="Permalink to this headline"></a></h4>
+<h4>ancestors<a class="headerlink" href="#runoak-ancestors" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all ancestors of a given term or terms.</p>
 <p>Here ancestor means the transitive closure of the parent relationship, where
@@ -467,7 +462,7 @@ For exampple, constrained to is-a and part-of:</p>
 <span id="cmdoption-runoak-ancestors-m"></span><span id="cmdoption-runoak-ancestors-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ancestors-M" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>HOP | ENTAILMENT</p>
 </dd>
 </dl>
@@ -484,7 +479,7 @@ For exampple, constrained to is-a and part-of:</p>
 <span id="cmdoption-runoak-ancestors-no-statistics"></span><span class="sig-name descname"><span class="pre">--statistics</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-statistics</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-ancestors-statistics" title="Permalink to this definition"></a></dt>
 <dd><p>For each ancestor, show statistics.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -505,7 +500,7 @@ For exampple, constrained to is-a and part-of:</p>
 
 </section>
 <section id="runoak-annotate">
-<h4>annotate<a class="headerlink" href="#runoak-annotate" title="Permalink to this headline"></a></h4>
+<h4>annotate<a class="headerlink" href="#runoak-annotate" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Annotate a piece of text using a Named Entity Recognition annotation</p>
 <p>Example:</p>
@@ -559,7 +554,7 @@ subject_start: 0</p>
 <span id="cmdoption-runoak-annotate-w"></span><span id="cmdoption-runoak-annotate-matches-whole-text"></span><span id="cmdoption-runoak-annotate-no-W"></span><span id="cmdoption-runoak-annotate-no-w"></span><span id="cmdoption-runoak-annotate-no-matches-whole-text"></span><span class="sig-name descname"><span class="pre">-W</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--matches-whole-text</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-W</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-matches-whole-text</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-annotate-W" title="Permalink to this definition"></a></dt>
 <dd><p>if true, then only show matches that span the entire input text</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -570,7 +565,7 @@ subject_start: 0</p>
 <span id="cmdoption-runoak-annotate-no-include-aliases"></span><span class="sig-name descname"><span class="pre">--include-aliases</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-aliases</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-annotate-include-aliases" title="Permalink to this definition"></a></dt>
 <dd><p>Include alias maps in output.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -627,7 +622,7 @@ subject_start: 0</p>
 
 </section>
 <section id="runoak-apply">
-<h4>apply<a class="headerlink" href="#runoak-apply" title="Permalink to this headline"></a></h4>
+<h4>apply<a class="headerlink" href="#runoak-apply" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Applies a patch to an ontology. The patch should be specified using KGCL syntax, see
 <a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a></p>
@@ -682,7 +677,7 @@ subject_start: 0</p>
 <span id="cmdoption-runoak-apply-no-dry-run"></span><span class="sig-name descname"><span class="pre">--dry-run</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-dry-run</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-dry-run" title="Permalink to this definition"></a></dt>
 <dd><p>if true, only perform the parse of KCGL and do not apply</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -693,7 +688,7 @@ subject_start: 0</p>
 <span id="cmdoption-runoak-apply-no-expand"></span><span class="sig-name descname"><span class="pre">--expand</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-expand</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-expand" title="Permalink to this definition"></a></dt>
 <dd><p>if true, expand complex changes to atomic changes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -704,7 +699,7 @@ subject_start: 0</p>
 <span id="cmdoption-runoak-apply-no-ignore-invalid-changes"></span><span class="sig-name descname"><span class="pre">--ignore-invalid-changes</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-ignore-invalid-changes</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-ignore-invalid-changes" title="Permalink to this definition"></a></dt>
 <dd><p>if true, ignore invalid changes, e.g. obsoletions of dependent entities</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -737,7 +732,7 @@ subject_start: 0</p>
 
 </section>
 <section id="runoak-apply-obsolete">
-<h4>apply-obsolete<a class="headerlink" href="#runoak-apply-obsolete" title="Permalink to this headline"></a></h4>
+<h4>apply-obsolete<a class="headerlink" href="#runoak-apply-obsolete" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Sets an ontology element to be obsolete</p>
 <p>Example:</p>
@@ -769,7 +764,7 @@ obsolete them all:</p>
 <span id="cmdoption-runoak-apply-obsolete-no-expand"></span><span class="sig-name descname"><span class="pre">--expand</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-expand</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-obsolete-expand" title="Permalink to this definition"></a></dt>
 <dd><p>if true, expand complex changes to atomic changes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -790,7 +785,7 @@ obsolete them all:</p>
 
 </section>
 <section id="runoak-apply-taxon-constraints">
-<h4>apply-taxon-constraints<a class="headerlink" href="#runoak-apply-taxon-constraints" title="Permalink to this headline"></a></h4>
+<h4>apply-taxon-constraints<a class="headerlink" href="#runoak-apply-taxon-constraints" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Test candidate taxon constraints</p>
 <p>Multiple candidate constraints can be passed as arguments. these are in the form of triples
@@ -838,7 +833,7 @@ This should follow the format used in <a class="reference external" href="https:
 <span id="cmdoption-runoak-apply-taxon-constraints-m"></span><span id="cmdoption-runoak-apply-taxon-constraints-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-taxon-constraints-M" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>HOP | ENTAILMENT</p>
 </dd>
 </dl>
@@ -853,7 +848,7 @@ This should follow the format used in <a class="reference external" href="https:
 
 </section>
 <section id="runoak-associations">
-<h4>associations<a class="headerlink" href="#runoak-associations" title="Permalink to this headline"></a></h4>
+<h4>associations<a class="headerlink" href="#runoak-associations" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Lookup associations from or to entities.</p>
 <p>Example:</p>
@@ -891,7 +886,7 @@ to is-a descendants</p>
 <span id="cmdoption-runoak-associations-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -914,7 +909,7 @@ to is-a descendants</p>
 <span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-if-absent" title="Permalink to this definition"></a></dt>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
@@ -937,10 +932,10 @@ to is-a descendants</p>
 <span id="cmdoption-runoak-associations-q"></span><span id="cmdoption-runoak-associations-terms-role"></span><span class="sig-name descname"><span class="pre">-Q</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--terms-role</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;terms_role&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-Q" title="Permalink to this definition"></a></dt>
 <dd><p>How to interpret query terms.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>object</p>
 </dd>
-<dt class="field-even">Options</dt>
+<dt class="field-even">Options<span class="colon">:</span></dt>
 <dd class="field-even"><p>subject | object | both</p>
 </dd>
 </dl>
@@ -955,7 +950,7 @@ to is-a descendants</p>
 
 </section>
 <section id="runoak-axioms">
-<h4>axioms<a class="headerlink" href="#runoak-axioms" title="Permalink to this headline"></a></h4>
+<h4>axioms<a class="headerlink" href="#runoak-axioms" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Filters axioms</p>
 <p>Example:</p>
@@ -1013,7 +1008,7 @@ to is-a descendants</p>
 
 </section>
 <section id="runoak-cache-clear">
-<h4>cache-clear<a class="headerlink" href="#runoak-cache-clear" title="Permalink to this headline"></a></h4>
+<h4>cache-clear<a class="headerlink" href="#runoak-cache-clear" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Clear the contents of the pystow oaklib cache.</p>
 </div></blockquote>
@@ -1026,7 +1021,7 @@ to is-a descendants</p>
 <span class="sig-name descname"><span class="pre">--days-old</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;days_old&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-cache-clear-days-old" title="Permalink to this definition"></a></dt>
 <dd><p>Clear anything more than this number of days old</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>100</p>
 </dd>
 </dl>
@@ -1034,7 +1029,7 @@ to is-a descendants</p>
 
 </section>
 <section id="runoak-cache-ls">
-<h4>cache-ls<a class="headerlink" href="#runoak-cache-ls" title="Permalink to this headline"></a></h4>
+<h4>cache-ls<a class="headerlink" href="#runoak-cache-ls" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List the contents of the pystow oaklib cache.</p>
 <p>TODO: this currently only works on unix-based systems.</p>
@@ -1044,7 +1039,7 @@ to is-a descendants</p>
 </div>
 </section>
 <section id="runoak-definitions">
-<h4>definitions<a class="headerlink" href="#runoak-definitions" title="Permalink to this headline"></a></h4>
+<h4>definitions<a class="headerlink" href="#runoak-definitions" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Show textual definitions for term or set of terms</p>
 <p>Example:</p>
@@ -1086,7 +1081,7 @@ to is-a descendants</p>
 <span id="cmdoption-runoak-definitions-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-definitions-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | fhirjson | csv | nl</p>
 </dd>
 </dl>
@@ -1097,7 +1092,7 @@ to is-a descendants</p>
 <span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-definitions-if-absent" title="Permalink to this definition"></a></dt>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
@@ -1108,7 +1103,7 @@ to is-a descendants</p>
 <span id="cmdoption-runoak-definitions-no-additional-metadata"></span><span class="sig-name descname"><span class="pre">--additional-metadata</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-additional-metadata</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-definitions-additional-metadata" title="Permalink to this definition"></a></dt>
 <dd><p>if true then fetch additional metadata about statements stored as OWL reification</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1125,7 +1120,7 @@ to is-a descendants</p>
 <span id="cmdoption-runoak-definitions-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-definitions-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -1140,7 +1135,7 @@ to is-a descendants</p>
 
 </section>
 <section id="runoak-descendants">
-<h4>descendants<a class="headerlink" href="#runoak-descendants" title="Permalink to this headline"></a></h4>
+<h4>descendants<a class="headerlink" href="#runoak-descendants" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all descendants of a term</p>
 <p>Example:</p>
@@ -1175,7 +1170,7 @@ predicates are not specified</p>
 <span id="cmdoption-runoak-descendants-m"></span><span id="cmdoption-runoak-descendants-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-descendants-M" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>HOP | ENTAILMENT</p>
 </dd>
 </dl>
@@ -1208,7 +1203,7 @@ predicates are not specified</p>
 
 </section>
 <section id="runoak-diff">
-<h4>diff<a class="headerlink" href="#runoak-diff" title="Permalink to this headline"></a></h4>
+<h4>diff<a class="headerlink" href="#runoak-diff" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Compute difference between two ontologies.</p>
 <p>Example:</p>
@@ -1263,7 +1258,7 @@ use ROBOT.</p>
 <span id="cmdoption-runoak-diff-no-simple"></span><span class="sig-name descname"><span class="pre">--simple</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-simple</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-simple" title="Permalink to this definition"></a></dt>
 <dd><p>perform a quick difference showing only terms that differ</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1274,7 +1269,7 @@ use ROBOT.</p>
 <span id="cmdoption-runoak-diff-no-statistics"></span><span class="sig-name descname"><span class="pre">--statistics</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-statistics</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-statistics" title="Permalink to this definition"></a></dt>
 <dd><p>show summary statistics only</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1291,7 +1286,7 @@ use ROBOT.</p>
 <span id="cmdoption-runoak-diff-no-group-by-obo-namespace"></span><span class="sig-name descname"><span class="pre">--group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-group-by-obo-namespace" title="Permalink to this definition"></a></dt>
 <dd><p>shortcut for –group-by-property oio:hasOBONamespace (note this is distinct from the ID namespace)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1302,7 +1297,7 @@ use ROBOT.</p>
 <span id="cmdoption-runoak-diff-no-group-by-defined-by"></span><span class="sig-name descname"><span class="pre">--group-by-defined-by</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-defined-by</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-group-by-defined-by" title="Permalink to this definition"></a></dt>
 <dd><p>shortcut for –group-by-property rdfs:isDefinedBy. This may be inferred from prefix if not set explicitly</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1313,7 +1308,7 @@ use ROBOT.</p>
 <span id="cmdoption-runoak-diff-no-group-by-prefix"></span><span class="sig-name descname"><span class="pre">--group-by-prefix</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-prefix</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-group-by-prefix" title="Permalink to this definition"></a></dt>
 <dd><p>shortcut for –group-by-property sh:prefix. Groups by the prefix of the CURIE</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1333,7 +1328,7 @@ use ROBOT.</p>
 
 </section>
 <section id="runoak-diff-associations">
-<h4>diff-associations<a class="headerlink" href="#runoak-diff-associations" title="Permalink to this headline"></a></h4>
+<h4>diff-associations<a class="headerlink" href="#runoak-diff-associations" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Diffs two association sources. EXPERIMENTAL.</p>
 <p>This functionality may move out of core</p>
@@ -1359,7 +1354,7 @@ use ROBOT.</p>
 <span id="cmdoption-runoak-diff-associations-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -1391,7 +1386,7 @@ use ROBOT.</p>
 
 </section>
 <section id="runoak-diff-terms">
-<h4>diff-terms<a class="headerlink" href="#runoak-diff-terms" title="Permalink to this headline"></a></h4>
+<h4>diff-terms<a class="headerlink" href="#runoak-diff-terms" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Compares a pair of terms in two ontologies</p>
 <p>EXPERIMENTAL</p>
@@ -1421,7 +1416,7 @@ use ROBOT.</p>
 
 </section>
 <section id="runoak-diff-via-mappings">
-<h4>diff-via-mappings<a class="headerlink" href="#runoak-diff-via-mappings" title="Permalink to this headline"></a></h4>
+<h4>diff-via-mappings<a class="headerlink" href="#runoak-diff-via-mappings" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Calculates cross-ontology diff using mappings</p>
 <p>Given a pair of ontologies, and mappings that connect terms in both ontologies, this
@@ -1479,7 +1474,7 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <span id="cmdoption-runoak-diff-via-mappings-no-intra"></span><span class="sig-name descname"><span class="pre">--intra</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-intra</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-intra" title="Permalink to this definition"></a></dt>
 <dd><p>If true, then all sources are in the main input ontology</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1490,7 +1485,7 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <span id="cmdoption-runoak-diff-via-mappings-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -1501,7 +1496,7 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <span id="cmdoption-runoak-diff-via-mappings-no-include-identity-mappings"></span><span class="sig-name descname"><span class="pre">--include-identity-mappings</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-identity-mappings</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-include-identity-mappings" title="Permalink to this definition"></a></dt>
 <dd><p>Use identity relation as mapping; use this for two versions of the same ontology</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1512,7 +1507,7 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <span id="cmdoption-runoak-diff-via-mappings-no-filter-category-identical"></span><span class="sig-name descname"><span class="pre">--filter-category-identical</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-filter-category-identical</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-filter-category-identical" title="Permalink to this definition"></a></dt>
 <dd><p>Do not report cases where a relationship has not changed</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1523,7 +1518,7 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 <span id="cmdoption-runoak-diff-via-mappings-no-bidirectional"></span><span class="sig-name descname"><span class="pre">--bidirectional</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-bidirectional</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-bidirectional" title="Permalink to this definition"></a></dt>
 <dd><p>Show diff from both left and right perspectives</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -1556,20 +1551,20 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 
 </section>
 <section id="runoak-dump">
-<h4>dump<a class="headerlink" href="#runoak-dump" title="Permalink to this headline"></a></h4>
+<h4>dump<a class="headerlink" href="#runoak-dump" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Exports (dumps) the entire contents of an ontology.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param terms</dt>
+<dt class="field-odd">param terms<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of terms to dump. If not specified, the entire ontology will be dumped.</p>
 </dd>
-<dt class="field-even">param output</dt>
+<dt class="field-even">param output<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to output file</p>
 </dd>
-<dt class="field-odd">param output_type</dt>
+<dt class="field-odd">param output_type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl</p>
 </dd>
-<dt class="field-even">param config_file</dt>
+<dt class="field-even">param config_file<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to a configuration JSON file for additional params (which may be required for some formats)</p>
 </dd>
 </dl>
@@ -1623,7 +1618,7 @@ to avoid killer queries.</p>
 <span id="cmdoption-runoak-dump-no-enforce-canonical-ordering"></span><span class="sig-name descname"><span class="pre">--enforce-canonical-ordering</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-enforce-canonical-ordering</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-dump-enforce-canonical-ordering" title="Permalink to this definition"></a></dt>
 <dd><p>Forces the serialization to be in canonical order, which is useful for diffing</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1638,7 +1633,7 @@ to avoid killer queries.</p>
 
 </section>
 <section id="runoak-enrichment">
-<h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Permalink to this headline"></a></h4>
+<h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Run class enrichment analysis.</p>
 </div></blockquote>
@@ -1663,7 +1658,7 @@ to avoid killer queries.</p>
 <span id="cmdoption-runoak-enrichment-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -1686,7 +1681,7 @@ to avoid killer queries.</p>
 <span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-if-absent" title="Permalink to this definition"></a></dt>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
@@ -1703,7 +1698,7 @@ to avoid killer queries.</p>
 <span class="sig-name descname"><span class="pre">--cutoff</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;cutoff&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-cutoff" title="Permalink to this definition"></a></dt>
 <dd><p>The cutoff for the p-value</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>0.05</p>
 </dd>
 </dl>
@@ -1736,7 +1731,7 @@ to avoid killer queries.</p>
 
 </section>
 <section id="runoak-expand-subsets">
-<h4>expand-subsets<a class="headerlink" href="#runoak-expand-subsets" title="Permalink to this headline"></a></h4>
+<h4>expand-subsets<a class="headerlink" href="#runoak-expand-subsets" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>For each subset provide a mapping of each term in the ontology to a subset</p>
 <p>Example:</p>
@@ -1769,7 +1764,7 @@ to avoid killer queries.</p>
 
 </section>
 <section id="runoak-extract">
-<h4>extract<a class="headerlink" href="#runoak-extract" title="Permalink to this headline"></a></h4>
+<h4>extract<a class="headerlink" href="#runoak-extract" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Extracts a sub-ontology.</p>
 <p>Simple example:</p>
@@ -1825,7 +1820,7 @@ as –no-dangling is the default</p>
 <span id="cmdoption-runoak-extract-no-dangling"></span><span class="sig-name descname"><span class="pre">--dangling</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-dangling</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-extract-dangling" title="Permalink to this definition"></a></dt>
 <dd><p>If True, allow dangling edges in the output</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1836,7 +1831,7 @@ as –no-dangling is the default</p>
 <span id="cmdoption-runoak-extract-no-include-metadata"></span><span class="sig-name descname"><span class="pre">--include-metadata</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-metadata</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-extract-include-metadata" title="Permalink to this definition"></a></dt>
 <dd><p>If True, include term metadata such as definitions, synonyms</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1857,7 +1852,7 @@ as –no-dangling is the default</p>
 
 </section>
 <section id="runoak-fill-table">
-<h4>fill-table<a class="headerlink" href="#runoak-fill-table" title="Permalink to this headline"></a></h4>
+<h4>fill-table<a class="headerlink" href="#runoak-fill-table" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Fills missing values in a table of ontology elements</p>
 <p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.table_filler">https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.table_filler</a></p>
@@ -1948,7 +1943,7 @@ for now please file an issue on github with any questions</p>
 <span id="cmdoption-runoak-fill-table-no-allow-missing"></span><span class="sig-name descname"><span class="pre">--allow-missing</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-allow-missing</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-fill-table-allow-missing" title="Permalink to this definition"></a></dt>
 <dd><p>Allow some dependent values to be blank, post-processing</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -1971,7 +1966,7 @@ for now please file an issue on github with any questions</p>
 <span class="sig-name descname"><span class="pre">--delimiter</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;delimiter&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-delimiter" title="Permalink to this definition"></a></dt>
 <dd><p>Delimiter between columns in input and output</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </dd></dl>
@@ -1981,7 +1976,7 @@ for now please file an issue on github with any questions</p>
 <span class="sig-name descname"><span class="pre">--comment</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;comment&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-comment" title="Permalink to this definition"></a></dt>
 <dd><p>Comment indicator at the beginning of a row.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>#</p>
 </dd>
 </dl>
@@ -2014,7 +2009,7 @@ for now please file an issue on github with any questions</p>
 
 </section>
 <section id="runoak-generate-synonyms">
-<h4>generate-synonyms<a class="headerlink" href="#runoak-generate-synonyms" title="Permalink to this headline"></a></h4>
+<h4>generate-synonyms<a class="headerlink" href="#runoak-generate-synonyms" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Generate synonyms based on a set of synonymizer rules.</p>
 <p>If the <cite>–apply-patch</cite> flag is set, the output will be an ontology file with the changes
@@ -2045,7 +2040,7 @@ applied. Pass the <cite>–patch</cite> argument to lso get the patch file in KG
 <span id="cmdoption-runoak-generate-synonyms-no-apply-patch"></span><span class="sig-name descname"><span class="pre">--apply-patch</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-apply-patch</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-synonyms-apply-patch" title="Permalink to this definition"></a></dt>
 <dd><p>Apply KGCL syntax generated based on the synonymizer rules file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -2084,7 +2079,7 @@ applied. Pass the <cite>–patch</cite> argument to lso get the patch file in KG
 
 </section>
 <section id="runoak-info">
-<h4>info<a class="headerlink" href="#runoak-info" title="Permalink to this headline"></a></h4>
+<h4>info<a class="headerlink" href="#runoak-info" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Show information on term or set of terms</p>
 <p>Example:</p>
@@ -2157,7 +2152,7 @@ as queries that can be combined using boolean logic</p>
 
 </section>
 <section id="runoak-labels">
-<h4>labels<a class="headerlink" href="#runoak-labels" title="Permalink to this headline"></a></h4>
+<h4>labels<a class="headerlink" href="#runoak-labels" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Show labels for term or list of terms</p>
 <p>Example:</p>
@@ -2201,7 +2196,7 @@ as queries that can be combined using boolean logic</p>
 <span id="cmdoption-runoak-labels-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-labels-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | fhirjson | csv | nl</p>
 </dd>
 </dl>
@@ -2212,7 +2207,7 @@ as queries that can be combined using boolean logic</p>
 <span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-labels-if-absent" title="Permalink to this definition"></a></dt>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
@@ -2233,7 +2228,7 @@ as queries that can be combined using boolean logic</p>
 
 </section>
 <section id="runoak-leafs">
-<h4>leafs<a class="headerlink" href="#runoak-leafs" title="Permalink to this headline"></a></h4>
+<h4>leafs<a class="headerlink" href="#runoak-leafs" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all leaf nodes in the ontology</p>
 <p>Like all OAK relational commands, this is parameterized by –predicates (-p).
@@ -2269,7 +2264,7 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
 <span id="cmdoption-runoak-leafs-no-filter-obsoletes"></span><span class="sig-name descname"><span class="pre">--filter-obsoletes</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-filter-obsoletes</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-leafs-filter-obsoletes" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will exclude obsoletes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -2277,7 +2272,7 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
 
 </section>
 <section id="runoak-lexmatch">
-<h4>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Permalink to this headline"></a></h4>
+<h4>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Performs lexical matching between pairs of terms in one more more ontologies.</p>
 <p>Examples:</p>
@@ -2339,7 +2334,7 @@ will be reused.</p>
 <span id="cmdoption-runoak-lexmatch-no-add-labels"></span><span class="sig-name descname"><span class="pre">--add-labels</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-add-labels</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-lexmatch-add-labels" title="Permalink to this definition"></a></dt>
 <dd><p>Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -2356,7 +2351,7 @@ will be reused.</p>
 <span id="cmdoption-runoak-lexmatch-no-recreate"></span><span class="sig-name descname"><span class="pre">--recreate</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-recreate</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-lexmatch-recreate" title="Permalink to this definition"></a></dt>
 <dd><p>if true and lexical index is specified, always recreate, otherwise load from index</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -2367,7 +2362,7 @@ will be reused.</p>
 <span id="cmdoption-runoak-lexmatch-no-ensure-strict-prefixes"></span><span class="sig-name descname"><span class="pre">--ensure-strict-prefixes</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-ensure-strict-prefixes</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-lexmatch-ensure-strict-prefixes" title="Permalink to this definition"></a></dt>
 <dd><p>Clean prefix map and mappings before generating an output.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -2388,7 +2383,7 @@ will be reused.</p>
 
 </section>
 <section id="runoak-lint">
-<h4>lint<a class="headerlink" href="#runoak-lint" title="Permalink to this headline"></a></h4>
+<h4>lint<a class="headerlink" href="#runoak-lint" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Lints an ontology, applying changes in place.</p>
 <p>The current implementation is highly incomplete, and only handles
@@ -2442,7 +2437,7 @@ runoak -i my.obo apply –changes-input changes.kgcl</p>
 
 </section>
 <section id="runoak-logical-definitions">
-<h4>logical-definitions<a class="headerlink" href="#runoak-logical-definitions" title="Permalink to this headline"></a></h4>
+<h4>logical-definitions<a class="headerlink" href="#runoak-logical-definitions" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Show all logical definitions for a term or terms.</p>
 <p>To show all logical definitions in an ontology, pass the “.all” query term</p>
@@ -2512,7 +2507,7 @@ which is what is currently represented in the OboGraph datamodel.</p>
 <span id="cmdoption-runoak-logical-definitions-no-unmelt"></span><span class="sig-name descname"><span class="pre">--unmelt</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-unmelt</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-unmelt" title="Permalink to this definition"></a></dt>
 <dd><p>Flatten to a wide table</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -2529,7 +2524,7 @@ which is what is currently represented in the OboGraph datamodel.</p>
 <span id="cmdoption-runoak-logical-definitions-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -2552,7 +2547,7 @@ which is what is currently represented in the OboGraph datamodel.</p>
 <span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-if-absent" title="Permalink to this definition"></a></dt>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
@@ -2573,7 +2568,7 @@ which is what is currently represented in the OboGraph datamodel.</p>
 
 </section>
 <section id="runoak-mappings">
-<h4>mappings<a class="headerlink" href="#runoak-mappings" title="Permalink to this headline"></a></h4>
+<h4>mappings<a class="headerlink" href="#runoak-mappings" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all mappings encoded in the ontology</p>
 <p>Example:</p>
@@ -2623,7 +2618,7 @@ that if the label is not in the source ontology, then no label will be retrieved
 <span id="cmdoption-runoak-mappings-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-mappings-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -2644,7 +2639,7 @@ that if the label is not in the source ontology, then no label will be retrieved
 
 </section>
 <section id="runoak-migrate-curies">
-<h4>migrate-curies<a class="headerlink" href="#runoak-migrate-curies" title="Permalink to this headline"></a></h4>
+<h4>migrate-curies<a class="headerlink" href="#runoak-migrate-curies" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Rewires an ontology replacing all instances of an ID or IDs</p>
 <p>Note: the specified ontology is modified in place</p>
@@ -2669,7 +2664,7 @@ source and the target</p>
 <span id="cmdoption-runoak-migrate-curies-no-replace"></span><span class="sig-name descname"><span class="pre">--replace</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-replace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-migrate-curies-replace" title="Permalink to this definition"></a></dt>
 <dd><p>If true, will update in place</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -2696,7 +2691,7 @@ source and the target</p>
 
 </section>
 <section id="runoak-normalize">
-<h4>normalize<a class="headerlink" href="#runoak-normalize" title="Permalink to this headline"></a></h4>
+<h4>normalize<a class="headerlink" href="#runoak-normalize" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Normalize all input identifiers.</p>
 <p>Example:</p>
@@ -2733,7 +2728,7 @@ source and the target</p>
 <span id="cmdoption-runoak-normalize-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-normalize-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -2754,7 +2749,7 @@ source and the target</p>
 
 </section>
 <section id="runoak-obsoletes">
-<h4>obsoletes<a class="headerlink" href="#runoak-obsoletes" title="Permalink to this headline"></a></h4>
+<h4>obsoletes<a class="headerlink" href="#runoak-obsoletes" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows all obsolete entities.</p>
 <p>Example:</p>
@@ -2790,7 +2785,7 @@ source and the target</p>
 <span id="cmdoption-runoak-obsoletes-no-include-merged"></span><span class="sig-name descname"><span class="pre">--include-merged</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-merged</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-obsoletes-include-merged" title="Permalink to this definition"></a></dt>
 <dd><p>Include merged terms in output</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -2801,7 +2796,7 @@ source and the target</p>
 <span id="cmdoption-runoak-obsoletes-no-show-migration-relationships"></span><span class="sig-name descname"><span class="pre">--show-migration-relationships</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-show-migration-relationships</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-obsoletes-show-migration-relationships" title="Permalink to this definition"></a></dt>
 <dd><p>Show migration relationships (e.g. replaced_by, consider)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -2812,7 +2807,7 @@ source and the target</p>
 <span id="cmdoption-runoak-obsoletes-o"></span><span id="cmdoption-runoak-obsoletes-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-obsoletes-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | fhirjson | csv | nl</p>
 </dd>
 </dl>
@@ -2833,7 +2828,7 @@ source and the target</p>
 
 </section>
 <section id="runoak-ontologies">
-<h4>ontologies<a class="headerlink" href="#runoak-ontologies" title="Permalink to this headline"></a></h4>
+<h4>ontologies<a class="headerlink" href="#runoak-ontologies" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows all ontologies</p>
 <p>If the input is a pre-merged ontology, then the output of this command is trivially
@@ -2860,7 +2855,7 @@ a single line, with the name of the input ontology</p>
 
 </section>
 <section id="runoak-ontology-metadata">
-<h4>ontology-metadata<a class="headerlink" href="#runoak-ontology-metadata" title="Permalink to this headline"></a></h4>
+<h4>ontology-metadata<a class="headerlink" href="#runoak-ontology-metadata" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows ontology metadata</p>
 <p>Example:</p>
@@ -2907,7 +2902,7 @@ a single line, with the name of the input ontology</p>
 <span id="cmdoption-runoak-ontology-metadata-no-all"></span><span class="sig-name descname"><span class="pre">--all</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-all</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-ontology-metadata-all" title="Permalink to this definition"></a></dt>
 <dd><p>If true, show all ontologies. Use in place of passing an explicit list</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -2922,7 +2917,7 @@ a single line, with the name of the input ontology</p>
 
 </section>
 <section id="runoak-ontology-versions">
-<h4>ontology-versions<a class="headerlink" href="#runoak-ontology-versions" title="Permalink to this headline"></a></h4>
+<h4>ontology-versions<a class="headerlink" href="#runoak-ontology-versions" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows ontology versions</p>
 <p>Currently only implemented for BioPortal</p>
@@ -2954,7 +2949,7 @@ a single line, with the name of the input ontology</p>
 <span id="cmdoption-runoak-ontology-versions-no-all"></span><span class="sig-name descname"><span class="pre">--all</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-all</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-ontology-versions-all" title="Permalink to this definition"></a></dt>
 <dd><p>If true, show all ontologies. Use in place of passing an explicit list</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -2969,7 +2964,7 @@ a single line, with the name of the input ontology</p>
 
 </section>
 <section id="runoak-paths">
-<h4>paths<a class="headerlink" href="#runoak-paths" title="Permalink to this headline"></a></h4>
+<h4>paths<a class="headerlink" href="#runoak-paths" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all paths between one or more start curies.</p>
 <p>Example:</p>
@@ -3024,7 +3019,7 @@ results to viz, using the fill-gaps option</p>
 <span id="cmdoption-runoak-paths-no-narrow"></span><span class="sig-name descname"><span class="pre">--narrow</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-narrow</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-narrow" title="Permalink to this definition"></a></dt>
 <dd><p>If true then output path is written a list of terms</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3035,7 +3030,7 @@ results to viz, using the fill-gaps option</p>
 <span id="cmdoption-runoak-paths-no-viz"></span><span class="sig-name descname"><span class="pre">--viz</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-viz</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-viz" title="Permalink to this definition"></a></dt>
 <dd><p>If true then generate a path graph from output</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3046,7 +3041,7 @@ results to viz, using the fill-gaps option</p>
 <span id="cmdoption-runoak-paths-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3069,7 +3064,7 @@ results to viz, using the fill-gaps option</p>
 <span id="cmdoption-runoak-paths-no-directed"></span><span class="sig-name descname"><span class="pre">--directed</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-directed</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-directed" title="Permalink to this definition"></a></dt>
 <dd><p>only show directed paths</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3080,7 +3075,7 @@ results to viz, using the fill-gaps option</p>
 <span id="cmdoption-runoak-paths-no-include-predicates"></span><span class="sig-name descname"><span class="pre">--include-predicates</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-predicates</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-paths-include-predicates" title="Permalink to this definition"></a></dt>
 <dd><p>show predicates between nodes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3119,7 +3114,7 @@ results to viz, using the fill-gaps option</p>
 
 </section>
 <section id="runoak-prefixes">
-<h4>prefixes<a class="headerlink" href="#runoak-prefixes" title="Permalink to this headline"></a></h4>
+<h4>prefixes<a class="headerlink" href="#runoak-prefixes" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows prefix declarations.</p>
 <p>All standard prefixes:</p>
@@ -3178,7 +3173,7 @@ prefixes for entities in that ontology</p>
 <span id="cmdoption-runoak-prefixes-no-used-only"></span><span class="sig-name descname"><span class="pre">--used-only</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-used-only</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-prefixes-used-only" title="Permalink to this definition"></a></dt>
 <dd><p>If True, show only prefixes used in ontology</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3199,7 +3194,7 @@ prefixes for entities in that ontology</p>
 
 </section>
 <section id="runoak-query">
-<h4>query<a class="headerlink" href="#runoak-query" title="Permalink to this headline"></a></h4>
+<h4>query<a class="headerlink" href="#runoak-query" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Execute an arbitrary query.</p>
 <p>The syntax of the query is backend-dependent.</p>
@@ -3225,7 +3220,7 @@ prefixes for entities in that ontology</p>
 <span id="cmdoption-runoak-query-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-query-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3251,7 +3246,7 @@ prefixes for entities in that ontology</p>
 
 </section>
 <section id="runoak-relationships">
-<h4>relationships<a class="headerlink" href="#runoak-relationships" title="Permalink to this headline"></a></h4>
+<h4>relationships<a class="headerlink" href="#runoak-relationships" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Show all relationships for a term or terms</p>
 <p>By default, this shows all relationships where the input term(s) are the <em>subjects</em></p>
@@ -3300,7 +3295,7 @@ prefixes for entities in that ontology</p>
 <span class="sig-name descname"><span class="pre">--direction</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;direction&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-relationships-direction" title="Permalink to this definition"></a></dt>
 <dd><p>direction of traversal over edges, which up is subject to object, down is object to subject.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>up | down | both</p>
 </dd>
 </dl>
@@ -3311,7 +3306,7 @@ prefixes for entities in that ontology</p>
 <span id="cmdoption-runoak-relationships-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3334,7 +3329,7 @@ prefixes for entities in that ontology</p>
 <span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-relationships-if-absent" title="Permalink to this definition"></a></dt>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
@@ -3351,7 +3346,7 @@ prefixes for entities in that ontology</p>
 <span id="cmdoption-runoak-relationships-no-include-entailed"></span><span class="sig-name descname"><span class="pre">--include-entailed</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-entailed</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-entailed" title="Permalink to this definition"></a></dt>
 <dd><p>Include entailed indirect relationships</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3362,7 +3357,7 @@ prefixes for entities in that ontology</p>
 <span id="cmdoption-runoak-relationships-no-include-tbox"></span><span class="sig-name descname"><span class="pre">--include-tbox</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-tbox</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-tbox" title="Permalink to this definition"></a></dt>
 <dd><p>Include class-class relationships (subclass and existentials)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3373,7 +3368,7 @@ prefixes for entities in that ontology</p>
 <span id="cmdoption-runoak-relationships-no-include-abox"></span><span class="sig-name descname"><span class="pre">--include-abox</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-abox</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-abox" title="Permalink to this definition"></a></dt>
 <dd><p>Include instance relationships (class and object property assertions)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3388,7 +3383,7 @@ prefixes for entities in that ontology</p>
 
 </section>
 <section id="runoak-rollup">
-<h4>rollup<a class="headerlink" href="#runoak-rollup" title="Permalink to this headline"></a></h4>
+<h4>rollup<a class="headerlink" href="#runoak-rollup" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Produce an association rollup report.</p>
 <p>The report will list associations where the subject is one of the terms provided. The
@@ -3424,7 +3419,7 @@ Use the -p/–predicates option to change this behavior.</p>
 <span id="cmdoption-runoak-rollup-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-rollup-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3451,7 +3446,7 @@ Use the -p/–predicates option to change this behavior.</p>
 
 </section>
 <section id="runoak-roots">
-<h4>roots<a class="headerlink" href="#runoak-roots" title="Permalink to this headline"></a></h4>
+<h4>roots<a class="headerlink" href="#runoak-roots" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all root nodes in the ontology</p>
 <p>Like all OAK relational commands, this is parameterized by –predicates (-p).
@@ -3501,7 +3496,7 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
 <span id="cmdoption-runoak-roots-a"></span><span id="cmdoption-runoak-roots-annotated-roots"></span><span id="cmdoption-runoak-roots-no-annotated-roots"></span><span id="cmdoption-runoak-roots-no-A"></span><span id="cmdoption-runoak-roots-no-a"></span><span class="sig-name descname"><span class="pre">-A</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--annotated-roots</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-annotated-roots</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-A</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-roots-A" title="Permalink to this definition"></a></dt>
 <dd><p>If true, use annotated roots, if present</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3509,7 +3504,7 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
 
 </section>
 <section id="runoak-search">
-<h4>search<a class="headerlink" href="#runoak-search" title="Permalink to this headline"></a></h4>
+<h4>search<a class="headerlink" href="#runoak-search" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Searches ontology for entities that have a label, alias, or other property matching a search term.</p>
 <p>Example:</p>
@@ -3559,7 +3554,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <span id="cmdoption-runoak-search-o"></span><span id="cmdoption-runoak-search-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-search-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | fhirjson | csv | nl</p>
 </dd>
 </dl>
@@ -3580,7 +3575,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 
 </section>
 <section id="runoak-set-apikey">
-<h4>set-apikey<a class="headerlink" href="#runoak-set-apikey" title="Permalink to this headline"></a></h4>
+<h4>set-apikey<a class="headerlink" href="#runoak-set-apikey" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Sets an API key</p>
 <dl class="simple">
@@ -3608,7 +3603,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 
 </section>
 <section id="runoak-siblings">
-<h4>siblings<a class="headerlink" href="#runoak-siblings" title="Permalink to this headline"></a></h4>
+<h4>siblings<a class="headerlink" href="#runoak-siblings" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all siblings of a specified term or terms</p>
 <p>Example:</p>
@@ -3639,7 +3634,7 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 <span id="cmdoption-runoak-siblings-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-siblings-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | fhirjson | csv | nl</p>
 </dd>
 </dl>
@@ -3654,7 +3649,7 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 
 </section>
 <section id="runoak-similarity">
-<h4>similarity<a class="headerlink" href="#runoak-similarity" title="Permalink to this headline"></a></h4>
+<h4>similarity<a class="headerlink" href="#runoak-similarity" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>All by all similarity.</p>
 <p>This calculates a similarity matrix for two sets of terms.</p>
@@ -3747,7 +3742,7 @@ vs all terms in CL:</p>
 <span class="sig-name descname"><span class="pre">--main-score-field</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;main_score_field&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-main-score-field" title="Permalink to this definition"></a></dt>
 <dd><p>Score used for summarization</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>phenodigm_score</p>
 </dd>
 </dl>
@@ -3758,7 +3753,7 @@ vs all terms in CL:</p>
 <span id="cmdoption-runoak-similarity-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3779,7 +3774,7 @@ vs all terms in CL:</p>
 
 </section>
 <section id="runoak-similarity-pair">
-<h4>similarity-pair<a class="headerlink" href="#runoak-similarity-pair" title="Permalink to this headline"></a></h4>
+<h4>similarity-pair<a class="headerlink" href="#runoak-similarity-pair" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Determine pairwise similarity between two terms using a variety of metrics</p>
 <p>NOTE: this command may be deprecated, consider using similarity</p>
@@ -3836,7 +3831,7 @@ the MRCA</p>
 <span id="cmdoption-runoak-similarity-pair-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-pair-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3851,7 +3846,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-singletons">
-<h4>singletons<a class="headerlink" href="#runoak-singletons" title="Permalink to this headline"></a></h4>
+<h4>singletons<a class="headerlink" href="#runoak-singletons" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all singleton nodes in the ontology</p>
 <p>Like all OAK relational commands, this is parameterized by –predicates (-p).
@@ -3888,7 +3883,7 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 <span id="cmdoption-runoak-singletons-no-filter-obsoletes"></span><span class="sig-name descname"><span class="pre">--filter-obsoletes</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-filter-obsoletes</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-singletons-filter-obsoletes" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will exclude obsoletes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -3896,7 +3891,7 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 
 </section>
 <section id="runoak-statistics">
-<h4>statistics<a class="headerlink" href="#runoak-statistics" title="Permalink to this headline"></a></h4>
+<h4>statistics<a class="headerlink" href="#runoak-statistics" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows all descriptive/summary statistics</p>
 <p>Example:</p>
@@ -3961,7 +3956,7 @@ a group-by option is specified, these will be grouped accordingly.</p>
 <span id="cmdoption-runoak-statistics-o"></span><span id="cmdoption-runoak-statistics-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | fhirjson | csv | nl</p>
 </dd>
 </dl>
@@ -3978,7 +3973,7 @@ a group-by option is specified, these will be grouped accordingly.</p>
 <span id="cmdoption-runoak-statistics-no-group-by-obo-namespace"></span><span class="sig-name descname"><span class="pre">--group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-group-by-obo-namespace" title="Permalink to this definition"></a></dt>
 <dd><p>shortcut for –group-by-property oio:hasOBONamespace (note this is distinct from the ID namespace)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -3989,7 +3984,7 @@ a group-by option is specified, these will be grouped accordingly.</p>
 <span id="cmdoption-runoak-statistics-no-group-by-prefix"></span><span class="sig-name descname"><span class="pre">--group-by-prefix</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-prefix</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-group-by-prefix" title="Permalink to this definition"></a></dt>
 <dd><p>shortcut for –group-by-property sh:prefix. Groups by the prefix of the CURIE</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4000,7 +3995,7 @@ a group-by option is specified, these will be grouped accordingly.</p>
 <span id="cmdoption-runoak-statistics-no-group-by-defined-by"></span><span class="sig-name descname"><span class="pre">--group-by-defined-by</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-defined-by</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-group-by-defined-by" title="Permalink to this definition"></a></dt>
 <dd><p>shortcut for –group-by-property rdfs:isDefinedBy. This may be inferred from prefix if not set explicitly</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4039,7 +4034,7 @@ a group-by option is specified, these will be grouped accordingly.</p>
 
 </section>
 <section id="runoak-subsets">
-<h4>subsets<a class="headerlink" href="#runoak-subsets" title="Permalink to this headline"></a></h4>
+<h4>subsets<a class="headerlink" href="#runoak-subsets" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows information on subsets</p>
 <p>Example:</p>
@@ -4078,7 +4073,7 @@ terms (directly) in goslim_generic in GO:</p>
 
 </section>
 <section id="runoak-synonymize">
-<h4>synonymize<a class="headerlink" href="#runoak-synonymize" title="Permalink to this headline"></a></h4>
+<h4>synonymize<a class="headerlink" href="#runoak-synonymize" title="Permalink to this heading"></a></h4>
 <p>Deprecated: use generate-synonyms</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>synonymize<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -4095,7 +4090,7 @@ terms (directly) in goslim_generic in GO:</p>
 <span id="cmdoption-runoak-synonymize-no-apply-patch"></span><span class="sig-name descname"><span class="pre">--apply-patch</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-apply-patch</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-synonymize-apply-patch" title="Permalink to this definition"></a></dt>
 <dd><p>Apply KGCL syntax generated based on the synonymizer rules file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4122,7 +4117,7 @@ terms (directly) in goslim_generic in GO:</p>
 
 </section>
 <section id="runoak-taxon-constraints">
-<h4>taxon-constraints<a class="headerlink" href="#runoak-taxon-constraints" title="Permalink to this headline"></a></h4>
+<h4>taxon-constraints<a class="headerlink" href="#runoak-taxon-constraints" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Compute all taxon constraints for a term or terms.</p>
 <p>This will apply rules using the inferred ancestors of subject terms, as well as inferred
@@ -4169,7 +4164,7 @@ of NCBI Taxonomy</p>
 <span id="cmdoption-runoak-taxon-constraints-m"></span><span id="cmdoption-runoak-taxon-constraints-graph-traversal-method"></span><span class="sig-name descname"><span class="pre">-M</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--graph-traversal-method</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;graph_traversal_method&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-M" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options</dt>
+<dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>HOP | ENTAILMENT</p>
 </dd>
 </dl>
@@ -4180,7 +4175,7 @@ of NCBI Taxonomy</p>
 <span id="cmdoption-runoak-taxon-constraints-a"></span><span id="cmdoption-runoak-taxon-constraints-all"></span><span id="cmdoption-runoak-taxon-constraints-no-A"></span><span id="cmdoption-runoak-taxon-constraints-no-a"></span><span id="cmdoption-runoak-taxon-constraints-no-all"></span><span class="sig-name descname"><span class="pre">-A</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--all</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-A</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-all</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-A" title="Permalink to this definition"></a></dt>
 <dd><p>if specified then perform for all terms</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4191,7 +4186,7 @@ of NCBI Taxonomy</p>
 <span id="cmdoption-runoak-taxon-constraints-no-include-redundant"></span><span class="sig-name descname"><span class="pre">--include-redundant</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-redundant</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-include-redundant" title="Permalink to this definition"></a></dt>
 <dd><p>if specified then include redundant taxon constraints from ancestral subjects</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4202,7 +4197,7 @@ of NCBI Taxonomy</p>
 <span id="cmdoption-runoak-taxon-constraints-no-direct"></span><span class="sig-name descname"><span class="pre">--direct</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-direct</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-direct" title="Permalink to this definition"></a></dt>
 <dd><p>only include directly asserted taxon constraints</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4217,7 +4212,7 @@ of NCBI Taxonomy</p>
 
 </section>
 <section id="runoak-term-categories">
-<h4>term-categories<a class="headerlink" href="#runoak-term-categories" title="Permalink to this headline"></a></h4>
+<h4>term-categories<a class="headerlink" href="#runoak-term-categories" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List categories for a term or set of terms.</p>
 </div></blockquote>
@@ -4252,7 +4247,7 @@ of NCBI Taxonomy</p>
 
 </section>
 <section id="runoak-term-metadata">
-<h4>term-metadata<a class="headerlink" href="#runoak-term-metadata" title="Permalink to this headline"></a></h4>
+<h4>term-metadata<a class="headerlink" href="#runoak-term-metadata" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Shows term metadata.</p>
 <p>Example:</p>
@@ -4302,7 +4297,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <span id="cmdoption-runoak-term-metadata-no-additional-metadata"></span><span class="sig-name descname"><span class="pre">--additional-metadata</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-additional-metadata</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-term-metadata-additional-metadata" title="Permalink to this definition"></a></dt>
 <dd><p>if true then fetch additional metadata about statements stored as OWL reification</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4317,7 +4312,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 
 </section>
 <section id="runoak-term-subsets">
-<h4>term-subsets<a class="headerlink" href="#runoak-term-subsets" title="Permalink to this headline"></a></h4>
+<h4>term-subsets<a class="headerlink" href="#runoak-term-subsets" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List subsets for a term or set of terms.</p>
 <p>Example:</p>
@@ -4354,7 +4349,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 
 </section>
 <section id="runoak-terms">
-<h4>terms<a class="headerlink" href="#runoak-terms" title="Permalink to this headline"></a></h4>
+<h4>terms<a class="headerlink" href="#runoak-terms" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>List all terms in the ontology</p>
 <p>Example:</p>
@@ -4388,7 +4383,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <span id="cmdoption-runoak-terms-no-filter-obsoletes"></span><span class="sig-name descname"><span class="pre">--filter-obsoletes</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-filter-obsoletes</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-terms-filter-obsoletes" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will exclude obsoletes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -4408,7 +4403,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 
 </section>
 <section id="runoak-termset-similarity">
-<h4>termset-similarity<a class="headerlink" href="#runoak-termset-similarity" title="Permalink to this headline"></a></h4>
+<h4>termset-similarity<a class="headerlink" href="#runoak-termset-similarity" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Termset similarity.</p>
 <p>This calculates a similarity matrix for two sets of terms.</p>
@@ -4452,7 +4447,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <span id="cmdoption-runoak-termset-similarity-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-autolabel" title="Permalink to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -4467,7 +4462,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 
 </section>
 <section id="runoak-tree">
-<h4>tree<a class="headerlink" href="#runoak-tree" title="Permalink to this headline"></a></h4>
+<h4>tree<a class="headerlink" href="#runoak-tree" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Display an ancestor graph as an ascii/markdown tree</p>
 <p>For general instructions, see the viz command, which this is analogous too</p>
@@ -4476,7 +4471,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <div><p>runoak -i envo.db tree ENVO:00000372 -p i,p</p>
 </div></blockquote>
 <p>This produces output like:</p>
-<p>.code:</p>
+<p>.packages:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>* [i] ENVO:00000094 ! volcanic feature
     * [i] ENVO:00000247 ! volcano
         * [i] ENVO:00000403 ! shield volcano
@@ -4541,7 +4536,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <span id="cmdoption-runoak-tree-no-down"></span><span class="sig-name descname"><span class="pre">--down</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-down</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-down" title="Permalink to this definition"></a></dt>
 <dd><p>traverse down</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4552,7 +4547,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <span id="cmdoption-runoak-tree-no-gap-fill"></span><span class="sig-name descname"><span class="pre">--gap-fill</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-gap-fill</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-gap-fill" title="Permalink to this definition"></a></dt>
 <dd><p>If set then find the minimal graph that spans all input curies</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4563,7 +4558,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <span id="cmdoption-runoak-tree-no-add-mrcas"></span><span class="sig-name descname"><span class="pre">--add-mrcas</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-add-mrcas</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-add-mrcas" title="Permalink to this definition"></a></dt>
 <dd><p>If set then extend input seed list to include all pairwise MRCAs</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4632,7 +4627,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 
 </section>
 <section id="runoak-validate">
-<h4>validate<a class="headerlink" href="#runoak-validate" title="Permalink to this headline"></a></h4>
+<h4>validate<a class="headerlink" href="#runoak-validate" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Validate an ontology against ontology metadata</p>
 <p>Implementation notes: Currently only works on SQLite</p>
@@ -4662,7 +4657,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 <span class="sig-name descname"><span class="pre">--cutoff</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;cutoff&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-cutoff" title="Permalink to this definition"></a></dt>
 <dd><p>maximum results to report for any (type, predicate) pair</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>50</p>
 </dd>
 </dl>
@@ -4673,7 +4668,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 <span id="cmdoption-runoak-validate-no-skip-structural-validation"></span><span class="sig-name descname"><span class="pre">--skip-structural-validation</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-skip-structural-validation</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-validate-skip-structural-validation" title="Permalink to this definition"></a></dt>
 <dd><p>If true, main structural validation checks are skipped</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4684,7 +4679,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 <span id="cmdoption-runoak-validate-no-skip-ontology-rules"></span><span class="sig-name descname"><span class="pre">--skip-ontology-rules</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-skip-ontology-rules</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-validate-skip-ontology-rules" title="Permalink to this definition"></a></dt>
 <dd><p>If true, ontology rules are skipped</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -4710,7 +4705,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 
 </section>
 <section id="runoak-validate-definitions">
-<h4>validate-definitions<a class="headerlink" href="#runoak-validate-definitions" title="Permalink to this headline"></a></h4>
+<h4>validate-definitions<a class="headerlink" href="#runoak-validate-definitions" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Checks presence and structure of text definitions.</p>
 <p>To run:</p>
@@ -4758,7 +4753,7 @@ targeted validation focused solely on definitions</p>
 <span id="cmdoption-runoak-validate-definitions-no-skip-text-annotation"></span><span class="sig-name descname"><span class="pre">--skip-text-annotation</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-skip-text-annotation</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-validate-definitions-skip-text-annotation" title="Permalink to this definition"></a></dt>
 <dd><p>If true, do not parse text annotations</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4785,7 +4780,7 @@ targeted validation focused solely on definitions</p>
 
 </section>
 <section id="runoak-validate-multiple">
-<h4>validate-multiple<a class="headerlink" href="#runoak-validate-multiple" title="Permalink to this headline"></a></h4>
+<h4>validate-multiple<a class="headerlink" href="#runoak-validate-multiple" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Validate multiple ontologies against ontology metadata</p>
 <p>See the validate command - this is the same except you can pass a list of databases</p>
@@ -4803,7 +4798,7 @@ targeted validation focused solely on definitions</p>
 <span class="sig-name descname"><span class="pre">--cutoff</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;cutoff&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-multiple-cutoff" title="Permalink to this definition"></a></dt>
 <dd><p>maximum results to report for any (type, predicate) pair</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>50</p>
 </dd>
 </dl>
@@ -4830,7 +4825,7 @@ targeted validation focused solely on definitions</p>
 
 </section>
 <section id="runoak-viz">
-<h4>viz<a class="headerlink" href="#runoak-viz" title="Permalink to this headline"></a></h4>
+<h4>viz<a class="headerlink" href="#runoak-viz" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Visualize an ancestor graph using <strong>obographviz</strong></p>
 <p>For general background on what is meant by a graph in OAK,
@@ -4887,7 +4882,7 @@ to a distance of 2:</p>
 <span id="cmdoption-runoak-viz-no-view"></span><span class="sig-name descname"><span class="pre">--view</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-view</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-viz-view" title="Permalink to this definition"></a></dt>
 <dd><p>if view is set then open the image after rendering</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
@@ -4898,7 +4893,7 @@ to a distance of 2:</p>
 <span id="cmdoption-runoak-viz-no-down"></span><span class="sig-name descname"><span class="pre">--down</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-down</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-viz-down" title="Permalink to this definition"></a></dt>
 <dd><p>traverse down</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4909,7 +4904,7 @@ to a distance of 2:</p>
 <span id="cmdoption-runoak-viz-no-gap-fill"></span><span class="sig-name descname"><span class="pre">--gap-fill</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-gap-fill</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-viz-gap-fill" title="Permalink to this definition"></a></dt>
 <dd><p>If set then find the minimal graph that spans all input curies</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4920,7 +4915,7 @@ to a distance of 2:</p>
 <span id="cmdoption-runoak-viz-no-add-mrcas"></span><span class="sig-name descname"><span class="pre">--add-mrcas</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-add-mrcas</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-viz-add-mrcas" title="Permalink to this definition"></a></dt>
 <dd><p>If set then extend input seed list to include all pairwise MRCAs</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4949,7 +4944,7 @@ to a distance of 2:</p>
 <span id="cmdoption-runoak-viz-no-meta"></span><span class="sig-name descname"><span class="pre">--meta</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-meta</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-viz-meta" title="Permalink to this definition"></a></dt>
 <dd><p>Add metadata object to graph nodes, including xrefs, definitions</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>False</p>
 </dd>
 </dl>
@@ -4989,8 +4984,8 @@ to a distance of 2:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="implementations/aggregator.html" class="btn btn-neutral float-left" title="Aggregator Adapter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="selectors.html" class="btn btn-neutral float-right" title="Ontology Implementation Selectors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="packages/src/oaklib.utilities.table_filler.html" class="btn btn-neutral float-left" title="oaklib.utilities.table_filler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datamodels/index.html" class="btn btn-neutral float-right" title="Datamodels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

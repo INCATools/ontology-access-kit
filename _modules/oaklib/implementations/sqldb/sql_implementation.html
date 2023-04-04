@@ -11,13 +11,14 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
@@ -48,17 +49,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -320,7 +315,7 @@
     <span class="k">return</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SqlImplementation"><a class="viewcode-back" href="../../../../implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="SqlImplementation"><a class="viewcode-back" href="../../../../packages/implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span>
     <span class="n">RelationGraphInterface</span><span class="p">,</span>
     <span class="n">OboGraphInterface</span><span class="p">,</span>
@@ -348,13 +343,13 @@
 
 <span class="sd">    To connect, either use SqlImplementation directly:</span>
 
-<span class="sd">    .. code:: python</span>
+<span class="sd">    .. packages:: python</span>
 
 <span class="sd">        &gt;&gt;&gt; oi = SqlImplementation(OntologyResource(slug=f&quot;sqlite:///{path}&quot;))</span>
 
 <span class="sd">    Or use a selector:</span>
 
-<span class="sd">    .. code:: python</span>
+<span class="sd">    .. packages:: python</span>
 
 <span class="sd">        &gt;&gt;&gt; oi = get_implementation_from_shorthand(&#39;obojson:path/to/my/ontology.db&#39;)</span>
 
@@ -1686,7 +1681,7 @@
         <span class="k">if</span> <span class="n">slot</span><span class="o">.</span><span class="n">pattern</span><span class="p">:</span>
             <span class="c1"># check values against regexes</span>
             <span class="c1"># NOTE: this may be slow as we have to do this in</span>
-            <span class="c1"># code rather than SQL. Some SQL engines have regex support,</span>
+            <span class="c1"># packages rather than SQL. Some SQL engines have regex support,</span>
             <span class="c1"># and we should leverage that when it exists</span>
             <span class="n">re_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">slot</span><span class="o">.</span><span class="n">pattern</span><span class="p">)</span>
             <span class="n">main_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">predicate</span><span class="p">)</span>

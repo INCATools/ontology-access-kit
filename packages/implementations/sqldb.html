@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Database Adapter &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Ontology Lookup Service (OLS) Adapter" href="ols.html" />
+    <link rel="prev" title="Pronto / OBO Files Adapter" href="pronto.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Implementations</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pronto.html">Pronto / OBO Files Adapter</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SQL Database Adapter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initialization">Initialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sql-alchemy-orm-model">SQL Alchemy ORM Model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simple_obo.html">Simple OBO Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html">OBO Graph Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioportal.html">Bioportal Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparql.html">Sparql Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ubergraph.html">Ubergraph Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ontobee.html">Ontobee Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gilda.html">Gilda Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregator.html">Aggregator Adapter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../selectors.html">Ontology Adapter Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../converters/index.html">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Package Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Implementations</a></li>
+      <li class="breadcrumb-item active">SQL Database Adapter</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/packages/implementations/sqldb.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sql-database-adapter">
+<span id="sql-implementation"></span><h1>SQL Database Adapter<a class="headerlink" href="#sql-database-adapter" title="Permalink to this heading"></a></h1>
+<p>This wraps either a local or remote SQL Database</p>
+<p>The schema is assumed to follow:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/incatools/semantic-sql">Semantic-SQL</a></p></li>
+</ul>
+<p>This uses the rdftab library to build an RDF-level <cite>statements</cite> table, on which numerous SQL Views
+are layered, providing higher level access</p>
+<section id="initialization">
+<h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this heading"></a></h2>
+<p>If you omit a scheme and specify a filesystem path ending with <code class="code docutils literal notranslate"><span class="pre">.db</span></code> then the SqlDatabase implementation is selected, with
+sqlite as a sub-scheme.</p>
+<p>You can explicitly specify a sqlite database via a selector <code class="code docutils literal notranslate"><span class="pre">sqlite:path/to/sqlitefile.db</span></code></p>
+</section>
+<section id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.implementations.sqldb.sql_implementation.SqlImplementation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.sqldb.sql_implementation.</span></span><span class="sig-name descname"><span class="pre">SqlImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional_writer:</span> <span class="pre">&lt;module</span> <span class="pre">'funowl.writers.FunctionalWriter'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/funowl/writers/FunctionalWriter.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine:</span> <span class="pre">~typing.Any</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_session:</span> <span class="pre">~typing.Any</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_connection:</span> <span class="pre">~typing.Any</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ontology_metadata_model:</span> <span class="pre">~linkml_runtime.utils.schemaview.SchemaView</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_prefix_map:</span> <span class="pre">~typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_information_content_cache:</span> <span class="pre">~typing.Dict[~typing.Tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_relationships_by_subject_index:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.List[~typing.Tuple[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]]]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items_for_in_clause:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_store_associations:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/implementations/sqldb/sql_implementation.html#SqlImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.sqldb.sql_implementation.SqlImplementation" title="Permalink to this definition"></a></dt>
+<dd><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">OntologyInterface</span></code> implementation that wraps a SQL Relational Database.</p>
+<p>This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).</p>
+<p>To connect, either use SqlImplementation directly:</p>
+<p>Or use a selector:</p>
+<p>The schema is assumed to follow the <a class="reference external" href="https://github.com/incatools/semantic-sql">semantic-sql</a> schema.</p>
+<p>This uses SQLAlchemy ORM Models:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Statements</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></p></li>
+</ul>
+<p>See also:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial07.html">Tutorial</a></p></li>
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/sqldb.html">SQL Implementation</a></p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">OntologyResource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OntologyInterface</span></span></span><a class="headerlink" href="#oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new ontology interface from a resource</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="sql-alchemy-orm-model">
+<h2>SQL Alchemy ORM Model<a class="headerlink" href="#sql-alchemy-orm-model" title="Permalink to this heading"></a></h2>
+<p>We use the SQLA Models from the <a class="reference external" href="https://github.com/incatools/semantic-sql">semantic-sql</a> project.</p>
+<p>This is under-the-hood and users of oaklib don’t need to know the details. However, if you ever need to
+craft a custom complex query this can provide a useful way to do this.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="semsql.sqla.semsql.Statements">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">semsql.sqla.semsql.</span></span><span class="sig-name descname"><span class="pre">Statements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/semsql/sqla/semsql.html#Statements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#semsql.sqla.semsql.Statements" title="Permalink to this definition"></a></dt>
+<dd><p>Represents an RDF triple</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="semsql.sqla.semsql.Edge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">semsql.sqla.semsql.</span></span><span class="sig-name descname"><span class="pre">Edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/semsql/sqla/semsql.html#Edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#semsql.sqla.semsql.Edge" title="Permalink to this definition"></a></dt>
+<dd><p>A relation graph edge that connects two entities by a predicate. Note an edge is distinct from a statement, in that an axiom such as A SubClassOf R some B is represented as multiple statements, but is a single relation graph edge</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="semsql.sqla.semsql.EntailedEdge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">semsql.sqla.semsql.</span></span><span class="sig-name descname"><span class="pre">EntailedEdge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/semsql/sqla/semsql.html#EntailedEdge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#semsql.sqla.semsql.EntailedEdge" title="Permalink to this definition"></a></dt>
+<dd><p>A relation graph edge that is inferred</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pronto.html" class="btn btn-neutral float-left" title="Pronto / OBO Files Adapter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ols.html" class="btn btn-neutral float-right" title="Ontology Lookup Service (OLS) Adapter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

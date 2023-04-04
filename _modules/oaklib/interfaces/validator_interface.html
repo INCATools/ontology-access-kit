@@ -11,13 +11,14 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -48,17 +49,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -101,7 +96,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 
 
-<div class="viewcode-block" id="ValidatorInterface"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface">[docs]</a><span class="k">class</span> <span class="nc">ValidatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="ValidatorInterface"><a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface">[docs]</a><span class="k">class</span> <span class="nc">ValidatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Basic ontology QC</span>
 
@@ -124,7 +119,7 @@
 <span class="sd">     - `OntologyMetadata &lt;https://incatools.github.io/ontology-access-kit/datamodels/ontology-metadata/&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ValidatorInterface.term_curies_without_definitions"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">term_curies_without_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<div class="viewcode-block" id="ValidatorInterface.term_curies_without_definitions"><a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">term_curies_without_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO: decide whether to write highly specific methods or use a generic validate method</span>
 
@@ -135,7 +130,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">curie</span></div>
 
-<div class="viewcode-block" id="ValidatorInterface.validate"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">ValidationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ValidationResult</span><span class="p">]:</span>
+<div class="viewcode-block" id="ValidatorInterface.validate"><a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">ValidationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ValidationResult</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate entire ontology or wrapped ontologies.</span>
 
@@ -148,7 +143,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="ValidatorInterface.repair"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair">[docs]</a>    <span class="k">def</span> <span class="nf">repair</span><span class="p">(</span>
+<div class="viewcode-block" id="ValidatorInterface.repair"><a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair">[docs]</a>    <span class="k">def</span> <span class="nf">repair</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">RepairConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RepairOperation</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -163,7 +158,7 @@
     <span class="k">def</span> <span class="nf">check_external_references</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="ValidatorInterface.is_coherent"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">[docs]</a>    <span class="k">def</span> <span class="nf">is_coherent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="ValidatorInterface.is_coherent"><a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">[docs]</a>    <span class="k">def</span> <span class="nf">is_coherent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        True if the ontology is logically coherent, as determined by deductive reasoning</span>
 <span class="sd">        (e.g. an OWL reasoner)</span>
@@ -172,7 +167,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="ValidatorInterface.unsatisfiable_classes"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">[docs]</a>    <span class="k">def</span> <span class="nf">unsatisfiable_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exclude_nothing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<div class="viewcode-block" id="ValidatorInterface.unsatisfiable_classes"><a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">[docs]</a>    <span class="k">def</span> <span class="nf">unsatisfiable_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exclude_nothing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all classes that are unsatisfiable, as determined by deductive reasoning</span>
 <span class="sd">        (e.g. an OWL reasoner)</span>

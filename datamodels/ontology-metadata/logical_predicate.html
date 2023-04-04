@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Slot: logical_predicate &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/clipboard.min.js"></script>
         <script src="../../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -49,17 +50,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -89,60 +84,60 @@
            <div itemprop="articleBody">
              
   <section id="slot-logical-predicate">
-<h1>Slot: logical_predicate<a class="headerlink" href="#slot-logical-predicate" title="Permalink to this headline"></a></h1>
+<h1>Slot: logical_predicate<a class="headerlink" href="#slot-logical-predicate" title="Permalink to this heading"></a></h1>
 <p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/omo/schema/logical_predicate">omoschema:logical_predicate</a></p>
 <section id="inheritance">
-<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><strong>logical_predicate</strong></p>
 <ul>
-<li><p><a class="reference internal" href="cardinality.html"><span class="doc std std-doc">cardinality</span></a></p></li>
-<li><p><a class="reference internal" href="complementOf.html"><span class="doc std std-doc">complementOf</span></a></p></li>
-<li><p><a class="reference internal" href="disjointWith.html"><span class="doc std std-doc">disjointWith</span></a></p></li>
-<li><p><a class="reference internal" href="distinctMembers.html"><span class="doc std std-doc">distinctMembers</span></a></p></li>
-<li><p><a class="reference internal" href="equivalentClass.html"><span class="doc std std-doc">equivalentClass</span></a> [ <a class="reference internal" href="match_aspect.html"><span class="doc std std-doc">match_aspect</span></a>]</p></li>
-<li><p><a class="reference internal" href="sameAs.html"><span class="doc std std-doc">sameAs</span></a> [ <a class="reference internal" href="match_aspect.html"><span class="doc std std-doc">match_aspect</span></a>]</p></li>
-<li><p><a class="reference internal" href="equivalentProperty.html"><span class="doc std std-doc">equivalentProperty</span></a> [ <a class="reference internal" href="match_aspect.html"><span class="doc std std-doc">match_aspect</span></a>]</p></li>
-<li><p><a class="reference internal" href="hasValue.html"><span class="doc std std-doc">hasValue</span></a></p></li>
-<li><p><a class="reference internal" href="intersectionOf.html"><span class="doc std std-doc">intersectionOf</span></a></p></li>
-<li><p><a class="reference internal" href="inverseOf.html"><span class="doc std std-doc">inverseOf</span></a></p></li>
-<li><p><a class="reference internal" href="maxQualifiedCardinality.html"><span class="doc std std-doc">maxQualifiedCardinality</span></a></p></li>
-<li><p><a class="reference internal" href="members.html"><span class="doc std std-doc">members</span></a></p></li>
-<li><p><a class="reference internal" href="minCardinality.html"><span class="doc std std-doc">minCardinality</span></a></p></li>
-<li><p><a class="reference internal" href="minQualifiedCardinality.html"><span class="doc std std-doc">minQualifiedCardinality</span></a></p></li>
-<li><p><a class="reference internal" href="onClass.html"><span class="doc std std-doc">onClass</span></a></p></li>
-<li><p><a class="reference internal" href="onProperty.html"><span class="doc std std-doc">onProperty</span></a></p></li>
-<li><p><a class="reference internal" href="oneOf.html"><span class="doc std std-doc">oneOf</span></a></p></li>
-<li><p><a class="reference internal" href="propertyChainAxiom.html"><span class="doc std std-doc">propertyChainAxiom</span></a></p></li>
-<li><p><a class="reference internal" href="qualifiedCardinality.html"><span class="doc std std-doc">qualifiedCardinality</span></a></p></li>
-<li><p><a class="reference internal" href="allValuesFrom.html"><span class="doc std std-doc">allValuesFrom</span></a></p></li>
-<li><p><a class="reference internal" href="someValuesFrom.html"><span class="doc std std-doc">someValuesFrom</span></a></p></li>
-<li><p><a class="reference internal" href="unionOf.html"><span class="doc std std-doc">unionOf</span></a></p></li>
-<li><p><a class="reference internal" href="domain.html"><span class="doc std std-doc">domain</span></a></p></li>
-<li><p><a class="reference internal" href="range.html"><span class="doc std std-doc">range</span></a></p></li>
-<li><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></li>
-<li><p><a class="reference internal" href="subClassOf.html"><span class="doc std std-doc">subClassOf</span></a></p></li>
+<li><p><a class="reference internal" href="cardinality.html"><span class="std std-doc">cardinality</span></a></p></li>
+<li><p><a class="reference internal" href="complementOf.html"><span class="std std-doc">complementOf</span></a></p></li>
+<li><p><a class="reference internal" href="disjointWith.html"><span class="std std-doc">disjointWith</span></a></p></li>
+<li><p><a class="reference internal" href="distinctMembers.html"><span class="std std-doc">distinctMembers</span></a></p></li>
+<li><p><a class="reference internal" href="equivalentClass.html"><span class="std std-doc">equivalentClass</span></a> [ <a class="reference internal" href="match_aspect.html"><span class="std std-doc">match_aspect</span></a>]</p></li>
+<li><p><a class="reference internal" href="sameAs.html"><span class="std std-doc">sameAs</span></a> [ <a class="reference internal" href="match_aspect.html"><span class="std std-doc">match_aspect</span></a>]</p></li>
+<li><p><a class="reference internal" href="equivalentProperty.html"><span class="std std-doc">equivalentProperty</span></a> [ <a class="reference internal" href="match_aspect.html"><span class="std std-doc">match_aspect</span></a>]</p></li>
+<li><p><a class="reference internal" href="hasValue.html"><span class="std std-doc">hasValue</span></a></p></li>
+<li><p><a class="reference internal" href="intersectionOf.html"><span class="std std-doc">intersectionOf</span></a></p></li>
+<li><p><a class="reference internal" href="inverseOf.html"><span class="std std-doc">inverseOf</span></a></p></li>
+<li><p><a class="reference internal" href="maxQualifiedCardinality.html"><span class="std std-doc">maxQualifiedCardinality</span></a></p></li>
+<li><p><a class="reference internal" href="members.html"><span class="std std-doc">members</span></a></p></li>
+<li><p><a class="reference internal" href="minCardinality.html"><span class="std std-doc">minCardinality</span></a></p></li>
+<li><p><a class="reference internal" href="minQualifiedCardinality.html"><span class="std std-doc">minQualifiedCardinality</span></a></p></li>
+<li><p><a class="reference internal" href="onClass.html"><span class="std std-doc">onClass</span></a></p></li>
+<li><p><a class="reference internal" href="onProperty.html"><span class="std std-doc">onProperty</span></a></p></li>
+<li><p><a class="reference internal" href="oneOf.html"><span class="std std-doc">oneOf</span></a></p></li>
+<li><p><a class="reference internal" href="propertyChainAxiom.html"><span class="std std-doc">propertyChainAxiom</span></a></p></li>
+<li><p><a class="reference internal" href="qualifiedCardinality.html"><span class="std std-doc">qualifiedCardinality</span></a></p></li>
+<li><p><a class="reference internal" href="allValuesFrom.html"><span class="std std-doc">allValuesFrom</span></a></p></li>
+<li><p><a class="reference internal" href="someValuesFrom.html"><span class="std std-doc">someValuesFrom</span></a></p></li>
+<li><p><a class="reference internal" href="unionOf.html"><span class="std std-doc">unionOf</span></a></p></li>
+<li><p><a class="reference internal" href="domain.html"><span class="std std-doc">domain</span></a></p></li>
+<li><p><a class="reference internal" href="range.html"><span class="std std-doc">range</span></a></p></li>
+<li><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></li>
+<li><p><a class="reference internal" href="subClassOf.html"><span class="std std-doc">subClassOf</span></a></p></li>
 </ul>
 </li>
 </ul>
 </section>
 <section id="properties">
-<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></li>
+<li><p>Range: <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
-<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
 <section id="schema-source">
-<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
 </ul>
 </section>
 </section>
 <section id="linkml-source">
-<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
 <details>
 ```yaml
 name: logical_predicate

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FHIR Conversions &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -51,14 +52,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html">How to write a plugin</a></li>
@@ -70,7 +66,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -101,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="fhir-conversions">
-<h1>FHIR Conversions<a class="headerlink" href="#fhir-conversions" title="Permalink to this headline"></a></h1>
+<h1>FHIR Conversions<a class="headerlink" href="#fhir-conversions" title="Permalink to this heading"></a></h1>
 <p><span class="xref std std-term">FHIR</span> (Fast Healthcare Interoperability Resources) is a standard for exchanging healthcare data.</p>
 <p>OAK includes methods for converting ontologies or ontology fragments to FHIR CodeSystems.
 However, there is no agreed-upon standard way of converting ontologies to FHIR, because
@@ -111,7 +106,7 @@ the same code system.</p>
 <p>For this reason we make FHIR conversion highly configurable to suit the needs
 of a particular project or FHIR server.</p>
 <section id="cli">
-<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this headline"></a></h2>
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading"></a></h2>
 <p>Here we will use the OAK <code class="docutils literal notranslate"><span class="pre">dump</span></code> command to export an entire ontology to FHIR.</p>
 <p>The general pattern for the <code class="docutils literal notranslate"><span class="pre">dump</span></code> command is from the CLI is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>INPUT<span class="w"> </span>dump<span class="w"> </span>-O<span class="w"> </span>FORMAT<span class="w"> </span>-o<span class="w"> </span>OUTPUT-FILE
@@ -128,8 +123,8 @@ of a particular project or FHIR server.</p>
 </div>
 </section>
 <section id="config-file">
-<h2>Config file<a class="headerlink" href="#config-file" title="Permalink to this headline"></a></h2>
-<p>See <a class="reference internal" href="../converters/obo-graph-to-fhir.html#obo-graph-to-fhir-converter"><span class="std std-ref">OBO Graph to FHIR Converter</span></a> for the full list of options.</p>
+<h2>Config file<a class="headerlink" href="#config-file" title="Permalink to this heading"></a></h2>
+<p>See <a class="reference internal" href="../packages/converters/obo-graph-to-fhir.html#obo-graph-to-fhir-converter"><span class="std std-ref">OBO Graph to FHIR Converter</span></a> for the full list of options.</p>
 <p>Options:</p>
 <p>code_system_id: _The code system ID to use for identification on the server uploaded to.
 See: <a class="reference external" href="https://hl7.org/fhir/resource-definitions.html#Resource.id">https://hl7.org/fhir/resource-definitions.html#Resource.id</a></p>

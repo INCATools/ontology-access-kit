@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Best Practice &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Best Practice</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/packages/best-practice.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="best-practice">
+<span id="id1"></span><h1>Best Practice<a class="headerlink" href="#best-practice" title="Permalink to this heading"></a></h1>
+<section id="external-services">
+<h2>External Services<a class="headerlink" href="#external-services" title="Permalink to this heading"></a></h2>
+<p>Consider making your code robust regardless of whether the ontology implementation is local or a remote service.</p>
+<section id="iterators">
+<h3>Iterators<a class="headerlink" href="#iterators" title="Permalink to this heading"></a></h3>
+<p>Most interface methods that provide more that one result will return :term:<a href="#id2"><span class="problematic" id="id3">`</span></a>Iterator`s which yield individual elements.
+You can iterate over these in exactly the same way you iterate over lists, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;cell&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1">## do something with results</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MATCH: </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you like you can directly convert an iterator to a list:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;cell&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>However, this may be an anti-pattern if the implementation is a remote service and the results include possible thousands of results,
+as this will block on waiting for all results.</p>
+<p>For more on iterators, see <a class="reference external" href="https://realpython.com/introduction-to-python-generators/">How to Use Generators and yield in Python</a></p>
+</section>
+<section id="weaving-calls-together">
+<h3>Weaving calls together<a class="headerlink" href="#weaving-calls-together" title="Permalink to this heading"></a></h3>
+<p>A common pattern is to iterate over a result set and issue a separate call for each result:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;cell&quot;</span><span class="p">):</span>
+<span class="go">        &gt;&gt;&gt;     print(f&#39;MATCH: {curie} ! {oi.label(curie)}&#39;)</span>
+
+<span class="go">    This is fine if the implementation has a low latency for individual calls, but if the implementation is backed by</span>
+<span class="go">    a remote service (for example, a SPARQL endpoint like ontobee or ubergraph, or a remote SQL database) then this will</span>
+<span class="go">    issue one network call for each result, which may be inefficient.</span>
+
+<span class="go">    One possibility is to use a dedicated method for retrieving batch results, for example</span>
+<span class="go">    &gt;&gt;&gt;     print(f&#39;MATCH: {curie} ! {oi.get_label_by_curie(curie)}&#39;)</span>
+</pre></div>
+</div>
+<p>A better approach is to <em>chunk</em> over iterators:</p>
+</section>
+<section id="chunking">
+<h3>Chunking<a class="headerlink" href="#chunking" title="Permalink to this heading"></a></h3>
+<p>The <span class="xref std std-ref">.chunk</span> utility function will chunk iterator calls into sizeable amounts:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">t</span><span class="p">)):</span>
+<span class="go">    &gt;&gt;&gt;     logging.info(&#39;** Next chunk:&#39;)</span>
+<span class="go">    &gt;&gt;&gt;     for curie, label in impl.labels(curie_it):</span>
+<span class="go">    &gt;&gt;&gt;         print(f&#39;{curie} ! {label}&#39;)</span>
+
+<span class="go">This is slightly more boilerplate code, and may not be necessary for an in-memory implementation like Pronto. However, this</span>
+<span class="go">pattern could have considerable advantages for result sets that are potentially large. Even if the external server is</span>
+<span class="go">slow to return results, users will see batches or results rather than waiting on the external server to produce</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;** Next chunk:&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">impl</span><span class="o">.</span><span class="n">get_labels_for_curies</span><span class="p">(</span><span class="n">curie_it</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is slightly more boilerplate code, and may not be necessary for an in-memory implementation like Pronto. However, this
+pattern could have considerable advantages for result sets that are potentially large. Even if the external server is
+slow to return results, users will see batches or results rather than waiting on the external server to produce <em>all</em> results.</p>
+</section>
+</section>
+<section id="command-line">
+<h2>Command Line<a class="headerlink" href="#command-line" title="Permalink to this heading"></a></h2>
+<p>If you are extending the CLI module or writing a Python application that uses OAK:</p>
+<ul class="simple">
+<li><p>Use click</p></li>
+<li><p>Follow CLIG guidelines</p></li>
+<li><p>Ensure that there are tests for the command line using test_click</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to write a plugin &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -51,14 +52,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">How to write a plugin</a><ul>
@@ -79,7 +75,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -110,9 +105,9 @@
            <div itemprop="articleBody">
              
   <section id="how-to-write-a-plugin">
-<h1>How to write a plugin<a class="headerlink" href="#how-to-write-a-plugin" title="Permalink to this headline"></a></h1>
+<h1>How to write a plugin<a class="headerlink" href="#how-to-write-a-plugin" title="Permalink to this heading"></a></h1>
 <section id="what-is-a-plugin">
-<h2>What is a plugin?<a class="headerlink" href="#what-is-a-plugin" title="Permalink to this headline"></a></h2>
+<h2>What is a plugin?<a class="headerlink" href="#what-is-a-plugin" title="Permalink to this heading"></a></h2>
 <p>A plugin is a software component that adds a specific feature to an existing computer program.
 When a program supports plug-ins, it enables customization (<a class="reference external" href="https://en.wikipedia.org/wiki/Plug-in_(computing)">Wikipedia</a>).</p>
 <p>In the context of OAK, plugins allow you to add optional functionality to OAK.</p>
@@ -124,7 +119,7 @@ But we might want to allow people to drop in this functionality, e.g.</p>
 </div>
 </section>
 <section id="an-example-plugin">
-<h2>An example plugin<a class="headerlink" href="#an-example-plugin" title="Permalink to this headline"></a></h2>
+<h2>An example plugin<a class="headerlink" href="#an-example-plugin" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://github.com/INCATools/oakx-robot">oakx-robot</a> is a plugin that implements the <span class="xref std std-ref">validator</span> interface, providing
 access to OWL reasoners through robot.</p>
 <p>You can use this programmatically by first installing it:</p>
@@ -151,14 +146,14 @@ access to OWL reasoners through robot.</p>
 </div>
 </section>
 <section id="creating-a-plugin">
-<h2>Creating a plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this headline"></a></h2>
+<h2>Creating a plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this heading"></a></h2>
 <section id="discuss-on-the-issue-tracker">
-<h3>Discuss on the issue tracker<a class="headerlink" href="#discuss-on-the-issue-tracker" title="Permalink to this headline"></a></h3>
+<h3>Discuss on the issue tracker<a class="headerlink" href="#discuss-on-the-issue-tracker" title="Permalink to this heading"></a></h3>
 <p>First make an issue on the OAK issue tracker - someone may be developing a plugin similar to yours!
 You will also want to propose the namespace/scheme you will use.</p>
 </section>
 <section id="create-a-new-project">
-<h3>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline"></a></h3>
+<h3>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this heading"></a></h3>
 <p>First create a new python project in the way you would normally do this.</p>
 <p>We recommend using poetry, but you can adapt these to whichever system you like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">new</span> <span class="o">--</span><span class="n">src</span> <span class="n">oakx</span><span class="o">-</span><span class="n">my</span><span class="o">-</span><span class="n">awesome</span><span class="o">-</span><span class="n">plugin</span>
@@ -172,7 +167,7 @@ uses underscores in the name</p>
 </div>
 </section>
 <section id="implement-one-or-more-interfaces">
-<h3>Implement one or more interfaces<a class="headerlink" href="#implement-one-or-more-interfaces" title="Permalink to this headline"></a></h3>
+<h3>Implement one or more interfaces<a class="headerlink" href="#implement-one-or-more-interfaces" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p>Create an Implementation Class</p></li>
 <li><p>Have this implement at least one interface</p></li>
@@ -182,7 +177,7 @@ uses underscores in the name</p>
 <p><a class="reference external" href="https://github.com/INCATools/oakx-robot/blob/main/src/oakx_robot/robot_implementation.py">oakx-robot implementation</a></p>
 </section>
 <section id="implement-a-selector">
-<h3>Implement a selector<a class="headerlink" href="#implement-a-selector" title="Permalink to this headline"></a></h3>
+<h3>Implement a selector<a class="headerlink" href="#implement-a-selector" title="Permalink to this heading"></a></h3>
 <p>OAK recognizes plugins by looking for <a class="reference external" href="https://packaging.python.org/en/latest/specifications/entry-points/">entry points</a>
 in the <code class="docutils literal notranslate"><span class="pre">oaklib.plugins</span></code> group. The name of each entry point should be the selector scheme you implement, and the object
 reference of the entry point should be the corresponding implementation. The scheme should match the name used for your
@@ -197,13 +192,13 @@ would include something like the following in <code class="docutils literal notr
 point (e.g. using <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins">setuptools</a>).</p>
 </section>
 <section id="write-tests">
-<h3>Write tests<a class="headerlink" href="#write-tests" title="Permalink to this headline"></a></h3>
+<h3>Write tests<a class="headerlink" href="#write-tests" title="Permalink to this heading"></a></h3>
 <p>Write tests as you would for any other project</p>
 <p>See for example <a class="reference external" href="https://github.com/INCATools/oakx-robot/tree/main/tests">oakx-robot tests</a></p>
 </section>
 </section>
 <section id="release-to-pypi">
-<h2>Release to PyPI<a class="headerlink" href="#release-to-pypi" title="Permalink to this headline"></a></h2>
+<h2>Release to PyPI<a class="headerlink" href="#release-to-pypi" title="Permalink to this heading"></a></h2>
 <p>Release to PyPI as you would any other module. E.g. with poetry:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">publish</span>
 </pre></div>

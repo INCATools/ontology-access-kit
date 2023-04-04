@@ -11,13 +11,14 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
@@ -48,17 +49,11 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -2427,73 +2422,89 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations">add_associations() (oaklib.interfaces.association_provider_interface.AssociationProviderInterface method)</a>
+      <li><a href="packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations">add_associations() (oaklib.interfaces.association_provider_interface.AssociationProviderInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.add_metadata">add_metadata() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.add_metadata">add_metadata() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.add_missing_property_values">add_missing_property_values() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.add_missing_property_values">add_missing_property_values() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="implementations/aggregator.html#oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation">AggregatorImplementation (class in oaklib.implementations.aggregator.aggregator_implementation)</a>
+      <li><a href="packages/implementations/aggregator.html#oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation">AggregatorImplementation (class in oaklib.implementations.aggregator.aggregator_implementation)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">alias_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">alias_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">aliases_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">aliases_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.all_by_all_pairwise_similarity">all_by_all_pairwise_similarity() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.all_by_all_pairwise_similarity">all_by_all_pairwise_similarity() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies">all_entity_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies">all_entity_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies">all_obsolete_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies">all_obsolete_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies">all_ontology_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies">all_ontology_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships">all_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships">all_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings">all_sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+      <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings">all_sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">all_subset_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">all_subset_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Ancestor"><strong>Ancestor</strong></a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">ancestor_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">ancestor_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors">ancestors() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors">ancestors() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file">annotate_file() (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface method)</a>
+      <li><a href="packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file">annotate_file() (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface method)</a>
 </li>
-      <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">annotate_text() (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface method)</a>
+      <li><a href="packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">annotate_text() (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Annotation"><strong>Annotation</strong></a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms">annotation_assertion_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms">annotation_assertion_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-AnnotationProperty"><strong>AnnotationProperty</strong></a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">apply_patch() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">apply_patch() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
-      <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.as_bytes_io">as_bytes_io() (oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
+      <li><a href="packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.as_bytes_io">as_bytes_io() (oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">as_obograph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">as_obograph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Association"><strong>Association</strong></a>
 </li>
-      <li><a href="interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_subject_counts">association_subject_counts() (oaklib.interfaces.association_provider_interface.AssociationProviderInterface method)</a>
+      <li><a href="packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_subject_counts">association_subject_counts() (oaklib.interfaces.association_provider_interface.AssociationProviderInterface method)</a>
 </li>
-      <li><a href="interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface">AssociationProviderInterface (class in oaklib.interfaces.association_provider_interface)</a>
+      <li><a href="packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface">AssociationProviderInterface (class in oaklib.interfaces.association_provider_interface)</a>
 </li>
-      <li><a href="interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations">associations() (oaklib.interfaces.association_provider_interface.AssociationProviderInterface method)</a>
+      <li><a href="packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations">associations() (oaklib.interfaces.association_provider_interface.AssociationProviderInterface method)</a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.auto_add_contributor_using">auto_add_contributor_using (oaklib.interfaces.patcher_interface.PatcherInterface attribute)</a>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.auto_add_contributor_using">auto_add_contributor_using (oaklib.interfaces.patcher_interface.PatcherInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.auto_relax_axioms">auto_relax_axioms (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.auto_relax_axioms">auto_relax_axioms (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.autosave">autosave (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.autosave">autosave (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+
+      <ul>
+        <li><a href="packages/interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.autosave">(oaklib.interfaces.dumper_interface.DumperInterface attribute)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_is_about">axiom_is_about() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+        <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.autosave">(oaklib.interfaces.mapping_provider_interface.MappingProviderInterface attribute)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_references">axiom_references() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+        <li><a href="packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.autosave">(oaklib.interfaces.relation_graph_interface.RelationGraphInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.autosave">(oaklib.interfaces.search_interface.SearchInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.autosave">(oaklib.interfaces.semsim_interface.SemanticSimilarityInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.autosave">(oaklib.interfaces.subsetter_interface.SubsetterInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.autosave">(oaklib.interfaces.validator_interface.ValidatorInterface attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_is_about">axiom_is_about() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_references">axiom_references() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2501,15 +2512,15 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">basic_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
+      <li><a href="packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">basic_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">BasicOntologyInterface (class in oaklib.interfaces.basic_ontology_interface)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">BasicOntologyInterface (class in oaklib.interfaces.basic_ontology_interface)</a>
 </li>
       <li><a href="glossary.html#term-Bioportal"><strong>Bioportal</strong></a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.branch_summary_statistics">branch_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
+      <li><a href="packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.branch_summary_statistics">branch_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li>
     BRANCHES
@@ -2524,19 +2535,19 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.cache_directory">cache_directory (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface attribute)</a>
+      <li><a href="packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.cache_directory">cache_directory (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.cache_lookups">cache_lookups (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.cache_lookups">cache_lookups (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
       <li><a href="glossary.html#term-Category"><strong>Category</strong></a>
 </li>
       <li><a href="glossary.html#term-Class"><strong>Class</strong></a>
 </li>
-      <li><a href="interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface">ClassEnrichmentCalculationInterface (class in oaklib.interfaces.class_enrichment_calculation_interface)</a>
+      <li><a href="packages/interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface">ClassEnrichmentCalculationInterface (class in oaklib.interfaces.class_enrichment_calculation_interface)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.clone">clone() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.clone">clone() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">code() (oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
+      <li><a href="packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">code() (oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
 </li>
       <li>
     COMMANDS
@@ -2545,9 +2556,9 @@
         <li><a href="cli.html#cmdoption-runoak-apply-arg-COMMANDS">runoak-apply command line option</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.comments">comments() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.comments">comments() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.common_ancestors">common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.common_ancestors">common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Concept"><strong>Concept</strong></a>
 </li>
@@ -2560,27 +2571,27 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.convert">convert() (oaklib.converters.data_model_converter.DataModelConverter method)</a>
+      <li><a href="packages/converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.convert">convert() (oaklib.converters.data_model_converter.DataModelConverter method)</a>
 
       <ul>
-        <li><a href="converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.convert">(oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter method)</a>
+        <li><a href="packages/converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.convert">(oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter method)</a>
 </li>
-        <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">(oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
+        <li><a href="packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">(oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
 </li>
-        <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.convert">(oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
+        <li><a href="packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.convert">(oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.converter">converter (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface property)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.converter">converter (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface property)</a>
 </li>
-      <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create">create() (oaklib.implementations.sqldb.sql_implementation.SqlImplementation class method)</a>
+      <li><a href="packages/implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create">create() (oaklib.implementations.sqldb.sql_implementation.SqlImplementation class method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity">create_entity() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity">create_entity() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="search-syntax.html#oaklib.datamodels.search.create_search_configuration">create_search_configuration() (in module oaklib.datamodels.search)</a>
 </li>
       <li><a href="glossary.html#term-CURIE"><strong>CURIE</strong></a>
 </li>
-      <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.curie_converter">curie_converter (oaklib.converters.data_model_converter.DataModelConverter attribute)</a>
+      <li><a href="packages/converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.curie_converter">curie_converter (oaklib.converters.data_model_converter.DataModelConverter attribute)</a>
 </li>
       <li>
     CURIE_PAIRS
@@ -2589,11 +2600,11 @@
         <li><a href="cli.html#cmdoption-runoak-migrate-curies-arg-CURIE_PAIRS">runoak-migrate-curies command line option</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">curie_to_uri() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">curie_to_uri() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_label">curies_by_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_label">curies_by_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_subset">curies_by_subset() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_subset">curies_by_subset() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2603,7 +2614,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Datamodel"><strong>Datamodel</strong></a>
 </li>
-      <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter">DataModelConverter (class in oaklib.converters.data_model_converter)</a>
+      <li><a href="packages/converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter">DataModelConverter (class in oaklib.converters.data_model_converter)</a>
 </li>
       <li><a href="glossary.html#term-DatatypeProperty"><strong>DatatypeProperty</strong></a>
 </li>
@@ -2614,47 +2625,47 @@
         <li><a href="cli.html#cmdoption-runoak-validate-multiple-arg-DBS">runoak-validate-multiple command line option</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_by">defined_by() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_by">defined_by() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_bys">defined_bys() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_bys">defined_bys() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition">definition() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition">definition() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definitions">definitions() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definitions">definitions() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.delete_entity">delete_entity() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.delete_entity">delete_entity() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Descendant"><strong>Descendant</strong></a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_count">descendant_count() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_count">descendant_count() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">descendants() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">descendants() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Diff"><strong>Diff</strong></a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">disable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">disable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.disjoint_pairs">disjoint_pairs() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.disjoint_pairs">disjoint_pairs() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
-      <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.dump">dump() (oaklib.converters.data_model_converter.DataModelConverter method)</a>
+      <li><a href="packages/converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.dump">dump() (oaklib.converters.data_model_converter.DataModelConverter method)</a>
 
       <ul>
-        <li><a href="converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.dump">(oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter method)</a>
+        <li><a href="packages/converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.dump">(oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter method)</a>
 </li>
-        <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">(oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
+        <li><a href="packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">(oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter method)</a>
 </li>
-        <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dump">(oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
+        <li><a href="packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dump">(oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
 </li>
-        <li><a href="interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.dump">(oaklib.interfaces.dumper_interface.DumperInterface method)</a>
+        <li><a href="packages/interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.dump">(oaklib.interfaces.dumper_interface.DumperInterface method)</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface">DumperInterface (class in oaklib.interfaces.dumper_interface)</a>
+      <li><a href="packages/interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface">DumperInterface (class in oaklib.interfaces.dumper_interface)</a>
 </li>
-      <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dumps">dumps() (oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
+      <li><a href="packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.dumps">dumps() (oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2665,48 +2676,64 @@
       <li><a href="glossary.html#term-Edge"><strong>Edge</strong></a>
 
       <ul>
-        <li><a href="implementations/sqldb.html#semsql.sqla.semsql.Edge">(class in semsql.sqla.semsql)</a>
+        <li><a href="packages/implementations/sqldb.html#semsql.sqla.semsql.Edge">(class in semsql.sqla.semsql)</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">edges() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">edges() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.enforce_canonical_ordering">enforce_canonical_ordering (oaklib.converters.data_model_converter.DataModelConverter attribute)</a>
+      <li><a href="packages/converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.enforce_canonical_ordering">enforce_canonical_ordering (oaklib.converters.data_model_converter.DataModelConverter attribute)</a>
 </li>
-      <li><a href="interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes">enriched_classes() (oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface method)</a>
+      <li><a href="packages/interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes">enriched_classes() (oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface method)</a>
 </li>
-      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships">entailed_incoming_relationships() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+      <li><a href="packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships">entailed_incoming_relationships() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships">entailed_outgoing_relationships() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+      <li><a href="packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships">entailed_outgoing_relationships() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between">entailed_relationships_between() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+      <li><a href="packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between">entailed_relationships_between() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
-      <li><a href="implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">EntailedEdge (class in semsql.sqla.semsql)</a>
+      <li><a href="packages/implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">EntailedEdge (class in semsql.sqla.semsql)</a>
+</li>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities_metadata_statements">entities_metadata_statements() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map">entity_alias_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_aliases">entity_aliases() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_metadata_map">entity_metadata_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities_metadata_statements">entities_metadata_statements() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms">equivalence_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map">entity_alias_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.exclude_owl_top_and_bottom">exclude_owl_top_and_bottom (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+
+      <ul>
+        <li><a href="packages/interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.dumper_interface.DumperInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_aliases">entity_aliases() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+        <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.mapping_provider_interface.MappingProviderInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_metadata_map">entity_metadata_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+        <li><a href="packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.relation_graph_interface.RelationGraphInterface attribute)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms">equivalence_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+        <li><a href="packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.search_interface.SearchInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.exclude_owl_top_and_bottom">exclude_owl_top_and_bottom (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+        <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.semsim_interface.SemanticSimilarityInterface attribute)</a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">expand_change() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+        <li><a href="packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.subsetter_interface.SubsetterInterface attribute)</a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_changes">expand_changes() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+        <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.validator_interface.ValidatorInterface attribute)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.extract_graph">extract_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      </ul></li>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">expand_change() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
-      <li><a href="interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology">extract_subset_ontology() (oaklib.interfaces.subsetter_interface.SubsetterInterface method)</a>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_changes">expand_changes() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.extract_graph">extract_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology">extract_subset_ontology() (oaklib.interfaces.subsetter_interface.SubsetterInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2722,37 +2749,37 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.gap_fill_relationships">gap_fill_relationships() (oaklib.interfaces.subsetter_interface.SubsetterInterface method)</a>
+      <li><a href="packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.gap_fill_relationships">gap_fill_relationships() (oaklib.interfaces.subsetter_interface.SubsetterInterface method)</a>
 </li>
-      <li><a href="selectors.html#oaklib.selector.get_adapter">get_adapter() (in module oaklib.selector)</a>
+      <li><a href="packages/selectors.html#oaklib.selector.get_adapter">get_adapter() (in module oaklib.selector)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label">get_curies_by_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label">get_curies_by_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie">get_definition_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie">get_definition_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="selectors.html#oaklib.selector.get_implementation_class_from_scheme">get_implementation_class_from_scheme() (in module oaklib.selector)</a>
+      <li><a href="packages/selectors.html#oaklib.selector.get_implementation_class_from_scheme">get_implementation_class_from_scheme() (in module oaklib.selector)</a>
 </li>
-      <li><a href="selectors.html#oaklib.selector.get_implementation_from_shorthand">get_implementation_from_shorthand() (in module oaklib.selector)</a>
+      <li><a href="packages/selectors.html#oaklib.selector.get_implementation_from_shorthand">get_implementation_from_shorthand() (in module oaklib.selector)</a>
 </li>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.get_information_content">get_information_content() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.get_information_content">get_information_content() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">get_label_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">get_label_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies">get_labels_for_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies">get_labels_for_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">get_prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">get_prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="selectors.html#oaklib.selector.get_resource_from_shorthand">get_resource_from_shorthand() (in module oaklib.selector)</a>
+      <li><a href="packages/selectors.html#oaklib.selector.get_resource_from_shorthand">get_resource_from_shorthand() (in module oaklib.selector)</a>
 </li>
-      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie">get_sssom_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+      <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie">get_sssom_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
-      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">get_transitive_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+      <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">get_transitive_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
-      <li><a href="implementations/gilda.html#oaklib.implementations.gilda.GildaImplementation">GildaImplementation (class in oaklib.implementations.gilda)</a>
+      <li><a href="packages/implementations/gilda.html#oaklib.implementations.gilda.GildaImplementation">GildaImplementation (class in oaklib.implementations.gilda)</a>
 </li>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">global_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
+      <li><a href="packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">global_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Graph"><strong>Graph</strong></a>
 </li>
@@ -2762,7 +2789,7 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierararchical_parents">hierararchical_parents() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierararchical_parents">hierararchical_parents() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2774,13 +2801,13 @@
 </li>
       <li><a href="glossary.html#term-Implementation"><strong>Implementation</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationship_map">incoming_relationship_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationship_map">incoming_relationship_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationships">incoming_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationships">incoming_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Information-Content"><strong>Information Content</strong></a>
 </li>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.information_content_scores">information_content_scores() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.information_content_scores">information_content_scores() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -2788,11 +2815,11 @@
 </li>
       <li><a href="glossary.html#term-IS_A"><strong>IS_A:</strong></a>
 </li>
-      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">is_coherent() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+      <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">is_coherent() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_disjoint">is_disjoint() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_disjoint">is_disjoint() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_satisfiable">is_satisfiable() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_satisfiable">is_satisfiable() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Iterator"><strong>Iterator</strong></a>
 </li>
@@ -2821,21 +2848,21 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Label"><strong>Label</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.label">label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.label">label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.labeler">labeler (oaklib.converters.data_model_converter.DataModelConverter attribute)</a>
+      <li><a href="packages/converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.labeler">labeler (oaklib.converters.data_model_converter.DataModelConverter attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.labels">labels() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.labels">labels() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs">leafs() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs">leafs() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.lexical_index">lexical_index (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface attribute)</a>
+      <li><a href="packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.lexical_index">lexical_index (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface attribute)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.load_graph">load_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.load_graph">load_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.logical_definitions">logical_definitions() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.logical_definitions">logical_definitions() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2845,11 +2872,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Mapping"><strong>Mapping</strong></a>
 </li>
-      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">MappingProviderInterface (class in oaklib.interfaces.mapping_provider_interface)</a>
+      <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">MappingProviderInterface (class in oaklib.interfaces.mapping_provider_interface)</a>
 </li>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">metadata_property_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
+      <li><a href="packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">metadata_property_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies">migrate_curies() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies">migrate_curies() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
       <li>
     module
@@ -2857,34 +2884,34 @@
       <ul>
         <li><a href="search-syntax.html#module-oaklib.datamodels.search">oaklib.datamodels.search</a>
 </li>
-        <li><a href="selectors.html#module-oaklib.selector">oaklib.selector</a>
+        <li><a href="packages/selectors.html#module-oaklib.selector">oaklib.selector</a>
 </li>
-        <li><a href="src/oaklib.utilities.apikey_manager.html#module-oaklib.utilities.apikey_manager">oaklib.utilities.apikey_manager</a>
+        <li><a href="packages/src/oaklib.utilities.apikey_manager.html#module-oaklib.utilities.apikey_manager">oaklib.utilities.apikey_manager</a>
 </li>
-        <li><a href="src/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">oaklib.utilities.graph.networkx_bridge</a>
+        <li><a href="packages/src/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">oaklib.utilities.graph.networkx_bridge</a>
 </li>
-        <li><a href="src/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">oaklib.utilities.graph.relationship_walker</a>
+        <li><a href="packages/src/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">oaklib.utilities.graph.relationship_walker</a>
 </li>
-        <li><a href="src/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">oaklib.utilities.lexical.lexical_indexer</a>
+        <li><a href="packages/src/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">oaklib.utilities.lexical.lexical_indexer</a>
 </li>
-        <li><a href="src/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">oaklib.utilities.obograph_utils</a>
+        <li><a href="packages/src/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">oaklib.utilities.obograph_utils</a>
 </li>
-        <li><a href="src/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">oaklib.utilities.subsets.slimmer_utils</a>
+        <li><a href="packages/src/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">oaklib.utilities.subsets.slimmer_utils</a>
 </li>
-        <li><a href="src/oaklib.utilities.table_filler.html#module-oaklib.utilities.table_filler">oaklib.utilities.table_filler</a>
+        <li><a href="packages/src/oaklib.utilities.table_filler.html#module-oaklib.utilities.table_filler">oaklib.utilities.table_filler</a>
 </li>
-        <li><a href="src/oaklib.utilities.taxon.html#module-oaklib.utilities.taxon">oaklib.utilities.taxon</a>
+        <li><a href="packages/src/oaklib.utilities.taxon.html#module-oaklib.utilities.taxon">oaklib.utilities.taxon</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.most_recent_common_ancestors">most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.most_recent_common_ancestors">most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multilingual">multilingual (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multilingual">multilingual (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.multiset_most_recent_common_ancestors">multiset_most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.multiset_most_recent_common_ancestors">multiset_most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
-      <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search">multiterm_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
+      <li><a href="packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search">multiterm_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2900,9 +2927,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Node"><strong>Node</strong></a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">node() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">node() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">nodes() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">nodes() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2921,63 +2948,63 @@
     oaklib.selector
 
       <ul>
-        <li><a href="selectors.html#module-oaklib.selector">module</a>
+        <li><a href="packages/selectors.html#module-oaklib.selector">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.apikey_manager
 
       <ul>
-        <li><a href="src/oaklib.utilities.apikey_manager.html#module-oaklib.utilities.apikey_manager">module</a>
+        <li><a href="packages/src/oaklib.utilities.apikey_manager.html#module-oaklib.utilities.apikey_manager">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.graph.networkx_bridge
 
       <ul>
-        <li><a href="src/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">module</a>
+        <li><a href="packages/src/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.graph.relationship_walker
 
       <ul>
-        <li><a href="src/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">module</a>
+        <li><a href="packages/src/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.lexical.lexical_indexer
 
       <ul>
-        <li><a href="src/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">module</a>
+        <li><a href="packages/src/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.obograph_utils
 
       <ul>
-        <li><a href="src/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">module</a>
+        <li><a href="packages/src/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.subsets.slimmer_utils
 
       <ul>
-        <li><a href="src/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">module</a>
+        <li><a href="packages/src/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.table_filler
 
       <ul>
-        <li><a href="src/oaklib.utilities.table_filler.html#module-oaklib.utilities.table_filler">module</a>
+        <li><a href="packages/src/oaklib.utilities.table_filler.html#module-oaklib.utilities.table_filler">module</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.taxon
 
       <ul>
-        <li><a href="src/oaklib.utilities.taxon.html#module-oaklib.utilities.taxon">module</a>
+        <li><a href="packages/src/oaklib.utilities.taxon.html#module-oaklib.utilities.taxon">module</a>
 </li>
       </ul></li>
       <li><a href="glossary.html#term-ObjectProperty"><strong>ObjectProperty</strong></a>
@@ -2986,29 +3013,29 @@
 </li>
       <li><a href="glossary.html#term-OBO-Graphs"><strong>OBO Graphs</strong></a>
 </li>
-      <li><a href="implementations/obograph.html#oaklib.implementations.obograph.obograph_implementation.OboGraphImplementation">OboGraphImplementation (class in oaklib.implementations.obograph.obograph_implementation)</a>
+      <li><a href="packages/implementations/obograph.html#oaklib.implementations.obograph.obograph_implementation.OboGraphImplementation">OboGraphImplementation (class in oaklib.implementations.obograph.obograph_implementation)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
 </li>
-      <li><a href="converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter">OboGraphToCXConverter (class in oaklib.converters.obo_graph_to_cx_converter)</a>
+      <li><a href="packages/converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter">OboGraphToCXConverter (class in oaklib.converters.obo_graph_to_cx_converter)</a>
 </li>
-      <li><a href="converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">OboGraphToFHIRConverter (class in oaklib.converters.obo_graph_to_fhir_converter)</a>
+      <li><a href="packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">OboGraphToFHIRConverter (class in oaklib.converters.obo_graph_to_fhir_converter)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter">OboGraphToOboFormatConverter (class in oaklib.converters.obo_graph_to_obo_format_converter)</a>
+      <li><a href="packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter">OboGraphToOboFormatConverter (class in oaklib.converters.obo_graph_to_obo_format_converter)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">obsoletes() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">obsoletes() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships">obsoletes_migration_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships">obsoletes_migration_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-OLS"><strong>OLS</strong></a>
 </li>
-      <li><a href="implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">OlsImplementation (class in oaklib.implementations.ols.ols_implementation)</a>
+      <li><a href="packages/implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">OlsImplementation (class in oaklib.implementations.ols.ols_implementation)</a>
 </li>
       <li><a href="glossary.html#term-Ontobee"><strong>Ontobee</strong></a>
 </li>
-      <li><a href="implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">OntobeeImplementation (class in oaklib.implementations.ontobee.ontobee_implementation)</a>
+      <li><a href="packages/implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">OntobeeImplementation (class in oaklib.implementations.ontobee.ontobee_implementation)</a>
 </li>
       <li>
     ONTOLOGIES
@@ -3019,7 +3046,7 @@
         <li><a href="cli.html#cmdoption-runoak-ontology-versions-arg-ONTOLOGIES">runoak-ontology-versions command line option</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontologies">ontologies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontologies">ontologies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Ontology"><strong>Ontology</strong></a>
 </li>
@@ -3029,29 +3056,29 @@
 </li>
       <li><a href="glossary.html#term-Ontology-Graph-Projection"><strong>Ontology Graph Projection</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_curies">ontology_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_curies">ontology_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metadata_map">ontology_metadata_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metadata_map">ontology_metadata_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metamodel_mapper">ontology_metamodel_mapper (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metamodel_mapper">ontology_metamodel_mapper (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_versions">ontology_versions() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_versions">ontology_versions() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationship_map">outgoing_relationship_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationship_map">outgoing_relationship_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationships">outgoing_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationships">outgoing_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-OWL"><strong>OWL</strong></a>
 </li>
       <li><a href="glossary.html#term-OWL-Annotation"><strong>OWL Annotation</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_type">owl_type() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_type">owl_type() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types">owl_types() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types">owl_types() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="implementations/owlery.html#oaklib.implementations.owlery.owlery_implementation.OwleryImplementation">OwleryImplementation (class in oaklib.implementations.owlery.owlery_implementation)</a>
+      <li><a href="packages/implementations/owlery.html#oaklib.implementations.owlery.owlery_implementation.OwleryImplementation">OwleryImplementation (class in oaklib.implementations.owlery.owlery_implementation)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface">OwlInterface (class in oaklib.interfaces.owl_interface)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface">OwlInterface (class in oaklib.interfaces.owl_interface)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -3059,29 +3086,45 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.pairwise_similarity">pairwise_similarity() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.pairwise_similarity">pairwise_similarity() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Part-Of"><strong>Part Of</strong></a>
 </li>
       <li><a href="glossary.html#term-Patch"><strong>Patch</strong></a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">PatcherInterface (class in oaklib.interfaces.patcher_interface)</a>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">PatcherInterface (class in oaklib.interfaces.patcher_interface)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.paths">paths() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.paths">paths() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.precompute_lookups">precompute_lookups() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.precompute_lookups">precompute_lookups() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Predicate"><strong>Predicate</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language">preferred_language (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language">preferred_language (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+
+      <ul>
+        <li><a href="packages/interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.preferred_language">(oaklib.interfaces.dumper_interface.DumperInterface attribute)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+        <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.preferred_language">(oaklib.interfaces.mapping_provider_interface.MappingProviderInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.preferred_language">(oaklib.interfaces.relation_graph_interface.RelationGraphInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.preferred_language">(oaklib.interfaces.search_interface.SearchInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.preferred_language">(oaklib.interfaces.semsim_interface.SemanticSimilarityInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.preferred_language">(oaklib.interfaces.subsetter_interface.SubsetterInterface attribute)</a>
+</li>
+        <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.preferred_language">(oaklib.interfaces.validator_interface.ValidatorInterface attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Pronto"><strong>Pronto</strong></a>
 </li>
-      <li><a href="implementations/pronto.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">ProntoImplementation (class in oaklib.implementations.pronto.pronto_implementation)</a>
+      <li><a href="packages/implementations/pronto.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">ProntoImplementation (class in oaklib.implementations.pronto.pronto_implementation)</a>
 </li>
       <li><a href="glossary.html#term-Property"><strong>Property</strong></a>
 </li>
@@ -3091,7 +3134,7 @@
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.query">query() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.query">query() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -3103,29 +3146,29 @@
 </li>
       <li><a href="glossary.html#term-Reasoner"><strong>Reasoner</strong></a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.reasoner_configurations">reasoner_configurations() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.reasoner_configurations">reasoner_configurations() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Relation-Graph"><strong>Relation Graph</strong></a>
 </li>
-      <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">RelationGraphEnum (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
+      <li><a href="packages/implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">RelationGraphEnum (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
 </li>
-      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface">RelationGraphInterface (class in oaklib.interfaces.relation_graph_interface)</a>
+      <li><a href="packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface">RelationGraphInterface (class in oaklib.interfaces.relation_graph_interface)</a>
 </li>
       <li><a href="glossary.html#term-Relationship"><strong>Relationship</strong></a>
 </li>
       <li><a href="glossary.html#term-Relationship-Type"><strong>Relationship Type</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships">relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships">relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph">relationships_to_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph">relationships_to_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair">repair() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+      <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair">repair() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.reverse_changes">reverse_changes() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.reverse_changes">reverse_changes() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">roots() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">roots() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.rule_collection">rule_collection (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface attribute)</a>
+      <li><a href="packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.rule_collection">rule_collection (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface attribute)</a>
 </li>
       <li>
     runoak command line option
@@ -4732,69 +4775,69 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.save">save() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.save">save() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 
       <ul>
-        <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.save">(oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+        <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.save">(oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
       </ul></li>
       <li><a href="search-syntax.html#oaklib.datamodels.search.SearchConfiguration">SearchConfiguration (class in oaklib.datamodels.search)</a>
 
       <ul>
-        <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchConfiguration">(class in oaklib.interfaces.search_interface)</a>
+        <li><a href="packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchConfiguration">(class in oaklib.interfaces.search_interface)</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">SearchInterface (class in oaklib.interfaces.search_interface)</a>
+      <li><a href="packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">SearchInterface (class in oaklib.interfaces.search_interface)</a>
 </li>
       <li><a href="glossary.html#term-Semantic-Similarity"><strong>Semantic Similarity</strong></a>
 </li>
       <li><a href="glossary.html#term-Semantic-SQL"><strong>Semantic SQL</strong></a>
 </li>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface">SemanticSimilarityInterface (class in oaklib.interfaces.semsim_interface)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface">SemanticSimilarityInterface (class in oaklib.interfaces.semsim_interface)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label">set_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label">set_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_metamodel_mappings">set_metamodel_mappings() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_metamodel_mappings">set_metamodel_mappings() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.setwise_most_recent_common_ancestors">setwise_most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+      <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.setwise_most_recent_common_ancestors">setwise_most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings">simple_mappings() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings">simple_mappings() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings_by_curie">simple_mappings_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings_by_curie">simple_mappings_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="implementations/simple_obo.html#oaklib.implementations.simpleobo.simple_obo_implementation.SimpleOboImplementation">SimpleOboImplementation (class in oaklib.implementations.simpleobo.simple_obo_implementation)</a>
+      <li><a href="packages/implementations/simple_obo.html#oaklib.implementations.simpleobo.simple_obo_implementation.SimpleOboImplementation">SimpleOboImplementation (class in oaklib.implementations.simpleobo.simple_obo_implementation)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons">singletons() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons">singletons() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-SPARQL"><strong>SPARQL</strong></a>
 </li>
-      <li><a href="implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">SparqlImplementation (class in oaklib.implementations.sparql.sparql_implementation)</a>
+      <li><a href="packages/implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">SparqlImplementation (class in oaklib.implementations.sparql.sparql_implementation)</a>
 </li>
       <li><a href="glossary.html#term-SQL"><strong>SQL</strong></a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in oaklib.implementations.sqldb.sql_implementation)</a>
+      <li><a href="packages/implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in oaklib.implementations.sqldb.sql_implementation)</a>
 </li>
       <li><a href="glossary.html#term-SSSOM"><strong>SSSOM</strong></a>
 </li>
-      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+      <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
-      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">sssom_mappings_by_source() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+      <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">sssom_mappings_by_source() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
-      <li><a href="implementations/sqldb.html#semsql.sqla.semsql.Statements">Statements (class in semsql.sqla.semsql)</a>
+      <li><a href="packages/implementations/sqldb.html#semsql.sqla.semsql.Statements">Statements (class in semsql.sqla.semsql)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.strict">strict (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.strict">strict (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
-      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms">subclass_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+      <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms">subclass_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph_from_traversal">subgraph_from_traversal() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph_from_traversal">subgraph_from_traversal() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Subset"><strong>Subset</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_curies">subset_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_curies">subset_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_members">subset_members() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_members">subset_members() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li>
     SUBSETS
@@ -4803,15 +4846,15 @@
         <li><a href="cli.html#cmdoption-runoak-expand-subsets-arg-SUBSETS">runoak-expand-subsets command line option</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subsets">subsets() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subsets">subsets() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface">SubsetterInterface (class in oaklib.interfaces.subsetter_interface)</a>
+      <li><a href="packages/interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface">SubsetterInterface (class in oaklib.interfaces.subsetter_interface)</a>
 </li>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">summary_statistic_description() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
+      <li><a href="packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">summary_statistic_description() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface">SummaryStatisticsInterface (class in oaklib.interfaces.summary_statistics_interface)</a>
+      <li><a href="packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface">SummaryStatisticsInterface (class in oaklib.interfaces.summary_statistics_interface)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.synonym_map_for_curies">synonym_map_for_curies() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.synonym_map_for_curies">synonym_map_for_curies() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -4828,7 +4871,7 @@
       </ul></li>
       <li><a href="glossary.html#term-Term"><strong>Term</strong></a>
 </li>
-      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">term_curies_without_definitions() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+      <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">term_curies_without_definitions() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
       <li>
     TERMS
@@ -4911,17 +4954,17 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_categories">terms_categories() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_categories">terms_categories() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_subsets">terms_subsets() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_subsets">terms_subsets() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Text-Annotation"><strong>Text Annotation</strong></a>
 </li>
-      <li><a href="interfaces/text-annotator.html#oaklib.datamodels.text_annotator.TextAnnotation">TextAnnotation (class in oaklib.datamodels.text_annotator)</a>
+      <li><a href="packages/interfaces/text-annotator.html#oaklib.datamodels.text_annotator.TextAnnotation">TextAnnotation (class in oaklib.datamodels.text_annotator)</a>
 </li>
-      <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">TextAnnotatorInterface (class in oaklib.interfaces.text_annotator_interface)</a>
+      <li><a href="packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">TextAnnotatorInterface (class in oaklib.interfaces.text_annotator_interface)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration">TraversalConfiguration (class in oaklib.interfaces.obograph_interface)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration">TraversalConfiguration (class in oaklib.interfaces.obograph_interface)</a>
 </li>
       <li><a href="glossary.html#term-Triple"><strong>Triple</strong></a>
 </li>
@@ -4935,17 +4978,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Ubergraph"><strong>Ubergraph</strong></a>
 </li>
-      <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">UbergraphImplementation (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
+      <li><a href="packages/implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">UbergraphImplementation (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
 </li>
-      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.undo">undo() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+      <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.undo">undo() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">unsatisfiable_classes() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+      <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">unsatisfiable_classes() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
       <li><a href="glossary.html#term-URI"><strong>URI</strong></a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">uri_to_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">uri_to_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -4953,11 +4996,11 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate">validate() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+      <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate">validate() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface">ValidatorInterface (class in oaklib.interfaces.validator_interface)</a>
+      <li><a href="packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface">ValidatorInterface (class in oaklib.interfaces.validator_interface)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -4965,7 +5008,7 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.walk_up_relationship_graph">walk_up_relationship_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.walk_up_relationship_graph">walk_up_relationship_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>

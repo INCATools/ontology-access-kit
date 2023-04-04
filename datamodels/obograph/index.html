@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Obographs Datamodel &mdash; oaklib  documentation</title>
@@ -12,13 +12,14 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/clipboard.min.js"></script>
         <script src="../../_static/copybutton.js"></script>
-        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -51,11 +52,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Datamodels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../ontology-metadata/index.html">Ontology Metadata Ontology Schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../search/index.html">search datamodel</a></li>
@@ -81,11 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../association/index.html">OAK Association Data Model</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../converters/index.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -116,312 +111,312 @@
            <div itemprop="articleBody">
              
   <section id="obographs-datamodel">
-<h1>Obographs Datamodel<a class="headerlink" href="#obographs-datamodel" title="Permalink to this headline"></a></h1>
+<h1>Obographs Datamodel<a class="headerlink" href="#obographs-datamodel" title="Permalink to this heading"></a></h1>
 <p>A data model for graph-oriented representations of ontologies. Each ontology is represented as a Graph, and multiple ontologies can be connected together in a GraphDocument.
 The principle elements of a Graph are Node objects and Edge objects. A Node represents an arbitrary ontology element, including but not limited to the core terms in the ontology. Edges represent simple relationships between Nodes. Nodes and Edges can both have Meta objects attached, providing additional metedata.
 Not everything in an ontology can be represented as nodes and edges. More complex axioms have specialized structures such as DomainRangeAxiom objects and LogicalDefinitionAxiom.</p>
 <p>URI: https://github.com/geneontology/obographs
 Name: obographs_datamodel</p>
 <section id="classes">
-<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Class</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Axiom.html"><span class="std std-doc">Axiom</span></a></p></td>
 <td><p>A generic grouping for any OWL axiom or group of axioms that is not captured …</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="std std-doc">BasicPropertyValue</span></a></p></td>
 <td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="std std-doc">DefinitionPropertyValue</span></a></p></td>
 <td><p>A property value that represents an assertion about the textual definition of…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="doc std std-doc">DomainRangeAxiom</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="std std-doc">DomainRangeAxiom</span></a></p></td>
 <td><p>This groups potentially multiple axioms that constrain the usage of a propert…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
 <td><p>An edge is a simple typed relationship between two nodes</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="doc std std-doc">EquivalentNodesSet</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="std std-doc">EquivalentNodesSet</span></a></p></td>
 <td><p>A clique of nodes that are all mutually equivalent</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="doc std std-doc">ExistentialRestrictionExpression</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="std std-doc">ExistentialRestrictionExpression</span></a></p></td>
 <td><p>An existential restriction (OWL some values from) expression</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
 <td><p>A graph is a collection of nodes and edges and other axioms that represents a…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="GraphDocument.html"><span class="doc std std-doc">GraphDocument</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="GraphDocument.html"><span class="std std-doc">GraphDocument</span></a></p></td>
 <td><p>A graph document is a collection of graphs together with a set of prefixes th…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="doc std std-doc">LogicalDefinitionAxiom</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="std std-doc">LogicalDefinitionAxiom</span></a></p></td>
 <td><p>An axiom that defines a class in terms of a genus or set of genus classes and…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Meta.html"><span class="std std-doc">Meta</span></a></p></td>
 <td><p>A collection of annotations on an entity or ontology or edge or axiom</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Node.html"><span class="doc std std-doc">Node</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
 <td><p>A node is a class, property, or other entity in an ontology</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PrefixDeclaration.html"><span class="doc std std-doc">PrefixDeclaration</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="PrefixDeclaration.html"><span class="std std-doc">PrefixDeclaration</span></a></p></td>
 <td><p>A mapping between an individual prefix (e</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="doc std std-doc">PropertyChainAxiom</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="std std-doc">PropertyChainAxiom</span></a></p></td>
 <td><p>An axiom that represents an OWL property chain, e</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 <td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SubsetDefinition.html"><span class="doc std std-doc">SubsetDefinition</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="SubsetDefinition.html"><span class="std std-doc">SubsetDefinition</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="std std-doc">SynonymPropertyValue</span></a></p></td>
 <td><p>A property value that represents an assertion about a synonym of an entity</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SynonymTypeDefinition.html"><span class="doc std std-doc">SynonymTypeDefinition</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="SynonymTypeDefinition.html"><span class="std std-doc">SynonymTypeDefinition</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="std std-doc">XrefPropertyValue</span></a></p></td>
 <td><p>A property value that represents an assertion about an external reference to …</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="slots">
-<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Slot</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="allValuesFromEdges.html"><span class="doc std std-doc">allValuesFromEdges</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="allValuesFromEdges.html"><span class="std std-doc">allValuesFromEdges</span></a></p></td>
 <td><p>A list of edges that represent subclasses of universal restrictions</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="basicPropertyValues.html"><span class="doc std std-doc">basicPropertyValues</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="basicPropertyValues.html"><span class="std std-doc">basicPropertyValues</span></a></p></td>
 <td><p>A list of open-ended property values that does not correspond to those predef…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="chainPredicateIds.html"><span class="doc std std-doc">chainPredicateIds</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="chainPredicateIds.html"><span class="std std-doc">chainPredicateIds</span></a></p></td>
 <td><p>A list of identifiers of predicates that form the precedent clause of a prope…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="comments.html"><span class="doc std std-doc">comments</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="comments.html"><span class="std std-doc">comments</span></a></p></td>
 <td><p>A list of comments about the entity</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="definedClassId.html"><span class="doc std std-doc">definedClassId</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="definedClassId.html"><span class="std std-doc">definedClassId</span></a></p></td>
 <td><p>The class that is defined by this axiom</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="definition.html"><span class="doc std std-doc">definition</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="definition.html"><span class="std std-doc">definition</span></a></p></td>
 <td><p>A definition of an entity</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="deprecated.html"><span class="doc std std-doc">deprecated</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="deprecated.html"><span class="std std-doc">deprecated</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="domainClassIds.html"><span class="doc std std-doc">domainClassIds</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="domainClassIds.html"><span class="std std-doc">domainClassIds</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="domainRangeAxioms.html"><span class="doc std std-doc">domainRangeAxioms</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="domainRangeAxioms.html"><span class="std std-doc">domainRangeAxioms</span></a></p></td>
 <td><p>A list of axioms that define the domain and range of a property</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="edges.html"><span class="doc std std-doc">edges</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="edges.html"><span class="std std-doc">edges</span></a></p></td>
 <td><p>All edges present in a graph</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="equivalentNodesSets.html"><span class="doc std std-doc">equivalentNodesSets</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="equivalentNodesSets.html"><span class="std std-doc">equivalentNodesSets</span></a></p></td>
 <td><p>A list of sets of nodes that form equivalence cliques</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="fillerId.html"><span class="doc std std-doc">fillerId</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="fillerId.html"><span class="std std-doc">fillerId</span></a></p></td>
 <td><p>in an OWL restriction expression, the filler is the object of the restriction</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="genusIds.html"><span class="doc std std-doc">genusIds</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="genusIds.html"><span class="std std-doc">genusIds</span></a></p></td>
 <td><p>The set of classes that are the genus of the defined class</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="graphs.html"><span class="doc std std-doc">graphs</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="graphs.html"><span class="std std-doc">graphs</span></a></p></td>
 <td><p>A list of all graphs (ontologies) in an ontology document</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
 <td><p>The unique identifier of the entity</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="isExact.html"><span class="doc std std-doc">isExact</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="isExact.html"><span class="std std-doc">isExact</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="lang.html"><span class="doc std std-doc">lang</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="lang.html"><span class="std std-doc">lang</span></a></p></td>
 <td><p>the language of a property value</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="lbl.html"><span class="doc std std-doc">lbl</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="lbl.html"><span class="std std-doc">lbl</span></a></p></td>
 <td><p>the human-readable label of a node</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="logicalDefinitionAxioms.html"><span class="doc std std-doc">logicalDefinitionAxioms</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="logicalDefinitionAxioms.html"><span class="std std-doc">logicalDefinitionAxioms</span></a></p></td>
 <td><p>A list of logical definition axioms that define the meaning of a class in ter…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="std std-doc">meta</span></a></p></td>
 <td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="namespace.html"><span class="doc std std-doc">namespace</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="namespace.html"><span class="std std-doc">namespace</span></a></p></td>
 <td><p>The namespace associated with a prefix in a prefix declaration</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="nodeIds.html"><span class="doc std std-doc">nodeIds</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="nodeIds.html"><span class="std std-doc">nodeIds</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="nodes.html"><span class="doc std std-doc">nodes</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="nodes.html"><span class="std std-doc">nodes</span></a></p></td>
 <td><p>All nodes present in a graph</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="obj.html"><span class="doc std std-doc">obj</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="obj.html"><span class="std std-doc">obj</span></a></p></td>
 <td><p>the object of an edge</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pred.html"><span class="std std-doc">pred</span></a></p></td>
 <td><p>the predicate of an edge</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicateId.html"><span class="doc std std-doc">predicateId</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="predicateId.html"><span class="std std-doc">predicateId</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="prefix.html"><span class="doc std std-doc">prefix</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="prefix.html"><span class="std std-doc">prefix</span></a></p></td>
 <td><p>The prefix of a prefix declaration</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="prefixes.html"><span class="doc std std-doc">prefixes</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="prefixes.html"><span class="std std-doc">prefixes</span></a></p></td>
 <td><p>A collection of mappings between prefixes and namespaces, used to map CURIEs …</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="propertyChainAxioms.html"><span class="doc std std-doc">propertyChainAxioms</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="propertyChainAxioms.html"><span class="std std-doc">propertyChainAxioms</span></a></p></td>
 <td><p>A list of axioms that define an OWL property chain</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="propertyId.html"><span class="doc std std-doc">propertyId</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="propertyId.html"><span class="std std-doc">propertyId</span></a></p></td>
 <td><p>in an OWL restriction expression, this is the predicate</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rangeClassIds.html"><span class="doc std std-doc">rangeClassIds</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rangeClassIds.html"><span class="std std-doc">rangeClassIds</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="representativeNodeId.html"><span class="doc std std-doc">representativeNodeId</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="representativeNodeId.html"><span class="std std-doc">representativeNodeId</span></a></p></td>
 <td><p>The identifier of a node that represents the class in an OWL equivalence cliq…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="restrictions.html"><span class="doc std std-doc">restrictions</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="restrictions.html"><span class="std std-doc">restrictions</span></a></p></td>
 <td><p>The set of restrictions that are the differentiating features of the defined …</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sub.html"><span class="doc std std-doc">sub</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sub.html"><span class="std std-doc">sub</span></a></p></td>
 <td><p>the subject of an edge</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subsetDefinitions.html"><span class="doc std std-doc">subsetDefinitions</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subsetDefinitions.html"><span class="std std-doc">subsetDefinitions</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subsets.html"><span class="doc std std-doc">subsets</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subsets.html"><span class="std std-doc">subsets</span></a></p></td>
 <td><p>A list of subsets to which this entity belongs</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synonyms.html"><span class="doc std std-doc">synonyms</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="synonyms.html"><span class="std std-doc">synonyms</span></a></p></td>
 <td><p>A list of synonym property value assertions for an entity</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="synonymType.html"><span class="doc std std-doc">synonymType</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="synonymType.html"><span class="std std-doc">synonymType</span></a></p></td>
 <td><p>This standard follows oboInOwl in allowing an open ended list of synonym type…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synonymTypeDefinitions.html"><span class="doc std std-doc">synonymTypeDefinitions</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="synonymTypeDefinitions.html"><span class="std std-doc">synonymTypeDefinitions</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="val.html"><span class="doc std std-doc">val</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="val.html"><span class="std std-doc">val</span></a></p></td>
 <td><p>the value of a property</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="valType.html"><span class="doc std std-doc">valType</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="valType.html"><span class="std std-doc">valType</span></a></p></td>
 <td><p>the datatype of a property value</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="version.html"><span class="doc std std-doc">version</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="version.html"><span class="std std-doc">version</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="xrefs.html"><span class="doc std std-doc">xrefs</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="xrefs.html"><span class="std std-doc">xrefs</span></a></p></td>
 <td><p>A list of cross references to other entities represented in other ontologies,…</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="enumerations">
-<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Enumeration</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="ScopeEnum.html"><span class="doc std std-doc">ScopeEnum</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ScopeEnum.html"><span class="std std-doc">ScopeEnum</span></a></p></td>
 <td><p>A vocabulary of terms that can be used to “scope” a synonym</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="types">
-<h2>Types<a class="headerlink" href="#types" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
+<h2>Types<a class="headerlink" href="#types" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Type</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Boolean.html"><span class="doc std std-doc">Boolean</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
 <td><p>A binary (true or false) value</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Curie.html"><span class="doc std std-doc">Curie</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Curie.html"><span class="std std-doc">Curie</span></a></p></td>
 <td><p>a compact URI</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Date.html"><span class="doc std std-doc">Date</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Date.html"><span class="std std-doc">Date</span></a></p></td>
 <td><p>a date (year, month and day) in an idealized calendar</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="DateOrDatetime.html"><span class="doc std std-doc">DateOrDatetime</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="DateOrDatetime.html"><span class="std std-doc">DateOrDatetime</span></a></p></td>
 <td><p>Either a date or a datetime</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Datetime.html"><span class="doc std std-doc">Datetime</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Datetime.html"><span class="std std-doc">Datetime</span></a></p></td>
 <td><p>The combination of a date and time</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Decimal.html"><span class="doc std std-doc">Decimal</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Decimal.html"><span class="std std-doc">Decimal</span></a></p></td>
 <td><p>A real number with arbitrary precision that conforms to the xsd:decimal speci…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Double.html"><span class="doc std std-doc">Double</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Double.html"><span class="std std-doc">Double</span></a></p></td>
 <td><p>A real number that conforms to the xsd:double specification</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Float.html"><span class="doc std std-doc">Float</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
 <td><p>A real number that conforms to the xsd:float specification</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Integer.html"><span class="doc std std-doc">Integer</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
 <td><p>An integer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Ncname.html"><span class="doc std std-doc">Ncname</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Ncname.html"><span class="std std-doc">Ncname</span></a></p></td>
 <td><p>Prefix part of CURIE</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Nodeidentifier.html"><span class="doc std std-doc">Nodeidentifier</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Nodeidentifier.html"><span class="std std-doc">Nodeidentifier</span></a></p></td>
 <td><p>A URI, CURIE or BNODE that represents a node in a model</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Objectidentifier.html"><span class="doc std std-doc">Objectidentifier</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Objectidentifier.html"><span class="std std-doc">Objectidentifier</span></a></p></td>
 <td><p>A URI or CURIE that represents an object in the model</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="OboIdentifierString.html"><span class="doc std std-doc">OboIdentifierString</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="OboIdentifierString.html"><span class="std std-doc">OboIdentifierString</span></a></p></td>
 <td><p>A string that represents an OBO identifier</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="String.html"><span class="doc std std-doc">String</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>A character string</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="SynonymTypeIdentifierString.html"><span class="doc std std-doc">SynonymTypeIdentifierString</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="SynonymTypeIdentifierString.html"><span class="std std-doc">SynonymTypeIdentifierString</span></a></p></td>
 <td><p>A string that represents a synonym type</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Time.html"><span class="doc std std-doc">Time</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Time.html"><span class="std std-doc">Time</span></a></p></td>
 <td><p>A time object represents a (local) time of day, independent of any particular…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Uri.html"><span class="doc std std-doc">Uri</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Uri.html"><span class="std std-doc">Uri</span></a></p></td>
 <td><p>a complete URI</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Uriorcurie.html"><span class="doc std std-doc">Uriorcurie</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>a URI or a CURIE</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="XrefString.html"><span class="doc std std-doc">XrefString</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="XrefString.html"><span class="std std-doc">XrefString</span></a></p></td>
 <td><p>A string that is a cross reference to another entity represented in another o…</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="subsets">
-<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
+<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Subset</p></th>
 <th class="head"><p>Description</p></th>
