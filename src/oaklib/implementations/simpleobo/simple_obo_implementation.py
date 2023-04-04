@@ -772,8 +772,10 @@ class SimpleOboImplementation(
                 t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeDeletion):
-            t = self._stanza(patch.about_node, strict=True)
-            od.stanzas = [s for s in od.stanzas if s.id != patch.about_node]
+            try:
+                del od.stanzas[patch.about_node]
+            except KeyError:
+                logging.error(f"CURIE {patch.about_node} does not exist in the OBO file provided.")
         elif isinstance(patch, kgcl.NodeCreation):
             self.create_entity(patch.about_node, patch.name)
             modified_entities.append(patch.about_node)
@@ -815,8 +817,10 @@ class SimpleOboImplementation(
         elif isinstance(patch, kgcl.RemoveSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
-            v = patch.old_value.replace('"', '\\"')
-            t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
+            v = patch.old_value.strip(
+                '"'
+            )  # Handling a bug where quotes are accidentally introduced.
+            t.remove_tag_quoted_value(TAG_SYNONYM, v)
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
             modified_entities.append(patch.subject)

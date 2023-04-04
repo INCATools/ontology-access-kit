@@ -321,6 +321,9 @@ class Structure:
     def _simple_value(self, v) -> str:
         return v.split(" ")[0]
 
+    def _quoted_value(self, v) -> str:
+        return re.findall('"([^"]*)"', v)[0]
+
     def _values(self, tag: TAG) -> List[str]:
         return [tv.value for tv in self.tag_values if tv.tag == tag]
 
@@ -445,7 +448,7 @@ class Structure:
         removes a simple tag-value such as is_a
 
         :param tag:
-        :param val:
+        :param val: ID value.
         :return:
         """
         n = 0
@@ -453,6 +456,26 @@ class Structure:
         for tv in self.tag_values:
             if tv.tag == tag:
                 if self._simple_value(tv.value) == val:
+                    n += 1
+                    continue
+            tvs.append(tv)
+        if not n:
+            logging.warning(f"No values to remove for {tag} = {val} // {self}")
+        self.tag_values = tvs
+
+    def remove_tag_quoted_value(self, tag: TAG, val: str) -> None:
+        """
+        removes a simple tag-value such as synonym or definition.
+
+        :param tag:
+        :param val: Quoted value.
+        :return:
+        """
+        n = 0
+        tvs = []
+        for tv in self.tag_values:
+            if tv.tag == tag:
+                if self._quoted_value(tv.value) == val:
                     n += 1
                     continue
             tvs.append(tv)
