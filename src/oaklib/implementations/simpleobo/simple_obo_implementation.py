@@ -772,7 +772,10 @@ class SimpleOboImplementation(
                 t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeDeletion):
-            del od.stanzas[patch.about_node]
+            try:
+                del od.stanzas[patch.about_node]
+            except KeyError:
+                logging.error(f"CURIE {patch.about_node} does not exist in the OBO file provided.")
         elif isinstance(patch, kgcl.NodeCreation):
             self.create_entity(patch.about_node, patch.name)
             modified_entities.append(patch.about_node)
