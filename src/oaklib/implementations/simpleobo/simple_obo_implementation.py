@@ -772,8 +772,7 @@ class SimpleOboImplementation(
                 t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeDeletion):
-            t = self._stanza(patch.about_node, strict=True)
-            od.stanzas = [s for s in od.stanzas if s.id != patch.about_node]
+            del od.stanzas[patch.about_node]
         elif isinstance(patch, kgcl.NodeCreation):
             self.create_entity(patch.about_node, patch.name)
             modified_entities.append(patch.about_node)
