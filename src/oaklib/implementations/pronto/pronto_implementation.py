@@ -110,21 +110,21 @@ class ProntoImplementation(
 
     To load a local file:
 
-    .. code:: python
+    .. packages:: python
 
         >>> resource = OntologyResource(slug='go.obo', directory='input', local=True)
         >>> oi = ProntoImplementation(resource)
 
     To load from the OBO library:
 
-    .. code:: python
+    .. packages:: python
 
         >>> resource = OntologyResource(local=False, slug='go.obo'))
         >>> oi = ProntoImplementation(resource)
 
     Currently this implementation implements most of the BaseOntologyInterface
 
-    .. code:: python
+    .. packages:: python
 
         >>> rels = oi.outgoing_relationships('GO:0005773')
         >>> for rel, parents in rels.items():

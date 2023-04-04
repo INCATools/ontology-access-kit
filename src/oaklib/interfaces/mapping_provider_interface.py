@@ -16,7 +16,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
 
     """
 
-    # TODO: move code from mapping-walker
+    # TODO: move packages from mapping-walker
 
     def inject_mapping_labels(self, mappings: Iterable[Mapping]) -> None:
         for mapping in mappings:

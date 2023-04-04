@@ -1,4 +1,4 @@
-.. _code:
+.. _packages:
 
 Package Documentation
 ==================================
@@ -13,10 +13,3 @@ Package Documentation
    selectors
    converters/index
    utilities
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

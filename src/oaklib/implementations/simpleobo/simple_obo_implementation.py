@@ -434,7 +434,7 @@ class SimpleOboImplementation(
 
     def map_shorthand_to_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
         """
-        Maps either a true relationship type CURIE or a shorthand code to a CURIE.
+        Maps either a true relationship type CURIE or a shorthand packages to a CURIE.
 
         See `section 5.9 <https://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9>`_
 
@@ -486,7 +486,7 @@ class SimpleOboImplementation(
                     yield s, p, o
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        # TODO: move up, avoid repeating code
+        # TODO: move up, avoid repeating packages
         if config is None:
             config = SearchConfiguration()
         matches = []

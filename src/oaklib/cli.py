@@ -1787,7 +1787,7 @@ def tree(
 
     This produces output like:
 
-    .code::
+    .packages::
 
                         * [i] ENVO:00000094 ! volcanic feature
                             * [i] ENVO:00000247 ! volcano

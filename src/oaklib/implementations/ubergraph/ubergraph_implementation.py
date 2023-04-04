@@ -64,7 +64,7 @@ class UbergraphImplementation(
 
     An UbergraphImplementation can be initialed by:
 
-        .. code:: python
+        .. packages:: python
 
            >>>  oi = UbergraphImplementation()
 

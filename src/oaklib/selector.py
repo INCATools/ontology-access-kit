@@ -34,7 +34,7 @@ def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
 
     Example:
 
-    .. code :: python
+    .. packages :: python
 
         >>> from oaklib import get_adapter
         >>>
@@ -54,7 +54,7 @@ def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
     If you omit the scheme then OAK will try to guess the scheme based on the
     suffix of the descriptor
 
-    .. code :: python
+    .. packages :: python
 
         >>> from oaklib import get_adapter
         >>> ## Use an adapter that is able to read OBO Format:

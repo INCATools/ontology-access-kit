@@ -5,7 +5,7 @@
 # id: https://w3id.org/oak/fhir
 # description: Schema for working with FHIR objects (Partial). This is currently intentionally incomplete. The
 #              sole purpose of this rendering of FHIR is purely for the purposes of using OAK to convert native
-#              OAK data models into FHIR using Python code.
+#              OAK data models into FHIR using Python packages.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -68,7 +68,7 @@ DEFAULT_ = FHIR
 @dataclass
 class CodeSystem(YAMLRoot):
     """
-    Declares the existence of and describes a code system or code system supplement
+    Declares the existence of and describes a packages system or packages system supplement
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -305,7 +305,7 @@ class CodeSystemFilter(YAMLRoot):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.code):
-            self.MissingRequiredField("code")
+            self.MissingRequiredField("packages")
         if not isinstance(self.code, str):
             self.code = str(self.code)
 
@@ -340,7 +340,7 @@ class CodeSystemProperty(YAMLRoot):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.code):
-            self.MissingRequiredField("code")
+            self.MissingRequiredField("packages")
         if not isinstance(self.code, str):
             self.code = str(self.code)
 
@@ -676,7 +676,7 @@ slots.codeSystem__concept = Slot(
 slots.concept__code = Slot(
     uri=FHIR.code,
     name="concept__code",
-    curie=FHIR.curie("code"),
+    curie=FHIR.curie("packages"),
     model_uri=FHIR.concept__code,
     domain=None,
     range=Optional[str],
@@ -730,7 +730,7 @@ slots.concept__concept = Slot(
 slots.conceptProperty__code = Slot(
     uri=FHIR.code,
     name="conceptProperty__code",
-    curie=FHIR.curie("code"),
+    curie=FHIR.curie("packages"),
     model_uri=FHIR.conceptProperty__code,
     domain=None,
     range=Optional[str],
@@ -829,7 +829,7 @@ slots.conceptDesignation__value = Slot(
 slots.codeSystemFilter__code = Slot(
     uri=FHIR.code,
     name="codeSystemFilter__code",
-    curie=FHIR.curie("code"),
+    curie=FHIR.curie("packages"),
     model_uri=FHIR.codeSystemFilter__code,
     domain=None,
     range=str,
@@ -865,7 +865,7 @@ slots.codeSystemFilter__value = Slot(
 slots.codeSystemProperty__code = Slot(
     uri=FHIR.code,
     name="codeSystemProperty__code",
-    curie=FHIR.curie("code"),
+    curie=FHIR.curie("packages"),
     model_uri=FHIR.codeSystemProperty__code,
     domain=None,
     range=str,
@@ -919,7 +919,7 @@ slots.coding__version = Slot(
 slots.coding__code = Slot(
     uri=FHIR.code,
     name="coding__code",
-    curie=FHIR.curie("code"),
+    curie=FHIR.curie("packages"),
     model_uri=FHIR.coding__code,
     domain=None,
     range=Optional[str],
