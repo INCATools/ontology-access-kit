@@ -794,18 +794,15 @@ class SimpleOboImplementation(
             if not n:
                 raise ValueError(f"Failed to find synonym {patch.old_value} for {t.id}")
             modified_entities.append(patch.about_node)
+        elif isinstance(patch, kgcl.NewTextDefinition):
+            t = self._stanza(patch.about_node, strict=True)
+            t.add_tag_value(TAG_DEFINITION, patch.new_value)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._stanza(patch.about_node, strict=True)
-            if TAG_DEFINITION in t.tag_values:
-                for tv in t.tag_values:
-                    if tv.tag == TAG_DEFINITION:
-                        tv.replace_quoted_part(patch.new_value.strip("'"))
-            elif isinstance(patch, kgcl.NewTextDefinition):
-                t = self._stanza(patch.about_node, strict=True)
-                t.add_tag_value(TAG_DEFINITION, patch.new_value)
-                modified_entities.append(patch.about_node)
-            else:
-                logging.info(f"{patch} does nothing.")
+            for tv in t.tag_values:
+                if tv.tag == TAG_DEFINITION:
+                    tv.replace_quoted_part(patch.new_value.strip())
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
