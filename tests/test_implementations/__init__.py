@@ -936,12 +936,25 @@ class ComplianceTester:
                 kgcl.NewTextDefinition(
                     id=generate_change_id(),
                     about_node=OPISTHOKONTA,
-                    new_value='"It is an opisthokonta." []',
+                    new_value='It is an opisthokonta.',
                 ),
                 False,
                 lambda oi: test.assertEqual(
                     'It is an opisthokonta.',
                     oi.definition(OPISTHOKONTA),
+                ),
+                None,
+            ),
+            (
+                kgcl.NodeTextDefinitionChange(
+                    id=generate_change_id(),
+                    about_node=BIOLOGICAL_PROCESS,
+                    new_value='It is a biological process.',
+                ),
+                False,
+                lambda oi: test.assertEqual(
+                    'It is a biological process.',
+                    oi.definition(BIOLOGICAL_PROCESS),
                 ),
                 None,
             ),

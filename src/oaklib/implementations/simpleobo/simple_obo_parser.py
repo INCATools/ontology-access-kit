@@ -405,11 +405,14 @@ class Structure:
         if vals:
             if strict and len(vals) > 1:
                 raise ValueError(f"Multiple vals {vals} for {tag} in {self.id}")
-            m = re_quoted_simple.match(vals[0])
-            if m:
-                return m.group(1)
+            if "[" in vals[0]:
+                m = re_quoted_simple.match(vals[0])
+                if m:
+                    return m.group(1)
+                else:
+                    raise ValueError(f"Could not parse quoted string from {vals}")
             else:
-                raise ValueError(f"Could not parse quoted string from {vals}")
+                return vals[0]
 
     def synonyms(self) -> List[SYNONYM_TUPLE]:
         """
