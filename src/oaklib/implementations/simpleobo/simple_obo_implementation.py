@@ -802,7 +802,7 @@ class SimpleOboImplementation(
             t = self._stanza(patch.about_node, strict=True)
             for tv in t.tag_values:
                 if tv.tag == TAG_DEFINITION:
-                    tv.replace_quoted_part(patch.new_value.strip())
+                    tv.replace_quoted_part(patch.new_value.strip("'"))
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
