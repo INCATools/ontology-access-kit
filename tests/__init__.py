@@ -1,3 +1,4 @@
+import difflib
 import math
 from pathlib import Path
 from typing import List
@@ -128,3 +129,14 @@ def object_is_subsumed_by_member_of(obj: YAMLRoot, obj_list: List[YAMLRoot], **k
         if object_subsumed_by(o, obj, **kwargs):
             return True
     return False
+
+
+def filecmp_difflib(left_path: Path, right_path: Path) -> bool:
+    """Platfom neutral filecmp.cmp(..) function for text files
+     
+    Files are read in text mode to ignore newline differences.
+    """
+    with open(left_path) as left, open(right_path) as right:
+        diff = difflib.unified_diff(left.readlines(), right.readlines())
+
+    return list(diff) == []

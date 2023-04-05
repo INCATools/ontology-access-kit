@@ -1,4 +1,3 @@
-import filecmp
 import logging
 import unittest
 
@@ -37,6 +36,7 @@ from tests import (
     ORGANELLE_MEMBRANE,
     OUTPUT_DIR,
     VACUOLE,
+    filecmp_difflib,
 )
 from tests.test_implementations import ComplianceTester
 
@@ -377,7 +377,7 @@ class TestProntoImplementation(unittest.TestCase):
         oi = ProntoImplementation(resource)
         OUTPUT_DIR.mkdir(exist_ok=True)
         oi.dump(output_path, syntax="obo")
-        self.assertTrue(filecmp.cmp(input_path, output_path))
+        self.assertTrue(filecmp_difflib(input_path, output_path))
 
     def test_reflexive_diff(self):
         self.compliance_tester.test_reflexive_diff(self.oi)
