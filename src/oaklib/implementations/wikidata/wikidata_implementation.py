@@ -62,7 +62,7 @@ class WikidataImplementation(
 
     An wikidataImplementation can be initialed by:
 
-        .. code:: python
+        .. packages:: python
 
            >>>  oi = WikidataImplementation.create()
 

@@ -27,7 +27,7 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
-from oaklib.utilities.basic_utils import get_curie_prefix
+from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
 
 LANGUAGE_TAG = str
 NC_NAME = str
@@ -64,13 +64,30 @@ def get_default_prefix_map() -> Mapping[str, str]:
 @dataclass
 class BasicOntologyInterface(OntologyInterface, ABC):
     """
-    Basic lookup operations on ontologies
+    Basic lookup operations on ontologies.
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter('tests/input/go-nucleus.db')
+    >>> print(adapter.label("GO:0005634"))
+    nucleus
 
     No Object Model is used - input and payloads are simple scalars, dicts, and lists
 
     This presents an intentionally highly simplistic, lossy view of an ontology. It
     is intended to fit the "80% of uses" scenario - for more advanced uses, use one of the
-    more specialized subclasses
+    more specialized subclasses.
+
+    For example, BasicOntologyInterface exposes a simple model of synonyms as aliases:
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter('tests/input/go-nucleus.db')
+    >>> for alias in adapter.aliases("GO:0005634"):
+    ...     print(alias)
+    cell nucleus
+    horsetail nucleus
+
+    This omits metdata about the synonym, such as the predicate, source, and type.
+    For this more granular view, the :ref:`obograph_interface` can be used.
 
     Basic concepts:
 
@@ -145,8 +162,18 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Return a dictionary mapping all prefixes known to the resource to their URI expansion.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for prefix, expansion in adapter.prefix_map().items():
+        ...     print(prefix, expansion)
+        <BLANKLINE>
+        ...
+        GO http://purl.obolibrary.org/obo/GO_
+        ...
+
         By default, this returns a combination of the  OBO Foundry prefix map with
         the default OAKlib prefix map (see :data:`oaklib.datamodels.vocabulary.DEFAULT_PREFIX_MAP`).
+
 
         :return: prefix map
         """
@@ -281,13 +308,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all known entities that are obsolete.
 
-        In OWL, obsolete entities (aka deprecated entities) are those
-        that have an ``owl:deprecated`` annotation with value "True"
-
         Example:
 
-            >>> for entity in ontology.obsoletes():
-            ...     print(entity)
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:cob")
+        >>> for entity in adapter.obsoletes():
+        ...     print(entity)
+        <BLANKLINE>
+        COB:0000014
+
+        In OWL, obsolete entities (aka deprecated entities) are those
+        that have an ``owl:deprecated`` annotation with value "True"
 
         By default, *merged terms* are included. Merged terms are entities
         that are:
@@ -303,8 +334,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Example:
 
-            >>> for entity in ontology.obsoletes(include_merged=False):
-            ...     print(entity)
+        >>> for entity in ontology.obsoletes(include_merged=False):
+        ...     print(entity)
 
         :param include_merged: If True, merged terms will be included
         :return: iterator over CURIEs
@@ -319,8 +350,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Example:
 
-            >>> for rel in ontology.obsoletes_migration_relationships(ontology.obsoletes()):
-            ...     print(rel)
+        >>> for rel in ontology.obsoletes_migration_relationships(ontology.obsoletes()):
+        ...     print(rel)
 
         Obsoletion relationship predicates may be:
 
@@ -644,13 +675,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         return self.subset_members(subset)
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         """
         fetches the unique label for a CURIE.
 
         The CURIE may be for a class, individual, property, or ontology
 
         :param curie:
+        :param lang: [None] language tag
         :return:
         """
         raise NotImplementedError
@@ -751,11 +783,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie: the 'child' term
         :return:
         """
-        raise NotImplementedError()
-
-    @deprecated("Use outgoing_relationship_map(curie)")
-    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self.outgoing_relationship_map(curie)
+        return pairs_as_dict([(p, o) for _, p, o in self.relationships([curie])])
 
     def outgoing_relationships(
         self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
@@ -767,17 +795,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.outgoing_relationship_map(curie).items():
-            if predicates is not None and p not in predicates:
-                continue
-            for v in vs:
-                yield p, v
-
-    @deprecated("Use outgoing_relationships()")
-    def get_outgoing_relationships(
-        self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        return self.outgoing_relationships(curie, predicates)
+        for _, p, o in self.relationships([curie], predicates=predicates):
+            yield p, o
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
@@ -788,11 +807,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :return:
         """
-        raise NotImplementedError
-
-    @deprecated("Use incoming_relationship_map(curie)")
-    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self.incoming_relationship_map(curie)
+        return pairs_as_dict([(p, s) for s, p, _ in self.relationships(objects=[curie])])
 
     def incoming_relationships(
         self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
@@ -804,15 +819,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.incoming_relationship_map(curie).items():
-            if predicates is None or p not in predicates:
-                continue
-            for v in vs:
-                yield p, v
-
-    @deprecated("Replaced by incoming_relationships(...)")
-    def get_incoming_relationships(self, **kwargs) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        return self.incoming_relationships(**kwargs)
+        for s, p, _ in self.relationships(objects=[curie], predicates=predicates):
+            yield p, s
 
     def relationships(
         self,
@@ -847,10 +855,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                     if objects and this_object not in objects:
                         continue
                     yield subject, this_predicate, this_object
-
-    @deprecated("Use relationships()")
-    def get_relationships(self, **kwargs) -> Iterator[RELATIONSHIP]:
-        return self.relationships(**kwargs)
 
     @deprecated("Use relationships()")
     def all_relationships(self) -> Iterable[RELATIONSHIP]:

@@ -108,7 +108,6 @@ from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterfac
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.kgcl_utilities import tidy_change_object
 
 
@@ -435,7 +434,7 @@ class SimpleOboImplementation(
 
     def map_shorthand_to_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
         """
-        Maps either a true relationship type CURIE or a shorthand code to a CURIE.
+        Maps either a true relationship type CURIE or a shorthand packages to a CURIE.
 
         See `section 5.9 <https://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9>`_
 
@@ -486,28 +485,8 @@ class SimpleOboImplementation(
                         continue
                     yield s, p, o
 
-    def outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        for s, p, o in self.relationships([curie], predicates, include_entailed=entailed):
-            if s == curie:
-                yield p, o
-
-    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
-
-    def incoming_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        for s, p, o in self.relationships(None, predicates, [curie], include_entailed=entailed):
-            if o == curie:
-                yield p, s
-
-    def incoming_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.incoming_relationships(*args, **kwargs))
-
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        # TODO: move up, avoid repeating code
+        # TODO: move up, avoid repeating packages
         if config is None:
             config = SearchConfiguration()
         matches = []
@@ -793,8 +772,10 @@ class SimpleOboImplementation(
                 t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeDeletion):
-            t = self._stanza(patch.about_node, strict=True)
-            od.stanzas = [s for s in od.stanzas if s.id != patch.about_node]
+            try:
+                del od.stanzas[patch.about_node]
+            except KeyError:
+                logging.error(f"CURIE {patch.about_node} does not exist in the OBO file provided.")
         elif isinstance(patch, kgcl.NodeCreation):
             self.create_entity(patch.about_node, patch.name)
             modified_entities.append(patch.about_node)
@@ -836,8 +817,10 @@ class SimpleOboImplementation(
         elif isinstance(patch, kgcl.RemoveSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
-            v = patch.old_value.replace('"', '\\"')
-            t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
+            v = patch.old_value.strip(
+                '"'
+            )  # Handling a bug where quotes are accidentally introduced.
+            t.remove_tag_quoted_value(TAG_SYNONYM, v)
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
             modified_entities.append(patch.subject)

@@ -450,30 +450,44 @@ class TestCommandLineInterface(unittest.TestCase):
     # DUMPER
     def test_dump(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"
+        fhir_conf = {
+            "code_system_id": "test",
+            "code_system_url": "http://purl.obolibrary.org/obo/go.owl",
+            "native_uri_stems": ["http://purl.obolibrary.org/obo/GO_"],
+        }
         cases = [
-            (TEST_OWL_OFN, "turtle"),
-            (TEST_OWL_RDF, "turtle"),
-            (obojson_input, "obojson"),
-            (obojson_input, "obo"),
-            (obojson_input, "fhirjson"),
-            (obojson_input, "owl"),
-            (TEST_ONT, "obo"),
-            (TEST_DB, "obo"),
-            (TEST_ONT, "obojson"),
-            (TEST_DB, "obojson"),
-            (TEST_ONT, "fhirjson"),
-            (TEST_DB, "fhirjson"),
-            (TEST_DB, "owl"),
+            (TEST_OWL_OFN, "turtle", None),
+            (TEST_OWL_RDF, "turtle", None),
+            (obojson_input, "obojson", None),
+            (obojson_input, "obo", None),
+            (obojson_input, "fhirjson", fhir_conf),
+            (obojson_input, "fhirjson", None),
+            (obojson_input, "owl", None),
+            (TEST_ONT, "obo", None),
+            (TEST_DB, "obo", None),
+            (TEST_ONT, "obojson", None),
+            (TEST_DB, "obojson", None),
+            (TEST_ONT, "fhirjson", None),
+            (TEST_DB, "fhirjson", None),
+            (TEST_DB, "owl", None),
         ]
-        for input, output_format in cases:
+        for input, output_format, conf_object in cases:
+            output_path = str(OUTPUT_DIR / f"test_dump-{output_format}.out")
+            if conf_object is not None:
+                conf_path = INPUT_DIR / f"{output_format}_conf.json"
+                with open(conf_path, "w", encoding="utf-8") as f:
+                    json.dump(conf_object, f)
+            else:
+                conf_path = None
             logging.info(f"input={input}, output_format={output_format}")
-            result = self.runner.invoke(
-                main, ["-i", str(input), "dump", "-o", TEST_OUT, "-O", output_format]
-            )
+            cmd = ["-i", str(input), "dump", "-o", output_path, "-O", output_format]
+            if conf_path:
+                cmd.extend(["-c", conf_path])
+            result = self.runner.invoke(main, cmd)
             self.assertEqual(0, result.exit_code, f"input={input}, output_format={output_format}")
             if output_format == "obojson":
                 obj: obograph.GraphDocument
-                obj = json_loader.load(TEST_OUT, target_class=obograph.GraphDocument)
+                obj = json_loader.load(output_path, target_class=obograph.GraphDocument)
                 g = obj.graphs[0]
                 nucleus_node = [n for n in g.nodes if n.lbl == "nucleus"][0]
                 self.assertTrue(nucleus_node is not None)
@@ -481,20 +495,20 @@ class TestCommandLineInterface(unittest.TestCase):
                 # self.assertTrue(nucleus_node.meta.definition.val.startswith("A membrane-bounded organelle"))
             elif output_format == "fhirjson":
                 obj: fhir.CodeSystem
-                obj = json_loader.load(TEST_OUT, target_class=fhir.CodeSystem)
+                obj = json_loader.load(output_path, target_class=fhir.CodeSystem)
                 nucleus_concept = [n for n in obj.concept if n.code == NUCLEUS][0]
                 self.assertEqual("nucleus", nucleus_concept.display)
                 # TODO
                 # self.assertTrue(nucleus_concept.definition.startswith("A membrane-bounded organelle"))
             elif output_format == "owl" or output_format == "turtle":
                 g = rdflib.Graph()
-                g.parse(TEST_OUT, format="turtle")
+                g.parse(output_path, format="turtle")
                 self.assertGreater(len(list(g.triples((None, None, None)))), 0)
             elif output_format == "obo":
-                oi = get_adapter(f"simpleobo:{TEST_OUT}")
+                oi = get_adapter(f"simpleobo:{output_path}")
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             elif output_format == "ofn":
-                oi = get_adapter(f"funowl:{TEST_OUT}")
+                oi = get_adapter(f"funowl:{output_path}")
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             else:
                 raise AssertionError(f"Unexpected output format: {output_format}")

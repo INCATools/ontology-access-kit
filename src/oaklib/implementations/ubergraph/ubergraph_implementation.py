@@ -64,7 +64,7 @@ class UbergraphImplementation(
 
     An UbergraphImplementation can be initialed by:
 
-        .. code:: python
+        .. packages:: python
 
            >>>  oi = UbergraphImplementation()
 
@@ -154,7 +154,7 @@ class UbergraphImplementation(
         objects: List[CURIE] = None,
         include_tbox: bool = True,
         include_abox: bool = True,
-        include_entailed: bool = True,
+        include_entailed: bool = False,
     ) -> Iterator[RELATIONSHIP]:
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
         if not include_entailed:

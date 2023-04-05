@@ -28,7 +28,7 @@ default_range: string
 classes:
   CodeSystem:
     class_uri: fhir:codesystem
-    description: Declares the existence of and describes a code system or code system supplement
+    description: Declares the existence of and describes a packages system or packages system supplement
     attributes:
       id:
         range: string
@@ -46,7 +46,7 @@ classes:
         #range: Identifier
       version:
       name:
-        description: Name for this code system (computer friendly)
+        description: Name for this packages system (computer friendly)
       title:
       status:
         #range: PublicationStatus
@@ -131,13 +131,12 @@ classes:
         range: string  # Pattern: [^\s]+(\s[^\s]+)* / See: https://hl7.org/fhir/datatypes.html#code
         required: true
       uri:
-        range: uriorcurie
         required: false
+        range: uri
       description:
         range: string
-        required: false
       type:
-        # TODO: type: an enum of: code | Coding | string | integer | boolean | dateTime | decimal
+        # TODO: type: an enum of: packages | Coding | string | integer | boolean | dateTime | decimal
         #  https://hl7:org/fhir/valueset-concept-property-type.html
         required: true
         range: string
@@ -169,7 +168,7 @@ classes:
         #range: Identifier
       version:
       name:
-        description: Name for this code system (computer friendly)
+        description: Name for this packages system (computer friendly)
       title:
       status:
         #range: PublicationStatus

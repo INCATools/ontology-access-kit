@@ -7,6 +7,7 @@ Executed using "runoak" command
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
+import json
 import logging
 import os
 import re
@@ -967,14 +968,15 @@ def search(terms, output_type: str, output: TextIO):
 
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingInfoWriter)
-    writer.output = output
     if isinstance(impl, SearchInterface):
+        writer = _get_writer(output_type, impl, StreamingInfoWriter)
+        writer.output = output
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             logging.info("** Next chunk:")
             # TODO: move chunking logic to writer
             for curie, label in impl.labels(curie_it):
                 writer.emit(dict(id=curie, label=label))
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1090,6 +1092,7 @@ def obsoletes(
                     objs[curie][rel].append(filler)
             for obj in objs.values():
                 writer.emit(obj)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1424,6 +1427,7 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
                         p: metadata.get(p, None) for p in _process_predicates_arg(predicates)
                     }
                 writer.emit(metadata)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1783,7 +1787,7 @@ def tree(
 
     This produces output like:
 
-    .code::
+    .packages::
 
                         * [i] ENVO:00000094 ! volcanic feature
                             * [i] ENVO:00000247 ! volcano
@@ -2176,6 +2180,7 @@ def paths(
                 dict(subject=s, object=o, path=path),
                 label_fields=["subject", "object", "path"],
             )
+        writer.finish()
     if viz:
         for node_id in node_ids:
             [n] = [n for n in graph.nodes if n.id == node_id]
@@ -2227,7 +2232,7 @@ def siblings(terms, predicates, output_type: str, output: str):
                         sibs.append(child)
         for sib in sibs:
             writer.emit(sib, impl.label(sib))
-
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2282,11 +2287,11 @@ def descendants(
 @main.command()
 @click.argument("terms", nargs=-1)
 @click.option("-o", "--output", help="Path to output file")
+@output_type_option
 @click.option(
-    "--include-all-predicates/--no-include-all-predicates",
-    default=False,
-    show_default=True,
-    help="For formats that export only IS_A by default, this will include all possible predicates",
+    "-c",
+    "--config-file",
+    help="""Config file for additional params. Presently used by  `fhirjson` only.""",
 )
 @click.option(
     "--enforce-canonical-ordering/--no-enforce-canonical-ordering",
@@ -2294,10 +2299,14 @@ def descendants(
     show_default=True,
     help="Forces the serialization to be in canonical order, which is useful for diffing",
 )
-@output_type_option
-def dump(terms, output, output_type: str, **kwargs):
+def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     """
     Exports (dumps) the entire contents of an ontology.
+
+    :param terms: A list of terms to dump. If not specified, the entire ontology will be dumped.
+    :param output: Path to output file
+    :param output_type: The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl
+    :param config_file: Path to a configuration JSON file for additional params (which may be required for some formats)
 
     Example:
 
@@ -2307,12 +2316,17 @@ def dump(terms, output, output_type: str, **kwargs):
 
         runoak -i pato.owl dump -o pato.ttl -O turtle
 
-    Currently each implementation only supports a subset of formats.
+    You can also pass in a JSON configuration file to parameterize the dump process.
 
-    Some dumpers accept additional options. For example, dumping
-    to fhirjson accepts --include-all-predicates, which changes
-    the default behavior from only exporting IS_A to all mappable
-    predicates.
+    Currently this is only used for fhirjson dumps, the configuration options are specified here:
+
+    https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
+
+    Currently each implementation only supports a subset of formats.
 
     The dump command is also blocked for remote endpoints such as Ubergraph,
     to avoid killer queries.
@@ -2326,6 +2340,9 @@ def dump(terms, output, output_type: str, **kwargs):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         logging.info(f"Out={output} syntax={output_type}")
+        if config_file:
+            with open(config_file) as file:
+                kwargs |= json.load(file)
         impl.dump(output, syntax=output_type, **kwargs)
     else:
         raise NotImplementedError
@@ -2726,6 +2743,7 @@ def termset_similarity(
         set1, set2, predicates=actual_predicates, labels=autolabel
     )
     writer.emit(sim)
+    writer.finish()
 
 
 @main.command()
@@ -2852,6 +2870,7 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set
     if n == 0:
         raise ValueError(f"No results for input: {terms}")
     _apply_changes(impl, changes)
+    writer.finish()
 
 
 @main.command()
@@ -3076,6 +3095,7 @@ def relationships(
                 kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
             )
         _apply_changes(impl, changes)
+    writer.finish()
 
 
 @main.command()
@@ -3264,6 +3284,7 @@ def query(query, autolabel: bool, output: str, output_type: str, prefixes: str, 
             else:
                 new_r = r
             writer.emit(new_r)
+    writer.finish()
 
 
 @main.command()
@@ -3346,6 +3367,7 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
         ):
             writer.emit(dict(id=curie, label=impl.label(curie)))
             # print(f"{curie} ! {impl.label(curie)}")
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -3514,6 +3536,7 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
         if not mapping.object_id.startswith(f"{maps_to_source}:"):
             continue
         writer.emit_curie(mapping.object_id, mapping.object_label)
+    writer.finish()
 
 
 @main.command()
@@ -3595,11 +3618,12 @@ def term_subsets(terms, output, output_type):
 
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     if isinstance(impl, BasicOntologyInterface):
+        writer = _get_writer(output_type, impl, StreamingCsvWriter)
         curies_it = query_terms_iterator(terms, impl)
         for curie, subset in impl.terms_subsets(curies_it):
             writer.emit(dict(curie=curie, subset=subset))
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -3656,6 +3680,7 @@ def term_categories(terms, category_system, output, output_type):
     curies_it = query_terms_iterator(terms, impl)
     for curie, subset in impl.terms_categories(curies_it):
         writer.emit(dict(curie=curie, subset=subset))
+    writer.finish()
 
 
 @main.command()
@@ -3810,7 +3835,7 @@ def apply_taxon_constraints(
 
     Example:
 
-        runoak  -i db/go.db eval-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
+        runoak  -i db/go.db apply-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
         never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
 
     The --evolution-file (-E) option can be used to pass in a file of candidates.
@@ -4140,14 +4165,14 @@ def enrichment(
     Run class enrichment analysis.
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingYamlWriter)
-    writer.autolabel = autolabel
-    writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     subjects = list(curies_from_file(sample_file))
     background = list(curies_from_file(background_file)) if background_file else None
     if isinstance(impl, ClassEnrichmentCalculationInterface):
+        writer = _get_writer(output_type, impl, StreamingYamlWriter)
+        writer.autolabel = autolabel
+        writer.output = output
         curies = list(query_terms_iterator(terms, impl))
         results = impl.enriched_classes(
             subjects,
@@ -4160,6 +4185,7 @@ def enrichment(
         )
         for result in results:
             writer.emit(result)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -4212,6 +4238,7 @@ def diff_associations(
                         {"entity": change[0], "set": change[1], "term": change[2]},
                         label_fields=["term"],
                     )
+    writer.finish()
 
 
 @main.command()
@@ -4303,6 +4330,7 @@ def validate(
                 rr.set_rules(rule)
             for result in rr.run(impl):
                 writer.emit(result)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -4435,6 +4463,7 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
         )
         for vr in definition_rule.evaluate(impl, entities=entities):
             writer.emit(vr)
+        writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

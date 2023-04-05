@@ -34,42 +34,38 @@ def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
 
     Example:
 
-    .. code :: python
+    .. packages :: python
 
         >>> from oaklib import get_adapter
         >>>
         >>> ## Use the simpleobo adapter to read a local OBO file:
-        >>> adapter = get_adapter('simpleobo:my-ont.obo')
-        >>> for label in oi.label("GO:0005634"):
-        >>>     print(label)
-        >>>
+        >>> adapter = get_adapter('simpleobo:tests/input/go-nucleus.obo')
+        >>> print(adapter.label("GO:0005634"))
+        nucleus
         >>> ## Use the ubergraph adapter, querying within GO
         >>> adapter = get_adapter('ubergraph:go')
-        >>> for label in oi.label("GO:0005634"):
-        >>>     print(label)
-        >>>
+        >>> print(adapter.label("GO:0005634"))
+        nucleus
         >>> ## Use the ubergraph adapter, querying within all
         >>> adapter = get_adapter('ubergraph:')
-        >>> for label in oi.label("GO:0005634"):
-        >>>     print(label)
+        >>> print(adapter.label("GO:0005634"))
+        nucleus
 
     If you omit the scheme then OAK will try to guess the scheme based on the
     suffix of the descriptor
 
-    .. code :: python
+    .. packages :: python
 
         >>> from oaklib import get_adapter
-        >>>
         >>> ## Use an adapter that is able to read OBO Format:
         >>> ## (currently defaults to pronot)
-        >>> adapter = get_adapter('my-ont.obo')
-        >>> for label in oi.label("GO:0005634"):
-        >>>     print(label)
-        >>>
+        >>> adapter = get_adapter('tests/input/go-nucleus.obo')
+        >>> print(adapter.label("GO:0005634"))
+        nucleus
         >>> ## Use an adapter that is able to read SQLIte:
-        >>> adapter = get_adapter('my-ont.db')
-        >>> for label in oi.label("GO:0005634"):
-        >>>     print(label)
+        >>> adapter = get_adapter('tests/input/go-nucleus.obo')
+        >>> print(adapter.label("GO:0005634"))
+        nucleus
 
     :param descriptor:
     :param format:
@@ -85,8 +81,10 @@ def get_implementation_from_shorthand(
     """
     Gets an adapter (implementation) for a given descriptor.
 
-    NOTE: this is an alias for `get_adapter` - use this instead,
-    get_implementation_from_shorthand will be deprecated in future.
+    .. warning ::
+
+       this is an alias for `get_adapter` - use this instead,
+       get_implementation_from_shorthand will be deprecated in future.
 
     :param descriptor:
     :param format:

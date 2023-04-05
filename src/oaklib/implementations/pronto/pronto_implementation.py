@@ -70,7 +70,6 @@ from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterfac
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.kgcl_utilities import tidy_change_object
 
 warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
@@ -111,21 +110,21 @@ class ProntoImplementation(
 
     To load a local file:
 
-    .. code:: python
+    .. packages:: python
 
         >>> resource = OntologyResource(slug='go.obo', directory='input', local=True)
         >>> oi = ProntoImplementation(resource)
 
     To load from the OBO library:
 
-    .. code:: python
+    .. packages:: python
 
         >>> resource = OntologyResource(local=False, slug='go.obo'))
         >>> oi = ProntoImplementation(resource)
 
     Currently this implementation implements most of the BaseOntologyInterface
 
-    .. code:: python
+    .. packages:: python
 
         >>> rels = oi.outgoing_relationships('GO:0005773')
         >>> for rel, parents in rels.items():
@@ -421,19 +420,6 @@ class ProntoImplementation(
         for s, p, o in self.relationships([curie], predicates, include_entailed=entailed):
             if s == curie:
                 yield p, o
-
-    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
-
-    def incoming_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        for s, p, o in self.relationships(None, predicates, [curie], include_entailed=entailed):
-            if o == curie:
-                yield p, s
-
-    def incoming_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.incoming_relationships(*args, **kwargs))
 
     def create_entity(
         self,
@@ -863,6 +849,12 @@ class ProntoImplementation(
             self.add_relationship(patch.subject, patch.predicate, patch.object)
         elif isinstance(patch, kgcl.EdgeDeletion):
             self.remove_relationship(patch.subject, patch.predicate, patch.object)
+        elif isinstance(patch, kgcl.RemoveSynonym):
+            t = self._entity(patch.about_node, strict=True)
+            synonym_to_remove = [
+                syn for syn in t._data().synonyms if syn.description == patch.old_value
+            ][0]
+            t._data().synonyms.discard(synonym_to_remove)
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
         return patch

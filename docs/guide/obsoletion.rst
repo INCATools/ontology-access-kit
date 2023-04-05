@@ -6,42 +6,65 @@ Obsoletion
 Looking up obsoleted entities
 ----------------------------
 
-In OAK, the terms "obsolete" and "deprecated" are used interchangeably.
+In OAK, the terms :term:`Obsolete` and "deprecated" are used interchangeably.
 
-The way in which is to specify an entity is obsolete is fairly standard, using an ``owl:deprecated`` annotation. For example:
+Obsoletion is an important part of any ontology's lifecycle. Sometimes it is necessary to
+obsolete an :term:`Identifier` because it is no longer a good representation of a concept,
+or because it becomes out of scope, or it is discovered to be equivalent to an existing concept.
 
-In turtle:
+A good ontology will never *delete* an identifier, but will instead mark it as obsolete.
+
+The way in which is to specify an entity is obsolete is fairly standard, using an ``owl:deprecated`` :term:`Annotation Assertion`.
+
+In :term:`Turtle`:
 
 .. code-block:: turtle
 
-    MYO:123456 owl:deprecated true .
+    MYO:123456 owl:deprecated true ;
+               rdfs:label "obsolete foo" .
 
-In OBO Format:
+In :term:`OBO Format`:
 
 .. code-block:: yaml
 
     id: MYO:123456
+    name: obsolete foo
     is_obsolete: true
+
+Note the use of the :term:`Label` prefixed with "obsolete" is purely a convention, the
+standard way to mark an entity as obsolete is to use the ``owl:deprecated`` annotation assertion.
 
 You can query for all obsolete entities in an ontology using the `obsoletes <https://incatools.github.io/ontology-access-kit/cli.html#runoak-obsoletes>`_ command:
 
 .. code-block:: bash
 
-    runoak -i myontology.db obsoletes
+    $ runoak -i sqlite:obo:hp obsoletes
+    ...
+    HP:0040180	obsolete Hyperkeratosis pilaris
+    HP:0040193	obsolete Pinealoblastoma
+    HP:0040199	obsolete Flat midface
+    ...
 
 You can also use ``.is_obsolete`` as a query term as input to other commands, e.g
 
 .. code-block:: bash
 
-    runoak -i myontology.db info .is_obsolete
+    $ runoak -i sqlite:obo:hp term-metadata .is_obsolete
 
 In python, querying obsoleted entities is provided by the :ref:`basic_ontology_interface`:
 
 .. code-block:: python
 
-    >>> ont = get_implentation_from_shorthand("myontology.db")
-    >>> for entity in ont.obsoletes():
-    >>>    print(entity)
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("sqlite:obo:hp")
+    >>> for entity in sorted(adapter.obsoletes()):
+    ...    print(entity)
+    <BLANKLINE>
+    ...
+    HP:0040180
+    ...
+    HP:0040199
+    ...
 
 Conventions and standards
 -------------------------
@@ -67,7 +90,7 @@ On the command line:
 
 .. code-block:: bash
 
-    runoak -i sqlite:obo:go term-metadata GO:0000005
+    $ runoak -i sqlite:obo:go term-metadata GO:0000005
 
 returns:
 
@@ -101,7 +124,7 @@ To get information about all obsolete entities in an ontology, use the ``.is_obs
 
 .. code-block:: bash
 
-    runoak -i sqlite:obo:go term-metadata .is_obsolete
+    $ runoak -i sqlite:obo:go term-metadata .is_obsolete
 
 Merged entities
 ---------------
@@ -121,9 +144,9 @@ In OBO format, this is handled with the ``alt_id`` tag. For example:
 Here, there was previously an entity ``X:2``, this was merged into ``X:1``, and all metadata
 about ``X:2`` is lost (although some of it may have been copied into metadata for ``X:1``).
 
-Note that there is no seperate entry for X:2 in the OBO file.
+Note that there is no separate entry for X:2 in the OBO file.
 
-In the Obo to OWL translation, this is treated just like obsoletion with replacement,
+In the OBO Format to OWL Translation, this is treated just like obsoletion with replacement,
 except there is no metadata about the original class (other than its deprecated axiom), and
 there is an additional IAO "obsoletion reason" annotation, with type "term merged".
 
@@ -145,7 +168,7 @@ If you run:
 
 .. code-block:: bash
 
-    runoak -i sqlite:obo:hp obsoletes
+    $ runoak -i sqlite:obo:hp obsoletes
 
 It will show all deprecated IDs, regardless of whether they were merged or not (i.e
 alt_ids from OBO format are included). Note that merged entities will show "None" for the
@@ -156,8 +179,11 @@ an ``is_obsolete: true``) then pass ``--no-include-merged`` to the command:
 
 .. code-block:: bash
 
-    runoak -i sqlite:obo:hp obsoletes --no-include-merged
+    $ runoak -i sqlite:obo:hp obsoletes --no-include-merged
 
+Further Reading
+---------------
 
+* `kgcl:NodeObsoletion <http://w3id.org/kgcl/NodeObsoletion>`_
 
 

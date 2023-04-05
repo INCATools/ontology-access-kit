@@ -210,13 +210,13 @@ class KGXImplementation(
 
     To connect, either use KGXImplementation directly:
 
-    .. code:: python
+    .. packages:: python
 
         >>> oi = KGXImplementation(OntologyResource(slug=f"sqlite:///{path}"))
 
     Or use a selector:
 
-    .. code:: python
+    .. packages:: python
 
         >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.db')
 

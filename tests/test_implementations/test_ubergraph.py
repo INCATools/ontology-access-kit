@@ -10,42 +10,59 @@ from tests import (
     CELLULAR_COMPONENT,
     CYTOPLASM,
     DIGIT,
-    INPUT_DIR,
+    IMBO,
     INTRACELLULAR,
     NEURON,
     NUCLEAR_ENVELOPE,
     NUCLEUS,
-    OUTPUT_DIR,
     PHOTORECEPTOR_OUTER_SEGMENT,
     SHAPE,
     THYLAKOID,
     VACUOLE,
 )
 
-TEST_ONT = INPUT_DIR / "go-nucleus.obo"
-TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
-
-ICMBO = "GO:0043231"
-
 
 class TestUbergraphImplementation(unittest.TestCase):
+    """
+    Tests for the UbergraphImplementation class.
+
+    Note: this test performs live queries against a remote endpoint.
+    As such it is inherently fragile, and may fail if either:
+
+     - the remote endpoint is down
+     - the remote endpoint changes its data model
+     - the remote endpoint changes its data
+    """
+
     def setUp(self) -> None:
         oi = UbergraphImplementation()
         self.oi = oi
 
     def test_relationships(self):
+        """
+        Tests asserted and non-asserted relationships.
+
+        Note: we try and make this test as non-fragile as possible
+        by choosing a relatively stable part of GO, but it is still
+        possible that upstream changes will break this test.
+        """
         ont = self.oi
         rels = ont.outgoing_relationship_map(VACUOLE)
         for k, v in rels.items():
             logging.info(f"{k} = {v}")
-        self.assertIn("GO:0043231", rels[IS_A])
+        self.assertIn(IMBO, rels[IS_A])
         self.assertIn(CYTOPLASM, rels[PART_OF])
+        rels = list(ont.relationships([VACUOLE]))
+        for rel in rels:
+            logging.info(rel)
+        self.assertNotIn((VACUOLE, IS_A, CELLULAR_COMPONENT), rels)
+        self.assertIn((VACUOLE, PART_OF, CYTOPLASM), rels)
 
     def test_entailed_relationships(self):
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships(VACUOLE))
         self.assertIn((IS_A, VACUOLE), rels)
-        self.assertIn((IS_A, ICMBO), rels)
+        self.assertIn((IS_A, IMBO), rels)
         self.assertIn((IS_A, CELLULAR_COMPONENT), rels)
         self.assertIn((PART_OF, CYTOPLASM), rels)
         self.assertIn((PART_OF, CELL), rels)
@@ -76,9 +93,9 @@ class TestUbergraphImplementation(unittest.TestCase):
         )
 
     def test_definition(self):
-        defn = self.oi.definition("GO:0005575")
+        defn = self.oi.definition(CELLULAR_COMPONENT)
         logging.info(defn)
-        assert defn
+        self.assertTrue(defn.startswith("A location"))
 
     def test_search(self):
         config = SearchConfiguration(is_partial=False)

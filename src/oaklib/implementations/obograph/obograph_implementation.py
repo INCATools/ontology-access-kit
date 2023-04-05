@@ -75,7 +75,7 @@ class OboGraphImplementation(
 
     To use:
 
-    .. code :: python
+    .. packages :: python
 
         >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.json')
         >>> for term in oi.entities():
@@ -329,7 +329,7 @@ class OboGraphImplementation(
 
     # TODO: DRY
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        # TODO: move up, avoid repeating code
+        # TODO: move up, avoid repeating packages
         if config is None:
             config = SearchConfiguration()
         matches = []

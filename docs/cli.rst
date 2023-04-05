@@ -1,4 +1,4 @@
-.. cli:
+.. _command_line_interface:
 
 Command Line
 ============

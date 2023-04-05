@@ -14,7 +14,7 @@ class BioPortalImplementation(OntoPortalImplementationBase):
 
     Example:
 
-    .. code :: python
+    .. packages :: python
 
         >>> api_key = get_apikey_value(BioPortalImplementation.ontoportal_client_class.name)
         >>> oi = BioPortalImplementation(api_key=api_key)

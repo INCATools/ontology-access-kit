@@ -106,6 +106,7 @@ from tests import (
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
+    OPISTHOKONTA,
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
     PLASMA_MEMBRANE,
@@ -915,6 +916,19 @@ class ComplianceTester:
                 lambda oi: test.assertCountEqual(
                     ["shroom", "fungi", "Fungi", "Mycota"],
                     oi.entity_aliases(FUNGI),
+                ),
+                None,
+            ),
+            (
+                kgcl.RemoveSynonym(
+                    id=generate_change_id(),
+                    about_node=OPISTHOKONTA,
+                    old_value="Fungi/Metazoa group",
+                ),
+                False,
+                lambda oi: test.assertCountEqual(
+                    ["Opisthokonta", "opisthokonts"],
+                    oi.entity_aliases(OPISTHOKONTA),
                 ),
                 None,
             ),
