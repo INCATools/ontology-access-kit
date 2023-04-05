@@ -5,7 +5,7 @@ import math
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple
+from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple, Union
 
 from rustsim import get_intersection, jaccard_similarity, mrca_and_score
 
@@ -17,7 +17,7 @@ from oaklib.datamodels.similarity import (
 )
 from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -143,8 +143,8 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
             subject_ancestors = set(subject_ancestors)
             object_ancestors = set(object_ancestors)
         elif isinstance(self, OboGraphInterface):
-            subject_ancestors = set(self.wrapped_adapter.ancestors(subject, predicates))
-            object_ancestors = set(self.wrapped_adapter.ancestors(object, predicates))
+            subject_ancestors = set(self.ancestors(subject, predicates))
+            object_ancestors = set(self.ancestors(object, predicates))
         else:
             raise NotImplementedError
         if include_owl_thing:
@@ -174,41 +174,11 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         :param predicates:
         :return:
         """
-        pairs = list(
-            self.wrapped_adapter.information_content_scores(
-                [curie], object_closure_predicates=predicates
-            )
-        )
+        pairs = list(self.information_content_scores([curie], object_closure_predicates=predicates))
         if pairs:
             if len(pairs) > 1:
                 raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
             return pairs[0][1]
-
-    def information_content_scores(
-        self,
-        curies: Iterable[CURIE],
-        predicates: List[PRED_CURIE] = None,
-        object_closure_predicates: List[PRED_CURIE] = None,
-        use_associations: bool = None,
-    ) -> Iterator[Tuple[CURIE, float]]:
-        """
-        Yields entity-score pairs for a given collection of entities.
-
-        The Information Content (IC) score for a term t is determined by:
-
-            IC(t) = -log2(Pr(t))
-
-        Where the probability Pr(t) is determined by the frequency of that term against
-        the whole corpus:
-
-            Pr(t) = freq(t)/|items|
-
-        :param curies:
-        :param object_closure_predicates:
-        :return:
-        """
-        # * Currently implemented via SQLImplementation
-        raise NotImplementedError
 
     def pairwise_similarity(
         self,
@@ -230,7 +200,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         """
         logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
         cas = list(
-            self.wrapped_adapter.common_ancestors(
+            self.common_ancestors(
                 subject,
                 object,
                 predicates,
@@ -243,9 +213,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         logging.info(f"Retrieving IC for {len(cas)} common ancestors")
         ics = {
             a: ic
-            for a, ic in self.wrapped_adapter.information_content_scores(
-                cas, object_closure_predicates=predicates
-            )
+            for a, ic in self.information_content_scores(cas, object_closure_predicates=predicates)
         }
         if len(ics) > 0:
             anc, max_ic = mrca_and_score(ics)
@@ -262,10 +230,10 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         )
         sim.ancestor_information_content = max_ic
         if subject_ancestors is None and isinstance(self, OboGraphInterface):
-            subject_ancestors = set(self.wrapped_adapter.ancestors(subject, predicates=predicates))
+            subject_ancestors = set(self.ancestors(subject, predicates=predicates))
             subject_ancestors.add(subject)
         if object_ancestors is None and isinstance(self, OboGraphInterface):
-            object_ancestors = set(self.wrapped_adapter.ancestors(object, predicates=predicates))
+            object_ancestors = set(self.ancestors(object, predicates=predicates))
             object_ancestors.add(object)
         if subject_ancestors is not None and object_ancestors is not None:
             sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
@@ -328,7 +296,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         sim.average_score = statistics.mean(scores)
         sim.best_score = max(scores)
         if labels:
-            label_ix = {k: v for k, v in self.wrapped_adapter.labels(curies)}
+            label_ix = {k: v for k, v in self.labels(curies)}
             for x in list(sim.subject_termset.values()) + list(sim.object_termset.values()):
                 x.label = label_ix.get(x.id, None)
             for x in list(sim.subject_best_matches.values()) + list(
@@ -368,3 +336,49 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         :return: iterator
         """
         yield from self.wrapped_adapter.entities(filter_obsoletes=True, owl_type=None)
+
+    def ancestors(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive: bool = True,
+        method: Optional[GraphTraversalMethod] = None,
+    ) -> Iterable[CURIE]:
+        """Returns a list of ancestors."""
+        yield from self.wrapped_adapter.ancestors(
+            start_curies=start_curies, predicates=predicates, reflexive=reflexive, method=method
+        )
+
+    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+        """Returns labels for CURIEs."""
+        yield from self.wrapped_adapter.labels(curies, allow_none=allow_none)
+
+    def information_content_scores(
+        self,
+        curies: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Yields entity-score pairs for a given collection of entities.
+
+        The Information Content (IC) score for a term t is determined by:
+
+            IC(t) = -log2(Pr(t))
+
+        Where the probability Pr(t) is determined by the frequency of that term against
+        the whole corpus:
+
+            Pr(t) = freq(t)/|items|
+
+        :param curies:
+        :param object_closure_predicates:
+        :return:
+        """
+        yield from self.wrapped_adapter.information_content_scores(
+            curies=curies,
+            predicates=predicates,
+            object_closure_predicates=object_closure_predicates,
+            use_associations=use_associations,
+        )
