@@ -473,18 +473,18 @@ css = ["tinycss2 (>=1.1.0,<1.2)"]
 
 [[package]]
 name = "boto3"
-version = "1.26.104"
+version = "1.26.106"
 description = "The AWS SDK for Python"
 category = "main"
 optional = true
 python-versions = ">= 3.7"
 files = [
-    {file = "boto3-1.26.104-py3-none-any.whl", hash = "sha256:308c5a8293d9b76e74921f4d945be19cc467b92e5f128df1db76e31c71345bb3"},
-    {file = "boto3-1.26.104.tar.gz", hash = "sha256:bcd09f16bdf3d71ab7d0fab20e97242f09c63f4cea0943329521ab35a950f900"},
+    {file = "boto3-1.26.106-py3-none-any.whl", hash = "sha256:53d449bc3445da0a8812857f3e24e143dc56573bc365f36a5610900b09d06faf"},
+    {file = "boto3-1.26.106.tar.gz", hash = "sha256:bdabab7ad27ae86de22a8687cbf55d8a152c6d6f178ffb452e560bac0be957a7"},
 ]
 
 [package.dependencies]
-botocore = ">=1.29.104,<1.30.0"
+botocore = ">=1.29.106,<1.30.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.6.0,<0.7.0"
 
@@ -493,14 +493,14 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.29.104"
+version = "1.29.106"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = true
 python-versions = ">= 3.7"
 files = [
-    {file = "botocore-1.29.104-py3-none-any.whl", hash = "sha256:932bfbf580a2ae53f471df4bfbebce531985ee27468cf7c37d7ccfb3cf8bc9e4"},
-    {file = "botocore-1.29.104.tar.gz", hash = "sha256:7e7a01cef10b1daa9cb01ec25a15e831e7359fc43d1b591359710f203c3620a8"},
+    {file = "botocore-1.29.106-py3-none-any.whl", hash = "sha256:d50df9a39da1b0e475727c6c2ba141b44d9df527d3dc1936b264ee4cb1525ab7"},
+    {file = "botocore-1.29.106.tar.gz", hash = "sha256:eaaa669fe33a0ef2e9d345a98ed0befac1ea33395d63620913c1bb738c387d4d"},
 ]
 
 [package.dependencies]
@@ -2166,14 +2166,14 @@ linkml-runtime = ">=1.1.24,<2.0.0"
 
 [[package]]
 name = "kgcl-schema"
-version = "0.3.3"
+version = "0.3.5"
 description = "Schema for the KGCL project."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "kgcl_schema-0.3.3-py3-none-any.whl", hash = "sha256:ea002924e5b871918f4d73c8869983d42cd1e09106cd97945456a13a07bdff40"},
-    {file = "kgcl_schema-0.3.3.tar.gz", hash = "sha256:7779ca71e5f84b7c94db9758db245fd5401a0f4c620e746fffbbb54ac0a13026"},
+    {file = "kgcl_schema-0.3.5-py3-none-any.whl", hash = "sha256:fca9537ddf9f46b4f3280c4531d21036902c9828146b77cf5debb20e67e71891"},
+    {file = "kgcl_schema-0.3.5.tar.gz", hash = "sha256:738e7a008324bf447a9c483d90a742da8d17b74675fa2d2411c4c7bb567d83ce"},
 ]
 
 [package.dependencies]
@@ -2584,14 +2584,14 @@ testing = ["beautifulsoup4", "coverage", "docutils (>=0.17.0,<0.18.0)", "pytest 
 
 [[package]]
 name = "nbclassic"
-version = "0.5.4"
+version = "0.5.5"
 description = "Jupyter Notebook as a Jupyter Server extension."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "nbclassic-0.5.4-py3-none-any.whl", hash = "sha256:df78e4ba143f35084ad060deec16cb1d4839dde47bfdbc4232beb7071a6d70ea"},
-    {file = "nbclassic-0.5.4.tar.gz", hash = "sha256:312b3f7d7ff2e6c261d51799bb12e6493498ab47d3469d3a01015d5533fd4d2b"},
+    {file = "nbclassic-0.5.5-py3-none-any.whl", hash = "sha256:47791b04dbcb89bf7fde910a3d848fd4793a4248a8936202453631a87da37d51"},
+    {file = "nbclassic-0.5.5.tar.gz", hash = "sha256:d2c91adc7909b0270c73e3e253d3687a6704b4f0a94bc156a37c85eba09f4d37"},
 ]
 
 [package.dependencies]
