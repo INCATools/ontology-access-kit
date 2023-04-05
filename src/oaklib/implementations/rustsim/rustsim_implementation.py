@@ -16,7 +16,6 @@ from oaklib.datamodels.similarity import (
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import OWL_THING
-from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -36,16 +35,12 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
 
     delegated_methods: ClassVar[List[str]] = [
         BasicOntologyInterface.label,
-        BasicOntologyInterface.labels,
         BasicOntologyInterface.curie_to_uri,
         BasicOntologyInterface.uri_to_curie,
         BasicOntologyInterface.ontologies,
         BasicOntologyInterface.obsoletes,
         SearchInterface.basic_search,
         OboGraphInterface.node,
-        SqlImplementation.information_content_scores,
-        SqlImplementation.ancestors,
-        SqlImplementation.entities,
     ]
 
     def __post_init__(self):
@@ -148,8 +143,8 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
             subject_ancestors = set(subject_ancestors)
             object_ancestors = set(object_ancestors)
         elif isinstance(self, OboGraphInterface):
-            subject_ancestors = set(self.ancestors(subject, predicates))
-            object_ancestors = set(self.ancestors(object, predicates))
+            subject_ancestors = set(self.wrapped_adapter.ancestors(subject, predicates))
+            object_ancestors = set(self.wrapped_adapter.ancestors(object, predicates))
         else:
             raise NotImplementedError
         if include_owl_thing:
@@ -179,7 +174,11 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         :param predicates:
         :return:
         """
-        pairs = list(self.information_content_scores([curie], object_closure_predicates=predicates))
+        pairs = list(
+            self.wrapped_adapter.information_content_scores(
+                [curie], object_closure_predicates=predicates
+            )
+        )
         if pairs:
             if len(pairs) > 1:
                 raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
@@ -231,7 +230,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         """
         logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
         cas = list(
-            self.common_ancestors(
+            self.wrapped_adapter.common_ancestors(
                 subject,
                 object,
                 predicates,
@@ -244,7 +243,9 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         logging.info(f"Retrieving IC for {len(cas)} common ancestors")
         ics = {
             a: ic
-            for a, ic in self.information_content_scores(cas, object_closure_predicates=predicates)
+            for a, ic in self.wrapped_adapter.information_content_scores(
+                cas, object_closure_predicates=predicates
+            )
         }
         if len(ics) > 0:
             anc, max_ic = mrca_and_score(ics)
@@ -261,10 +262,10 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         )
         sim.ancestor_information_content = max_ic
         if subject_ancestors is None and isinstance(self, OboGraphInterface):
-            subject_ancestors = set(self.ancestors(subject, predicates=predicates))
+            subject_ancestors = set(self.wrapped_adapter.ancestors(subject, predicates=predicates))
             subject_ancestors.add(subject)
         if object_ancestors is None and isinstance(self, OboGraphInterface):
-            object_ancestors = set(self.ancestors(object, predicates=predicates))
+            object_ancestors = set(self.wrapped_adapter.ancestors(object, predicates=predicates))
             object_ancestors.add(object)
         if subject_ancestors is not None and object_ancestors is not None:
             sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
@@ -327,7 +328,7 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         sim.average_score = statistics.mean(scores)
         sim.best_score = max(scores)
         if labels:
-            label_ix = {k: v for k, v in self.labels(curies)}
+            label_ix = {k: v for k, v in self.wrapped_adapter.labels(curies)}
             for x in list(sim.subject_termset.values()) + list(sim.object_termset.values()):
                 x.label = label_ix.get(x.id, None)
             for x in list(sim.subject_best_matches.values()) + list(
@@ -357,3 +358,13 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
         for s in subjects:
             for o in objects:
                 yield self.pairwise_similarity(s, o, predicates=predicates)
+
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+        """
+        Yields all known entity CURIEs.
+
+        :param filter_obsoletes: if True, exclude any obsolete/deprecated element
+        :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
+        :return: iterator
+        """
+        yield from self.wrapped_adapter.entities(filter_obsoletes=True, owl_type=None)
