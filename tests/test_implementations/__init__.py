@@ -936,11 +936,11 @@ class ComplianceTester:
                 kgcl.NewTextDefinition(
                     id=generate_change_id(),
                     about_node=OPISTHOKONTA,
-                    new_value='It is an opisthokonta.',
+                    new_value="It is an opisthokonta.",
                 ),
                 False,
                 lambda oi: test.assertEqual(
-                    'It is an opisthokonta.',
+                    "It is an opisthokonta.",
                     oi.definition(OPISTHOKONTA),
                 ),
                 None,
@@ -949,16 +949,15 @@ class ComplianceTester:
                 kgcl.NodeTextDefinitionChange(
                     id=generate_change_id(),
                     about_node=BIOLOGICAL_PROCESS,
-                    new_value='It is a biological process.',
+                    new_value="It is a biological process.",
                 ),
                 False,
                 lambda oi: test.assertEqual(
-                    'It is a biological process.',
+                    "It is a biological process.",
                     oi.definition(BIOLOGICAL_PROCESS),
                 ),
                 None,
             ),
-
         ]
         # Apply changes and test the end-state is as expected
         for case in cases:

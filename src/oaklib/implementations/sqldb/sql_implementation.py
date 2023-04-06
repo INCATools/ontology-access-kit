@@ -81,6 +81,7 @@ from oaklib.datamodels.summary_statistics_datamodel import (
 from oaklib.datamodels.vocabulary import (
     ALL_CONTRIBUTOR_PREDICATES,
     ALL_MATCH_PREDICATES,
+    DEFINITION_PREDICATE,
     DEPRECATED_PREDICATE,
     DISJOINT_WITH,
     ENTITY_LEVEL_DEFINITION_PREDICATES,
@@ -1980,6 +1981,32 @@ class SqlImplementation(
                         subject=about, predicate=predicate, value=patch.new_value
                     )
                 )
+            elif isinstance(patch, kgcl.NewTextDefinition):
+                q = self.session.query(Statements).filter(
+                    Statements.subject == about, Statements.predicate == DEFINITION_PREDICATE
+                )
+                if q.count() == 0:
+                    self._execute(
+                        insert(Statements).values(
+                            subject=about, predicate=DEFINITION_PREDICATE, value=patch.new_value
+                        )
+                    )
+                else:
+                    self.apply_patch(
+                        kgcl.NodeTextDefinitionChange(subject=about, value=patch.new_value)
+                    )
+            elif isinstance(patch, kgcl.NodeTextDefinitionChange):
+                stmt = (
+                    update(Statements)
+                    .where(
+                        and_(
+                            Statements.subject == about,
+                            Statements.predicate == DEFINITION_PREDICATE,
+                        )
+                    )
+                    .values(value=patch.new_value)
+                )
+                self._execute(stmt)
             else:
                 raise NotImplementedError(f"Unknown patch type: {type(patch)}")
         elif isinstance(patch, kgcl.EdgeChange):
