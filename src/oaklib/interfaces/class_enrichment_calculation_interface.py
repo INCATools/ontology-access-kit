@@ -136,14 +136,18 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         yielded_ancs = set()
         for r in results:
             if filter_redundant:
-                if yielded.intersection(set(self.ancestors(r.class_id, predicates=object_closure_predicates))):
+                if yielded.intersection(
+                    set(self.ancestors(r.class_id, predicates=object_closure_predicates))
+                ):
                     continue
                 if r.class_id in yielded_ancs:
                     continue
             yield r
             if filter_redundant:
                 yielded.add(r.class_id)
-                yielded_ancs.update(list(self.ancestors(r.class_id, predicates=object_closure_predicates)))
+                yielded_ancs.update(
+                    list(self.ancestors(r.class_id, predicates=object_closure_predicates))
+                )
 
     def create_self_associations(self):
         """

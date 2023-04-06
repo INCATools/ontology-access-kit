@@ -55,7 +55,9 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
-from oaklib.interfaces.class_enrichment_calculation_interface import ClassEnrichmentCalculationInterface
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
+)
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface

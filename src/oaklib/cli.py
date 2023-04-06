@@ -4126,10 +4126,12 @@ def rollup(
 @autolabel_option
 @output_type_option
 @output_option
-@click.option("--ontology-only/--no-ontology-only",
-              default=False,
-              show_default=True,
-              help="If true, perform a degenerate analysis treating each term as an association")
+@click.option(
+    "--ontology-only/--no-ontology-only",
+    default=False,
+    show_default=True,
+    help="If true, perform a degenerate analysis treating each term as an association",
+)
 @click.option(
     "--cutoff", type=click.FLOAT, default=0.05, show_default=True, help="The cutoff for the p-value"
 )
@@ -4153,7 +4155,8 @@ def rollup(
 @click.option(
     "--filter-redundant/--no-filter-redundant",
     default=False,
-    help="If true, filter out redundant terms")
+    help="If true, filter out redundant terms",
+)
 @click.argument("terms", nargs=-1)
 def enrichment(
     terms,
@@ -4199,7 +4202,6 @@ def enrichment(
     for result in results:
         writer.emit(result)
     writer.finish()
-
 
 
 @main.command()
