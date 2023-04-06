@@ -2065,6 +2065,32 @@
                         <span class="n">subject</span><span class="o">=</span><span class="n">about</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">predicate</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NewTextDefinition</span><span class="p">):</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">HAS_DEFINITION_CURIE</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span>
+                        <span class="n">insert</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
+                            <span class="n">subject</span><span class="o">=</span><span class="n">about</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">HAS_DEFINITION_CURIE</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">apply_patch</span><span class="p">(</span>
+                        <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeTextDefinitionChange</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">about</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span><span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeTextDefinitionChange</span><span class="p">):</span>
+                <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">update</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                        <span class="n">and_</span><span class="p">(</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">HAS_DEFINITION_CURIE</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown patch type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeChange</span><span class="p">):</span>
