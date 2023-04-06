@@ -88,7 +88,9 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="n">Association</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.class_enrichment</span> <span class="kn">import</span> <span class="n">ClassEnrichmentResult</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">EQUIVALENT_CLASS</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AssociationProviderInterface</span><span class="p">,</span>
 <span class="p">)</span>
@@ -117,6 +119,7 @@
         <span class="n">hypotheses</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">cutoff</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
         <span class="n">autolabel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">filter_redundant</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">sort_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;greater&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">ClassEnrichmentResult</span><span class="p">]:</span>
@@ -128,6 +131,9 @@
 <span class="sd">        :param hypotheses: The set of classes to test for overrepresentation</span>
 <span class="sd">        :param cutoff: The threshold to use for significance</span>
 <span class="sd">        :param labels: Whether to include labels for the classes</span>
+<span class="sd">        :param direction: The direction of the test. One of &#39;greater&#39;, &#39;less&#39;, &#39;two-sided&#39;</span>
+<span class="sd">        :param filter_redundant: Whether to filter out redundant hypotheses</span>
+<span class="sd">        :param sort_by: The field to sort by. One of &#39;p_value&#39;, &#39;sample_count&#39;, &#39;background_count&#39;, &#39;odds_ratio&#39;</span>
 <span class="sd">        :param direction: The direction of the test. One of &#39;greater&#39;, &#39;less&#39;, &#39;two-sided&#39;</span>
 <span class="sd">        :return: An iterator over ClassEnrichmentResult objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -211,8 +217,44 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">anc_counts</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">p_value</span><span class="p">,</span> <span class="o">-</span><span class="n">anc_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">yielded</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">yielded_ancs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">r</span></div></div>
+            <span class="k">if</span> <span class="n">filter_redundant</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">yielded</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">object_closure_predicates</span><span class="p">))</span>
+                <span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">class_id</span> <span class="ow">in</span> <span class="n">yielded_ancs</span><span class="p">:</span>
+                    <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">r</span>
+            <span class="k">if</span> <span class="n">filter_redundant</span><span class="p">:</span>
+                <span class="n">yielded</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">class_id</span><span class="p">)</span>
+                <span class="n">yielded_ancs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">object_closure_predicates</span><span class="p">))</span>
+                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ClassEnrichmentCalculationInterface.create_self_associations"><a class="viewcode-back" href="../../../packages/interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.create_self_associations">[docs]</a>    <span class="k">def</span> <span class="nf">create_self_associations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create self associations for all terms in the ontology.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; adapter.create_self_associations()</span>
+<span class="sd">        &gt;&gt;&gt; terms = [&quot;GO:0034357&quot;, &quot;GO:0031965&quot;, &quot;GO:0005773&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; for r in adapter.enriched_classes(terms, autolabel=True, filter_redundant=True):</span>
+<span class="sd">        ...     print(r.class_id, r.class_label, round(r.p_value_adjusted,3))</span>
+<span class="sd">        GO:0016020 membrane 0.004</span>
+<span class="sd">        ...</span>
+
+
+<span class="sd">        This is useful for simple over-representation tests over term sets without any annotations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assocs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">assoc</span> <span class="o">=</span> <span class="n">Association</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">EQUIVALENT_CLASS</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">assocs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">assoc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

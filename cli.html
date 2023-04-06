@@ -1636,6 +1636,27 @@ to avoid killer queries.</p>
 <h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Permalink to this heading"></a></h4>
 <blockquote>
 <div><p>Run class enrichment analysis.</p>
+<p>Given a sample file of identifiers (e.g. gene IDs), plus a set of associations (e.g. gene to term
+associations, return the terms that are over-represented in the sample set.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:uberon -g gene2anat.txt -G g2t enrichment -U my-genes.txt -O csv</p>
+</div></blockquote>
+<p>This runs an enrichment using Uberon on my-genes.txt, using the gene2anat.txt file as the
+association file (assuming simple gene-to-term format). The output is in CSV format.</p>
+<p>It is recommended you always provide a background set, including all the entity identifiers
+considered in the experiment.</p>
+<p>You can specify –filter-redundant to filter out redundant terms. This will block reporting
+of any terms that are either subsumed by or subsume a lower p-value term that is already
+reported.</p>
+<p>For a full example, see:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Enrichment.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Enrichment.ipynb</a></p>
+</div></blockquote>
+<p>Note that it is possible to run “pseudo-enrichments” on term lists only by passing
+no associations and using –ontology-only. This creates a fake association set that is simply
+reflexive relations between each term and itself. This can be useful for summarizing term lists,
+but note that P-values may not be meaningful.</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>enrichment<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1677,26 +1698,20 @@ to avoid killer queries.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-if-absent">
-<span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-if-absent" title="Permalink to this definition"></a></dt>
-<dd><p>determines behavior when the value is not present or is empty.</p>
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-ontology-only">
+<span id="cmdoption-runoak-enrichment-no-ontology-only"></span><span class="sig-name descname"><span class="pre">--ontology-only</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-ontology-only</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-ontology-only" title="Permalink to this definition"></a></dt>
+<dd><p>If true, perform a pseudo-enrichment analysis treating each term as an association to itself.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Options<span class="colon">:</span></dt>
-<dd class="field-odd"><p>absent-only | present-only</p>
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>False</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-S">
-<span id="cmdoption-runoak-enrichment-s"></span><span id="cmdoption-runoak-enrichment-set-value"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--set-value</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set_value&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-S" title="Permalink to this definition"></a></dt>
-<dd><p>the value to set for all terms for the given property.</p>
-</dd></dl>
-
-<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-enrichment-cutoff">
 <span class="sig-name descname"><span class="pre">--cutoff</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;cutoff&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-cutoff" title="Permalink to this definition"></a></dt>
-<dd><p>The cutoff for the p-value</p>
+<dd><p>The cutoff for the p-value; any p-values greater than this are not reported.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p>0.05</p>
@@ -1707,7 +1722,7 @@ to avoid killer queries.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-enrichment-U">
 <span id="cmdoption-runoak-enrichment-u"></span><span id="cmdoption-runoak-enrichment-sample-file"></span><span class="sig-name descname"><span class="pre">-U</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--sample-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sample_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-U" title="Permalink to this definition"></a></dt>
-<dd><p>file containing input list of entity IDs (e.g. gene IDs)</p>
+<dd><p><strong>Required</strong> file containing input list of entity IDs (e.g. gene IDs)</p>
 </dd></dl>
 
 <dl class="std option">
@@ -1720,6 +1735,12 @@ to avoid killer queries.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-enrichment-association-predicates">
 <span class="sig-name descname"><span class="pre">--association-predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;association_predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-association-predicates" title="Permalink to this definition"></a></dt>
 <dd><p>A comma-separated list of predicates for the association relation</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-filter-redundant">
+<span id="cmdoption-runoak-enrichment-no-filter-redundant"></span><span class="sig-name descname"><span class="pre">--filter-redundant</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-filter-redundant</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-filter-redundant" title="Permalink to this definition"></a></dt>
+<dd><p>If true, filter out redundant terms</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>

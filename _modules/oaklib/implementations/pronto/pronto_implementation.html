@@ -130,15 +130,15 @@
     <span class="n">TERMS_MERGED</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AssociationProviderInterface</span><span class="p">,</span>
-<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ALIAS_MAP</span><span class="p">,</span>
     <span class="n">METADATA_MAP</span><span class="p">,</span>
     <span class="n">PRED_CURIE</span><span class="p">,</span>
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
     <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.class_enrichment_calculation_interface</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ClassEnrichmentCalculationInterface</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.dumper_interface</span> <span class="kn">import</span> <span class="n">DumperInterface</span>
@@ -178,7 +178,8 @@
     <span class="n">MappingProviderInterface</span><span class="p">,</span>
     <span class="n">PatcherInterface</span><span class="p">,</span>
     <span class="n">DifferInterface</span><span class="p">,</span>
-    <span class="n">AssociationProviderInterface</span><span class="p">,</span>
+    <span class="c1"># AssociationProviderInterface,</span>
+    <span class="n">ClassEnrichmentCalculationInterface</span><span class="p">,</span>
     <span class="n">SemanticSimilarityInterface</span><span class="p">,</span>
     <span class="n">TextAnnotatorInterface</span><span class="p">,</span>
     <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
