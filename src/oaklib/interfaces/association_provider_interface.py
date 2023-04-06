@@ -1,3 +1,4 @@
+import logging
 from abc import ABC
 from collections import defaultdict
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
@@ -81,6 +82,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             else:
                 raise NotImplementedError
         ix = self._association_index
+        if ix is None:
+            logging.warning("No association index")
+            return
         for a in ix.lookup(subjects, predicates, objects):
             yield a
 

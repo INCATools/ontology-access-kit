@@ -4126,14 +4126,17 @@ def rollup(
 @autolabel_option
 @output_type_option
 @output_option
-@if_absent_option
-@set_value_option
+@click.option("--ontology-only/--no-ontology-only",
+              default=False,
+              show_default=True,
+              help="If true, perform a degenerate analysis treating each term as an association")
 @click.option(
     "--cutoff", type=click.FLOAT, default=0.05, show_default=True, help="The cutoff for the p-value"
 )
 @click.option(
     "--sample-file",
     "-U",
+    required=True,
     type=click.File(mode="r"),
     help="file containing input list of entity IDs (e.g. gene IDs)",
 )
@@ -4147,6 +4150,10 @@ def rollup(
     "--association-predicates",
     help="A comma-separated list of predicates for the association relation",
 )
+@click.option(
+    "--filter-redundant/--no-filter-redundant",
+    default=False,
+    help="If true, filter out redundant terms")
 @click.argument("terms", nargs=-1)
 def enrichment(
     terms,
@@ -4158,8 +4165,8 @@ def enrichment(
     output: str,
     sample_file: TextIO,
     background_file: TextIO,
-    if_absent: bool,
-    set_value: str,
+    ontology_only: bool,
+    **kwargs,
 ):
     """
     Run class enrichment analysis.
@@ -4169,25 +4176,30 @@ def enrichment(
     actual_association_predicates = _process_predicates_arg(association_predicates)
     subjects = list(curies_from_file(sample_file))
     background = list(curies_from_file(background_file)) if background_file else None
-    if isinstance(impl, ClassEnrichmentCalculationInterface):
-        writer = _get_writer(output_type, impl, StreamingYamlWriter)
-        writer.autolabel = autolabel
-        writer.output = output
-        curies = list(query_terms_iterator(terms, impl))
-        results = impl.enriched_classes(
-            subjects,
-            predicates=actual_association_predicates,
-            object_closure_predicates=actual_predicates,
-            hypotheses=curies if curies else None,
-            background=background,
-            cutoff=cutoff,
-            autolabel=autolabel,
-        )
-        for result in results:
-            writer.emit(result)
-        writer.finish()
-    else:
+    if not isinstance(impl, ClassEnrichmentCalculationInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if not ontology_only and not any(True for _ in impl.associations()):
+        raise click.UsageError("no associations -- specify --ontology-only or load associations")
+    if ontology_only:
+        impl.create_self_associations()
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    curies = list(query_terms_iterator(terms, impl))
+    results = impl.enriched_classes(
+        subjects,
+        predicates=actual_association_predicates,
+        object_closure_predicates=actual_predicates,
+        hypotheses=curies if curies else None,
+        background=background,
+        cutoff=cutoff,
+        autolabel=autolabel,
+        **kwargs,
+    )
+    for result in results:
+        writer.emit(result)
+    writer.finish()
+
 
 
 @main.command()
