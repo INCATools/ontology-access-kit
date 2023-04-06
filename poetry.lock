@@ -2212,14 +2212,14 @@ linkml-runtime = ">=1.1.24,<2.0.0"
 
 [[package]]
 name = "kgcl-schema"
-version = "0.3.5"
+version = "0.3.6"
 description = "Schema for the KGCL project."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "kgcl_schema-0.3.5-py3-none-any.whl", hash = "sha256:fca9537ddf9f46b4f3280c4531d21036902c9828146b77cf5debb20e67e71891"},
-    {file = "kgcl_schema-0.3.5.tar.gz", hash = "sha256:738e7a008324bf447a9c483d90a742da8d17b74675fa2d2411c4c7bb567d83ce"},
+    {file = "kgcl_schema-0.3.6-py3-none-any.whl", hash = "sha256:270a5bbb2af10f6566763d676f505b81a2369eec7fec2e436c322ded1b62efbf"},
+    {file = "kgcl_schema-0.3.6.tar.gz", hash = "sha256:090a8135650e88442f5ca36f0b67e6261be2406f7eefd1bdb3cb45fbc2dc60c6"},
 ]
 
 [package.dependencies]
