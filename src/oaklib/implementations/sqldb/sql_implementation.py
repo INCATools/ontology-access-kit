@@ -81,7 +81,6 @@ from oaklib.datamodels.summary_statistics_datamodel import (
 from oaklib.datamodels.vocabulary import (
     ALL_CONTRIBUTOR_PREDICATES,
     ALL_MATCH_PREDICATES,
-    DEFINITION_PREDICATE,
     DEPRECATED_PREDICATE,
     DISJOINT_WITH,
     ENTITY_LEVEL_DEFINITION_PREDICATES,
@@ -1983,12 +1982,12 @@ class SqlImplementation(
                 )
             elif isinstance(patch, kgcl.NewTextDefinition):
                 q = self.session.query(Statements).filter(
-                    Statements.subject == about, Statements.predicate == DEFINITION_PREDICATE
+                    Statements.subject == about, Statements.predicate == HAS_DEFINITION_CURIE
                 )
                 if q.count() == 0:
                     self._execute(
                         insert(Statements).values(
-                            subject=about, predicate=DEFINITION_PREDICATE, value=patch.new_value
+                            subject=about, predicate=HAS_DEFINITION_CURIE, value=patch.new_value
                         )
                     )
                 else:
@@ -2001,7 +2000,7 @@ class SqlImplementation(
                     .where(
                         and_(
                             Statements.subject == about,
-                            Statements.predicate == DEFINITION_PREDICATE,
+                            Statements.predicate == HAS_DEFINITION_CURIE,
                         )
                     )
                     .values(value=patch.new_value)
