@@ -63,6 +63,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
         - NodeMove
         - NodeRename
         - PredicateChange
+        - NewTextDefinition
+        - NodeTextDefinitionChange
 
         :param other_ontology:
         :param configuration:
