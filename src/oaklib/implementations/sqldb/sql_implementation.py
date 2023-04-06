@@ -259,13 +259,13 @@ class SqlImplementation(
 
     To connect, either use SqlImplementation directly:
 
-    .. code:: python
+    .. packages:: python
 
         >>> oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{path}"))
 
     Or use a selector:
 
-    .. code:: python
+    .. packages:: python
 
         >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.db')
 
@@ -1597,7 +1597,7 @@ class SqlImplementation(
         if slot.pattern:
             # check values against regexes
             # NOTE: this may be slow as we have to do this in
-            # code rather than SQL. Some SQL engines have regex support,
+            # packages rather than SQL. Some SQL engines have regex support,
             # and we should leverage that when it exists
             re_pattern = re.compile(slot.pattern)
             main_q = self.session.query(Statements).filter(Statements.predicate == predicate)

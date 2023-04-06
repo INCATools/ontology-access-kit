@@ -84,7 +84,7 @@ class UniprotImplementation(
 
     An UniprotImplementation can be initialed by:
 
-        .. code:: python
+        .. packages:: python
 
            >>>  oi = UniprotImplementation()
 

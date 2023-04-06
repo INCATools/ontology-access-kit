@@ -57,7 +57,7 @@ jobs:
       #          install & configure poetry
       #----------------------------------------------
       - name: Install Poetry
-        run: pip install poetry==1.4.0
+        run: pip install poetry
         # uses: snok/install-poetry@v1.3.3
         # with:
         #   virtualenvs-create: true
