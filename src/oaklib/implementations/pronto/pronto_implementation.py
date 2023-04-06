@@ -45,8 +45,6 @@ from oaklib.datamodels.vocabulary import (
     TERMS_MERGED,
 )
 from oaklib.interfaces import TextAnnotatorInterface
-from oaklib.interfaces.association_provider_interface import (
-    AssociationProviderInterface,
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
