@@ -204,7 +204,7 @@ class TagValue:
         :param v: new value
         :return:
         """
-        v = v.replace('"', '\\"')
+        v = v.replace('"', '"')
         self.value = re.sub(r'^"(.*)"\s+', f'"{v}" ', self.value)
 
     def replace_token(self, curie_map: Mapping[CURIE, CURIE]):
