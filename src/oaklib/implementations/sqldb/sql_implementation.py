@@ -1980,6 +1980,32 @@ class SqlImplementation(
                         subject=about, predicate=predicate, value=patch.new_value
                     )
                 )
+            elif isinstance(patch, kgcl.NewTextDefinition):
+                q = self.session.query(Statements).filter(
+                    Statements.subject == about, Statements.predicate == HAS_DEFINITION_CURIE
+                )
+                if q.count() == 0:
+                    self._execute(
+                        insert(Statements).values(
+                            subject=about, predicate=HAS_DEFINITION_CURIE, value=patch.new_value
+                        )
+                    )
+                else:
+                    self.apply_patch(
+                        kgcl.NodeTextDefinitionChange(subject=about, value=patch.new_value)
+                    )
+            elif isinstance(patch, kgcl.NodeTextDefinitionChange):
+                stmt = (
+                    update(Statements)
+                    .where(
+                        and_(
+                            Statements.subject == about,
+                            Statements.predicate == HAS_DEFINITION_CURIE,
+                        )
+                    )
+                    .values(value=patch.new_value)
+                )
+                self._execute(stmt)
             else:
                 raise NotImplementedError(f"Unknown patch type: {type(patch)}")
         elif isinstance(patch, kgcl.EdgeChange):

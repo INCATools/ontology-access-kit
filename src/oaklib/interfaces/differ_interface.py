@@ -4,7 +4,14 @@ from dataclasses import dataclass
 from typing import Any, Dict, Iterator, Optional, Tuple
 
 import kgcl_schema.datamodel.kgcl as kgcl
-from kgcl_schema.datamodel.kgcl import Change, ClassCreation, NodeCreation, NodeDeletion
+from kgcl_schema.datamodel.kgcl import (
+    Change,
+    ClassCreation,
+    NewTextDefinition,
+    NodeCreation,
+    NodeDeletion,
+    NodeTextDefinitionChange,
+)
 
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
@@ -56,6 +63,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
         - NodeMove
         - NodeRename
         - PredicateChange
+        - NewTextDefinition
+        - NodeTextDefinitionChange
 
         :param other_ontology:
         :param configuration:
@@ -101,6 +110,29 @@ class DifferInterface(BasicOntologyInterface, ABC):
                                 )
                         else:
                             yield kgcl.NodeObsoletion(id=_gen_id(), about_node=e1)
+            # Check for definition change/addition
+            if self.definition(e1) != other_ontology.definition(e1):
+                if self.definition(e1) is None or other_ontology.definition(e1) is None:
+                    old_value = new_value = None
+                    if self.definition(e1):
+                        old_value = self.definition(e1)
+
+                    if other_ontology.definition(e1):
+                        new_value = other_ontology.definition(e1)
+
+                    yield NewTextDefinition(
+                        id=_gen_id(), about_node=e1, new_value=new_value, old_value=old_value
+                    )
+                elif self.definition(e1) is not None and other_ontology.definition(e1) is not None:
+                    yield NodeTextDefinitionChange(
+                        id=_gen_id(),
+                        about_node=e1,
+                        new_value=other_ontology.definition(e1),
+                        old_value=self.definition(e1),
+                    )
+                else:
+                    logging.info(f"Both ontologies have no definition for {e1}")
+
             differs = self.different_from(e1, other_ontology)
             if differs is not None and not differs:
                 continue

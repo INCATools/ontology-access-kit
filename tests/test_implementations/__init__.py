@@ -932,6 +932,32 @@ class ComplianceTester:
                 ),
                 None,
             ),
+            (
+                kgcl.NewTextDefinition(
+                    id=generate_change_id(),
+                    about_node=OPISTHOKONTA,
+                    new_value="It is an opisthokonta.",
+                ),
+                False,
+                lambda oi: test.assertEqual(
+                    "It is an opisthokonta.",
+                    oi.definition(OPISTHOKONTA),
+                ),
+                None,
+            ),
+            (
+                kgcl.NodeTextDefinitionChange(
+                    id=generate_change_id(),
+                    about_node=BIOLOGICAL_PROCESS,
+                    new_value="It is a biological process.",
+                ),
+                False,
+                lambda oi: test.assertEqual(
+                    "It is a biological process.",
+                    oi.definition(BIOLOGICAL_PROCESS),
+                ),
+                None,
+            ),
         ]
         # Apply changes and test the end-state is as expected
         for case in cases:
@@ -1358,7 +1384,7 @@ class ComplianceTester:
         :return:
         """
         test = self.test
-        expecteced = [
+        expected = [
             (NUCLEUS, NUCLEUS, [IS_A], None, [NUCLEUS]),
             (NUCLEUS, VACUOLE, [IS_A], None, [IMBO]),
             (NUCLEUS, IMBO, [IS_A], None, [IMBO]),
@@ -1368,7 +1394,7 @@ class ComplianceTester:
             (NUCLEAR_ENVELOPE, NUCLEUS, [IS_A], None, [CELLULAR_ANATOMICAL_ENTITY]),
             (BIOLOGICAL_PROCESS, NUCLEUS, [IS_A], [OWL_THING], [OWL_THING]),
         ]
-        for x, y, preds, expected_ancs, expected_mrcas in expecteced:
+        for x, y, preds, expected_ancs, expected_mrcas in expected:
             ancs = list(oi.common_ancestors(x, y, preds))
             ancs_flipped = list(oi.common_ancestors(y, x, preds))
             mrcas = list(oi.most_recent_common_ancestors(x, y, preds))
