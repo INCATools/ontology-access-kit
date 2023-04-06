@@ -646,7 +646,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 if x not in remaining:
                     yield x
             query_terms = []
-        elif term == ".not" or terms == ".minus":
+        elif term == ".not" or term == ".minus":
             # boolean term: consume the result of the query and subtract
             rest = list(query_terms_iterator(query_terms, impl))
             for x in results:
@@ -4126,14 +4126,23 @@ def rollup(
 @autolabel_option
 @output_type_option
 @output_option
-@if_absent_option
-@set_value_option
 @click.option(
-    "--cutoff", type=click.FLOAT, default=0.05, show_default=True, help="The cutoff for the p-value"
+    "--ontology-only/--no-ontology-only",
+    default=False,
+    show_default=True,
+    help="If true, perform a pseudo-enrichment analysis treating each term as an association to itself.",
+)
+@click.option(
+    "--cutoff",
+    type=click.FLOAT,
+    default=0.05,
+    show_default=True,
+    help="The cutoff for the p-value; any p-values greater than this are not reported.",
 )
 @click.option(
     "--sample-file",
     "-U",
+    required=True,
     type=click.File(mode="r"),
     help="file containing input list of entity IDs (e.g. gene IDs)",
 )
@@ -4147,6 +4156,11 @@ def rollup(
     "--association-predicates",
     help="A comma-separated list of predicates for the association relation",
 )
+@click.option(
+    "--filter-redundant/--no-filter-redundant",
+    default=False,
+    help="If true, filter out redundant terms",
+)
 @click.argument("terms", nargs=-1)
 def enrichment(
     terms,
@@ -4158,36 +4172,66 @@ def enrichment(
     output: str,
     sample_file: TextIO,
     background_file: TextIO,
-    if_absent: bool,
-    set_value: str,
+    ontology_only: bool,
+    **kwargs,
 ):
     """
     Run class enrichment analysis.
+
+    Given a sample file of identifiers (e.g. gene IDs), plus a set of associations (e.g. gene to term
+    associations, return the terms that are over-represented in the sample set.
+
+    Example:
+
+        runoak -i sqlite:obo:uberon -g gene2anat.txt -G g2t enrichment -U my-genes.txt -O csv
+
+    This runs an enrichment using Uberon on my-genes.txt, using the gene2anat.txt file as the
+    association file (assuming simple gene-to-term format). The output is in CSV format.
+
+    It is recommended you always provide a background set, including all the entity identifiers
+    considered in the experiment.
+
+    You can specify --filter-redundant to filter out redundant terms. This will block reporting
+    of any terms that are either subsumed by or subsume a lower p-value term that is already
+    reported.
+
+    For a full example, see:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Enrichment.ipynb
+
+    Note that it is possible to run "pseudo-enrichments" on term lists only by passing
+    no associations and using --ontology-only. This creates a fake association set that is simply
+    reflexive relations between each term and itself. This can be useful for summarizing term lists,
+    but note that P-values may not be meaningful.
     """
     impl = settings.impl
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     subjects = list(curies_from_file(sample_file))
     background = list(curies_from_file(background_file)) if background_file else None
-    if isinstance(impl, ClassEnrichmentCalculationInterface):
-        writer = _get_writer(output_type, impl, StreamingYamlWriter)
-        writer.autolabel = autolabel
-        writer.output = output
-        curies = list(query_terms_iterator(terms, impl))
-        results = impl.enriched_classes(
-            subjects,
-            predicates=actual_association_predicates,
-            object_closure_predicates=actual_predicates,
-            hypotheses=curies if curies else None,
-            background=background,
-            cutoff=cutoff,
-            autolabel=autolabel,
-        )
-        for result in results:
-            writer.emit(result)
-        writer.finish()
-    else:
+    if not isinstance(impl, ClassEnrichmentCalculationInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if not ontology_only and not any(True for _ in impl.associations()):
+        raise click.UsageError("no associations -- specify --ontology-only or load associations")
+    if ontology_only:
+        impl.create_self_associations()
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    curies = list(query_terms_iterator(terms, impl))
+    results = impl.enriched_classes(
+        subjects,
+        predicates=actual_association_predicates,
+        object_closure_predicates=actual_predicates,
+        hypotheses=curies if curies else None,
+        background=background,
+        cutoff=cutoff,
+        autolabel=autolabel,
+        **kwargs,
+    )
+    for result in results:
+        writer.emit(result)
+    writer.finish()
 
 
 @main.command()

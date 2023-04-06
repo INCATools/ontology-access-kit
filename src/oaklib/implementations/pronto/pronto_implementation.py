@@ -45,15 +45,15 @@ from oaklib.datamodels.vocabulary import (
     TERMS_MERGED,
 )
 from oaklib.interfaces import TextAnnotatorInterface
-from oaklib.interfaces.association_provider_interface import (
-    AssociationProviderInterface,
-)
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
     PRED_CURIE,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
+)
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
@@ -93,7 +93,8 @@ class ProntoImplementation(
     MappingProviderInterface,
     PatcherInterface,
     DifferInterface,
-    AssociationProviderInterface,
+    # AssociationProviderInterface,
+    ClassEnrichmentCalculationInterface,
     SemanticSimilarityInterface,
     TextAnnotatorInterface,
     SummaryStatisticsInterface,

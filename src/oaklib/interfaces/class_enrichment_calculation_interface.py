@@ -3,7 +3,9 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Iterable, Iterator, List, Optional
 
+from oaklib.datamodels.association import Association
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
+from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -32,6 +34,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         hypotheses: Iterable[CURIE] = None,
         cutoff=0.05,
         autolabel=False,
+        filter_redundant=False,
         sort_by: str = None,
         direction="greater",
     ) -> Iterator[ClassEnrichmentResult]:
@@ -43,6 +46,9 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         :param hypotheses: The set of classes to test for overrepresentation
         :param cutoff: The threshold to use for significance
         :param labels: Whether to include labels for the classes
+        :param direction: The direction of the test. One of 'greater', 'less', 'two-sided'
+        :param filter_redundant: Whether to filter out redundant hypotheses
+        :param sort_by: The field to sort by. One of 'p_value', 'sample_count', 'background_count', 'odds_ratio'
         :param direction: The direction of the test. One of 'greater', 'less', 'two-sided'
         :return: An iterator over ClassEnrichmentResult objects
         """
@@ -126,5 +132,41 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         else:
             anc_counts = {}
         results.sort(key=lambda x: (x.p_value, -anc_counts.get(x.class_id, 0)))
+        yielded = set()
+        yielded_ancs = set()
         for r in results:
+            if filter_redundant:
+                if yielded.intersection(
+                    set(self.ancestors(r.class_id, predicates=object_closure_predicates))
+                ):
+                    continue
+                if r.class_id in yielded_ancs:
+                    continue
             yield r
+            if filter_redundant:
+                yielded.add(r.class_id)
+                yielded_ancs.update(
+                    list(self.ancestors(r.class_id, predicates=object_closure_predicates))
+                )
+
+    def create_self_associations(self):
+        """
+        Create self associations for all terms in the ontology.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.obo")
+        >>> adapter.create_self_associations()
+        >>> terms = ["GO:0034357", "GO:0031965", "GO:0005773"]
+        >>> for r in adapter.enriched_classes(terms, autolabel=True, filter_redundant=True):
+        ...     print(r.class_id, r.class_label, round(r.p_value_adjusted,3))
+        GO:0016020 membrane 0.004
+        ...
+
+
+        This is useful for simple over-representation tests over term sets without any annotations.
+        """
+        assocs = []
+        for e in self.entities(filter_obsoletes=True):
+            assoc = Association(subject=e, predicate=EQUIVALENT_CLASS, object=e)
+            assocs.append(assoc)
+        self.add_associations(assocs)
