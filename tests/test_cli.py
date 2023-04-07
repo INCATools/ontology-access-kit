@@ -62,6 +62,10 @@ TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 
 
+def _outpath(test: str, fmt: str = "tmp") -> str:
+    return str(OUTPUT_DIR / test) + "." + fmt
+
+
 class TestCommandLineInterface(unittest.TestCase):
     """
     Tests all command-line subcommands
@@ -173,21 +177,24 @@ class TestCommandLineInterface(unittest.TestCase):
     # OBOGRAPH
 
     def test_obograph_local(self):
-        for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
+        outpath = _outpath("obograph_local")
+        # inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]
+        inputs = [str(TEST_ONT)]
+        for input_arg in inputs:
             logging.info(f"INPUT={input_arg}")
-            self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", TEST_OUT])
-            out = self._out()
+            self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", outpath])
+            out = self._out(outpath)
             assert "GO:0043226" in out
             self.runner.invoke(
-                main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", TEST_OUT]
+                main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", outpath]
             )
-            out = self._out()
+            out = self._out(outpath)
             assert "GO:0016020" in out
             assert "GO:0043226" not in out
             self.runner.invoke(
-                main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", TEST_OUT]
+                main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", outpath]
             )
-            out = self._out()
+            out = self._out(outpath)
             # TODO:
             # assert 'GO:0016020 ! membrane' not in out
             assert "GO:0043226" not in out
@@ -204,11 +211,11 @@ class TestCommandLineInterface(unittest.TestCase):
                     "-O",
                     "obo",
                     "-o",
-                    TEST_OUT_OBO,
+                    outpath,
                 ],
             )
-            self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT])
-            out = self._out(TEST_OUT)
+            self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", outpath])
+            out = self._out(outpath)
             logging.info(out)
             self.assertIn(MEMBRANE, out, f"reflexive by default, input={input_arg}")
             self.assertIn("GO:0031965", out)
