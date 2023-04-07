@@ -12,7 +12,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Mapping, Optional, TextIO, Tuple, Union
 
-from oaklib.datamodels.vocabulary import SCOPE_TO_SYNONYM_PRED_MAP
+from oaklib.datamodels.vocabulary import (
+    OBO_TERM,
+    OBO_TYPEDEF,
+    SCOPE_TO_SYNONYM_PRED_MAP,
+)
 from oaklib.types import CURIE, PRED_CURIE
 
 re_tag_value = re.compile(r"^(\S+):\s*(.*)$")
@@ -596,9 +600,25 @@ class OboDocument:
 
         Does not change tag-value ordering within stanzas
         """
-        stanzas = self.stanzas.values()
-        stanzas = sorted(stanzas, key=lambda x: x.id)
-        self.stanzas = {s.id: s for s in stanzas}
+        term_stanzas = {
+            curie: stanza
+            for curie, stanza in self.stanzas.items()
+            if self.stanzas[curie].type == OBO_TERM
+        }
+        typedef_stanzas = {
+            curie: stanza
+            for curie, stanza in self.stanzas.items()
+            if self.stanzas[curie].type == OBO_TYPEDEF
+        }
+        sorted_term_stanzas = self._sort_stanzas(term_stanzas)
+        sorted_typedef_stanzas = self._sort_stanzas(typedef_stanzas)
+
+        self.stanzas = {s.id: s for s in sorted_term_stanzas}
+        self.stanzas.update({s.id: s for s in sorted_typedef_stanzas})
+
+    def _sort_stanzas(self, stanzas: Mapping[CURIE, Stanza]) -> Mapping[CURIE, Stanza]:
+        values = stanzas.values()
+        return sorted(values, key=lambda x: x.id)
 
     def normalize_line_order(self) -> None:
         """

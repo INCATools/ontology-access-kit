@@ -6,7 +6,7 @@ ontology: TEMP
 
 [Term]
 id: X:1
-name: synonym order test
+name: synonym order test 1
 synonym: "A" BROAD []
 synonym: "A" EXACT []
 synonym: "A" NARROW []
@@ -57,4 +57,31 @@ synonym: "Astacus" RELATED []
 synonym: "astacus" NARROW []
 synonym: "Astacus proteinase activity" RELATED []
 synonym: "astacus proteinase activity" NARROW []
+
+[Term]
+id: A:1
+name: synonym order test 3
+synonym: "B" BROAD []
+synonym: "B" EXACT []
+synonym: "B" NARROW []
+synonym: "B" RELATED []
+synonym: "b" BROAD Y []
+
+[Typedef]
+id: X:4
+name: synonym order test 4
+synonym: "C" BROAD []
+synonym: "C" EXACT []
+synonym: "C" NARROW []
+synonym: "C" RELATED []
+synonym: "c" BROAD Y []
+
+[Typedef]
+id: A:2
+name: synonym order test 2
+synonym: "D" BROAD []
+synonym: "D" EXACT []
+synonym: "D" NARROW []
+synonym: "D" RELATED []
+synonym: "d" BROAD Y []
 

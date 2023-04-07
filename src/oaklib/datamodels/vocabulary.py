@@ -146,6 +146,9 @@ ALL_CONTRIBUTOR_PREDICATES = [OIO_CREATED_BY, CONTRIBUTOR, CREATOR, IAO_TERM_EDI
 OWL_VERSION_INFO = "owl:versionInfo"
 OWL_VERSION_IRI = "owl:versionIRI"
 
+OBO_TERM = "Term"
+OBO_TYPEDEF = "Typedef"
+
 
 class SEMAPV(Enum):
     """SEMAPV Enum containing different mapping_justification."""

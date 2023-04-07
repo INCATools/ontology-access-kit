@@ -353,9 +353,16 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi.dump(output_path, syntax="obo")
         self.assertTrue(filecmp_difflib(input_path, output_path))
         # try ordering stanzas (but do not ordering within a stanza)
+        stanza_length_before_sort = len(oi.obo_document.stanzas)
+        stanza_keys_before_sort = oi.obo_document.stanzas.keys()
         oi.obo_document.order_stanzas()
+        stanza_length_after_sort = len(oi.obo_document.stanzas)
+        stanza_keys_after_sort = oi.obo_document.stanzas.keys()
         oi.dump(output_path, syntax="obo")
-        self.assertTrue(filecmp_difflib(input_path, output_path))
+        # AssertFalse because the stanzas are sorted.
+        self.assertFalse(filecmp_difflib(input_path, output_path))
+        self.assertEqual(stanza_length_before_sort, stanza_length_after_sort)
+        self.assertEqual(stanza_keys_before_sort, stanza_keys_after_sort)
 
     @unittest.skip(
         "Currently not guaranteed same as OWLAPI: see https://github.com/owlcollab/oboformat/issues/138"
