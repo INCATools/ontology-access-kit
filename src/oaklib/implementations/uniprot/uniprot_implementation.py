@@ -177,7 +177,7 @@ class UniprotImplementation(
         if objects is not None:
             query.add_values("o", [self.curie_to_sparql(x) for x in objects])
         logging.info(f"REL: {query.query_str()}")
-        bindings = self._sparql_query(query, prefixes=UNIPROT_PREFIX_MAP)
+        bindings = self.sparql_query(query, prefixes=UNIPROT_PREFIX_MAP)
         for row in bindings:
             subj = self.uri_to_curie(row["s"]["value"])
             pred = self.uri_to_curie(row["p"]["value"])
@@ -248,7 +248,7 @@ class UniprotImplementation(
             else:
                 query.add_values("o", [self.curie_to_sparql(x) for x in objects])
         logging.info(f"REL: {query.query_str()}")
-        bindings = self._sparql_query(query, prefixes=UNIPROT_PREFIX_MAP)
+        bindings = self.sparql_query(query, prefixes=UNIPROT_PREFIX_MAP)
         for row in bindings:
             subj = self.uri_to_curie(row["s"]["value"])
             pred = self.uri_to_curie(row["p"]["value"])

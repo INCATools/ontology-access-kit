@@ -47,6 +47,30 @@ class TestSparqlImplementation(unittest.TestCase):
         self.oi = oi
         self.compliance_tester = ComplianceTester(self)
 
+    def test_sparql_string_query(self):
+        oi = self.oi
+
+        query = """
+        
+        PREFIX metago: <http://model.geneontology.org/>
+        PREFIX dc: <http://purl.org/dc/elements/1.1/>
+  
+        SELECT  distinct ?gocam (GROUP_CONCAT(distinct ?source; separator="` + separator + `") as ?sources)              
+        WHERE 
+        {    
+            values ?gocam { ` + models + ` }
+            GRAPH ?gocam {
+                ?s dc:source ?source .
+                BIND(REPLACE(?source, " ", "") AS ?source) .
+                FILTER((CONTAINS(?source, "PMID")))
+            }           
+        }
+        GROUP BY ?gocam
+        `);
+        
+        """
+
+
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi, ignore_annotation_edges=True)
 
