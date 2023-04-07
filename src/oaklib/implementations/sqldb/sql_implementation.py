@@ -455,7 +455,9 @@ class SqlImplementation(
         for (lbl,) in q:
             return lbl
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
         for curie_it in chunk(curies, self.max_items_for_in_clause):
             curr_curies = list(curie_it)
 
@@ -488,8 +490,12 @@ class SqlImplementation(
             )
             if langs is not None:
                 if self.default_language() in langs:
-                    q = q.filter(or_(RdfsLabelStatement.language.is_(None),
-                                     RdfsLabelStatement.language.in_(langs)))
+                    q = q.filter(
+                        or_(
+                            RdfsLabelStatement.language.is_(None),
+                            RdfsLabelStatement.language.in_(langs),
+                        )
+                    )
                 else:
                     q = q.filter(RdfsLabelStatement.language.in_(langs))
             for row in q:

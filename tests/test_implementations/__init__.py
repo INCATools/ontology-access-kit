@@ -384,7 +384,6 @@ class ComplianceTester:
             test.assertGreater(len(label_tuples), 0)
             test.assertNotIn(lang, [l[2] for l in label_tuples])
 
-
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """
         Tests conformance of MappingProviderInterface.

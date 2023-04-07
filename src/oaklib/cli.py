@@ -811,7 +811,9 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 )
 @click.option("--associations", "-g", multiple=True, help="Location of ontology associations")
 @click.option("--associations-type", "-G", help="Syntax of associations input")
-@click.option("--preferred-language", "-l", help="Preferred language for labels and lexical elements")
+@click.option(
+    "--preferred-language", "-l", help="Preferred language for labels and lexical elements"
+)
 @click.option(
     "--other-languages", multiple=True, help="Additional languages for labels and lexical elements"
 )

@@ -723,7 +723,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             expected_ancs, non_reflexive(oi.ancestors(FAKE_ID, predicates=preds2))
         )
         self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False)))
-        self.assertCountEqual([NUCLEUS], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=True)))
+        self.assertCountEqual(
+            [NUCLEUS], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=True))
+        )
         self.assertCountEqual(
             descendants_ancs, non_reflexive(oi.descendants(FAKE_ID, predicates=preds2))
         )

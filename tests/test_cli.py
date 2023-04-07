@@ -41,8 +41,9 @@ from tests import (
     NUCLEATED,
     NUCLEUS,
     OUTPUT_DIR,
+    PHENOTYPIC_ABNORMALITY,
     SHAPE,
-    VACUOLE, PHENOTYPIC_ABNORMALITY,
+    VACUOLE,
 )
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
@@ -126,7 +127,9 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_multilingual(self):
         for input_arg in [INPUT_DIR / "hp-international.db"]:
-            result = self.runner.invoke(main, ["-i", str(input_arg), "labels", PHENOTYPIC_ABNORMALITY])
+            result = self.runner.invoke(
+                main, ["-i", str(input_arg), "labels", PHENOTYPIC_ABNORMALITY]
+            )
             self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
 
     def test_definitions(self):
