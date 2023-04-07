@@ -74,6 +74,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def setUp(self) -> None:
         runner = CliRunner(mix_stderr=False)
         self.runner = runner
+        print(runner)
 
     def _out(self, path: Optional[str] = TEST_OUT) -> str:
         with open(path) as f:
@@ -178,8 +179,7 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_obograph_local(self):
         outpath = _outpath("obograph_local")
-        # inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]
-        inputs = [str(TEST_ONT)]
+        inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]
         for input_arg in inputs:
             logging.info(f"INPUT={input_arg}")
             self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", outpath])
@@ -199,6 +199,7 @@ class TestCommandLineInterface(unittest.TestCase):
             # assert 'GO:0016020 ! membrane' not in out
             assert "GO:0043226" not in out
             # test fetching ancestor graph and saving as obo
+            outpath_obo = _outpath("obograph_local-tmp", "obo")
             self.runner.invoke(
                 main,
                 [
@@ -211,10 +212,10 @@ class TestCommandLineInterface(unittest.TestCase):
                     "-O",
                     "obo",
                     "-o",
-                    outpath,
+                    outpath_obo,
                 ],
             )
-            self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", outpath])
+            self.runner.invoke(main, ["-i", outpath_obo, "info", ".all", "-o", outpath])
             out = self._out(outpath)
             logging.info(out)
             self.assertIn(MEMBRANE, out, f"reflexive by default, input={input_arg}")
