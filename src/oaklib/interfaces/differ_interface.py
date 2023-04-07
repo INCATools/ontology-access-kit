@@ -119,6 +119,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
                     if other_ontology.definition(e1):
                         new_value = other_ontology.definition(e1)
+
                     yield NewTextDefinition(
                         id=_gen_id(), about_node=e1, new_value=new_value, old_value=old_value
                     )
