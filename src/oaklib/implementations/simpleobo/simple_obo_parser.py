@@ -13,8 +13,6 @@ from pathlib import Path
 from typing import List, Mapping, Optional, TextIO, Tuple, Union
 
 from oaklib.datamodels.vocabulary import (
-    OBO_TERM,
-    OBO_TYPEDEF,
     SCOPE_TO_SYNONYM_PRED_MAP,
 )
 from oaklib.types import CURIE, PRED_CURIE
@@ -97,6 +95,9 @@ TERM_TAGS = [
     TAG_CREATED_BY,
     TAG_CREATION_DATE,
 ]
+
+OBO_TERM = "Term"
+OBO_TYPEDEF = "Typedef"
 
 
 def _parse_list(as_str: str) -> List[str]:
