@@ -12,9 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Mapping, Optional, TextIO, Tuple, Union
 
-from oaklib.datamodels.vocabulary import (
-    SCOPE_TO_SYNONYM_PRED_MAP,
-)
+from oaklib.datamodels.vocabulary import SCOPE_TO_SYNONYM_PRED_MAP
 from oaklib.types import CURIE, PRED_CURIE
 
 re_tag_value = re.compile(r"^(\S+):\s*(.*)$")
