@@ -388,7 +388,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             raise NotImplementedError("Not implemented for SPARQL endpoints")
         yield from self.graph.triples((None, None, None))
 
-    def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def hierarchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         uri = self.curie_to_uri(curie)
         is_a_pred = (
             self.ontology_metamodel_mapper.is_a_uri()
@@ -425,7 +425,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         )
         if not predicates or is_a_pred in predicates:
             # all simple is-a relationships
-            for p in self.hierararchical_parents(curie):
+            for p in self.hierarchical_parents(curie):
                 yield IS_A, p
         if not predicates or predicates != [is_a_pred]:
             # subclassof existential restrictions

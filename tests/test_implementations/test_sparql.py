@@ -106,7 +106,7 @@ class TestSparqlImplementation(unittest.TestCase):
         )
 
     def test_parents(self):
-        parents = self.oi.hierararchical_parents(VACUOLE)
+        parents = self.oi.hierarchical_parents(VACUOLE)
         # logging.info(parents)
         assert "GO:0043231" in parents
 

@@ -42,7 +42,7 @@ from tests import (
     NUCLEUS,
     OUTPUT_DIR,
     SHAPE,
-    VACUOLE,
+    VACUOLE, PHENOTYPIC_ABNORMALITY,
 )
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
@@ -123,6 +123,11 @@ class TestCommandLineInterface(unittest.TestCase):
             )
             assert "cytoplasm" not in result.stdout
             assert "IAO:0000078" in result.stdout
+
+    def test_multilingual(self):
+        for input_arg in [INPUT_DIR / "hp-international.db"]:
+            result = self.runner.invoke(main, ["-i", str(input_arg), "labels", PHENOTYPIC_ABNORMALITY])
+            self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
 
     def test_definitions(self):
         for input_arg in [f"sqlite:{TEST_DB}"]:

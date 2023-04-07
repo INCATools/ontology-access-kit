@@ -278,7 +278,9 @@ class SetOperation(Enum):
 class Settings:
     impl: Any = None
     autosave: bool = False
-    associations_type: str = None
+    associations_type: Optional[str] = None
+    preferred_language: Optional[str] = None
+    other_languages: Optional[List[str]] = None
 
 
 settings = Settings()
@@ -809,6 +811,10 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 )
 @click.option("--associations", "-g", multiple=True, help="Location of ontology associations")
 @click.option("--associations-type", "-G", help="Syntax of associations input")
+@click.option("--preferred-language", "-l", help="Preferred language for labels and lexical elements")
+@click.option(
+    "--other-languages", multiple=True, help="Additional languages for labels and lexical elements"
+)
 @input_option
 @input_type_option
 @add_option
@@ -834,6 +840,7 @@ def main(
     metamodel_mappings,
     prefix,
     import_depth: Optional[int],
+    **kwargs,
 ):
     """Run the oaklib Command Line.
 
@@ -861,6 +868,10 @@ def main(
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
+    for k, v in kwargs.items():
+        if v is not None:
+            logging.info(f"Setting {k}={v}")
+            setattr(settings, k, v)
     logging.info(f"Settings = {settings}")
     if input:
         impl_class: Type[OntologyInterface]
@@ -2848,11 +2859,12 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set
     if len(terms) == 0:
         raise ValueError("You must specify a list of terms. Use '.all' for all terms")
     n = 0
+    logging.info(f"Fetching labels; lang={settings.preferred_language}")
     changes = []
     for curie_it in chunk(query_terms_iterator(terms, impl)):
         logging.info("** Next chunk:")
         n += 1
-        for curie, label in impl.labels(curie_it):
+        for curie, label in impl.labels(curie_it, lang=settings.preferred_language):
             obj = dict(id=curie, label=label)
             if set_value is not None:
                 obj["new_value"] = set_value

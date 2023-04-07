@@ -107,6 +107,7 @@ from tests import (
     NUCLEAR_MEMBRANE,
     NUCLEUS,
     OPISTHOKONTA,
+    PHENOTYPIC_ABNORMALITY,
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
     PLASMA_MEMBRANE,
@@ -350,6 +351,39 @@ class ComplianceTester:
                     )
                 )
                 test.assertCountEqual([r], terms, f"replaced_by did not match for {curie}")
+
+    def test_multilingual(self, oi: BasicOntologyInterface):
+        """
+        Tests multilingual capabilities
+
+        :param oi: use an adapter for the HPO international subset
+        :return:
+        """
+        test = self.test
+        langs = list(oi.languages())
+        expected_langs = ["cs", "tr", "fr", "nl"]
+        test.assertCountEqual(expected_langs, langs)
+        test.assertTrue(oi.multilingual)
+        lang_labels = [
+            ("en", "Phenotypic abnormality"),
+            ("fr", "Anomalie phénotypique"),
+            ("cs", "Fenotypová abnormalita"),
+            ("nl", "Fenotypische abnormaliteit"),
+        ]
+        for lang, expected_label in lang_labels:
+            oi.preferred_language = lang
+            labels = list(oi.labels([PHENOTYPIC_ABNORMALITY]))
+            label = oi.label(PHENOTYPIC_ABNORMALITY, lang=lang)
+            test.assertEquals(expected_label, label, f"Label for {lang} did not match")
+            label_tuples = list(oi.multilingual_labels(PHENOTYPIC_ABNORMALITY))
+            test.assertIn(lang, [l[2] or "en" for l in label_tuples])
+            label_tuples = list(oi.multilingual_labels(PHENOTYPIC_ABNORMALITY, langs=[lang]))
+            test.assertIn(lang, [l[2] or "en" for l in label_tuples])
+            other_langs = [l for l in expected_langs if l != lang]
+            label_tuples = list(oi.multilingual_labels(PHENOTYPIC_ABNORMALITY, langs=other_langs))
+            test.assertGreater(len(label_tuples), 0)
+            test.assertNotIn(lang, [l[2] for l in label_tuples])
+
 
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """

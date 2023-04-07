@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-from typing import Optional, Type
+from typing import Optional, Type, Union
 
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
@@ -20,7 +20,7 @@ RDF_SUFFIX_TO_FORMAT = {
 }
 
 
-def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
+def get_adapter(descriptor: Union[str, Path], format: str = None) -> BasicOntologyInterface:
     """
     Gets an adapter (implementation) for a given descriptor.
 
@@ -71,6 +71,8 @@ def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
     :param format:
     :return:
     """
+    if isinstance(descriptor, Path):
+        descriptor = str(descriptor)
     res = get_resource_from_shorthand(descriptor, format)
     return res.implementation_class(res)
 
