@@ -630,6 +630,11 @@ slots:
   defaultLanguage:
     is_a: informative_property
     slot_uri: protege:defaultLanguage
+  language:
+    is_a: informative_property
+    slot_uri: dcterms:language
+    exact_mappings:
+      - dce:language
   has_ontology_root_term:
     is_a: informative_property
     slot_uri: IAO:0000700

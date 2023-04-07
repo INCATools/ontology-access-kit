@@ -443,7 +443,7 @@ class SqlImplementation(
                 logging.warning(
                     f"Source does not appear to be multilingual, filtering by @{lang} may not work"
                 )
-            if lang == self.default_language():
+            if lang == self.default_language:
                 q = q.filter(typ.language.is_(None))
             else:
                 q = q.filter(typ.language == lang)
@@ -454,6 +454,8 @@ class SqlImplementation(
         q = self._add_language_filter(q, lang, RdfsLabelStatement)
         for (lbl,) in q:
             return lbl
+        if lang and lang != self.default_language:
+            return self.label(curie, lang=self.default_language)
 
     def labels(
         self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
@@ -468,8 +470,12 @@ class SqlImplementation(
             q = self._add_language_filter(q, lang, RdfsLabelStatement)
             for row in q:
                 yield row.subject, row.value
-                if allow_none:
-                    has_label.add(row.subject)
+                has_label.add(row.subject)
+            if lang and lang != self.default_language:
+                # fill missing
+                curies_with_no_labels = set(curr_curies) - has_label
+                yield from self.labels(curies_with_no_labels, allow_none=allow_none, lang=None)
+                allow_none = False
             if allow_none:
                 for curie in curr_curies:
                     if curie not in has_label:
@@ -489,7 +495,7 @@ class SqlImplementation(
                 RdfsLabelStatement.subject.in_(tuple(curr_curies))
             )
             if langs is not None:
-                if self.default_language() in langs:
+                if self.default_language in langs:
                     q = q.filter(
                         or_(
                             RdfsLabelStatement.language.is_(None),

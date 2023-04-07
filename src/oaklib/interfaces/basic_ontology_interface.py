@@ -137,9 +137,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     _multilingual: bool = None
 
-    preferred_language: LANGUAGE_TAG = field(default_factory=lambda: "en")
-    """The preferred language for labels and other lexical entities"""
-
     autosave: bool = field(default_factory=lambda: True)
     """For adapters that wrap a transactional source (e.g sqlite), this controls
     whether results should be auto-committed after each operation"""
@@ -331,6 +328,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         return iter([])
 
+    @property
     def default_language(self) -> Optional[LANGUAGE_TAG]:
         """
         Returns the default language for this ontology interface.

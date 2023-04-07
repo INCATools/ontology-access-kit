@@ -128,7 +128,15 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_multilingual(self):
         for input_arg in [INPUT_DIR / "hp-international.db"]:
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "labels", PHENOTYPIC_ABNORMALITY]
+                main,
+                [
+                    "--preferred-language",
+                    "fr",
+                    "-i",
+                    str(input_arg),
+                    "labels",
+                    PHENOTYPIC_ABNORMALITY,
+                ],
             )
             self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
 
