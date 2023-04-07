@@ -24,6 +24,7 @@ from oaklib.datamodels.vocabulary import (
     LABEL_PREDICATE,
 )
 from oaklib.interfaces import SearchInterface
+from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -79,10 +80,10 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             else:
                 raise ValueError(f"Label must be literal, not {val}")
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         return self._single_valued_assignment(curie, HAS_DEFINITION_CURIE)
 
-    def label(self, curie: CURIE) -> str:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> str:
         labels = [
             a.value for a in self.annotation_assertion_axioms(curie, property=LABEL_PREDICATE)
         ]

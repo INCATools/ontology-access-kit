@@ -37,6 +37,7 @@ from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    LANGUAGE_TAG,
     METADATA_MAP,
     PRED_CURIE,
     PREFIX_MAP,
@@ -536,7 +537,9 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         bindings = self._sparql_query(query)
         return list(set([row[VAL_VAR]["value"] for row in bindings]))
 
-    def label(self, curie: CURIE):
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None):
+        if lang:
+            raise NotImplementedError("Language selection not implemented yet")
         labels = list(self.labels([curie]))
         if labels:
             if len(labels) > 1:
@@ -545,7 +548,11 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         else:
             return None
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: Optional[LANGUAGE_TAG] = None
+    ) -> Iterable[Tuple[CURIE, str]]:
+        if lang:
+            raise NotImplementedError("Language selection not implemented yet")
         label_uri = self._label_uri()
         uris = [self.curie_to_sparql(x) for x in curies]
         query = SparqlQuery(
@@ -633,14 +640,19 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         return [self.uri_to_curie(row["s"]["value"]) for row in bindings]
 
     def create_entity(
-        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+        self,
+        curie: CURIE,
+        label: str = None,
+        relationships: RELATIONSHIP_MAP = None,
+        replace=False,
+        **kwargs,
     ) -> CURIE:
         raise NotImplementedError
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
         raise NotImplementedError
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         # TODO: allow this to be configured to use different predicates
         defn_uri = self._definition_uri()
         labels = self._get_anns(curie, defn_uri)
