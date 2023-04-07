@@ -1004,8 +1004,6 @@ class ComplianceTester:
                 kgcl_diff = render(diff)
                 logging.info(kgcl_diff)
                 change_obj = _as_json_dict_no_id(diff)
-                # if change_obj["@type"] in ["NodeTextDefinitionChange", "NewTextDefinition"]:
-                #     change_obj["new_value"] = change_obj["new_value"].strip('"')
                 if "old_value" in change_obj and "new_value" in change_obj:
                     del change_obj["old_value"]
                 if change_obj in expected_changes:
