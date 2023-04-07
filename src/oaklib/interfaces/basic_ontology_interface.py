@@ -335,7 +335,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter('tests/input/hp-international-test.db')
-        >>> adapter.default_language()
+        >>> adapter.default_language
         'en'
 
         Note that here "default" has a particular meaning: it means that lexical elements
