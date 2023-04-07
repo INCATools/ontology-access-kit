@@ -839,13 +839,11 @@ class ProntoImplementation(
         elif isinstance(patch, kgcl.NewTextDefinition):
             t = self._entity(patch.about_node, strict=True)
             xrefs = t.definition.xrefs if t.definition else []
-            v = f'"{patch.new_value}"'
-            t.definition = pronto.Definition(v, xrefs=xrefs)
+            t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._entity(patch.about_node, strict=True)
             xrefs = t.definition.xrefs if t.definition else []
-            v = f'"{patch.new_value}"'
-            t.definition = pronto.Definition(v, xrefs=xrefs)
+            t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._entity(patch.about_node, strict=True)
             # Get scope from patch.qualifier

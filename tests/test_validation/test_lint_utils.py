@@ -26,7 +26,7 @@ class TestLintUtils(unittest.TestCase):
         self.oi.dump(path=str(TEST_OUT))
         oi_repaired = get_adapter(str(TEST_OUT))
         self.assertEqual(oi_repaired.label(TERM_X1), "test 1")
-        self.assertEqual(oi_repaired.definition(TERM_X1), '"foo bar"')
+        self.assertEqual(oi_repaired.definition(TERM_X1), 'foo bar')
         if not isinstance(oi_repaired, OboGraphInterface):
             raise AssertionError("Expected OboGraphInterface")
         pvs = list(oi_repaired.synonym_property_values(TERM_X1))

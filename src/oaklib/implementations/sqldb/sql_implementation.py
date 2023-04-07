@@ -1984,11 +1984,10 @@ class SqlImplementation(
                 q = self.session.query(Statements).filter(
                     Statements.subject == about, Statements.predicate == HAS_DEFINITION_CURIE
                 )
-                new_value = f'"{patch.new_value}"'
                 if q.count() == 0:
                     self._execute(
                         insert(Statements).values(
-                            subject=about, predicate=HAS_DEFINITION_CURIE, value=new_value
+                            subject=about, predicate=HAS_DEFINITION_CURIE, value=patch.new_value
                         )
                     )
                 else:
@@ -1996,7 +1995,6 @@ class SqlImplementation(
                         kgcl.NodeTextDefinitionChange(subject=about, value=patch.new_value)
                     )
             elif isinstance(patch, kgcl.NodeTextDefinitionChange):
-                new_value = f'"{patch.new_value}"'
                 stmt = (
                     update(Statements)
                     .where(
@@ -2005,7 +2003,7 @@ class SqlImplementation(
                             Statements.predicate == HAS_DEFINITION_CURIE,
                         )
                     )
-                    .values(value=new_value)
+                    .values(value=patch.new_value)
                 )
                 self._execute(stmt)
             else:

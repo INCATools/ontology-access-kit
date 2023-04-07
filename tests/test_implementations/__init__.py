@@ -940,7 +940,7 @@ class ComplianceTester:
                 ),
                 False,
                 lambda oi: test.assertEqual(
-                    '"It is an opisthokonta."',
+                    "It is an opisthokonta.",
                     oi.definition(OPISTHOKONTA),
                 ),
                 None,
@@ -953,7 +953,7 @@ class ComplianceTester:
                 ),
                 False,
                 lambda oi: test.assertEqual(
-                    '"It is a biological process."',
+                    "It is a biological process.",
                     oi.definition(BIOLOGICAL_PROCESS),
                 ),
                 None,
