@@ -126,7 +126,7 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "IAO:0000078" in result.stdout
 
     def test_multilingual(self):
-        for input_arg in [INPUT_DIR / "hp-international.db"]:
+        for input_arg in [INPUT_DIR / "hp-international-test.db"]:
             result = self.runner.invoke(
                 main,
                 [
@@ -138,6 +138,8 @@ class TestCommandLineInterface(unittest.TestCase):
                     PHENOTYPIC_ABNORMALITY,
                 ],
             )
+            print(result.stderr)
+            self.assertEqual(0, result.exit_code)
             self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
 
     def test_definitions(self):
