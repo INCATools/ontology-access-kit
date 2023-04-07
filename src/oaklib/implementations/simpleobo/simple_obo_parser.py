@@ -631,6 +631,8 @@ class OboDocument:
     def _dump_tag_values(self, tag_values: List[TagValue], file: TextIO):
         for tv in tag_values:
             if tv.tag != "id":
+                if tv.tag == "def" and tv.value.startswith("'"):
+                    tv.value = '"' + tv.value.strip("'") + '"'
                 file.write(f"{tv.tag}: {tv.value}\n")
         file.write("\n")
 
