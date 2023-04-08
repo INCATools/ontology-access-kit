@@ -132,6 +132,7 @@ class TestSparqlImplementation(unittest.TestCase):
         )
         self.assertEqual("skos:prefLabel", soil_oi.ontology_metamodel_mapper.label_curie())
         soil_oi.multilingual = True
+        self.assertTrue(soil_oi.multilingual)
         soil_oi.preferred_language = "en"
         label_cases = [
             ("soilprofile:voids", "Voids"),

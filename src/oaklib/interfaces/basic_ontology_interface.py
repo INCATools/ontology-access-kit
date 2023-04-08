@@ -311,6 +311,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             self._multilingual = len([x for x in self.languages()]) > 1
         return self._multilingual
 
+    @multilingual.setter
+    def multilingual(self, value: bool):
+        self._multilingual = value
+
     def languages(self) -> Iterable[LANGUAGE_TAG]:
         """
         Returns a list of languages explicitly supported by this ontology interface.
