@@ -14,7 +14,6 @@ import re
 import secrets
 import sys
 from collections import defaultdict
-from dataclasses import dataclass
 from enum import Enum, unique
 from itertools import chain
 from pathlib import Path
@@ -61,6 +60,7 @@ from oaklib.datamodels.obograph import (
     PrefixDeclaration,
 )
 from oaklib.datamodels.search import create_search_configuration
+from oaklib.datamodels.settings import Settings
 from oaklib.datamodels.summary_statistics_datamodel import (
     GroupedStatistics,
     UngroupedStatistics,
@@ -274,14 +274,14 @@ class SetOperation(Enum):
     reverse_difference = "reverse_difference"
 
 
-@dataclass
-class Settings:
-    impl: Any = None
-    autosave: bool = False
-    associations_type: str = None
-
-
+# TODO: use contexts. See https://stackoverflow.com/questions/64381222/python-click-access-option-values-globally
 settings = Settings()
+
+
+def clear_cli_settings():
+    for k in settings.__dict__:
+        setattr(settings, k, None)
+
 
 input_option = click.option(
     "-i",
@@ -398,7 +398,14 @@ stylemap_configure_option = click.option(
     "--configure",
     help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
 )
-
+pivot_languages = click.option(
+    "--pivot-languages/--no-pivot-languages",
+    help="include one column per language",
+)
+all_languages = click.option(
+    "--all-languages/--no-all-languages",
+    help="if source is multi-lingual, show all languages rather than just default",
+)
 group_by_property_option = click.option(
     "--group-by-property",
     help="group summaries by a metadata property, e.g. rdfs:isDefinedBy",
@@ -479,6 +486,7 @@ def _get_writer(
     w = typ(ontology_interface=impl)
     if w.uses_schemaview and datamodel is not None:
         w.schemaview = package_schemaview(datamodel.__name__)
+    w.settings = settings
     return w
 
 
@@ -809,6 +817,12 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 )
 @click.option("--associations", "-g", multiple=True, help="Location of ontology associations")
 @click.option("--associations-type", "-G", help="Syntax of associations input")
+@click.option(
+    "--preferred-language", "-l", help="Preferred language for labels and lexical elements"
+)
+@click.option(
+    "--other-languages", multiple=True, help="Additional languages for labels and lexical elements"
+)
 @input_option
 @input_type_option
 @add_option
@@ -834,6 +848,7 @@ def main(
     metamodel_mappings,
     prefix,
     import_depth: Optional[int],
+    **kwargs,
 ):
     """Run the oaklib Command Line.
 
@@ -861,6 +876,10 @@ def main(
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
+    for k, v in kwargs.items():
+        if v is not None:
+            logging.info(f"Setting {k}={v}")
+            setattr(settings, k, v)
     logging.info(f"Settings = {settings}")
     if input:
         impl_class: Type[OntologyInterface]
@@ -2809,13 +2828,41 @@ def info(terms, output: TextIO, display: str, output_type: str):
 
 
 @main.command()
+def languages():
+    """
+    Show available languages
+
+    Example:
+
+        runoak languages
+
+    """
+    impl = settings.impl
+    if not isinstance(impl, BasicOntologyInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    for lang in impl.languages():
+        print(lang + ("*" if lang == settings.preferred_language else ""))
+
+
+@main.command()
 @click.argument("terms", nargs=-1)
 @output_option
 @display_option
 @ontological_output_type_option
+@pivot_languages
+@all_languages
 @if_absent_option
 @set_value_option
-def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set_value):
+def labels(
+    terms,
+    output: TextIO,
+    display: str,
+    output_type: str,
+    if_absent,
+    set_value,
+    pivot_languages: bool,
+    all_languages: bool,
+):
     """
     Show labels for term or list of terms
 
@@ -2837,6 +2884,20 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set
 
         runoak -i cl.owl labels .all --if-absent exclude
 
+    Multilingual support: if the adapter supports multilingual querying
+    (currently only SQL) *and* the ontology has multilingual support, you can restrict results to
+    a particular language.
+
+    Example:
+
+        runoak --preferred-language fr -i sqlite:obo:hpinternational labels .ancestors HP:0020110
+
+    You can also query for all languages, and see these pivoted:
+
+    Example:
+
+        runoak  -i sqlite:obo:hpinternational labels .ancestors HP:0020110 --pivot-languages
+
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/labels
@@ -2848,25 +2909,38 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent, set
     if len(terms) == 0:
         raise ValueError("You must specify a list of terms. Use '.all' for all terms")
     n = 0
+    logging.info(f"Fetching labels; lang={settings.preferred_language}")
     changes = []
+    if pivot_languages:
+        all_languages = True
+        writer.pivot_fields = ["language"]
     for curie_it in chunk(query_terms_iterator(terms, impl)):
         logging.info("** Next chunk:")
         n += 1
-        for curie, label in impl.labels(curie_it):
-            obj = dict(id=curie, label=label)
-            if set_value is not None:
-                obj["new_value"] = set_value
-                if set_value != label:
-                    changes.append(
-                        kgcl.NodeRename(
-                            id="x", about_node=curie, old_value=label, new_value=set_value
+        if all_languages:
+            for curie, label, lang in impl.multilingual_labels(curie_it):
+                obj = dict(id=curie, label=label, language=lang)
+                if set_value is not None:
+                    raise NotImplementedError("Cannot set value for multilingual labels yet")
+                if _skip_if_absent(if_absent, label):
+                    continue
+                writer.emit(obj)
+        else:
+            for curie, label in impl.labels(curie_it, lang=settings.preferred_language):
+                obj = dict(id=curie, label=label)
+                if set_value is not None:
+                    obj["new_value"] = set_value
+                    if set_value != label:
+                        changes.append(
+                            kgcl.NodeRename(
+                                id="x", about_node=curie, old_value=label, new_value=set_value
+                            )
                         )
-                    )
-                else:
-                    logging.info(f"No change for {curie}")
-            if _skip_if_absent(if_absent, label):
-                continue
-            writer.emit(obj)
+                    else:
+                        logging.info(f"No change for {curie}")
+                if _skip_if_absent(if_absent, label):
+                    continue
+                writer.emit(obj)
     if n == 0:
         raise ValueError(f"No results for input: {terms}")
     _apply_changes(impl, changes)
