@@ -175,6 +175,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ALIAS_MAP</span><span class="p">,</span>
+    <span class="n">LANGUAGE_TAG</span><span class="p">,</span>
     <span class="n">METADATA_MAP</span><span class="p">,</span>
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
     <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span>
@@ -405,7 +406,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No such stanza </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stanza</span>
 
-    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Language tags not supported&quot;</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">singular_value</span><span class="p">(</span><span class="n">TAG_NAME</span><span class="p">)</span>
@@ -415,9 +418,12 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Language tags not supported&quot;</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">s</span><span class="o">.</span><span class="n">set_singular_tag</span><span class="p">(</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">curies_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span>
@@ -480,7 +486,7 @@
             <span class="n">t</span><span class="o">.</span><span class="n">remove_pairwise_tag_value</span><span class="p">(</span><span class="n">TAG_RELATIONSHIP</span><span class="p">,</span> <span class="n">predicate_code</span><span class="p">,</span> <span class="n">filler</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_clear_relationship_index</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">quoted_value</span><span class="p">(</span><span class="n">TAG_DEFINITION</span><span class="p">)</span>

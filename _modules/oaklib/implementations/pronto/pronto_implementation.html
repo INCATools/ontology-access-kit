@@ -132,6 +132,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ALIAS_MAP</span><span class="p">,</span>
+    <span class="n">LANGUAGE_TAG</span><span class="p">,</span>
     <span class="n">METADATA_MAP</span><span class="p">,</span>
     <span class="n">PRED_CURIE</span><span class="p">,</span>
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
@@ -448,7 +449,7 @@
             <span class="k">if</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">subsets</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
 
-    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span>
@@ -458,7 +459,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
             <span class="n">curr</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span>
@@ -557,7 +558,7 @@
             <span class="n">t</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">predicate_term</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filler_term</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_clear_relationship_index</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">definition</span> <span class="k">if</span> <span class="n">e</span> <span class="k">else</span> <span class="kc">None</span>
 

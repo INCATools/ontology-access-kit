@@ -118,6 +118,7 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ALIAS_MAP</span><span class="p">,</span>
+    <span class="n">LANGUAGE_TAG</span><span class="p">,</span>
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
     <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span>
 <span class="p">)</span>
@@ -312,14 +313,18 @@
                 <span class="k">if</span> <span class="n">subset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_node_subsets</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">n</span>
 
-    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Language tags not supported&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">curie</span> <span class="o">==</span> <span class="n">IS_A</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;subClassOf&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_node</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">n</span><span class="o">.</span><span class="n">lbl</span>
 
-    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Language tags not supported&quot;</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_node</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">n</span><span class="o">.</span><span class="n">lbl</span> <span class="o">=</span> <span class="n">label</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -342,7 +347,9 @@
                 <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Edge</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">curie</span>
 
-    <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LANGUAGE_TAG</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Language tags not supported&quot;</span><span class="p">)</span>
         <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">val</span>

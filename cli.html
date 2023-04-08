@@ -86,6 +86,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-generate-synonyms">generate-synonyms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-labels">labels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-languages">languages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-leafs">leafs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-lexmatch">lexmatch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-lint">lint</a></li>
@@ -332,6 +333,18 @@ You should get the same results by running:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-G">
 <span id="cmdoption-runoak-associations-type"></span><span class="sig-name descname"><span class="pre">-G</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--associations-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;associations_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-G" title="Permalink to this definition"></a></dt>
 <dd><p>Syntax of associations input</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-l">
+<span id="cmdoption-runoak-preferred-language"></span><span class="sig-name descname"><span class="pre">-l</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--preferred-language</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;preferred_language&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-l" title="Permalink to this definition"></a></dt>
+<dd><p>Preferred language for labels and lexical elements</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-other-languages">
+<span class="sig-name descname"><span class="pre">--other-languages</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;other_languages&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-other-languages" title="Permalink to this definition"></a></dt>
+<dd><p>Additional languages for labels and lexical elements</p>
 </dd></dl>
 
 <dl class="std option">
@@ -2191,6 +2204,18 @@ as queries that can be combined using boolean logic</p>
 <blockquote>
 <div><p>runoak -i cl.owl labels .all –if-absent exclude</p>
 </div></blockquote>
+<p>Multilingual support: if the adapter supports multilingual querying
+(currently only SQL) <em>and</em> the ontology has multilingual support, you can restrict results to
+a particular language.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak –preferred-language fr -i sqlite:obo:hpinternational labels .ancestors HP:0020110</p>
+</div></blockquote>
+<p>You can also query for all languages, and see these pivoted:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak  -i sqlite:obo:hpinternational labels .ancestors HP:0020110 –pivot-languages</p>
+</div></blockquote>
 <p>Python API:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/labels">https://incatools.github.io/ontology-access-kit/interfaces/labels</a></p>
@@ -2224,6 +2249,18 @@ as queries that can be combined using boolean logic</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-labels-pivot-languages">
+<span id="cmdoption-runoak-labels-no-pivot-languages"></span><span class="sig-name descname"><span class="pre">--pivot-languages</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-pivot-languages</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-labels-pivot-languages" title="Permalink to this definition"></a></dt>
+<dd><p>include one column per language</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-labels-all-languages">
+<span id="cmdoption-runoak-labels-no-all-languages"></span><span class="sig-name descname"><span class="pre">--all-languages</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-all-languages</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-labels-all-languages" title="Permalink to this definition"></a></dt>
+<dd><p>if source is multi-lingual, show all languages rather than just default</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-labels-if-absent">
 <span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-labels-if-absent" title="Permalink to this definition"></a></dt>
 <dd><p>determines behavior when the value is not present or is empty.</p>
@@ -2247,6 +2284,19 @@ as queries that can be combined using boolean logic</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
+<section id="runoak-languages">
+<h4>languages<a class="headerlink" href="#runoak-languages" title="Permalink to this heading"></a></h4>
+<blockquote>
+<div><p>Show available languages</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak languages</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>languages<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
 </section>
 <section id="runoak-leafs">
 <h4>leafs<a class="headerlink" href="#runoak-leafs" title="Permalink to this heading"></a></h4>

@@ -128,6 +128,7 @@ Name: Ontology-Metadata
 | [ISA_alternative_term](ISA_alternative_term.md) |  |
 | [isDefinedBy](isDefinedBy.md) |  |
 | [label](label.md) |  |
+| [language](language.md) |  |
 | [license](license.md) |  |
 | [logical_predicate](logical_predicate.md) |  |
 | [match](match.md) |  |

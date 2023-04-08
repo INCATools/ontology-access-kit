@@ -15,6 +15,7 @@ URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/omo/schema/
     * [changeNote](changeNote.md)
     * [has_curation_status](has_curation_status.md)
     * [defaultLanguage](defaultLanguage.md)
+    * [language](language.md)
     * [has_ontology_root_term](has_ontology_root_term.md)
     * [conformsTo](conformsTo.md)
     * [license](license.md)
