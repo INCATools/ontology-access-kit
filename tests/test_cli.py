@@ -113,7 +113,6 @@ class TestCommandLineInterface(unittest.TestCase):
                     PHENOTYPIC_ABNORMALITY,
                 ],
             )
-            print(result.stderr)
             self.assertEqual(0, result.exit_code)
             self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
 
@@ -369,7 +368,6 @@ class TestCommandLineInterface(unittest.TestCase):
         ]
         for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
             for case in cases:
-                print(input_arg, case)
                 args, target, directed, expected, unexpected = case
                 all_args = ["-i", input_arg, "paths", "--target", target, *args]
                 if directed:
@@ -880,7 +878,6 @@ class TestCommandLineInterface(unittest.TestCase):
             ),
         ]
         for adapter, query, args, expected in cases:
-            print(query)
             result = self.runner.invoke(
                 main, ["-i", adapter, "query", "-q", query, "-o", TEST_OUT] + args
             )
@@ -888,7 +885,6 @@ class TestCommandLineInterface(unittest.TestCase):
             with open(TEST_OUT, "r") as file:
                 reader = csv.DictReader(file, delimiter="\t")
                 rows = [row for row in reader]
-                print(rows)
                 for e in expected:
                     self.assertIn(e, rows)
                 # for case in cases:
