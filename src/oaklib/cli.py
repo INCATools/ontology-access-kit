@@ -273,12 +273,15 @@ class SetOperation(Enum):
     symmetric_difference = "symmetric_difference"
     reverse_difference = "reverse_difference"
 
+
 # TODO: use contexts. See https://stackoverflow.com/questions/64381222/python-click-access-option-values-globally
 settings = Settings()
+
 
 def clear_cli_settings():
     for k in settings.__dict__:
         setattr(settings, k, None)
+
 
 input_option = click.option(
     "-i",
@@ -2839,6 +2842,7 @@ def languages():
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     for lang in impl.languages():
         print(lang + ("*" if lang == settings.preferred_language else ""))
+
 
 @main.command()
 @click.argument("terms", nargs=-1)

@@ -15,7 +15,7 @@ from linkml_runtime.loaders import json_loader, yaml_loader
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib import get_adapter
-from oaklib.cli import main, clear_cli_settings
+from oaklib.cli import clear_cli_settings, main
 from oaklib.datamodels import fhir, obograph, taxon_constraints
 from oaklib.datamodels.vocabulary import (
     IN_TAXON,
@@ -96,7 +96,9 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual(0, results.exit_code)
             self.assertIn("fr", results.stdout)
             self.assertIn("nl", results.stdout)
-            results = self.runner.invoke(main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"])
+            results = self.runner.invoke(
+                main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"]
+            )
             self.assertEqual(0, results.exit_code)
             self.assertIn("nl*", results.stdout)
             self.assertIn("fr", results.stdout)
@@ -121,7 +123,9 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual(0, results.exit_code)
             self.assertIn("fr", results.stdout)
             self.assertIn("nl", results.stdout)
-            results = self.runner.invoke(main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"])
+            results = self.runner.invoke(
+                main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"]
+            )
             self.assertEqual(0, results.exit_code)
             self.assertIn("nl*", results.stdout)
             self.assertIn("fr", results.stdout)
