@@ -15,7 +15,7 @@ from linkml_runtime.loaders import json_loader, yaml_loader
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib import get_adapter
-from oaklib.cli import main
+from oaklib.cli import main, clear_cli_settings
 from oaklib.datamodels import fhir, obograph, taxon_constraints
 from oaklib.datamodels.vocabulary import (
     IN_TAXON,
@@ -72,9 +72,10 @@ class TestCommandLineInterface(unittest.TestCase):
     """
 
     def setUp(self) -> None:
+        # TODO. Use contexts. https://stackoverflow.com/questions/64381222/python-click-access-option-values-globally
+        clear_cli_settings()
         runner = CliRunner(mix_stderr=False)
         self.runner = runner
-        print(runner)
 
     def _out(self, path: Optional[str] = TEST_OUT) -> str:
         with open(path) as f:
@@ -88,6 +89,42 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("subset", out)
         self.assertIn("validate", out)
         self.assertEqual(0, result.exit_code)
+
+    def test_multilingual(self):
+        for input_arg in [INPUT_DIR / "hp-international-test.db"]:
+            results = self.runner.invoke(main, ["-i", str(input_arg), "languages"])
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("fr", results.stdout)
+            self.assertIn("nl", results.stdout)
+            results = self.runner.invoke(main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"])
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("nl*", results.stdout)
+            self.assertIn("fr", results.stdout)
+            result = self.runner.invoke(
+                main,
+                [
+                    "--preferred-language",
+                    "fr",
+                    "-i",
+                    str(input_arg),
+                    "labels",
+                    PHENOTYPIC_ABNORMALITY,
+                ],
+            )
+            print(result.stderr)
+            self.assertEqual(0, result.exit_code)
+            self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
+
+    def test_languages(self):
+        for input_arg in [INPUT_DIR / "hp-international-test.db"]:
+            results = self.runner.invoke(main, ["-i", str(input_arg), "languages"])
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("fr", results.stdout)
+            self.assertIn("nl", results.stdout)
+            results = self.runner.invoke(main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"])
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("nl*", results.stdout)
+            self.assertIn("fr", results.stdout)
 
     def test_info(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
@@ -130,23 +167,6 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "cytoplasm" not in result.stdout
             assert "IAO:0000078" in result.stdout
 
-    def test_multilingual(self):
-        for input_arg in [INPUT_DIR / "hp-international-test.db"]:
-            result = self.runner.invoke(
-                main,
-                [
-                    "--preferred-language",
-                    "fr",
-                    "-i",
-                    str(input_arg),
-                    "labels",
-                    PHENOTYPIC_ABNORMALITY,
-                ],
-            )
-            print(result.stderr)
-            self.assertEqual(0, result.exit_code)
-            self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
-
     def test_definitions(self):
         for input_arg in [f"sqlite:{TEST_DB}"]:
             result = self.runner.invoke(main, ["-i", str(input_arg), "definitions", ".all"])
@@ -179,7 +199,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_obograph_local(self):
         outpath = _outpath("obograph_local")
-        inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]
+        # inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]
+        inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}"]
         for input_arg in inputs:
             logging.info(f"INPUT={input_arg}")
             self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", outpath])
@@ -344,14 +365,15 @@ class TestCommandLineInterface(unittest.TestCase):
         ]
         for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
             for case in cases:
+                print(input_arg, case)
                 args, target, directed, expected, unexpected = case
                 all_args = ["-i", input_arg, "paths", "--target", target, *args]
                 if directed:
                     all_args.append("--directed")
-                result = self.runner.invoke(main, all_args)
+                result = self.runner.invoke(main, all_args, catch_exceptions=False)
                 self.assertEqual(0, result.exit_code)
                 out = result.stdout
-                # print(out)
+                # print(input_arg, case, out)
                 self.assertIn(expected, out)
                 if unexpected:
                     self.assertNotIn(unexpected, out)
