@@ -74,7 +74,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -101,47 +101,47 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 ```yaml
 name: Ontology
 description: An ontology
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   id:
     name: id
     description: the unique identifier for the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
     range: string
   description:
     name: description
     description: a description of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: dcterms:description
     range: string
   title:
     name: title
     description: the title of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: dcterms:title
     range: string
   prefix:
     name: prefix
     description: the prefix for the ontology
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: sh:prefix
     range: string
   version:
     name: version
     description: the version of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: owl:versionIRI
     range: string
   version_info:
     name: version_info
     description: the version info of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: owl:versionInfo
     range: string
@@ -156,13 +156,13 @@ class_uri: owl:Ontology
 ```yaml
 name: Ontology
 description: An ontology
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   id:
     name: id
     description: the unique identifier for the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
     alias: id
     owner: Ontology
@@ -175,7 +175,7 @@ attributes:
   description:
     name: description
     description: a description of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: dcterms:description
     alias: description
@@ -186,7 +186,7 @@ attributes:
   title:
     name: title
     description: the title of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: dcterms:title
     alias: title
@@ -197,7 +197,7 @@ attributes:
   prefix:
     name: prefix
     description: the prefix for the ontology
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: sh:prefix
     alias: prefix
@@ -208,7 +208,7 @@ attributes:
   version:
     name: version
     description: the version of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: owl:versionIRI
     alias: version
@@ -219,7 +219,7 @@ attributes:
   version_info:
     name: version_info
     description: the version info of the resource
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: owl:versionInfo
     alias: version_info

@@ -77,7 +77,7 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -104,20 +104,20 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 ```yaml
 name: SummaryStatisticsReport
 description: abstract base class for all summary statistics reports
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 abstract: true
 attributes:
   id:
     name: id
     description: Unique handle for this report
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     required: true
   ontologies:
     name: ontologies
     description: Ontology for which the statistics are computed
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
     range: Ontology
@@ -126,7 +126,7 @@ attributes:
   compared_with:
     name: compared_with
     description: For diffs, the ontologies being compared against
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
     range: Ontology
@@ -135,13 +135,13 @@ attributes:
   was_generated_by:
     name: was_generated_by
     description: The process that generated the report
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     range: SummaryStatisticsCalculationActivity
   agents:
     name: agents
     description: Agents that contributed to the report
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
     range: Agent
@@ -157,14 +157,14 @@ attributes:
 ```yaml
 name: SummaryStatisticsReport
 description: abstract base class for all summary statistics reports
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 abstract: true
 attributes:
   id:
     name: id
     description: Unique handle for this report
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     alias: id
     owner: SummaryStatisticsReport
@@ -178,7 +178,7 @@ attributes:
   ontologies:
     name: ontologies
     description: Ontology for which the statistics are computed
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
     alias: ontologies
@@ -191,7 +191,7 @@ attributes:
   compared_with:
     name: compared_with
     description: For diffs, the ontologies being compared against
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
     alias: compared_with
@@ -204,7 +204,7 @@ attributes:
   was_generated_by:
     name: was_generated_by
     description: The process that generated the report
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     alias: was_generated_by
     owner: SummaryStatisticsReport
@@ -214,7 +214,7 @@ attributes:
   agents:
     name: agents
     description: Agents that contributed to the report
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
     alias: agents

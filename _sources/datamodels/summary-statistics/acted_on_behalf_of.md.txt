@@ -43,7 +43,7 @@ URI: [prov:actedOnBehalfOf](http://www.w3.org/ns/prov#actedOnBehalfOf)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [prov:actedOnBehalfOf](http://www.w3.org/ns/prov#actedOnBehalfOf)
 ```yaml
 name: acted_on_behalf_of
 description: the agent that the activity acted on behalf of
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 slot_uri: prov:actedOnBehalfOf
 alias: acted_on_behalf_of

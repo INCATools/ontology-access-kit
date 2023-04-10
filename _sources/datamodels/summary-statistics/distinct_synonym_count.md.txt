@@ -54,7 +54,7 @@ URI: [summary_statistics:distinct_synonym_count](https://w3id.org/oaklib/summary
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -72,7 +72,7 @@ annotations:
     tag: distinct
     value: Value
 description: Number of distinct synonym strings in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: distinct_synonym_count

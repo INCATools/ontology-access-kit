@@ -41,7 +41,7 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -51,7 +51,7 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 <details>
 ```yaml
 name: confidence
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 slot_uri: sssom:confidence
 alias: confidence

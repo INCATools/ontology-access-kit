@@ -46,7 +46,7 @@ URI: [RO:0002175](http://purl.obolibrary.org/obo/RO_0002175)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -59,7 +59,7 @@ name: present_in
 description: 'The term MAY be in the specified taxon, or a descendant of that taxon
 
   '
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002175
 multivalued: true

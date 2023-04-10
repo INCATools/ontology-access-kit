@@ -47,7 +47,7 @@ URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statisti
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -58,7 +58,7 @@ URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statisti
 ```yaml
 name: compared_with
 description: For diffs, the ontologies being compared against
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: compared_with

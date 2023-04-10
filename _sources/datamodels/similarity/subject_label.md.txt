@@ -43,7 +43,7 @@ URI: [sssom:subject_label](http://w3id.org/sssom/subject_label)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -54,7 +54,7 @@ URI: [sssom:subject_label](http://w3id.org/sssom/subject_label)
 ```yaml
 name: subject_label
 description: the label or name for the first entity
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 slot_uri: sssom:subject_label
 alias: subject_label

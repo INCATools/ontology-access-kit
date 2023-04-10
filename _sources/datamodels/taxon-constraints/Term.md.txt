@@ -62,7 +62,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -90,21 +90,21 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 name: Term
 description: An ontology term. In this model this is either the SubjectTerm of a taxon
   constraint, or an actual taxon
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 abstract: true
 attributes:
   id:
     name: id
     description: the OBO CURIE for the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     identifier: true
     range: uriorcurie
   label:
     name: label
     description: the human readable name or label of the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label
     range: string
@@ -120,14 +120,14 @@ class_uri: owl:Class
 name: Term
 description: An ontology term. In this model this is either the SubjectTerm of a taxon
   constraint, or an actual taxon
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 abstract: true
 attributes:
   id:
     name: id
     description: the OBO CURIE for the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     identifier: true
     alias: id
@@ -138,7 +138,7 @@ attributes:
   label:
     name: label
     description: the human readable name or label of the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label
     alias: label

@@ -41,7 +41,7 @@ URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -51,7 +51,7 @@ URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
 <details>
 ```yaml
 name: metric
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: metric
 domain_of:

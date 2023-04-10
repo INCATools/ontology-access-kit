@@ -43,7 +43,7 @@ URI: [dcterms:description](http://purl.org/dc/terms/description)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [dcterms:description](http://purl.org/dc/terms/description)
 ```yaml
 name: description
 description: a description of the resource
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 slot_uri: dcterms:description
 alias: description

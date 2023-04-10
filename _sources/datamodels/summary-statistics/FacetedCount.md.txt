@@ -69,7 +69,7 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -98,19 +98,19 @@ name: FacetedCount
 description: Counts broken down by a facet
 comments:
 - For example, edge counts may be grouped by predicate (relationship type)
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
     description: the facet used to group the counts
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     key: true
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     range: integer
     required: true
@@ -126,13 +126,13 @@ name: FacetedCount
 description: Counts broken down by a facet
 comments:
 - For example, edge counts may be grouped by predicate (relationship type)
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
     description: the facet used to group the counts
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     key: true
     alias: facet
@@ -144,7 +144,7 @@ attributes:
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     alias: filtered_count
     owner: FacetedCount

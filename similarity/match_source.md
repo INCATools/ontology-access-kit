@@ -45,7 +45,7 @@ URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -57,7 +57,7 @@ URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
 name: match_source
 comments:
 - note that the match_source is either the subject or the object
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 identifier: true
 alias: match_source

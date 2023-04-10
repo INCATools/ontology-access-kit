@@ -54,7 +54,7 @@ URI: [summary_statistics:owl_axiom_count](https://w3id.org/oaklib/summary_statis
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: Axiom
 description: Number of OWL axioms in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: owl_axiom_count

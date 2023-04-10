@@ -32,7 +32,7 @@ URI: [ConfigurationOption](ConfigurationOption)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -42,7 +42,7 @@ URI: [ConfigurationOption](ConfigurationOption)
 <details>
 ```yaml
 name: ConfigurationOption
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 permissible_values:
   ExcludeRedundant:

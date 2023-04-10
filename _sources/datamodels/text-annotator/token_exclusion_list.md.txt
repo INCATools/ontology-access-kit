@@ -43,7 +43,7 @@ URI: [ann:token_exclusion_list](https://w3id.org/linkml/text_annotator/token_exc
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -53,7 +53,7 @@ URI: [ann:token_exclusion_list](https://w3id.org/linkml/text_annotator/token_exc
 <details>
 ```yaml
 name: token_exclusion_list
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 multivalued: true
 alias: token_exclusion_list

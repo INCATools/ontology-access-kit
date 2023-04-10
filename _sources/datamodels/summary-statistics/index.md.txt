@@ -2,7 +2,7 @@
 
 A datamodel for reports on data
 
-URI: https://w3id.org/oaklib/summary_statistics
+URI: https://w3id.org/oak/summary_statistics
 Name: summary-statistics
 
 

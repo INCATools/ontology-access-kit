@@ -61,7 +61,7 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -88,19 +88,19 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 ```yaml
 name: Agent
 description: An agent
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   id:
     name: id
     description: the unique identifier for the agent
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
     range: string
   label:
     name: label
     description: the label for the agent
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: rdfs:label
     range: string
@@ -115,13 +115,13 @@ class_uri: prov:Agent
 ```yaml
 name: Agent
 description: An agent
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   id:
     name: id
     description: the unique identifier for the agent
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
     alias: id
     owner: Agent
@@ -134,7 +134,7 @@ attributes:
   label:
     name: label
     description: the label for the agent
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: rdfs:label
     alias: label

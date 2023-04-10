@@ -37,7 +37,7 @@ URI: [TransformationType](TransformationType)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -49,7 +49,7 @@ URI: [TransformationType](TransformationType)
 name: TransformationType
 description: A controlled datamodels of the types of transformation that can be applied
   to
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 permissible_values:
   Stemming:

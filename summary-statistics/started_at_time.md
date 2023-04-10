@@ -43,7 +43,7 @@ URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
 ```yaml
 name: started_at_time
 description: the time at which the activity started
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 slot_uri: prov:startedAtTime
 alias: started_at_time

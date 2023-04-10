@@ -43,7 +43,7 @@ URI: [tc:evolutionary](https://w3id.org/linkml/taxon_constraints/evolutionary)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -54,7 +54,7 @@ URI: [tc:evolutionary](https://w3id.org/linkml/taxon_constraints/evolutionary)
 ```yaml
 name: evolutionary
 description: holds if the constraint is an evolutionary statement
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 alias: evolutionary
 owner: TaxonConstraint

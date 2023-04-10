@@ -41,7 +41,7 @@ URI: [sim:match_subsumer](https://w3id.org/linkml/similarity/match_subsumer)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -51,7 +51,7 @@ URI: [sim:match_subsumer](https://w3id.org/linkml/similarity/match_subsumer)
 <details>
 ```yaml
 name: match_subsumer
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: match_subsumer
 owner: BestMatch

@@ -46,7 +46,7 @@ URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -57,7 +57,7 @@ URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 ```yaml
 name: id
 description: the OBO CURIE for the term
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 identifier: true
 alias: id

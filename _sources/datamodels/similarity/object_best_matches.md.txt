@@ -43,7 +43,7 @@ URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_ma
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -53,7 +53,7 @@ URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_ma
 <details>
 ```yaml
 name: object_best_matches
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 multivalued: true
 alias: object_best_matches

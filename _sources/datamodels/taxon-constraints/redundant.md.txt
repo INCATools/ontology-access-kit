@@ -43,7 +43,7 @@ URI: [tc:redundant](https://w3id.org/linkml/taxon_constraints/redundant)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -55,7 +55,7 @@ URI: [tc:redundant](https://w3id.org/linkml/taxon_constraints/redundant)
 name: redundant
 description: True if this is redundant within the set of constraints of the same type
   (never vs only)
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 alias: redundant
 owner: TaxonConstraint

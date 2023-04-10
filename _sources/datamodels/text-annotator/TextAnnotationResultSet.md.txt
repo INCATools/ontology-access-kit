@@ -49,7 +49,7 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -76,13 +76,13 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 ```yaml
 name: TextAnnotationResultSet
 description: A collection of annotation results
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 attributes:
   annotations:
     name: annotations
     description: all annotations
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
     range: TextAnnotation
@@ -97,13 +97,13 @@ attributes:
 ```yaml
 name: TextAnnotationResultSet
 description: A collection of annotation results
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 attributes:
   annotations:
     name: annotations
     description: all annotations
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
     alias: annotations

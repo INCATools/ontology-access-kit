@@ -62,7 +62,7 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -88,28 +88,28 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 <details>
 ```yaml
 name: TextualElement
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 attributes:
   id:
     name: id
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     identifier: true
     range: uriorcurie
   text:
     name: text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: string
   source_text:
     name: source_text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: string
   parent_document:
     name: parent_document
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: uriorcurie
 
@@ -121,12 +121,12 @@ attributes:
 <details>
 ```yaml
 name: TextualElement
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 attributes:
   id:
     name: id
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     identifier: true
     alias: id
@@ -136,7 +136,7 @@ attributes:
     range: uriorcurie
   text:
     name: text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: text
     owner: TextualElement
@@ -145,7 +145,7 @@ attributes:
     range: string
   source_text:
     name: source_text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: source_text
     owner: TextualElement
@@ -154,7 +154,7 @@ attributes:
     range: string
   parent_document:
     name: parent_document
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: parent_document
     owner: TextualElement

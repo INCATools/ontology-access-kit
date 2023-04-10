@@ -41,7 +41,7 @@ URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -51,7 +51,7 @@ URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 <details>
 ```yaml
 name: ancestor_source
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: ancestor_source
 domain_of:

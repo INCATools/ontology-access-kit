@@ -47,7 +47,7 @@ URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -58,7 +58,7 @@ URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.
 ```yaml
 name: ontologies
 description: Ontology for which the statistics are computed
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: ontologies

@@ -48,7 +48,7 @@ URI: [summary_statistics:untyped_entity_count](https://w3id.org/oaklib/summary_s
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -60,7 +60,7 @@ URI: [summary_statistics:untyped_entity_count](https://w3id.org/oaklib/summary_s
 name: untyped_entity_count
 description: Number of entities whose type could not be determined in the ontology
   or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: untyped_entity_count

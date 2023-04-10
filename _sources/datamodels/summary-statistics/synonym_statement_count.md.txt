@@ -54,7 +54,7 @@ URI: [summary_statistics:synonym_statement_count](https://w3id.org/oaklib/summar
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: Synonym
 description: Number of synonym statements (assertions) in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: synonym_statement_count

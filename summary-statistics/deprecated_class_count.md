@@ -54,7 +54,7 @@ URI: [summary_statistics:deprecated_class_count](https://w3id.org/oaklib/summary
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: Class, Deprecated
 description: Number of deprecated (obsoleted) classes in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: deprecated_class_count

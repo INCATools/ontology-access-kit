@@ -43,7 +43,7 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -54,7 +54,7 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 ```yaml
 name: subject_source
 description: the source for the first entity
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 slot_uri: sssom:subject_source
 alias: subject_source

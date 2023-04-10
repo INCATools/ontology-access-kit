@@ -45,7 +45,7 @@ URI: [tc:predicates](https://w3id.org/linkml/taxon_constraints/predicates)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -56,7 +56,7 @@ URI: [tc:predicates](https://w3id.org/linkml/taxon_constraints/predicates)
 ```yaml
 name: predicates
 description: The predicates that connect the subject term to the via_terms.
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 multivalued: true
 alias: predicates

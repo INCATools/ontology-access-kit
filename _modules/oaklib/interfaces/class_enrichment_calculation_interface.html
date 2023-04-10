@@ -124,13 +124,23 @@
         <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;greater&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">ClassEnrichmentResult</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Test for overrepresentation of classes in a set of entities.</span>
+<span class="sd">        Test for over-representation of classes in a set of entities.</span>
 
-<span class="sd">        :param subjects: The set of entities to test for overrepresentation of classes</span>
-<span class="sd">        :param background: The set of entities to use as a background for the test</span>
-<span class="sd">        :param hypotheses: The set of classes to test for overrepresentation</span>
-<span class="sd">        :param cutoff: The threshold to use for significance</span>
-<span class="sd">        :param labels: Whether to include labels for the classes</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; sample = [&quot;PomBase:SPAC1142.02c&quot;, &quot;PomBase:SPAC3H1.05&quot;, &quot;PomBase:SPAC1142.06&quot;, &quot;PomBase:SPAC4G8.02c&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; for result in adapter.enriched_classes(sample, autolabel=True):</span>
+<span class="sd">        ...    assert result.p_value &lt; 0.05</span>
+<span class="sd">        ...    print(f&quot;{result.class_id} {result.class_label}&quot;)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        :param subjects: The set of entities to test for over-representation of classes</span>
+<span class="sd">        :param background: The set of entities to use as a background for the test (recommended)</span>
+<span class="sd">        :param hypotheses: The set of classes to test for over-representation (default is all)</span>
+<span class="sd">        :param cutoff: The threshold to use for p-value</span>
+<span class="sd">        :param labels: Whether to include labels (names) for the classes</span>
 <span class="sd">        :param direction: The direction of the test. One of &#39;greater&#39;, &#39;less&#39;, &#39;two-sided&#39;</span>
 <span class="sd">        :param filter_redundant: Whether to filter out redundant hypotheses</span>
 <span class="sd">        :param sort_by: The field to sort by. One of &#39;p_value&#39;, &#39;sample_count&#39;, &#39;background_count&#39;, &#39;odds_ratio&#39;</span>
@@ -140,6 +150,8 @@
         <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
         <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating sample_counts for </span><span class="si">{</span><span class="n">sample_size</span><span class="si">}</span><span class="s2"> subjects&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sample_size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No subjects provided&quot;</span><span class="p">)</span>
         <span class="n">sample_count</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">association_subject_counts</span><span class="p">(</span>
@@ -241,6 +253,17 @@
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; adapter.create_self_associations()</span>
+<span class="sd">        &gt;&gt;&gt; assocs = list(adapter.associations([&quot;GO:0005773&quot;]))</span>
+<span class="sd">        &gt;&gt;&gt; assert len(assocs) == 1</span>
+<span class="sd">        &gt;&gt;&gt; assoc = assocs[0]</span>
+<span class="sd">        &gt;&gt;&gt; print(assoc.subject, assoc.predicate, assoc.object)</span>
+<span class="sd">        GO:0005773 owl:equivalentClass GO:0005773</span>
+
+<span class="sd">        This is useful for simple over-representation tests over term sets without any annotations.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; adapter.create_self_associations()</span>
 <span class="sd">        &gt;&gt;&gt; terms = [&quot;GO:0034357&quot;, &quot;GO:0031965&quot;, &quot;GO:0005773&quot;]</span>
 <span class="sd">        &gt;&gt;&gt; for r in adapter.enriched_classes(terms, autolabel=True, filter_redundant=True):</span>
 <span class="sd">        ...     print(r.class_id, r.class_label, round(r.p_value_adjusted,3))</span>
@@ -248,7 +271,6 @@
 <span class="sd">        ...</span>
 
 
-<span class="sd">        This is useful for simple over-representation tests over term sets without any annotations.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">assocs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>

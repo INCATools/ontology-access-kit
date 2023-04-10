@@ -56,7 +56,7 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -82,17 +82,17 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 <details>
 ```yaml
 name: TermInfo
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 attributes:
   id:
     name: id
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     identifier: true
   label:
     name: label
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: rdfs:label
 
@@ -104,12 +104,12 @@ attributes:
 <details>
 ```yaml
 name: TermInfo
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 attributes:
   id:
     name: id
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     identifier: true
     alias: id
@@ -119,7 +119,7 @@ attributes:
     range: string
   label:
     name: label
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: rdfs:label
     alias: label

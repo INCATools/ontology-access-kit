@@ -876,7 +876,15 @@ terms or term queries, plus the closure predicate(s), e.g.</p>
 <div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i HP:0001392</p>
 </div></blockquote>
 <p>This shows all annotations either to “Abnormality of the liver” (HP:0001392), or
-to is-a descendants</p>
+to is-a descendants.</p>
+<p>Using input specifications:</p>
+<p>It can be awkward to specify both input ontology and association path and format. You
+can use input specifications to bundle common combinations of inputs together.</p>
+<p>For example, the go-dictybase-input-spec combines go plus dictybase associations.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak –i src/oaklib/conf/go-dictybase-input-spec.yaml associations -p i,p <a class="reference external" href="GO:0008104">GO:0008104</a></p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>

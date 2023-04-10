@@ -43,7 +43,7 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -54,7 +54,7 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 ```yaml
 name: ancestor_label
 description: the name or label of the ancestor concept
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: ancestor_label
 domain_of:

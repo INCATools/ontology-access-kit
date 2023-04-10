@@ -41,7 +41,7 @@ URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -51,7 +51,7 @@ URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 <details>
 ```yaml
 name: match_string
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 slot_uri: sssom:match_string
 alias: match_string

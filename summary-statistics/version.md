@@ -43,7 +43,7 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 ```yaml
 name: version
 description: the version of the resource
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 slot_uri: owl:versionIRI
 alias: version

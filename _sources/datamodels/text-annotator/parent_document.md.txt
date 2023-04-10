@@ -41,7 +41,7 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -51,7 +51,7 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 <details>
 ```yaml
 name: parent_document
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 alias: parent_document
 owner: TextualElement

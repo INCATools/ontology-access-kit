@@ -56,8 +56,8 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 | [object_termset](object_termset.md) | 0..* <br/> [TermInfo](TermInfo.md) |  | direct |
 | [subject_best_matches](subject_best_matches.md) | 0..* <br/> [BestMatch](BestMatch.md) |  | direct |
 | [object_best_matches](object_best_matches.md) | 0..* <br/> [BestMatch](BestMatch.md) |  | direct |
-| [average_score](average_score.md) | 1..1 <br/> [Float](Float.md) |  | direct |
-| [best_score](best_score.md) | 1..1 <br/> [Float](Float.md) |  | direct |
+| [average_score](average_score.md) | 0..1 <br/> [Float](Float.md) |  | direct |
+| [best_score](best_score.md) | 0..1 <br/> [Float](Float.md) |  | direct |
 | [metric](metric.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 
 
@@ -79,7 +79,7 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -106,7 +106,7 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 ```yaml
 name: TermSetPairwiseSimilarity
 description: A simple pairwise similarity between two sets of concepts/terms
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: PairwiseSimilarity
 slots:
@@ -127,13 +127,13 @@ slots:
 ```yaml
 name: TermSetPairwiseSimilarity
 description: A simple pairwise similarity between two sets of concepts/terms
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: PairwiseSimilarity
 attributes:
   subject_termset:
     name: subject_termset
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: subject_termset
@@ -144,7 +144,7 @@ attributes:
     inlined: true
   object_termset:
     name: object_termset
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: object_termset
@@ -155,7 +155,7 @@ attributes:
     inlined: true
   subject_best_matches:
     name: subject_best_matches
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: subject_best_matches
@@ -166,7 +166,7 @@ attributes:
     inlined: true
   object_best_matches:
     name: object_best_matches
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: object_best_matches
@@ -177,27 +177,27 @@ attributes:
     inlined: true
   average_score:
     name: average_score
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: average_score
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: float
-    required: true
+    required: false
   best_score:
     name: best_score
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: best_score
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: float
-    required: true
+    required: false
   metric:
     name: metric
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: metric
     owner: TermSetPairwiseSimilarity

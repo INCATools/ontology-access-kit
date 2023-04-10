@@ -49,7 +49,7 @@ URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ances
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -60,7 +60,7 @@ URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ances
 ```yaml
 name: ancestor_information_content
 description: The IC of the object
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: information_content
 alias: ancestor_information_content

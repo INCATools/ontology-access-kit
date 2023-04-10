@@ -269,6 +269,12 @@
     <span class="k">def</span> <span class="nf">converter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a converter for this ontology interface&#39;s prefix map.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; converter = adapter.converter</span>
+<span class="sd">        &gt;&gt;&gt; print(converter.compress(&quot;http://purl.obolibrary.org/obo/GO_0005634&quot;))</span>
+<span class="sd">        GO:0005634</span>
+
 <span class="sd">        :return: A converter</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -296,6 +302,11 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expands a CURIE to a URI.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; print(adapter.curie_to_uri(&quot;GO:0005634&quot;))</span>
+<span class="sd">        http://purl.obolibrary.org/obo/GO_0005634</span>
+
 <span class="sd">        :param curie:</span>
 <span class="sd">        :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded</span>
 <span class="sd">        :return:</span>
@@ -317,6 +328,11 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Contracts a URI to a CURIE.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; print(adapter.uri_to_curie(&quot;http://purl.obolibrary.org/obo/GO_0005634&quot;))</span>
+<span class="sd">        GO:0005634</span>
 
 <span class="sd">        If strict conditions hold, then no URI can map to more than one CURIE</span>
 <span class="sd">        (i.e one URI base should not start with another).</span>
@@ -440,7 +456,27 @@
 <span class="sd">        Yields all known ontology CURIEs.</span>
 
 <span class="sd">        Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.</span>
-<span class="sd">        Even when a single ontology is wrapped, there may be multiple ontologies included as imports</span>
+<span class="sd">        Even when a single ontology is wrapped, there may be multiple ontologies included as imports.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.owl.ttl&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; list(adapter.ontologies())</span>
+<span class="sd">        [&#39;go.owl&#39;]</span>
+
+<span class="sd">        .. note ::</span>
+
+<span class="sd">            The payload for this method may change to return normalized ontology names such as &#39;go&#39;</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;bioportal:&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for ont in sorted(adapter.ontologies()):</span>
+<span class="sd">        ...     print(ont)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO</span>
+<span class="sd">        ...</span>
+<span class="sd">        UBERON</span>
+<span class="sd">        ...</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -535,6 +571,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all version identifiers for an ontology.</span>
 
+<span class="sd">        .. warning ::</span>
+
+<span class="sd">            This method is not yet implemented for all OntologyInterface implementations.</span>
+
 <span class="sd">        :param ontology:</span>
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -543,6 +583,13 @@
 <div class="viewcode-block" id="BasicOntologyInterface.ontology_metadata_map"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metadata_map">[docs]</a>    <span class="k">def</span> <span class="nf">ontology_metadata_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ontology</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">METADATA_MAP</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Property-values metadata map with metadata about an ontology.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for ont in adapter.ontologies():</span>
+<span class="sd">        ...     m = adapter.ontology_metadata_map(ont)</span>
+<span class="sd">        ...     m.get(&#39;schema:url&#39;)</span>
+<span class="sd">        [&#39;http://purl.obolibrary.org/obo/go.owl&#39;]</span>
 
 <span class="sd">        :param ontology:</span>
 <span class="sd">        :return:</span>
@@ -554,6 +601,25 @@
 <div class="viewcode-block" id="BasicOntologyInterface.entities"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">[docs]</a>    <span class="k">def</span> <span class="nf">entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">owl_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all known entity CURIEs.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e in adapter.entities():</span>
+<span class="sd">        ...     print(e)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO:0005634</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.vocabulary import OWL_OBJECT_PROPERTY</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e in adapter.entities(owl_type=OWL_OBJECT_PROPERTY):</span>
+<span class="sd">        ...     print(e)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        BFO:0000051</span>
+<span class="sd">        ...</span>
 
 <span class="sd">        :param filter_obsoletes: if True, exclude any obsolete/deprecated element</span>
 <span class="sd">        :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class</span>
@@ -568,6 +634,14 @@
 <div class="viewcode-block" id="BasicOntologyInterface.owl_types"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types">[docs]</a>    <span class="k">def</span> <span class="nf">owl_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all known OWL types for given entities.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e, t in sorted(adapter.owl_types([&#39;GO:0005634&#39;, &#39;BFO:0000050&#39;])):</span>
+<span class="sd">        ...     print(e, t)</span>
+<span class="sd">        BFO:0000050 owl:ObjectProperty</span>
+<span class="sd">        BFO:0000050 owl:TransitiveProperty</span>
+<span class="sd">        GO:0005634 owl:Class</span>
 
 <span class="sd">        The OWL type must either be the instantiated type as the RDFS level, e.g.</span>
 
@@ -593,6 +667,11 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the OWL type for a given entity.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; adapter.owl_type(&#39;GO:0005634&#39;)</span>
+<span class="sd">        [&#39;owl:Class&#39;]</span>
+
 <span class="sd">        Typically each entity will have a single OWL type, but in some cases</span>
 <span class="sd">        an entity may have multiple OWL types. This is called &quot;punning&quot;,</span>
 <span class="sd">        see `Section 8.3&lt;https://www.w3.org/TR/owl2-primer/#Entity_Declarations&gt;` of</span>
@@ -606,6 +685,11 @@
 <div class="viewcode-block" id="BasicOntologyInterface.defined_by"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_by">[docs]</a>    <span class="k">def</span> <span class="nf">defined_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the CURIE of the ontology that defines the given entity.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; adapter.defined_by(&#39;GO:0005634&#39;)</span>
+<span class="sd">        &#39;GO&#39;</span>
 
 <span class="sd">        :param entity:</span>
 <span class="sd">        :return:</span>
@@ -644,12 +728,34 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all entities without a parent.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e in sorted(adapter.roots()):</span>
+<span class="sd">        ...     print(e)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        BFO:0000003</span>
+<span class="sd">        ...</span>
+<span class="sd">        OBI:0100026</span>
+<span class="sd">        ...</span>
+
 <span class="sd">        Note that the concept of a &quot;root&quot; in an ontology can be ambiguous:</span>
 
 <span class="sd">        - is the (trivial) owl:Thing included (OWL tautology)?</span>
 <span class="sd">        - are we asking for the root of the is-a graph, or a subset of predicates?</span>
 <span class="sd">        - do we include parents in imported/merged other ontologies (e.g. BFO)?</span>
 <span class="sd">        - do we include obsolete nodes (which are typically singletons)?</span>
+
+<span class="sd">        Note also that the release OWL versions of many OBO ontologies may exhibit a certain</span>
+<span class="sd">        level of messiness with multiple roots.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e in sorted(adapter.roots(id_prefixes=[&#39;GO&#39;])):</span>
+<span class="sd">        ...     print(e, adapter.label(e))</span>
+<span class="sd">        GO:0003674 molecular_function</span>
+<span class="sd">        GO:0005575 cellular_component</span>
+<span class="sd">        GO:0008150 biological_process</span>
 
 <span class="sd">        This method will yield entities that are not the subject of an edge, considering</span>
 <span class="sd">        only edges with a given set of predicates, optionally ignoring owl:Thing, and</span>
@@ -787,6 +893,17 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all subsets (slims) defined in the ontology.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e in sorted(adapter.subsets()):</span>
+<span class="sd">        ...     print(e)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        goslim_drosophila</span>
+<span class="sd">        goslim_flybase_ribbon</span>
+<span class="sd">        goslim_generic</span>
+<span class="sd">        ...</span>
+
 <span class="sd">        All subsets yielded are contracted to their short form.</span>
 
 <span class="sd">        :return: iterator</span>
@@ -805,6 +922,18 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all entities belonging to the specified subset.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e in sorted(adapter.subset_members(&#39;goslim_generic&#39;)):</span>
+<span class="sd">        ...     print(e, adapter.label(e))</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO:0005634 nucleus</span>
+<span class="sd">        GO:0005635 nuclear envelope</span>
+<span class="sd">        GO:0005737 cytoplasm</span>
+<span class="sd">        GO:0005773 vacuole</span>
+<span class="sd">        ...</span>
+
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
@@ -812,6 +941,17 @@
 <div class="viewcode-block" id="BasicOntologyInterface.terms_subsets"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_subsets">[docs]</a>    <span class="k">def</span> <span class="nf">terms_subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields entity-subset pairs for the given set of entities.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for e, subset in sorted(adapter.terms_subsets([&#39;GO:0005634&#39;, &#39;GO:0005635&#39;])):</span>
+<span class="sd">        ...     print(subset, e, adapter.label(e))</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        goslim_yeast GO:0005634 nucleus</span>
+<span class="sd">        goslim_chembl GO:0005635 nuclear envelope</span>
+<span class="sd">        goslim_generic GO:0005635 nuclear envelope</span>
+<span class="sd">        ...</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -826,6 +966,10 @@
 <div class="viewcode-block" id="BasicOntologyInterface.terms_categories"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_categories">[docs]</a>    <span class="k">def</span> <span class="nf">terms_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CATEGORY_CURIE</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all categories an entity or entities belongs to.</span>
+
+<span class="sd">        .. note ::</span>
+
+<span class="sd">            This method is not implemented for all adapters.</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -869,17 +1013,6 @@
 <span class="sd">        :param curie:</span>
 <span class="sd">        :param lang: [None] language tag</span>
 <span class="sd">        :return: label</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-<div class="viewcode-block" id="BasicOntologyInterface.comments"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.comments">[docs]</a>    <span class="k">def</span> <span class="nf">comments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Yields entity-comment pairs for a CURIE or CURIEs.</span>
-
-<span class="sd">        The CURIE may be for a class, individual, property, or ontology</span>
-
-<span class="sd">        :param curies:</span>
-<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
@@ -967,6 +1100,73 @@
     <span class="k">def</span> <span class="nf">get_curies_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">curies_by_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="BasicOntologyInterface.comments"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.comments">[docs]</a>    <span class="k">def</span> <span class="nf">comments</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">LANGUAGE_TAG</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields entity-comment pairs for a CURIE or CURIEs.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.db&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for curie, comment in sorted(adapter.comments([&quot;GO:0016772&quot;, &quot;GO:0005634&quot;], allow_none=False)):</span>
+<span class="sd">        ...     print(f&quot;{curie} {comment[0:31]}[snip]&quot;)</span>
+<span class="sd">        GO:0016772 Note that this term encompasses[snip]</span>
+
+<span class="sd">        Note in the above query, no tuples for &quot;GO:0005634&quot; were yielded - this is because</span>
+<span class="sd">        the test ontology has no comments for this CURIE, and ``allow_none=False``.</span>
+
+<span class="sd">        If ``allow_none=True``, then a tuple with a None value in the second position will be yielded.</span>
+
+<span class="sd">        The CURIE may be for a class, individual, property, or ontology</span>
+
+<span class="sd">        :param curies:</span>
+<span class="sd">        :param allow_none: [True] if False, only yield entities with comments</span>
+<span class="sd">        :param lang: [None] language tag</span>
+<span class="sd">        :return: iterator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.relationships"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships">[docs]</a>    <span class="k">def</span> <span class="nf">relationships</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">objects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_tbox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_abox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">exclude_blank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields all relationships matching query constraints.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.db&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for s, p, o in sorted(adapter.relationships(subjects=[&quot;GO:0005634&quot;])):</span>
+<span class="sd">        ...     print(f&quot;{p} {o} &#39;{adapter.label(o)}&#39;&quot;)</span>
+<span class="sd">        RO:0002160 NCBITaxon:2759 &#39;Eukaryota&#39;</span>
+<span class="sd">        rdfs:subClassOf GO:0043231 &#39;intracellular membrane-bounded organelle&#39;</span>
+
+<span class="sd">        :param subjects: constrain search to these subjects (i.e outgoing edges)</span>
+<span class="sd">        :param predicates: constrain search to these predicates</span>
+<span class="sd">        :param objects: constrain search to these objects (i.e incoming edges)</span>
+<span class="sd">        :param include_tbox: if true, include class-class relationships (default True)</span>
+<span class="sd">        :param include_abox: if true, include instance-instance/class relationships (default True)</span>
+<span class="sd">        :param include_entailed:</span>
+<span class="sd">        :param exclude_blank: do not include blank nodes/anonymous expressions</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">())</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subjects: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">this_predicate</span><span class="p">,</span> <span class="n">this_objects</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">predicates</span> <span class="ow">and</span> <span class="n">this_predicate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">this_object</span> <span class="ow">in</span> <span class="n">this_objects</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">objects</span> <span class="ow">and</span> <span class="n">this_object</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">yield</span> <span class="n">subject</span><span class="p">,</span> <span class="n">this_predicate</span><span class="p">,</span> <span class="n">this_object</span></div>
+
 <div class="viewcode-block" id="BasicOntologyInterface.hierarchical_parents"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierarchical_parents">[docs]</a>    <span class="k">def</span> <span class="nf">hierarchical_parents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns all hierarchical parents.</span>
@@ -1040,40 +1240,6 @@
         <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">curie</span><span class="p">],</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.relationships"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships">[docs]</a>    <span class="k">def</span> <span class="nf">relationships</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">objects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">include_tbox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">include_abox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">exclude_blank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Yields all relationships matching query constraints.</span>
-
-<span class="sd">        :param subjects: constrain search to these subjects (i.e outgoing edges)</span>
-<span class="sd">        :param predicates: constrain search to these predicates</span>
-<span class="sd">        :param objects: constrain search to these objects (i.e incoming edges)</span>
-<span class="sd">        :param include_tbox: if true, include class-class relationships (default True)</span>
-<span class="sd">        :param include_abox: if true, include instance-instance/class relationships (default True)</span>
-<span class="sd">        :param include_entailed:</span>
-<span class="sd">        :param exclude_blank: do not include blank nodes/anonymous expressions</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">subjects</span><span class="p">:</span>
-            <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">())</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subjects: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">this_predicate</span><span class="p">,</span> <span class="n">this_objects</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">predicates</span> <span class="ow">and</span> <span class="n">this_predicate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="k">for</span> <span class="n">this_object</span> <span class="ow">in</span> <span class="n">this_objects</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">objects</span> <span class="ow">and</span> <span class="n">this_object</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                    <span class="k">yield</span> <span class="n">subject</span><span class="p">,</span> <span class="n">this_predicate</span><span class="p">,</span> <span class="n">this_object</span></div>
-
 <div class="viewcode-block" id="BasicOntologyInterface.all_relationships"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use relationships()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">all_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1090,6 +1256,13 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lookup the text definition of an entity.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.db&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for curie, defn, meta in adapter.definitions([&quot;GO:0005634&quot;, &quot;GO:0005737&quot;], include_metadata=True):</span>
+<span class="sd">        ...     print(f&quot;{curie} {defn[0:30]}[snip] [{meta}]&quot;)</span>
+<span class="sd">        GO:0005634 A membrane-bounded organelle o[snip] [{&#39;oio:hasDbXref&#39;: [&#39;GOC:go_curators&#39;]}]</span>
+<span class="sd">        GO:0005737 All of the contents of a cell [snip] [{&#39;oio:hasDbXref&#39;: [&#39;ISBN:0198547684&#39;]}]</span>
+
 <span class="sd">        :param curie: entity identifier to be looked up</span>
 <span class="sd">        :param lang: language tag</span>
 <span class="sd">        :return:</span>
@@ -1105,6 +1278,13 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">DEFINITION</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lookup the text definition plus metadata for a list of entities.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.db&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for curie, defn, meta in adapter.definitions([&quot;GO:0005634&quot;, &quot;GO:0005737&quot;], include_metadata=True):</span>
+<span class="sd">        ...     print(f&quot;{curie} {defn[0:30]}[snip] [{meta}]&quot;)</span>
+<span class="sd">        GO:0005634 A membrane-bounded organelle o[snip] [{&#39;oio:hasDbXref&#39;: [&#39;GOC:go_curators&#39;]}]</span>
+<span class="sd">        GO:0005737 All of the contents of a cell [snip] [{&#39;oio:hasDbXref&#39;: [&#39;ISBN:0198547684&#39;]}]</span>
 
 <span class="sd">        :param curies: iterable collection of entity identifiers to be looked up</span>
 <span class="sd">        :param include_metadata: if true, include metadata</span>
@@ -1129,6 +1309,10 @@
 <span class="sd">        Yields mappings for a given subject.</span>
 
 <span class="sd">        Here, each mapping is represented as a simple tuple (predicate, object)</span>
+
+<span class="sd">        .. note ::</span>
+
+<span class="sd">            For a more sophisticated mapping interface, see :ref:`MappingProviderInterface`</span>
 
 <span class="sd">        :param curie: entity identifier to be looked up</span>
 <span class="sd">        :return: iterator over predicate-object tuples</span>

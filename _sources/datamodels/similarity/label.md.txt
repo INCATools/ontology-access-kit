@@ -41,7 +41,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -51,7 +51,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 <details>
 ```yaml
 name: label
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 slot_uri: rdfs:label
 alias: label

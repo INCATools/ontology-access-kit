@@ -43,7 +43,7 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -55,7 +55,7 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 name: taxon
 description: The taxon which this constraint is about. May be species or a more general
   class.
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: rdf:object
 alias: taxon

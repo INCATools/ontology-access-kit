@@ -51,7 +51,7 @@ URI: [summary_statistics:mapping_statement_count_by_predicate](https://w3id.org/
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -70,7 +70,7 @@ annotations:
     value: Predicate
 description: Number of mappings grouped by predicate (e.g. xref, skos predicate) in
   the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: mapping_statement_count_by_predicate

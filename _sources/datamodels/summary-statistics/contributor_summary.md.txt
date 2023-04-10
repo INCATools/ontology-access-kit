@@ -43,7 +43,7 @@ URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_st
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -53,7 +53,7 @@ URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_st
 <details>
 ```yaml
 name: contributor_summary
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: contributor_summary

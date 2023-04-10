@@ -50,7 +50,7 @@ URI: [RO:0002160](http://purl.obolibrary.org/obo/RO_0002160)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -67,7 +67,7 @@ description: 'Points to a taxon constraint that states the SubjectTerm is ONLY f
   '
 comments:
 - Note that we conflate between the RO "only in taxon" and "in taxon" relations here
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002160
 multivalued: true

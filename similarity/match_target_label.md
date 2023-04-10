@@ -41,7 +41,7 @@ URI: [sim:match_target_label](https://w3id.org/linkml/similarity/match_target_la
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -51,7 +51,7 @@ URI: [sim:match_target_label](https://w3id.org/linkml/similarity/match_target_la
 <details>
 ```yaml
 name: match_target_label
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: match_target_label
 owner: BestMatch

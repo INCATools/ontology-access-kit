@@ -43,7 +43,7 @@ URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -55,7 +55,7 @@ URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
 name: unsatisfiable
 description: If true then some combination of taxon constraints plus ontology lead
   to contradictions
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 alias: unsatisfiable
 owner: SubjectTerm

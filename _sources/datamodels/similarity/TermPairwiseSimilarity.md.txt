@@ -102,7 +102,7 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -129,7 +129,7 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 ```yaml
 name: TermPairwiseSimilarity
 description: A simple pairwise similarity between two atomic concepts/terms
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: PairwiseSimilarity
 slots:
@@ -158,14 +158,14 @@ slots:
 ```yaml
 name: TermPairwiseSimilarity
 description: A simple pairwise similarity between two atomic concepts/terms
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: PairwiseSimilarity
 attributes:
   subject_id:
     name: subject_id
     description: The first of the two entities being compared
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: sssom:subject_id
     alias: subject_id
@@ -177,7 +177,7 @@ attributes:
   subject_label:
     name: subject_label
     description: the label or name for the first entity
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: sssom:subject_label
     alias: subject_label
@@ -188,7 +188,7 @@ attributes:
   subject_source:
     name: subject_source
     description: the source for the first entity
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: sssom:subject_source
     alias: subject_source
@@ -199,7 +199,7 @@ attributes:
   object_id:
     name: object_id
     description: The second of the two entities being compared
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: sssom:object_id
     alias: object_id
@@ -210,7 +210,7 @@ attributes:
   object_label:
     name: object_label
     description: the label or name for the second entity
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: sssom:object_label
     alias: object_label
@@ -221,7 +221,7 @@ attributes:
   object_source:
     name: object_source
     description: the source for the second entity
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: sssom:object_source
     alias: object_source
@@ -235,7 +235,7 @@ attributes:
       there are multiple MRCAs then the most informative one is selected
     todos:
     - decide on what to do when there are multiple possible ancestos
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: ancestor_id
     owner: TermPairwiseSimilarity
@@ -245,7 +245,7 @@ attributes:
   ancestor_label:
     name: ancestor_label
     description: the name or label of the ancestor concept
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: ancestor_label
     owner: TermPairwiseSimilarity
@@ -254,7 +254,7 @@ attributes:
     range: string
   ancestor_source:
     name: ancestor_source
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: ancestor_source
     owner: TermPairwiseSimilarity
@@ -264,7 +264,7 @@ attributes:
   object_information_content:
     name: object_information_content
     description: The IC of the object
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     is_a: information_content
     alias: object_information_content
@@ -275,7 +275,7 @@ attributes:
   subject_information_content:
     name: subject_information_content
     description: The IC of the subject
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     is_a: information_content
     alias: subject_information_content
@@ -286,7 +286,7 @@ attributes:
   ancestor_information_content:
     name: ancestor_information_content
     description: The IC of the object
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     is_a: information_content
     alias: ancestor_information_content
@@ -298,7 +298,7 @@ attributes:
     name: jaccard_similarity
     description: The number of concepts in the intersection divided by the number
       in the union
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     is_a: score
     alias: jaccard_similarity
@@ -308,7 +308,7 @@ attributes:
     range: ZeroToOne
   dice_similarity:
     name: dice_similarity
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     is_a: score
     alias: dice_similarity
@@ -320,7 +320,7 @@ attributes:
     name: phenodigm_score
     description: the geometric mean of the jaccard similarity and the information
       content
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     is_a: score
     alias: phenodigm_score

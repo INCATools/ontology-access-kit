@@ -51,7 +51,7 @@ URI: [summary_statistics:class_count_by_subset](https://w3id.org/oaklib/summary_
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -70,7 +70,7 @@ annotations:
     value: Predicate
 description: Number of classes grouped by subset (slim, value set) in the ontology
   or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: class_count_by_subset

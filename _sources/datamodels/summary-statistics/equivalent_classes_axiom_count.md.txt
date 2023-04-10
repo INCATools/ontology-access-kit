@@ -48,7 +48,7 @@ URI: [summary_statistics:equivalent_classes_axiom_count](https://w3id.org/oaklib
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -59,7 +59,7 @@ URI: [summary_statistics:equivalent_classes_axiom_count](https://w3id.org/oaklib
 ```yaml
 name: equivalent_classes_axiom_count
 description: Number of equivalent classes axioms in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: equivalent_classes_axiom_count

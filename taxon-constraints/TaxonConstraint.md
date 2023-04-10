@@ -112,7 +112,7 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -139,7 +139,7 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 ```yaml
 name: TaxonConstraint
 description: An individual taxon constraint
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 attributes:
   subject:
@@ -147,7 +147,7 @@ attributes:
     description: The term to which the constraint applies
     comments:
     - this is a reciprocal slot and will be the same as the containing SubjectTerm
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdf:subject
     range: SubjectTerm
@@ -157,7 +157,7 @@ attributes:
       taxon)
     todos:
     - define a value set of this
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdf:predicate
     range: PredicateTerm
@@ -165,33 +165,33 @@ attributes:
     name: asserted
     description: holds if the constraint is asserted in the source ontology, rather
       than inferred by rules or reasoning
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     range: boolean
   evolutionary:
     name: evolutionary
     description: holds if the constraint is an evolutionary statement
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     range: boolean
   redundant:
     name: redundant
     description: True if this is redundant within the set of constraints of the same
       type (never vs only)
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     range: boolean
   redundant_with_only_in:
     name: redundant_with_only_in
     description: True for never in constraints that are subsumed by an only in
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     range: boolean
   taxon:
     name: taxon
     description: The taxon which this constraint is about. May be species or a more
       general class.
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdf:object
     range: Taxon
@@ -200,7 +200,7 @@ attributes:
     name: redundant_with
     description: If the taxon constraint is redundant, then this is the set of taxon
       constraints that it is redundant with
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     range: TaxonConstraint
@@ -208,7 +208,7 @@ attributes:
     name: contradicted_by
     description: If the taxon constraint conflicts with another,  then this is the
       set of taxon constraints that it is redundant with
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     range: TaxonConstraint
@@ -216,7 +216,7 @@ attributes:
     name: via_terms
     description: For inferred taxon constraints, this is the term or terms that have
       the taxon constraint asserted
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     range: SubjectTerm
@@ -225,26 +225,26 @@ attributes:
   predicates:
     name: predicates
     description: The predicates that connect the subject term to the via_terms.
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     range: PredicateTerm
   sources:
     name: sources
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     range: uriorcurie
   comments:
     name: comments
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     range: string
   candidate:
     name: candidate
     description: true if this is a proposed candidate constraint
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     range: boolean
 class_uri: rdf:Statement
@@ -258,7 +258,7 @@ class_uri: rdf:Statement
 ```yaml
 name: TaxonConstraint
 description: An individual taxon constraint
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 attributes:
   subject:
@@ -266,7 +266,7 @@ attributes:
     description: The term to which the constraint applies
     comments:
     - this is a reciprocal slot and will be the same as the containing SubjectTerm
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdf:subject
     alias: subject
@@ -280,7 +280,7 @@ attributes:
       taxon)
     todos:
     - define a value set of this
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdf:predicate
     alias: predicate
@@ -292,7 +292,7 @@ attributes:
     name: asserted
     description: holds if the constraint is asserted in the source ontology, rather
       than inferred by rules or reasoning
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     alias: asserted
     owner: TaxonConstraint
@@ -302,7 +302,7 @@ attributes:
   evolutionary:
     name: evolutionary
     description: holds if the constraint is an evolutionary statement
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     alias: evolutionary
     owner: TaxonConstraint
@@ -313,7 +313,7 @@ attributes:
     name: redundant
     description: True if this is redundant within the set of constraints of the same
       type (never vs only)
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     alias: redundant
     owner: TaxonConstraint
@@ -323,7 +323,7 @@ attributes:
   redundant_with_only_in:
     name: redundant_with_only_in
     description: True for never in constraints that are subsumed by an only in
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     alias: redundant_with_only_in
     owner: TaxonConstraint
@@ -334,7 +334,7 @@ attributes:
     name: taxon
     description: The taxon which this constraint is about. May be species or a more
       general class.
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdf:object
     alias: taxon
@@ -347,7 +347,7 @@ attributes:
     name: redundant_with
     description: If the taxon constraint is redundant, then this is the set of taxon
       constraints that it is redundant with
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     alias: redundant_with
@@ -359,7 +359,7 @@ attributes:
     name: contradicted_by
     description: If the taxon constraint conflicts with another,  then this is the
       set of taxon constraints that it is redundant with
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     alias: contradicted_by
@@ -371,7 +371,7 @@ attributes:
     name: via_terms
     description: For inferred taxon constraints, this is the term or terms that have
       the taxon constraint asserted
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     alias: via_terms
@@ -384,7 +384,7 @@ attributes:
   predicates:
     name: predicates
     description: The predicates that connect the subject term to the via_terms.
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     alias: predicates
@@ -394,7 +394,7 @@ attributes:
     range: PredicateTerm
   sources:
     name: sources
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     alias: sources
@@ -404,7 +404,7 @@ attributes:
     range: uriorcurie
   comments:
     name: comments
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     alias: comments
@@ -415,7 +415,7 @@ attributes:
   candidate:
     name: candidate
     description: true if this is a proposed candidate constraint
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     alias: candidate
     owner: TaxonConstraint

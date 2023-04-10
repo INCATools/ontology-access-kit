@@ -43,7 +43,7 @@ URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redun
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -54,7 +54,7 @@ URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redun
 ```yaml
 name: redundant_with_only_in
 description: True for never in constraints that are subsumed by an only in
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 alias: redundant_with_only_in
 owner: TaxonConstraint

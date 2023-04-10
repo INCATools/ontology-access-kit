@@ -55,7 +55,7 @@ URI: [summary_statistics:mapping_statement_count_subject_by_object_source](https
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -79,7 +79,7 @@ description: Number of distinct subject entities grouped by object_source (prefi
   of external vocabulary) in the ontology or subset
 comments:
 - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: mapping_statement_count_subject_by_object_source

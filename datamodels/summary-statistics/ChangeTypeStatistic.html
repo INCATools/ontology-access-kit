@@ -144,7 +144,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/oaklib/summary_statistics</p></li>
+<li><p>from schema: https://w3id.org/oak/summary_statistics</p></li>
 </ul>
 </section>
 </section>
@@ -175,18 +175,18 @@
 ```yaml
 name: ChangeTypeStatistic
 description: statistics for a particular kind of diff
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
     description: the facet used to group the counts
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     key: true
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     range: integer
     required: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -197,13 +197,13 @@ attributes:
 ```yaml
 name: ChangeTypeStatistic
 description: statistics for a particular kind of diff
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
     description: the facet used to group the counts
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     key: true
     alias: facet
     owner: ChangeTypeStatistic
@@ -214,7 +214,7 @@ attributes:
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
-    from_schema: https://w3id.org/oaklib/summary_statistics
+    from_schema: https://w3id.org/oak/summary_statistics
     alias: filtered_count
     owner: ChangeTypeStatistic
     domain_of:

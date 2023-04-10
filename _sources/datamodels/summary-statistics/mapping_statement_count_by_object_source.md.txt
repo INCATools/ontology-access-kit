@@ -51,7 +51,7 @@ URI: [summary_statistics:mapping_statement_count_by_object_source](https://w3id.
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -70,7 +70,7 @@ annotations:
     value: ObjectSource
 description: Number of mappings grouped by object_source (prefix of external vocabulary)
   in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: mapping_statement_count_by_object_source

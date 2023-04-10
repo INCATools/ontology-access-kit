@@ -62,7 +62,7 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -89,37 +89,37 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 ```yaml
 name: TextAnnotationConfiguration
 description: configuration for search
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 attributes:
   matches_whole_text:
     name: matches_whole_text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: boolean
   sources:
     name: sources
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
   limit:
     name: limit
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: integer
   token_exclusion_list:
     name: token_exclusion_list
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
   model:
     name: model
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: string
   include_aliases:
     name: include_aliases
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: boolean
 
@@ -132,12 +132,12 @@ attributes:
 ```yaml
 name: TextAnnotationConfiguration
 description: configuration for search
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 attributes:
   matches_whole_text:
     name: matches_whole_text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: matches_whole_text
     owner: TextAnnotationConfiguration
@@ -147,7 +147,7 @@ attributes:
     range: boolean
   sources:
     name: sources
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
     alias: sources
@@ -157,7 +157,7 @@ attributes:
     range: string
   limit:
     name: limit
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: limit
     owner: TextAnnotationConfiguration
@@ -166,7 +166,7 @@ attributes:
     range: integer
   token_exclusion_list:
     name: token_exclusion_list
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
     alias: token_exclusion_list
@@ -176,7 +176,7 @@ attributes:
     range: string
   model:
     name: model
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: model
     owner: TextAnnotationConfiguration
@@ -185,7 +185,7 @@ attributes:
     range: string
   include_aliases:
     name: include_aliases
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: include_aliases
     owner: TextAnnotationConfiguration

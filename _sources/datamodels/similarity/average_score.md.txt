@@ -23,8 +23,6 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 ## Properties
 
 * Range: [Float](Float.md)
-* Required: True
-
 
 
 
@@ -43,7 +41,7 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -53,13 +51,13 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 <details>
 ```yaml
 name: average_score
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: average_score
 domain_of:
 - TermSetPairwiseSimilarity
 range: float
-required: true
+required: false
 
 ```
 </details>

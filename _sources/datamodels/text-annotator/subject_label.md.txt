@@ -44,7 +44,7 @@ URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -56,7 +56,7 @@ URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 name: subject_label
 description: The portion of the subject text that is matched, ranging from subject_start
   to subject_end
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 exact_mappings:
 - bpa:text
 rank: 1000

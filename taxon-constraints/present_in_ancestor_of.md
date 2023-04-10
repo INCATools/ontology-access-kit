@@ -43,7 +43,7 @@ URI: [tc:present_in_ancestor_of](https://w3id.org/linkml/taxon_constraints/prese
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -53,7 +53,7 @@ URI: [tc:present_in_ancestor_of](https://w3id.org/linkml/taxon_constraints/prese
 <details>
 ```yaml
 name: present_in_ancestor_of
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 multivalued: true
 alias: present_in_ancestor_of

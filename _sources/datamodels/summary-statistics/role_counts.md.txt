@@ -43,7 +43,7 @@ URI: [summary_statistics:role_counts](https://w3id.org/oaklib/summary_statistics
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -53,7 +53,7 @@ URI: [summary_statistics:role_counts](https://w3id.org/oaklib/summary_statistics
 <details>
 ```yaml
 name: role_counts
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: role_counts

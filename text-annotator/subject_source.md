@@ -42,7 +42,7 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -52,7 +52,7 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 <details>
 ```yaml
 name: subject_source
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 exact_mappings:
 - oa:hasBody
 rank: 1000

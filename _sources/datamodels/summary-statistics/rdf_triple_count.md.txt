@@ -48,7 +48,7 @@ URI: [summary_statistics:rdf_triple_count](https://w3id.org/oaklib/summary_stati
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -59,7 +59,7 @@ URI: [summary_statistics:rdf_triple_count](https://w3id.org/oaklib/summary_stati
 ```yaml
 name: rdf_triple_count
 description: Number of RDF triples in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: rdf_triple_count

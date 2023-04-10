@@ -54,7 +54,7 @@ URI: [summary_statistics:non_deprecated_object_property_count](https://w3id.org/
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -70,7 +70,7 @@ annotations:
     value: ObjectProperty, NotDeprecated
 description: Number of non-deprecated (non-obsoleted) object properties in the ontology
   or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: non_deprecated_object_property_count

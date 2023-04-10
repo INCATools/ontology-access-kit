@@ -83,15 +83,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.selector</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.loaders</span> <span class="kn">import</span> <span class="n">yaml_loader</span>
+
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">datamodels</span> <span class="k">as</span> <span class="n">datamodels_package</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.input_specification</span> <span class="kn">import</span> <span class="n">InputSpecification</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.funowl.funowl_implementation</span> <span class="kn">import</span> <span class="n">FunOwlImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AssociationProviderInterface</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.parsers.association_parser_factory</span> <span class="kn">import</span> <span class="n">get_association_parser</span>
 <span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 
 <span class="n">RDF_SUFFIX_TO_FORMAT</span> <span class="o">=</span> <span class="p">{</span>
@@ -105,7 +116,21 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="get_adapter"><a class="viewcode-back" href="../../packages/selectors.html#oaklib.selector.get_adapter">[docs]</a><span class="k">def</span> <span class="nf">get_adapter</span><span class="p">(</span><span class="n">descriptor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
+<span class="n">ASSOCIATION_REGISTRY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;hpoa&quot;</span><span class="p">:</span> <span class="p">([],</span> <span class="s2">&quot;hpoa&quot;</span><span class="p">,</span> <span class="s2">&quot;http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="s2">&quot;hpoa_g2p&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="p">[],</span>
+        <span class="s2">&quot;hpoa_g2p&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt&quot;</span><span class="p">,</span>
+        <span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;gaf&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;group&quot;</span><span class="p">],</span> <span class="s2">&quot;gaf&quot;</span><span class="p">,</span> <span class="s2">&quot;http://current.geneontology.org/annotations/</span><span class="si">{group}</span><span class="s2">.gaf.gz&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="get_adapter"><a class="viewcode-back" href="../../packages/selectors.html#oaklib.selector.get_adapter">[docs]</a><span class="k">def</span> <span class="nf">get_adapter</span><span class="p">(</span>
+    <span class="n">descriptor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">InputSpecification</span><span class="p">],</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets an adapter (implementation) for a given descriptor.</span>
 
@@ -156,13 +181,110 @@
 <span class="sd">    :param format:</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="n">InputSpecification</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_get_adapter_from_specification</span><span class="p">(</span><span class="n">descriptor</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
         <span class="n">descriptor</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">descriptor</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.yaml&quot;</span><span class="p">):</span>
+        <span class="n">input_specification</span> <span class="o">=</span> <span class="n">yaml_loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">descriptor</span><span class="p">),</span> <span class="n">InputSpecification</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">input_specification</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">get_resource_from_shorthand</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">implementation_class</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_implementation_from_shorthand"><a class="viewcode-back" href="../../packages/selectors.html#oaklib.selector.get_implementation_from_shorthand">[docs]</a><span class="k">def</span> <span class="nf">get_implementation_from_shorthand</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">_get_adapter_from_specification</span><span class="p">(</span>
+    <span class="n">input_specification</span><span class="p">:</span> <span class="n">InputSpecification</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets an adapter (implementation) for a given input specification.</span>
+
+<span class="sd">    :param input_specification:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">input_specification</span><span class="o">.</span><span class="n">ontology_resources</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No ontology resources specified&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_specification</span><span class="o">.</span><span class="n">ontology_resources</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_specification</span><span class="o">.</span><span class="n">ontology_resources</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">selector</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">AggregatorImplementation</span>
+
+        <span class="n">adapter</span> <span class="o">=</span> <span class="n">AggregatorImplementation</span><span class="p">(</span>
+            <span class="n">implementations</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">get_adapter</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">selector</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">input_specification</span><span class="o">.</span><span class="n">ontology_resources</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">input_specification</span><span class="o">.</span><span class="n">association_resources</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">AssociationProviderInterface</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adapter </span><span class="si">{</span><span class="n">adapter</span><span class="si">}</span><span class="s2"> does not support associations&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">input_specification</span><span class="o">.</span><span class="n">association_resources</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">add_associations</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">selector</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">adapter</span>
+
+
+<div class="viewcode-block" id="add_associations"><a class="viewcode-back" href="../../packages/selectors.html#oaklib.selector.add_associations">[docs]</a><span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span>
+    <span class="n">adapter</span><span class="p">:</span> <span class="n">AssociationProviderInterface</span><span class="p">,</span> <span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds associations to an adapter.</span>
+
+<span class="sd">    :param adapter:</span>
+<span class="sd">    :param descriptor:</span>
+<span class="sd">    :param format:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: do more robust windows check</span>
+    <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">descriptor</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;file:&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">descriptor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;:&quot;</span><span class="p">:</span>
+        <span class="n">scheme</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ASSOCIATION_REGISTRY</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown association scheme: </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">ASSOCIATION_REGISTRY</span><span class="p">[</span><span class="n">scheme</span><span class="p">]</span>
+        <span class="n">params</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">url_template</span><span class="p">,</span> <span class="n">compressed</span> <span class="o">=</span> <span class="n">entry</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">param_vals</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;//&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">param_vals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">url_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">param_vals</span><span class="p">)</span>
+        <span class="c1"># TODO: add option to cache using pystow</span>
+        <span class="k">if</span> <span class="n">compressed</span><span class="p">:</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">file_from_gzip_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">file_from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">association_parser</span> <span class="o">=</span> <span class="n">get_association_parser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding associations from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">assocs</span> <span class="o">=</span> <span class="n">association_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">adapter</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">format</span><span class="p">:</span>
+        <span class="nb">format</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">association_parser</span> <span class="o">=</span> <span class="n">get_association_parser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">descriptor</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding associations from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">assocs</span> <span class="o">=</span> <span class="n">association_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">adapter</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">file_from_gzip_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">is_compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># Raise an exception if the response contains an HTTP error status code</span>
+        <span class="c1"># Wrap the response&#39;s raw stream in a binary file-like object</span>
+        <span class="n">binary_file_like_object</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+        <span class="c1"># Uncompress the gzipped binary file-like object using gzip</span>
+        <span class="k">return</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">binary_file_like_object</span><span class="p">,</span> <span class="s2">&quot;rt&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">file_from_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># Raise an exception if the response contains an HTTP error status code</span>
+    <span class="c1"># Create a file-like object using the response content</span>
+    <span class="n">file_like_object</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_like_object</span>
+
+
+<div class="viewcode-block" id="get_implementation_from_shorthand"><a class="viewcode-back" href="../../packages/selectors.html#oaklib.selector.get_implementation_from_shorthand">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use get_adapter instead&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_implementation_from_shorthand</span><span class="p">(</span>
     <span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -249,57 +371,56 @@
     <span class="n">resource</span><span class="o">.</span><span class="n">import_depth</span> <span class="o">=</span> <span class="n">import_depth</span>
     <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
     <span class="n">impl_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">descriptor</span><span class="p">:</span>
-        <span class="c1"># Pre-processing</span>
-        <span class="k">if</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;datamodel:&quot;</span><span class="p">):</span>
-            <span class="c1"># introspect the internal OAK datamodel.</span>
-            <span class="c1"># the oak data models are intended for programmatic use, but the documentation</span>
-            <span class="c1"># is also exposed as a pseudo-ontology by default.</span>
-            <span class="c1"># this allows us to do things such as use the OAK CLI to find all classes</span>
-            <span class="c1"># or fields in a data model, see their hierarchy, etc</span>
-            <span class="c1"># this is currently an advanced/experimental feature, if useful</span>
-            <span class="c1"># it should be exposed in user-facing sphinx docs.</span>
-            <span class="n">descriptor</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;datamodel:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">dm_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">datamodels_package</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
-            <span class="n">descriptor</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">dm_path</span><span class="p">)</span><span class="o">/</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">.owl.ttl&quot;</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Introspecting datamodel from </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">descriptor</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No descriptor provided&quot;</span><span class="p">)</span>
+    <span class="c1"># Pre-processing</span>
+    <span class="k">if</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;datamodel:&quot;</span><span class="p">):</span>
+        <span class="c1"># introspect the internal OAK datamodel.</span>
+        <span class="c1"># the oak data models are intended for programmatic use, but the documentation</span>
+        <span class="c1"># is also exposed as a pseudo-ontology by default.</span>
+        <span class="c1"># this allows us to do things such as use the OAK CLI to find all classes</span>
+        <span class="c1"># or fields in a data model, see their hierarchy, etc</span>
+        <span class="c1"># this is currently an advanced/experimental feature, if useful</span>
+        <span class="c1"># it should be exposed in user-facing sphinx docs.</span>
+        <span class="n">descriptor</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;datamodel:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">dm_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">datamodels_package</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+        <span class="n">descriptor</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">dm_path</span><span class="p">)</span><span class="o">/</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">.owl.ttl&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Introspecting datamodel from </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
 
-        <span class="c1"># Prevent the driveletter from being interpreted as scheme on Windows.</span>
-        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">descriptor</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">descriptor</span><span class="p">):</span>
-            <span class="n">toks</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-            <span class="n">scheme</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">resource</span><span class="o">.</span><span class="n">scheme</span> <span class="o">=</span> <span class="n">scheme</span>
-            <span class="n">rest</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">rest</span><span class="p">:</span>
-                <span class="n">rest</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Prevent the driveletter from being interpreted as scheme on Windows.</span>
+    <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">descriptor</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">descriptor</span><span class="p">):</span>
+        <span class="n">toks</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="n">scheme</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">resource</span><span class="o">.</span><span class="n">scheme</span> <span class="o">=</span> <span class="n">scheme</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rest</span><span class="p">:</span>
+            <span class="n">rest</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">rest</span>
+        <span class="c1"># Get impl_class based on scheme.</span>
+        <span class="n">impl_class</span> <span class="o">=</span> <span class="n">get_implementation_class_from_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">impl_class</span> <span class="o">==</span> <span class="n">LovImplementation</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;lov scheme may become plugin in future&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">impl_class</span> <span class="o">==</span> <span class="n">SparqlImplementation</span><span class="p">:</span>
+            <span class="n">resource</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">rest</span>
+            <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">impl_class</span> <span class="o">==</span> <span class="n">ProntoImplementation</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="ow">and</span> <span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.obo&quot;</span><span class="p">):</span>
+                <span class="n">resource</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;obo&quot;</span>
+            <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;prontolib&quot;</span><span class="p">:</span>
+                <span class="n">resource</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">resource</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">rest</span>
-            <span class="c1"># Get impl_class based on scheme.</span>
-            <span class="n">impl_class</span> <span class="o">=</span> <span class="n">get_implementation_class_from_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">impl_class</span> <span class="o">==</span> <span class="n">LovImplementation</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;lov scheme may become plugin in future&quot;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">impl_class</span> <span class="o">==</span> <span class="n">SparqlImplementation</span><span class="p">:</span>
-                <span class="n">resource</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">rest</span>
-                <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">elif</span> <span class="n">impl_class</span> <span class="o">==</span> <span class="n">ProntoImplementation</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="ow">and</span> <span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.obo&quot;</span><span class="p">):</span>
-                    <span class="n">resource</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;obo&quot;</span>
-                <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;prontolib&quot;</span><span class="p">:</span>
-                    <span class="n">resource</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">resource</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">rest</span>
-            <span class="k">elif</span> <span class="ow">not</span> <span class="n">impl_class</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scheme </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2"> not known&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No schema: assuming file path </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">impl_class</span><span class="p">,</span> <span class="n">resource</span> <span class="o">=</span> <span class="n">get_resource_imp_class_from_suffix_descriptor</span><span class="p">(</span>
-                <span class="n">suffix</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">descriptor</span>
-            <span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">impl_class</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scheme </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2"> not known&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No descriptor&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No schema: assuming file path </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">impl_class</span><span class="p">,</span> <span class="n">resource</span> <span class="o">=</span> <span class="n">get_resource_imp_class_from_suffix_descriptor</span><span class="p">(</span>
+            <span class="n">suffix</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">descriptor</span>
+        <span class="p">)</span>
 
     <span class="n">resource</span><span class="o">.</span><span class="n">implementation_class</span> <span class="o">=</span> <span class="n">impl_class</span>
     <span class="k">return</span> <span class="n">resource</span></div>

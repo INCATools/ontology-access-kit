@@ -45,7 +45,7 @@ URI: [summary_statistics:change_summary](https://w3id.org/oaklib/summary_statist
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -56,7 +56,7 @@ URI: [summary_statistics:change_summary](https://w3id.org/oaklib/summary_statist
 ```yaml
 name: change_summary
 description: Summary of changes between two versions of an ontology
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: change_summary

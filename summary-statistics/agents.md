@@ -47,7 +47,7 @@ URI: [summary_statistics:agents](https://w3id.org/oaklib/summary_statistics.agen
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -58,7 +58,7 @@ URI: [summary_statistics:agents](https://w3id.org/oaklib/summary_statistics.agen
 ```yaml
 name: agents
 description: Agents that contributed to the report
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: agents

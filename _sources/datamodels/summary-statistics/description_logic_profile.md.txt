@@ -43,7 +43,7 @@ URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summ
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summ
 ```yaml
 name: description_logic_profile
 description: Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 alias: description_logic_profile
 owner: UngroupedStatistics

@@ -43,7 +43,7 @@ URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -55,7 +55,7 @@ URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
 name: asserted
 description: holds if the constraint is asserted in the source ontology, rather than
   inferred by rules or reasoning
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 alias: asserted
 owner: TaxonConstraint

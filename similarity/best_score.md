@@ -23,8 +23,6 @@ URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 ## Properties
 
 * Range: [Float](Float.md)
-* Required: True
-
 
 
 
@@ -43,7 +41,7 @@ URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -53,13 +51,13 @@ URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 <details>
 ```yaml
 name: best_score
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: best_score
 domain_of:
 - TermSetPairwiseSimilarity
 range: float
-required: true
+required: false
 
 ```
 </details>

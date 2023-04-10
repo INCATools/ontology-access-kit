@@ -43,7 +43,7 @@ URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -54,7 +54,7 @@ URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 ```yaml
 name: candidate
 description: true if this is a proposed candidate constraint
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 alias: candidate
 owner: TaxonConstraint

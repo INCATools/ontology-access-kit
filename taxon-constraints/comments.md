@@ -43,7 +43,7 @@ URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -53,7 +53,7 @@ URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 <details>
 ```yaml
 name: comments
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 multivalued: true
 alias: comments

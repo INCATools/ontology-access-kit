@@ -49,7 +49,7 @@ URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -60,7 +60,7 @@ URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_
 ```yaml
 name: object_information_content
 description: The IC of the object
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: information_content
 alias: object_information_content

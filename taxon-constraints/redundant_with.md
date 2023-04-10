@@ -45,7 +45,7 @@ URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_wit
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -57,7 +57,7 @@ URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_wit
 name: redundant_with
 description: If the taxon constraint is redundant, then this is the set of taxon constraints
   that it is redundant with
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 multivalued: true
 alias: redundant_with

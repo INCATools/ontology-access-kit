@@ -73,7 +73,7 @@ Instances of this class *should* have identifiers with one of the following pref
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -105,7 +105,7 @@ id_prefixes:
 - NCBITaxon_Union
 description: A term that represents a taxonomic group, may be at species level of
   a higher level
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 exact_mappings:
 - NCBITaxon:1
 rank: 1000
@@ -124,7 +124,7 @@ id_prefixes:
 - NCBITaxon_Union
 description: A term that represents a taxonomic group, may be at species level of
   a higher level
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 exact_mappings:
 - NCBITaxon:1
 rank: 1000
@@ -133,7 +133,7 @@ attributes:
   id:
     name: id
     description: the OBO CURIE for the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     identifier: true
     alias: id
@@ -144,7 +144,7 @@ attributes:
   label:
     name: label
     description: the human readable name or label of the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label
     alias: label

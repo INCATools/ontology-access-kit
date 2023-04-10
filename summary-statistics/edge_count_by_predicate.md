@@ -51,7 +51,7 @@ URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summar
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: facet
     value: Predicate
 description: Number of edges grouped by predicate in the ontology or subset
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: edge_count_by_predicate

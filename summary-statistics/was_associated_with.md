@@ -43,7 +43,7 @@ URI: [prov:wasAssociatedWith](http://www.w3.org/ns/prov#wasAssociatedWith)
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [prov:wasAssociatedWith](http://www.w3.org/ns/prov#wasAssociatedWith)
 ```yaml
 name: was_associated_with
 description: the agent that was associated with the activity
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 slot_uri: prov:wasAssociatedWith
 alias: was_associated_with

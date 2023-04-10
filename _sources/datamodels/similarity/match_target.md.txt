@@ -43,7 +43,7 @@ URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -54,7 +54,7 @@ URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 ```yaml
 name: match_target
 description: the entity matches
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 alias: match_target
 owner: BestMatch

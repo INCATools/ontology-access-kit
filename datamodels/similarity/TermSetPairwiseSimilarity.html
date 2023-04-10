@@ -157,12 +157,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="average_score.html"><span class="std std-doc">average_score</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="best_score.html"><span class="std std-doc">best_score</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -179,7 +179,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/similarity</p></li>
+<li><p>from schema: https://w3id.org/oak/similarity</p></li>
 </ul>
 </section>
 </section>
@@ -210,7 +210,7 @@
 ```yaml
 name: TermSetPairwiseSimilarity
 description: A simple pairwise similarity between two sets of concepts/terms
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: PairwiseSimilarity
 slots:
@@ -229,13 +229,13 @@ slots:
 ```yaml
 name: TermSetPairwiseSimilarity
 description: A simple pairwise similarity between two sets of concepts/terms
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: PairwiseSimilarity
 attributes:
   subject_termset:
     name: subject_termset
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: subject_termset
@@ -246,7 +246,7 @@ attributes:
     inlined: true
   object_termset:
     name: object_termset
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: object_termset
@@ -257,7 +257,7 @@ attributes:
     inlined: true
   subject_best_matches:
     name: subject_best_matches
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: subject_best_matches
@@ -268,7 +268,7 @@ attributes:
     inlined: true
   object_best_matches:
     name: object_best_matches
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     multivalued: true
     alias: object_best_matches
@@ -279,27 +279,27 @@ attributes:
     inlined: true
   average_score:
     name: average_score
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: average_score
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: float
-    required: true
+    required: false
   best_score:
     name: best_score
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: best_score
     owner: TermSetPairwiseSimilarity
     domain_of:
     - TermSetPairwiseSimilarity
     range: float
-    required: true
+    required: false
   metric:
     name: metric
-    from_schema: https://w3id.org/linkml/similarity
+    from_schema: https://w3id.org/oak/similarity
     rank: 1000
     alias: metric
     owner: TermSetPairwiseSimilarity

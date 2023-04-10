@@ -49,7 +49,7 @@ URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.
 ### Schema Source
 
 
-* from schema: https://w3id.org/oaklib/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -62,7 +62,7 @@ name: partitions
 description: statistics grouped by a particular property
 comments:
 - For example, GO stats may be broken out by MF/BP/CC
-from_schema: https://w3id.org/oaklib/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 multivalued: true
 alias: partitions

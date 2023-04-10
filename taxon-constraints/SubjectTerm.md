@@ -90,7 +90,7 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/taxon_constraints
+* from schema: https://w3id.org/oak/taxon_constraints
 
 
 
@@ -118,20 +118,20 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
 name: SubjectTerm
 description: A term that is the subject of a taxon constraint. Typically comes from
   ontologies like GO, UBERON, CL, ...
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 is_a: Term
 attributes:
   description:
     name: description
     description: A description of the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
   unsatisfiable:
     name: unsatisfiable
     description: If true then some combination of taxon constraints plus ontology
       lead to contradictions
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     range: boolean
   only_in:
@@ -144,7 +144,7 @@ attributes:
     comments:
     - Note that we conflate between the RO "only in taxon" and "in taxon" relations
       here
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002160
     multivalued: true
@@ -156,7 +156,7 @@ attributes:
       NOT be in the specified taxon, or a descendant of that taxon
 
       '
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002161
     multivalued: true
@@ -167,14 +167,14 @@ attributes:
       taxon
 
       '
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002175
     multivalued: true
     range: TaxonConstraint
   present_in_ancestor_of:
     name: present_in_ancestor_of
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     range: TaxonConstraint
@@ -189,14 +189,14 @@ attributes:
 name: SubjectTerm
 description: A term that is the subject of a taxon constraint. Typically comes from
   ontologies like GO, UBERON, CL, ...
-from_schema: https://w3id.org/linkml/taxon_constraints
+from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 is_a: Term
 attributes:
   description:
     name: description
     description: A description of the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     alias: description
     owner: SubjectTerm
@@ -207,7 +207,7 @@ attributes:
     name: unsatisfiable
     description: If true then some combination of taxon constraints plus ontology
       lead to contradictions
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     alias: unsatisfiable
     owner: SubjectTerm
@@ -224,7 +224,7 @@ attributes:
     comments:
     - Note that we conflate between the RO "only in taxon" and "in taxon" relations
       here
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002160
     multivalued: true
@@ -240,7 +240,7 @@ attributes:
       NOT be in the specified taxon, or a descendant of that taxon
 
       '
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002161
     multivalued: true
@@ -255,7 +255,7 @@ attributes:
       taxon
 
       '
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: RO:0002175
     multivalued: true
@@ -266,7 +266,7 @@ attributes:
     range: TaxonConstraint
   present_in_ancestor_of:
     name: present_in_ancestor_of
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
     alias: present_in_ancestor_of
@@ -277,7 +277,7 @@ attributes:
   id:
     name: id
     description: the OBO CURIE for the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     identifier: true
     alias: id
@@ -288,7 +288,7 @@ attributes:
   label:
     name: label
     description: the human readable name or label of the term
-    from_schema: https://w3id.org/linkml/taxon_constraints
+    from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label
     alias: label
