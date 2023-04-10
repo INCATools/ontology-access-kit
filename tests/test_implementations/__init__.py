@@ -1,6 +1,6 @@
 """Compliance tests for multiple interfaces.
 
-See <https://github.com/INCATools/ontology-access-kit/issues/291>_
+See `<https://github.com/INCATools/ontology-access-kit/issues/291>`_
 """
 import json
 import logging
