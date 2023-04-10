@@ -1,8 +1,8 @@
 # Auto generated from summary_statistics_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-01-29T12:10:35
+# Generation date: 2023-04-09T15:53:54
 # Schema: summary-statistics
 #
-# id: https://w3id.org/oaklib/summary_statistics
+# id: https://w3id.org/oak/summary_statistics
 # description: A datamodel for reports on data
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 

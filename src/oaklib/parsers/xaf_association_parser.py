@@ -139,6 +139,7 @@ class XafAssociationParser(AssociationParser):
                 continue
             line = line.rstrip()
             vals = line.split("\t")
+            # logging.debug(f"Processing line: {line} // {vals}")
             s = lookup_subject(vals)
             p = lookup_predicate(vals)
             o = lookup_object(vals)

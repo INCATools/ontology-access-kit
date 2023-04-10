@@ -1,5 +1,5 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-01-26T08:32:03
+# Generation date: 2023-04-09T14:06:34
 # Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
@@ -56,6 +56,7 @@ OIO = CurieNamespace("OIO", "http://www.geneontology.org/formats/oboInOwl#")
 OMO = CurieNamespace("OMO", "http://purl.obolibrary.org/obo/OMO_")
 RO = CurieNamespace("RO", "http://purl.obolibrary.org/obo/RO_")
 BIOLINK = CurieNamespace("biolink", "https://w3id.org/biolink/vocab/")
+DCE = CurieNamespace("dce", "http://example.org/UNKNOWN/dce/")
 DCTERMS = CurieNamespace("dcterms", "http://purl.org/dc/terms/")
 FOAF = CurieNamespace("foaf", "http://xmlns.com/foaf/0.1/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
@@ -2053,6 +2054,24 @@ slots.definition = Slot(
     range=Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]],
 )
 
+slots.predicate = Slot(
+    uri=OMOSCHEMA.predicate,
+    name="predicate",
+    curie=OMOSCHEMA.curie("predicate"),
+    model_uri=OMOSCHEMA.predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.object = Slot(
+    uri=OMOSCHEMA.object,
+    name="object",
+    curie=OMOSCHEMA.curie("object"),
+    model_uri=OMOSCHEMA.object,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.title = Slot(
     uri=DCTERMS.title,
     name="title",
@@ -2193,6 +2212,15 @@ slots.defaultLanguage = Slot(
     name="defaultLanguage",
     curie=PROTEGE.curie("defaultLanguage"),
     model_uri=OMOSCHEMA.defaultLanguage,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.language = Slot(
+    uri=DCTERMS.language,
+    name="language",
+    curie=DCTERMS.curie("language"),
+    model_uri=OMOSCHEMA.language,
     domain=None,
     range=Optional[str],
 )
