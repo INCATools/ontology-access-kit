@@ -148,7 +148,8 @@ def add_associations(
     :param format:
     :return:
     """
-    if ":" in descriptor:
+    # TODO: do more robust windows check
+    if ":" in descriptor and not descriptor.startswith("file:") and not descriptor[1] == ":":
         scheme, path = descriptor.split(":", 1)
         if scheme not in ASSOCIATION_REGISTRY:
             raise ValueError(f"Unknown association scheme: {scheme}")
