@@ -1,4 +1,3 @@
-import filecmp
 import logging
 import unittest
 from copy import deepcopy
@@ -52,6 +51,7 @@ from tests import (
     ORGANELLE_MEMBRANE,
     OUTPUT_DIR,
     VACUOLE,
+    filecmp_difflib,
 )
 from tests.test_implementations import ComplianceTester
 
@@ -351,11 +351,18 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi = SimpleOboImplementation(resource)
         OUTPUT_DIR.mkdir(exist_ok=True)
         oi.dump(output_path, syntax="obo")
-        self.assertTrue(filecmp.cmp(input_path, output_path))
+        self.assertTrue(filecmp_difflib(input_path, output_path))
+        stanza_length_before_sort = len(oi.obo_document.stanzas)
+        stanza_keys_before_sort = oi.obo_document.stanzas.keys()
         # try ordering stanzas (but do not ordering within a stanza)
         oi.obo_document.order_stanzas()
+        stanza_length_after_sort = len(oi.obo_document.stanzas)
+        stanza_keys_after_sort = oi.obo_document.stanzas.keys()
         oi.dump(output_path, syntax="obo")
-        self.assertTrue(filecmp.cmp(input_path, output_path))
+        # AssertFalse because the stanzas are sorted.
+        self.assertFalse(filecmp_difflib(input_path, output_path))
+        self.assertEqual(stanza_length_before_sort, stanza_length_after_sort)
+        self.assertEqual(stanza_keys_before_sort, stanza_keys_after_sort)
 
     @unittest.skip(
         "Currently not guaranteed same as OWLAPI: see https://github.com/owlcollab/oboformat/issues/138"
@@ -371,7 +378,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi.obo_document.normalize_line_order()
         OUTPUT_DIR.mkdir(exist_ok=True)
         oi.dump(output_path, syntax="obo")
-        self.assertTrue(filecmp.cmp(input_path, output_path))
+        self.assertTrue(filecmp_difflib(input_path, output_path))
 
     def test_merge(self):
         resource1 = OntologyResource(slug=TEST_ONT, directory=INPUT_DIR, local=True)

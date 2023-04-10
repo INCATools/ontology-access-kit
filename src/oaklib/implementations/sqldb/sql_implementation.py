@@ -118,6 +118,7 @@ from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     DEFINITION,
+    LANGUAGE_TAG,
     METADATA_MAP,
     PRED_CURIE,
     PREFIX_MAP,
@@ -381,6 +382,11 @@ class SqlImplementation(
             self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
         return self._prefix_map
 
+    def languages(self) -> Iterable[LANGUAGE_TAG]:
+        for row in self.session.query(Statements.language).distinct():
+            if row.language:
+                yield row.language
+
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
         # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
@@ -431,26 +437,81 @@ class SqlImplementation(
         for row in self.session.query(Edge):
             yield row.subject, row.predicate, row.object
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def _add_language_filter(self, q, lang, typ: Type[Statements] = Statements):
+        if lang:
+            if not self.multilingual:
+                logging.warning(
+                    f"Source does not appear to be multilingual, filtering by @{lang} may not work"
+                )
+            if lang == self.default_language:
+                q = q.filter(typ.language.is_(None))
+            else:
+                q = q.filter(typ.language == lang)
+        return q
+
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         q = self.session.query(RdfsLabelStatement.value).filter(RdfsLabelStatement.subject == curie)
+        q = self._add_language_filter(q, lang, RdfsLabelStatement)
         for (lbl,) in q:
             return lbl
+        if lang and lang != self.default_language:
+            return self.label(curie, lang=self.default_language)
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
         for curie_it in chunk(curies, self.max_items_for_in_clause):
             curr_curies = list(curie_it)
 
             has_label = set()
-            for row in self.session.query(RdfsLabelStatement).filter(
+            q = self.session.query(RdfsLabelStatement).filter(
                 RdfsLabelStatement.subject.in_(tuple(curr_curies))
-            ):
+            )
+            q = self._add_language_filter(q, lang, RdfsLabelStatement)
+            for row in q:
                 yield row.subject, row.value
-                if allow_none:
-                    has_label.add(row.subject)
+                has_label.add(row.subject)
+            if lang and lang != self.default_language:
+                # fill missing
+                curies_with_no_labels = set(curr_curies) - has_label
+                yield from self.labels(curies_with_no_labels, allow_none=allow_none, lang=None)
+                allow_none = False
             if allow_none:
                 for curie in curr_curies:
                     if curie not in has_label:
                         yield curie, None
+
+    def multilingual_labels(
+        self, curies: Iterable[CURIE], allow_none=True, langs: Optional[List[LANGUAGE_TAG]] = None
+    ) -> Iterable[Tuple[CURIE, str, LANGUAGE_TAG]]:
+        if isinstance(curies, str):
+            logging.warning(f"multilingual_labels called with a single curie: {curies}")
+            curies = [curies]
+        for curie_it in chunk(curies, self.max_items_for_in_clause):
+            curr_curies = list(curie_it)
+
+            has_label = defaultdict(set)
+            q = self.session.query(RdfsLabelStatement).filter(
+                RdfsLabelStatement.subject.in_(tuple(curr_curies))
+            )
+            if langs is not None:
+                if self.default_language in langs:
+                    q = q.filter(
+                        or_(
+                            RdfsLabelStatement.language.is_(None),
+                            RdfsLabelStatement.language.in_(langs),
+                        )
+                    )
+                else:
+                    q = q.filter(RdfsLabelStatement.language.in_(langs))
+            for row in q:
+                yield row.subject, row.value, row.language
+                if allow_none:
+                    has_label[row.subject].add(row.language)
+            if allow_none:
+                for curie in curr_curies:
+                    if curie not in has_label:
+                        yield curie, None, None
 
     def curies_by_label(self, label: str) -> List[CURIE]:
         q = self.session.query(RdfsLabelStatement.subject)
@@ -1267,6 +1328,11 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         if not reflexive:
             q = q.filter(EntailedEdge.subject != EntailedEdge.object)
+        if reflexive:
+            if isinstance(start_curies, list):
+                yield from start_curies
+            else:
+                yield start_curies
         logging.debug(f"Ancestors query: {q}")
         for row in q:
             yield row.object
@@ -1980,6 +2046,32 @@ class SqlImplementation(
                         subject=about, predicate=predicate, value=patch.new_value
                     )
                 )
+            elif isinstance(patch, kgcl.NewTextDefinition):
+                q = self.session.query(Statements).filter(
+                    Statements.subject == about, Statements.predicate == HAS_DEFINITION_CURIE
+                )
+                if q.count() == 0:
+                    self._execute(
+                        insert(Statements).values(
+                            subject=about, predicate=HAS_DEFINITION_CURIE, value=patch.new_value
+                        )
+                    )
+                else:
+                    self.apply_patch(
+                        kgcl.NodeTextDefinitionChange(subject=about, value=patch.new_value)
+                    )
+            elif isinstance(patch, kgcl.NodeTextDefinitionChange):
+                stmt = (
+                    update(Statements)
+                    .where(
+                        and_(
+                            Statements.subject == about,
+                            Statements.predicate == HAS_DEFINITION_CURIE,
+                        )
+                    )
+                    .values(value=patch.new_value)
+                )
+                self._execute(stmt)
             else:
                 raise NotImplementedError(f"Unknown patch type: {type(patch)}")
         elif isinstance(patch, kgcl.EdgeChange):

@@ -81,10 +81,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     >>> from oaklib import get_adapter
     >>> adapter = get_adapter('tests/input/go-nucleus.db')
-    >>> for alias in adapter.aliases("GO:0005634"):
+    >>> for alias in sorted(adapter.entity_aliases("GO:0005634")):
     ...     print(alias)
     cell nucleus
     horsetail nucleus
+    nucleus
 
     This omits metdata about the synonym, such as the predicate, source, and type.
     For this more granular view, the :ref:`obograph_interface` can be used.
@@ -134,11 +135,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     strict: bool = False
     """Raise exceptions when entities not found in ID-based lookups"""
 
-    multilingual: bool = None
-    """True if the ontology is multilingual, and may provide alterntive primary labels"""
-
-    preferred_language: LANGUAGE_TAG = field(default_factory=lambda: "en")
-    """The preferred language for labels and other lexical entities"""
+    _multilingual: bool = None
 
     autosave: bool = field(default_factory=lambda: True)
     """For adapters that wrap a transactional source (e.g sqlite), this controls
@@ -283,6 +280,76 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
         raise NotImplementedError
 
+    @property
+    def multilingual(self) -> bool:
+        """
+        Returns True if this ontology interface supports multilingual annotations.
+
+        This is by default inferred from the content of the ontology, if more than
+        one language tag is present. This is the case for the international version
+        of the HPO:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.multilingual
+        True
+
+        If no language tags are present, then this will return False:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> adapter.multilingual
+        False
+
+        .. note ::
+
+            currently this is only implemented for the SQL backend.
+
+        :return: True if multilingual
+        """
+        if self._multilingual is None:
+            self._multilingual = len([x for x in self.languages()]) > 1
+        return self._multilingual
+
+    @multilingual.setter
+    def multilingual(self, value: bool):
+        self._multilingual = value
+
+    def languages(self) -> Iterable[LANGUAGE_TAG]:
+        """
+        Returns a list of languages explicitly supported by this ontology interface.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> for lang in sorted(adapter.languages()):
+        ...    print(lang)
+        cs
+        fr
+        nl
+        tr
+
+        :return: iterator of language tags
+        """
+        return iter([])
+
+    @property
+    def default_language(self) -> Optional[LANGUAGE_TAG]:
+        """
+        Returns the default language for this ontology interface.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.default_language
+        'en'
+
+        Note that here "default" has a particular meaning: it means that lexical elements
+        are MUST NOT be explicitly tagged with this language, and that it MUST be assumed that
+        a blank/empty/null language tag means that the default language is intended.
+
+        :return: language tag
+        """
+        return "en"
+
     def ontologies(self) -> Iterable[CURIE]:
         """
         Yields all known ontology CURIEs.
@@ -315,6 +382,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         >>> for entity in adapter.obsoletes():
         ...     print(entity)
         <BLANKLINE>
+        ...
         COB:0000014
 
         In OWL, obsolete entities (aka deprecated entities) are those
@@ -334,8 +402,13 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Example:
 
-        >>> for entity in ontology.obsoletes(include_merged=False):
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:cob")
+        >>> for entity in adapter.obsoletes(include_merged=False):
         ...     print(entity)
+        <BLANKLINE>
+        ...
+        COB:0000014
 
         :param include_merged: If True, merged terms will be included
         :return: iterator over CURIEs
@@ -350,7 +423,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Example:
 
-        >>> for rel in ontology.obsoletes_migration_relationships(ontology.obsoletes()):
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:cob")
+        >>> for rel in adapter.obsoletes_migration_relationships(adapter.obsoletes()):
         ...     print(rel)
 
         Obsoletion relationship predicates may be:
@@ -679,11 +754,36 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         fetches the unique label for a CURIE.
 
-        The CURIE may be for a class, individual, property, or ontology
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.owl")
+        >>> adapter.label("GO:0005634")
+        'nucleus'
+
+        The CURIE may be for a class, individual, property, or ontology.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.owl")
+        >>> adapter.label("BFO:0000050")
+        'part of'
+
+        For backends that support internationalization, the lang tag can be used:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.label('HP:0000118', lang='fr')
+        'Anomalie phénotypique'
+
+        If the argument matches the default language, and the literal is not
+        explicitly language tagged, it is still returned
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.label('HP:0000118', lang='en')
+        'Phenotypic abnormality'
 
         :param curie:
         :param lang: [None] language tag
-        :return:
+        :return: label
         """
         raise NotImplementedError
 
@@ -702,15 +802,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
         return self.label(curie)
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
         """
         Yields entity-label pairs for a CURIE or CURIEs.
 
-        The CURIE may be for a class, individual, property, or ontology
+        The CURIE may be for a class, individual, property, or ontology.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.owl")
+        >>> list(sorted(adapter.labels(["GO:0005634", "GO:0005635"])))
+        [('GO:0005634', 'nucleus'), ('GO:0005635', 'nuclear envelope')]
 
         :param curies: identifiers to be queried
         :param allow_none: [True] use None as value if no label found
-        :return:
+        :return: iterator over tuples of (curie, label)
         """
         # default implementation: may be overridden for efficiency
         for curie in curies:
@@ -719,16 +826,42 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 continue
             yield curie, label
 
+    def multilingual_labels(
+        self, curies: Iterable[CURIE], allow_none=True, langs: Optional[List[LANGUAGE_TAG]] = None
+    ) -> Iterable[Tuple[CURIE, str, LANGUAGE_TAG]]:
+        """
+        Yields entity-label-language tuples for a CURIE or CURIEs.
+
+        For example, in the HPO international edition:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> for tuple in sorted(adapter.multilingual_labels(['HP:0000118'], langs=['en', 'nl'])):
+        ...     print(tuple)
+        ('HP:0000118', 'Fenotypische abnormaliteit', 'nl')
+        ('HP:0000118', 'Phenotypic abnormality', None)
+
+        Note that the english label is not explicitly tagged with a language tag, but is returned
+        because it matches the :ref:`default_language`.
+
+        :param curies: identifiers to be queried
+        :param allow_none: [True] use None as value if no label found
+        :param langs: [None] list of languages to be queried (None means all)
+        :return: iterator over tuples of (curie, label, language)
+        """
+        raise NotImplementedError
+
     @deprecated("Use labels(...)")
     def get_labels_for_curies(self, **kwargs) -> Iterable[Tuple[CURIE, str]]:
         return self.labels(**kwargs)
 
-    def set_label(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str, lang: LANGUAGE_TAG = None) -> bool:
         """
         Sets the value of a label for a CURIE.
 
         :param curie:
         :param label:
+        :param lang:
         :return:
         """
         raise NotImplementedError
@@ -749,7 +882,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         return self.curies_by_label(label)
 
-    def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def hierarchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
         Returns all hierarchical parents.
 
@@ -868,17 +1001,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 for filler in fillers:
                     yield curie, pred, filler
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         """
         Lookup the text definition of an entity.
 
         :param curie: entity identifier to be looked up
+        :param lang: language tag
         :return:
         """
         raise NotImplementedError()
 
     def definitions(
-        self, curies: Iterable[CURIE], include_metadata=False, include_missing=False
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
     ) -> Iterator[DEFINITION]:
         """
         Lookup the text definition plus metadata for a list of entities.
@@ -886,7 +1024,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curies: iterable collection of entity identifiers to be looked up
         :param include_metadata: if true, include metadata
         :param include_missing: if true, include curies with no definition
-        :return:
+        :param lang: language tag
+        :return: iterator over definition objects
         """
         if include_metadata:
             raise NotImplementedError()

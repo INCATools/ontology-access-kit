@@ -74,6 +74,7 @@ from tests import (
     ARCHAEA,
     BACTERIA,
     BIOLOGICAL_PROCESS,
+    BONE_FRACTURE,
     CATALYTIC_ACTIVITY,
     CAUSALLY_UPSTREAM_OF,
     CELL,
@@ -107,6 +108,7 @@ from tests import (
     NUCLEAR_MEMBRANE,
     NUCLEUS,
     OPISTHOKONTA,
+    PHENOTYPIC_ABNORMALITY,
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
     PLASMA_MEMBRANE,
@@ -350,6 +352,47 @@ class ComplianceTester:
                     )
                 )
                 test.assertCountEqual([r], terms, f"replaced_by did not match for {curie}")
+
+    def test_multilingual(self, oi: BasicOntologyInterface):
+        """
+        Tests multilingual capabilities
+
+        :param oi: use an adapter for the HPO international subset
+        :return:
+        """
+        test = self.test
+        langs = list(oi.languages())
+        expected_langs = ["cs", "tr", "fr", "nl"]
+        test.assertCountEqual(expected_langs, langs)
+        test.assertTrue(oi.multilingual)
+        lang_labels = [
+            (PHENOTYPIC_ABNORMALITY, "en", "Phenotypic abnormality", True),
+            (PHENOTYPIC_ABNORMALITY, "fr", "Anomalie phénotypique", True),
+            (PHENOTYPIC_ABNORMALITY, "cs", "Fenotypová abnormalita", True),
+            (PHENOTYPIC_ABNORMALITY, "nl", "Fenotypische abnormaliteit", True),
+            (BONE_FRACTURE, "en", "Bone fracture", True),
+            (BONE_FRACTURE, "nl", "Bone fracture", False),  # defaults to english
+        ]
+        test.assertEqual("en", oi.default_language)
+        for curie, lang, expected_label, present in lang_labels:
+            labels = list(oi.labels([curie]))
+            test.assertGreater(len(labels), 0)
+            label = oi.label(curie, lang=lang)
+            test.assertEquals(expected_label, label, f"Label for {lang} did not match")
+            label_tuples = list(oi.multilingual_labels(curie))
+            if present:
+                test.assertIn(
+                    lang,
+                    [lang[2] or "en" for lang in label_tuples],
+                    f"Label for {lang} not found in {label_tuples} for {curie}",
+                )
+            label_tuples = list(oi.multilingual_labels(curie, langs=[lang]))
+            if present:
+                test.assertIn(lang, [lang[2] or "en" for lang in label_tuples])
+            other_langs = [lang for lang in expected_langs if lang != lang]
+            label_tuples = list(oi.multilingual_labels(curie, langs=other_langs))
+            test.assertGreater(len(label_tuples), 0)
+            test.assertNotIn(lang, [lang[2] for lang in label_tuples])
 
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """
@@ -932,6 +975,32 @@ class ComplianceTester:
                 ),
                 None,
             ),
+            (
+                kgcl.NewTextDefinition(
+                    id=generate_change_id(),
+                    about_node=OPISTHOKONTA,
+                    new_value="It is an opisthokonta.",
+                ),
+                False,
+                lambda oi: test.assertEqual(
+                    "It is an opisthokonta.",
+                    oi.definition(OPISTHOKONTA),
+                ),
+                None,
+            ),
+            (
+                kgcl.NodeTextDefinitionChange(
+                    id=generate_change_id(),
+                    about_node=BIOLOGICAL_PROCESS,
+                    new_value="It is a biological process.",
+                ),
+                False,
+                lambda oi: test.assertEqual(
+                    "It is a biological process.",
+                    oi.definition(BIOLOGICAL_PROCESS),
+                ),
+                None,
+            ),
         ]
         # Apply changes and test the end-state is as expected
         for case in cases:
@@ -1358,7 +1427,7 @@ class ComplianceTester:
         :return:
         """
         test = self.test
-        expecteced = [
+        expected = [
             (NUCLEUS, NUCLEUS, [IS_A], None, [NUCLEUS]),
             (NUCLEUS, VACUOLE, [IS_A], None, [IMBO]),
             (NUCLEUS, IMBO, [IS_A], None, [IMBO]),
@@ -1368,7 +1437,7 @@ class ComplianceTester:
             (NUCLEAR_ENVELOPE, NUCLEUS, [IS_A], None, [CELLULAR_ANATOMICAL_ENTITY]),
             (BIOLOGICAL_PROCESS, NUCLEUS, [IS_A], [OWL_THING], [OWL_THING]),
         ]
-        for x, y, preds, expected_ancs, expected_mrcas in expecteced:
+        for x, y, preds, expected_ancs, expected_mrcas in expected:
             ancs = list(oi.common_ancestors(x, y, preds))
             ancs_flipped = list(oi.common_ancestors(y, x, preds))
             mrcas = list(oi.most_recent_common_ancestors(x, y, preds))

@@ -94,6 +94,9 @@ TERM_TAGS = [
     TAG_CREATION_DATE,
 ]
 
+OBO_TERM = "Term"
+OBO_TYPEDEF = "Typedef"
+
 
 def _parse_list(as_str: str) -> List[str]:
     if as_str == "":
@@ -405,11 +408,14 @@ class Structure:
         if vals:
             if strict and len(vals) > 1:
                 raise ValueError(f"Multiple vals {vals} for {tag} in {self.id}")
-            m = re_quoted_simple.match(vals[0])
-            if m:
-                return m.group(1)
+            if "[" in vals[0]:
+                m = re_quoted_simple.match(vals[0])
+                if m:
+                    return m.group(1)
+                else:
+                    raise ValueError(f"Could not parse quoted string from {vals}")
             else:
-                raise ValueError(f"Could not parse quoted string from {vals}")
+                return vals[0]
 
     def synonyms(self) -> List[SYNONYM_TUPLE]:
         """
@@ -593,9 +599,25 @@ class OboDocument:
 
         Does not change tag-value ordering within stanzas
         """
-        stanzas = self.stanzas.values()
-        stanzas = sorted(stanzas, key=lambda x: x.id)
-        self.stanzas = {s.id: s for s in stanzas}
+        term_stanzas = {
+            curie: stanza
+            for curie, stanza in self.stanzas.items()
+            if self.stanzas[curie].type == OBO_TERM
+        }
+        typedef_stanzas = {
+            curie: stanza
+            for curie, stanza in self.stanzas.items()
+            if self.stanzas[curie].type == OBO_TYPEDEF
+        }
+        sorted_term_stanzas = self._sort_stanzas(term_stanzas)
+        sorted_typedef_stanzas = self._sort_stanzas(typedef_stanzas)
+
+        self.stanzas = {s.id: s for s in sorted_term_stanzas}
+        self.stanzas.update({s.id: s for s in sorted_typedef_stanzas})
+
+    def _sort_stanzas(self, stanzas: Mapping[CURIE, Stanza]) -> Mapping[CURIE, Stanza]:
+        values = stanzas.values()
+        return sorted(values, key=lambda x: x.id)
 
     def normalize_line_order(self) -> None:
         """

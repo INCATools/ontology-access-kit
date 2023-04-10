@@ -33,6 +33,7 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    LANGUAGE_TAG,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
@@ -227,14 +228,18 @@ class OboGraphImplementation(
                 if subset in self._node_subsets(n):
                     yield n
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         if curie == IS_A:
             return "subClassOf"
         n = self._node(curie)
         if n:
             return n.lbl
 
-    def set_label(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str, lang: Optional[LANGUAGE_TAG] = None) -> bool:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         n = self._node(curie, True)
         n.lbl = label
         return True
@@ -257,7 +262,9 @@ class OboGraphImplementation(
                 g.edges.append(Edge(curie, p, obj))
         return curie
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         m = self._meta(curie)
         if m:
             return m.definition.val
