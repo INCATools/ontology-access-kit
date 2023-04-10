@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/similarity
+id: https://w3id.org/oak/similarity
 title: Semantic Similarity
 name: similarity
 description: >-
@@ -217,8 +217,8 @@ slots:
     range: uriorcurie
   average_score:
     range: float
-    required: true
+    required: false
   best_score:
     range: float
-    required: true
+    required: false
 

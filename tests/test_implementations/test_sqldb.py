@@ -4,11 +4,14 @@ import unittest
 
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
+from linkml_runtime.loaders import yaml_loader
 from semsql.sqla.semsql import Statements
 from sqlalchemy import delete
 
 from oaklib import BasicOntologyInterface, get_adapter
+from oaklib.conf import CONF_DIR_PATH
 from oaklib.datamodels import obograph
+from oaklib.datamodels.input_specification import InputSpecification
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResultType
@@ -42,6 +45,7 @@ from tests import (
     VACUOLE,
 )
 from tests.test_implementations import ComplianceTester
+from tests.test_parsers.test_gaf_association_parser import INPUT_GAF
 
 DB = INPUT_DIR / "go-nucleus.db"
 SSN_DB = INPUT_DIR / "ssn.db"
@@ -576,6 +580,20 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             results = list(oi.most_recent_common_ancestors(s, o, predicates=[IS_A, PART_OF]))
             # logging.info(f'{s} {o} == {results}')
             self.assertEqual([lca], results)
+
+    def test_create_from_input_specification(self):
+        spec = InputSpecification(
+            ontology_resources={"go": {"selector": str(DB)}},
+            association_resources={"gaf": {"selector": str(INPUT_GAF)}},
+        )
+        oi = get_adapter(spec)
+        self.compliance_tester.test_synonym_types(oi)
+
+    @unittest.skip("TODO: move to integration tests")
+    def test_integration_create_from_hpo_input_specification(self):
+        spec = yaml_loader.load(str(CONF_DIR_PATH / "hpoa-input-spec.yaml"), InputSpecification)
+        oi = get_adapter(spec)
+        print(oi)
 
     def test_store_associations(self):
         shutil.copyfile(DB, MUTABLE_DB)

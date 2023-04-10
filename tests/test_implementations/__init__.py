@@ -366,33 +366,69 @@ class ComplianceTester:
         test.assertCountEqual(expected_langs, langs)
         test.assertTrue(oi.multilingual)
         lang_labels = [
-            (PHENOTYPIC_ABNORMALITY, "en", "Phenotypic abnormality", True),
-            (PHENOTYPIC_ABNORMALITY, "fr", "Anomalie phénotypique", True),
-            (PHENOTYPIC_ABNORMALITY, "cs", "Fenotypová abnormalita", True),
-            (PHENOTYPIC_ABNORMALITY, "nl", "Fenotypische abnormaliteit", True),
-            (BONE_FRACTURE, "en", "Bone fracture", True),
-            (BONE_FRACTURE, "nl", "Bone fracture", False),  # defaults to english
+            (
+                PHENOTYPIC_ABNORMALITY,
+                "en",
+                "Phenotypic abnormality",
+                "A phenotypic abnormality.",
+                True,
+            ),
+            (
+                PHENOTYPIC_ABNORMALITY,
+                "fr",
+                "Anomalie phénotypique",
+                "une anomalie phénotypique",
+                True,
+            ),
+            (
+                PHENOTYPIC_ABNORMALITY,
+                "cs",
+                "Fenotypová abnormalita",
+                "Fenotypová abnormalita",
+                True,
+            ),
+            (PHENOTYPIC_ABNORMALITY, "nl", "Fenotypische abnormaliteit", None, True),
+            (
+                BONE_FRACTURE,
+                "en",
+                "Bone fracture",
+                "A partial or complete breakage of the continuity of a bone.",
+                True,
+            ),
+            (BONE_FRACTURE, "nl", "Bone fracture", None, False),  # defaults to english
         ]
         test.assertEqual("en", oi.default_language)
-        for curie, lang, expected_label, present in lang_labels:
+        for curie, lang, expected_label, expected_definition, present in lang_labels:
             labels = list(oi.labels([curie]))
             test.assertGreater(len(labels), 0)
             label = oi.label(curie, lang=lang)
             test.assertEquals(expected_label, label, f"Label for {lang} did not match")
-            label_tuples = list(oi.multilingual_labels(curie))
+            label_tuples = list(oi.multilingual_labels([curie]))
             if present:
                 test.assertIn(
                     lang,
                     [lang[2] or "en" for lang in label_tuples],
                     f"Label for {lang} not found in {label_tuples} for {curie}",
                 )
-            label_tuples = list(oi.multilingual_labels(curie, langs=[lang]))
+            label_tuples = list(oi.multilingual_labels([curie], langs=[lang]))
             if present:
                 test.assertIn(lang, [lang[2] or "en" for lang in label_tuples])
             other_langs = [lang for lang in expected_langs if lang != lang]
-            label_tuples = list(oi.multilingual_labels(curie, langs=other_langs))
+            label_tuples = list(oi.multilingual_labels([curie], langs=other_langs))
             test.assertGreater(len(label_tuples), 0)
             test.assertNotIn(lang, [lang[2] for lang in label_tuples])
+            defn = oi.definition(curie, lang=lang)
+            if expected_definition is not None:
+                test.assertEquals(expected_definition, defn, f"Definition for {lang} did not match")
+            defns = list(oi.definitions([curie], lang=lang))
+            if expected_definition is None:
+                pass
+                # test.assertEqual(0, len(defns), f"Expected no definition for {lang} for {curie}")
+            else:
+                test.assertEqual(1, len(defns), f"Expected one definition for {lang} for {curie}")
+                test.assertEqual(
+                    expected_definition, defns[0][1], f"Definition for {lang} did not match"
+                )
 
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """

@@ -1,12 +1,14 @@
 # Auto generated from similarity.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-09-07T23:25:27
+# Generation date: 2023-04-10T09:38:53
 # Schema: similarity
 #
-# id: https://w3id.org/linkml/similarity
+# id: https://w3id.org/oak/similarity
 # description: A datamodel for representing semantic similarity between terms or lists of terms.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -300,19 +302,29 @@ class BestMatch(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = SIM.BestMatch
 
     match_source: Union[str, BestMatchMatchSource] = None
+    score: float = None
+    similarity: Union[dict, TermPairwiseSimilarity] = None
     match_source_label: Optional[str] = None
     match_target: Optional[str] = None
     match_target_label: Optional[str] = None
-    score: Optional[float] = None
     match_subsumer: Optional[Union[str, URIorCURIE]] = None
     match_subsumer_label: Optional[str] = None
-    similarity: Optional[Union[dict, TermPairwiseSimilarity]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.match_source):
             self.MissingRequiredField("match_source")
         if not isinstance(self.match_source, BestMatchMatchSource):
             self.match_source = BestMatchMatchSource(self.match_source)
+
+        if self._is_empty(self.score):
+            self.MissingRequiredField("score")
+        if not isinstance(self.score, float):
+            self.score = float(self.score)
+
+        if self._is_empty(self.similarity):
+            self.MissingRequiredField("similarity")
+        if not isinstance(self.similarity, TermPairwiseSimilarity):
+            self.similarity = TermPairwiseSimilarity(**as_dict(self.similarity))
 
         if self.match_source_label is not None and not isinstance(self.match_source_label, str):
             self.match_source_label = str(self.match_source_label)
@@ -323,17 +335,11 @@ class BestMatch(YAMLRoot):
         if self.match_target_label is not None and not isinstance(self.match_target_label, str):
             self.match_target_label = str(self.match_target_label)
 
-        if self.score is not None and not isinstance(self.score, float):
-            self.score = float(self.score)
-
         if self.match_subsumer is not None and not isinstance(self.match_subsumer, URIorCURIE):
             self.match_subsumer = URIorCURIE(self.match_subsumer)
 
         if self.match_subsumer_label is not None and not isinstance(self.match_subsumer_label, str):
             self.match_subsumer_label = str(self.match_subsumer_label)
-
-        if self.similarity is not None and not isinstance(self.similarity, TermPairwiseSimilarity):
-            self.similarity = TermPairwiseSimilarity(**as_dict(self.similarity))
 
         super().__post_init__(**kwargs)
 
@@ -681,7 +687,7 @@ slots.bestMatch__score = Slot(
     curie=SIM.curie("score"),
     model_uri=SIM.bestMatch__score,
     domain=None,
-    range=Optional[float],
+    range=float,
 )
 
 slots.bestMatch__match_subsumer = Slot(
@@ -708,5 +714,5 @@ slots.bestMatch__similarity = Slot(
     curie=SIM.curie("similarity"),
     model_uri=SIM.bestMatch__similarity,
     domain=None,
-    range=Optional[Union[dict, TermPairwiseSimilarity]],
+    range=Union[dict, TermPairwiseSimilarity],
 )

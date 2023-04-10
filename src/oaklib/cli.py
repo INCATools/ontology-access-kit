@@ -136,10 +136,7 @@ from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
-from oaklib.selector import (
-    get_implementation_from_shorthand,
-    get_resource_from_shorthand,
-)
+from oaklib.selector import get_adapter, get_resource_from_shorthand
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
@@ -882,16 +879,17 @@ def main(
             setattr(settings, k, v)
     logging.info(f"Settings = {settings}")
     if input:
-        impl_class: Type[OntologyInterface]
-        resource = get_resource_from_shorthand(input, format=input_type, import_depth=import_depth)
-        impl_class = resource.implementation_class
-        logging.info(f"RESOURCE={resource}")
-        settings.impl = impl_class(resource)
+        # impl_class: Type[OntologyInterface]
+        # resource = get_resource_from_shorthand(input, format=input_type, import_depth=import_depth)
+        # impl_class = resource.implementation_class
+        # logging.info(f"RESOURCE={resource}")
+        # settings.impl = impl_class(resource)
+        settings.impl = get_adapter(input)
         settings.impl.autosave = autosave
     if merge and not add:
         raise ValueError("Cannot use --merge without --add")
     if add:
-        impls = [get_implementation_from_shorthand(d) for d in add]
+        impls = [get_adapter(d) for d in add]
         if merge:
             if isinstance(settings.impl, MergeInterface):
                 settings.impl.merge(impls)
@@ -1237,7 +1235,7 @@ def statistics(
             raise click.UsageError("Cannot specify both branches and compare_with")
         if not isinstance(impl, DifferInterface):
             raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-        other = get_implementation_from_shorthand(compare_with)
+        other = get_adapter(compare_with)
         logging.info(f"Comparing {impl} with {other} using {diff_config}")
         diff_stats = impl.diff_summary(other, configuration=diff_config)
     if not branches and not group_by_property:
@@ -4022,11 +4020,22 @@ def associations(
         runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i HP:0001392
 
     This shows all annotations either to "Abnormality of the liver" (HP:0001392), or
-    to is-a descendants
+    to is-a descendants.
+
+    Using input specifications:
+
+    It can be awkward to specify both input ontology and association path and format. You
+    can use input specifications to bundle common combinations of inputs together.
+
+    For example, the go-dictybase-input-spec combines go plus dictybase associations.
+
+    Example:
+
+        runoak --i src/oaklib/conf/go-dictybase-input-spec.yaml associations -p i,p GO:0008104
 
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
@@ -4839,7 +4848,7 @@ def diff_terms(output, other_ontology, terms):
     if other_ontology is None:
         other_impl = impl
     else:
-        other_impl = get_implementation_from_shorthand(other_ontology)
+        other_impl = get_adapter(other_ontology)
     terms = list(query_terms_iterator(terms, impl))
     if len(terms) == 2:
         [term, other_term] = terms
@@ -4945,7 +4954,7 @@ def diff(
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
     writer.heterogeneous_keys = True
-    other_impl = get_implementation_from_shorthand(other_ontology)
+    other_impl = get_adapter(other_ontology)
     config = DiffConfiguration(simple=simple)
     if group_by_obo_namespace:
         config.group_by_property = HAS_OBO_NAMESPACE
@@ -5290,7 +5299,7 @@ def diff_via_mappings(
         if intra:
             raise ValueError("No not specify --intra if --other-input is specified")
         else:
-            other_oi = get_implementation_from_shorthand(other_input, format=other_input_type)
+            other_oi = get_adapter(other_input, format=other_input_type)
     else:
         if intra:
             other_oi = oi
