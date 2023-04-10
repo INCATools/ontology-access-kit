@@ -62,6 +62,7 @@ OWL_SYMMETRIC_PROPERTY = "owl:SymmetricProperty"
 OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
 IS_DEFINED_BY = "rdfs:isDefinedBy"
+RDFS_COMMENT = "rdfs:comment"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 DISJOINT_WITH = "owl:disjointWith"

@@ -1,0 +1,6 @@
+ontology_resources:
+  hp:
+    selector: sqlite:obo:hp
+association_resources:
+  hpoa:
+    selector: "hpoa:"

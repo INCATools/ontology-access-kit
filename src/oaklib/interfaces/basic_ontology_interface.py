@@ -184,6 +184,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def converter(self) -> curies.Converter:
         """Get a converter for this ontology interface's prefix map.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> converter = adapter.converter
+        >>> print(converter.compress("http://purl.obolibrary.org/obo/GO_0005634"))
+        GO:0005634
+
         :return: A converter
         """
         if self._converter is None:
@@ -211,6 +217,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Expands a CURIE to a URI.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> print(adapter.curie_to_uri("GO:0005634"))
+        http://purl.obolibrary.org/obo/GO_0005634
+
         :param curie:
         :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded
         :return:
@@ -232,6 +243,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     ) -> Optional[CURIE]:
         """
         Contracts a URI to a CURIE.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> print(adapter.uri_to_curie("http://purl.obolibrary.org/obo/GO_0005634"))
+        GO:0005634
 
         If strict conditions hold, then no URI can map to more than one CURIE
         (i.e one URI base should not start with another).
@@ -355,7 +371,27 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields all known ontology CURIEs.
 
         Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
-        Even when a single ontology is wrapped, there may be multiple ontologies included as imports
+        Even when a single ontology is wrapped, there may be multiple ontologies included as imports.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.owl.ttl')
+        >>> list(adapter.ontologies())
+        ['go.owl']
+
+        .. note ::
+
+            The payload for this method may change to return normalized ontology names such as 'go'
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('bioportal:')
+        >>> for ont in sorted(adapter.ontologies()):
+        ...     print(ont)
+        <BLANKLINE>
+        ...
+        GO
+        ...
+        UBERON
+        ...
 
         :return: iterator
         """
@@ -450,6 +486,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all version identifiers for an ontology.
 
+        .. warning ::
+
+            This method is not yet implemented for all OntologyInterface implementations.
+
         :param ontology:
         :return: iterator
         """
@@ -458,6 +498,13 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
         """
         Property-values metadata map with metadata about an ontology.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for ont in adapter.ontologies():
+        ...     m = adapter.ontology_metadata_map(ont)
+        ...     m.get('schema:url')
+        ['http://purl.obolibrary.org/obo/go.owl']
 
         :param ontology:
         :return:
@@ -469,6 +516,25 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """
         Yields all known entity CURIEs.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in adapter.entities():
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        GO:0005634
+        ...
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import OWL_OBJECT_PROPERTY
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in adapter.entities(owl_type=OWL_OBJECT_PROPERTY):
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        BFO:0000051
+        ...
 
         :param filter_obsoletes: if True, exclude any obsolete/deprecated element
         :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
@@ -483,6 +549,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
         """
         Yields all known OWL types for given entities.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e, t in sorted(adapter.owl_types(['GO:0005634', 'BFO:0000050'])):
+        ...     print(e, t)
+        BFO:0000050 owl:ObjectProperty
+        BFO:0000050 owl:TransitiveProperty
+        GO:0005634 owl:Class
 
         The OWL type must either be the instantiated type as the RDFS level, e.g.
 
@@ -508,6 +582,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Get the OWL type for a given entity.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> adapter.owl_type('GO:0005634')
+        ['owl:Class']
+
         Typically each entity will have a single OWL type, but in some cases
         an entity may have multiple OWL types. This is called "punning",
         see `Section 8.3<https://www.w3.org/TR/owl2-primer/#Entity_Declarations>` of
@@ -521,6 +600,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def defined_by(self, entity: CURIE) -> Optional[str]:
         """
         Returns the CURIE of the ontology that defines the given entity.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> adapter.defined_by('GO:0005634')
+        'GO'
 
         :param entity:
         :return:
@@ -559,12 +643,34 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all entities without a parent.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.roots()):
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        BFO:0000003
+        ...
+        OBI:0100026
+        ...
+
         Note that the concept of a "root" in an ontology can be ambiguous:
 
         - is the (trivial) owl:Thing included (OWL tautology)?
         - are we asking for the root of the is-a graph, or a subset of predicates?
         - do we include parents in imported/merged other ontologies (e.g. BFO)?
         - do we include obsolete nodes (which are typically singletons)?
+
+        Note also that the release OWL versions of many OBO ontologies may exhibit a certain
+        level of messiness with multiple roots.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.roots(id_prefixes=['GO'])):
+        ...     print(e, adapter.label(e))
+        GO:0003674 molecular_function
+        GO:0005575 cellular_component
+        GO:0008150 biological_process
 
         This method will yield entities that are not the subject of an edge, considering
         only edges with a given set of predicates, optionally ignoring owl:Thing, and
@@ -702,6 +808,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all subsets (slims) defined in the ontology.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.subsets()):
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        goslim_drosophila
+        goslim_flybase_ribbon
+        goslim_generic
+        ...
+
         All subsets yielded are contracted to their short form.
 
         :return: iterator
@@ -720,6 +837,18 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all entities belonging to the specified subset.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.subset_members('goslim_generic')):
+        ...     print(e, adapter.label(e))
+        <BLANKLINE>
+        ...
+        GO:0005634 nucleus
+        GO:0005635 nuclear envelope
+        GO:0005737 cytoplasm
+        GO:0005773 vacuole
+        ...
+
         :return: iterator
         """
         raise NotImplementedError
@@ -727,6 +856,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
         """
         Yields entity-subset pairs for the given set of entities.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e, subset in sorted(adapter.terms_subsets(['GO:0005634', 'GO:0005635'])):
+        ...     print(subset, e, adapter.label(e))
+        <BLANKLINE>
+        ...
+        goslim_yeast GO:0005634 nucleus
+        goslim_chembl GO:0005635 nuclear envelope
+        goslim_generic GO:0005635 nuclear envelope
+        ...
 
         :return: iterator
         """
@@ -741,6 +881,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
         """
         Yields all categories an entity or entities belongs to.
+
+        .. note ::
+
+            This method is not implemented for all adapters.
 
         :return: iterator
         """
@@ -784,17 +928,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :param lang: [None] language tag
         :return: label
-        """
-        raise NotImplementedError
-
-    def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
-        """
-        Yields entity-comment pairs for a CURIE or CURIEs.
-
-        The CURIE may be for a class, individual, property, or ontology
-
-        :param curies:
-        :return:
         """
         raise NotImplementedError
 
@@ -882,6 +1015,73 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         return self.curies_by_label(label)
 
+    def comments(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, Optional[str]]]:
+        """
+        Yields entity-comment pairs for a CURIE or CURIEs.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for curie, comment in sorted(adapter.comments(["GO:0016772", "GO:0005634"], allow_none=False)):
+        ...     print(f"{curie} {comment[0:31]}[snip]")
+        GO:0016772 Note that this term encompasses[snip]
+
+        Note in the above query, no tuples for "GO:0005634" were yielded - this is because
+        the test ontology has no comments for this CURIE, and ``allow_none=False``.
+
+        If ``allow_none=True``, then a tuple with a None value in the second position will be yielded.
+
+        The CURIE may be for a class, individual, property, or ontology
+
+        :param curies:
+        :param allow_none: [True] if False, only yield entities with comments
+        :param lang: [None] language tag
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def relationships(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = False,
+        exclude_blank: bool = True,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Yields all relationships matching query constraints.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for s, p, o in sorted(adapter.relationships(subjects=["GO:0005634"])):
+        ...     print(f"{p} {o} '{adapter.label(o)}'")
+        RO:0002160 NCBITaxon:2759 'Eukaryota'
+        rdfs:subClassOf GO:0043231 'intracellular membrane-bounded organelle'
+
+        :param subjects: constrain search to these subjects (i.e outgoing edges)
+        :param predicates: constrain search to these predicates
+        :param objects: constrain search to these objects (i.e incoming edges)
+        :param include_tbox: if true, include class-class relationships (default True)
+        :param include_abox: if true, include instance-instance/class relationships (default True)
+        :param include_entailed:
+        :param exclude_blank: do not include blank nodes/anonymous expressions
+        :return:
+        """
+        if not subjects:
+            subjects = list(self.entities())
+        logging.info(f"Subjects: {len(subjects)}")
+        for subject in subjects:
+            for this_predicate, this_objects in self.outgoing_relationship_map(subject).items():
+                if predicates and this_predicate not in predicates:
+                    continue
+                for this_object in this_objects:
+                    if objects and this_object not in objects:
+                        continue
+                    yield subject, this_predicate, this_object
+
     def hierarchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
         Returns all hierarchical parents.
@@ -955,40 +1155,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         for s, p, _ in self.relationships(objects=[curie], predicates=predicates):
             yield p, s
 
-    def relationships(
-        self,
-        subjects: Iterable[CURIE] = None,
-        predicates: Iterable[PRED_CURIE] = None,
-        objects: Iterable[CURIE] = None,
-        include_tbox: bool = True,
-        include_abox: bool = True,
-        include_entailed: bool = False,
-        exclude_blank: bool = True,
-    ) -> Iterator[RELATIONSHIP]:
-        """
-        Yields all relationships matching query constraints.
-
-        :param subjects: constrain search to these subjects (i.e outgoing edges)
-        :param predicates: constrain search to these predicates
-        :param objects: constrain search to these objects (i.e incoming edges)
-        :param include_tbox: if true, include class-class relationships (default True)
-        :param include_abox: if true, include instance-instance/class relationships (default True)
-        :param include_entailed:
-        :param exclude_blank: do not include blank nodes/anonymous expressions
-        :return:
-        """
-        if not subjects:
-            subjects = list(self.entities())
-        logging.info(f"Subjects: {len(subjects)}")
-        for subject in subjects:
-            for this_predicate, this_objects in self.outgoing_relationship_map(subject).items():
-                if predicates and this_predicate not in predicates:
-                    continue
-                for this_object in this_objects:
-                    if objects and this_object not in objects:
-                        continue
-                    yield subject, this_predicate, this_object
-
     @deprecated("Use relationships()")
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
         """
@@ -1005,6 +1171,13 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Lookup the text definition of an entity.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for curie, defn, meta in adapter.definitions(["GO:0005634", "GO:0005737"], include_metadata=True):
+        ...     print(f"{curie} {defn[0:30]}[snip] [{meta}]")
+        GO:0005634 A membrane-bounded organelle o[snip] [{'oio:hasDbXref': ['GOC:go_curators']}]
+        GO:0005737 All of the contents of a cell [snip] [{'oio:hasDbXref': ['ISBN:0198547684']}]
+
         :param curie: entity identifier to be looked up
         :param lang: language tag
         :return:
@@ -1020,6 +1193,13 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     ) -> Iterator[DEFINITION]:
         """
         Lookup the text definition plus metadata for a list of entities.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for curie, defn, meta in adapter.definitions(["GO:0005634", "GO:0005737"], include_metadata=True):
+        ...     print(f"{curie} {defn[0:30]}[snip] [{meta}]")
+        GO:0005634 A membrane-bounded organelle o[snip] [{'oio:hasDbXref': ['GOC:go_curators']}]
+        GO:0005737 All of the contents of a cell [snip] [{'oio:hasDbXref': ['ISBN:0198547684']}]
 
         :param curies: iterable collection of entity identifiers to be looked up
         :param include_metadata: if true, include metadata
@@ -1044,6 +1224,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields mappings for a given subject.
 
         Here, each mapping is represented as a simple tuple (predicate, object)
+
+        .. note ::
+
+            For a more sophisticated mapping interface, see :ref:`MappingProviderInterface`
 
         :param curie: entity identifier to be looked up
         :return: iterator over predicate-object tuples

@@ -9,7 +9,7 @@ doctest:
 
 ## Compiled
 
-MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff association class_enrichment value_set_configuration fhir mapping_cluster_datamodel cx
+MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff association class_enrichment value_set_configuration fhir mapping_cluster_datamodel cx item_list input_specification
 
 pyclasses: $(patsubst %, src/oaklib/datamodels/%.py, $(MODELS))
 jsonschema: $(patsubst %, src/oaklib/datamodels/%.schema.json, $(MODELS))
