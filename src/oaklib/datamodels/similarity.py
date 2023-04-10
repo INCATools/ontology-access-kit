@@ -1,5 +1,5 @@
 # Auto generated from similarity.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-09T15:54:08
+# Generation date: 2023-04-10T09:38:53
 # Schema: similarity
 #
 # id: https://w3id.org/oak/similarity
@@ -211,8 +211,6 @@ class TermSetPairwiseSimilarity(PairwiseSimilarity):
     class_name: ClassVar[str] = "TermSetPairwiseSimilarity"
     class_model_uri: ClassVar[URIRef] = SIM.TermSetPairwiseSimilarity
 
-    average_score: float = None
-    best_score: float = None
     subject_termset: Optional[
         Union[Dict[Union[str, TermInfoId], Union[dict, "TermInfo"]], List[Union[dict, "TermInfo"]]]
     ] = empty_dict()
@@ -231,19 +229,11 @@ class TermSetPairwiseSimilarity(PairwiseSimilarity):
             List[Union[dict, "BestMatch"]],
         ]
     ] = empty_dict()
+    average_score: Optional[float] = None
+    best_score: Optional[float] = None
     metric: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.average_score):
-            self.MissingRequiredField("average_score")
-        if not isinstance(self.average_score, float):
-            self.average_score = float(self.average_score)
-
-        if self._is_empty(self.best_score):
-            self.MissingRequiredField("best_score")
-        if not isinstance(self.best_score, float):
-            self.best_score = float(self.best_score)
-
         self._normalize_inlined_as_dict(
             slot_name="subject_termset", slot_type=TermInfo, key_name="id", keyed=True
         )
@@ -265,6 +255,12 @@ class TermSetPairwiseSimilarity(PairwiseSimilarity):
             key_name="match_source",
             keyed=True,
         )
+
+        if self.average_score is not None and not isinstance(self.average_score, float):
+            self.average_score = float(self.average_score)
+
+        if self.best_score is not None and not isinstance(self.best_score, float):
+            self.best_score = float(self.best_score)
 
         if self.metric is not None and not isinstance(self.metric, URIorCURIE):
             self.metric = URIorCURIE(self.metric)
@@ -619,7 +615,7 @@ slots.average_score = Slot(
     curie=SIM.curie("average_score"),
     model_uri=SIM.average_score,
     domain=None,
-    range=float,
+    range=Optional[float],
 )
 
 slots.best_score = Slot(
@@ -628,7 +624,7 @@ slots.best_score = Slot(
     curie=SIM.curie("best_score"),
     model_uri=SIM.best_score,
     domain=None,
-    range=float,
+    range=Optional[float],
 )
 
 slots.termInfo__id = Slot(
