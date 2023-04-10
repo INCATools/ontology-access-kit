@@ -425,7 +425,7 @@ class ComplianceTester:
                 test.assertEqual(0, len(defns), f"Expected no definition for {lang} for {curie}")
             else:
                 test.assertEqual(1, len(defns), f"Expected one definition for {lang} for {curie}")
-                test.assertEqual(R
+                test.assertEqual(
                     expected_definition, defns[0][1], f"Definition for {lang} did not match"
                 )
 
