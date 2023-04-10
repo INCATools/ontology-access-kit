@@ -1,0 +1,338 @@
+name: cx
+description: NDEX CX datamodel
+id: https://w3id.org/oaklib/cx
+imports:
+- linkml:types
+prefixes:
+  linkml: https://w3id.org/linkml/
+  cx: https://w3id.org/oaklib/cx/
+default_prefix: cx
+slots:
+  CXVersion:
+    examples:
+    - value: '2.0'
+    identifier: true
+    range: float
+  hasFragments:
+    examples:
+    - value: 'False'
+    range: integer
+  elementCount:
+    examples:
+    - value: '6'
+    range: integer
+  name:
+    examples:
+    - value: edges
+    range: string
+  metaData:
+    examples:
+    - value: '[''$ref:MetaDatum'', ''$ref:MetaDatum'', ''$ref:MetaDatum'', ''$ref:MetaDatum'',
+        ''$ref:MetaDatum'', ''$ref:MetaDatum'', ''$ref:MetaDatum'', ''$ref:MetaDatum'',
+        ''$ref:MetaDatum'', ''$ref:MetaDatum'']'
+    multivalued: true
+    range: MetaDatum
+  d:
+    examples:
+    - value: string
+    range: string
+  a:
+    examples:
+    - value: i
+    range: string
+  Is_Tree_Edge:
+    range: string
+  interaction:
+    range: string
+  id:
+    examples:
+    - value: '222'
+    range: integer
+  s:
+    examples:
+    - value: '103'
+    range: integer
+  t:
+    examples:
+    - value: '115'
+    range: integer
+  v:
+    range: string
+  description:
+    examples:
+    - value: A small network that has attributes on network, nodes and edges. It also
+        has visualstyles and bypasses on nodes and edges.
+    range: string
+  Size:
+    range: string
+  align_fdr:
+    range: string
+  align_goID:
+    range: string
+  align_score:
+    range: string
+  annot:
+    range: string
+  annot_source:
+    range: string
+  cc_overlap:
+    range: string
+  genes:
+    range: string
+  jaccard:
+    range: string
+  overlap:
+    range: string
+  x:
+    examples:
+    - value: '326.15462133852697'
+    range: float
+  y:
+    examples:
+    - value: '-295.3667175710825'
+    range: float
+  edges:
+    range: Edge
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  networkAttributes:
+  nodes:
+    range: Node
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  attributeDeclarations:
+    examples:
+    - value: '[''$ref:AttributeDeclaration'']'
+    range: AttributeDeclaration
+  n:
+    examples:
+    - value: '737'
+    range: integer
+  i:
+    examples:
+    - value: interacts with
+    range: string
+  descriptorBlock:
+    range: string
+  metadataBlock:
+    range: string
+  attributeDeclarationsBlock:
+    range: string
+  networkAttributesBlock:
+    range: string
+  nodesBlock:
+    range: string
+  edgesBlock:
+    range: string
+classes:
+  DescriptorBlock:
+    slots:
+    - CXVersion
+    - hasFragments
+    unique_keys:
+      hasFragments_key:
+        unique_key_name: hasFragments_key
+        unique_key_slots:
+        - hasFragments
+  MetaDatum:
+    slots:
+    - elementCount
+    - name
+    unique_keys:
+      name_key:
+        unique_key_name: name_key
+        unique_key_slots:
+        - name
+  MetadataBlock:
+    slots:
+    - metaData
+  IsTreeEdge:
+    slots:
+    - d
+  Interaction:
+    slots:
+    - a
+    - d
+  Name:
+    slots:
+    - d
+    - a
+    unique_keys:
+      a_key:
+        unique_key_name: a_key
+        unique_key_slots:
+        - a
+  Edge:
+    slots:
+    - Is_Tree_Edge
+    - interaction
+    - name
+    - id
+    - s
+    - t
+    - v
+    unique_keys:
+      interaction_key:
+        unique_key_name: interaction_key
+        unique_key_slots:
+        - interaction
+      name_key:
+        unique_key_name: name_key
+        unique_key_slots:
+        - name
+      id_key:
+        unique_key_name: id_key
+        unique_key_slots:
+        - id
+      v_key:
+        unique_key_name: v_key
+        unique_key_slots:
+        - v
+  Description:
+    slots:
+    - d
+  NetworkAttribute:
+    slots:
+    - name
+    - description
+    unique_keys:
+      description_key:
+        unique_key_name: description_key
+        unique_key_slots:
+        - description
+  Size:
+    slots:
+    - d
+  AlignFdr:
+    slots:
+    - d
+  AlignGoID:
+    slots:
+    - d
+  AlignScore:
+    slots:
+    - d
+  Annot:
+    slots:
+    - d
+  AnnotSource:
+    slots:
+    - d
+  CcOverlap:
+    slots:
+    - d
+  Gene:
+    slots:
+    - d
+  Jaccard:
+    slots:
+    - d
+  Overlap:
+    slots:
+    - d
+  Node:
+    slots:
+    - id
+    - v
+    - x
+    - y
+  AttributeDeclaration:
+    slots:
+    - edges
+    - networkAttributes
+    - nodes
+    unique_keys:
+      networkAttributes_key:
+        unique_key_name: networkAttributes_key
+        unique_key_slots:
+        - networkAttributes
+      nodes_key:
+        unique_key_name: nodes_key
+        unique_key_slots:
+        - nodes
+  AttributeDeclarationsBlock:
+    slots:
+    - attributeDeclarations
+  NetworkAttributesBlock:
+    slots:
+    - networkAttributes
+  V:
+    slots:
+    - Size
+    - align_fdr
+    - align_score
+    - annot
+    - annot_source
+    - cc_overlap
+    - genes
+    - jaccard
+    - n
+    - overlap
+    - align_goID
+    - Is_Tree_Edge
+    - i
+    - name
+    unique_keys:
+      annot_key:
+        unique_key_name: annot_key
+        unique_key_slots:
+        - annot
+      cc_overlap_key:
+        unique_key_name: cc_overlap_key
+        unique_key_slots:
+        - cc_overlap
+      genes_key:
+        unique_key_name: genes_key
+        unique_key_slots:
+        - genes
+      n_key:
+        unique_key_name: n_key
+        unique_key_slots:
+        - n
+      align_goID_key:
+        unique_key_name: align_goID_key
+        unique_key_slots:
+        - align_goID
+      name_key:
+        unique_key_name: name_key
+        unique_key_slots:
+        - name
+  NodesBlock:
+    slots:
+    - nodes
+  EdgesBlock:
+    slots:
+    - edges
+  CXDocument:
+    slots:
+    - descriptorBlock
+    - metadataBlock
+    - attributeDeclarationsBlock
+    - networkAttributesBlock
+    - nodesBlock
+    - edgesBlock
+    tree_root: true
+    unique_keys:
+      metadataBlock_key:
+        unique_key_name: metadataBlock_key
+        unique_key_slots:
+        - metadataBlock
+      attributeDeclarationsBlock_key:
+        unique_key_name: attributeDeclarationsBlock_key
+        unique_key_slots:
+        - attributeDeclarationsBlock
+      networkAttributesBlock_key:
+        unique_key_name: networkAttributesBlock_key
+        unique_key_slots:
+        - networkAttributesBlock
+      nodesBlock_key:
+        unique_key_name: nodesBlock_key
+        unique_key_slots:
+        - nodesBlock
+      edgesBlock_key:
+        unique_key_name: edgesBlock_key
+        unique_key_slots:
+        - edgesBlock
+
