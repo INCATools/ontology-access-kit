@@ -15,12 +15,12 @@ class GenCCAssociationParserTest(unittest.TestCase):
         """Tests parsing g2p associations."""
         parser = get_association_parser(GENCC)
         expected = [
-            {"object": "HGNC:10896", "object_label": "SKI", "subject": "MONDO:0008426"},
+            {"subject": "HGNC:10896", "subject_label": "SKI", "object": "MONDO:0008426"},
             {
-                "object": "HGNC:16636",
-                "object_label": "KIF1B",
-                "subject": "MONDO:0008233",
-                "subject_label": "pheochromocytoma",
+                "subject": "HGNC:16636",
+                "subject_label": "KIF1B",
+                "object": "MONDO:0008233",
+                "object_label": "pheochromocytoma",
             },
         ]
         with open(G2D_INPUT) as file:

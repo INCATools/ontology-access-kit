@@ -1,24 +1,23 @@
 import logging
 import unittest
 
-from oaklib.datamodels.association import Association
-from oaklib.parsers import GENCC, MEDGEN_MIM_D2G
+from oaklib.parsers import MEDGEN_MIM_G2D
 from oaklib.parsers.association_parser_factory import get_association_parser
 from tests import INPUT_DIR
 
-D2G_INPUT = INPUT_DIR / "example-d2g.mim2gene.tsv"
+G2D_INPUT = INPUT_DIR / "example-g2d.mim2gene.tsv"
 
 
 class MIM2GeneAssociationParserTest(unittest.TestCase):
     """Tests parsing of medgen file."""
 
-    def test_d2g_parser(self):
-        """Tests parsing d2g associations."""
-        parser = get_association_parser(MEDGEN_MIM_D2G)
+    def test_g2d_parser(self):
+        """Tests parsing g2d associations."""
+        parser = get_association_parser(MEDGEN_MIM_G2D)
         expected = [
-            {"subject": "OMIM:100100", "object": "NCBIGene:1131"},
+            {"object": "OMIM:100100", "subject": "NCBIGene:1131"},
         ]
-        with open(D2G_INPUT) as file:
+        with open(G2D_INPUT) as file:
             assocs = list(parser.parse(file))
             found = {}
             for association in assocs:

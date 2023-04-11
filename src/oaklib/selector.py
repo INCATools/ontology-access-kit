@@ -3,7 +3,7 @@ import io
 import logging
 import os
 from pathlib import Path
-from typing import Optional, Type, Union
+from typing import List, Optional, Type, Union
 
 import requests
 from deprecation import deprecated
@@ -11,11 +11,12 @@ from linkml_runtime.loaders import yaml_loader
 
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
-from oaklib.datamodels.input_specification import InputSpecification
+from oaklib.datamodels.input_specification import InputSpecification, Normalizer
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces import OntologyInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
+    EntityNormalizer,
 )
 from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
@@ -46,10 +47,10 @@ ASSOCIATION_REGISTRY = {
         "https://search.thegencc.org/download/action/submissions-export-csv",
         False,
     ),
-    "mim2gene_medgen": (
+    "medgen_mim_g2d": (
         [],
-        "mim2gene",
-        "ftp://ftp.ncbi.nih.gov/gene/DATA/mim2gene_medgen",
+        "medgen_mim_g2d",
+        "http://ftp.ncbi.nih.gov/gene/DATA/mim2gene_medgen",
         False,
     ),
 }
@@ -132,7 +133,7 @@ def _get_adapter_from_specification(
         raise ValueError("No ontology resources specified")
     if len(input_specification.ontology_resources) == 1:
         r = list(input_specification.ontology_resources.values())[0]
-        adapter = get_adapter(r.selector)
+        adapter = get_adapter(str(r.selector))
     else:
         from oaklib.implementations import AggregatorImplementation
 
@@ -145,12 +146,23 @@ def _get_adapter_from_specification(
         if not isinstance(adapter, AssociationProviderInterface):
             raise ValueError(f"Adapter {adapter} does not support associations")
         for r in input_specification.association_resources.values():
-            add_associations(adapter, r.selector, r.format)
+            normalizers = [
+                EntityNormalizer(
+                    adapter=get_adapter(n.selector),
+                    source_prefixes=n.source_prefixes,
+                    target_prefixes=n.target_prefixes,
+                )
+                for n in r.normalizers
+            ]
+            add_associations(adapter, r.selector, r.format, normalizers)
     return adapter
 
 
 def add_associations(
-    adapter: AssociationProviderInterface, descriptor: str, format: str = None
+    adapter: AssociationProviderInterface,
+    descriptor: str,
+    format: str = None,
+    normalizers: List[Normalizer] = None,
 ) -> None:
     """
     Adds associations to an adapter.
@@ -180,16 +192,23 @@ def add_associations(
         association_parser = get_association_parser(format)
         logging.info(f"Adding associations from {path}")
         assocs = association_parser.parse(file)
-        adapter.add_associations(assocs)
+        adapter.add_associations(assocs, normalizers=normalizers)
         return
     if not format:
-        format = descriptor.split(".")[-1]
+        toks = descriptor.split(".")
+        while toks:
+            format = toks[-1]
+            if format not in ("csv", "tsv", "txt"):
+                break
+            toks = toks[:-1]
+    if not format:
+        raise ValueError(f"Could not determine format from descriptor {descriptor}")
     association_parser = get_association_parser(format)
     path = descriptor
     with open(path) as file:
         logging.info(f"Adding associations from {path}")
         assocs = association_parser.parse(file)
-        adapter.add_associations(assocs)
+        adapter.add_associations(assocs, normalizers=normalizers)
 
 
 def file_from_gzip_url(url, is_compressed=False):

@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-11T11:01:16
+# Generation date: 2023-04-11T11:50:59
 # Schema: association
 #
 # id: https://w3id.org/oak/association

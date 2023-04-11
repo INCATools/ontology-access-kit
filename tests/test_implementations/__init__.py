@@ -450,6 +450,11 @@ class ComplianceTester:
             (MAMMALIA, []),
         ]
         for curie, expected_mappings in cases:
+            # test normalization
+            for m in expected_mappings:
+                prefix = m.split(":")[0]
+                normalized_id = oi.normalize(curie, target_prefixes=[prefix])
+                test.assertEqual(m, normalized_id)
             mappings = list(oi.sssom_mappings(curie))
             mapping_objects = [m.object_id for m in mappings]
             test.assertCountEqual(

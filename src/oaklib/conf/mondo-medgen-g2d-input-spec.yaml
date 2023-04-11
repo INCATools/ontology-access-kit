@@ -2,7 +2,5 @@ ontology_resources:
   hp:
     selector: sqlite:obo:mondo
 association_resources:
-  medgen:
-    selector: "medgen_mim_d2g:"
-  gencc:
-    selector: "gencc:"
+  g2d:
+    selector: "medgen_mim_g2d:"

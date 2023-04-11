@@ -1,9 +1,11 @@
 import logging
 from abc import ABC
 from collections import defaultdict
+from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.association import Association
+from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
@@ -40,6 +42,20 @@ def associations_objects(associations: Iterable[Association]) -> Iterator[CURIE]
         seen.add(a.object)
 
 
+@dataclass
+class EntityNormalizer:
+    adapter: MappingProviderInterface
+
+    query_time: bool = field(default=False)
+    strict: bool = field(default=False)
+
+    source_prefixes: List[str] = field(default_factory=list)
+    target_prefixes: List[str] = field(default_factory=list)
+
+    slots: List[str] = field(default_factory=list)
+
+
+@dataclass
 class AssociationProviderInterface(BasicOntologyInterface, ABC):
     """
     An ontology provider that provides associations.
@@ -47,6 +63,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
 
     _association_index: AssociationIndex = None
     """In-memory index of associations"""
+
+    normalizers: List[EntityNormalizer] = field(default_factory=list)
 
     def associations(
         self,
@@ -98,13 +116,20 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         for a in ix.lookup(subjects, predicates, objects):
             yield a
 
-    def add_associations(self, associations: Iterable[Association]) -> bool:
+    def add_associations(
+        self, associations: Iterable[Association], normalizers: List[EntityNormalizer] = None
+    ) -> bool:
         """
         Store a collection of associations for later retrievals.
 
         :param associations:
+        :param normalizers:
         :return:
         """
+        if not normalizers and self.normalizers:
+            normalizers = self.normalizers
+        if normalizers:
+            associations = [self.normalize_association(a, normalizers) for a in associations]
         if self._association_index is None:
             self._association_index = AssociationIndex()
             self._association_index.create()
@@ -216,3 +241,49 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                         property_values=association.property_values,
                     )
                     yield association
+
+    def normalize_associations(
+        self,
+        associations: Iterable[Association],
+        normalizers: Optional[List[EntityNormalizer]] = None,
+    ) -> Iterator[Association]:
+        """
+        Normalize associations.
+
+        :param associations:
+        :param normalizers:
+        :return:
+        """
+        for association in associations:
+            yield self.normalize_association(association, normalizers=normalizers)
+
+    def normalize_association(
+        self,
+        association: Association,
+        normalizers: Optional[List[EntityNormalizer]] = None,
+    ) -> Association:
+        """
+        Normalize an association.
+
+        :param association:
+        :param normalizers:
+        :return:
+        """
+        if normalizers is None:
+            return association
+        for normalizer in normalizers:
+            subject_prefix = association.subject.split(":")[0]
+            object_prefix = association.object.split(":")[0]
+            if subject_prefix in normalizer.source_prefixes:
+                association.subject = normalizer.adapter.normalize(
+                    association.subject,
+                    target_prefixes=normalizer.target_prefixes,
+                    strict=normalizer.strict,
+                )
+            if object_prefix in normalizer.source_prefixes:
+                association.object = normalizer.adapter.normalize(
+                    association.object,
+                    target_prefixes=normalizer.target_prefixes,
+                    strict=normalizer.strict,
+                )
+        return association

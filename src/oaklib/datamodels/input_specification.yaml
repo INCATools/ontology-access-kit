@@ -68,3 +68,32 @@ classes:
     description: >-
       A resource that points to a set of associations
     is_a: Resource
+    attributes:
+      normalizers:
+        range: Normalizer
+        multivalued: true
+        inlined: true
+        description: >-
+          The subject normalizers used in the input specification
+
+  Normalizer:
+    attributes:
+      selector:
+        range: string
+        description: >-
+          The selector of the normalizer
+      source_prefixes:
+        range: string
+        multivalued: true
+        description: >-
+          The prefixes to normalize to
+      target_prefixes:
+        range: string
+        multivalued: true
+        description: >-
+          The prefixes to normalize to
+      slots:
+        range: string
+        multivalued: true
+        description: >-
+          The slots to normalize

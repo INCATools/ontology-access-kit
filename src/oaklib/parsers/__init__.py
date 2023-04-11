@@ -7,7 +7,7 @@ from oaklib.parsers.gaf_association_parser import GafAssociationParser
 from oaklib.parsers.gencc_association_parser import GenCCAssociationParser
 from oaklib.parsers.hpoa_association_parser import HpoaAssociationParser
 from oaklib.parsers.hpoa_g2p_association_parser import HpoaG2PAssociationParser
-from oaklib.parsers.mim2gene_association_parser import MedgenMimD2GAssociationParser
+from oaklib.parsers.mim2gene_association_parser import MedgenMimG2DAssociationParser
 from oaklib.parsers.pairwise_association_parser import PairwiseAssociationParser
 from oaklib.parsers.phaf_association_parser import PhafAssociationParser
 
@@ -21,7 +21,7 @@ __all__ = [
     "HpoaAssociationParser",
     "HpoaG2PAssociationParser",
     "PhafAssociationParser",
-    "MedgenMimD2GAssociationParser",
+    "MedgenMimG2DAssociationParser",
 ]
 
 
@@ -40,8 +40,8 @@ HPOA_G2P = "hpoa_g2p"
 GENCC = "gencc"
 """GenCC CSV format"""
 
-MEDGEN_MIM_D2G = "medgen_mim_d2g"
-"""Medgen/NCBI MIM D2G format"""
+MEDGEN_MIM_G2D = "medgen_mim_g2d"
+"""Medgen/NCBI MIM G2D format"""
 
 KGX = "kgx"
 """KGX TSV syntax"""
@@ -69,7 +69,7 @@ def get_association_parser_resolver() -> ClassResolver[AssociationParser]:
             HPOA_G2P: HpoaG2PAssociationParser,
             PHAF: PhafAssociationParser,
             GENCC: GenCCAssociationParser,
-            MEDGEN_MIM_D2G: MedgenMimD2GAssociationParser,
+            MEDGEN_MIM_G2D: MedgenMimG2DAssociationParser,
         }
     )
 

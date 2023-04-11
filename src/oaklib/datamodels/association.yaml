@@ -73,6 +73,8 @@ classes:
 slots:
   subject:
     description: The thing which the association is about.
+    comments:
+      - it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
     slot_uri: rdf:subject
     range: uriorcurie
     exact_mappings:
@@ -95,6 +97,8 @@ slots:
       - denormalized_slot
   object:
     description: An ontology entity that is associated with the subject.
+    comments:
+      - it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
     slot_uri: rdf:object
     range: uriorcurie
     exact_mappings:

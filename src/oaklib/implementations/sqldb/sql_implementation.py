@@ -117,6 +117,7 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
+from oaklib.interfaces.association_provider_interface import EntityNormalizer
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     DEFINITION,
@@ -1187,10 +1188,14 @@ class SqlImplementation(
         logging.info(f"Association query: {q}")
         return q
 
-    def add_associations(self, associations: Iterable[Association]) -> bool:
+    def add_associations(
+        self, associations: Iterable[Association], normalizers: List[EntityNormalizer] = None
+    ) -> bool:
         if not self.can_store_associations:
-            return super().add_associations(associations)
+            return super().add_associations(associations, normalizers=normalizers)
         for a in associations:
+            if normalizers:
+                a = a.normalize(normalizers)
             if a.property_values:
                 raise NotImplementedError
             stmt = insert(TermAssociation).values(

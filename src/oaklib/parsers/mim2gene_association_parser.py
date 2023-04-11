@@ -12,7 +12,7 @@ from oaklib.parsers.xaf_association_parser import XafAssociationParser
 
 
 @dataclass
-class MedgenMimD2GAssociationParser(XafAssociationParser):
+class MedgenMimG2DAssociationParser(XafAssociationParser):
     """Parsers for MIM2GENE NCBI TSV format.
 
     See `<ftp://ftp.ncbi.nih.gov/gene/DATA/mim2gene_medgen>`_ for more information.
@@ -43,8 +43,8 @@ class MedgenMimD2GAssociationParser(XafAssociationParser):
             if gene_id == "-":
                 continue
             assoc = Association(
-                subject=f"OMIM:{mim}",
+                subject=f"NCBIGene:{gene_id}",
                 predicate=predicate,
-                object=f"NCBIGene:{gene_id}",
+                object=f"OMIM:{mim}",
             )
             yield assoc

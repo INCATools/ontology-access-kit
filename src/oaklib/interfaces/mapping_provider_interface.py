@@ -1,6 +1,6 @@
 import logging
 from abc import ABC
-from typing import Iterable, Optional, Union
+from typing import Iterable, List, Optional, Union
 
 from deprecation import deprecated
 from sssom_schema import Mapping
@@ -102,3 +102,31 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
 
     def get_mapping_clusters(self) -> Iterable[MappingCluster]:
         raise NotImplementedError
+
+    def normalize(self, curie: CURIE, target_prefixes: List[str], strict=False) -> Optional[CURIE]:
+        """
+        Normalize a CURIE to a target prefix
+
+        :param curie: the CURIE to normalize
+        :param target_prefixes: the prefixes to normalize to
+        :param strict: if True, raise an error if there is no single mapping to a target prefix
+        :return: the normalized CURIE
+        """
+        normalized_ids = []
+        for m in self.sssom_mappings(curie):
+            object_id = m.object_id
+            if object_id == curie:
+                object_id = m.subject_id
+            object_prefix = object_id.split(":")[0]
+            if object_prefix in target_prefixes:
+                if not strict:
+                    # strict is faster
+                    return object_id
+                normalized_ids.append(object_id)
+        if len(normalized_ids) == 1:
+            return normalized_ids[0]
+        if strict:
+            raise ValueError(f"{curie} no single ID in {target_prefixes}; N={normalized_ids}")
+        if normalized_ids:
+            return normalized_ids[0]
+        return curie
