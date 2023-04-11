@@ -30,6 +30,8 @@ URI: [omoschema:id](http://purl.obolibrary.org/obo/omo/schema/id)
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
 [NamedIndividual](NamedIndividual.md) | An instance that has a IRI
 [HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
 [Subset](Subset.md) | A collection of terms grouped for some purpose
 
 
@@ -39,7 +41,7 @@ URI: [omoschema:id](http://purl.obolibrary.org/obo/omo/schema/id)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
 * Required: True
 
 

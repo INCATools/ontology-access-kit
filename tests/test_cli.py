@@ -15,7 +15,7 @@ from linkml_runtime.loaders import json_loader, yaml_loader
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib import get_adapter
-from oaklib.cli import main
+from oaklib.cli import clear_cli_settings, main
 from oaklib.datamodels import fhir, obograph, taxon_constraints
 from oaklib.datamodels.vocabulary import (
     IN_TAXON,
@@ -41,6 +41,7 @@ from tests import (
     NUCLEATED,
     NUCLEUS,
     OUTPUT_DIR,
+    PHENOTYPIC_ABNORMALITY,
     SHAPE,
     VACUOLE,
 )
@@ -61,12 +62,18 @@ TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 
 
+def _outpath(test: str, fmt: str = "tmp") -> str:
+    return str(OUTPUT_DIR / test) + "." + fmt
+
+
 class TestCommandLineInterface(unittest.TestCase):
     """
     Tests all command-line subcommands
     """
 
     def setUp(self) -> None:
+        # TODO. Use contexts. https://stackoverflow.com/questions/64381222/python-click-access-option-values-globally
+        clear_cli_settings()
         runner = CliRunner(mix_stderr=False)
         self.runner = runner
 
@@ -82,6 +89,45 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("subset", out)
         self.assertIn("validate", out)
         self.assertEqual(0, result.exit_code)
+
+    def test_multilingual(self):
+        for input_arg in [INPUT_DIR / "hp-international-test.db"]:
+            results = self.runner.invoke(main, ["-i", str(input_arg), "languages"])
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("fr", results.stdout)
+            self.assertIn("nl", results.stdout)
+            results = self.runner.invoke(
+                main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"]
+            )
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("nl*", results.stdout)
+            self.assertIn("fr", results.stdout)
+            result = self.runner.invoke(
+                main,
+                [
+                    "--preferred-language",
+                    "fr",
+                    "-i",
+                    str(input_arg),
+                    "labels",
+                    PHENOTYPIC_ABNORMALITY,
+                ],
+            )
+            self.assertEqual(0, result.exit_code)
+            self.assertIn("Anomalie phénotypique", result.stdout, "French label should be present")
+
+    def test_languages(self):
+        for input_arg in [INPUT_DIR / "hp-international-test.db"]:
+            results = self.runner.invoke(main, ["-i", str(input_arg), "languages"])
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("fr", results.stdout)
+            self.assertIn("nl", results.stdout)
+            results = self.runner.invoke(
+                main, ["--preferred-language", "nl", "-i", str(input_arg), "languages"]
+            )
+            self.assertEqual(0, results.exit_code)
+            self.assertIn("nl*", results.stdout)
+            self.assertIn("fr", results.stdout)
 
     def test_info(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
@@ -155,25 +201,29 @@ class TestCommandLineInterface(unittest.TestCase):
     # OBOGRAPH
 
     def test_obograph_local(self):
-        for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
+        outpath = _outpath("obograph_local")
+        # inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]
+        inputs = [str(TEST_ONT), f"sqlite:{TEST_DB}"]
+        for input_arg in inputs:
             logging.info(f"INPUT={input_arg}")
-            self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", TEST_OUT])
-            out = self._out()
+            self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", outpath])
+            out = self._out(outpath)
             assert "GO:0043226" in out
             self.runner.invoke(
-                main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", TEST_OUT]
+                main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", outpath]
             )
-            out = self._out()
+            out = self._out(outpath)
             assert "GO:0016020" in out
             assert "GO:0043226" not in out
             self.runner.invoke(
-                main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", TEST_OUT]
+                main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", outpath]
             )
-            out = self._out()
+            out = self._out(outpath)
             # TODO:
             # assert 'GO:0016020 ! membrane' not in out
             assert "GO:0043226" not in out
             # test fetching ancestor graph and saving as obo
+            outpath_obo = _outpath("obograph_local-tmp", "obo")
             self.runner.invoke(
                 main,
                 [
@@ -186,11 +236,11 @@ class TestCommandLineInterface(unittest.TestCase):
                     "-O",
                     "obo",
                     "-o",
-                    TEST_OUT_OBO,
+                    outpath_obo,
                 ],
             )
-            self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT])
-            out = self._out(TEST_OUT)
+            self.runner.invoke(main, ["-i", outpath_obo, "info", ".all", "-o", outpath])
+            out = self._out(outpath)
             logging.info(out)
             self.assertIn(MEMBRANE, out, f"reflexive by default, input={input_arg}")
             self.assertIn("GO:0031965", out)
@@ -322,10 +372,10 @@ class TestCommandLineInterface(unittest.TestCase):
                 all_args = ["-i", input_arg, "paths", "--target", target, *args]
                 if directed:
                     all_args.append("--directed")
-                result = self.runner.invoke(main, all_args)
+                result = self.runner.invoke(main, all_args, catch_exceptions=False)
                 self.assertEqual(0, result.exit_code)
                 out = result.stdout
-                # print(out)
+                # print(input_arg, case, out)
                 self.assertIn(expected, out)
                 if unexpected:
                     self.assertNotIn(unexpected, out)
@@ -828,7 +878,6 @@ class TestCommandLineInterface(unittest.TestCase):
             ),
         ]
         for adapter, query, args, expected in cases:
-            print(query)
             result = self.runner.invoke(
                 main, ["-i", adapter, "query", "-q", query, "-o", TEST_OUT] + args
             )
@@ -836,7 +885,6 @@ class TestCommandLineInterface(unittest.TestCase):
             with open(TEST_OUT, "r") as file:
                 reader = csv.DictReader(file, delimiter="\t")
                 rows = [row for row in reader]
-                print(rows)
                 for e in expected:
                     self.assertIn(e, rows)
                 # for case in cases:

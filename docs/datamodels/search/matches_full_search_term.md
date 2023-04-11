@@ -2,7 +2,7 @@
 _Does the matched field match the full string_
 
 
-URI: [search:matches_full_search_term](https://w3id.org/linkml/search_datamodel/matches_full_search_term)
+URI: [ontosearch:matches_full_search_term](https://w3id.org/oak/search-datamodel/matches_full_search_term)
 
 
 
@@ -24,7 +24,7 @@ URI: [search:matches_full_search_term](https://w3id.org/linkml/search_datamodel/
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 
@@ -43,7 +43,7 @@ URI: [search:matches_full_search_term](https://w3id.org/linkml/search_datamodel/
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [search:matches_full_search_term](https://w3id.org/linkml/search_datamodel/
 ```yaml
 name: matches_full_search_term
 description: Does the matched field match the full string
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: matches_full_search_term
 owner: SearchResult

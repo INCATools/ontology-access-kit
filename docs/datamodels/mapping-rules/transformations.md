@@ -1,6 +1,6 @@
 # Slot: transformations
 
-URI: [li:transformations](https://w3id.org/linkml/lexical_index/transformations)
+URI: [mappingrules:transformations](https://w3id.org/oak/mapping-rules-datamodel/transformations)
 
 
 
@@ -43,7 +43,7 @@ URI: [li:transformations](https://w3id.org/linkml/lexical_index/transformations)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [li:transformations](https://w3id.org/linkml/lexical_index/transformations)
 <details>
 ```yaml
 name: transformations
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: transformations

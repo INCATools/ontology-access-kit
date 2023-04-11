@@ -1,8 +1,8 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-01-24T17:05:32
+# Generation date: 2023-04-09T15:53:59
 # Schema: text-annotator
 #
-# id: https://w3id.org/linkml/text_annotator
+# id: https://w3id.org/oak/text_annotator
 # description: A datamodel for representing the results of textual named entity recognition annotation results.
 #              This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
 # license: https://creativecommons.org/publicdomain/zero/1.0/

@@ -2,7 +2,7 @@
 _Number of object properties (relations) in the ontology or subset_
 
 
-URI: [reporting:object_property_count](https://w3id.org/linkml/reportobject_property_count)
+URI: [summary_statistics:object_property_count](https://w3id.org/oaklib/summary_statistics.object_property_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:object_property_count](https://w3id.org/linkml/reportobject_prop
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:object_property_count](https://w3id.org/linkml/reportobject_prop
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: ObjectProperty
 description: Number of object properties (relations) in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: object_property_count

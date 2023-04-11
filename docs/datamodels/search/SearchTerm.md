@@ -28,7 +28,7 @@ URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 

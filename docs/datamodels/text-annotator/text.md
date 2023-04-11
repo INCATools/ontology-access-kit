@@ -22,7 +22,7 @@ URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -51,7 +51,7 @@ URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 <details>
 ```yaml
 name: text
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 alias: text
 owner: TextualElement

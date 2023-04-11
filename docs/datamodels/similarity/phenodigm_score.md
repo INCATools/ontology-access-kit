@@ -48,7 +48,7 @@ URI: [sim:phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -59,7 +59,7 @@ URI: [sim:phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
 ```yaml
 name: phenodigm_score
 description: the geometric mean of the jaccard similarity and the information content
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: score
 alias: phenodigm_score

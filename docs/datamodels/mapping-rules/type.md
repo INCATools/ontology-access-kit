@@ -2,7 +2,7 @@
 _The type of transformation_
 
 
-URI: [li:type](https://w3id.org/linkml/lexical_index/type)
+URI: [mappingrules:type](https://w3id.org/oak/mapping-rules-datamodel/type)
 
 
 
@@ -43,7 +43,7 @@ URI: [li:type](https://w3id.org/linkml/lexical_index/type)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -54,7 +54,7 @@ URI: [li:type](https://w3id.org/linkml/lexical_index/type)
 ```yaml
 name: type
 description: The type of transformation
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 alias: type
 owner: LexicalTransformation

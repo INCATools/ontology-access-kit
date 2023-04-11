@@ -18,7 +18,7 @@ URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

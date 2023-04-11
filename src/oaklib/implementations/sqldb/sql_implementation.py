@@ -101,8 +101,10 @@ from oaklib.datamodels.vocabulary import (
     OWL_NAMED_INDIVIDUAL,
     OWL_NOTHING,
     OWL_THING,
+    OWL_VERSION_IRI,
     PREFIX_PREDICATE,
     RDF_TYPE,
+    RDFS_COMMENT,
     RDFS_DOMAIN,
     RDFS_RANGE,
     SEMAPV,
@@ -118,6 +120,7 @@ from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     DEFINITION,
+    LANGUAGE_TAG,
     METADATA_MAP,
     PRED_CURIE,
     PREFIX_MAP,
@@ -381,6 +384,11 @@ class SqlImplementation(
             self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
         return self._prefix_map
 
+    def languages(self) -> Iterable[LANGUAGE_TAG]:
+        for row in self.session.query(Statements.language).distinct():
+            if row.language:
+                yield row.language
+
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
         # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
@@ -431,26 +439,81 @@ class SqlImplementation(
         for row in self.session.query(Edge):
             yield row.subject, row.predicate, row.object
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def _add_language_filter(self, q, lang, typ: Type[Statements] = Statements):
+        if lang:
+            if not self.multilingual:
+                logging.warning(
+                    f"Source does not appear to be multilingual, filtering by @{lang} may not work"
+                )
+            if lang == self.default_language:
+                q = q.filter(typ.language.is_(None))
+            else:
+                q = q.filter(typ.language == lang)
+        return q
+
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         q = self.session.query(RdfsLabelStatement.value).filter(RdfsLabelStatement.subject == curie)
+        q = self._add_language_filter(q, lang, RdfsLabelStatement)
         for (lbl,) in q:
             return lbl
+        if lang and lang != self.default_language:
+            return self.label(curie, lang=self.default_language)
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
         for curie_it in chunk(curies, self.max_items_for_in_clause):
             curr_curies = list(curie_it)
 
             has_label = set()
-            for row in self.session.query(RdfsLabelStatement).filter(
+            q = self.session.query(RdfsLabelStatement).filter(
                 RdfsLabelStatement.subject.in_(tuple(curr_curies))
-            ):
+            )
+            q = self._add_language_filter(q, lang, RdfsLabelStatement)
+            for row in q:
                 yield row.subject, row.value
-                if allow_none:
-                    has_label.add(row.subject)
+                has_label.add(row.subject)
+            if lang and lang != self.default_language:
+                # fill missing
+                curies_with_no_labels = set(curr_curies) - has_label
+                yield from self.labels(curies_with_no_labels, allow_none=allow_none, lang=None)
+                allow_none = False
             if allow_none:
                 for curie in curr_curies:
                     if curie not in has_label:
                         yield curie, None
+
+    def multilingual_labels(
+        self, curies: Iterable[CURIE], allow_none=True, langs: Optional[List[LANGUAGE_TAG]] = None
+    ) -> Iterable[Tuple[CURIE, str, LANGUAGE_TAG]]:
+        if isinstance(curies, str):
+            logging.warning(f"multilingual_labels called with a single curie: {curies}")
+            curies = [curies]
+        for curie_it in chunk(curies, self.max_items_for_in_clause):
+            curr_curies = list(curie_it)
+
+            has_label = defaultdict(set)
+            q = self.session.query(RdfsLabelStatement).filter(
+                RdfsLabelStatement.subject.in_(tuple(curr_curies))
+            )
+            if langs is not None:
+                if self.default_language in langs:
+                    q = q.filter(
+                        or_(
+                            RdfsLabelStatement.language.is_(None),
+                            RdfsLabelStatement.language.in_(langs),
+                        )
+                    )
+                else:
+                    q = q.filter(RdfsLabelStatement.language.in_(langs))
+            for row in q:
+                yield row.subject, row.value, row.language
+                if allow_none:
+                    has_label[row.subject].add(row.language)
+            if allow_none:
+                for curie in curr_curies:
+                    if curie not in has_label:
+                        yield curie, None, None
 
     def curies_by_label(self, label: str) -> List[CURIE]:
         q = self.session.query(RdfsLabelStatement.subject)
@@ -466,14 +529,45 @@ class SqlImplementation(
             m[row.predicate].append(row.value)
         return m
 
-    def definition(self, curie: CURIE) -> Optional[str]:
-        for row in self.session.query(HasTextDefinitionStatement).filter(
+    def comments(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
+        for curie_it in chunk(curies, self.max_items_for_in_clause):
+            curr_curies = list(curie_it)
+
+            has_comment = set()
+            q = self.session.query(Statements).filter(Statements.subject.in_(tuple(curr_curies)))
+            q = q.filter(Statements.predicate == RDFS_COMMENT)
+            q = self._add_language_filter(q, lang, Statements)
+            for row in q:
+                yield row.subject, row.value
+                has_comment.add(row.subject)
+            if lang and lang != self.default_language:
+                # fill missing
+                curies_with_no_labels = set(curr_curies) - has_comment
+                yield from self.labels(curies_with_no_labels, allow_none=allow_none, lang=None)
+                allow_none = False
+            if allow_none:
+                for curie in curr_curies:
+                    if curie not in has_comment:
+                        yield curie, None
+
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        q = self.session.query(HasTextDefinitionStatement.value).filter(
             HasTextDefinitionStatement.subject == curie
-        ):
-            return row.value
+        )
+        q = self._add_language_filter(q, lang, HasTextDefinitionStatement)
+        for (lbl,) in q:
+            return lbl
+        if lang and lang != self.default_language:
+            return self.definition(curie, lang=self.default_language)
 
     def definitions(
-        self, curies: Iterable[CURIE], include_metadata=False, include_missing=False
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
     ) -> Iterator[DEFINITION]:
         curies = list(curies)
         has_definition = set()
@@ -500,14 +594,20 @@ class SqlImplementation(
                 if row.predicate not in metadata:
                     metadata[row.predicate] = []
                 metadata[row.predicate].append(row.value if row.value else row.object)
-        for row in self.session.query(HasTextDefinitionStatement).filter(
+        q = self.session.query(HasTextDefinitionStatement).filter(
             HasTextDefinitionStatement.subject.in_(curies)
-        ):
+        )
+        q = self._add_language_filter(q, lang, HasTextDefinitionStatement)
+        curr_curies = list(curies)
+        for row in q:
             reification_metadata = metadata_map.get((row.subject, row.value), {})
             direct_metadata = metadata_map.get((row.subject, None), {})
             yield row.subject, row.value, {**reification_metadata, **direct_metadata}
-            if include_missing:
-                has_definition.add(row.subject)
+            has_definition.add(row.subject)
+        if lang and lang != self.default_language:
+            # fill missing
+            curies_with_no_defs = set(curr_curies) - has_definition
+            yield from self.definitions(curies_with_no_defs, lang=None)
         if include_missing:
             for curie in curies:
                 if curie not in has_definition:
@@ -557,6 +657,12 @@ class SqlImplementation(
     def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):
             yield row.id
+
+    def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
+        q = self.session.query(RdfsLabelStatement).filter(RdfsLabelStatement.subject == ontology)
+        q = q.filter(RdfsLabelStatement.predicate == OWL_VERSION_IRI)
+        for row in q:
+            yield row.object
 
     def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
         return self.entity_metadata_map(ontology, include_all_triples=True)
@@ -1267,6 +1373,11 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         if not reflexive:
             q = q.filter(EntailedEdge.subject != EntailedEdge.object)
+        if reflexive:
+            if isinstance(start_curies, list):
+                yield from start_curies
+            else:
+                yield start_curies
         logging.debug(f"Ancestors query: {q}")
         for row in q:
             yield row.object

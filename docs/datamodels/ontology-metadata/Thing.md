@@ -7,14 +7,17 @@
 URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
+
 ```{mermaid}
  classDiagram
     class Thing
       Thing <|-- NamedObject
       
       Thing : type
+        
       
 ```
+
 
 
 
@@ -29,7 +32,9 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [type](type.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+
+
 
 
 
@@ -100,6 +105,24 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 | [HomoSapiens](HomoSapiens.md) | [conformsTo](conformsTo.md) | range | [Thing](Thing.md) |
 | [HomoSapiens](HomoSapiens.md) | [seeAlso](seeAlso.md) | range | [Thing](Thing.md) |
 | [HomoSapiens](HomoSapiens.md) | [image](image.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [excluded_from_QC_check](excluded_from_QC_check.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [should_conform_to](should_conform_to.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [broadMatch](broadMatch.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [closeMatch](closeMatch.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [exactMatch](exactMatch.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [narrowMatch](narrowMatch.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [conformsTo](conformsTo.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [seeAlso](seeAlso.md) | range | [Thing](Thing.md) |
+| [Agent](Agent.md) | [image](image.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [excluded_from_QC_check](excluded_from_QC_check.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [should_conform_to](should_conform_to.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [broadMatch](broadMatch.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [closeMatch](closeMatch.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [exactMatch](exactMatch.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [narrowMatch](narrowMatch.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [conformsTo](conformsTo.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [seeAlso](seeAlso.md) | range | [Thing](Thing.md) |
+| [Image](Image.md) | [image](image.md) | range | [Thing](Thing.md) |
 | [Axiom](Axiom.md) | [has_axiom_label](has_axiom_label.md) | range | [Thing](Thing.md) |
 | [Axiom](Axiom.md) | [seeAlso](seeAlso.md) | range | [Thing](Thing.md) |
 | [Subset](Subset.md) | [excluded_from_QC_check](excluded_from_QC_check.md) | range | [Thing](Thing.md) |
@@ -136,6 +159,9 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 | ---  | ---  |
 | self | owl:Thing |
 | native | omoschema:Thing |
+
+
+
 
 
 ## LinkML Source

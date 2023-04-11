@@ -1,4 +1,5 @@
 import csv
+import logging
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Mapping, Type, Union
 
@@ -12,6 +13,8 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.io.streaming_writer import ID_KEY, LABEL_KEY, StreamingWriter
 from oaklib.types import CURIE
+
+NULL_VALUE = "None"
 
 
 def _keyval(x: Any) -> str:
@@ -45,7 +48,8 @@ class StreamingCsvWriter(StreamingWriter):
             obj_as_dict = vars(obj)
         self._rewrite_dict(obj_as_dict, obj)
         obj_as_dict = self.add_labels(obj_as_dict, label_fields)
-        if not self.heterogeneous_keys:
+        heterogeneous_keys = self.heterogeneous_keys or self.pivot_fields
+        if not heterogeneous_keys:
             if self.writer is None:
                 # TODO: option to delay writing header, as not all keys may be populated in advance
                 self.keys = list(obj_as_dict)
@@ -68,10 +72,40 @@ class StreamingCsvWriter(StreamingWriter):
             # self.rows.append({k: _keyval(v) for k, v in obj_as_dict.items()})
 
     def finish(self):
-        if self.heterogeneous_keys:
-            self.writer = csv.DictWriter(self.file, delimiter=self.delimiter, fieldnames=self.keys)
-            self.writer.writeheader()
+        rows = self.rows
+        keys = self.keys
+        heterogeneous_keys = self.heterogeneous_keys or self.pivot_fields
+        if self.pivot_fields:
+            pk = self.primary_key
+            pv_field = self.primary_value_field
+            keys = list(set(keys) - set(self.pivot_fields) - {pv_field})
+            objs = {}
             for row in self.rows:
+                pivoted = False
+                pk_val = row[pk]
+                if pk_val not in objs:
+                    objs[pk_val] = {}
+                obj = objs[pk_val]
+                for k, v in row.items():
+                    if k in self.pivot_fields:
+                        obj[v] = row[pv_field]
+                        pivoted = True
+                        if v not in keys:
+                            keys.append(v)
+                    elif k == pv_field:
+                        pass
+                    else:
+                        obj[k] = row[k]
+                if not pivoted:
+                    obj[NULL_VALUE] = row[pv_field]
+                    if NULL_VALUE not in keys:
+                        keys.append(NULL_VALUE)
+            logging.info(f"Pivoted to make {len(objs)} rows: {objs}")
+            rows = list(objs.values())
+        if heterogeneous_keys:
+            self.writer = csv.DictWriter(self.file, delimiter=self.delimiter, fieldnames=keys)
+            self.writer.writeheader()
+            for row in rows:
                 self.writer.writerow(row)
 
     def _get_dict(self, curie: CURIE):

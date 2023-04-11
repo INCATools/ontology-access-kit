@@ -5,11 +5,13 @@
 URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
+
 ```{mermaid}
  classDiagram
     class Any
       
 ```
+
 
 
 
@@ -20,6 +22,9 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 
 
 ## Usages
@@ -44,6 +49,10 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 | [NamedIndividual](NamedIndividual.md) | [consider](consider.md) | range | [Any](Any.md) |
 | [HomoSapiens](HomoSapiens.md) | [term_replaced_by](term_replaced_by.md) | range | [Any](Any.md) |
 | [HomoSapiens](HomoSapiens.md) | [consider](consider.md) | range | [Any](Any.md) |
+| [Agent](Agent.md) | [term_replaced_by](term_replaced_by.md) | range | [Any](Any.md) |
+| [Agent](Agent.md) | [consider](consider.md) | range | [Any](Any.md) |
+| [Image](Image.md) | [term_replaced_by](term_replaced_by.md) | range | [Any](Any.md) |
+| [Image](Image.md) | [consider](consider.md) | range | [Any](Any.md) |
 | [Axiom](Axiom.md) | [annotatedTarget](annotatedTarget.md) | range | [Any](Any.md) |
 | [Subset](Subset.md) | [term_replaced_by](term_replaced_by.md) | range | [Any](Any.md) |
 | [Subset](Subset.md) | [consider](consider.md) | range | [Any](Any.md) |
@@ -76,6 +85,9 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 | ---  | ---  |
 | self | linkml:Any |
 | native | omoschema:Any |
+
+
+
 
 
 ## LinkML Source

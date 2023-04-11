@@ -4,7 +4,8 @@ _An atomic lexical transformation applied on a term (string) yielding a transfor
 
 
 
-URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTransformation)
+URI: [mappingrules:LexicalTransformation](https://w3id.org/oak/mapping-rules-datamodel/LexicalTransformation)
+
 
 
 ```{mermaid}
@@ -13,9 +14,16 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
       Activity <|-- LexicalTransformation
       
       LexicalTransformation : params
+        
+          LexicalTransformation ..> Any : params
+        
       LexicalTransformation : type
+        
+          LexicalTransformation ..> TransformationType : type
+        
       
 ```
+
 
 
 
@@ -31,7 +39,9 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation | direct |
-| [params](params.md) | 0..1 <br/> NONE | Any parameters to be applied to the transformation algorithm | direct |
+| [params](params.md) | 0..* <br/> [Any](Any.md) | Any parameters to be applied to the transformation algorithm | direct |
+
+
 
 
 
@@ -57,7 +67,7 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -67,8 +77,11 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | li:LexicalTransformation |
-| native | li:LexicalTransformation |
+| self | mappingrules:LexicalTransformation |
+| native | mappingrules:LexicalTransformation |
+
+
+
 
 
 ## LinkML Source
@@ -82,21 +95,25 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:
   type:
     name: type
     description: The type of transformation
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     range: TransformationType
   params:
     name: params
     description: Any parameters to be applied to the transformation algorithm
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    multivalued: true
+    range: Any
+    inlined: true
+    inlined_as_list: true
 
 ```
 </details>
@@ -108,14 +125,14 @@ attributes:
 name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:
   type:
     name: type
     description: The type of transformation
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     alias: type
     owner: LexicalTransformation
@@ -125,13 +142,16 @@ attributes:
   params:
     name: params
     description: Any parameters to be applied to the transformation algorithm
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    multivalued: true
     alias: params
     owner: LexicalTransformation
     domain_of:
     - LexicalTransformation
-    range: string
+    range: Any
+    inlined: true
+    inlined_as_list: true
 
 ```
 </details>

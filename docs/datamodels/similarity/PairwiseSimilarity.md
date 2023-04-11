@@ -9,6 +9,7 @@ _Abstract grouping for representing individual pairwise similarities_
 URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilarity)
 
 
+
 ```{mermaid}
  classDiagram
     class PairwiseSimilarity
@@ -17,6 +18,7 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
       
       
 ```
+
 
 
 
@@ -38,6 +40,9 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 
 
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -49,7 +54,7 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -63,6 +68,9 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 | native | sim:PairwiseSimilarity |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -73,7 +81,7 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 ```yaml
 name: PairwiseSimilarity
 description: Abstract grouping for representing individual pairwise similarities
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 abstract: true
 
@@ -86,7 +94,7 @@ abstract: true
 ```yaml
 name: PairwiseSimilarity
 description: Abstract grouping for representing individual pairwise similarities
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 abstract: true
 

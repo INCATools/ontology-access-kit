@@ -1,8 +1,8 @@
 # Auto generated from taxon_constraints.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-03-24T10:02:05
+# Generation date: 2023-04-09T15:54:03
 # Schema: taxon-constraints
 #
-# id: https://w3id.org/linkml/taxon_constraints
+# id: https://w3id.org/oak/taxon_constraints
 # description: A datamodel for representing inferred and asserted taxon constraints.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 

@@ -42,7 +42,7 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -52,7 +52,7 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 <details>
 ```yaml
 name: subject_text_id
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 alias: subject_text_id
 owner: HasSpan

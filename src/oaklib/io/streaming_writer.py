@@ -10,6 +10,7 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import Node
+from oaklib.datamodels.settings import Settings
 from oaklib.types import CURIE
 from oaklib.utilities.iterator_utils import chunk
 
@@ -34,6 +35,10 @@ class StreamingWriter(ABC):
     heterogeneous_keys: bool = False
     _output: Any = None
     object_count: int = field(default=0)
+    settings: Settings = field(default_factory=lambda: Settings())
+    primary_key: str = field(default="id")
+    primary_value_field: str = field(default="label")
+    pivot_fields: List[str] = field(default_factory=lambda: [])
 
     def __post_init__(self):
         atexit.register(self.close)
@@ -87,7 +92,9 @@ class StreamingWriter(ABC):
         """
         for curie_it in chunk(entities):
             logging.info("** Next chunk:")
-            for curie, label in self.ontology_interface.labels(curie_it):
+            for curie, label in self.ontology_interface.labels(
+                curie_it, lang=self.settings.preferred_language
+            ):
                 self.emit(curie, label)
 
     def emit_curie(self, curie: CURIE, label=None):
@@ -124,11 +131,20 @@ class StreamingWriter(ABC):
                     if delim and isinstance(curie, str) and delim in curie:
                         curie = curie.split("|")
                     if isinstance(curie, list):
-                        label = [str(self.ontology_interface.label(c)) for c in curie]
+                        label = [
+                            str(
+                                self.ontology_interface.label(
+                                    c, lang=self.settings.preferred_language
+                                )
+                            )
+                            for c in curie
+                        ]
                         if delim:
                             label = delim.join(label)
                     else:
-                        label = self.ontology_interface.label(curie)
+                        label = self.ontology_interface.label(
+                            curie, lang=self.settings.preferred_language
+                        )
                     obj_as_dict_new = {}
                     for k, v in obj_as_dict.items():
                         obj_as_dict_new[k] = v

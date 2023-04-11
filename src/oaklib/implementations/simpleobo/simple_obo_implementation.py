@@ -90,6 +90,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    LANGUAGE_TAG,
     METADATA_MAP,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
@@ -320,7 +321,9 @@ class SimpleOboImplementation(
             raise ValueError(f"No such stanza {curie}")
         return stanza
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         s = self._stanza(curie, False)
         if s:
             return s.singular_value(TAG_NAME)
@@ -330,9 +333,12 @@ class SimpleOboImplementation(
             else:
                 return None
 
-    def set_label(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str, lang: Optional[LANGUAGE_TAG] = None) -> bool:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         s = self._stanza(curie, False)
         s.set_singular_tag(TAG_NAME, label)
+        return True
 
     def curies_by_label(self, label: str) -> List[CURIE]:
         return [
@@ -395,7 +401,7 @@ class SimpleOboImplementation(
             t.remove_pairwise_tag_value(TAG_RELATIONSHIP, predicate_code, filler)
         self._clear_relationship_index()
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         s = self._stanza(curie, strict=False)
         if s:
             return s.quoted_value(TAG_DEFINITION)

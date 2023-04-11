@@ -1,6 +1,8 @@
 # Slot: comments
+_A list of comments about the entity_
 
-URI: [og:comments](https://github.com/geneontology/obographs/comments)
+
+URI: [rdfs:comment](http://www.w3.org/2000/01/rdf-schema#comment)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:comments](https://github.com/geneontology/obographs/comments)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | 
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
 
 
 
@@ -22,7 +24,7 @@ URI: [og:comments](https://github.com/geneontology/obographs/comments)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 
@@ -31,6 +33,10 @@ URI: [og:comments](https://github.com/geneontology/obographs/comments)
 
 
 
+
+## Comments
+
+* for historic reasons obo format only supports a single comment per entity. This limitation is not carried over here, but users should be aware that multiple comments will not be supported in converting back to obo format.
 
 ## Identifier and Mapping Information
 
@@ -53,8 +59,14 @@ URI: [og:comments](https://github.com/geneontology/obographs/comments)
 <details>
 ```yaml
 name: comments
+description: A list of comments about the entity
+comments:
+- for historic reasons obo format only supports a single comment per entity. This
+  limitation is not carried over here, but users should be aware that multiple comments
+  will not be supported in converting back to obo format.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: rdfs:comment
 multivalued: true
 alias: comments
 domain_of:

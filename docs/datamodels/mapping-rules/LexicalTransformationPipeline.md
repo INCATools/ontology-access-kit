@@ -4,7 +4,8 @@ _A collection of atomic lexical transformations that are applied in serial fashi
 
 
 
-URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline)
+URI: [mappingrules:LexicalTransformationPipeline](https://w3id.org/oak/mapping-rules-datamodel/LexicalTransformationPipeline)
+
 
 
 ```{mermaid}
@@ -13,9 +14,14 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
       Activity <|-- LexicalTransformationPipeline
       
       LexicalTransformationPipeline : name
+        
       LexicalTransformationPipeline : transformations
+        
+          LexicalTransformationPipeline ..> LexicalTransformation : transformations
+        
       
 ```
+
 
 
 
@@ -30,8 +36,10 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> NONE |  | direct |
+| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
+
+
 
 
 
@@ -58,7 +66,7 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -68,8 +76,11 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | li:LexicalTransformationPipeline |
-| native | li:LexicalTransformationPipeline |
+| self | mappingrules:LexicalTransformationPipeline |
+| native | mappingrules:LexicalTransformationPipeline |
+
+
+
 
 
 ## LinkML Source
@@ -83,18 +94,18 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
   transformations:
     name: transformations
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     range: LexicalTransformation
@@ -109,13 +120,13 @@ attributes:
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
     alias: name
@@ -125,7 +136,7 @@ attributes:
     range: string
   transformations:
     name: transformations
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
     alias: transformations

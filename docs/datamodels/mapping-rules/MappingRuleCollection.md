@@ -4,16 +4,22 @@ _A collection of mapping rules_
 
 
 
-URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamodel/MappingRuleCollection)
+URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-datamodel/MappingRuleCollection)
+
 
 
 ```{mermaid}
  classDiagram
     class MappingRuleCollection
       MappingRuleCollection : minimum_confidence
+        
       MappingRuleCollection : rules
+        
+          MappingRuleCollection ..> MappingRule : rules
+        
       
 ```
+
 
 
 
@@ -25,7 +31,9 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md) | all rules | direct |
-| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
+| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [Float](Float.md) |  | direct |
+
+
 
 
 
@@ -44,7 +52,7 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -54,8 +62,11 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | mrules:MappingRuleCollection |
-| native | mrules:MappingRuleCollection |
+| self | mappingrules:MappingRuleCollection |
+| native | mappingrules:MappingRuleCollection |
+
+
+
 
 
 ## LinkML Source
@@ -68,20 +79,20 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 ```yaml
 name: MappingRuleCollection
 description: A collection of mapping rules
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   rules:
     name: rules
     description: all rules
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     range: MappingRule
     inlined: true
   minimum_confidence:
     name: minimum_confidence
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: float
 tree_root: true
@@ -95,13 +106,13 @@ tree_root: true
 ```yaml
 name: MappingRuleCollection
 description: A collection of mapping rules
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
   rules:
     name: rules
     description: all rules
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
     alias: rules
@@ -112,7 +123,7 @@ attributes:
     inlined: true
   minimum_confidence:
     name: minimum_confidence
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     alias: minimum_confidence
     owner: MappingRuleCollection
