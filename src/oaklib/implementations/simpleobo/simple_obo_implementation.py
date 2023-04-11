@@ -802,7 +802,7 @@ class SimpleOboImplementation(
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NewTextDefinition):
             t = self._stanza(patch.about_node, strict=True)
-            t.add_quoted_tag_value(TAG_DEFINITION, patch.new_value, xrefs=[])
+            t.add_quoted_tag_value(TAG_DEFINITION, patch.new_value.strip("'"), xrefs=[])
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._stanza(patch.about_node, strict=True)
