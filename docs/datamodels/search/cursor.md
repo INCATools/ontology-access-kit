@@ -1,6 +1,6 @@
 # Slot: cursor
 
-URI: [search:cursor](https://w3id.org/linkml/search_datamodel/cursor)
+URI: [ontosearch:cursor](https://w3id.org/oak/search-datamodel/cursor)
 
 
 
@@ -23,7 +23,7 @@ URI: [search:cursor](https://w3id.org/linkml/search_datamodel/cursor)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

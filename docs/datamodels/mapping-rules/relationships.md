@@ -2,7 +2,7 @@
 _All ontology elements grouped and their relationship to the normalized term_
 
 
-URI: [li:relationships](https://w3id.org/linkml/lexical_index/relationships)
+URI: [mappingrules:relationships](https://w3id.org/oak/mapping-rules-datamodel/relationships)
 
 
 
@@ -45,7 +45,7 @@ URI: [li:relationships](https://w3id.org/linkml/lexical_index/relationships)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -57,7 +57,7 @@ URI: [li:relationships](https://w3id.org/linkml/lexical_index/relationships)
 name: relationships
 description: All ontology elements grouped and their relationship to the normalized
   term
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: relationships

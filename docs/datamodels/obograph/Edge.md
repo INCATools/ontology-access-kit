@@ -1,18 +1,29 @@
 # Class: Edge
+_An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o_
 
 
 
-URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
+
+URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
+
 
 
 ```{mermaid}
  classDiagram
     class Edge
+      Edge : meta
+        
+          Edge ..> Meta : meta
+        
       Edge : obj
+        
       Edge : pred
+        
       Edge : sub
+        
       
 ```
+
 
 
 
@@ -23,9 +34,12 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [sub](sub.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [obj](obj.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [sub](sub.md) | 0..1 <br/> [String](String.md) | the subject of an edge | direct |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
+| [obj](obj.md) | 0..1 <br/> [String](String.md) | the object of an edge | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
+
+
 
 
 
@@ -63,8 +77,11 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:Edge |
-| native | og:Edge |
+| self | obographs:Edge |
+| native | obographs:Edge |
+
+
+
 
 
 ## LinkML Source
@@ -76,12 +93,17 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 <details>
 ```yaml
 name: Edge
+description: An edge is a simple typed relationship between two nodes. When mapping
+  to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c)
+  s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
+  (f) s type o
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
 - sub
 - pred
 - obj
+- meta
 
 ```
 </details>
@@ -91,13 +113,24 @@ slots:
 <details>
 ```yaml
 name: Edge
+description: An edge is a simple typed relationship between two nodes. When mapping
+  to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c)
+  s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
+  (f) s type o
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
   sub:
     name: sub
+    description: the subject of an edge
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - subject
+    - source
+    - child
+    - head
     rank: 1000
+    slot_uri: rdf:subject
     alias: sub
     owner: Edge
     domain_of:
@@ -105,24 +138,52 @@ attributes:
     range: string
   pred:
     name: pred
+    description: the predicate of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:predicate
     alias: pred
     owner: Edge
     domain_of:
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     range: string
   obj:
     name: obj
+    description: the object of an edge
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - object
+    - target
+    - parent
+    - tail
     rank: 1000
+    slot_uri: rdf:object
     alias: obj
     owner: Edge
     domain_of:
     - Edge
     range: string
+  meta:
+    name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
+    rank: 1000
+    alias: meta
+    owner: Edge
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - Edge
+    - PropertyValue
+    - Axiom
+    range: Meta
 
 ```
 </details>

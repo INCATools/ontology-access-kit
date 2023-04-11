@@ -48,7 +48,7 @@ URI: [DiffCategory](DiffCategory)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -60,7 +60,7 @@ URI: [DiffCategory](DiffCategory)
 name: DiffCategory
 description: Category of the cross-ontology diff, from the perspective of the left-hand
   edge
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 permissible_values:
   Identical:

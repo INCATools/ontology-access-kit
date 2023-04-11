@@ -22,7 +22,7 @@ URI: [vm:http_response_code](https://w3id.org/linkml/validation-model/http_respo
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

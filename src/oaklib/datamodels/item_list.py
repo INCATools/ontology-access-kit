@@ -1,5 +1,5 @@
 # Auto generated from item_list.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-10T09:39:02
+# Generation date: 2023-04-10T16:46:21
 # Schema: itemList
 #
 # id: https://w3id.org/oak/item-list
@@ -61,7 +61,10 @@ DEFAULT_ = ITEMLIST
 
 # Types
 
+
 # Class references
+class ListItemId(extended_str):
+    pass
 
 
 @dataclass
@@ -108,12 +111,12 @@ class ItemList(YAMLRoot):
     name: Optional[str] = None
     description: Optional[str] = None
     itemListElements: Optional[
-        Union[Union[dict, "ListItem"], List[Union[dict, "ListItem"]]]
+        Union[Union[str, ListItemId], List[Union[str, ListItemId]]]
     ] = empty_list()
     numberOfItems: Optional[Union[str, "ItemListOrderType"]] = None
     itemMetadataMap: Optional[
-        Union[Union[dict, "ListItem"], List[Union[dict, "ListItem"]]]
-    ] = empty_list()
+        Union[Dict[Union[str, ListItemId], Union[dict, "ListItem"]], List[Union[dict, "ListItem"]]]
+    ] = empty_dict()
     categories: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
     keywords: Optional[Union[str, List[str]]] = empty_list()
     additionalType: Optional[
@@ -138,19 +141,15 @@ class ItemList(YAMLRoot):
                 [self.itemListElements] if self.itemListElements is not None else []
             )
         self.itemListElements = [
-            v if isinstance(v, ListItem) else ListItem(**as_dict(v)) for v in self.itemListElements
+            v if isinstance(v, ListItemId) else ListItemId(v) for v in self.itemListElements
         ]
 
         if self.numberOfItems is not None and not isinstance(self.numberOfItems, ItemListOrderType):
             self.numberOfItems = ItemListOrderType(self.numberOfItems)
 
-        if not isinstance(self.itemMetadataMap, list):
-            self.itemMetadataMap = (
-                [self.itemMetadataMap] if self.itemMetadataMap is not None else []
-            )
-        self.itemMetadataMap = [
-            v if isinstance(v, ListItem) else ListItem(**as_dict(v)) for v in self.itemMetadataMap
-        ]
+        self._normalize_inlined_as_dict(
+            slot_name="itemMetadataMap", slot_type=ListItem, key_name="id", keyed=True
+        )
 
         if not isinstance(self.categories, list):
             self.categories = [self.categories] if self.categories is not None else []
@@ -190,15 +189,17 @@ class ListItem(YAMLRoot):
     class_name: ClassVar[str] = "ListItem"
     class_model_uri: ClassVar[URIRef] = ITEMLIST.ListItem
 
-    id: Optional[str] = None
+    id: Union[str, ListItemId] = None
     idType: Optional[Union[str, URIorCURIE]] = None
     item: Optional[Union[dict, "Thing"]] = None
     position: Optional[int] = None
-    previousItem: Optional[Union[dict, "ListItem"]] = None
+    previousItem: Optional[Union[str, ListItemId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is not None and not isinstance(self.id, str):
-            self.id = str(self.id)
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ListItemId):
+            self.id = ListItemId(self.id)
 
         if self.idType is not None and not isinstance(self.idType, URIorCURIE):
             self.idType = URIorCURIE(self.idType)
@@ -209,8 +210,8 @@ class ListItem(YAMLRoot):
         if self.position is not None and not isinstance(self.position, int):
             self.position = int(self.position)
 
-        if self.previousItem is not None and not isinstance(self.previousItem, ListItem):
-            self.previousItem = ListItem(**as_dict(self.previousItem))
+        if self.previousItem is not None and not isinstance(self.previousItem, ListItemId):
+            self.previousItem = ListItemId(self.previousItem)
 
         super().__post_init__(**kwargs)
 
@@ -331,7 +332,7 @@ slots.itemList__itemListElements = Slot(
     curie=SCHEMA.curie("itemListElement"),
     model_uri=ITEMLIST.itemList__itemListElements,
     domain=None,
-    range=Optional[Union[Union[dict, ListItem], List[Union[dict, ListItem]]]],
+    range=Optional[Union[Union[str, ListItemId], List[Union[str, ListItemId]]]],
 )
 
 slots.itemList__numberOfItems = Slot(
@@ -349,7 +350,9 @@ slots.itemList__itemMetadataMap = Slot(
     curie=ITEMLIST.curie("itemMetadataMap"),
     model_uri=ITEMLIST.itemList__itemMetadataMap,
     domain=None,
-    range=Optional[Union[Union[dict, ListItem], List[Union[dict, ListItem]]]],
+    range=Optional[
+        Union[Dict[Union[str, ListItemId], Union[dict, ListItem]], List[Union[dict, ListItem]]]
+    ],
 )
 
 slots.itemList__categories = Slot(
@@ -394,7 +397,7 @@ slots.listItem__id = Slot(
     curie=ITEMLIST.curie("id"),
     model_uri=ITEMLIST.listItem__id,
     domain=None,
-    range=Optional[str],
+    range=URIRef,
 )
 
 slots.listItem__idType = Slot(
@@ -430,7 +433,7 @@ slots.listItem__previousItem = Slot(
     curie=SCHEMA.curie("previousItem"),
     model_uri=ITEMLIST.listItem__previousItem,
     domain=None,
-    range=Optional[Union[dict, ListItem]],
+    range=Optional[Union[str, ListItemId]],
 )
 
 slots.thing__identifier = Slot(

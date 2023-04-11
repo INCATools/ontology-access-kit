@@ -2,7 +2,7 @@
 _Each match (or lack of match) is placed into exactly one category_
 
 
-URI: [ann:category](https://w3id.org/linkml/text_annotator/category)
+URI: [xodiff:category](https://w3id.org/oak/cross-ontology-diff/category)
 
 
 
@@ -43,7 +43,7 @@ URI: [ann:category](https://w3id.org/linkml/text_annotator/category)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -54,7 +54,7 @@ URI: [ann:category](https://w3id.org/linkml/text_annotator/category)
 ```yaml
 name: category
 description: Each match (or lack of match) is placed into exactly one category
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 alias: category
 owner: RelationalDiff

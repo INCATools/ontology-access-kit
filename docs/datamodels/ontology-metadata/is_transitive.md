@@ -23,7 +23,7 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

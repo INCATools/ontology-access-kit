@@ -3604,7 +3604,7 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
         raise ValueError("Must provide at least one term")
     curies = query_terms_iterator(terms, impl)
     logging.info(f"Normalizing: {curies}")
-    for mapping in impl.sssom_mappings(curies):
+    for mapping in impl.sssom_mappings(curies, source=maps_to_source):
         if not mapping.object_id.startswith(f"{maps_to_source}:"):
             continue
         writer.emit_curie(mapping.object_id, mapping.object_label)

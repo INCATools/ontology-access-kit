@@ -24,6 +24,8 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
 [NamedIndividual](NamedIndividual.md) | An instance that has a IRI
 [HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
 [Subset](Subset.md) | A collection of terms grouped for some purpose
 
 

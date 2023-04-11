@@ -22,7 +22,7 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

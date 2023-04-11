@@ -106,6 +106,7 @@ classes:
         description: >
           The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field,
           for example symbol
+        key: true
       idType:
         range: uriorcurie
         description: >-

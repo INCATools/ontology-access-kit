@@ -5,17 +5,19 @@
 URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/schema/AnonymousClassExpression)
 
 
+
 ```{mermaid}
  classDiagram
     class AnonymousClassExpression
       Anonymous <|-- AnonymousClassExpression
       
-      
 
       AnonymousClassExpression <|-- Restriction
       
       
+      
 ```
+
 
 
 
@@ -31,6 +33,9 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 
 
 
@@ -60,6 +65,9 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 | ---  | ---  |
 | self | omoschema:AnonymousClassExpression |
 | native | omoschema:AnonymousClassExpression |
+
+
+
 
 
 ## LinkML Source

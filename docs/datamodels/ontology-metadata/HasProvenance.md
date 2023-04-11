@@ -5,43 +5,53 @@
 URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProvenance)
 
 
+
 ```{mermaid}
  classDiagram
     class HasProvenance
       AnnotationPropertyMixin <|-- HasProvenance
       
-      HasProvenance : contributor
-      HasProvenance : created
-      HasProvenance : created_by
-      HasProvenance : creation_date
-      HasProvenance : creator
-      HasProvenance : date
-      HasProvenance : definition_source
-      HasProvenance : editor_note
-      HasProvenance : imported_from
-      HasProvenance : isDefinedBy
-      HasProvenance : ontology_term_requester
-      HasProvenance : term_editor
-      HasProvenance : term_tracker_item
-      
 
       HasProvenance <|-- Term
       
+      
       HasProvenance : contributor
+        
+          HasProvenance ..> Agent : contributor
+        
       HasProvenance : created
+        
       HasProvenance : created_by
+        
       HasProvenance : creation_date
+        
       HasProvenance : creator
+        
+          HasProvenance ..> Agent : creator
+        
       HasProvenance : date
+        
       HasProvenance : definition_source
+        
       HasProvenance : editor_note
+        
       HasProvenance : imported_from
+        
+          HasProvenance ..> NamedIndividual : imported_from
+        
       HasProvenance : isDefinedBy
+        
+          HasProvenance ..> Ontology : isDefinedBy
+        
       HasProvenance : ontology_term_requester
+        
       HasProvenance : term_editor
+        
       HasProvenance : term_tracker_item
+        
       
 ```
+
 
 
 
@@ -56,19 +66,21 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [created_by](created_by.md) | 0..1 <br/> NONE |  | direct |
-| [creation_date](creation_date.md) | 0..* <br/> NONE |  | direct |
-| [contributor](contributor.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | direct |
-| [creator](creator.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | direct |
-| [created](created.md) | 0..1 <br/> NONE | when the term came into being | direct |
-| [date](date.md) | 0..* <br/> NONE | when the term was updated | direct |
+| [created_by](created_by.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [creation_date](creation_date.md) | 0..* <br/> [String](String.md) |  | direct |
+| [contributor](contributor.md) | 0..* <br/> [Agent](Agent.md) |  | direct |
+| [creator](creator.md) | 0..* <br/> [Agent](Agent.md) |  | direct |
+| [created](created.md) | 0..1 <br/> [String](String.md) | when the term came into being | direct |
+| [date](date.md) | 0..* <br/> [String](String.md) | when the term was updated | direct |
 | [isDefinedBy](isDefinedBy.md) | 0..1 <br/> [Ontology](Ontology.md) |  | direct |
 | [editor_note](editor_note.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | direct |
-| [term_editor](term_editor.md) | 0..* <br/> NONE |  | direct |
-| [definition_source](definition_source.md) | 0..* <br/> NONE |  | direct |
-| [ontology_term_requester](ontology_term_requester.md) | 0..1 <br/> NONE |  | direct |
+| [term_editor](term_editor.md) | 0..* <br/> [String](String.md) |  | direct |
+| [definition_source](definition_source.md) | 0..* <br/> [String](String.md) |  | direct |
+| [ontology_term_requester](ontology_term_requester.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [imported_from](imported_from.md) | 0..* <br/> [NamedIndividual](NamedIndividual.md) |  | direct |
-| [term_tracker_item](term_tracker_item.md) | 0..* <br/> NONE |  | direct |
+| [term_tracker_item](term_tracker_item.md) | 0..* <br/> [String](String.md) |  | direct |
+
+
 
 ## Mixin Usage
 
@@ -106,6 +118,9 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
 | ---  | ---  |
 | self | omoschema:HasProvenance |
 | native | omoschema:HasProvenance |
+
+
+
 
 
 ## LinkML Source
@@ -192,7 +207,7 @@ attributes:
     owner: HasProvenance
     domain_of:
     - HasProvenance
-    range: HomoSapiens
+    range: Agent
     structured_pattern:
       syntax: '{orcid_regex}'
       interpolated: true
@@ -211,7 +226,7 @@ attributes:
     domain_of:
     - HasProvenance
     - Ontology
-    range: HomoSapiens
+    range: Agent
     structured_pattern:
       syntax: '{orcid_regex}'
       interpolated: true

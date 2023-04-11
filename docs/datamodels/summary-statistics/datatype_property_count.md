@@ -2,7 +2,7 @@
 _Number of datatype properties in the ontology or subset_
 
 
-URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_property_count)
+URI: [summary_statistics:datatype_property_count](https://w3id.org/oaklib/summary_statistics.datatype_property_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: DatatypeProperty
 description: Number of datatype properties in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: datatype_property_count

@@ -9,6 +9,7 @@ _A NamedThing that includes classes, properties, but not ontologies_
 URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
 
 
+
 ```{mermaid}
  classDiagram
     class Term
@@ -21,118 +22,155 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
       HasMinimalMetadata <|-- Term
       NamedObject <|-- Term
       
-      Term : alternative_term
-      Term : broadMatch
-      Term : category
-      Term : closeMatch
-      Term : comment
-      Term : conformsTo
-      Term : consider
-      Term : contributor
-      Term : created
-      Term : created_by
-      Term : creation_date
-      Term : creator
-      Term : curator_note
-      Term : database_cross_reference
-      Term : date
-      Term : definition
-      Term : definition_source
-      Term : depicted_by
-      Term : deprecated
-      Term : editor_note
-      Term : editor_preferred_term
-      Term : exactMatch
-      Term : example_of_usage
-      Term : excluded_from_QC_check
-      Term : excluded_subClassOf
-      Term : excluded_synonym
-      Term : has_alternative_id
-      Term : has_broad_synonym
-      Term : has_curation_status
-      Term : has_exact_synonym
-      Term : has_narrow_synonym
-      Term : has_obo_namespace
-      Term : has_obsolescence_reason
-      Term : has_related_synonym
-      Term : id
-      Term : IEDB_alternative_term
-      Term : image
-      Term : imported_from
-      Term : in_subset
-      Term : ISA_alternative_term
-      Term : isDefinedBy
-      Term : label
-      Term : narrowMatch
-      Term : OBO_foundry_unique_label
-      Term : ontology_term_requester
-      Term : page
-      Term : seeAlso
-      Term : should_conform_to
-      Term : term_editor
-      Term : term_replaced_by
-      Term : term_tracker_item
-      Term : type
-      
 
       Term <|-- Class
       Term <|-- Property
       Term <|-- NamedIndividual
       
+      
       Term : alternative_term
+        
       Term : broadMatch
+        
+          Term ..> Thing : broadMatch
+        
       Term : category
+        
       Term : closeMatch
+        
+          Term ..> Thing : closeMatch
+        
       Term : comment
+        
       Term : conformsTo
+        
+          Term ..> Thing : conformsTo
+        
       Term : consider
+        
+          Term ..> Any : consider
+        
       Term : contributor
+        
+          Term ..> Agent : contributor
+        
       Term : created
+        
       Term : created_by
+        
       Term : creation_date
+        
       Term : creator
+        
+          Term ..> Agent : creator
+        
       Term : curator_note
+        
       Term : database_cross_reference
+        
       Term : date
+        
       Term : definition
+        
       Term : definition_source
+        
       Term : depicted_by
+        
+          Term ..> Image : depicted_by
+        
       Term : deprecated
+        
       Term : editor_note
+        
       Term : editor_preferred_term
+        
       Term : exactMatch
+        
+          Term ..> Thing : exactMatch
+        
       Term : example_of_usage
+        
       Term : excluded_from_QC_check
+        
+          Term ..> Thing : excluded_from_QC_check
+        
       Term : excluded_subClassOf
+        
+          Term ..> Class : excluded_subClassOf
+        
       Term : excluded_synonym
+        
       Term : has_alternative_id
+        
       Term : has_broad_synonym
+        
       Term : has_curation_status
+        
       Term : has_exact_synonym
+        
       Term : has_narrow_synonym
+        
       Term : has_obo_namespace
+        
       Term : has_obsolescence_reason
+        
       Term : has_related_synonym
+        
       Term : id
+        
       Term : IEDB_alternative_term
+        
       Term : image
+        
+          Term ..> Thing : image
+        
       Term : imported_from
+        
+          Term ..> NamedIndividual : imported_from
+        
       Term : in_subset
+        
+          Term ..> Subset : in_subset
+        
       Term : ISA_alternative_term
+        
       Term : isDefinedBy
+        
+          Term ..> Ontology : isDefinedBy
+        
       Term : label
+        
       Term : narrowMatch
+        
+          Term ..> Thing : narrowMatch
+        
       Term : OBO_foundry_unique_label
+        
       Term : ontology_term_requester
+        
       Term : page
+        
       Term : seeAlso
+        
+          Term ..> Thing : seeAlso
+        
       Term : should_conform_to
+        
+          Term ..> Thing : should_conform_to
+        
       Term : term_editor
+        
       Term : term_replaced_by
+        
+          Term ..> Any : term_replaced_by
+        
       Term : term_tracker_item
+        
       Term : type
+        
       
 ```
+
 
 
 
@@ -150,58 +188,61 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [creator](creator.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | [HasProvenance](HasProvenance.md) |
-| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | 0..1 <br/> NONE |  | [HasSynonyms](HasSynonyms.md) |
-| [editor_note](editor_note.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | [HasProvenance](HasProvenance.md) |
-| [ontology_term_requester](ontology_term_requester.md) | 0..1 <br/> NONE |  | [HasProvenance](HasProvenance.md) |
-| [creation_date](creation_date.md) | 0..* <br/> NONE |  | [HasProvenance](HasProvenance.md) |
-| [alternative_term](alternative_term.md) | 0..* <br/> NONE |  | [HasSynonyms](HasSynonyms.md) |
-| [definition_source](definition_source.md) | 0..* <br/> NONE |  | [HasProvenance](HasProvenance.md) |
-| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | [HasMinimalMetadata](HasMinimalMetadata.md) |
-| [ISA_alternative_term](ISA_alternative_term.md) | 0..1 <br/> NONE |  | [HasSynonyms](HasSynonyms.md) |
-| [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md) |  | [HasLifeCycle](HasLifeCycle.md) |
-| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | [HasLifeCycle](HasLifeCycle.md) |
-| [curator_note](curator_note.md) | 0..* <br/> NONE |  | [HasUserInformation](HasUserInformation.md) |
-| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md) |  | [HasLifeCycle](HasLifeCycle.md) |
-| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> NONE |  | [HasCategory](HasCategory.md) |
-| [editor_preferred_term](editor_preferred_term.md) | 0..* <br/> NONE |  | [HasSynonyms](HasSynonyms.md) |
-| [has_narrow_synonym](has_narrow_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | [HasSynonyms](HasSynonyms.md) |
-| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | [HasMinimalMetadata](HasMinimalMetadata.md) |
-| [excluded_synonym](excluded_synonym.md) | 0..* <br/> NONE |  | [HasLifeCycle](HasLifeCycle.md) |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
-| [date](date.md) | 0..* <br/> NONE | when the term was updated | [HasProvenance](HasProvenance.md) |
-| [isDefinedBy](isDefinedBy.md) | 0..1 <br/> [Ontology](Ontology.md) |  | [HasProvenance](HasProvenance.md) |
-| [narrowMatch](narrowMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
-| [conformsTo](conformsTo.md) | 0..* <br/> [Thing](Thing.md) |  | [HasCategory](HasCategory.md) |
-| [exactMatch](exactMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
-| [has_broad_synonym](has_broad_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | [HasSynonyms](HasSynonyms.md) |
-| [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md) |  | [HasLifeCycle](HasLifeCycle.md) |
-| [depicted_by](depicted_by.md) | 0..* <br/> NONE |  | [HasUserInformation](HasUserInformation.md) |
-| [category](category.md) | 0..1 <br/> NONE |  | [HasCategory](HasCategory.md) |
-| [term_editor](term_editor.md) | 0..* <br/> NONE |  | [HasProvenance](HasProvenance.md) |
-| [broadMatch](broadMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
-| [term_tracker_item](term_tracker_item.md) | 0..* <br/> NONE |  | [HasProvenance](HasProvenance.md) |
-| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | Relates a live term to a deprecated ID that was merged in | [HasLifeCycle](HasLifeCycle.md) |
-| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | [HasUserInformation](HasUserInformation.md) |
-| [contributor](contributor.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | [HasProvenance](HasProvenance.md) |
-| [image](image.md) | 0..1 <br/> [Thing](Thing.md) |  | [HasUserInformation](HasUserInformation.md) |
-| [example_of_usage](example_of_usage.md) | 0..* <br/> NONE |  | [HasUserInformation](HasUserInformation.md) |
-| [created](created.md) | 0..1 <br/> NONE | when the term came into being | [HasProvenance](HasProvenance.md) |
-| [comment](comment.md) | 0..* <br/> NONE |  | [HasUserInformation](HasUserInformation.md) |
-| [in_subset](in_subset.md) | 0..* <br/> [Subset](Subset.md) | Maps an ontology element to a subset it belongs to | [HasCategory](HasCategory.md) |
-| [consider](consider.md) | 0..* <br/> [Any](Any.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| ---  | --- | --- | --- |
 | [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | [HasSynonyms](HasSynonyms.md) |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
-| [IEDB_alternative_term](IEDB_alternative_term.md) | 0..1 <br/> NONE |  | [HasSynonyms](HasSynonyms.md) |
-| [created_by](created_by.md) | 0..1 <br/> NONE |  | [HasProvenance](HasProvenance.md) |
-| [imported_from](imported_from.md) | 0..* <br/> [NamedIndividual](NamedIndividual.md) |  | [HasProvenance](HasProvenance.md) |
-| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> NONE |  | [HasLifeCycle](HasLifeCycle.md) |
-| [page](page.md) | 0..* <br/> NONE |  | [HasUserInformation](HasUserInformation.md) |
-| [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md) |  | [HasLifeCycle](HasLifeCycle.md) |
-| [closeMatch](closeMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
-| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) |  | [HasMappings](HasMappings.md) |
-| [has_curation_status](has_curation_status.md) | 0..1 <br/> NONE |  | [HasUserInformation](HasUserInformation.md) |
+| [has_narrow_synonym](has_narrow_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | [HasSynonyms](HasSynonyms.md) |
+| [has_broad_synonym](has_broad_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | [HasSynonyms](HasSynonyms.md) |
 | [has_related_synonym](has_related_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | [HasSynonyms](HasSynonyms.md) |
+| [alternative_term](alternative_term.md) | 0..* <br/> [String](String.md) |  | [HasSynonyms](HasSynonyms.md) |
+| [ISA_alternative_term](ISA_alternative_term.md) | 0..* <br/> [String](String.md) |  | [HasSynonyms](HasSynonyms.md) |
+| [IEDB_alternative_term](IEDB_alternative_term.md) | 0..* <br/> [String](String.md) |  | [HasSynonyms](HasSynonyms.md) |
+| [editor_preferred_term](editor_preferred_term.md) | 0..* <br/> [String](String.md) |  | [HasSynonyms](HasSynonyms.md) |
+| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | 0..* <br/> [String](String.md) |  | [HasSynonyms](HasSynonyms.md) |
+| [deprecated](deprecated.md) | 0..1 <br/> [Boolean](Boolean.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [String](String.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [consider](consider.md) | 0..* <br/> [Any](Any.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | Relates a live term to a deprecated ID that was merged in | [HasLifeCycle](HasLifeCycle.md) |
+| [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [String](String.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md) |  | [HasLifeCycle](HasLifeCycle.md) |
+| [created_by](created_by.md) | 0..1 <br/> [String](String.md) |  | [HasProvenance](HasProvenance.md) |
+| [creation_date](creation_date.md) | 0..* <br/> [String](String.md) |  | [HasProvenance](HasProvenance.md) |
+| [contributor](contributor.md) | 0..* <br/> [Agent](Agent.md) |  | [HasProvenance](HasProvenance.md) |
+| [creator](creator.md) | 0..* <br/> [Agent](Agent.md) |  | [HasProvenance](HasProvenance.md) |
+| [created](created.md) | 0..1 <br/> [String](String.md) | when the term came into being | [HasProvenance](HasProvenance.md) |
+| [date](date.md) | 0..* <br/> [String](String.md) | when the term was updated | [HasProvenance](HasProvenance.md) |
+| [isDefinedBy](isDefinedBy.md) | 0..1 <br/> [Ontology](Ontology.md) |  | [HasProvenance](HasProvenance.md) |
+| [editor_note](editor_note.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | [HasProvenance](HasProvenance.md) |
+| [term_editor](term_editor.md) | 0..* <br/> [String](String.md) |  | [HasProvenance](HasProvenance.md) |
+| [definition_source](definition_source.md) | 0..* <br/> [String](String.md) |  | [HasProvenance](HasProvenance.md) |
+| [ontology_term_requester](ontology_term_requester.md) | 0..1 <br/> [String](String.md) |  | [HasProvenance](HasProvenance.md) |
+| [imported_from](imported_from.md) | 0..* <br/> [NamedIndividual](NamedIndividual.md) |  | [HasProvenance](HasProvenance.md) |
+| [term_tracker_item](term_tracker_item.md) | 0..* <br/> [String](String.md) |  | [HasProvenance](HasProvenance.md) |
+| [broadMatch](broadMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
+| [closeMatch](closeMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
+| [exactMatch](exactMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
+| [narrowMatch](narrowMatch.md) | 0..* <br/> [Thing](Thing.md) |  | [HasMappings](HasMappings.md) |
+| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) |  | [HasMappings](HasMappings.md) |
+| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> [String](String.md) |  | [HasCategory](HasCategory.md) |
+| [category](category.md) | 0..1 <br/> [String](String.md) |  | [HasCategory](HasCategory.md) |
+| [in_subset](in_subset.md) | 0..* <br/> [Subset](Subset.md) | Maps an ontology element to a subset it belongs to | [HasCategory](HasCategory.md) |
+| [conformsTo](conformsTo.md) | 0..* <br/> [Thing](Thing.md) |  | [HasCategory](HasCategory.md) |
+| [comment](comment.md) | 0..* <br/> [String](String.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [image](image.md) | 0..1 <br/> [Thing](Thing.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [example_of_usage](example_of_usage.md) | 0..* <br/> [String](String.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [curator_note](curator_note.md) | 0..* <br/> [String](String.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [has_curation_status](has_curation_status.md) | 0..1 <br/> [String](String.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [depicted_by](depicted_by.md) | 0..* <br/> [Image](Image.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [page](page.md) | 0..* <br/> [String](String.md) |  | [HasUserInformation](HasUserInformation.md) |
+| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | [HasMinimalMetadata](HasMinimalMetadata.md) |
+| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | [HasMinimalMetadata](HasMinimalMetadata.md) |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
+| [type](type.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | [Thing](Thing.md) |
+
+
 
 
 
@@ -237,6 +278,9 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
 | ---  | ---  |
 | self | omoschema:Term |
 | native | omoschema:Term |
+
+
+
 
 
 ## LinkML Source
@@ -585,7 +629,7 @@ attributes:
     owner: Term
     domain_of:
     - HasProvenance
-    range: HomoSapiens
+    range: Agent
     structured_pattern:
       syntax: '{orcid_regex}'
       interpolated: true
@@ -604,7 +648,7 @@ attributes:
     domain_of:
     - HasProvenance
     - Ontology
-    range: HomoSapiens
+    range: Agent
     structured_pattern:
       syntax: '{orcid_regex}'
       interpolated: true
@@ -928,7 +972,7 @@ attributes:
     owner: Term
     domain_of:
     - HasUserInformation
-    range: string
+    range: Image
   page:
     name: page
     from_schema: http://purl.obolibrary.org/obo/omo/schema

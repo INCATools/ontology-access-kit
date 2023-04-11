@@ -1,6 +1,8 @@
 # Slot: sub
+_the subject of an edge_
 
-URI: [og:sub](https://github.com/geneontology/obographs/sub)
+
+URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:sub](https://github.com/geneontology/obographs/sub)
 
 | Name | Description |
 | --- | --- |
-[Edge](Edge.md) | 
+[Edge](Edge.md) | An edge is a simple typed relationship between two nodes
 
 
 
@@ -22,11 +24,19 @@ URI: [og:sub](https://github.com/geneontology/obographs/sub)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 
 
+
+## Aliases
+
+
+* subject
+* source
+* child
+* head
 
 
 
@@ -51,8 +61,15 @@ URI: [og:sub](https://github.com/geneontology/obographs/sub)
 <details>
 ```yaml
 name: sub
+description: the subject of an edge
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- subject
+- source
+- child
+- head
 rank: 1000
+slot_uri: rdf:subject
 alias: sub
 domain_of:
 - Edge

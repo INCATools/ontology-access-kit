@@ -1,6 +1,6 @@
 # Slot: mapping_source_one_of
 
-URI: [mrules:mapping_source_one_of](https://w3id.org/linkml/mapping_rules_datamodel/mapping_source_one_of)
+URI: [mappingrules:mapping_source_one_of](https://w3id.org/oak/mapping-rules-datamodel/mapping_source_one_of)
 
 
 
@@ -22,7 +22,7 @@ URI: [mrules:mapping_source_one_of](https://w3id.org/linkml/mapping_rules_datamo
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 
@@ -43,7 +43,7 @@ URI: [mrules:mapping_source_one_of](https://w3id.org/linkml/mapping_rules_datamo
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [mrules:mapping_source_one_of](https://w3id.org/linkml/mapping_rules_datamo
 <details>
 ```yaml
 name: mapping_source_one_of
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: mapping_source_one_of

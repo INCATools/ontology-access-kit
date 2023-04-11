@@ -37,7 +37,7 @@ URI: [sim:overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coeffi
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -47,7 +47,7 @@ URI: [sim:overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coeffi
 <details>
 ```yaml
 name: overlap_coefficient
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: score
 alias: overlap_coefficient
