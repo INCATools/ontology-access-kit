@@ -41,6 +41,11 @@ class XafAssociationParser(AssociationParser):
     Comment lines should be at the beginning of the file. They may include metadata that can be parsed
     """
 
+    delimiter: str = field(default_factory=lambda: "\t")
+    """
+    Delimiter
+    """
+
     subject_prefix = None
     """
     Prefix to use for subjects that do not have a prefix. This is prepended onto the subject_prefix_column

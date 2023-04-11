@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-03-15T10:56:08
+# Generation date: 2023-04-11T11:01:16
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -20,7 +20,7 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, Uriorcurie
+from linkml_runtime.linkml_model.types import Boolean, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
@@ -50,10 +50,12 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+BIOLINK = CurieNamespace("biolink", "https://w3id.org/biolink/vocab/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
 ONTOASSOC = CurieNamespace("ontoassoc", "https://w3id.org/oak/association/")
 RDF = CurieNamespace("rdf", "http://example.org/UNKNOWN/rdf/")
+SSSOM = CurieNamespace("sssom", "https://w3id.org/sssom/")
 DEFAULT_ = ONTOASSOC
 
 
@@ -81,6 +83,9 @@ class Association(YAMLRoot):
     property_values: Optional[
         Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
     ] = empty_list()
+    subject_label: Optional[str] = None
+    predicate_label: Optional[str] = None
+    object_label: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.subject is not None and not isinstance(self.subject, URIorCURIE):
@@ -100,6 +105,15 @@ class Association(YAMLRoot):
             v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
             for v in self.property_values
         ]
+
+        if self.subject_label is not None and not isinstance(self.subject_label, str):
+            self.subject_label = str(self.subject_label)
+
+        if self.predicate_label is not None and not isinstance(self.predicate_label, str):
+            self.predicate_label = str(self.predicate_label)
+
+        if self.object_label is not None and not isinstance(self.object_label, str):
+            self.object_label = str(self.object_label)
 
         super().__post_init__(**kwargs)
 
@@ -123,6 +137,9 @@ class NegatedAssociation(YAMLRoot):
     property_values: Optional[
         Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
     ] = empty_list()
+    subject_label: Optional[str] = None
+    predicate_label: Optional[str] = None
+    object_label: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.subject is not None and not isinstance(self.subject, URIorCURIE):
@@ -142,6 +159,15 @@ class NegatedAssociation(YAMLRoot):
             v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
             for v in self.property_values
         ]
+
+        if self.subject_label is not None and not isinstance(self.subject_label, str):
+            self.subject_label = str(self.subject_label)
+
+        if self.predicate_label is not None and not isinstance(self.predicate_label, str):
+            self.predicate_label = str(self.predicate_label)
+
+        if self.object_label is not None and not isinstance(self.object_label, str):
+            self.object_label = str(self.object_label)
 
         super().__post_init__(**kwargs)
 
@@ -252,6 +278,15 @@ slots.subject = Slot(
     range=Optional[Union[str, URIorCURIE]],
 )
 
+slots.subject_label = Slot(
+    uri=SSSOM.subject_label,
+    name="subject_label",
+    curie=SSSOM.curie("subject_label"),
+    model_uri=ONTOASSOC.subject_label,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.predicate = Slot(
     uri=RDF.predicate,
     name="predicate",
@@ -261,6 +296,15 @@ slots.predicate = Slot(
     range=Optional[Union[str, URIorCURIE]],
 )
 
+slots.predicate_label = Slot(
+    uri=SSSOM.predicate_label,
+    name="predicate_label",
+    curie=SSSOM.curie("predicate_label"),
+    model_uri=ONTOASSOC.predicate_label,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.object = Slot(
     uri=RDF.object,
     name="object",
@@ -268,6 +312,15 @@ slots.object = Slot(
     model_uri=ONTOASSOC.object,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.object_label = Slot(
+    uri=SSSOM.object_label,
+    name="object_label",
+    curie=SSSOM.curie("object_label"),
+    model_uri=ONTOASSOC.object_label,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.property_values = Slot(
@@ -304,6 +357,42 @@ slots.associations = Slot(
     model_uri=ONTOASSOC.associations,
     domain=None,
     range=Optional[Union[Union[dict, Association], List[Union[dict, Association]]]],
+)
+
+slots.original_subject = Slot(
+    uri=RDF.subject,
+    name="original_subject",
+    curie=RDF.curie("subject"),
+    model_uri=ONTOASSOC.original_subject,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.original_predicate = Slot(
+    uri=RDF.predicate,
+    name="original_predicate",
+    curie=RDF.curie("predicate"),
+    model_uri=ONTOASSOC.original_predicate,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.original_object = Slot(
+    uri=RDF.subject,
+    name="original_object",
+    curie=RDF.curie("subject"),
+    model_uri=ONTOASSOC.original_object,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.denormalized_slot = Slot(
+    uri=ONTOASSOC.denormalized_slot,
+    name="denormalized_slot",
+    curie=ONTOASSOC.curie("denormalized_slot"),
+    model_uri=ONTOASSOC.denormalized_slot,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.parserConfiguration__preserve_negated_associations = Slot(

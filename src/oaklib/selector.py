@@ -40,6 +40,18 @@ ASSOCIATION_REGISTRY = {
         False,
     ),
     "gaf": (["group"], "gaf", "http://current.geneontology.org/annotations/{group}.gaf.gz", True),
+    "gencc": (
+        [],
+        "gencc",
+        "https://search.thegencc.org/download/action/submissions-export-csv",
+        False,
+    ),
+    "mim2gene_medgen": (
+        [],
+        "mim2gene",
+        "ftp://ftp.ncbi.nih.gov/gene/DATA/mim2gene_medgen",
+        False,
+    ),
 }
 
 
