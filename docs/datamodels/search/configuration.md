@@ -1,6 +1,6 @@
 # Slot: configuration
 
-URI: [search:configuration](https://w3id.org/linkml/search_datamodel/configuration)
+URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configuration)
 
 
 
@@ -41,7 +41,7 @@ URI: [search:configuration](https://w3id.org/linkml/search_datamodel/configurati
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [search:configuration](https://w3id.org/linkml/search_datamodel/configurati
 <details>
 ```yaml
 name: configuration
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: configuration
 owner: SearchResultSet

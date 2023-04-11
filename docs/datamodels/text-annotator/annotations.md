@@ -45,7 +45,7 @@ URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -56,7 +56,7 @@ URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
 ```yaml
 name: annotations
 description: all annotations
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 multivalued: true
 alias: annotations

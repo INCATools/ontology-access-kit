@@ -4,7 +4,7 @@ _* If the match type is consistent, then all consistent predicates.
 * If the match type is OtherRelationship, then all predicates that form a path between right subject and object_
 
 
-URI: [ann:right_predicate_ids](https://w3id.org/linkml/text_annotator/right_predicate_ids)
+URI: [xodiff:right_predicate_ids](https://w3id.org/oak/cross-ontology-diff/right_predicate_ids)
 
 
 
@@ -51,7 +51,7 @@ URI: [ann:right_predicate_ids](https://w3id.org/linkml/text_annotator/right_pred
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -67,7 +67,7 @@ description: '* If the match type is consistent, then all consistent predicates.
 
   * If the match type is OtherRelationship, then all predicates that form a path between
   right subject and object'
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixins:
 - right_side

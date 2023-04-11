@@ -5,19 +5,21 @@
 URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/PropertyExpression)
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyExpression
       Expression <|-- PropertyExpression
       
-      PropertyExpression : disjointWith
-      
 
       PropertyExpression <|-- ObjectProperty
       
+      
       PropertyExpression : disjointWith
+        
       
 ```
+
 
 
 
@@ -32,7 +34,9 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> NONE |  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | direct |
+
+
 
 ## Mixin Usage
 
@@ -77,6 +81,9 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 | ---  | ---  |
 | self | omoschema:PropertyExpression |
 | native | omoschema:PropertyExpression |
+
+
+
 
 
 ## LinkML Source

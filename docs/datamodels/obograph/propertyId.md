@@ -1,6 +1,8 @@
 # Slot: propertyId
+_in an OWL restriction expression, this is the predicate_
 
-URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
+
+URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 
 
@@ -22,7 +24,7 @@ URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 
@@ -51,6 +53,7 @@ URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
 <details>
 ```yaml
 name: propertyId
+description: in an OWL restriction expression, this is the predicate
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 alias: propertyId

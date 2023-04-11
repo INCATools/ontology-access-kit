@@ -23,7 +23,7 @@ URI: [vm:object_str](https://w3id.org/linkml/validation-model/object_str)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

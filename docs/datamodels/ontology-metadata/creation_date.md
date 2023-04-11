@@ -27,6 +27,8 @@ URI: [oio:creation_date](http://www.geneontology.org/formats/oboInOwl#creation_d
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
 [NamedIndividual](NamedIndividual.md) | An instance that has a IRI
 [HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
 [Subset](Subset.md) | A collection of terms grouped for some purpose
 
 
@@ -36,7 +38,7 @@ URI: [oio:creation_date](http://www.geneontology.org/formats/oboInOwl#creation_d
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

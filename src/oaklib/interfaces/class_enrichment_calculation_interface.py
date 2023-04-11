@@ -5,6 +5,7 @@ from typing import Iterable, Iterator, List, Optional
 
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
+from oaklib.datamodels.item_list import ItemList
 from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -27,7 +28,8 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
 
     def enriched_classes(
         self,
-        subjects: Iterable[CURIE],
+        subjects: Optional[Iterable[CURIE]] = None,
+        item_list: Optional[ItemList] = None,
         predicates: Iterable[CURIE] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         background: Iterable[CURIE] = None,
@@ -52,6 +54,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         ...
 
         :param subjects: The set of entities to test for over-representation of classes
+        :param item_list: An item list objects as an alternate way to specify subjects
         :param background: The set of entities to use as a background for the test (recommended)
         :param hypotheses: The set of classes to test for over-representation (default is all)
         :param cutoff: The threshold to use for p-value
@@ -62,6 +65,14 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         :param direction: The direction of the test. One of 'greater', 'less', 'two-sided'
         :return: An iterator over ClassEnrichmentResult objects
         """
+        if subjects and item_list:
+            raise ValueError("Only one of subjects or item_list may be provided")
+        if subjects is None:
+            if not item_list:
+                raise ValueError("Either subjects or item_list must be provided")
+            if not item_list.itemListElements:
+                raise ValueError("item_list must not be empty")
+            subjects = item_list.itemListElements
         subjects = list(subjects)
         sample_size = len(subjects)
         logging.info(f"Calculating sample_counts for {sample_size} subjects")

@@ -1,8 +1,11 @@
 # Class: BasicPropertyValue
+_A property value that represents an assertion about an entity that is not a definition, synonym, or xref_
 
 
 
-URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicPropertyValue)
+
+URI: [obographs:BasicPropertyValue](https://github.com/geneontology/obographs/BasicPropertyValue)
+
 
 
 ```{mermaid}
@@ -10,12 +13,23 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
     class BasicPropertyValue
       PropertyValue <|-- BasicPropertyValue
       
+      BasicPropertyValue : lang
+        
       BasicPropertyValue : meta
+        
+          BasicPropertyValue ..> Meta : meta
+        
       BasicPropertyValue : pred
+        
       BasicPropertyValue : val
+        
+      BasicPropertyValue : valType
+        
       BasicPropertyValue : xrefs
+        
       
 ```
+
 
 
 
@@ -29,10 +43,15 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [PropertyValue](PropertyValue.md) |
+| ---  | --- | --- | --- |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> [String](String.md) | the value of a property | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
+| [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
+| [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
+
+
 
 
 
@@ -68,8 +87,11 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:BasicPropertyValue |
-| native | og:BasicPropertyValue |
+| self | obographs:BasicPropertyValue |
+| native | obographs:BasicPropertyValue |
+
+
+
 
 
 ## LinkML Source
@@ -81,6 +103,8 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 <details>
 ```yaml
 name: BasicPropertyValue
+description: A property value that represents an assertion about an entity that is
+  not a definition, synonym, or xref
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: PropertyValue
@@ -93,25 +117,34 @@ is_a: PropertyValue
 <details>
 ```yaml
 name: BasicPropertyValue
+description: A property value that represents an assertion about an entity that is
+  not a definition, synonym, or xref
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: PropertyValue
 attributes:
   pred:
     name: pred
+    description: the predicate of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:predicate
     alias: pred
     owner: BasicPropertyValue
     domain_of:
     - Edge
     - SynonymPropertyValue
     - PropertyValue
+    - SynonymTypeDefinition
     range: string
   val:
     name: val
+    description: the value of a property
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
+    slot_uri: rdf:object
     alias: val
     owner: BasicPropertyValue
     domain_of:
@@ -119,7 +152,14 @@ attributes:
     range: string
   xrefs:
     name: xrefs
+    description: A list of cross references to other entities represented in other
+      ontologies, vocabularies, databases, or websites. The semantics of xrefs are
+      intentionally weak, and most closely align with rdfs:seeAlso
     from_schema: https://github.com/geneontology/obographs
+    exact_mappings:
+    - oio:hasDbXref
+    close_mappings:
+    - rdfs:seeAlso
     rank: 1000
     multivalued: true
     alias: xrefs
@@ -127,10 +167,14 @@ attributes:
     domain_of:
     - Meta
     - PropertyValue
-    range: string
+    range: XrefString
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: BasicPropertyValue
@@ -138,9 +182,33 @@ attributes:
     - GraphDocument
     - Graph
     - Node
+    - Edge
     - PropertyValue
     - Axiom
     range: Meta
+  valType:
+    name: valType
+    description: the datatype of a property value
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value type
+    - datatype
+    rank: 1000
+    alias: valType
+    owner: BasicPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
+  lang:
+    name: lang
+    description: the language of a property value
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: lang
+    owner: BasicPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
 
 ```
 </details>

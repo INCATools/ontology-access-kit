@@ -1,6 +1,8 @@
 # Slot: logicalDefinitionAxioms
+_A list of logical definition axioms that define the meaning of a class in terms of other classes._
 
-URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logicalDefinitionAxioms)
+
+URI: [obographs:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logicalDefinitionAxioms)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 
@@ -53,6 +55,8 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 <details>
 ```yaml
 name: logicalDefinitionAxioms
+description: A list of logical definition axioms that define the meaning of a class
+  in terms of other classes.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

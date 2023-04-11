@@ -2,7 +2,7 @@
 _Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset_
 
 
-URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescription_logic_profile)
+URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summary_statistics.description_logic_profile)
 
 
 
@@ -24,7 +24,7 @@ URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescrip
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 
@@ -43,7 +43,7 @@ URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescrip
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescrip
 ```yaml
 name: description_logic_profile
 description: Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oak/summary_statistics
 rank: 1000
 alias: description_logic_profile
 owner: UngroupedStatistics

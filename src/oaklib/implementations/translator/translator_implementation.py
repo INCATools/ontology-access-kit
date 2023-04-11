@@ -49,6 +49,7 @@ class TranslatorImplementation(
         r = requests.get(NODE_NORMALIZER_ENDPOINT, params={"curie": curies, "conflate": "true"})
         results = r.json()
         objects = set()
+        subjects = set()
         if "detail" in results:
             if results["detail"] == "Not found.":
                 return
@@ -81,10 +82,14 @@ class TranslatorImplementation(
                     mapping_justification=str(SEMAPV.ManualMappingCuration.value),
                 )
                 inject_mapping_sources(m)
+                if source:
+                    if m.object_source != source:
+                        continue
                 yield m
                 objects.add(object_id)
+                subjects.add(curie)
         for curie in curies:
-            if curie not in objects:
+            if curie not in subjects:
                 logging.warning(f"Could not find any mappings for {curie}")
 
     def inject_mapping_labels(self, mappings: Iterable[Mapping]) -> None:
