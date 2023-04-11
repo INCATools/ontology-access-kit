@@ -1,0 +1,71 @@
+# Slot: keywords
+_Keywords or tags used to describe the element_
+
+
+URI: [schema:keywords](http://schema.org/keywords)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata
+
+
+
+
+
+
+## Properties
+
+* Range: [String](String.md)
+* Multivalued: True
+
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/oak/item-list
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: keywords
+description: Keywords or tags used to describe the element
+from_schema: https://w3id.org/oak/item-list
+rank: 1000
+singular_name: keyword
+slot_uri: schema:keywords
+multivalued: true
+alias: keywords
+owner: ItemList
+domain_of:
+- ItemList
+range: string
+
+```
+</details>

@@ -63,11 +63,12 @@
 <li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider</a></li>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
@@ -231,21 +232,6 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 <li class="toctree-l2"><a class="reference internal" href="text-annotator.html#oaklib.datamodels.text_annotator.TextAnnotation"><code class="docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="owl.html">OWL Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface"><code class="docutils literal notranslate"><span class="pre">OwlInterface</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.subclass_axioms()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.equivalence_axioms()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.annotation_assertion_axioms()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.disjoint_pairs"><code class="docutils literal notranslate"><span class="pre">OwlInterface.disjoint_pairs()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_disjoint"><code class="docutils literal notranslate"><span class="pre">OwlInterface.is_disjoint()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_satisfiable"><code class="docutils literal notranslate"><span class="pre">OwlInterface.is_satisfiable()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.reasoner_configurations"><code class="docutils literal notranslate"><span class="pre">OwlInterface.reasoner_configurations()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_is_about"><code class="docutils literal notranslate"><span class="pre">OwlInterface.axiom_is_about()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_references"><code class="docutils literal notranslate"><span class="pre">OwlInterface.axiom_references()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface"><code class="docutils literal notranslate"><span class="pre">SummaryStatisticsInterface</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics"><code class="docutils literal notranslate"><span class="pre">SummaryStatisticsInterface.global_summary_statistics()</span></code></a></li>
@@ -286,10 +272,37 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="association-provider.html">Association Provider</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="association-provider.html#synopsis">Synopsis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="association-provider.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="association-provider.html#implementations">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="association-provider.html#command-line-use">Command Line Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="association-provider.html#code">Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#autodoc">Autodoc</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface.enriched_classes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.create_self_associations"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface.create_self_associations()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="owl.html">OWL Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface"><code class="docutils literal notranslate"><span class="pre">OwlInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.subclass_axioms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.equivalence_axioms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.annotation_assertion_axioms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.disjoint_pairs"><code class="docutils literal notranslate"><span class="pre">OwlInterface.disjoint_pairs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_disjoint"><code class="docutils literal notranslate"><span class="pre">OwlInterface.is_disjoint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_satisfiable"><code class="docutils literal notranslate"><span class="pre">OwlInterface.is_satisfiable()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.reasoner_configurations"><code class="docutils literal notranslate"><span class="pre">OwlInterface.reasoner_configurations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_is_about"><code class="docutils literal notranslate"><span class="pre">OwlInterface.axiom_is_about()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_references"><code class="docutils literal notranslate"><span class="pre">OwlInterface.axiom_references()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: Thing &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: Thing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/item-list/Thing.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-thing">
+<h1>Class: Thing<a class="headerlink" href="#class-thing" title="Permalink to this heading"></a></h1>
+<p>URI: <a class="reference external" href="http://schema.org/Thing">schema:Thing</a></p>
+<div class="mermaid">
+             classDiagram
+    class Thing
+      Thing : description
+        
+      Thing : identifier
+        
+      Thing : identifiers
+        
+      Thing : name
+        
+      Thing : type
+        
+      Thing : url
+        
+      
+        </div><!-- no inheritance hierarchy -->
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="identifier.html"><span class="std std-doc">identifier</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The identifier of the item</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="name.html"><span class="std std-doc">name</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="url.html"><span class="std std-doc">url</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uri.html"><span class="std std-doc">Uri</span></a></p></td>
+<td><p>A URL for the item</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="identifiers.html"><span class="std std-doc">identifiers</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>A list of identifiers for the item</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="std std-doc">description</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The type of the item</p></td>
+<td><p>direct</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usages">
+<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>used by</p></th>
+<th class="head"><p>used in</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="ListItem.html"><span class="std std-doc">ListItem</span></a></p></td>
+<td><p><a class="reference internal" href="item.html"><span class="std std-doc">item</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="std std-doc">Thing</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>from schema: https://w3id.org/oak/item-list</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>schema:Thing</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>itemList:Thing</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this heading"></a></h3>
+<details>
+```yaml
+name: Thing
+from_schema: https://w3id.org/oak/item-list
+rank: 1000
+attributes:
+  identifier:
+    name: identifier
+    description: The identifier of the item. Note this can be a 'proper' CURIE ID
+      or any other unique field, for example symbol
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    slot_uri: schema:identifier
+    range: uriorcurie
+  name:
+    name: name
+    description: The name of the item
+    from_schema: https://w3id.org/oak/item-list
+    slot_uri: rdfs:label
+    range: string
+  url:
+    name: url
+    description: A URL for the item
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    range: uri
+  identifiers:
+    name: identifiers
+    description: A list of identifiers for the item. For example, if the id is a symbol,
+      this would be a list of identifiers for the item, such as HGNC, MGI, etc.
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    multivalued: true
+    range: uriorcurie
+  description:
+    name: description
+    description: A description of the item
+    from_schema: https://w3id.org/oak/item-list
+    range: string
+  type:
+    name: type
+    description: The type of the item.
+    examples:
+    - value: biolink:Gene
+    - value: schema:Person
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    range: uriorcurie
+class_uri: schema:Thing
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: Thing
+from_schema: https://w3id.org/oak/item-list
+rank: 1000
+attributes:
+  identifier:
+    name: identifier
+    description: The identifier of the item. Note this can be a &#39;proper&#39; CURIE ID
+      or any other unique field, for example symbol
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    slot_uri: schema:identifier
+    alias: identifier
+    owner: Thing
+    domain_of:
+    - Thing
+    range: uriorcurie
+  name:
+    name: name
+    description: The name of the item
+    from_schema: https://w3id.org/oak/item-list
+    slot_uri: rdfs:label
+    alias: name
+    owner: Thing
+    domain_of:
+    - ItemList
+    - Thing
+    range: string
+  url:
+    name: url
+    description: A URL for the item
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    alias: url
+    owner: Thing
+    domain_of:
+    - Thing
+    range: uri
+  identifiers:
+    name: identifiers
+    description: A list of identifiers for the item. For example, if the id is a symbol,
+      this would be a list of identifiers for the item, such as HGNC, MGI, etc.
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    multivalued: true
+    alias: identifiers
+    owner: Thing
+    domain_of:
+    - Thing
+    range: uriorcurie
+  description:
+    name: description
+    description: A description of the item
+    from_schema: https://w3id.org/oak/item-list
+    alias: description
+    owner: Thing
+    domain_of:
+    - ItemList
+    - Thing
+    range: string
+  type:
+    name: type
+    description: The type of the item.
+    examples:
+    - value: biolink:Gene
+    - value: schema:Person
+    from_schema: https://w3id.org/oak/item-list
+    rank: 1000
+    alias: type
+    owner: Thing
+    domain_of:
+    - Thing
+    range: uriorcurie
+class_uri: schema:Thing
+
+</pre></div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -90,6 +90,7 @@
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="n">Association</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.class_enrichment</span> <span class="kn">import</span> <span class="n">ClassEnrichmentResult</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.item_list</span> <span class="kn">import</span> <span class="n">ItemList</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">EQUIVALENT_CLASS</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AssociationProviderInterface</span><span class="p">,</span>
@@ -112,7 +113,8 @@
 
 <div class="viewcode-block" id="ClassEnrichmentCalculationInterface.enriched_classes"><a class="viewcode-back" href="../../../packages/interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes">[docs]</a>    <span class="k">def</span> <span class="nf">enriched_classes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">item_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ItemList</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">object_closure_predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">background</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -137,6 +139,7 @@
 <span class="sd">        ...</span>
 
 <span class="sd">        :param subjects: The set of entities to test for over-representation of classes</span>
+<span class="sd">        :param item_list: An item list objects as an alternate way to specify subjects</span>
 <span class="sd">        :param background: The set of entities to use as a background for the test (recommended)</span>
 <span class="sd">        :param hypotheses: The set of classes to test for over-representation (default is all)</span>
 <span class="sd">        :param cutoff: The threshold to use for p-value</span>
@@ -147,6 +150,14 @@
 <span class="sd">        :param direction: The direction of the test. One of &#39;greater&#39;, &#39;less&#39;, &#39;two-sided&#39;</span>
 <span class="sd">        :return: An iterator over ClassEnrichmentResult objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">subjects</span> <span class="ow">and</span> <span class="n">item_list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of subjects or item_list may be provided&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">subjects</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">item_list</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either subjects or item_list must be provided&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">item_list</span><span class="o">.</span><span class="n">itemListElements</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;item_list must not be empty&quot;</span><span class="p">)</span>
+            <span class="n">subjects</span> <span class="o">=</span> <span class="n">item_list</span><span class="o">.</span><span class="n">itemListElements</span>
         <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
         <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating sample_counts for </span><span class="si">{</span><span class="n">sample_size</span><span class="si">}</span><span class="s2"> subjects&quot;</span><span class="p">)</span>
