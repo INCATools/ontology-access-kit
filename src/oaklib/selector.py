@@ -179,7 +179,7 @@ def get_resource_from_shorthand(
             resource.slug = descriptor
 
         # Prevent the driveletter from being interpreted as scheme on Windows.
-        if ":" in descriptor and not os.path.exists(descriptor):
+        if ":" in descriptor and not Path(descriptor).is_file():
             toks = descriptor.split(":")
             scheme = toks[0]
             resource.scheme = scheme
