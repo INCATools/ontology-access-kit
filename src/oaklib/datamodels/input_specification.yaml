@@ -76,12 +76,34 @@ classes:
         description: >-
           The subject normalizers used in the input specification
 
+  PrefixAlias:
+    description: >-
+      Maps a prefix from the canonical prefix to an alias used in a particular adapter
+    attributes:
+      prefix:
+        range: string
+        description: >-
+          The source prefix
+        key: true
+      alias:
+        range: string
+        description: >-
+          The target prefix
+
   Normalizer:
+    description: >-
+      specification of how identifier fields in an association resource should be normalized
     attributes:
       selector:
         range: string
         description: >-
           The selector of the normalizer
+      prefix_alias_map:
+        range: PrefixAlias
+        multivalued: true
+        inlined: true
+        description: >-
+          The prefix aliases used in the input specification
       source_prefixes:
         range: string
         multivalued: true

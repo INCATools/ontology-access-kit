@@ -72,6 +72,7 @@ from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.utilities.kgcl_utilities import tidy_change_object
+from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
 
@@ -606,6 +607,8 @@ class ProntoImplementation(
     ) -> Iterable[sssom.Mapping]:
         if isinstance(curies, CURIE):
             curies = [curies]
+        elif curies is None:
+            curies = list(self.entities())
         else:
             curies = list(curies)
         # mappings where curie is the subject:
@@ -613,7 +616,7 @@ class ProntoImplementation(
             t = self._entity(curie)
             if t:
                 for x in t.xrefs:
-                    yield sssom.Mapping(
+                    m = sssom.Mapping(
                         subject_id=t.id,
                         predicate_id=SKOS_CLOSE_MATCH,
                         object_id=x.id,
@@ -621,6 +624,10 @@ class ProntoImplementation(
                             SEMAPV.UnspecifiedMatching.value
                         ),
                     )
+                    inject_mapping_sources(m)
+                    if source and m.object_source != source and m.subject_source != source:
+                        continue
+                    yield m
         # mappings where curie is the object:
         # TODO: use a cache to avoid re-calculating
         for e in self.entities():
@@ -628,7 +635,7 @@ class ProntoImplementation(
             if t:
                 for x in t.xrefs:
                     if x.id in curies:
-                        yield sssom.Mapping(
+                        m = sssom.Mapping(
                             subject_id=e,
                             predicate_id=SKOS_CLOSE_MATCH,
                             object_id=x.id,
@@ -636,6 +643,10 @@ class ProntoImplementation(
                                 SEMAPV.UnspecifiedMatching.value
                             ),
                         )
+                        inject_mapping_sources(m)
+                        if source and m.object_source != source and m.subject_source != source:
+                            continue
+                        yield m
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

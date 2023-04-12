@@ -151,9 +151,12 @@ def _get_adapter_from_specification(
                     adapter=get_adapter(n.selector),
                     source_prefixes=n.source_prefixes,
                     target_prefixes=n.target_prefixes,
+                    slots=n.slots,
+                    prefix_alias_map={str(k): str(v.alias) for k, v in n.prefix_alias_map.items()},
                 )
                 for n in r.normalizers
             ]
+            logging.info(f"Normalizers: {normalizers}")
             add_associations(adapter, r.selector, r.format, normalizers)
     return adapter
 
@@ -170,6 +173,7 @@ def add_associations(
     :param adapter:
     :param descriptor:
     :param format:
+    :param normalizers:
     :return:
     """
     # TODO: do more robust windows check

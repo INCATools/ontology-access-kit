@@ -1560,19 +1560,29 @@ class SqlImplementation(
     ) -> Iterator[Mapping]:
         if isinstance(curies, CURIE):
             curies = [curies]
-        else:
+        elif curies is not None:
             curies = list(curies)
         justification = str(SEMAPV.UnspecifiedMatching.value)
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
-        for row in base_query.filter(Statements.subject.in_(curies)):
+        if curies is None:
+            by_subject_query = base_query
+        else:
+            by_subject_query = base_query.filter(Statements.subject.in_(curies))
+        for row in by_subject_query:
             mpg = Mapping(
                 subject_id=row.subject,
                 object_id=row.value if row.value is not None else row.object,
                 predicate_id=row.predicate,
                 mapping_justification=justification,
             )
-            yield inject_mapping_sources(mpg)
+            inject_mapping_sources(mpg)
+            if source and mpg.subject_source != source and mpg.object_source != source:
+                continue
+            yield mpg
+        if curies is None:
+            # all mappings have been returned
+            return
         # xrefs are stored as literals
         for row in base_query.filter(Statements.value.in_(curies)):
             mpg = Mapping(
@@ -1581,7 +1591,10 @@ class SqlImplementation(
                 predicate_id=row.predicate,
                 mapping_justification=justification,
             )
-            yield inject_mapping_sources(mpg)
+            inject_mapping_sources(mpg)
+            if source and mpg.subject_source != source and mpg.object_source != source:
+                continue
+            yield mpg
         # skos mappings are stored as objects
         for row in base_query.filter(Statements.object.in_(curies)):
             mpg = Mapping(
@@ -1590,7 +1603,10 @@ class SqlImplementation(
                 predicate_id=row.predicate,
                 mapping_justification=justification,
             )
-            yield inject_mapping_sources(mpg)
+            inject_mapping_sources(mpg)
+            if source and mpg.subject_source != source and mpg.object_source != source:
+                continue
+            yield mpg
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface

@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
@@ -41,9 +42,11 @@ class TestResource(unittest.TestCase):
         self.assertIsNone(resource.slug)
 
     def test_input_specification(self):
+        os.chdir(INPUT_DIR.parent.parent)
         adapter = get_adapter(str(INPUT_DIR / "example-g2d-input-specification.yaml"))
         if not isinstance(adapter, AssociationProviderInterface):
             raise ValueError("adapter is not an AssociationProviderInterface")
+        # test that normalization of IDs happens
         expected = [("NCBIGene:1131", "MONDO:0007032"), ("NCBIGene:57514", "MONDO:0024506")]
         assocs = []
         for a in adapter.associations():

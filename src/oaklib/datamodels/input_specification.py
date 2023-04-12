@@ -1,5 +1,5 @@
 # Auto generated from input_specification.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-11T12:39:52
+# Generation date: 2023-04-12T10:17:53
 # Schema: inputspec
 #
 # id: https://w3id.org/oaklib/input-specification
@@ -64,6 +64,10 @@ class OntologyResourceId(ResourceId):
 
 
 class AssociationResourceId(ResourceId):
+    pass
+
+
+class PrefixAliasPrefix(extended_str):
     pass
 
 
@@ -198,7 +202,39 @@ class AssociationResource(Resource):
 
 
 @dataclass
+class PrefixAlias(YAMLRoot):
+    """
+    Maps a prefix from the canonical prefix to an alias used in a particular adapter
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ITEMLIST.PrefixAlias
+    class_class_curie: ClassVar[str] = "itemList:PrefixAlias"
+    class_name: ClassVar[str] = "PrefixAlias"
+    class_model_uri: ClassVar[URIRef] = ITEMLIST.PrefixAlias
+
+    prefix: Union[str, PrefixAliasPrefix] = None
+    alias: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.prefix):
+            self.MissingRequiredField("prefix")
+        if not isinstance(self.prefix, PrefixAliasPrefix):
+            self.prefix = PrefixAliasPrefix(self.prefix)
+
+        if self.alias is not None and not isinstance(self.alias, str):
+            self.alias = str(self.alias)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
 class Normalizer(YAMLRoot):
+    """
+    specification of how identifier fields in an association resource should be normalized
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = ITEMLIST.Normalizer
@@ -207,6 +243,12 @@ class Normalizer(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = ITEMLIST.Normalizer
 
     selector: Optional[str] = None
+    prefix_alias_map: Optional[
+        Union[
+            Dict[Union[str, PrefixAliasPrefix], Union[dict, PrefixAlias]],
+            List[Union[dict, PrefixAlias]],
+        ]
+    ] = empty_dict()
     source_prefixes: Optional[Union[str, List[str]]] = empty_list()
     target_prefixes: Optional[Union[str, List[str]]] = empty_list()
     slots: Optional[Union[str, List[str]]] = empty_list()
@@ -214,6 +256,10 @@ class Normalizer(YAMLRoot):
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.selector is not None and not isinstance(self.selector, str):
             self.selector = str(self.selector)
+
+        self._normalize_inlined_as_dict(
+            slot_name="prefix_alias_map", slot_type=PrefixAlias, key_name="prefix", keyed=True
+        )
 
         if not isinstance(self.source_prefixes, list):
             self.source_prefixes = (
@@ -315,6 +361,24 @@ slots.associationResource__normalizers = Slot(
     range=Optional[Union[Union[dict, Normalizer], List[Union[dict, Normalizer]]]],
 )
 
+slots.prefixAlias__prefix = Slot(
+    uri=ITEMLIST.prefix,
+    name="prefixAlias__prefix",
+    curie=ITEMLIST.curie("prefix"),
+    model_uri=ITEMLIST.prefixAlias__prefix,
+    domain=None,
+    range=URIRef,
+)
+
+slots.prefixAlias__alias = Slot(
+    uri=ITEMLIST.alias,
+    name="prefixAlias__alias",
+    curie=ITEMLIST.curie("alias"),
+    model_uri=ITEMLIST.prefixAlias__alias,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.normalizer__selector = Slot(
     uri=ITEMLIST.selector,
     name="normalizer__selector",
@@ -322,6 +386,20 @@ slots.normalizer__selector = Slot(
     model_uri=ITEMLIST.normalizer__selector,
     domain=None,
     range=Optional[str],
+)
+
+slots.normalizer__prefix_alias_map = Slot(
+    uri=ITEMLIST.prefix_alias_map,
+    name="normalizer__prefix_alias_map",
+    curie=ITEMLIST.curie("prefix_alias_map"),
+    model_uri=ITEMLIST.normalizer__prefix_alias_map,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, PrefixAliasPrefix], Union[dict, PrefixAlias]],
+            List[Union[dict, PrefixAlias]],
+        ]
+    ],
 )
 
 slots.normalizer__source_prefixes = Slot(

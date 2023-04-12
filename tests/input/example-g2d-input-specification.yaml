@@ -1,15 +1,15 @@
 ontology_resources:
   mondo:
-    selector: input/mondo-sample-mappings.owl.ttl
+    selector: tests/input/mondo-sample-mappings.owl.ttl
 association_resources:
   medgen:
-    selector: "input/example-g2d.mim2gene.tsv"
+    selector: "tests/input/example-g2d.mim2gene.tsv"
     format: medgen_mim_g2d
     normalizers:
-      - selector: input/mondo-sample-mappings.owl.ttl
+      - selector: tests/input/mondo-sample-mappings.owl.ttl
         source_prefixes:
           - OMIM
         target_prefixes:
           - MONDO
         slots:
-          - subject
+          - object

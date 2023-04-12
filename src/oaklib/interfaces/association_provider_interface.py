@@ -44,6 +44,10 @@ def associations_objects(associations: Iterable[Association]) -> Iterator[CURIE]
 
 @dataclass
 class EntityNormalizer:
+    """
+    Describes how identifier fields should be normalized
+    """
+
     adapter: MappingProviderInterface
 
     query_time: bool = field(default=False)
@@ -51,6 +55,8 @@ class EntityNormalizer:
 
     source_prefixes: List[str] = field(default_factory=list)
     target_prefixes: List[str] = field(default_factory=list)
+
+    prefix_alias_map: Dict[str, str] = field(default_factory=dict)
 
     slots: List[str] = field(default_factory=list)
 
@@ -129,10 +135,13 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         if not normalizers and self.normalizers:
             normalizers = self.normalizers
         if normalizers:
-            associations = [self.normalize_association(a, normalizers) for a in associations]
+            associations = list(associations)
+            associations = self.normalize_associations(associations, normalizers)
         if self._association_index is None:
+            logging.info("Creating association index")
             self._association_index = AssociationIndex()
             self._association_index.create()
+        logging.info("Populating associations to index")
         self._association_index.populate(associations)
         return True
 
@@ -254,8 +263,45 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         :param normalizers:
         :return:
         """
-        for association in associations:
-            yield self.normalize_association(association, normalizers=normalizers)
+        if not normalizers:
+            return associations
+        associations = list(associations)
+        subject_ids = set([association.subject for association in associations])
+        object_ids = set([association.object for association in associations])
+        for normalizer in normalizers:
+            if not normalizer.slots or "subject" in normalizer.slots:
+                logging.info(f"Creating subject normalization map for {len(subject_ids)}")
+                subject_nmap = normalizer.adapter.create_normalization_map(
+                    subject_ids,
+                    source_prefixes=normalizer.source_prefixes,
+                    target_prefixes=normalizer.target_prefixes,
+                    prefix_alias_map=normalizer.prefix_alias_map,
+                )
+                logging.info(f"Created subject normalization => {len(subject_nmap)}")
+            else:
+                subject_nmap = {}
+            if not normalizer.slots or "object" in normalizer.slots:
+                logging.info(f"Creating object normalization map for {len(object_ids)}")
+                object_nmap = normalizer.adapter.create_normalization_map(
+                    object_ids,
+                    source_prefixes=normalizer.source_prefixes,
+                    target_prefixes=normalizer.target_prefixes,
+                )
+            else:
+                object_nmap = {}
+            if subject_nmap or object_nmap:
+                logging.info(
+                    f"Normalizing associations using s: {len(subject_nmap)} o: {len(object_nmap)}"
+                )
+                for association in associations:
+                    if association.subject in subject_nmap:
+                        association.original_subject = association.subject
+                        association.subject = subject_nmap[association.subject]
+                    if association.object in object_nmap:
+                        association.original_object = association.object
+                        association.object = object_nmap[association.object]
+        logging.info(f"Yielding {len(associations)} associations")
+        yield from associations
 
     def normalize_association(
         self,
@@ -263,7 +309,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         normalizers: Optional[List[EntityNormalizer]] = None,
     ) -> Association:
         """
-        Normalize an association.
+        Normalize identifiers in an association.
 
         :param association:
         :param normalizers:

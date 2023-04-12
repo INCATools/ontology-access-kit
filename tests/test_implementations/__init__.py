@@ -444,6 +444,40 @@ class ComplianceTester:
         :return:
         """
         test = self.test
+        # test retrieval of mapping dict
+        nm = oi.create_normalization_map(
+            oi.entities(), source_prefixes=["GO"], target_prefixes=["Wikipedia"]
+        )
+        test.assertGreater(len(nm), 0)
+        test.assertEqual("Wikipedia:Cell_nucleus", nm[NUCLEUS])
+        test.assertEqual("Wikipedia:Vacuole", nm[VACUOLE])
+        test.assertTrue(
+            all([k.startswith("GO") and v.startswith("Wikipedia:") for k, v in nm.items()])
+        )
+        # test case normalization
+        nm = oi.create_normalization_map(
+            oi.entities(), source_prefixes=["GO"], target_prefixes=["WIKIPEDIA"]
+        )
+        test.assertGreater(len(nm), 0)
+        test.assertEqual("WIKIPEDIA:Cell_nucleus", nm[NUCLEUS])
+        test.assertEqual("WIKIPEDIA:Vacuole", nm[VACUOLE])
+        test.assertTrue(
+            all([k.startswith("GO") and v.startswith("WIKIPEDIA:") for k, v in nm.items()])
+        )
+        # test case normalization, where the source is lower case
+        entities_lc = [x.lower() for x in oi.entities()]
+        nm = oi.create_normalization_map(
+            entities_lc,
+            source_prefixes=["GO"],
+            target_prefixes=["WIKIPEDIA"],
+            prefix_alias_map={"Wikipedia": "WIKIPEDIA", "GO": "go"},
+        )
+        test.assertGreater(len(nm), 0, "expected case conversion to work")
+        test.assertEqual("WIKIPEDIA:Cell_nucleus", nm[NUCLEUS.lower()])
+        test.assertEqual("WIKIPEDIA:Vacuole", nm[VACUOLE.lower()])
+        test.assertTrue(
+            all([k.startswith("go") and v.startswith("WIKIPEDIA:") for k, v in nm.items()])
+        )
         cases = [
             (NUCLEUS, ["Wikipedia:Cell_nucleus", "NIF_Subcellular:sao1702920020"]),
             (VACUOLE, ["Wikipedia:Vacuole"]),
@@ -455,6 +489,16 @@ class ComplianceTester:
                 prefix = m.split(":")[0]
                 normalized_id = oi.normalize(curie, target_prefixes=[prefix])
                 test.assertEqual(m, normalized_id)
+                m_upper = m.replace("Wikipedia", "WIKIPEDIA").replace(
+                    "NIF_Subcellular", "NIF_SUBCELLULAR"
+                )
+                test.assertEqual(m_upper, oi.normalize(curie, target_prefixes=[prefix.upper()]))
+                test.assertEqual(
+                    m_upper,
+                    oi.normalize(
+                        curie.lower(), target_prefixes=[prefix.upper()], source_prefixes=["GO"]
+                    ),
+                )
             mappings = list(oi.sssom_mappings(curie))
             mapping_objects = [m.object_id for m in mappings]
             test.assertCountEqual(
@@ -469,9 +513,18 @@ class ComplianceTester:
                 f"expected simple mappings({curie}) = {expected_mappings} got {mapping_objects}",
             )
             for m in mappings:
-                reverse_mappings = list(oi.get_sssom_mappings_by_curie(m.object_id))
+                reverse_mappings = list(oi.sssom_mappings(m.object_id))
                 reverse_subject_ids = [m.subject_id for m in reverse_mappings]
                 test.assertIn(curie, reverse_subject_ids)
+            prefixes = [x.split(":")[0] for x in expected_mappings]
+            for prefix in prefixes:
+                mappings = list(oi.sssom_mappings(curie, source=prefix))
+                expected_with_prefix = [x for x in expected_mappings if x.startswith(prefix)]
+                test.assertCountEqual(
+                    expected_with_prefix,
+                    [m.object_id for m in mappings],
+                    f"expected mappings({curie})[{prefix}]",
+                )
 
     def test_relationships(self, oi: BasicOntologyInterface, ignore_annotation_edges=False):
         """

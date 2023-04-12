@@ -49,7 +49,10 @@ from oaklib.interfaces.rdf_interface import RDF_TRIPLE, TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.utilities.basic_utils import pairs_as_dict
-from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
+from oaklib.utilities.mapping.sssom_utils import (
+    create_sssom_mapping,
+    inject_mapping_sources,
+)
 from oaklib.utilities.rate_limiter import check_limit
 
 VAL_VAR = "v"
@@ -798,6 +801,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
+                inject_mapping_sources(m)
                 yield m
         # input curie is object
         query = SparqlQuery(
@@ -824,6 +828,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
+                inject_mapping_sources(m)
                 yield m
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
