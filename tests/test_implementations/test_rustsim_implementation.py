@@ -10,7 +10,8 @@ from oaklib.selector import get_adapter
 from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
 from tests.test_implementations import ComplianceTester
 
-DB = INPUT_DIR.joinpath("go-nucleus.db")
+DB = INPUT_DIR / "go-nucleus.db"
+# DB = "../input/go-nucleus.db"
 
 
 class TestRustSimImplementation(unittest.TestCase):
