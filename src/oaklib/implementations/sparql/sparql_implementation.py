@@ -8,6 +8,9 @@ from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
 )
 from oaklib.interfaces import TextAnnotatorInterface
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+)
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeConfiguration, MergeInterface
@@ -22,6 +25,7 @@ from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterfac
 @dataclass
 class SparqlImplementation(
     AbstractSparqlImplementation,
+    AssociationProviderInterface,
     RdfInterface,
     DifferInterface,
     SearchInterface,

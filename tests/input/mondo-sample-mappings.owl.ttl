@@ -1,0 +1,193 @@
+@prefix : <http://purl.obolibrary.org/obo/TEMP#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://purl.obolibrary.org/obo/TEMP> .
+
+<http://purl.obolibrary.org/obo/TEMP> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.obolibrary.org/obo/IAO_0000115
+<http://purl.obolibrary.org/obo/IAO_0000115> rdf:type owl:AnnotationProperty ;
+                                             rdfs:label "definition" .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym
+<http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym> rdf:type owl:AnnotationProperty ;
+                                                               rdfs:label "has_broad_synonym" .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasDbXref
+<http://www.geneontology.org/formats/oboInOwl#hasDbXref> rdf:type owl:AnnotationProperty ;
+                                                         rdfs:label "database_cross_reference" .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasExactSynonym
+<http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> rdf:type owl:AnnotationProperty ;
+                                                               rdfs:label "has_exact_synonym" .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym
+<http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> rdf:type owl:AnnotationProperty ;
+                                                                 rdfs:label "has_related_synonym" .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#id
+<http://www.geneontology.org/formats/oboInOwl#id> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#inSubset
+<http://www.geneontology.org/formats/oboInOwl#inSubset> rdf:type owl:AnnotationProperty ;
+                                                        rdfs:label "in_subset" .
+
+
+###  http://www.w3.org/2000/01/rdf-schema#label
+rdfs:label rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.obolibrary.org/obo/MONDO_0007030
+<http://purl.obolibrary.org/obo/MONDO_0007030> rdf:type owl:Class ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "DOID:0111825" ,
+                                                                                                        "MESH:C535331" ,
+                                                                                                        "OMIM:100050" ,
+                                                                                                        "Orphanet:915" ,
+                                                                                                        "SCTID:14921002" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "Aarskog syndrome" ,
+                                                                                                                "Aarskog syndrome, autosomal dominant" ,
+                                                                                                                "Aarskog-Scott syndrome" ,
+                                                                                                                "faciogenital dysplasia" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "MONDO:0007030" ;
+                                               rdfs:label "autosomal dominant Aarskog syndrome" .
+
+
+###  http://purl.obolibrary.org/obo/MONDO_0007032
+<http://purl.obolibrary.org/obo/MONDO_0007032> rdf:type owl:Class ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Prune belly syndrome is a rare congenital disorder, belonging to the group of fetal lower urinary tract obstructions (LUTO), involving variable dilation of the lower urinary tract in association with partial or complete absence of the lateral and inferior abdominal wall musculature and in males bilateral non-palpable undescended testes." ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "DOID:0060889" ,
+                                                                                                        "GARD:0007479" ,
+                                                                                                        "ICD9:756.71" ,
+                                                                                                        "MESH:C536477" ,
+                                                                                                        "MESH:D011535" ,
+                                                                                                        "MedDRA:10051025" ,
+                                                                                                        "NCIT:C85033" ,
+                                                                                                        "OMIM:100100" ,
+                                                                                                        "Orphanet:2970" ,
+                                                                                                        "SCTID:5187006" ,
+                                                                                                        "UMLS:C0033770" ,
+                                                                                                        "UMLS:C0265363" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "Obrinsky syndrome" ,
+                                                                                                              "Obrisnksy syndrome" ,
+                                                                                                              "abdominal muscle deficiency syndrome" ,
+                                                                                                              "eagle-Barret syndrome" ,
+                                                                                                              "prune belly syndrome" ,
+                                                                                                              "syndrome of agenesis of abdominal muscles" ,
+                                                                                                              "triad syndrome" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "PBS" ,
+                                                                                                                "abdominal muscles, absence of, with urinary tract Abnormality and cryptorchidism" ,
+                                                                                                                "eagle-Barrett syndrome" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "MONDO:0007032" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#inSubset> :ordo_malformation_syndrome ;
+                                               rdfs:label "prune belly syndrome" .
+
+
+###  http://purl.obolibrary.org/obo/MONDO_0007033
+<http://purl.obolibrary.org/obo/MONDO_0007033> rdf:type owl:Class ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Paralysis of the abducens nerve." ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym> "VIth nerve disorder" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "DOID:10865" ,
+                                                                                                        "GARD:0009482" ,
+                                                                                                        "ICD9:378.54" ,
+                                                                                                        "NCIT:C27592" ,
+                                                                                                        "OMIM:100200" ,
+                                                                                                        "SCTID:398963001" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "VIth nerve paralysis" ,
+                                                                                                              "abducens nerve cranial nerve palsy" ,
+                                                                                                              "abducens nerve weakness" ,
+                                                                                                              "abducent nerve paralysis" ,
+                                                                                                              "cranial nerve palsy of abducens nerve" ,
+                                                                                                              "disorder of abducent nerve" ,
+                                                                                                              "lateral rectus muscle denervation paresis" ,
+                                                                                                              "lateral rectus muscle innervation disorder" ,
+                                                                                                              "sixth cranial nerve disorder" ,
+                                                                                                              "sixth nerve palsy" ,
+                                                                                                              "sixth nerve paralysis" ,
+                                                                                                              "sixth or abducens nerve palsy" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "6th nerve palsy" ,
+                                                                                                                "VI nerve palsy" ,
+                                                                                                                "abducens nerve disease" ,
+                                                                                                                "abducens palsy" ,
+                                                                                                                "cranial mononeuropathy VI" ,
+                                                                                                                "cranial nerve VI palsy" ,
+                                                                                                                "sixth cranial nerve palsy" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "MONDO:0007033" ;
+                                               rdfs:label "abducens nerve palsy" .
+
+
+###  http://purl.obolibrary.org/obo/MONDO_0007036
+<http://purl.obolibrary.org/obo/MONDO_0007036> rdf:type owl:Class ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "A rare genetic syndrome featuring connective tissue abnormalities. Clinical signs include brachycephaly, arachnodactyly, receding mandible and joint laxity at the hands and feet." ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "DOID:6686" ,
+                                                                                                        "GARD:0008176" ,
+                                                                                                        "MESH:C536012" ,
+                                                                                                        "NCIT:C35809" ,
+                                                                                                        "OMIM:100700" ,
+                                                                                                        "UMLS:C1332135" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "Achard syndrome" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "arachnodactyly, receding lower jaw and joint laxity of hands/feet" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "MONDO:0007036" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#inSubset> :gard_rare ;
+                                               rdfs:label "Achard syndrome" .
+
+
+###  http://purl.obolibrary.org/obo/MONDO_0024506
+<http://purl.obolibrary.org/obo/MONDO_0024506> rdf:type owl:Class ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Any Adams-Oliver syndrome in which the cause of the disease is a mutation in the ARHGAP31 gene." ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "OMIM:100300" ,
+                                                                                                        "UMLS:CN028867" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "AOS1" ,
+                                                                                                              "ARHGAP31 Adams-Oliver syndrome" ,
+                                                                                                              "Adams-Oliver syndrome 1" ,
+                                                                                                              "Adams-Oliver syndrome caused by mutation in ARHGAP31" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "AOS" ,
+                                                                                                                "absence defect of limbs, scalp, and skull" ,
+                                                                                                                "aplasia cutis congenita with terminal transverse limb defects" ,
+                                                                                                                "aplasia cutis congenita, congenital heart defect, and frontonasal cysts" ,
+                                                                                                                "congenital scalp defects with distal limb reduction anomalies" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "MONDO:0024506" ;
+                                               rdfs:label "Adams-Oliver syndrome 1" .
+
+
+###  http://purl.obolibrary.org/obo/MONDO_0024521
+<http://purl.obolibrary.org/obo/MONDO_0024521> rdf:type owl:Class ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "OMIM:100070" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "AAA1" ,
+                                                                                                              "aortic aneurysm, familial abdominal 1" ,
+                                                                                                              "aortic aneurysm, familial abdominal, 1" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "abdominal aortic aneurysm" ,
+                                                                                                                "aneurysm, abdominal aortic" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "MONDO:0024521" ;
+                                               rdfs:label "aortic aneurysm, familial abdominal, 1" .
+
+
+###  http://purl.obolibrary.org/obo/MONDO_0043003
+<http://purl.obolibrary.org/obo/MONDO_0043003> rdf:type owl:Class ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "An instance of acanthosis nigricans (disease) that is caused by an inherited modification of the individual's genome." ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "MESH:C531598" ,
+                                                                                                        "OMIM:100600" ,
+                                                                                                        "UMLS:C2930792" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "hereditary acanthosis nigricans (disease)" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "acanthosis nigricans" ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "MONDO:0043003" ;
+                                               rdfs:label "familial acanthosis nigricans" .
+
+
+###  Generated by the OWL API (version 4.5.25) https://github.com/owlcs/owlapi
