@@ -46,7 +46,7 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -56,7 +56,7 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 <details>
 ```yaml
 name: dice_similarity
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: score
 alias: dice_similarity

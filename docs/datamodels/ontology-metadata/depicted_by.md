@@ -27,6 +27,8 @@ URI: [foaf:depicted_by](http://xmlns.com/foaf/0.1/depicted_by)
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
 [NamedIndividual](NamedIndividual.md) | An instance that has a IRI
 [HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
 [Subset](Subset.md) | A collection of terms grouped for some purpose
 
 
@@ -36,7 +38,7 @@ URI: [foaf:depicted_by](http://xmlns.com/foaf/0.1/depicted_by)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [Image](Image.md)
 * Multivalued: True
 
 
@@ -75,7 +77,7 @@ multivalued: true
 alias: depicted_by
 domain_of:
 - HasUserInformation
-range: string
+range: Image
 
 ```
 </details>

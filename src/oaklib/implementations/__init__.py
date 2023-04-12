@@ -5,6 +5,9 @@ from functools import cache
 
 from class_resolver import ClassResolver
 
+from oaklib.implementations.aggregator.aggregator_implementation import (
+    AggregatorImplementation,
+)
 from oaklib.implementations.cx.cx_implementation import CXImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
@@ -55,6 +58,7 @@ from oaklib.interfaces import OntologyInterface
 __all__ = [
     "get_implementation_resolver",
     # Concrete classes
+    "AggregatorImplementation",
     "AgroPortalImplementation",
     "BioPortalImplementation",
     "CXImplementation",

@@ -5,11 +5,11 @@ test:
 
 # not yet deployed
 doctest:
-	find src docs -type f \( -name "*.rst" -o -name "*.md" -o -name "*.py" \) -print0 | xargs -0 $(RUN) python -m doctest
+	find src docs -type f \( -name "*.rst" -o -name "*.md" -o -name "*.py" \) -print0 | xargs -0 $(RUN) python -m doctest --option ELLIPSIS --option NORMALIZE_WHITESPACE
 
 ## Compiled
 
-MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff association class_enrichment value_set_configuration fhir mapping_cluster_datamodel cx
+MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff association class_enrichment value_set_configuration fhir mapping_cluster_datamodel cx item_list input_specification
 
 pyclasses: $(patsubst %, src/oaklib/datamodels/%.py, $(MODELS))
 jsonschema: $(patsubst %, src/oaklib/datamodels/%.schema.json, $(MODELS))
@@ -24,7 +24,7 @@ src/oaklib/datamodels/%.owl.ttl: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-owl --no-metaclasses --no-type-objects $< > $@.tmp && mv $@.tmp $@
 
 RUN_GENDOC = $(RUN) gen-doc --dialect myst
-gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc
+gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc gendoc-itemlist
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/ontology-metadata/
@@ -50,6 +50,8 @@ gendoc-assoc: src/oaklib/datamodels/association.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/association
 gendoc-tc: src/oaklib/datamodels/taxon_constraints.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/taxon-constraints
+gendoc-itemlist: src/oaklib/datamodels/item_list.yaml
+	$(RUN_GENDOC)  $< -d docs/datamodels/item-list
 
 nb:
 	$(RUN) jupyter notebook

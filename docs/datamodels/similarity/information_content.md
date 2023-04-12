@@ -47,7 +47,7 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -58,7 +58,7 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
 ```yaml
 name: information_content
 description: The IC is the negative log of the probability of the concept
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 aliases:
 - IC
 rank: 1000

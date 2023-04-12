@@ -45,15 +45,16 @@ from oaklib.datamodels.vocabulary import (
     TERMS_MERGED,
 )
 from oaklib.interfaces import TextAnnotatorInterface
-from oaklib.interfaces.association_provider_interface import (
-    AssociationProviderInterface,
-)
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    LANGUAGE_TAG,
     METADATA_MAP,
     PRED_CURIE,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
+)
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
@@ -93,7 +94,8 @@ class ProntoImplementation(
     MappingProviderInterface,
     PatcherInterface,
     DifferInterface,
-    AssociationProviderInterface,
+    # AssociationProviderInterface,
+    ClassEnrichmentCalculationInterface,
     SemanticSimilarityInterface,
     TextAnnotatorInterface,
     SummaryStatisticsInterface,
@@ -362,7 +364,7 @@ class ProntoImplementation(
             if subset in t.subsets:
                 yield t.id
 
-    def label(self, curie: CURIE) -> str:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> str:
         t = self._entity(curie)
         if t:
             return t.name
@@ -372,7 +374,7 @@ class ProntoImplementation(
             else:
                 return None
 
-    def set_label(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str, lang: Optional[LANGUAGE_TAG] = None) -> bool:
         t = self._entity(curie)
         if t:
             curr = t.name
@@ -471,7 +473,7 @@ class ProntoImplementation(
             t.relationships[predicate_term].remove(filler_term)
         self._clear_relationship_index()
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         e = self._entity(curie)
         return e.definition if e else None
 
@@ -835,6 +837,10 @@ class ProntoImplementation(
             for syn in t.synonyms:
                 if syn.description == patch.old_value:
                     syn.description = patch.new_value
+        elif isinstance(patch, kgcl.NewTextDefinition):
+            t = self._entity(patch.about_node, strict=True)
+            xrefs = t.definition.xrefs if t.definition else []
+            t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._entity(patch.about_node, strict=True)
             xrefs = t.definition.xrefs if t.definition else []

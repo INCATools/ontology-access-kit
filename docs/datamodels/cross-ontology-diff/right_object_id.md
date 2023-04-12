@@ -2,7 +2,7 @@
 _The object (parent) of the matched/right edge, if matchable_
 
 
-URI: [ann:right_object_id](https://w3id.org/linkml/text_annotator/right_object_id)
+URI: [xodiff:right_object_id](https://w3id.org/oak/cross-ontology-diff/right_object_id)
 
 
 
@@ -47,7 +47,7 @@ URI: [ann:right_object_id](https://w3id.org/linkml/text_annotator/right_object_i
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -58,7 +58,7 @@ URI: [ann:right_object_id](https://w3id.org/linkml/text_annotator/right_object_i
 ```yaml
 name: right_object_id
 description: The object (parent) of the matched/right edge, if matchable
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixins:
 - right_side

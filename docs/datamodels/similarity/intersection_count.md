@@ -37,7 +37,7 @@ URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_co
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -47,7 +47,7 @@ URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_co
 <details>
 ```yaml
 name: intersection_count
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: score
 alias: intersection_count

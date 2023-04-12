@@ -1,6 +1,8 @@
 # Slot: edges
+_All edges present in a graph._
 
-URI: [og:edges](https://github.com/geneontology/obographs/edges)
+
+URI: [obographs:edges](https://github.com/geneontology/obographs/edges)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:edges](https://github.com/geneontology/obographs/edges)
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
 
 
 
@@ -31,6 +33,10 @@ URI: [og:edges](https://github.com/geneontology/obographs/edges)
 
 
 
+
+## Comments
+
+* Note that this only includes core edges, formed by translating (a) SubClassOf between named classes (b) SubPropertyOf (c) SubClassOf between a named class and a simple existential axiom (d) ObjectPropertyAssertions
 
 ## Identifier and Mapping Information
 
@@ -53,6 +59,11 @@ URI: [og:edges](https://github.com/geneontology/obographs/edges)
 <details>
 ```yaml
 name: edges
+description: All edges present in a graph.
+comments:
+- Note that this only includes core edges, formed by translating (a) SubClassOf between
+  named classes (b) SubPropertyOf (c) SubClassOf between a named class and a simple
+  existential axiom (d) ObjectPropertyAssertions
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

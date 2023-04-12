@@ -1,12 +1,23 @@
+import gzip
+import io
 import logging
 import os
 from pathlib import Path
-from typing import Optional, Type
+from typing import Optional, Type, Union
+
+import requests
+from deprecation import deprecated
+from linkml_runtime.loaders import yaml_loader
 
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
+from oaklib.datamodels.input_specification import InputSpecification
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces import OntologyInterface
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+)
+from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
 
 RDF_SUFFIX_TO_FORMAT = {
@@ -20,7 +31,21 @@ RDF_SUFFIX_TO_FORMAT = {
 }
 
 
-def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
+ASSOCIATION_REGISTRY = {
+    "hpoa": ([], "hpoa", "http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa", False),
+    "hpoa_g2p": (
+        [],
+        "hpoa_g2p",
+        "http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt",
+        False,
+    ),
+    "gaf": (["group"], "gaf", "http://current.geneontology.org/annotations/{group}.gaf.gz", True),
+}
+
+
+def get_adapter(
+    descriptor: Union[str, Path, InputSpecification], format: str = None
+) -> BasicOntologyInterface:
     """
     Gets an adapter (implementation) for a given descriptor.
 
@@ -71,10 +96,109 @@ def get_adapter(descriptor: str, format: str = None) -> BasicOntologyInterface:
     :param format:
     :return:
     """
+    if isinstance(descriptor, InputSpecification):
+        return _get_adapter_from_specification(descriptor)
+    if isinstance(descriptor, Path):
+        descriptor = str(descriptor)
+    if descriptor.endswith(".yaml"):
+        input_specification = yaml_loader.load(open(descriptor), InputSpecification)
+        return get_adapter(input_specification)
     res = get_resource_from_shorthand(descriptor, format)
     return res.implementation_class(res)
 
 
+def _get_adapter_from_specification(
+    input_specification: InputSpecification,
+) -> BasicOntologyInterface:
+    """
+    Gets an adapter (implementation) for a given input specification.
+
+    :param input_specification:
+    :return:
+    """
+    if not input_specification.ontology_resources:
+        raise ValueError("No ontology resources specified")
+    if len(input_specification.ontology_resources) == 1:
+        r = list(input_specification.ontology_resources.values())[0]
+        adapter = get_adapter(r.selector)
+    else:
+        from oaklib.implementations import AggregatorImplementation
+
+        adapter = AggregatorImplementation(
+            implementations=[
+                get_adapter(r.selector) for r in input_specification.ontology_resources.values()
+            ]
+        )
+    if input_specification.association_resources:
+        if not isinstance(adapter, AssociationProviderInterface):
+            raise ValueError(f"Adapter {adapter} does not support associations")
+        for r in input_specification.association_resources.values():
+            add_associations(adapter, r.selector, r.format)
+    return adapter
+
+
+def add_associations(
+    adapter: AssociationProviderInterface, descriptor: str, format: str = None
+) -> None:
+    """
+    Adds associations to an adapter.
+
+    :param adapter:
+    :param descriptor:
+    :param format:
+    :return:
+    """
+    # TODO: do more robust windows check
+    if ":" in descriptor and not descriptor.startswith("file:") and not descriptor[1] == ":":
+        scheme, path = descriptor.split(":", 1)
+        if scheme not in ASSOCIATION_REGISTRY:
+            raise ValueError(f"Unknown association scheme: {scheme}")
+        entry = ASSOCIATION_REGISTRY[scheme]
+        params, format, url_template, compressed = entry
+        if params:
+            param_vals = dict(zip(params, path.split("//")))
+        else:
+            param_vals = {}
+        url = url_template.format(**param_vals)
+        # TODO: add option to cache using pystow
+        if compressed:
+            file = file_from_gzip_url(url)
+        else:
+            file = file_from_url(url)
+        association_parser = get_association_parser(format)
+        logging.info(f"Adding associations from {path}")
+        assocs = association_parser.parse(file)
+        adapter.add_associations(assocs)
+        return
+    if not format:
+        format = descriptor.split(".")[-1]
+    association_parser = get_association_parser(format)
+    path = descriptor
+    with open(path) as file:
+        logging.info(f"Adding associations from {path}")
+        assocs = association_parser.parse(file)
+        adapter.add_associations(assocs)
+
+
+def file_from_gzip_url(url, is_compressed=False):
+    with requests.get(url, stream=True) as response:
+        response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
+        # Wrap the response's raw stream in a binary file-like object
+        binary_file_like_object = io.BytesIO(response.raw.read())
+
+        # Uncompress the gzipped binary file-like object using gzip
+        return gzip.open(binary_file_like_object, "rt")
+
+
+def file_from_url(url):
+    response = requests.get(url)
+    response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
+    # Create a file-like object using the response content
+    file_like_object = io.StringIO(response.text)
+    return file_like_object
+
+
+@deprecated("Use get_adapter instead")
 def get_implementation_from_shorthand(
     descriptor: str, format: str = None
 ) -> BasicOntologyInterface:
@@ -162,57 +286,58 @@ def get_resource_from_shorthand(
     resource.import_depth = import_depth
     resource.slug = descriptor
     impl_class: Optional[Type[OntologyInterface]] = None
-    if descriptor:
-        # Pre-processing
-        if descriptor.startswith("datamodel:"):
-            # introspect the internal OAK datamodel.
-            # the oak data models are intended for programmatic use, but the documentation
-            # is also exposed as a pseudo-ontology by default.
-            # this allows us to do things such as use the OAK CLI to find all classes
-            # or fields in a data model, see their hierarchy, etc
-            # this is currently an advanced/experimental feature, if useful
-            # it should be exposed in user-facing sphinx docs.
-            descriptor = descriptor.replace("datamodel:", "")
-            dm_path = Path(datamodels_package.__file__)
-            descriptor = f"{dm_path/descriptor}.owl.ttl"
-            logging.info(f"Introspecting datamodel from {descriptor}")
-            resource.slug = descriptor
 
-        # Prevent the driveletter from being interpreted as scheme on Windows.
-        if ":" in descriptor and not Path(descriptor).is_file():
-            toks = descriptor.split(":")
-            scheme = toks[0]
-            resource.scheme = scheme
-            rest = ":".join(toks[1:])
-            if not rest:
-                rest = None
+    if not descriptor:
+        raise ValueError("No descriptor provided")
+    # Pre-processing
+    if descriptor.startswith("datamodel:"):
+        # introspect the internal OAK datamodel.
+        # the oak data models are intended for programmatic use, but the documentation
+        # is also exposed as a pseudo-ontology by default.
+        # this allows us to do things such as use the OAK CLI to find all classes
+        # or fields in a data model, see their hierarchy, etc
+        # this is currently an advanced/experimental feature, if useful
+        # it should be exposed in user-facing sphinx docs.
+        descriptor = descriptor.replace("datamodel:", "")
+        dm_path = os.path.dirname(datamodels_package.__file__)
+        descriptor = f"{Path(dm_path)/descriptor}.owl.ttl"
+        logging.info(f"Introspecting datamodel from {descriptor}")
+        resource.slug = descriptor
+
+    # Prevent the driveletter from being interpreted as scheme on Windows.
+    if ":" in descriptor and not os.path.exists(descriptor):
+        toks = descriptor.split(":")
+        scheme = toks[0]
+        resource.scheme = scheme
+        rest = ":".join(toks[1:])
+        if not rest:
+            rest = None
+        resource.slug = rest
+        # Get impl_class based on scheme.
+        impl_class = get_implementation_class_from_scheme(scheme)
+
+        if impl_class == LovImplementation:
+            logging.warning("lov scheme may become plugin in future")
+        elif impl_class == SparqlImplementation:
+            resource.url = rest
+            resource.slug = None
+        elif impl_class == ProntoImplementation:
+            if resource.slug and resource.slug.endswith(".obo"):
+                resource.format = "obo"
+            if scheme == "prontolib":
+                resource.local = False
+            else:
+                resource.local = True
+
             resource.slug = rest
-            # Get impl_class based on scheme.
-            impl_class = get_implementation_class_from_scheme(scheme)
-
-            if impl_class == LovImplementation:
-                logging.warning("lov scheme may become plugin in future")
-            elif impl_class == SparqlImplementation:
-                resource.url = rest
-                resource.slug = None
-            elif impl_class == ProntoImplementation:
-                if resource.slug and resource.slug.endswith(".obo"):
-                    resource.format = "obo"
-                if scheme == "prontolib":
-                    resource.local = False
-                else:
-                    resource.local = True
-                resource.slug = rest
-            elif not impl_class:
-                raise ValueError(f"Scheme {scheme} not known")
-        else:
-            logging.info(f"No schema: assuming file path {descriptor}")
-            suffix = descriptor.split(".")[-1]
-            impl_class, resource = get_resource_imp_class_from_suffix_descriptor(
-                suffix, resource, descriptor
-            )
+        elif not impl_class:
+            raise ValueError(f"Scheme {scheme} not known")
     else:
-        raise ValueError("No descriptor")
+        logging.info(f"No schema: assuming file path {descriptor}")
+        suffix = descriptor.split(".")[-1]
+        impl_class, resource = get_resource_imp_class_from_suffix_descriptor(
+            suffix, resource, descriptor
+        )
 
     resource.implementation_class = impl_class
     return resource

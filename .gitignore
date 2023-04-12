@@ -25,3 +25,4 @@ notebooks/api-key.txt
 .coverage.*
 .coverage
 coverage.*
+tests/input/fhirjson_conf.json

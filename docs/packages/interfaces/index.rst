@@ -35,13 +35,14 @@ The most common operations are found in the :ref:`basic_ontology_interface`
    mapping-provider
    obograph
    text-annotator
-   owl
    summary-statistics
    differ
    patcher
    semantic-similarity
+   association-provider
    class-enrichment
-   
+   owl
+
 .. note::
 
     Some interfaces may not be "pure" interfaces is that they may provide

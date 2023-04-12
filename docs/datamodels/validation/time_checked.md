@@ -22,7 +22,7 @@ URI: [vm:time_checked](https://w3id.org/linkml/validation-model/time_checked)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

@@ -1,3 +1,4 @@
+import logging
 from abc import ABC
 from collections import defaultdict
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
@@ -61,6 +62,16 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         """
         Yield all matching associations.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+        >>> genes = ["PomBase:SPAC1142.02c", "PomBase:SPAC3H1.05", "PomBase:SPAC1142.06", "PomBase:SPAC4G8.02c"]
+        >>> for assoc in adapter.associations(genes):
+        ...    print(f"{assoc.object} {adapter.label(assoc.object)}")
+        <BLANKLINE>
+        ...
+        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane
+        ...
+
         :param subjects: constrain to these subjects (e.g. genes in a gene association)
         :param predicates: constrain to these predicates (e.g. involved-in for a gene to pathway association)
         :param objects: constrain to these objects (e.g. terms)
@@ -81,6 +92,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             else:
                 raise NotImplementedError
         ix = self._association_index
+        if ix is None:
+            logging.warning("No association index")
+            return
         for a in ix.lookup(subjects, predicates, objects):
             yield a
 
@@ -159,6 +173,21 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
     ) -> Iterator[Association]:
+        """
+        Maps matching associations to a subset (map2slim, rollup).
+
+        :param subjects:
+        :param predicates:
+        :param objects:
+        :param subset:
+        :param subset_entities:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :return:
+        """
         # Default implementation: this may be overridden for efficiency
         if subset is None and subset_entities is None:
             raise ValueError("Must pass ONE OF subset OR subset_entities")

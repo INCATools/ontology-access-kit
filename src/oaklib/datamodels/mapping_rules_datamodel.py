@@ -1,5 +1,5 @@
 # Auto generated from mapping_rules_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-27T09:56:28
+# Generation date: 2023-04-09T14:06:46
 # Schema: mapping-rules-datamodel
 #
 # id: https://w3id.org/oak/mapping-rules-datamodel
@@ -163,6 +163,7 @@ class Precondition(YAMLRoot):
     subject_match_field_one_of: Optional[Union[str, List[str]]] = empty_list()
     object_match_field_one_of: Optional[Union[str, List[str]]] = empty_list()
     transformations_included_in: Optional[Union[str, List[str]]] = empty_list()
+    predicate_id_one_of: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.subject_source_one_of, list):
@@ -217,6 +218,14 @@ class Precondition(YAMLRoot):
             )
         self.transformations_included_in = [
             v if isinstance(v, str) else str(v) for v in self.transformations_included_in
+        ]
+
+        if not isinstance(self.predicate_id_one_of, list):
+            self.predicate_id_one_of = (
+                [self.predicate_id_one_of] if self.predicate_id_one_of is not None else []
+            )
+        self.predicate_id_one_of = [
+            v if isinstance(v, str) else str(v) for v in self.predicate_id_one_of
         ]
 
         super().__post_init__(**kwargs)
@@ -472,16 +481,16 @@ class LexicalTransformation(Activity):
     class_model_uri: ClassVar[URIRef] = MAPPINGRULES.LexicalTransformation
 
     type: Optional[Union[str, "TransformationType"]] = None
-    params: Optional[str] = None
+    params: Optional[Union[Union[dict, "Any"], List[Union[dict, "Any"]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.type is not None and not isinstance(self.type, TransformationType):
             self.type = TransformationType(self.type)
 
-        if self.params is not None and not isinstance(self.params, str):
-            self.params = str(self.params)
-
         super().__post_init__(**kwargs)
+
+
+Any = Any
 
 
 # Enumerations
@@ -645,6 +654,15 @@ slots.precondition__transformations_included_in = Slot(
     name="precondition__transformations_included_in",
     curie=MAPPINGRULES.curie("transformations_included_in"),
     model_uri=MAPPINGRULES.precondition__transformations_included_in,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.precondition__predicate_id_one_of = Slot(
+    uri=MAPPINGRULES.predicate_id_one_of,
+    name="precondition__predicate_id_one_of",
+    curie=MAPPINGRULES.curie("predicate_id_one_of"),
+    model_uri=MAPPINGRULES.precondition__predicate_id_one_of,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
@@ -855,5 +873,5 @@ slots.lexicalTransformation__params = Slot(
     curie=ONTOLEXINDEX.curie("params"),
     model_uri=MAPPINGRULES.lexicalTransformation__params,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[Union[dict, Any], List[Union[dict, Any]]]],
 )

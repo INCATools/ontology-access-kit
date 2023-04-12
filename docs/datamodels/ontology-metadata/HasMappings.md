@@ -5,27 +5,37 @@
 URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappings)
 
 
+
 ```{mermaid}
  classDiagram
     class HasMappings
       AnnotationPropertyMixin <|-- HasMappings
       
-      HasMappings : broadMatch
-      HasMappings : closeMatch
-      HasMappings : database_cross_reference
-      HasMappings : exactMatch
-      HasMappings : narrowMatch
-      
 
       HasMappings <|-- Term
       
+      
       HasMappings : broadMatch
+        
+          HasMappings ..> Thing : broadMatch
+        
       HasMappings : closeMatch
+        
+          HasMappings ..> Thing : closeMatch
+        
       HasMappings : database_cross_reference
+        
       HasMappings : exactMatch
+        
+          HasMappings ..> Thing : exactMatch
+        
       HasMappings : narrowMatch
+        
+          HasMappings ..> Thing : narrowMatch
+        
       
 ```
+
 
 
 
@@ -45,6 +55,8 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 | [exactMatch](exactMatch.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
 | [narrowMatch](narrowMatch.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
 | [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) |  | direct |
+
+
 
 ## Mixin Usage
 
@@ -82,6 +94,9 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 | ---  | ---  |
 | self | omoschema:HasMappings |
 | native | omoschema:HasMappings |
+
+
+
 
 
 ## LinkML Source

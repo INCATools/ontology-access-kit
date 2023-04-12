@@ -15,13 +15,13 @@ SPARQLWrapper = "*"
 SQLAlchemy = "^1.4.32"
 linkml-runtime = "^1.2.15"
 networkx = "^2.7.1"
-sssom-schema = "^0.9.3"
-sssom = "^0.3.25"
+sssom-schema = "^0.11.0"
+sssom = "^0.3.26"
 ratelimit = "^2.2.1"
 appdirs = "^1.4.4"
 semsql = "^0.3.1"
 lark = "^1.1.2"
-kgcl-schema = "^0.3.1"
+kgcl-schema = "^0.3.5"
 funowl = "^0.1.12"
 gilda = {version = "^0.10.1", optional = true}
 kgcl-rdflib = "^0.3.0"
@@ -36,6 +36,8 @@ linkml-renderer = "^0.1.2"
 airium = "^0.2.5"
 ndex2 = "^3.5.0"
 rustsim = {version = "^0.1.6", optional = true}
+upsetplot = "^0.8.0"
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
@@ -48,6 +50,9 @@ linkml = "^1.2.14"
 sphinxcontrib-mermaid = "^0.8.1"
 sphinx-copybutton = "0.5.1"
 coverage = "^6.3.2"
+
+[tool.poetry.group.dev.dependencies]
+seaborn = "^0.12.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

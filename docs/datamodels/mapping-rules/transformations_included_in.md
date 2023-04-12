@@ -1,6 +1,6 @@
 # Slot: transformations_included_in
 
-URI: [mrules:transformations_included_in](https://w3id.org/linkml/mapping_rules_datamodel/transformations_included_in)
+URI: [mappingrules:transformations_included_in](https://w3id.org/oak/mapping-rules-datamodel/transformations_included_in)
 
 
 
@@ -22,7 +22,7 @@ URI: [mrules:transformations_included_in](https://w3id.org/linkml/mapping_rules_
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 
@@ -43,7 +43,7 @@ URI: [mrules:transformations_included_in](https://w3id.org/linkml/mapping_rules_
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [mrules:transformations_included_in](https://w3id.org/linkml/mapping_rules_
 <details>
 ```yaml
 name: transformations_included_in
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: transformations_included_in

@@ -2,7 +2,7 @@
 _all pipelines used to build the index_
 
 
-URI: [li:pipelines](https://w3id.org/linkml/lexical_index/pipelines)
+URI: [mappingrules:pipelines](https://w3id.org/oak/mapping-rules-datamodel/pipelines)
 
 
 
@@ -45,7 +45,7 @@ URI: [li:pipelines](https://w3id.org/linkml/lexical_index/pipelines)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -56,7 +56,7 @@ URI: [li:pipelines](https://w3id.org/linkml/lexical_index/pipelines)
 ```yaml
 name: pipelines
 description: all pipelines used to build the index
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: pipelines

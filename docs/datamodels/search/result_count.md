@@ -1,6 +1,6 @@
 # Slot: result_count
 
-URI: [search:result_count](https://w3id.org/linkml/search_datamodel/result_count)
+URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_count)
 
 
 
@@ -22,7 +22,7 @@ URI: [search:result_count](https://w3id.org/linkml/search_datamodel/result_count
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [search:result_count](https://w3id.org/linkml/search_datamodel/result_count
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
@@ -51,7 +51,7 @@ URI: [search:result_count](https://w3id.org/linkml/search_datamodel/result_count
 <details>
 ```yaml
 name: result_count
-from_schema: https://w3id.org/linkml/search_datamodel
+from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
 alias: result_count
 owner: SearchResultSet

@@ -18,7 +18,7 @@ URI: [owl:minQualifiedCardinality](http://www.w3.org/2002/07/owl#minQualifiedCar
 
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
 
 
 

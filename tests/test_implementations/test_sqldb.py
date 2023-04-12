@@ -4,10 +4,14 @@ import unittest
 
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
+from linkml_runtime.loaders import yaml_loader
 from semsql.sqla.semsql import Statements
 from sqlalchemy import delete
 
+from oaklib import BasicOntologyInterface, get_adapter
+from oaklib.conf import CONF_DIR_PATH
 from oaklib.datamodels import obograph
+from oaklib.datamodels.input_specification import InputSpecification
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResultType
@@ -41,6 +45,7 @@ from tests import (
     VACUOLE,
 )
 from tests.test_implementations import ComplianceTester
+from tests.test_parsers.test_gaf_association_parser import INPUT_GAF
 
 DB = INPUT_DIR / "go-nucleus.db"
 SSN_DB = INPUT_DIR / "ssn.db"
@@ -67,6 +72,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         obs_test = INPUT_DIR / "obsoletion_test.db"
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{obs_test}"))
         self.compliance_tester.test_obsolete_entities(oi)
+
+    def test_multilingual(self):
+        adapter = get_adapter(INPUT_DIR / "hp-international-test.db")
+        if not isinstance(adapter, BasicOntologyInterface):
+            raise ValueError("Expected BasicOntologyInterface")
+        self.compliance_tester.test_multilingual(adapter)
 
     def test_empty_db(self) -> None:
         """Should raise error when connecting to an empty db."""
@@ -112,7 +123,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual([IS_A, PART_OF], rels)
         rels = list(oi.outgoing_relationships(VACUOLE))
         self.assertCountEqual([(IS_A, IMBO), (PART_OF, CYTOPLASM)], rels)
-        hier_parents = list(oi.hierararchical_parents(VACUOLE))
+        hier_parents = list(oi.hierarchical_parents(VACUOLE))
         self.assertEqual([IMBO], hier_parents)
 
     def test_rbox_relationships(self):
@@ -570,6 +581,20 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             # logging.info(f'{s} {o} == {results}')
             self.assertEqual([lca], results)
 
+    def test_create_from_input_specification(self):
+        spec = InputSpecification(
+            ontology_resources={"go": {"selector": str(DB)}},
+            association_resources={"gaf": {"selector": str(INPUT_GAF)}},
+        )
+        oi = get_adapter(spec)
+        self.compliance_tester.test_synonym_types(oi)
+
+    @unittest.skip("TODO: move to integration tests")
+    def test_integration_create_from_hpo_input_specification(self):
+        spec = yaml_loader.load(str(CONF_DIR_PATH / "hpoa-input-spec.yaml"), InputSpecification)
+        oi = get_adapter(spec)
+        print(oi)
+
     def test_store_associations(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
@@ -715,7 +740,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual(
             expected_ancs, non_reflexive(oi.ancestors(FAKE_ID, predicates=preds2))
         )
-        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds)))
+        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False)))
+        self.assertCountEqual(
+            [NUCLEUS], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=True))
+        )
         self.assertCountEqual(
             descendants_ancs, non_reflexive(oi.descendants(FAKE_ID, predicates=preds2))
         )

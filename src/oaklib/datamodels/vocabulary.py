@@ -62,6 +62,7 @@ OWL_SYMMETRIC_PROPERTY = "owl:SymmetricProperty"
 OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
 IS_DEFINED_BY = "rdfs:isDefinedBy"
+RDFS_COMMENT = "rdfs:comment"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 DISJOINT_WITH = "owl:disjointWith"
@@ -83,6 +84,10 @@ OWL_META_CLASSES = [
     OWL_TRANSITIVE_PROPERTY,
     OWL_SYMMETRIC_PROPERTY,
 ]
+
+DCTERMS_LANGUAGE = "dcterms:language"
+PROTEGE_PREFERRED_LANGUAGE = "protege:preferredLanguage"
+ONTOLOGY_LEVEL_LANGUAGE_INDICATORS = [DCTERMS_LANGUAGE, PROTEGE_PREFERRED_LANGUAGE]
 
 STANDARD_ANNOTATION_PROPERTIES = [
     TERM_REPLACED_BY,

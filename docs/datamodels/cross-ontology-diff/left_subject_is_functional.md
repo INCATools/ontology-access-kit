@@ -2,7 +2,7 @@
 _True if a subject mapping is present, and maps uniquely within the same ontology_
 
 
-URI: [ann:left_subject_is_functional](https://w3id.org/linkml/text_annotator/left_subject_is_functional)
+URI: [xodiff:left_subject_is_functional](https://w3id.org/oak/cross-ontology-diff/left_subject_is_functional)
 
 
 
@@ -28,7 +28,7 @@ URI: [ann:left_subject_is_functional](https://w3id.org/linkml/text_annotator/lef
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [Boolean](Boolean.md)
 
 
 
@@ -47,7 +47,7 @@ URI: [ann:left_subject_is_functional](https://w3id.org/linkml/text_annotator/lef
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -59,7 +59,7 @@ URI: [ann:left_subject_is_functional](https://w3id.org/linkml/text_annotator/lef
 name: left_subject_is_functional
 description: True if a subject mapping is present, and maps uniquely within the same
   ontology
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixins:
 - left_side
@@ -68,7 +68,7 @@ alias: left_subject_is_functional
 owner: RelationalDiff
 domain_of:
 - RelationalDiff
-range: string
+range: boolean
 
 ```
 </details>

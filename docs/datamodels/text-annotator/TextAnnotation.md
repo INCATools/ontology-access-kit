@@ -7,28 +7,49 @@ _An individual text annotation_
 URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
+
 ```{mermaid}
  classDiagram
     class TextAnnotation
       HasSpan <|-- TextAnnotation
       
       TextAnnotation : confidence
+        
       TextAnnotation : info
+        
       TextAnnotation : is_longest_match
+        
       TextAnnotation : match_string
+        
       TextAnnotation : match_type
+        
       TextAnnotation : matches_whole_text
+        
+      TextAnnotation : object_aliases
+        
       TextAnnotation : object_id
+        
       TextAnnotation : object_label
+        
       TextAnnotation : object_source
+        
       TextAnnotation : predicate_id
+        
       TextAnnotation : subject_end
+        
       TextAnnotation : subject_label
+        
       TextAnnotation : subject_source
+        
       TextAnnotation : subject_start
+        
       TextAnnotation : subject_text_id
+        
+          TextAnnotation ..> TextualElement : subject_text_id
+        
       
 ```
+
 
 
 
@@ -42,21 +63,24 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate_id](predicate_id.md) | 0..1 <br/> NONE |  | direct |
-| [object_id](object_id.md) | 0..1 <br/> NONE |  | direct |
-| [object_label](object_label.md) | 0..1 <br/> NONE |  | direct |
-| [object_source](object_source.md) | 0..1 <br/> NONE |  | direct |
-| [confidence](confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
-| [match_string](match_string.md) | 0..1 <br/> NONE |  | direct |
-| [is_longest_match](is_longest_match.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> NONE |  | direct |
-| [match_type](match_type.md) | 0..1 <br/> NONE |  | direct |
-| [info](info.md) | 0..1 <br/> NONE |  | direct |
-| [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
-| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | [HasSpan](HasSpan.md) |
+| [predicate_id](predicate_id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_id](object_id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_label](object_label.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_source](object_source.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [confidence](confidence.md) | 0..1 <br/> [Float](Float.md) |  | direct |
+| [match_string](match_string.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [is_longest_match](is_longest_match.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [match_type](match_type.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [info](info.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_aliases](object_aliases.md) | 0..* <br/> [String](String.md) |  | direct |
 | [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
+| [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
+| [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
+| [subject_source](subject_source.md) | 0..1 <br/> [String](String.md) |  | [HasSpan](HasSpan.md) |
 | [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | [HasSpan](HasSpan.md) |
-| [subject_label](subject_label.md) | 0..1 <br/> NONE | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
+
+
 
 
 
@@ -82,7 +106,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -96,6 +120,9 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | native | ann:TextAnnotation |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -106,63 +133,68 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 ```yaml
 name: TextAnnotation
 description: An individual text annotation
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 mixins:
 - HasSpan
 attributes:
   predicate_id:
     name: predicate_id
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:predicate_id
   object_id:
     name: object_id
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - bpa:annotatedClass.id
     rank: 1000
     slot_uri: sssom:object_id
   object_label:
     name: object_label
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - bpa:annotatedClass.prefLabel
     rank: 1000
     slot_uri: sssom:object_label
   object_source:
     name: object_source
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:object_source
   confidence:
     name: confidence
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:confidence
     range: float
   match_string:
     name: match_string
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:match_string
   is_longest_match:
     name: is_longest_match
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: boolean
   matches_whole_text:
     name: matches_whole_text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     range: boolean
   match_type:
     name: match_type
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
   info:
     name: info
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
+  object_aliases:
+    name: object_aliases
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
 class_uri: oa:Annotation
 
 ```
@@ -174,14 +206,14 @@ class_uri: oa:Annotation
 ```yaml
 name: TextAnnotation
 description: An individual text annotation
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 mixins:
 - HasSpan
 attributes:
   predicate_id:
     name: predicate_id
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:predicate_id
     alias: predicate_id
@@ -191,7 +223,7 @@ attributes:
     range: string
   object_id:
     name: object_id
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - bpa:annotatedClass.id
     rank: 1000
@@ -203,7 +235,7 @@ attributes:
     range: string
   object_label:
     name: object_label
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - bpa:annotatedClass.prefLabel
     rank: 1000
@@ -215,7 +247,7 @@ attributes:
     range: string
   object_source:
     name: object_source
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:object_source
     alias: object_source
@@ -225,7 +257,7 @@ attributes:
     range: string
   confidence:
     name: confidence
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:confidence
     alias: confidence
@@ -235,7 +267,7 @@ attributes:
     range: float
   match_string:
     name: match_string
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:match_string
     alias: match_string
@@ -245,7 +277,7 @@ attributes:
     range: string
   is_longest_match:
     name: is_longest_match
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: is_longest_match
     owner: TextAnnotation
@@ -254,7 +286,7 @@ attributes:
     range: boolean
   matches_whole_text:
     name: matches_whole_text
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     alias: matches_whole_text
     owner: TextAnnotation
     domain_of:
@@ -263,7 +295,7 @@ attributes:
     range: boolean
   match_type:
     name: match_type
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: match_type
     owner: TextAnnotation
@@ -272,16 +304,26 @@ attributes:
     range: string
   info:
     name: info
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: info
     owner: TextAnnotation
     domain_of:
     - TextAnnotation
     range: string
+  object_aliases:
+    name: object_aliases
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
+    alias: object_aliases
+    owner: TextAnnotation
+    domain_of:
+    - TextAnnotation
+    range: string
   subject_start:
     name: subject_start
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - bpa:from
     rank: 1000
@@ -292,7 +334,7 @@ attributes:
     range: Position
   subject_end:
     name: subject_end
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - bpa:to
     rank: 1000
@@ -305,7 +347,7 @@ attributes:
     name: subject_label
     description: The portion of the subject text that is matched, ranging from subject_start
       to subject_end
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - bpa:text
     rank: 1000
@@ -316,7 +358,7 @@ attributes:
     range: string
   subject_source:
     name: subject_source
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     exact_mappings:
     - oa:hasBody
     rank: 1000
@@ -328,7 +370,7 @@ attributes:
     range: string
   subject_text_id:
     name: subject_text_id
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: subject_text_id
     owner: TextAnnotation

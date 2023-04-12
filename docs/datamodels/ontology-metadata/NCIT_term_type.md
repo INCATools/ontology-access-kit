@@ -13,7 +13,7 @@ URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

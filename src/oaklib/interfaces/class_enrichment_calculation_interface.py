@@ -3,7 +3,10 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Iterable, Iterator, List, Optional
 
+from oaklib.datamodels.association import Association
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
+from oaklib.datamodels.item_list import ItemList
+from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -25,30 +28,56 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
 
     def enriched_classes(
         self,
-        subjects: Iterable[CURIE],
+        subjects: Optional[Iterable[CURIE]] = None,
+        item_list: Optional[ItemList] = None,
         predicates: Iterable[CURIE] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         background: Iterable[CURIE] = None,
         hypotheses: Iterable[CURIE] = None,
         cutoff=0.05,
         autolabel=False,
+        filter_redundant=False,
         sort_by: str = None,
         direction="greater",
     ) -> Iterator[ClassEnrichmentResult]:
         """
-        Test for overrepresentation of classes in a set of entities.
+        Test for over-representation of classes in a set of entities.
 
-        :param subjects: The set of entities to test for overrepresentation of classes
-        :param background: The set of entities to use as a background for the test
-        :param hypotheses: The set of classes to test for overrepresentation
-        :param cutoff: The threshold to use for significance
-        :param labels: Whether to include labels for the classes
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+        >>> sample = ["PomBase:SPAC1142.02c", "PomBase:SPAC3H1.05", "PomBase:SPAC1142.06", "PomBase:SPAC4G8.02c"]
+        >>> for result in adapter.enriched_classes(sample, autolabel=True):
+        ...    assert result.p_value < 0.05
+        ...    print(f"{result.class_id} {result.class_label}")
+        <BLANKLINE>
+        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane
+        ...
+
+        :param subjects: The set of entities to test for over-representation of classes
+        :param item_list: An item list objects as an alternate way to specify subjects
+        :param background: The set of entities to use as a background for the test (recommended)
+        :param hypotheses: The set of classes to test for over-representation (default is all)
+        :param cutoff: The threshold to use for p-value
+        :param labels: Whether to include labels (names) for the classes
+        :param direction: The direction of the test. One of 'greater', 'less', 'two-sided'
+        :param filter_redundant: Whether to filter out redundant hypotheses
+        :param sort_by: The field to sort by. One of 'p_value', 'sample_count', 'background_count', 'odds_ratio'
         :param direction: The direction of the test. One of 'greater', 'less', 'two-sided'
         :return: An iterator over ClassEnrichmentResult objects
         """
+        if subjects and item_list:
+            raise ValueError("Only one of subjects or item_list may be provided")
+        if subjects is None:
+            if not item_list:
+                raise ValueError("Either subjects or item_list must be provided")
+            if not item_list.itemListElements:
+                raise ValueError("item_list must not be empty")
+            subjects = item_list.itemListElements
         subjects = list(subjects)
         sample_size = len(subjects)
         logging.info(f"Calculating sample_counts for {sample_size} subjects")
+        if not sample_size:
+            raise ValueError("No subjects provided")
         sample_count = {
             k: v
             for k, v in self.association_subject_counts(
@@ -126,5 +155,51 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         else:
             anc_counts = {}
         results.sort(key=lambda x: (x.p_value, -anc_counts.get(x.class_id, 0)))
+        yielded = set()
+        yielded_ancs = set()
         for r in results:
+            if filter_redundant:
+                if yielded.intersection(
+                    set(self.ancestors(r.class_id, predicates=object_closure_predicates))
+                ):
+                    continue
+                if r.class_id in yielded_ancs:
+                    continue
             yield r
+            if filter_redundant:
+                yielded.add(r.class_id)
+                yielded_ancs.update(
+                    list(self.ancestors(r.class_id, predicates=object_closure_predicates))
+                )
+
+    def create_self_associations(self):
+        """
+        Create self associations for all terms in the ontology.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.obo")
+        >>> adapter.create_self_associations()
+        >>> assocs = list(adapter.associations(["GO:0005773"]))
+        >>> assert len(assocs) == 1
+        >>> assoc = assocs[0]
+        >>> print(assoc.subject, assoc.predicate, assoc.object)
+        GO:0005773 owl:equivalentClass GO:0005773
+
+        This is useful for simple over-representation tests over term sets without any annotations.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.obo")
+        >>> adapter.create_self_associations()
+        >>> terms = ["GO:0034357", "GO:0031965", "GO:0005773"]
+        >>> for r in adapter.enriched_classes(terms, autolabel=True, filter_redundant=True):
+        ...     print(r.class_id, r.class_label, round(r.p_value_adjusted,3))
+        GO:0016020 membrane 0.004
+        ...
+
+
+        """
+        assocs = []
+        for e in self.entities(filter_obsoletes=True):
+            assoc = Association(subject=e, predicate=EQUIVALENT_CLASS, object=e)
+            assocs.append(assoc)
+        self.add_associations(assocs)

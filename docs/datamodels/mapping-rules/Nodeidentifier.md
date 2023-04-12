@@ -4,7 +4,7 @@
 _A URI, CURIE or BNODE that represents a node in a model._
 
 
-URI: [shex:nonLiteral](shex:nonLiteral)
+URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
 
 * [base](https://w3id.org/linkml/base): NodeIdentifier
 
@@ -30,7 +30,7 @@ URI: [shex:nonLiteral](shex:nonLiteral)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/types
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 

@@ -22,7 +22,7 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -51,7 +51,7 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 <details>
 ```yaml
 name: object_id
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
 exact_mappings:
 - bpa:annotatedClass.id
 rank: 1000

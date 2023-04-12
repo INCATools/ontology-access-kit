@@ -1,6 +1,8 @@
 # Slot: synonymType
+_This standard follows oboInOwl in allowing an open ended list of synonym types_
 
-URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
+
+URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 | Name | Description |
 | --- | --- |
-[SynonymPropertyValue](SynonymPropertyValue.md) | 
+[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
 
 
 
@@ -22,7 +24,7 @@ URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [SynonymTypeIdentifierString](SynonymTypeIdentifierString.md)
 
 
 
@@ -51,12 +53,14 @@ URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
 <details>
 ```yaml
 name: synonymType
+description: This standard follows oboInOwl in allowing an open ended list of synonym
+  types
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 alias: synonymType
 domain_of:
 - SynonymPropertyValue
-range: string
+range: SynonymTypeIdentifierString
 
 ```
 </details>

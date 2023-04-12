@@ -37,7 +37,7 @@ URI: [sim:subsumed_by_score](https://w3id.org/linkml/similarity/subsumed_by_scor
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
@@ -47,7 +47,7 @@ URI: [sim:subsumed_by_score](https://w3id.org/linkml/similarity/subsumed_by_scor
 <details>
 ```yaml
 name: subsumed_by_score
-from_schema: https://w3id.org/linkml/similarity
+from_schema: https://w3id.org/oak/similarity
 rank: 1000
 is_a: score
 alias: subsumed_by_score

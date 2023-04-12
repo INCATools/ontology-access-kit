@@ -24,7 +24,7 @@ URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/omo/
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 
 
 

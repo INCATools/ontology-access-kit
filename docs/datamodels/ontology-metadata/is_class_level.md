@@ -26,7 +26,7 @@ URI: [oio:is_class_level](http://www.geneontology.org/formats/oboInOwl#is_class_
 
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
 
 
 

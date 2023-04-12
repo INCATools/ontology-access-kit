@@ -2,7 +2,7 @@
 _The predicate (relation) of the source/left edge_
 
 
-URI: [ann:left_predicate_id](https://w3id.org/linkml/text_annotator/left_predicate_id)
+URI: [xodiff:left_predicate_id](https://w3id.org/oak/cross-ontology-diff/left_predicate_id)
 
 
 
@@ -49,7 +49,7 @@ URI: [ann:left_predicate_id](https://w3id.org/linkml/text_annotator/left_predica
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
@@ -60,7 +60,7 @@ URI: [ann:left_predicate_id](https://w3id.org/linkml/text_annotator/left_predica
 ```yaml
 name: left_predicate_id
 description: The predicate (relation) of the source/left edge
-from_schema: https://w3id.org/linkml/cross_ontology_diff
+from_schema: https://w3id.org/oak/cross-ontology-diff
 rank: 1000
 mixins:
 - left_side

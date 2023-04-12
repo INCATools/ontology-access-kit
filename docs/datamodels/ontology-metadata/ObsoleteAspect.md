@@ -7,11 +7,13 @@ _Auto-classifies anything that is obsolete_
 URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/ObsoleteAspect)
 
 
+
 ```{mermaid}
  classDiagram
     class ObsoleteAspect
       
 ```
+
 
 
 
@@ -22,6 +24,9 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 ## Mixin Usage
 
 | mixed into | description |
@@ -70,6 +75,14 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 | [HomoSapiens](HomoSapiens.md) | [has_obsolescence_reason](has_obsolescence_reason.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [HomoSapiens](HomoSapiens.md) | [term_replaced_by](term_replaced_by.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [HomoSapiens](HomoSapiens.md) | [consider](consider.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Agent](Agent.md) | [deprecated](deprecated.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Agent](Agent.md) | [has_obsolescence_reason](has_obsolescence_reason.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Agent](Agent.md) | [term_replaced_by](term_replaced_by.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Agent](Agent.md) | [consider](consider.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Image](Image.md) | [deprecated](deprecated.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Image](Image.md) | [has_obsolescence_reason](has_obsolescence_reason.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Image](Image.md) | [term_replaced_by](term_replaced_by.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [Image](Image.md) | [consider](consider.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [Subset](Subset.md) | [deprecated](deprecated.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [Subset](Subset.md) | [has_obsolescence_reason](has_obsolescence_reason.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [Subset](Subset.md) | [term_replaced_by](term_replaced_by.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
@@ -103,6 +116,9 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 | ---  | ---  |
 | self | omoschema:ObsoleteAspect |
 | native | omoschema:ObsoleteAspect |
+
+
+
 
 
 ## LinkML Source

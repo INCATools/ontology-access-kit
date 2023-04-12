@@ -2,8 +2,10 @@
 
 A datamodel for representing the results of textual named entity recognition annotation results. This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
 
-URI: https://w3id.org/linkml/text_annotator
+URI: https://w3id.org/oak/text_annotator
 Name: text-annotator
+
+
 
 ## Classes
 
@@ -23,12 +25,15 @@ Name: text-annotator
 | [annotations](annotations.md) | all annotations |
 | [confidence](confidence.md) |  |
 | [id](id.md) |  |
+| [include_aliases](include_aliases.md) |  |
 | [info](info.md) |  |
 | [is_longest_match](is_longest_match.md) |  |
 | [limit](limit.md) |  |
 | [match_string](match_string.md) |  |
 | [match_type](match_type.md) |  |
 | [matches_whole_text](matches_whole_text.md) |  |
+| [model](model.md) |  |
+| [object_aliases](object_aliases.md) |  |
 | [object_id](object_id.md) |  |
 | [object_label](object_label.md) |  |
 | [object_source](object_source.md) |  |
@@ -56,22 +61,23 @@ Name: text-annotator
 
 | Type | Description |
 | --- | --- |
-| [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | A binary (true or false) value |
-| [xsd:date](http://www.w3.org/2001/XMLSchema#date) | a date (year, month and day) in an idealized calendar |
-| [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime) | Either a date or a datetime |
-| [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | The combination of a date and time |
-| [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
-| [xsd:double](http://www.w3.org/2001/XMLSchema#double) | A real number that conforms to the xsd:double specification |
-| [xsd:float](http://www.w3.org/2001/XMLSchema#float) | A real number that conforms to the xsd:float specification |
-| [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | An integer |
-| [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Prefix part of CURIE |
-| [shex:nonLiteral](shex:nonLiteral) | A URI, CURIE or BNODE that represents a node in a model |
-| [shex:iri](shex:iri) | A URI or CURIE that represents an object in the model |
+| [Boolean](Boolean.md) | A binary (true or false) value |
+| [Curie](Curie.md) | a compact URI |
+| [Date](Date.md) | a date (year, month and day) in an idealized calendar |
+| [DateOrDatetime](DateOrDatetime.md) | Either a date or a datetime |
+| [Datetime](Datetime.md) | The combination of a date and time |
+| [Decimal](Decimal.md) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
+| [Double](Double.md) | A real number that conforms to the xsd:double specification |
+| [Float](Float.md) | A real number that conforms to the xsd:float specification |
+| [Integer](Integer.md) | An integer |
+| [Ncname](Ncname.md) | Prefix part of CURIE |
+| [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
+| [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
 | [Position](Position.md) |  |
-| [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A character string |
-| [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | A time object represents a (local) time of day, independent of any particular... |
-| [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | a complete URI |
-| [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | a URI or a CURIE |
+| [String](String.md) | A character string |
+| [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
+| [Uri](Uri.md) | a complete URI |
+| [Uriorcurie](Uriorcurie.md) | a URI or a CURIE |
 
 
 ## Subsets

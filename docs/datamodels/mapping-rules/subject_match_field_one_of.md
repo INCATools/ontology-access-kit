@@ -1,6 +1,6 @@
 # Slot: subject_match_field_one_of
 
-URI: [mrules:subject_match_field_one_of](https://w3id.org/linkml/mapping_rules_datamodel/subject_match_field_one_of)
+URI: [mappingrules:subject_match_field_one_of](https://w3id.org/oak/mapping-rules-datamodel/subject_match_field_one_of)
 
 
 
@@ -22,7 +22,7 @@ URI: [mrules:subject_match_field_one_of](https://w3id.org/linkml/mapping_rules_d
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
 * Multivalued: True
 
 
@@ -43,7 +43,7 @@ URI: [mrules:subject_match_field_one_of](https://w3id.org/linkml/mapping_rules_d
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -53,7 +53,7 @@ URI: [mrules:subject_match_field_one_of](https://w3id.org/linkml/mapping_rules_d
 <details>
 ```yaml
 name: subject_match_field_one_of
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true
 alias: subject_match_field_one_of

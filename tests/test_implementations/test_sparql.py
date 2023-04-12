@@ -106,7 +106,7 @@ class TestSparqlImplementation(unittest.TestCase):
         )
 
     def test_parents(self):
-        parents = self.oi.hierararchical_parents(VACUOLE)
+        parents = self.oi.hierarchical_parents(VACUOLE)
         # logging.info(parents)
         assert "GO:0043231" in parents
 
@@ -132,6 +132,7 @@ class TestSparqlImplementation(unittest.TestCase):
         )
         self.assertEqual("skos:prefLabel", soil_oi.ontology_metamodel_mapper.label_curie())
         soil_oi.multilingual = True
+        self.assertTrue(soil_oi.multilingual)
         soil_oi.preferred_language = "en"
         label_cases = [
             ("soilprofile:voids", "Voids"),
