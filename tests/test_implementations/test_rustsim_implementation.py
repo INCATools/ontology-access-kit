@@ -19,16 +19,13 @@ class TestRustSimImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up"""
-        # Calling get_implementation_from_shorthand() alone fails on Windows
-        # try:
         db = DB.as_posix()
-
+        # this is to drop the drive name from the database path.
+        # The main reason for this is use of 2 descriptors [rustsim and sqlite].
         if os.name == "nt":
             _, db = os.path.splitdrive(db)
 
         oi = get_adapter(f"rustsim:sqlite:///{db}")
-        # except FileNotFoundError:
-        #     oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
 
         self.oi = oi
         self.information_content_scores = {
