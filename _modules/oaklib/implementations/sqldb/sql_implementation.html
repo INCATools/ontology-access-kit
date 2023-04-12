@@ -202,6 +202,7 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb</span> <span class="kn">import</span> <span class="n">SEARCH_CONFIG</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">SubsetterInterface</span><span class="p">,</span> <span class="n">TextAnnotatorInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="n">EntityNormalizer</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ALIAS_MAP</span><span class="p">,</span>
     <span class="n">DEFINITION</span><span class="p">,</span>
@@ -1272,10 +1273,14 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Association query: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q</span>
 
-    <span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">],</span> <span class="n">normalizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">can_store_associations</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">associations</span><span class="p">,</span> <span class="n">normalizers</span><span class="o">=</span><span class="n">normalizers</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">normalizers</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">normalizers</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">property_values</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span>
             <span class="n">stmt</span> <span class="o">=</span> <span class="n">insert</span><span class="p">(</span><span class="n">TermAssociation</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
@@ -1640,19 +1645,29 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">):</span>
             <span class="n">curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">curies</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">curies</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies</span><span class="p">)</span>
         <span class="n">justification</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="n">predicates</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ALL_MATCH_PREDICATES</span><span class="p">)</span>
         <span class="n">base_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">predicates</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">base_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">curies</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">curies</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">by_subject_query</span> <span class="o">=</span> <span class="n">base_query</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">by_subject_query</span> <span class="o">=</span> <span class="n">base_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">curies</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">by_subject_query</span><span class="p">:</span>
             <span class="n">mpg</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">(</span>
                 <span class="n">subject_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
                 <span class="n">object_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
                 <span class="n">predicate_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
                 <span class="n">mapping_justification</span><span class="o">=</span><span class="n">justification</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="k">yield</span> <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mpg</span><span class="p">)</span>
+            <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mpg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">!=</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">object_source</span> <span class="o">!=</span> <span class="n">source</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">mpg</span>
+        <span class="k">if</span> <span class="n">curies</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># all mappings have been returned</span>
+            <span class="k">return</span>
         <span class="c1"># xrefs are stored as literals</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">base_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">curies</span><span class="p">)):</span>
             <span class="n">mpg</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">(</span>
@@ -1661,7 +1676,10 @@
                 <span class="n">predicate_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
                 <span class="n">mapping_justification</span><span class="o">=</span><span class="n">justification</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="k">yield</span> <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mpg</span><span class="p">)</span>
+            <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mpg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">!=</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">object_source</span> <span class="o">!=</span> <span class="n">source</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">mpg</span>
         <span class="c1"># skos mappings are stored as objects</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">base_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">curies</span><span class="p">)):</span>
             <span class="n">mpg</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">(</span>
@@ -1670,7 +1688,10 @@
                 <span class="n">predicate_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
                 <span class="n">mapping_justification</span><span class="o">=</span><span class="n">justification</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="k">yield</span> <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mpg</span><span class="p">)</span>
+            <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mpg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">!=</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">object_source</span> <span class="o">!=</span> <span class="n">source</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">mpg</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: ValidatorInterface</span>

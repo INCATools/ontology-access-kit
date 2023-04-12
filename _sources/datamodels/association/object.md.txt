@@ -34,6 +34,10 @@ URI: [rdf:object](rdf:object)
 
 
 
+## Comments
+
+* it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
+
 ## Identifier and Mapping Information
 
 
@@ -56,6 +60,9 @@ URI: [rdf:object](rdf:object)
 ```yaml
 name: object
 description: An ontology entity that is associated with the subject.
+comments:
+- it is conventional for the subject to be the "entity" and the object to be the ontological
+  descriptor
 from_schema: https://w3id.org/oak/association
 exact_mappings:
 - oa:hasTarget

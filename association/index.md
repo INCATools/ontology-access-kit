@@ -26,14 +26,21 @@ Name: association
 | Slot | Description |
 | --- | --- |
 | [associations](associations.md) |  |
+| [denormalized_slot](denormalized_slot.md) | denormalized slots are for models that follow a denormalized data model |
 | [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
 | [include_association_attributes](include_association_attributes.md) | If true, then the parser will include non S/P/O properties as additional attr... |
 | [object](object.md) | An ontology entity that is associated with the subject |
+| [object_label](object_label.md) | The label of the ontology entity that is associated with the subject |
+| [original_object](original_object.md) | The original object of the association prior to normalization |
+| [original_predicate](original_predicate.md) | The original subject of the association prior to normalization |
+| [original_subject](original_subject.md) | The original subject of the association prior to normalization |
 | [predicate](predicate.md) | The type of relationship between the subject and object |
+| [predicate_label](predicate_label.md) | The label of the type of relationship between the subject and object |
 | [preserve_negated_associations](preserve_negated_associations.md) | If true, then the parser will keep negated associations in the output |
 | [property_values](property_values.md) |  |
 | [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |
+| [subject_label](subject_label.md) | The label of the thing which the association is about |
 
 
 ## Enumerations

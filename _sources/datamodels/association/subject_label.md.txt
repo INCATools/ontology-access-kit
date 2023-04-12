@@ -1,12 +1,16 @@
-# Slot: subject
-_The thing which the association is about._
+# Slot: subject_label
+_The label of the thing which the association is about._
 
 
-URI: [rdf:subject](rdf:subject)
+URI: [sssom:subject_label](https://w3id.org/sssom/subject_label)
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **subject_label** [ [denormalized_slot](denormalized_slot.md)]
+
 
 
 
@@ -25,17 +29,13 @@ URI: [rdf:subject](rdf:subject)
 
 ## Properties
 
-* Range: [Uriorcurie](Uriorcurie.md)
+* Range: [String](String.md)
 
 
 
 
 
 
-
-## Comments
-
-* it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
 
 ## Identifier and Mapping Information
 
@@ -57,21 +57,18 @@ URI: [rdf:subject](rdf:subject)
 
 <details>
 ```yaml
-name: subject
-description: The thing which the association is about.
-comments:
-- it is conventional for the subject to be the "entity" and the object to be the ontological
-  descriptor
+name: subject_label
+description: The label of the thing which the association is about.
 from_schema: https://w3id.org/oak/association
-exact_mappings:
-- oa:hasBody
 rank: 1000
-slot_uri: rdf:subject
-alias: subject
+mixins:
+- denormalized_slot
+slot_uri: sssom:subject_label
+alias: subject_label
 domain_of:
 - Association
 - NegatedAssociation
-range: uriorcurie
+range: string
 
 ```
 </details>

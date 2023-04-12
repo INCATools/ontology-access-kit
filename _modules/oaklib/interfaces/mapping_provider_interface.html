@@ -85,7 +85,7 @@
   <h1>Source code for oaklib.interfaces.mapping_provider_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">sssom_schema</span> <span class="kn">import</span> <span class="n">Mapping</span>
@@ -97,9 +97,72 @@
 
 <div class="viewcode-block" id="MappingProviderInterface"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">[docs]</a><span class="k">class</span> <span class="nc">MappingProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An ontology provider that provides SSSOM mappings.</span>
+<span class="sd">    An ontology interface that provides SSSOM mappings.</span>
+
+<span class="sd">    For more on the SSSOM Data Model, see `&lt;https://w3id.org/sssom/&gt;`_</span>
+
+<span class="sd">    .. note ::</span>
+
+<span class="sd">        most ontologies only include minimal metadata about mappings at this time, so many fields</span>
+<span class="sd">        in the sssom mapping datamodel are not populated.</span>
+
+<span class="sd">    The core method in this interface is :py:meth:`sssom_mappings`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MappingProviderInterface.sssom_mappings"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">[docs]</a>    <span class="k">def</span> <span class="nf">sssom_mappings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        returns all sssom mappings matching filter conditions.</span>
+
+<span class="sd">        To fetch all mappings, simply leave the filter conditions empty:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for mapping in adapter.sssom_mappings():</span>
+<span class="sd">        ...     print(mapping.subject_id, mapping.object_id)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO:0016772 EC:2.7.-.-</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        To get annotations for a particular term or terms, and to constrain the source of the</span>
+<span class="sd">        mapping, use the curies and source parameters:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for mapping in adapter.sssom_mappings([&quot;GO:0005886&quot;], source=&quot;Wikipedia&quot;):</span>
+<span class="sd">        ...     print(mapping.subject_id, mapping.object_id)</span>
+<span class="sd">        GO:0005886 Wikipedia:Cell_membrane</span>
+
+<span class="sd">        Note you can also lookup from the perspective of the mapped entity:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for mapping in adapter.sssom_mappings([&quot;Wikipedia:Cell_membrane&quot;]):</span>
+<span class="sd">        ...     print(mapping.subject_id, mapping.object_id)</span>
+<span class="sd">        GO:0005886 Wikipedia:Cell_membrane</span>
+
+<span class="sd">        :param curies: [Optional] entity IDs (in ontology or mapped ontology) to filter by</span>
+<span class="sd">        :param source: [Optional] only show mappings to source</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Getting all mappings&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">curies</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">):</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="p">[</span><span class="n">curies</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="n">curies</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">curies</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting mappings for </span><span class="si">{</span><span class="n">curies</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="n">curies</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">source</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">object_source</span> <span class="o">!=</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">!=</span> <span class="n">source</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">m</span></div>
 
     <span class="c1"># TODO: move packages from mapping-walker</span>
 
@@ -151,32 +214,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MappingProviderInterface.sssom_mappings"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">[docs]</a>    <span class="k">def</span> <span class="nf">sssom_mappings</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns all sssom mappings matching filter conditions</span>
-
-<span class="sd">        :param curies:</span>
-<span class="sd">        :param source:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Getting all mappings&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">curies</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">):</span>
-                <span class="n">it</span> <span class="o">=</span> <span class="p">[</span><span class="n">curies</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">it</span> <span class="o">=</span> <span class="n">curies</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">curies</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting mappings for </span><span class="si">{</span><span class="n">curies</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="n">curies</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">source</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">object_source</span> <span class="o">!=</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">!=</span> <span class="n">source</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                <span class="k">yield</span> <span class="n">m</span></div>
-
 <div class="viewcode-block" id="MappingProviderInterface.get_transitive_mappings_by_curie"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">[docs]</a>    <span class="k">def</span> <span class="nf">get_transitive_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
@@ -186,7 +223,200 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="k">def</span> <span class="nf">get_mapping_clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">MappingCluster</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="MappingProviderInterface.normalize"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
+        <span class="n">target_prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">source_prefixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalize a CURIE to a target prefix.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; adapter.normalize(&quot;Wikipedia:Cell_membrane&quot;, [&quot;GO&quot;])</span>
+<span class="sd">        &#39;GO:0005886&#39;</span>
+
+<span class="sd">        :param curie: the CURIE to normalize</span>
+<span class="sd">        :param target_prefixes: the prefixes to normalize to</span>
+<span class="sd">        :param source_prefixes: the prefixes to normalize from</span>
+<span class="sd">        :param strict: if True, raise an error if there is no single mapping to a target prefix</span>
+<span class="sd">        :return: the normalized CURIE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">normalized_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">source_prefixes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source_prefix</span> <span class="o">=</span> <span class="n">curie</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">source_prefix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">source_prefixes</span><span class="p">:</span>
+                <span class="n">source_prefixes_lc</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">source_prefixes</span><span class="p">}</span>
+                <span class="k">if</span> <span class="n">source_prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">source_prefixes_lc</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">None</span>
+                <span class="c1"># normalize case</span>
+                <span class="n">curie</span> <span class="o">=</span> <span class="n">curie</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">source_prefix</span><span class="p">,</span> <span class="n">source_prefixes_lc</span><span class="p">[</span><span class="n">source_prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()])</span>
+        <span class="n">target_prefixes_lc_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">target_prefixes</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
+            <span class="n">object_id</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">object_id</span>
+            <span class="k">if</span> <span class="n">object_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">curie</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">object_id</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">subject_id</span>
+            <span class="n">object_prefix</span> <span class="o">=</span> <span class="n">object_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">object_prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">target_prefixes_lc_map</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">object_prefix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_prefixes</span><span class="p">:</span>
+                    <span class="c1"># case -mismatch; normalize case</span>
+                    <span class="n">object_id</span> <span class="o">=</span> <span class="n">object_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                        <span class="n">object_prefix</span><span class="p">,</span> <span class="n">target_prefixes_lc_map</span><span class="p">[</span><span class="n">object_prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">strict</span><span class="p">:</span>
+                    <span class="c1"># strict is faster</span>
+                    <span class="k">return</span> <span class="n">object_id</span>
+                <span class="n">normalized_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">normalized_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">normalized_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2"> no single ID in </span><span class="si">{</span><span class="n">target_prefixes</span><span class="si">}</span><span class="s2">; N=</span><span class="si">{</span><span class="n">normalized_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">normalized_ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">normalized_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">curie_lc</span> <span class="o">=</span> <span class="n">curie</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">curie_lc</span> <span class="o">!=</span> <span class="n">curie</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">curie_lc</span><span class="p">,</span> <span class="n">target_prefixes</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">curie</span></div>
+
+<div class="viewcode-block" id="MappingProviderInterface.normalize_prefix"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize_prefix">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_prefix</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
+        <span class="n">prefixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Collection</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prefix_alias_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CURIE</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalize a CURIE to a target prefix.</span>
+
+<span class="sd">        If a prefix alias map is supplied, this is takes precendence:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; adapter.normalize_prefix(&quot;uniprot:P12345&quot;, prefix_alias_map={&quot;uniprot&quot;: &quot;UniProtKB&quot;})</span>
+<span class="sd">        &#39;UniProtKB:P12345&#39;</span>
+
+<span class="sd">        If not prefix alias map is supplied, then the prefix is mapped to the preferred</span>
+<span class="sd">        casing determined by the supplied prefixes:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; adapter.normalize_prefix(&quot;go:0000001&quot;, prefixes=[&quot;GO&quot;])</span>
+<span class="sd">        &#39;GO:0000001&#39;</span>
+
+<span class="sd">        :param curie: the CURIE to normalize</span>
+<span class="sd">        :param prefixes: the prefixes to normalize to</span>
+<span class="sd">        :param prefix_alias_map: a map of prefix aliases to prefixes</span>
+<span class="sd">        :return: the normalized CURIE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">curie</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">prefix_alias_map</span><span class="p">:</span>
+            <span class="c1"># prefix alias map takes priority</span>
+            <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">prefix_alias_map</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">curie</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">prefix_alias_map</span><span class="p">[</span><span class="n">prefix</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">curie</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">prefixes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">curie</span>
+        <span class="c1"># if not in prefix alias map, use an implicit alias map</span>
+        <span class="c1"># that maps *any* casing to the preferred case</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">prefixes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">curie</span>
+        <span class="n">prefixes_lc</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prefixes</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">prefixes_lc</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">curie</span>
+        <span class="c1"># normalize case</span>
+        <span class="k">return</span> <span class="n">curie</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">prefixes_lc</span><span class="p">[</span><span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()])</span></div>
+
+<div class="viewcode-block" id="MappingProviderInterface.create_normalization_map"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.create_normalization_map">[docs]</a>    <span class="k">def</span> <span class="nf">create_normalization_map</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">source_prefixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Collection</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_prefixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Collection</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prefix_alias_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a normalization map for a set of CURIEs.</span>
+
+<span class="sd">        This map can then be used to map IDs from one prefix space to another.</span>
+
+<span class="sd">        For each curie in curies, find a mapping to a target prefix, and add it to the map.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; nmap = adapter.create_normalization_map(source_prefixes=[&quot;GO&quot;], target_prefixes=[&quot;Wikipedia&quot;])</span>
+<span class="sd">        &gt;&gt;&gt; nmap[&quot;GO:0005634&quot;]</span>
+<span class="sd">        &#39;Wikipedia:Cell_nucleus&#39;</span>
+
+<span class="sd">        You can also pass in an explicit prefix alias map:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; nmap = adapter.create_normalization_map(source_prefixes=[&quot;GO&quot;], target_prefixes=[&quot;WIKIPEDIA&quot;],</span>
+<span class="sd">        ...     prefix_alias_map={&quot;Wikipedia&quot;: &quot;WIKIPEDIA&quot;})</span>
+<span class="sd">        &gt;&gt;&gt; nmap[&quot;GO:0005634&quot;]</span>
+<span class="sd">        &#39;WIKIPEDIA:Cell_nucleus&#39;</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; nmap = adapter.create_normalization_map(source_prefixes=[&quot;go&quot;], target_prefixes=[&quot;WIKIPEDIA&quot;],</span>
+<span class="sd">        ...     prefix_alias_map={&quot;Wikipedia&quot;: &quot;WIKIPEDIA&quot;, &quot;GO&quot;: &quot;go&quot;})</span>
+<span class="sd">        &gt;&gt;&gt; nmap[&quot;go:0005634&quot;]</span>
+<span class="sd">        &#39;WIKIPEDIA:Cell_nucleus&#39;</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; nmap = adapter.create_normalization_map([&quot;go:0005634&quot;], source_prefixes=[&quot;go&quot;],</span>
+<span class="sd">        ...     target_prefixes=[&quot;WIKIPEDIA&quot;],</span>
+<span class="sd">        ...     prefix_alias_map={&quot;Wikipedia&quot;: &quot;WIKIPEDIA&quot;, &quot;GO&quot;: &quot;go&quot;})</span>
+<span class="sd">        &gt;&gt;&gt; nmap[&quot;go:0005634&quot;]</span>
+<span class="sd">        &#39;WIKIPEDIA:Cell_nucleus&#39;</span>
+
+<span class="sd">        :param curies:</span>
+<span class="sd">        :param subject_prefixes:</span>
+<span class="sd">        :param object_prefixes:</span>
+<span class="sd">        :param prefix_alias_map: maps from prefixes used in the adapter to desired prefixes</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">normalization_map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># create a reverse map, that maps from the desired prefixes to the prefixes used in the adapter</span>
+        <span class="k">if</span> <span class="n">prefix_alias_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">reverse_prefix_alias_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">prefix_alias_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reverse_prefix_alias_map</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">curies</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># TODO: use source_prefixes</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># map input to the form used in this adapter</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">normalize_prefix</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">source_prefixes</span><span class="p">,</span> <span class="n">reverse_prefix_alias_map</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies</span>
+            <span class="p">]</span>
+        <span class="n">subject_nmap</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">c</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_prefix</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">source_prefixes</span><span class="p">,</span> <span class="n">prefix_alias_map</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies</span>
+        <span class="p">}</span>
+        <span class="c1"># case-neutral form of target prefixes</span>
+        <span class="n">target_prefixes_lc</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">target_prefixes</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="n">curies</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span> <span class="ow">in</span> <span class="n">subject_nmap</span><span class="p">:</span>
+                <span class="n">other_id</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span>
+                <span class="n">other_prefix</span> <span class="o">=</span> <span class="n">other_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">other_prefix</span> <span class="ow">in</span> <span class="n">target_prefixes</span> <span class="ow">or</span> <span class="n">other_prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">target_prefixes_lc</span><span class="p">:</span>
+                    <span class="n">normalization_map</span><span class="p">[</span><span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">other_id</span>
+            <span class="k">elif</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span> <span class="ow">in</span> <span class="n">subject_nmap</span><span class="p">:</span>
+                <span class="n">other_id</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span>
+                <span class="n">other_prefix</span> <span class="o">=</span> <span class="n">other_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">other_prefix</span> <span class="ow">in</span> <span class="n">target_prefixes</span> <span class="ow">or</span> <span class="n">other_prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">target_prefixes_lc</span><span class="p">:</span>
+                    <span class="n">normalization_map</span><span class="p">[</span><span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">other_id</span>
+        <span class="n">normalization_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">normalize_prefix</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">target_prefixes</span><span class="p">,</span> <span class="n">prefix_alias_map</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_prefix</span><span class="p">(</span>
+                <span class="n">v</span><span class="p">,</span> <span class="n">target_prefixes</span><span class="p">,</span> <span class="n">prefix_alias_map</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">normalization_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">normalization_map</span></div></div>
 </pre></div>
 
            </div>

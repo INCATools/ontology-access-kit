@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: object &mdash; oaklib  documentation</title>
+  <title>Slot: original_subject &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: object</li>
+      <li class="breadcrumb-item active">Slot: original_subject</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/association/object.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/association/original_subject.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,42 +83,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-object">
-<h1>Slot: object<a class="headerlink" href="#slot-object" title="Permalink to this heading"></a></h1>
-<p><em>An ontology entity that is associated with the subject.</em></p>
-<p>URI: <a class="reference internal" href="#rdf:object"><span class="xref myst">rdf:object</span></a></p>
+  <section id="slot-original-subject">
+<h1>Slot: original_subject<a class="headerlink" href="#slot-original-subject" title="Permalink to this heading"></a></h1>
+<p><em>The original subject of the association prior to normalization</em></p>
+<p>URI: <a class="reference internal" href="#rdf:subject"><span class="xref myst">rdf:subject</span></a></p>
 <!-- no inheritance hierarchy -->
-<section id="applicable-classes">
-<h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this heading"></a></h2>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
-<td><p>A generic association between a thing (subject) and another thing (object)</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="NegatedAssociation.html"><span class="std std-doc">NegatedAssociation</span></a></p></td>
-<td><p>A negated association between a thing (subject) and another thing (object)</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
-<td><p>A generic tag-value that can be associated with an association</p></td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></li>
-</ul>
-</section>
-<section id="comments">
-<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this heading"></a></h2>
-<ul class="simple">
-<li><p>it is conventional for the subject to be the “entity” and the object to be the ontological descriptor</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -134,21 +107,14 @@
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
 <details>
 ```yaml
-name: object
-description: An ontology entity that is associated with the subject.
-comments:
-- it is conventional for the subject to be the "entity" and the object to be the ontological
-  descriptor
+name: original_subject
+description: The original subject of the association prior to normalization
 from_schema: https://w3id.org/oak/association
 exact_mappings:
-- oa:hasTarget
+- biolink:original_subject
 rank: 1000
-slot_uri: rdf:object
-alias: object
-domain_of:
-- Association
-- NegatedAssociation
-- PropertyValue
+slot_uri: rdf:subject
+alias: original_subject
 range: uriorcurie
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>

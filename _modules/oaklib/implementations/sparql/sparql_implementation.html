@@ -93,6 +93,9 @@
     <span class="n">AbstractSparqlImplementation</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.association_provider_interface</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AssociationProviderInterface</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.merge_interface</span> <span class="kn">import</span> <span class="n">MergeConfiguration</span><span class="p">,</span> <span class="n">MergeInterface</span>
@@ -107,6 +110,7 @@
 <div class="viewcode-block" id="SparqlImplementation"><a class="viewcode-back" href="../../../../packages/implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SparqlImplementation</span><span class="p">(</span>
     <span class="n">AbstractSparqlImplementation</span><span class="p">,</span>
+    <span class="n">AssociationProviderInterface</span><span class="p">,</span>
     <span class="n">RdfInterface</span><span class="p">,</span>
     <span class="n">DifferInterface</span><span class="p">,</span>
     <span class="n">SearchInterface</span><span class="p">,</span>

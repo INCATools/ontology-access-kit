@@ -13,13 +13,19 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
     class Association
       Association : object
         
+      Association : object_label
+        
       Association : predicate
+        
+      Association : predicate_label
         
       Association : property_values
         
           Association ..> PropertyValue : property_values
         
       Association : subject
+        
+      Association : subject_label
         
       
 ```
@@ -38,6 +44,9 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | direct |
 | [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | direct |
 | [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) |  | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The label of the thing which the association is about | direct |
+| [predicate_label](predicate_label.md) | 0..1 <br/> [String](String.md) | The label of the type of relationship between the subject and object | direct |
+| [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | direct |
 
 
 
@@ -99,6 +108,9 @@ slots:
 - predicate
 - object
 - property_values
+- subject_label
+- predicate_label
+- object_label
 class_uri: oa:Annotation
 
 ```
@@ -116,6 +128,9 @@ attributes:
   subject:
     name: subject
     description: The thing which the association is about.
+    comments:
+    - it is conventional for the subject to be the "entity" and the object to be the
+      ontological descriptor
     from_schema: https://w3id.org/oak/association
     exact_mappings:
     - oa:hasBody
@@ -143,6 +158,9 @@ attributes:
   object:
     name: object
     description: An ontology entity that is associated with the subject.
+    comments:
+    - it is conventional for the subject to be the "entity" and the object to be the
+      ontological descriptor
     from_schema: https://w3id.org/oak/association
     exact_mappings:
     - oa:hasTarget
@@ -167,6 +185,48 @@ attributes:
     - NegatedAssociation
     range: PropertyValue
     inlined: true
+  subject_label:
+    name: subject_label
+    description: The label of the thing which the association is about.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    mixins:
+    - denormalized_slot
+    slot_uri: sssom:subject_label
+    alias: subject_label
+    owner: Association
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: string
+  predicate_label:
+    name: predicate_label
+    description: The label of the type of relationship between the subject and object.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    mixins:
+    - denormalized_slot
+    slot_uri: sssom:predicate_label
+    alias: predicate_label
+    owner: Association
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: string
+  object_label:
+    name: object_label
+    description: The label of the ontology entity that is associated with the subject.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    mixins:
+    - denormalized_slot
+    slot_uri: sssom:object_label
+    alias: object_label
+    owner: Association
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: string
 class_uri: oa:Annotation
 
 ```

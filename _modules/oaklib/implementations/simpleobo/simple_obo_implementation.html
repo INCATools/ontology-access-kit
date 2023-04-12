@@ -195,6 +195,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.kgcl_utilities</span> <span class="kn">import</span> <span class="n">tidy_change_object</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.sssom_utils</span> <span class="kn">import</span> <span class="n">inject_mapping_sources</span>
 
 
 <span class="k">def</span> <span class="nf">_is_isa</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -712,23 +713,27 @@
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_XREF</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span>
                     <span class="n">subject_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
                     <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                     <span class="n">object_id</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
                     <span class="n">mapping_justification</span><span class="o">=</span><span class="n">sssom</span><span class="o">.</span><span class="n">EntityReference</span><span class="p">(</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
                 <span class="p">)</span>
+                <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">m</span>
         <span class="c1"># TODO: use a cache to avoid re-calculating</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">stanza</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span><span class="o">.</span><span class="n">stanzas</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stanza</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_XREF</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stanza</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_XREF</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">curie</span><span class="p">:</span>
-                        <span class="k">yield</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span>
+                        <span class="n">m</span> <span class="o">=</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span>
                             <span class="n">subject_id</span><span class="o">=</span><span class="n">stanza</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
                             <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                             <span class="n">object_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
                             <span class="n">mapping_justification</span><span class="o">=</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                         <span class="p">)</span>
+                        <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+                        <span class="k">yield</span> <span class="n">m</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: OboGraphInterface</span>

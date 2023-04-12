@@ -198,7 +198,59 @@ See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping cre
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.mapping_provider_interface.</span></span><span class="sig-name descname"><span class="pre">MappingProviderInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface" title="Permalink to this definition"></a></dt>
-<dd><p>An ontology provider that provides SSSOM mappings.</p>
+<dd><p>An ontology interface that provides SSSOM mappings.</p>
+<p>For more on the SSSOM Data Model, see <a class="reference external" href="https://w3id.org/sssom/">https://w3id.org/sssom/</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>most ontologies only include minimal metadata about mappings at this time, so many fields
+in the sssom mapping datamodel are not populated.</p>
+</div>
+<p>The core method in this interface is <a class="reference internal" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings" title="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sssom_mappings()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">
+<span class="sig-name descname"><span class="pre">sssom_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.sssom_mappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings" title="Permalink to this definition"></a></dt>
+<dd><p>returns all sssom mappings matching filter conditions.</p>
+<p>To fetch all mappings, simply leave the filter conditions empty:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
+
+<span class="gp">...</span>
+<span class="go">GO:0016772 EC:2.7.-.-</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>To get annotations for a particular term or terms, and to constrain the source of the
+mapping, use the curies and source parameters:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">([</span><span class="s2">&quot;GO:0005886&quot;</span><span class="p">],</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;Wikipedia&quot;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
+<span class="go">GO:0005886 Wikipedia:Cell_membrane</span>
+</pre></div>
+</div>
+<p>Note you can also lookup from the perspective of the mapped entity:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">([</span><span class="s2">&quot;Wikipedia:Cell_membrane&quot;</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
+<span class="go">GO:0005886 Wikipedia:Cell_membrane</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curies</strong> – [Optional] entity IDs (in ontology or mapped ontology) to filter by</p></li>
+<li><p><strong>source</strong> – [Optional] only show mappings to source</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">
 <span class="sig-name descname"><span class="pre">sssom_mappings_by_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject_or_object_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.sssom_mappings_by_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source" title="Permalink to this definition"></a></dt>
@@ -241,15 +293,11 @@ See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping cre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">
-<span class="sig-name descname"><span class="pre">sssom_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.sssom_mappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings" title="Permalink to this definition"></a></dt>
-<dd><p>returns all sssom mappings matching filter conditions</p>
-<dl class="field-list simple">
+<dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">
+<span class="sig-name descname"><span class="pre">get_transitive_mappings_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.get_transitive_mappings_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>curies</strong> – </p></li>
-<li><p><strong>source</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -258,11 +306,110 @@ See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping cre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">
-<span class="sig-name descname"><span class="pre">get_transitive_mappings_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.get_transitive_mappings_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize" title="Permalink to this definition"></a></dt>
+<dd><p>Normalize a CURIE to a target prefix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Wikipedia:Cell_membrane&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;GO&quot;</span><span class="p">])</span>
+<span class="go">&#39;GO:0005886&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – the CURIE to normalize</p></li>
+<li><p><strong>target_prefixes</strong> – the prefixes to normalize to</p></li>
+<li><p><strong>source_prefixes</strong> – the prefixes to normalize from</p></li>
+<li><p><strong>strict</strong> – if True, raise an error if there is no single mapping to a target prefix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the normalized CURIE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize_prefix">
+<span class="sig-name descname"><span class="pre">normalize_prefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Collection</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix_alias_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.normalize_prefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize_prefix" title="Permalink to this definition"></a></dt>
+<dd><p>Normalize a CURIE to a target prefix.</p>
+<p>If a prefix alias map is supplied, this is takes precendence:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span><span class="o">.</span><span class="n">normalize_prefix</span><span class="p">(</span><span class="s2">&quot;uniprot:P12345&quot;</span><span class="p">,</span> <span class="n">prefix_alias_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;uniprot&quot;</span><span class="p">:</span> <span class="s2">&quot;UniProtKB&quot;</span><span class="p">})</span>
+<span class="go">&#39;UniProtKB:P12345&#39;</span>
+</pre></div>
+</div>
+<p>If not prefix alias map is supplied, then the prefix is mapped to the preferred
+casing determined by the supplied prefixes:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span><span class="o">.</span><span class="n">normalize_prefix</span><span class="p">(</span><span class="s2">&quot;go:0000001&quot;</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GO&quot;</span><span class="p">])</span>
+<span class="go">&#39;GO:0000001&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – the CURIE to normalize</p></li>
+<li><p><strong>prefixes</strong> – the prefixes to normalize to</p></li>
+<li><p><strong>prefix_alias_map</strong> – a map of prefix aliases to prefixes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the normalized CURIE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.create_normalization_map">
+<span class="sig-name descname"><span class="pre">create_normalization_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Collection</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Collection</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix_alias_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.create_normalization_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.create_normalization_map" title="Permalink to this definition"></a></dt>
+<dd><p>Create a normalization map for a set of CURIEs.</p>
+<p>This map can then be used to map IDs from one prefix space to another.</p>
+<p>For each curie in curies, find a mapping to a target prefix, and add it to the map.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">create_normalization_map</span><span class="p">(</span><span class="n">source_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GO&quot;</span><span class="p">],</span> <span class="n">target_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Wikipedia&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span><span class="p">[</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">]</span>
+<span class="go">&#39;Wikipedia:Cell_nucleus&#39;</span>
+</pre></div>
+</div>
+<p>You can also pass in an explicit prefix alias map:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">create_normalization_map</span><span class="p">(</span><span class="n">source_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GO&quot;</span><span class="p">],</span> <span class="n">target_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WIKIPEDIA&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">prefix_alias_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Wikipedia&quot;</span><span class="p">:</span> <span class="s2">&quot;WIKIPEDIA&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span><span class="p">[</span><span class="s2">&quot;GO:0005634&quot;</span><span class="p">]</span>
+<span class="go">&#39;WIKIPEDIA:Cell_nucleus&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">create_normalization_map</span><span class="p">(</span><span class="n">source_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;go&quot;</span><span class="p">],</span> <span class="n">target_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WIKIPEDIA&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">prefix_alias_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Wikipedia&quot;</span><span class="p">:</span> <span class="s2">&quot;WIKIPEDIA&quot;</span><span class="p">,</span> <span class="s2">&quot;GO&quot;</span><span class="p">:</span> <span class="s2">&quot;go&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span><span class="p">[</span><span class="s2">&quot;go:0005634&quot;</span><span class="p">]</span>
+<span class="go">&#39;WIKIPEDIA:Cell_nucleus&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">create_normalization_map</span><span class="p">([</span><span class="s2">&quot;go:0005634&quot;</span><span class="p">],</span> <span class="n">source_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;go&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">target_prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WIKIPEDIA&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">prefix_alias_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Wikipedia&quot;</span><span class="p">:</span> <span class="s2">&quot;WIKIPEDIA&quot;</span><span class="p">,</span> <span class="s2">&quot;GO&quot;</span><span class="p">:</span> <span class="s2">&quot;go&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nmap</span><span class="p">[</span><span class="s2">&quot;go:0005634&quot;</span><span class="p">]</span>
+<span class="go">&#39;WIKIPEDIA:Cell_nucleus&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curies</strong> – </p></li>
+<li><p><strong>subject_prefixes</strong> – </p></li>
+<li><p><strong>object_prefixes</strong> – </p></li>
+<li><p><strong>prefix_alias_map</strong> – maps from prefixes used in the adapter to desired prefixes</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>

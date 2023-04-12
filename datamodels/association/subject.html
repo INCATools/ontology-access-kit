@@ -112,6 +112,12 @@
 <li><p>Range: <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></li>
 </ul>
 </section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>it is conventional for the subject to be the “entity” and the object to be the ontological descriptor</p></li>
+</ul>
+</section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
 <section id="schema-source">
@@ -127,6 +133,9 @@
 ```yaml
 name: subject
 description: The thing which the association is about.
+comments:
+- it is conventional for the subject to be the "entity" and the object to be the ontological
+  descriptor
 from_schema: https://w3id.org/oak/association
 exact_mappings:
 - oa:hasBody

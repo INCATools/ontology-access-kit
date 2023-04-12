@@ -92,13 +92,19 @@
     class Association
       Association : object
         
+      Association : object_label
+        
       Association : predicate
+        
+      Association : predicate_label
         
       Association : property_values
         
           Association ..&gt; PropertyValue : property_values
         
       Association : subject
+        
+      Association : subject_label
         
       
         </div><!-- no inheritance hierarchy -->
@@ -131,6 +137,21 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 <td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The label of the thing which the association is about</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="predicate_label.html"><span class="std std-doc">predicate_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The label of the type of relationship between the subject and object</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="std std-doc">object_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The label of the ontology entity that is associated with the subject</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -198,6 +219,9 @@ slots:
 - predicate
 - object
 - property_values
+- subject_label
+- predicate_label
+- object_label
 class_uri: oa:Annotation
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -213,6 +237,9 @@ attributes:
   subject:
     name: subject
     description: The thing which the association is about.
+    comments:
+    - it is conventional for the subject to be the &quot;entity&quot; and the object to be the
+      ontological descriptor
     from_schema: https://w3id.org/oak/association
     exact_mappings:
     - oa:hasBody
@@ -240,6 +267,9 @@ attributes:
   object:
     name: object
     description: An ontology entity that is associated with the subject.
+    comments:
+    - it is conventional for the subject to be the &quot;entity&quot; and the object to be the
+      ontological descriptor
     from_schema: https://w3id.org/oak/association
     exact_mappings:
     - oa:hasTarget
@@ -264,6 +294,48 @@ attributes:
     - NegatedAssociation
     range: PropertyValue
     inlined: true
+  subject_label:
+    name: subject_label
+    description: The label of the thing which the association is about.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    mixins:
+    - denormalized_slot
+    slot_uri: sssom:subject_label
+    alias: subject_label
+    owner: Association
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: string
+  predicate_label:
+    name: predicate_label
+    description: The label of the type of relationship between the subject and object.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    mixins:
+    - denormalized_slot
+    slot_uri: sssom:predicate_label
+    alias: predicate_label
+    owner: Association
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: string
+  object_label:
+    name: object_label
+    description: The label of the ontology entity that is associated with the subject.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    mixins:
+    - denormalized_slot
+    slot_uri: sssom:object_label
+    alias: object_label
+    owner: Association
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: string
 class_uri: oa:Annotation
 
 </pre></div>

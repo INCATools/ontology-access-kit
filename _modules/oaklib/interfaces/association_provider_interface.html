@@ -86,9 +86,11 @@
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="n">Association</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
@@ -125,13 +127,35 @@
         <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="AssociationProviderInterface"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface">[docs]</a><span class="k">class</span> <span class="nc">AssociationProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">EntityNormalizer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Describes how identifier fields should be normalized</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">adapter</span><span class="p">:</span> <span class="n">MappingProviderInterface</span>
+
+    <span class="n">query_time</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">source_prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">target_prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="n">prefix_alias_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="n">slots</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AssociationProviderInterface"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">AssociationProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An ontology provider that provides associations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_association_index</span><span class="p">:</span> <span class="n">AssociationIndex</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;In-memory index of associations&quot;&quot;&quot;</span>
+
+    <span class="n">normalizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AssociationProviderInterface.associations"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations">[docs]</a>    <span class="k">def</span> <span class="nf">associations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -183,16 +207,26 @@
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ix</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">a</span></div>
 
-<div class="viewcode-block" id="AssociationProviderInterface.add_associations"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations">[docs]</a>    <span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="AssociationProviderInterface.add_associations"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations">[docs]</a>    <span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">],</span> <span class="n">normalizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Store a collection of associations for later retrievals.</span>
 
 <span class="sd">        :param associations:</span>
+<span class="sd">        :param normalizers:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">normalizers</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalizers</span><span class="p">:</span>
+            <span class="n">normalizers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalizers</span>
+        <span class="k">if</span> <span class="n">normalizers</span><span class="p">:</span>
+            <span class="n">associations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span>
+            <span class="n">associations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_associations</span><span class="p">(</span><span class="n">associations</span><span class="p">,</span> <span class="n">normalizers</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_association_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating association index&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_association_index</span> <span class="o">=</span> <span class="n">AssociationIndex</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_association_index</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Populating associations to index&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_association_index</span><span class="o">.</span><span class="n">populate</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
@@ -300,7 +334,90 @@
                         <span class="n">mapped_obj</span><span class="p">,</span>
                         <span class="n">property_values</span><span class="o">=</span><span class="n">association</span><span class="o">.</span><span class="n">property_values</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="k">yield</span> <span class="n">association</span></div></div>
+                    <span class="k">yield</span> <span class="n">association</span></div>
+
+<div class="viewcode-block" id="AssociationProviderInterface.normalize_associations"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.normalize_associations">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_associations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">],</span>
+        <span class="n">normalizers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Association</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalize associations.</span>
+
+<span class="sd">        :param associations:</span>
+<span class="sd">        :param normalizers:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">normalizers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">associations</span>
+        <span class="n">associations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span>
+        <span class="n">subject_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">association</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">association</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">])</span>
+        <span class="n">object_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">association</span><span class="o">.</span><span class="n">object</span> <span class="k">for</span> <span class="n">association</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">normalizer</span> <span class="ow">in</span> <span class="n">normalizers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">slots</span> <span class="ow">or</span> <span class="s2">&quot;subject&quot;</span> <span class="ow">in</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">slots</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating subject normalization map for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subject_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">subject_nmap</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_normalization_map</span><span class="p">(</span>
+                    <span class="n">subject_ids</span><span class="p">,</span>
+                    <span class="n">source_prefixes</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">source_prefixes</span><span class="p">,</span>
+                    <span class="n">target_prefixes</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">target_prefixes</span><span class="p">,</span>
+                    <span class="n">prefix_alias_map</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">prefix_alias_map</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created subject normalization =&gt; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subject_nmap</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">subject_nmap</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">slots</span> <span class="ow">or</span> <span class="s2">&quot;object&quot;</span> <span class="ow">in</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">slots</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating object normalization map for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">object_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">object_nmap</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_normalization_map</span><span class="p">(</span>
+                    <span class="n">object_ids</span><span class="p">,</span>
+                    <span class="n">source_prefixes</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">source_prefixes</span><span class="p">,</span>
+                    <span class="n">target_prefixes</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">target_prefixes</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">object_nmap</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">subject_nmap</span> <span class="ow">or</span> <span class="n">object_nmap</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Normalizing associations using s: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subject_nmap</span><span class="p">)</span><span class="si">}</span><span class="s2"> o: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">object_nmap</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">association</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">association</span><span class="o">.</span><span class="n">subject</span> <span class="ow">in</span> <span class="n">subject_nmap</span><span class="p">:</span>
+                        <span class="n">association</span><span class="o">.</span><span class="n">original_subject</span> <span class="o">=</span> <span class="n">association</span><span class="o">.</span><span class="n">subject</span>
+                        <span class="n">association</span><span class="o">.</span><span class="n">subject</span> <span class="o">=</span> <span class="n">subject_nmap</span><span class="p">[</span><span class="n">association</span><span class="o">.</span><span class="n">subject</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">association</span><span class="o">.</span><span class="n">object</span> <span class="ow">in</span> <span class="n">object_nmap</span><span class="p">:</span>
+                        <span class="n">association</span><span class="o">.</span><span class="n">original_object</span> <span class="o">=</span> <span class="n">association</span><span class="o">.</span><span class="n">object</span>
+                        <span class="n">association</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="n">object_nmap</span><span class="p">[</span><span class="n">association</span><span class="o">.</span><span class="n">object</span><span class="p">]</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Yielding </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span><span class="si">}</span><span class="s2"> associations&quot;</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">associations</span></div>
+
+<div class="viewcode-block" id="AssociationProviderInterface.normalize_association"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.normalize_association">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_association</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">association</span><span class="p">:</span> <span class="n">Association</span><span class="p">,</span>
+        <span class="n">normalizers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EntityNormalizer</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Association</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalize identifiers in an association.</span>
+
+<span class="sd">        :param association:</span>
+<span class="sd">        :param normalizers:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">normalizers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">association</span>
+        <span class="k">for</span> <span class="n">normalizer</span> <span class="ow">in</span> <span class="n">normalizers</span><span class="p">:</span>
+            <span class="n">subject_prefix</span> <span class="o">=</span> <span class="n">association</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">object_prefix</span> <span class="o">=</span> <span class="n">association</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">subject_prefix</span> <span class="ow">in</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">source_prefixes</span><span class="p">:</span>
+                <span class="n">association</span><span class="o">.</span><span class="n">subject</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span>
+                    <span class="n">association</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
+                    <span class="n">target_prefixes</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">target_prefixes</span><span class="p">,</span>
+                    <span class="n">strict</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">strict</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">object_prefix</span> <span class="ow">in</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">source_prefixes</span><span class="p">:</span>
+                <span class="n">association</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span>
+                    <span class="n">association</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
+                    <span class="n">target_prefixes</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">target_prefixes</span><span class="p">,</span>
+                    <span class="n">strict</span><span class="o">=</span><span class="n">normalizer</span><span class="o">.</span><span class="n">strict</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">association</span></div></div>
 </pre></div>
 
            </div>
