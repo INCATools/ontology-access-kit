@@ -180,6 +180,9 @@ def get_resource_from_shorthand(
 
         # Prevent the driveletter from being interpreted as scheme on Windows.
         if ":" in descriptor and not Path(descriptor).is_file():
+            if os.name == "nt":
+                _, descriptor = os.path.splitdrive(descriptor)
+
             toks = descriptor.split(":")
             scheme = toks[0]
             resource.scheme = scheme
