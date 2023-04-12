@@ -173,8 +173,8 @@ def get_resource_from_shorthand(
             # this is currently an advanced/experimental feature, if useful
             # it should be exposed in user-facing sphinx docs.
             descriptor = descriptor.replace("datamodel:", "")
-            dm_path = os.path.dirname(datamodels_package.__file__)
-            descriptor = f"{Path(dm_path)/descriptor}.owl.ttl"
+            dm_path = Path(datamodels_package.__file__)
+            descriptor = f"{dm_path/descriptor}.owl.ttl"
             logging.info(f"Introspecting datamodel from {descriptor}")
             resource.slug = descriptor
 
