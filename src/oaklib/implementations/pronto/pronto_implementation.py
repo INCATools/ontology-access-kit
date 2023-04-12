@@ -837,6 +837,10 @@ class ProntoImplementation(
             for syn in t.synonyms:
                 if syn.description == patch.old_value:
                     syn.description = patch.new_value
+        elif isinstance(patch, kgcl.NewTextDefinition):
+            t = self._entity(patch.about_node, strict=True)
+            xrefs = t.definition.xrefs if t.definition else []
+            t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._entity(patch.about_node, strict=True)
             xrefs = t.definition.xrefs if t.definition else []

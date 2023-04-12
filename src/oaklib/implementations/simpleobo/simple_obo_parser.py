@@ -520,6 +520,16 @@ class Structure:
         """
         self.tag_values.append(TagValue(tag, val))
 
+    def add_quoted_tag_value(self, tag: TAG, val: str, xrefs: List[str]) -> None:
+        """
+        Adds a tag-value pair
+
+        :param tag:
+        :param val:
+        :return:
+        """
+        self.tag_values.append(TagValue(tag, f"\"{val}\" [{','.join(xrefs)}]"))
+
     def add_tag_value_pair(self, tag: TAG, val1: str, val2: str) -> None:
         """
         Adds a tag-value pair where the value is a pair
