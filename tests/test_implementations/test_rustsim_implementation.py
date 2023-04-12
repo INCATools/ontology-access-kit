@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from rustsim import get_intersection, jaccard_similarity, mrca_and_score
@@ -11,7 +12,6 @@ from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE
 from tests.test_implementations import ComplianceTester
 
 DB = INPUT_DIR / "go-nucleus.db"
-# DB = "../input/go-nucleus.db"
 
 
 class TestRustSimImplementation(unittest.TestCase):
@@ -21,7 +21,12 @@ class TestRustSimImplementation(unittest.TestCase):
         """Set up"""
         # Calling get_implementation_from_shorthand() alone fails on Windows
         # try:
-        oi = get_adapter(f"rustsim:sqlite:///{DB.as_posix()}")
+        db = DB.as_posix()
+
+        if os.name == "nt":
+            _, db = os.path.splitdrive(db)
+
+        oi = get_adapter(f"rustsim:sqlite:///{db}")
         # except FileNotFoundError:
         #     oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
 
