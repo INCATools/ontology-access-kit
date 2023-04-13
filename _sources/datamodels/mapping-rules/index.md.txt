@@ -23,6 +23,7 @@ Name: mapping-rules-datamodel
 | [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |
 | [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |
 | [Synonymizer](Synonymizer.md) |  |
+| [Test](Test.md) |  |
 
 
 ## Slots
@@ -33,6 +34,7 @@ Name: mapping-rules-datamodel
 | [element](element.md) |  |
 | [element_term](element_term.md) | the original term used in the element |
 | [groupings](groupings.md) | all groupings |
+| [input](input.md) | Input string for the rule |
 | [mapping_source_one_of](mapping_source_one_of.md) |  |
 | [match](match.md) | Reg-ex rule to match substrings in labels |
 | [match_scope](match_scope.md) | Scope of the reg-ex rule |
@@ -41,6 +43,7 @@ Name: mapping-rules-datamodel
 | [object_match_field_one_of](object_match_field_one_of.md) |  |
 | [object_source_one_of](object_source_one_of.md) |  |
 | [oneway](oneway.md) | if true then subject and object can be switched and predicate inverted |
+| [output](output.md) | Output based on the rule |
 | [params](params.md) | Any parameters to be applied to the transformation algorithm |
 | [pipeline](pipeline.md) |  |
 | [pipelines](pipelines.md) | all pipelines used to build the index |
@@ -49,6 +52,7 @@ Name: mapping-rules-datamodel
 | [predicate](predicate.md) |  |
 | [predicate_id](predicate_id.md) |  |
 | [predicate_id_one_of](predicate_id_one_of.md) |  |
+| [prefix](prefix.md) | The rule applies to nodes of a specific prefix |
 | [qualifier](qualifier.md) | Type of match for the new synonym generated |
 | [relationships](relationships.md) | All ontology elements grouped and their relationship to the normalized term |
 | [replacement](replacement.md) | Reg-ex rule to replace substrings in labels |
@@ -59,6 +63,7 @@ Name: mapping-rules-datamodel
 | [synonymized](synonymized.md) |  |
 | [synonymizer](synonymizer.md) | Normalizing rules to labels |
 | [term](term.md) | A normalized term that groups ontology elements |
+| [tests](tests.md) | Unit tests for each rules |
 | [the_rule](the_rule.md) | Description of the rule |
 | [transformations](transformations.md) |  |
 | [transformations_included_in](transformations_included_in.md) |  |

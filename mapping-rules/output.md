@@ -1,0 +1,66 @@
+# Slot: output
+_Output based on the rule._
+
+
+URI: [mappingrules:output](https://w3id.org/oak/mapping-rules-datamodel/output)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Test](Test.md) | 
+
+
+
+
+
+
+## Properties
+
+* Range: [String](String.md)
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: output
+description: Output based on the rule.
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
+rank: 1000
+alias: output
+owner: Test
+domain_of:
+- Test
+range: string
+
+```
+</details>

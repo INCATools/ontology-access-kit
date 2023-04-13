@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: Synonymizer &mdash; oaklib  documentation</title>
+  <title>Class: Test &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: Synonymizer</li>
+      <li class="breadcrumb-item active">Class: Test</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/mapping-rules/Synonymizer.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/mapping-rules/Test.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,27 +83,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-synonymizer">
-<h1>Class: Synonymizer<a class="headerlink" href="#class-synonymizer" title="Permalink to this heading"></a></h1>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/Synonymizer">mappingrules:Synonymizer</a></p>
+  <section id="class-test">
+<h1>Class: Test<a class="headerlink" href="#class-test" title="Permalink to this heading"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/Test">mappingrules:Test</a></p>
 <div class="mermaid">
              classDiagram
-    class Synonymizer
-      Synonymizer : match
+    class Test
+      Test : input
         
-      Synonymizer : match_scope
+      Test : output
         
-      Synonymizer : prefix
-        
-      Synonymizer : qualifier
-        
-      Synonymizer : replacement
-        
-      Synonymizer : tests
-        
-          Synonymizer ..&gt; Test : tests
-        
-      Synonymizer : the_rule
+      Test : prefix
         
       
         </div><!-- no inheritance hierarchy -->
@@ -118,39 +108,19 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="the_rule.html"><span class="std std-doc">the_rule</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="input.html"><span class="std std-doc">input</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p>Description of the rule</p></td>
+<td><p>Input string for the rule</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="match.html"><span class="std std-doc">match</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="output.html"><span class="std std-doc">output</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p>Reg-ex rule to match substrings in labels</p></td>
+<td><p>Output based on the rule</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="match_scope.html"><span class="std std-doc">match_scope</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p>Scope of the reg-ex rule</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="replacement.html"><span class="std std-doc">replacement</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p>Reg-ex rule to replace substrings in labels</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="qualifier.html"><span class="std std-doc">qualifier</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p>Type of match for the new synonym generated</p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="prefix.html"><span class="std std-doc">prefix</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="prefix.html"><span class="std std-doc">prefix</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="tests.html"><span class="std std-doc">tests</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Test.html"><span class="std std-doc">Test</span></a></p></td>
-<td><p>Unit tests for each rules</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -167,10 +137,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="MappingRule.html"><span class="std std-doc">MappingRule</span></a></p></td>
-<td><p><a class="reference internal" href="synonymizer.html"><span class="std std-doc">synonymizer</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Synonymizer.html"><span class="std std-doc">Synonymizer</span></a></p></td>
+<td><p><a class="reference internal" href="tests.html"><span class="std std-doc">tests</span></a></p></td>
 <td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="std std-doc">Synonymizer</span></a></p></td>
+<td><p><a class="reference internal" href="#"><span class="std std-doc">Test</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -194,10 +164,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>mappingrules:Synonymizer</p></td>
+<td><p>mappingrules:Test</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>mappingrules:Synonymizer</p></td>
+<td><p>mappingrules:Test</p></td>
 </tr>
 </tbody>
 </table>
@@ -209,133 +179,64 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this heading"></a></h3>
 <details>
 ```yaml
-name: Synonymizer
+name: Test
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
-  the_rule:
-    name: the_rule
-    description: Description of the rule.
+  input:
+    name: input
+    description: Input string for the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    range: string
-  match:
-    name: match
-    description: Reg-ex rule to match substrings in labels.
+  output:
+    name: output
+    description: Output based on the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    range: string
-  match_scope:
-    name: match_scope
-    description: Scope of the reg-ex rule
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    range: string
-  replacement:
-    name: replacement
-    description: Reg-ex rule to replace substrings in labels
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    range: string
-  qualifier:
-    name: qualifier
-    description: Type of match for the new synonym generated.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    range: string
   prefix:
     name: prefix
-    description: The rule applies to nodes of a specific prefix.
+    description: The prefix that qualifies for the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    range: string
-  tests:
-    name: tests
-    description: Unit tests for each rules.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    range: Test
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: Synonymizer
+name: Test
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 attributes:
-  the_rule:
-    name: the_rule
-    description: Description of the rule.
+  input:
+    name: input
+    description: Input string for the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    alias: the_rule
-    owner: Synonymizer
+    alias: input
+    owner: Test
     domain_of:
-    - Synonymizer
+    - Test
     range: string
-  match:
-    name: match
-    description: Reg-ex rule to match substrings in labels.
+  output:
+    name: output
+    description: Output based on the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
-    alias: match
-    owner: Synonymizer
+    alias: output
+    owner: Test
     domain_of:
-    - Synonymizer
-    range: string
-  match_scope:
-    name: match_scope
-    description: Scope of the reg-ex rule
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    alias: match_scope
-    owner: Synonymizer
-    domain_of:
-    - Synonymizer
-    range: string
-  replacement:
-    name: replacement
-    description: Reg-ex rule to replace substrings in labels
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    alias: replacement
-    owner: Synonymizer
-    domain_of:
-    - Synonymizer
-    range: string
-  qualifier:
-    name: qualifier
-    description: Type of match for the new synonym generated.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    alias: qualifier
-    owner: Synonymizer
-    domain_of:
-    - Synonymizer
+    - Test
     range: string
   prefix:
     name: prefix
-    description: The rule applies to nodes of a specific prefix.
+    description: The prefix that qualifies for the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
     alias: prefix
-    owner: Synonymizer
+    owner: Test
     domain_of:
     - Synonymizer
     - Test
     range: string
-  tests:
-    name: tests
-    description: Unit tests for each rules.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    alias: tests
-    owner: Synonymizer
-    domain_of:
-    - Synonymizer
-    range: Test
 
 </pre></div>
 </div>

@@ -1,0 +1,148 @@
+# Class: Test
+
+
+
+URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
+
+
+
+```{mermaid}
+ classDiagram
+    class Test
+      Test : input
+        
+      Test : output
+        
+      Test : prefix
+        
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [input](input.md) | 0..1 <br/> [String](String.md) | Input string for the rule | direct |
+| [output](output.md) | 0..1 <br/> [String](String.md) | Output based on the rule | direct |
+| [prefix](prefix.md) | 0..1 <br/> [String](String.md) |  | direct |
+
+
+
+
+
+## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [Synonymizer](Synonymizer.md) | [tests](tests.md) | range | [Test](Test.md) |
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:Test |
+| native | mappingrules:Test |
+
+
+
+
+
+## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: Test
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
+rank: 1000
+attributes:
+  input:
+    name: input
+    description: Input string for the rule.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+  output:
+    name: output
+    description: Output based on the rule.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+  prefix:
+    name: prefix
+    description: The prefix that qualifies for the rule.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: Test
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
+rank: 1000
+attributes:
+  input:
+    name: input
+    description: Input string for the rule.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    alias: input
+    owner: Test
+    domain_of:
+    - Test
+    range: string
+  output:
+    name: output
+    description: Output based on the rule.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    alias: output
+    owner: Test
+    domain_of:
+    - Test
+    range: string
+  prefix:
+    name: prefix
+    description: The prefix that qualifies for the rule.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    alias: prefix
+    owner: Test
+    domain_of:
+    - Synonymizer
+    - Test
+    range: string
+
+```
+</details>

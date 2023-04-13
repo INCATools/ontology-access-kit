@@ -13,9 +13,15 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
         
       Synonymizer : match_scope
         
+      Synonymizer : prefix
+        
       Synonymizer : qualifier
         
       Synonymizer : replacement
+        
+      Synonymizer : tests
+        
+          Synonymizer ..> Test : tests
         
       Synonymizer : the_rule
         
@@ -37,6 +43,8 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 | [match_scope](match_scope.md) | 0..1 <br/> [String](String.md) | Scope of the reg-ex rule | direct |
 | [replacement](replacement.md) | 0..1 <br/> [String](String.md) | Reg-ex rule to replace substrings in labels | direct |
 | [qualifier](qualifier.md) | 0..1 <br/> [String](String.md) | Type of match for the new synonym generated | direct |
+| [prefix](prefix.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [tests](tests.md) | 0..1 <br/> [Test](Test.md) | Unit tests for each rules | direct |
 
 
 
@@ -123,6 +131,18 @@ attributes:
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     range: string
+  prefix:
+    name: prefix
+    description: The rule applies to nodes of a specific prefix.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    range: string
+  tests:
+    name: tests
+    description: Unit tests for each rules.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    range: Test
 
 ```
 </details>
@@ -185,6 +205,27 @@ attributes:
     domain_of:
     - Synonymizer
     range: string
+  prefix:
+    name: prefix
+    description: The rule applies to nodes of a specific prefix.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    alias: prefix
+    owner: Synonymizer
+    domain_of:
+    - Synonymizer
+    - Test
+    range: string
+  tests:
+    name: tests
+    description: Unit tests for each rules.
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
+    alias: tests
+    owner: Synonymizer
+    domain_of:
+    - Synonymizer
+    range: Test
 
 ```
 </details>
