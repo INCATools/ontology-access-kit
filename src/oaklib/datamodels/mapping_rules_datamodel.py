@@ -1,5 +1,5 @@
 # Auto generated from mapping_rules_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-09T14:06:46
+# Generation date: 2023-04-12T14:50:11
 # Schema: mapping-rules-datamodel
 #
 # id: https://w3id.org/oak/mapping-rules-datamodel
@@ -267,6 +267,8 @@ class Synonymizer(YAMLRoot):
     match_scope: Optional[str] = None
     replacement: Optional[str] = None
     qualifier: Optional[str] = None
+    prefix: Optional[str] = None
+    tests: Optional[Union[dict, "Test"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.the_rule is not None and not isinstance(self.the_rule, str):
@@ -283,6 +285,38 @@ class Synonymizer(YAMLRoot):
 
         if self.qualifier is not None and not isinstance(self.qualifier, str):
             self.qualifier = str(self.qualifier)
+
+        if self.prefix is not None and not isinstance(self.prefix, str):
+            self.prefix = str(self.prefix)
+
+        if self.tests is not None and not isinstance(self.tests, Test):
+            self.tests = Test(**as_dict(self.tests))
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Test(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.Test
+    class_class_curie: ClassVar[str] = "mappingrules:Test"
+    class_name: ClassVar[str] = "Test"
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Test
+
+    input: Optional[str] = None
+    output: Optional[str] = None
+    prefix: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.input is not None and not isinstance(self.input, str):
+            self.input = str(self.input)
+
+        if self.output is not None and not isinstance(self.output, str):
+            self.output = str(self.output)
+
+        if self.prefix is not None and not isinstance(self.prefix, str):
+            self.prefix = str(self.prefix)
 
         super().__post_init__(**kwargs)
 
@@ -726,6 +760,51 @@ slots.synonymizer__qualifier = Slot(
     name="synonymizer__qualifier",
     curie=MAPPINGRULES.curie("qualifier"),
     model_uri=MAPPINGRULES.synonymizer__qualifier,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__prefix = Slot(
+    uri=MAPPINGRULES.prefix,
+    name="synonymizer__prefix",
+    curie=MAPPINGRULES.curie("prefix"),
+    model_uri=MAPPINGRULES.synonymizer__prefix,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__tests = Slot(
+    uri=MAPPINGRULES.tests,
+    name="synonymizer__tests",
+    curie=MAPPINGRULES.curie("tests"),
+    model_uri=MAPPINGRULES.synonymizer__tests,
+    domain=None,
+    range=Optional[Union[dict, Test]],
+)
+
+slots.test__input = Slot(
+    uri=MAPPINGRULES.input,
+    name="test__input",
+    curie=MAPPINGRULES.curie("input"),
+    model_uri=MAPPINGRULES.test__input,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.test__output = Slot(
+    uri=MAPPINGRULES.output,
+    name="test__output",
+    curie=MAPPINGRULES.curie("output"),
+    model_uri=MAPPINGRULES.test__output,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.test__prefix = Slot(
+    uri=MAPPINGRULES.prefix,
+    name="test__prefix",
+    curie=MAPPINGRULES.curie("prefix"),
+    model_uri=MAPPINGRULES.test__prefix,
     domain=None,
     range=Optional[str],
 )

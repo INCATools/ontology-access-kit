@@ -1,5 +1,11 @@
 {
     "$defs": {
+        "Any": {
+            "additionalProperties": true,
+            "description": "",
+            "title": "Any",
+            "type": "object"
+        },
         "LexicalGrouping": {
             "additionalProperties": false,
             "description": "A grouping of ontology elements by a shared lexical term",
@@ -70,7 +76,10 @@
             "properties": {
                 "params": {
                     "description": "Any parameters to be applied to the transformation algorithm",
-                    "type": "string"
+                    "items": {
+                        "$ref": "#/$defs/Any"
+                    },
+                    "type": "array"
                 },
                 "type": {
                     "$ref": "#/$defs/TransformationType",
@@ -200,6 +209,12 @@
                     },
                     "type": "array"
                 },
+                "predicate_id_one_of": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "subject_match_field_one_of": {
                     "items": {
                         "type": "string"
@@ -264,6 +279,10 @@
                     "description": "Scope of the reg-ex rule",
                     "type": "string"
                 },
+                "prefix": {
+                    "description": "The rule applies to nodes of a specific prefix.",
+                    "type": "string"
+                },
                 "qualifier": {
                     "description": "Type of match for the new synonym generated.",
                     "type": "string"
@@ -272,12 +291,36 @@
                     "description": "Reg-ex rule to replace substrings in labels",
                     "type": "string"
                 },
+                "tests": {
+                    "$ref": "#/$defs/Test",
+                    "description": "Unit tests for each rules."
+                },
                 "the_rule": {
                     "description": "Description of the rule.",
                     "type": "string"
                 }
             },
             "title": "Synonymizer",
+            "type": "object"
+        },
+        "Test": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "input": {
+                    "description": "Input string for the rule.",
+                    "type": "string"
+                },
+                "output": {
+                    "description": "Output based on the rule.",
+                    "type": "string"
+                },
+                "prefix": {
+                    "description": "The prefix that qualifies for the rule.",
+                    "type": "string"
+                }
+            },
+            "title": "Test",
             "type": "object"
         },
         "TransformationType": {
