@@ -58,6 +58,17 @@ classes:
         range: string
         description: >-
           The selector of the ontology resource
+      aggregator_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:aggregator_knowledge_source
+        description: >-
+          The knowledge source that is the aggregator of the resource
+      primary_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:primary_knowledge_source
+        description: >-
+          The knowledge source that is the primary source of the resource
+         
 
   OntologyResource:
     description: >-

@@ -1,5 +1,5 @@
 # Auto generated from input_specification.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-12T10:17:53
+# Generation date: 2023-04-13T08:19:53
 # Schema: inputspec
 #
 # id: https://w3id.org/oaklib/input-specification
@@ -18,14 +18,14 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import String
+from linkml_runtime.linkml_model.types import String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
-from linkml_runtime.utils.metamodelcore import bnode, empty_dict, empty_list
+from linkml_runtime.utils.metamodelcore import URIorCURIE, bnode, empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.yamlutils import (
     YAMLRoot,
@@ -42,6 +42,7 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+BIOLINK = CurieNamespace("biolink", "http://example.org/UNKNOWN/biolink/")
 DCTERMS = CurieNamespace("dcterms", "http://purl.org/dc/terms/")
 ITEMLIST = CurieNamespace("itemList", "https://w3id.org/linkml/item-list/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
@@ -125,6 +126,8 @@ class Resource(YAMLRoot):
     path: Optional[str] = None
     format: Optional[str] = None
     selector: Optional[str] = None
+    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
+    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -140,6 +143,16 @@ class Resource(YAMLRoot):
 
         if self.selector is not None and not isinstance(self.selector, str):
             self.selector = str(self.selector)
+
+        if self.aggregator_knowledge_source is not None and not isinstance(
+            self.aggregator_knowledge_source, URIorCURIE
+        ):
+            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
+
+        if self.primary_knowledge_source is not None and not isinstance(
+            self.primary_knowledge_source, URIorCURIE
+        ):
+            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
 
         super().__post_init__(**kwargs)
 
@@ -350,6 +363,24 @@ slots.resource__selector = Slot(
     model_uri=ITEMLIST.resource__selector,
     domain=None,
     range=Optional[str],
+)
+
+slots.resource__aggregator_knowledge_source = Slot(
+    uri=BIOLINK.aggregator_knowledge_source,
+    name="resource__aggregator_knowledge_source",
+    curie=BIOLINK.curie("aggregator_knowledge_source"),
+    model_uri=ITEMLIST.resource__aggregator_knowledge_source,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.resource__primary_knowledge_source = Slot(
+    uri=BIOLINK.primary_knowledge_source,
+    name="resource__primary_knowledge_source",
+    curie=BIOLINK.curie("primary_knowledge_source"),
+    model_uri=ITEMLIST.resource__primary_knowledge_source,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.associationResource__normalizers = Slot(

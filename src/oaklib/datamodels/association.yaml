@@ -32,6 +32,8 @@ classes:
       - subject_label
       - predicate_label
       - object_label
+      - primary_knowledge_source
+      - aggregator_knowledge_source
 
   NegatedAssociation:
     description: A negated association between a thing (subject) and another thing (object).
@@ -43,6 +45,8 @@ classes:
       - subject_label
       - predicate_label
       - object_label
+      - primary_knowledge_source
+      - aggregator_knowledge_source
 
   PropertyValue:
     description: A generic tag-value that can be associated with an association.
@@ -68,6 +72,16 @@ classes:
         description: |-
           If true, then the parser will include non S/P/O properties as additional attributes.
           This may result in slower parsing
+      primary_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:primary_knowledge_source
+        description: |-
+          The default primary knowledge source for all associations in this resource.
+      aggregator_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:aggregator_knowledge_source
+        description: |-
+          The default aggregator knowledge source for all associations in this resource.
       
 
 slots:
@@ -130,22 +144,30 @@ slots:
     inlined_as_list: true
   original_subject:
     description: The original subject of the association prior to normalization
-    slot_uri: rdf:subject
+    slot_uri: biolink:original_subject
     range: uriorcurie
     exact_mappings:
       - biolink:original_subject
   original_predicate:
     description: The original subject of the association prior to normalization
-    slot_uri: rdf:predicate
+    slot_uri: biolink:original_predicate
     range: uriorcurie
     exact_mappings:
       - biolink:original_predicate
   original_object:
     description: The original object of the association prior to normalization
-    slot_uri: rdf:subject
+    slot_uri: biolink:original_object
     range: uriorcurie
     exact_mappings:
       - biolink:original_object
+  primary_knowledge_source:
+    description: The primary knowledge source for the association
+    slot_uri: biolink:primary_knowledge_source
+    range: uriorcurie
+  aggregator_knowledge_source:
+    description: The knowledge source that aggregated the association
+    slot_uri: biolink:aggregator_knowledge_source
+    range: uriorcurie
   denormalized_slot:
     mixin: true
     description: |-

@@ -123,7 +123,10 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             yield a
 
     def add_associations(
-        self, associations: Iterable[Association], normalizers: List[EntityNormalizer] = None
+        self,
+        associations: Iterable[Association],
+        normalizers: List[EntityNormalizer] = None,
+        **kwargs,
     ) -> bool:
         """
         Store a collection of associations for later retrievals.

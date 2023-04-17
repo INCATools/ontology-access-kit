@@ -1,5 +1,5 @@
 # Auto generated from item_list.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-10T16:46:21
+# Generation date: 2023-04-13T19:34:47
 # Schema: itemList
 #
 # id: https://w3id.org/oak/item-list
@@ -63,7 +63,11 @@ DEFAULT_ = ITEMLIST
 
 
 # Class references
-class ListItemId(extended_str):
+class ListItemElementId(extended_str):
+    pass
+
+
+class ThingId(URIorCURIE):
     pass
 
 
@@ -111,11 +115,14 @@ class ItemList(YAMLRoot):
     name: Optional[str] = None
     description: Optional[str] = None
     itemListElements: Optional[
-        Union[Union[str, ListItemId], List[Union[str, ListItemId]]]
+        Union[Union[str, ListItemElementId], List[Union[str, ListItemElementId]]]
     ] = empty_list()
     numberOfItems: Optional[Union[str, "ItemListOrderType"]] = None
     itemMetadataMap: Optional[
-        Union[Dict[Union[str, ListItemId], Union[dict, "ListItem"]], List[Union[dict, "ListItem"]]]
+        Union[
+            Dict[Union[str, ListItemElementId], Union[dict, "ListItem"]],
+            List[Union[dict, "ListItem"]],
+        ]
     ] = empty_dict()
     categories: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
     keywords: Optional[Union[str, List[str]]] = empty_list()
@@ -141,14 +148,15 @@ class ItemList(YAMLRoot):
                 [self.itemListElements] if self.itemListElements is not None else []
             )
         self.itemListElements = [
-            v if isinstance(v, ListItemId) else ListItemId(v) for v in self.itemListElements
+            v if isinstance(v, ListItemElementId) else ListItemElementId(v)
+            for v in self.itemListElements
         ]
 
         if self.numberOfItems is not None and not isinstance(self.numberOfItems, ItemListOrderType):
             self.numberOfItems = ItemListOrderType(self.numberOfItems)
 
         self._normalize_inlined_as_dict(
-            slot_name="itemMetadataMap", slot_type=ListItem, key_name="id", keyed=True
+            slot_name="itemMetadataMap", slot_type=ListItem, key_name="elementId", keyed=True
         )
 
         if not isinstance(self.categories, list):
@@ -189,17 +197,17 @@ class ListItem(YAMLRoot):
     class_name: ClassVar[str] = "ListItem"
     class_model_uri: ClassVar[URIRef] = ITEMLIST.ListItem
 
-    id: Union[str, ListItemId] = None
+    elementId: Union[str, ListItemElementId] = None
     idType: Optional[Union[str, URIorCURIE]] = None
     item: Optional[Union[dict, "Thing"]] = None
     position: Optional[int] = None
-    previousItem: Optional[Union[str, ListItemId]] = None
+    previousItem: Optional[Union[str, ListItemElementId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ListItemId):
-            self.id = ListItemId(self.id)
+        if self._is_empty(self.elementId):
+            self.MissingRequiredField("elementId")
+        if not isinstance(self.elementId, ListItemElementId):
+            self.elementId = ListItemElementId(self.elementId)
 
         if self.idType is not None and not isinstance(self.idType, URIorCURIE):
             self.idType = URIorCURIE(self.idType)
@@ -210,8 +218,8 @@ class ListItem(YAMLRoot):
         if self.position is not None and not isinstance(self.position, int):
             self.position = int(self.position)
 
-        if self.previousItem is not None and not isinstance(self.previousItem, ListItemId):
-            self.previousItem = ListItemId(self.previousItem)
+        if self.previousItem is not None and not isinstance(self.previousItem, ListItemElementId):
+            self.previousItem = ListItemElementId(self.previousItem)
 
         super().__post_init__(**kwargs)
 
@@ -225,7 +233,7 @@ class Thing(YAMLRoot):
     class_name: ClassVar[str] = "Thing"
     class_model_uri: ClassVar[URIRef] = ITEMLIST.Thing
 
-    identifier: Optional[Union[str, URIorCURIE]] = None
+    id: Union[str, ThingId] = None
     name: Optional[str] = None
     url: Optional[Union[str, URI]] = None
     identifiers: Optional[
@@ -235,8 +243,10 @@ class Thing(YAMLRoot):
     type: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.identifier is not None and not isinstance(self.identifier, URIorCURIE):
-            self.identifier = URIorCURIE(self.identifier)
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ThingId):
+            self.id = ThingId(self.id)
 
         if self.name is not None and not isinstance(self.name, str):
             self.name = str(self.name)
@@ -332,7 +342,7 @@ slots.itemList__itemListElements = Slot(
     curie=SCHEMA.curie("itemListElement"),
     model_uri=ITEMLIST.itemList__itemListElements,
     domain=None,
-    range=Optional[Union[Union[str, ListItemId], List[Union[str, ListItemId]]]],
+    range=Optional[Union[Union[str, ListItemElementId], List[Union[str, ListItemElementId]]]],
 )
 
 slots.itemList__numberOfItems = Slot(
@@ -351,7 +361,9 @@ slots.itemList__itemMetadataMap = Slot(
     model_uri=ITEMLIST.itemList__itemMetadataMap,
     domain=None,
     range=Optional[
-        Union[Dict[Union[str, ListItemId], Union[dict, ListItem]], List[Union[dict, ListItem]]]
+        Union[
+            Dict[Union[str, ListItemElementId], Union[dict, ListItem]], List[Union[dict, ListItem]]
+        ]
     ],
 )
 
@@ -391,11 +403,11 @@ slots.itemList__wasGeneratedBy = Slot(
     range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
 )
 
-slots.listItem__id = Slot(
-    uri=ITEMLIST.id,
-    name="listItem__id",
-    curie=ITEMLIST.curie("id"),
-    model_uri=ITEMLIST.listItem__id,
+slots.listItem__elementId = Slot(
+    uri=ITEMLIST.elementId,
+    name="listItem__elementId",
+    curie=ITEMLIST.curie("elementId"),
+    model_uri=ITEMLIST.listItem__elementId,
     domain=None,
     range=URIRef,
 )
@@ -433,16 +445,16 @@ slots.listItem__previousItem = Slot(
     curie=SCHEMA.curie("previousItem"),
     model_uri=ITEMLIST.listItem__previousItem,
     domain=None,
-    range=Optional[Union[str, ListItemId]],
+    range=Optional[Union[str, ListItemElementId]],
 )
 
-slots.thing__identifier = Slot(
+slots.thing__id = Slot(
     uri=SCHEMA.identifier,
-    name="thing__identifier",
+    name="thing__id",
     curie=SCHEMA.curie("identifier"),
-    model_uri=ITEMLIST.thing__identifier,
+    model_uri=ITEMLIST.thing__id,
     domain=None,
-    range=Optional[Union[str, URIorCURIE]],
+    range=URIRef,
 )
 
 slots.thing__name = Slot(

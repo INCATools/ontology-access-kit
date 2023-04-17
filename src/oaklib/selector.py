@@ -157,7 +157,13 @@ def _get_adapter_from_specification(
                 for n in r.normalizers
             ]
             logging.info(f"Normalizers: {normalizers}")
-            add_associations(adapter, r.selector, r.format, normalizers)
+            add_associations(
+                adapter,
+                r.selector,
+                r.format,
+                normalizers,
+                primary_knowledge_source=r.primary_knowledge_source,
+            )
     return adapter
 
 
@@ -165,7 +171,8 @@ def add_associations(
     adapter: AssociationProviderInterface,
     descriptor: str,
     format: str = None,
-    normalizers: List[Normalizer] = None,
+    normalizers: Optional[List[Normalizer]] = None,
+    primary_knowledge_source: Optional[str] = None,
 ) -> None:
     """
     Adds associations to an adapter.
@@ -176,6 +183,9 @@ def add_associations(
     :param normalizers:
     :return:
     """
+    logging.info(
+        f"Adding associations from {descriptor} ({primary_knowledge_source}) using {format} format"
+    )
     # TODO: do more robust windows check
     if ":" in descriptor and not descriptor.startswith("file:") and not descriptor[1] == ":":
         scheme, path = descriptor.split(":", 1)
@@ -194,8 +204,11 @@ def add_associations(
         else:
             file = file_from_url(url)
         association_parser = get_association_parser(format)
-        logging.info(f"Adding associations from {path}")
-        assocs = association_parser.parse(file)
+        logging.info(f"Adding associations from {url}")
+        if primary_knowledge_source is None:
+            primary_knowledge_source = f"infores:{scheme}"
+        assocs = list(association_parser.parse(file))
+        association_parser.add_metadata(assocs, primary_knowledge_source=primary_knowledge_source)
         adapter.add_associations(assocs, normalizers=normalizers)
         return
     if not format:
@@ -210,8 +223,10 @@ def add_associations(
     association_parser = get_association_parser(format)
     path = descriptor
     with open(path) as file:
-        logging.info(f"Adding associations from {path}")
-        assocs = association_parser.parse(file)
+        logging.info(f"Adding associations from {path} ({descriptor})")
+        assocs = list(association_parser.parse(file))
+        logging.info(f"Read {len(assocs)} associations from {path}")
+        association_parser.add_metadata(assocs, primary_knowledge_source=primary_knowledge_source)
         adapter.add_associations(assocs, normalizers=normalizers)
 
 
