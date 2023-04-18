@@ -1,9 +1,9 @@
 import csv
 import json
 import logging
-import os
 import re
 import subprocess
+import sys
 import unittest
 from typing import Optional
 
@@ -447,7 +447,7 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_mappings_curie_map(self):
         mappings_output = OUTPUT_DIR.joinpath("test_mappings.tsv")
-        if os.name == "nt":
+        if sys.platform == "win32":
             shell = True
         else:
             shell = False
@@ -473,7 +473,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_mappings_json(self):
         mappings_output = OUTPUT_DIR.joinpath("test_mappings.json")
 
-        if os.name == "nt":
+        if sys.platform == "win32":
             shell = True
         else:
             shell = False

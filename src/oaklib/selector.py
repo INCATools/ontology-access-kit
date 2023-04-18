@@ -336,6 +336,7 @@ def get_resource_from_shorthand(
     resource.import_depth = import_depth
     resource.slug = descriptor
     impl_class: Optional[Type[OntologyInterface]] = None
+
     if not descriptor:
         raise ValueError("No descriptor provided")
     # Pre-processing
@@ -377,6 +378,7 @@ def get_resource_from_shorthand(
                 resource.local = False
             else:
                 resource.local = True
+
             resource.slug = rest
         elif not impl_class:
             raise ValueError(f"Scheme {scheme} not known")
