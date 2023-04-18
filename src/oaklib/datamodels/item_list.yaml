@@ -26,7 +26,11 @@ imports:
 classes:
 
   ItemListCollection:
+    aliases:
+      - item list catalog
     description: a set of item lists
+    comments:
+      - this is used for when you wish to pass around multiple lists.
     attributes:
       itemLists:
         range: ItemList
@@ -34,6 +38,8 @@ classes:
         inlined: true
 
   ItemList:
+    aliases:
+      - list
     description: a list of entities plus metadata
     class_uri: schema:ItemList
     close_mappings:
@@ -42,12 +48,22 @@ classes:
       id:
         range: uriorcurie
         description: The identifier of the list
+        comments:
+          - this is optional and hence declared as an identifier
       name:
         range: string
         description: The name of the list
+        examples:
+          - description: mTOR-pathway
+          - description: my-shopping-list
+        recommended: true
       description:
         range: string
         description: A description of the list
+        examples:
+          - description: A list of genes in the mTOR pathway
+          - description: A list of items to buy at the supermarket
+        recommended: true
       itemListElements:
         singular_name: itemListElement
         slot_uri: schema:itemListElement
@@ -101,7 +117,7 @@ classes:
     description: an item in an item list
     class_uri: schema:ListItem
     attributes:
-      id:
+      elementId:
         range: string
         description: >
           The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field,
@@ -119,6 +135,7 @@ classes:
         range: Thing
         description: The item represented by the list item
         slot_uri: schema:item
+        inlined: true
       position:
         range: integer
         description: The position of the item in the list
@@ -131,12 +148,13 @@ classes:
   Thing:
     class_uri: schema:Thing
     attributes:
-      identifier:
+      id:
         range: uriorcurie
         description: >-
           The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field,
           for example symbol
         slot_uri: schema:identifier
+        identifier: true
       name:
         range: string
         description: The name of the item

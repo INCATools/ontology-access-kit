@@ -1,7 +1,7 @@
 """Parser for GAF/HPOA and related association formats"""
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Iterator, Optional, TextIO, Union
+from typing import Iterable, Iterator, Optional, TextIO, Union
 
 from oaklib.datamodels.association import (
     Association,
@@ -17,6 +17,22 @@ class AssociationParser(Parser, ABC):
 
     @abstractmethod
     def parse(
-        self, file: TextIO, configuration: Optional[ParserConfiguration] = None
+        self, file: TextIO, configuration: Optional[ParserConfiguration] = None, **kwargs
     ) -> Iterator[Union[NegatedAssociation, Association]]:
         raise NotImplementedError
+
+    def add_metadata(
+        self,
+        associations: Iterable[Union[NegatedAssociation, Association]],
+        primary_knowledge_source: Optional[str] = None,
+    ):
+        """
+        Add metadata to associations.
+
+        :param associations:
+        :param primary_knowledge_source:
+        :return:
+        """
+        if primary_knowledge_source:
+            for association in associations:
+                association.primary_knowledge_source = primary_knowledge_source

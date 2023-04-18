@@ -115,12 +115,17 @@ class XafAssociationParser(AssociationParser):
         return [association]
 
     def parse(
-        self, file: TextIO, configuration: Optional[ParserConfiguration] = None
+        self,
+        file: TextIO,
+        configuration: Optional[ParserConfiguration] = None,
+        **kwargs,
     ) -> Iterator[Union[NegatedAssociation, Association]]:
         """
         Yields annotations from a GAF or GAF-like file
 
-        :param file:
+        :param file: File to parse
+        :param configuration: Configuration for the parser
+        :param kwargs: Additional arguments
         :return:
         """
         lookup_subject_prefix = self.index_lookup_function(self.subject_prefix_column)

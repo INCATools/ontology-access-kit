@@ -1140,7 +1140,9 @@ class SqlImplementation(
             return
         q = self._associations_query(*args, **kwargs)
         for row in q:
-            yield Association(row.subject, row.predicate, row.object)
+            yield Association(
+                row.subject, row.predicate, row.object, primary_knowledge_source=row.source
+            )
 
     def _associations_query(
         self,
@@ -1199,7 +1201,10 @@ class SqlImplementation(
             if a.property_values:
                 raise NotImplementedError
             stmt = insert(TermAssociation).values(
-                subject=a.subject, predicate=a.predicate, object=a.object
+                subject=a.subject,
+                predicate=a.predicate,
+                object=a.object,
+                source=a.primary_knowledge_source,
             )
             self._execute(stmt)
         self.session.flush()

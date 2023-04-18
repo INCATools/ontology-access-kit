@@ -50,10 +50,13 @@ class AssociationIndex:
         self._engine = engine
 
     def populate(self, associations: Iterable[Association]):
-        tups = [(a.subject, a.predicate, a.object) for a in associations]
+        tups = [
+            (a.subject, a.predicate, a.object, a.primary_knowledge_source) for a in associations
+        ]
         logging.info(f"Bulk loading {len(tups)} associations")
         self._connection.executemany(
-            "insert into term_association(subject, predicate, object) values (?,?,?)", tups
+            "insert into term_association(subject, predicate, object, source) values (?,?,?,?)",
+            tups,
         )
 
     def lookup(
@@ -75,4 +78,9 @@ class AssociationIndex:
             q = q.filter(TermAssociation.object.in_(tuple(objects)))
         logging.info(f"Association query: {q}")
         for row in q:
-            yield Association(subject=row.subject, predicate=row.predicate, object=row.object)
+            yield Association(
+                subject=row.subject,
+                predicate=row.predicate,
+                object=row.object,
+                primary_knowledge_source=row.source,
+            )

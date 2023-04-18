@@ -36,6 +36,7 @@ linkml-renderer = "^0.1.2"
 airium = "^0.2.5"
 ndex2 = "^3.5.0"
 upsetplot = "^0.8.0"
+pysolr = "^3.9.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"

@@ -50,5 +50,6 @@ class TestResource(unittest.TestCase):
         expected = [("NCBIGene:1131", "MONDO:0007032"), ("NCBIGene:57514", "MONDO:0024506")]
         assocs = []
         for a in adapter.associations():
+            print(a)
             assocs.append((a.subject, a.object))
         self.assertCountEqual(expected, assocs)
