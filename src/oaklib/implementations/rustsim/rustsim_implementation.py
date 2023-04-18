@@ -30,7 +30,7 @@ __all__ = [
 
 
 @dataclass
-class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
+class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
     """Rust implementation of semantic similarity measures."""
 
     delegated_methods: ClassVar[List[str]] = [
@@ -45,11 +45,11 @@ class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
 
     def __post_init__(self):
         slug = self.resource.slug
-        from oaklib.selector import get_implementation_from_shorthand
+        from oaklib.selector import get_adapter
 
         slug = slug.replace("rustsim:", "")
         logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
-        self.wrapped_adapter = get_implementation_from_shorthand(slug)
+        self.wrapped_adapter = get_adapter(slug)
         methods = dict(inspect.getmembers(self.wrapped_adapter))
         for m in self.delegated_methods:
             mn = m if isinstance(m, str) else m.__name__
