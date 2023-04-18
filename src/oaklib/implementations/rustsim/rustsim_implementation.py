@@ -54,6 +54,11 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         for m in self.delegated_methods:
             mn = m if isinstance(m, str) else m.__name__
             setattr(RustSimImplementation, mn, methods[mn])
+        # TODO: initialize rust object with closure table
+        closure_table = [(s, p, o) for s, p, o in self.relationships(include_entailed=True)]
+        # pass this to a stateful rust object
+        # OR initialize a rust object that can be passed in to the methods like jaccard_similarity
+
 
     def most_recent_common_ancestors(
         self,
@@ -229,14 +234,20 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
             ancestor_information_content=max_ic,
         )
         sim.ancestor_information_content = max_ic
-        if subject_ancestors is None and isinstance(self, OboGraphInterface):
-            subject_ancestors = set(self.ancestors(subject, predicates=predicates))
-            subject_ancestors.add(subject)
-        if object_ancestors is None and isinstance(self, OboGraphInterface):
-            object_ancestors = set(self.ancestors(object, predicates=predicates))
-            object_ancestors.add(object)
-        if subject_ancestors is not None and object_ancestors is not None:
-            sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
+        # TODO: remove this; we should not use python to query the closure table;
+        # the closure table should be available to rust already
+        #if subject_ancestors is None and isinstance(self, OboGraphInterface):
+        #    subject_ancestors = set(self.ancestors(subject, predicates=predicates))
+        #    subject_ancestors.add(subject)
+        #if object_ancestors is None and isinstance(self, OboGraphInterface):
+        #    object_ancestors = set(self.ancestors(object, predicates=predicates))
+        #    object_ancestors.add(object)
+        #if subject_ancestors is not None and object_ancestors is not None:
+        #   sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
+        # TODO: implement this
+        sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors, self._rust_closure_table)
+        # OR:
+        # sim.jaccard_similarity = self._rustim_instance.jaccard_similarity(subject_ancestors, object_ancestors)
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(
                 sim.jaccard_similarity * sim.ancestor_information_content
