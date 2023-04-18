@@ -245,9 +245,9 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         #if subject_ancestors is not None and object_ancestors is not None:
         #   sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
         # TODO: implement this
-        sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors, self._rust_closure_table)
+        sim.jaccard_similarity = jaccard_similarity(subject, object, self._rust_closure_table)
         # OR:
-        # sim.jaccard_similarity = self._rustim_instance.jaccard_similarity(subject_ancestors, object_ancestors)
+        # sim.jaccard_similarity = self._rustim_instance.jaccard_similarity(subject, object)
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(
                 sim.jaccard_similarity * sim.ancestor_information_content
