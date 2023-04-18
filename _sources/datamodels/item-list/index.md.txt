@@ -24,8 +24,8 @@ Name: itemList
 | [additionalType](additionalType.md) | An additional type for the item, typically used for adding more specific type... |
 | [categories](categories.md) | Controlled terms used to categorize an element |
 | [description](description.md) | A description of the list |
+| [elementId](elementId.md) | The identifier of the item |
 | [id](id.md) | The identifier of the list |
-| [identifier](identifier.md) | The identifier of the item |
 | [identifiers](identifiers.md) | A list of identifiers for the item |
 | [idType](idType.md) | The type of the identifier |
 | [item](item.md) | The item represented by the list item |

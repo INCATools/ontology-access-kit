@@ -2,7 +2,7 @@
 _The original subject of the association prior to normalization_
 
 
-URI: [rdf:subject](rdf:subject)
+URI: [biolink:original_subject](https://w3id.org/biolink/vocab/original_subject)
 
 
 
@@ -49,7 +49,7 @@ from_schema: https://w3id.org/oak/association
 exact_mappings:
 - biolink:original_subject
 rank: 1000
-slot_uri: rdf:subject
+slot_uri: biolink:original_subject
 alias: original_subject
 range: uriorcurie
 

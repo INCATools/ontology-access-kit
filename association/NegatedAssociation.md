@@ -11,6 +11,8 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
 ```{mermaid}
  classDiagram
     class NegatedAssociation
+      NegatedAssociation : aggregator_knowledge_source
+        
       NegatedAssociation : object
         
       NegatedAssociation : object_label
@@ -18,6 +20,8 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
       NegatedAssociation : predicate
         
       NegatedAssociation : predicate_label
+        
+      NegatedAssociation : primary_knowledge_source
         
       NegatedAssociation : property_values
         
@@ -47,6 +51,8 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
 | [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The label of the thing which the association is about | direct |
 | [predicate_label](predicate_label.md) | 0..1 <br/> [String](String.md) | The label of the type of relationship between the subject and object | direct |
 | [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | direct |
+| [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | direct |
+| [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | direct |
 
 
 
@@ -104,6 +110,8 @@ slots:
 - subject_label
 - predicate_label
 - object_label
+- primary_knowledge_source
+- aggregator_knowledge_source
 
 ```
 </details>
@@ -219,6 +227,32 @@ attributes:
     - Association
     - NegatedAssociation
     range: string
+  primary_knowledge_source:
+    name: primary_knowledge_source
+    description: The primary knowledge source for the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: biolink:primary_knowledge_source
+    alias: primary_knowledge_source
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
+  aggregator_knowledge_source:
+    name: aggregator_knowledge_source
+    description: The knowledge source that aggregated the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: biolink:aggregator_knowledge_source
+    alias: aggregator_knowledge_source
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
 
 ```
 </details>

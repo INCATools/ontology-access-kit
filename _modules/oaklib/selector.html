@@ -242,7 +242,13 @@
                 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">normalizers</span>
             <span class="p">]</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Normalizers: </span><span class="si">{</span><span class="n">normalizers</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">add_associations</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">selector</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">normalizers</span><span class="p">)</span>
+            <span class="n">add_associations</span><span class="p">(</span>
+                <span class="n">adapter</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">selector</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
+                <span class="n">normalizers</span><span class="p">,</span>
+                <span class="n">primary_knowledge_source</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">primary_knowledge_source</span><span class="p">,</span>
+            <span class="p">)</span>
     <span class="k">return</span> <span class="n">adapter</span>
 
 
@@ -250,7 +256,8 @@
     <span class="n">adapter</span><span class="p">:</span> <span class="n">AssociationProviderInterface</span><span class="p">,</span>
     <span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">normalizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Normalizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">normalizers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Normalizer</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">primary_knowledge_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds associations to an adapter.</span>
@@ -261,6 +268,9 @@
 <span class="sd">    :param normalizers:</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Adding associations from </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">primary_knowledge_source</span><span class="si">}</span><span class="s2">) using </span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2"> format&quot;</span>
+    <span class="p">)</span>
     <span class="c1"># TODO: do more robust windows check</span>
     <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">descriptor</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;file:&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">descriptor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;:&quot;</span><span class="p">:</span>
         <span class="n">scheme</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -279,8 +289,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">file</span> <span class="o">=</span> <span class="n">file_from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="n">association_parser</span> <span class="o">=</span> <span class="n">get_association_parser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding associations from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">assocs</span> <span class="o">=</span> <span class="n">association_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding associations from </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">primary_knowledge_source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">primary_knowledge_source</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;infores:</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">assocs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">association_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+        <span class="n">association_parser</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">assocs</span><span class="p">,</span> <span class="n">primary_knowledge_source</span><span class="o">=</span><span class="n">primary_knowledge_source</span><span class="p">)</span>
         <span class="n">adapter</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">assocs</span><span class="p">,</span> <span class="n">normalizers</span><span class="o">=</span><span class="n">normalizers</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">format</span><span class="p">:</span>
@@ -295,8 +308,10 @@
     <span class="n">association_parser</span> <span class="o">=</span> <span class="n">get_association_parser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">descriptor</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding associations from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">assocs</span> <span class="o">=</span> <span class="n">association_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding associations from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">assocs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">association_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Read </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">assocs</span><span class="p">)</span><span class="si">}</span><span class="s2"> associations from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">association_parser</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">assocs</span><span class="p">,</span> <span class="n">primary_knowledge_source</span><span class="o">=</span><span class="n">primary_knowledge_source</span><span class="p">)</span>
         <span class="n">adapter</span><span class="o">.</span><span class="n">add_associations</span><span class="p">(</span><span class="n">assocs</span><span class="p">,</span> <span class="n">normalizers</span><span class="o">=</span><span class="n">normalizers</span><span class="p">)</span></div>
 
 

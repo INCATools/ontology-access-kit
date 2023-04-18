@@ -74,6 +74,11 @@ URI: [schema:ItemList](http://schema.org/ItemList)
 
 
 
+## Aliases
+
+
+* list
+
 
 
 ## Identifier and Mapping Information
@@ -116,6 +121,8 @@ URI: [schema:ItemList](http://schema.org/ItemList)
 name: ItemList
 description: a list of entities plus metadata
 from_schema: https://w3id.org/oak/item-list
+aliases:
+- list
 close_mappings:
 - rdf:List
 rank: 1000
@@ -123,21 +130,31 @@ attributes:
   id:
     name: id
     description: The identifier of the list
+    comments:
+    - this is optional and hence declared as an identifier
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     range: uriorcurie
   name:
     name: name
     description: The name of the list
+    examples:
+    - description: mTOR-pathway
+    - description: my-shopping-list
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     range: string
+    recommended: true
   description:
     name: description
     description: A description of the list
+    examples:
+    - description: A list of genes in the mTOR pathway
+    - description: A list of items to buy at the supermarket
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     range: string
+    recommended: true
   itemListElements:
     name: itemListElements
     description: The entities in the list, represented as a simple list
@@ -218,6 +235,8 @@ class_uri: schema:ItemList
 name: ItemList
 description: a list of entities plus metadata
 from_schema: https://w3id.org/oak/item-list
+aliases:
+- list
 close_mappings:
 - rdf:List
 rank: 1000
@@ -225,17 +244,22 @@ attributes:
   id:
     name: id
     description: The identifier of the list
+    comments:
+    - this is optional and hence declared as an identifier
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     alias: id
     owner: ItemList
     domain_of:
     - ItemList
-    - ListItem
+    - Thing
     range: uriorcurie
   name:
     name: name
     description: The name of the list
+    examples:
+    - description: mTOR-pathway
+    - description: my-shopping-list
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     alias: name
@@ -244,9 +268,13 @@ attributes:
     - ItemList
     - Thing
     range: string
+    recommended: true
   description:
     name: description
     description: A description of the list
+    examples:
+    - description: A list of genes in the mTOR pathway
+    - description: A list of items to buy at the supermarket
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     alias: description
@@ -255,6 +283,7 @@ attributes:
     - ItemList
     - Thing
     range: string
+    recommended: true
   itemListElements:
     name: itemListElements
     description: The entities in the list, represented as a simple list

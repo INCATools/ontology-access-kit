@@ -14,7 +14,7 @@ URI: [itemList:id](https://w3id.org/linkml/item-list/id)
 | Name | Description |
 | --- | --- |
 [ItemList](ItemList.md) | a list of entities plus metadata
-[ListItem](ListItem.md) | an item in an item list
+[Thing](Thing.md) | 
 
 
 
@@ -48,7 +48,7 @@ name: id
 alias: id
 domain_of:
 - ItemList
-- ListItem
+- Thing
 range: string
 
 ```

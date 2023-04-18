@@ -89,9 +89,13 @@
 <div class="mermaid">
              classDiagram
     class ParserConfiguration
+      ParserConfiguration : aggregator_knowledge_source
+        
       ParserConfiguration : include_association_attributes
         
       ParserConfiguration : preserve_negated_associations
+        
+      ParserConfiguration : primary_knowledge_source
         
       
         </div><!-- no inheritance hierarchy -->
@@ -114,6 +118,16 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="include_association_attributes.html"><span class="std std-doc">include_association_attributes</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
 <td><p>If true, then the parser will include non S/P/O properties as additional attr…</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The primary knowledge source for the association</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aggregator_knowledge_source.html"><span class="std std-doc">aggregator_knowledge_source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The knowledge source that aggregated the association</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -176,6 +190,20 @@ rank: 1000
 range: boolean
 </pre></div>
 </div>
+<p>primary_knowledge_source:
+name: primary_knowledge_source
+description: The default primary knowledge source for all associations in this
+resource.
+from_schema: https://w3id.org/oak/association
+slot_uri: biolink:primary_knowledge_source
+range: uriorcurie
+aggregator_knowledge_source:
+name: aggregator_knowledge_source
+description: The default aggregator knowledge source for all associations in this
+resource.
+from_schema: https://w3id.org/oak/association
+slot_uri: biolink:aggregator_knowledge_source
+range: uriorcurie</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -211,6 +239,32 @@ attributes:
     domain_of:
     - ParserConfiguration
     range: boolean
+  primary_knowledge_source:
+    name: primary_knowledge_source
+    description: The default primary knowledge source for all associations in this
+      resource.
+    from_schema: https://w3id.org/oak/association
+    slot_uri: biolink:primary_knowledge_source
+    alias: primary_knowledge_source
+    owner: ParserConfiguration
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
+  aggregator_knowledge_source:
+    name: aggregator_knowledge_source
+    description: The default aggregator knowledge source for all associations in this
+      resource.
+    from_schema: https://w3id.org/oak/association
+    slot_uri: biolink:aggregator_knowledge_source
+    alias: aggregator_knowledge_source
+    owner: ParserConfiguration
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
 
 </pre></div>
 </div>

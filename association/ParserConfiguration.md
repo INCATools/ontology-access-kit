@@ -9,9 +9,13 @@ URI: [ontoassoc:ParserConfiguration](https://w3id.org/oak/association/ParserConf
 ```{mermaid}
  classDiagram
     class ParserConfiguration
+      ParserConfiguration : aggregator_knowledge_source
+        
       ParserConfiguration : include_association_attributes
         
       ParserConfiguration : preserve_negated_associations
+        
+      ParserConfiguration : primary_knowledge_source
         
       
 ```
@@ -28,6 +32,8 @@ URI: [ontoassoc:ParserConfiguration](https://w3id.org/oak/association/ParserConf
 | ---  | --- | --- | --- |
 | [preserve_negated_associations](preserve_negated_associations.md) | 0..1 <br/> [Boolean](Boolean.md) | If true, then the parser will keep negated associations in the output | direct |
 | [include_association_attributes](include_association_attributes.md) | 0..1 <br/> [Boolean](Boolean.md) | If true, then the parser will include non S/P/O properties as additional attr... | direct |
+| [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | direct |
+| [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | direct |
 
 
 
@@ -94,6 +100,20 @@ attributes:
     from_schema: https://w3id.org/oak/association
     rank: 1000
     range: boolean
+  primary_knowledge_source:
+    name: primary_knowledge_source
+    description: The default primary knowledge source for all associations in this
+      resource.
+    from_schema: https://w3id.org/oak/association
+    slot_uri: biolink:primary_knowledge_source
+    range: uriorcurie
+  aggregator_knowledge_source:
+    name: aggregator_knowledge_source
+    description: The default aggregator knowledge source for all associations in this
+      resource.
+    from_schema: https://w3id.org/oak/association
+    slot_uri: biolink:aggregator_knowledge_source
+    range: uriorcurie
 
 ```
 </details>
@@ -131,6 +151,32 @@ attributes:
     domain_of:
     - ParserConfiguration
     range: boolean
+  primary_knowledge_source:
+    name: primary_knowledge_source
+    description: The default primary knowledge source for all associations in this
+      resource.
+    from_schema: https://w3id.org/oak/association
+    slot_uri: biolink:primary_knowledge_source
+    alias: primary_knowledge_source
+    owner: ParserConfiguration
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
+  aggregator_knowledge_source:
+    name: aggregator_knowledge_source
+    description: The default aggregator knowledge source for all associations in this
+      resource.
+    from_schema: https://w3id.org/oak/association
+    slot_uri: biolink:aggregator_knowledge_source
+    alias: aggregator_knowledge_source
+    owner: ParserConfiguration
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
 
 ```
 </details>

@@ -62,6 +62,7 @@ owner: ListItem
 domain_of:
 - ListItem
 range: Thing
+inlined: true
 
 ```
 </details>

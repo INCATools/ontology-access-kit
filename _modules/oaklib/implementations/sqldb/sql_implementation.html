@@ -1225,7 +1225,9 @@
             <span class="k">return</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_associations_query</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">Association</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">Association</span><span class="p">(</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">primary_knowledge_source</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">source</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_associations_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1284,7 +1286,10 @@
             <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">property_values</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span>
             <span class="n">stmt</span> <span class="o">=</span> <span class="n">insert</span><span class="p">(</span><span class="n">TermAssociation</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
-                <span class="n">subject</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">object</span>
+                <span class="n">subject</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
+                <span class="n">predicate</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
+                <span class="nb">object</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">primary_knowledge_source</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>

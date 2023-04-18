@@ -11,7 +11,7 @@ URI: [schema:Thing](http://schema.org/Thing)
     class Thing
       Thing : description
         
-      Thing : identifier
+      Thing : id
         
       Thing : identifiers
         
@@ -34,7 +34,7 @@ URI: [schema:Thing](http://schema.org/Thing)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [identifier](identifier.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The identifier of the item | direct |
+| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [url](url.md) | 0..1 <br/> [Uri](Uri.md) | A URL for the item | direct |
 | [identifiers](identifiers.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | A list of identifiers for the item | direct |
@@ -96,13 +96,13 @@ name: Thing
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 attributes:
-  identifier:
-    name: identifier
+  id:
+    name: id
     description: The identifier of the item. Note this can be a 'proper' CURIE ID
       or any other unique field, for example symbol
     from_schema: https://w3id.org/oak/item-list
-    rank: 1000
     slot_uri: schema:identifier
+    identifier: true
     range: uriorcurie
   name:
     name: name
@@ -151,16 +151,17 @@ name: Thing
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 attributes:
-  identifier:
-    name: identifier
+  id:
+    name: id
     description: The identifier of the item. Note this can be a 'proper' CURIE ID
       or any other unique field, for example symbol
     from_schema: https://w3id.org/oak/item-list
-    rank: 1000
     slot_uri: schema:identifier
-    alias: identifier
+    identifier: true
+    alias: id
     owner: Thing
     domain_of:
+    - ItemList
     - Thing
     range: uriorcurie
   name:

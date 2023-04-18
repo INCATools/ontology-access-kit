@@ -11,7 +11,7 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 ```{mermaid}
  classDiagram
     class ListItem
-      ListItem : id
+      ListItem : elementId
         
       ListItem : idType
         
@@ -38,7 +38,7 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [elementId](elementId.md) | 0..1 <br/> [String](String.md) | The identifier of the item | direct |
 | [idType](idType.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of the identifier | direct |
 | [item](item.md) | 0..1 <br/> [Thing](Thing.md) | The item represented by the list item | direct |
 | [position](position.md) | 0..1 <br/> [Integer](Integer.md) | The position of the item in the list | direct |
@@ -102,13 +102,14 @@ description: an item in an item list
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 attributes:
-  id:
-    name: id
+  elementId:
+    name: elementId
     description: 'The identifier of the item. Note this can be a ''proper'' CURIE
       ID or any other unique field, for example symbol
 
       '
     from_schema: https://w3id.org/oak/item-list
+    rank: 1000
     key: true
     range: string
   idType:
@@ -129,6 +130,7 @@ attributes:
     rank: 1000
     slot_uri: schema:item
     range: Thing
+    inlined: true
   position:
     name: position
     description: The position of the item in the list
@@ -157,18 +159,18 @@ description: an item in an item list
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 attributes:
-  id:
-    name: id
+  elementId:
+    name: elementId
     description: 'The identifier of the item. Note this can be a ''proper'' CURIE
       ID or any other unique field, for example symbol
 
       '
     from_schema: https://w3id.org/oak/item-list
+    rank: 1000
     key: true
-    alias: id
+    alias: elementId
     owner: ListItem
     domain_of:
-    - ItemList
     - ListItem
     range: string
   idType:
@@ -197,6 +199,7 @@ attributes:
     domain_of:
     - ListItem
     range: Thing
+    inlined: true
   position:
     name: position
     description: The position of the item in the list

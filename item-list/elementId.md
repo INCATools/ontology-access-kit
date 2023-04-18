@@ -1,8 +1,9 @@
-# Slot: item
-_The item represented by the list item_
+# Slot: elementId
+_The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field, for example symbol
+_
 
 
-URI: [schema:item](http://schema.org/item)
+URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
 
 
 
@@ -24,7 +25,7 @@ URI: [schema:item](http://schema.org/item)
 
 ## Properties
 
-* Range: [Thing](Thing.md)
+* Range: [String](String.md)
 
 
 
@@ -52,17 +53,19 @@ URI: [schema:item](http://schema.org/item)
 
 <details>
 ```yaml
-name: item
-description: The item represented by the list item
+name: elementId
+description: 'The identifier of the item. Note this can be a ''proper'' CURIE ID or
+  any other unique field, for example symbol
+
+  '
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
-slot_uri: schema:item
-alias: item
+key: true
+alias: elementId
 owner: ListItem
 domain_of:
 - ListItem
-range: Thing
-inlined: true
+range: string
 
 ```
 </details>

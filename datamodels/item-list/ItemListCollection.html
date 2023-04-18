@@ -115,6 +115,18 @@
 </tbody>
 </table>
 </section>
+<section id="aliases">
+<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>item list catalog</p></li>
+</ul>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>this is used for when you wish to pass around multiple lists.</p></li>
+</ul>
+</section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
 <section id="schema-source">
@@ -151,7 +163,11 @@
 ```yaml
 name: ItemListCollection
 description: a set of item lists
+comments:
+- this is used for when you wish to pass around multiple lists.
 from_schema: https://w3id.org/oak/item-list
+aliases:
+- item list catalog
 rank: 1000
 attributes:
   itemLists:
@@ -169,7 +185,11 @@ attributes:
 ```yaml
 name: ItemListCollection
 description: a set of item lists
+comments:
+- this is used for when you wish to pass around multiple lists.
 from_schema: https://w3id.org/oak/item-list
+aliases:
+- item list catalog
 rank: 1000
 attributes:
   itemLists:

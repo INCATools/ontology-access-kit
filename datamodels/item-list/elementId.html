@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: identifier &mdash; oaklib  documentation</title>
+  <title>Slot: elementId &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: identifier</li>
+      <li class="breadcrumb-item active">Slot: elementId</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/item-list/identifier.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/item-list/elementId.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,10 +83,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-identifier">
-<h1>Slot: identifier<a class="headerlink" href="#slot-identifier" title="Permalink to this heading"></a></h1>
-<p><em>The identifier of the item. Note this can be a ‘proper’ CURIE ID or any other unique field, for example symbol</em></p>
-<p>URI: <a class="reference external" href="http://schema.org/identifier">schema:identifier</a></p>
+  <section id="slot-elementid">
+<h1>Slot: elementId<a class="headerlink" href="#slot-elementid" title="Permalink to this heading"></a></h1>
+<p>_The identifier of the item. Note this can be a ‘proper’ CURIE ID or any other unique field, for example symbol
+_</p>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/item-list/elementId">itemList:elementId</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this heading"></a></h2>
@@ -97,8 +98,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Thing.html"><span class="std std-doc">Thing</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ListItem.html"><span class="std std-doc">ListItem</span></a></p></td>
+<td><p>an item in an item list</p></td>
 </tr>
 </tbody>
 </table>
@@ -106,7 +107,7 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></li>
+<li><p>Range: <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -122,17 +123,20 @@
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
 <details>
 ```yaml
-name: identifier
-description: The identifier of the item. Note this can be a 'proper' CURIE ID or any
-  other unique field, for example symbol
+name: elementId
+description: 'The identifier of the item. Note this can be a ''proper'' CURIE ID or
+  any other unique field, for example symbol
+<p>‘
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
-slot_uri: schema:identifier
-alias: identifier
-owner: Thing
-domain_of:
-- Thing
-range: uriorcurie
+key: true
+alias: elementId
+owner: ListItem
+domain_of:</p>
+<ul class="simple">
+<li><p>ListItem
+range: string</p></li>
+</ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

@@ -91,7 +91,7 @@
     class Thing
       Thing : description
         
-      Thing : identifier
+      Thing : id
         
       Thing : identifiers
         
@@ -114,9 +114,9 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="identifier.html"><span class="std std-doc">identifier</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p>The identifier of the item</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="name.html"><span class="std std-doc">name</span></a></p></td>
@@ -204,13 +204,13 @@ name: Thing
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 attributes:
-  identifier:
-    name: identifier
+  id:
+    name: id
     description: The identifier of the item. Note this can be a 'proper' CURIE ID
       or any other unique field, for example symbol
     from_schema: https://w3id.org/oak/item-list
-    rank: 1000
     slot_uri: schema:identifier
+    identifier: true
     range: uriorcurie
   name:
     name: name
@@ -257,16 +257,17 @@ name: Thing
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 attributes:
-  identifier:
-    name: identifier
+  id:
+    name: id
     description: The identifier of the item. Note this can be a &#39;proper&#39; CURIE ID
       or any other unique field, for example symbol
     from_schema: https://w3id.org/oak/item-list
-    rank: 1000
     slot_uri: schema:identifier
-    alias: identifier
+    identifier: true
+    alias: id
     owner: Thing
     domain_of:
+    - ItemList
     - Thing
     range: uriorcurie
   name:

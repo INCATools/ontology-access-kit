@@ -90,6 +90,8 @@
 <div class="mermaid">
              classDiagram
     class NegatedAssociation
+      NegatedAssociation : aggregator_knowledge_source
+        
       NegatedAssociation : object
         
       NegatedAssociation : object_label
@@ -97,6 +99,8 @@
       NegatedAssociation : predicate
         
       NegatedAssociation : predicate_label
+        
+      NegatedAssociation : primary_knowledge_source
         
       NegatedAssociation : property_values
         
@@ -154,6 +158,16 @@
 <td><p>The label of the ontology entity that is associated with the subject</p></td>
 <td><p>direct</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The primary knowledge source for the association</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aggregator_knowledge_source.html"><span class="std std-doc">aggregator_knowledge_source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The knowledge source that aggregated the association</p></td>
+<td><p>direct</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -203,6 +217,8 @@ slots:
 - subject_label
 - predicate_label
 - object_label
+- primary_knowledge_source
+- aggregator_knowledge_source
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -316,6 +332,32 @@ attributes:
     - Association
     - NegatedAssociation
     range: string
+  primary_knowledge_source:
+    name: primary_knowledge_source
+    description: The primary knowledge source for the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: biolink:primary_knowledge_source
+    alias: primary_knowledge_source
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
+  aggregator_knowledge_source:
+    name: aggregator_knowledge_source
+    description: The knowledge source that aggregated the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: biolink:aggregator_knowledge_source
+    alias: aggregator_knowledge_source
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    range: uriorcurie
 
 </pre></div>
 </div>

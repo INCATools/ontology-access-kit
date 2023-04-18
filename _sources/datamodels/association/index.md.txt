@@ -25,6 +25,7 @@ Name: association
 
 | Slot | Description |
 | --- | --- |
+| [aggregator_knowledge_source](aggregator_knowledge_source.md) | The knowledge source that aggregated the association |
 | [associations](associations.md) |  |
 | [denormalized_slot](denormalized_slot.md) | denormalized slots are for models that follow a denormalized data model |
 | [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
@@ -37,6 +38,7 @@ Name: association
 | [predicate](predicate.md) | The type of relationship between the subject and object |
 | [predicate_label](predicate_label.md) | The label of the type of relationship between the subject and object |
 | [preserve_negated_associations](preserve_negated_associations.md) | If true, then the parser will keep negated associations in the output |
+| [primary_knowledge_source](primary_knowledge_source.md) | The primary knowledge source for the association |
 | [property_values](property_values.md) |  |
 | [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |
