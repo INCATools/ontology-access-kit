@@ -13,6 +13,8 @@ prefixes:
   linkml: https://w3id.org/linkml/
   ontoassoc: https://w3id.org/oak/association/
   oa: http://www.w3.org/ns/oa#
+  biolink: https://w3id.org/biolink/vocab/
+  sssom: https://w3id.org/sssom/
 imports:
   - linkml:types
 default_prefix: ontoassoc
@@ -27,6 +29,11 @@ classes:
       - predicate
       - object
       - property_values
+      - subject_label
+      - predicate_label
+      - object_label
+      - primary_knowledge_source
+      - aggregator_knowledge_source
 
   NegatedAssociation:
     description: A negated association between a thing (subject) and another thing (object).
@@ -35,6 +42,11 @@ classes:
       - predicate
       - object
       - property_values
+      - subject_label
+      - predicate_label
+      - object_label
+      - primary_knowledge_source
+      - aggregator_knowledge_source
 
   PropertyValue:
     description: A generic tag-value that can be associated with an association.
@@ -60,25 +72,57 @@ classes:
         description: |-
           If true, then the parser will include non S/P/O properties as additional attributes.
           This may result in slower parsing
+      primary_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:primary_knowledge_source
+        description: |-
+          The default primary knowledge source for all associations in this resource.
+      aggregator_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:aggregator_knowledge_source
+        description: |-
+          The default aggregator knowledge source for all associations in this resource.
       
 
 slots:
   subject:
     description: The thing which the association is about.
+    comments:
+      - it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
     slot_uri: rdf:subject
     range: uriorcurie
     exact_mappings:
       - oa:hasBody
+  subject_label:
+    description: The label of the thing which the association is about.
+    slot_uri: sssom:subject_label
+    range: string
+    mixins:
+      - denormalized_slot
   predicate:
     description: The type of relationship between the subject and object.
     slot_uri: rdf:predicate
     range: uriorcurie
+  predicate_label:
+    description: The label of the type of relationship between the subject and object.
+    slot_uri: sssom:predicate_label
+    range: string
+    mixins:
+      - denormalized_slot
   object:
     description: An ontology entity that is associated with the subject.
+    comments:
+      - it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
     slot_uri: rdf:object
     range: uriorcurie
     exact_mappings:
       - oa:hasTarget
+  object_label:
+    description: The label of the ontology entity that is associated with the subject.
+    slot_uri: sssom:object_label
+    range: string
+    mixins:
+      - denormalized_slot
   property_values:
     multivalued: true
     range: PropertyValue
@@ -98,4 +142,34 @@ slots:
     range: Association
     multivalued: true
     inlined_as_list: true
+  original_subject:
+    description: The original subject of the association prior to normalization
+    slot_uri: biolink:original_subject
+    range: uriorcurie
+    exact_mappings:
+      - biolink:original_subject
+  original_predicate:
+    description: The original subject of the association prior to normalization
+    slot_uri: biolink:original_predicate
+    range: uriorcurie
+    exact_mappings:
+      - biolink:original_predicate
+  original_object:
+    description: The original object of the association prior to normalization
+    slot_uri: biolink:original_object
+    range: uriorcurie
+    exact_mappings:
+      - biolink:original_object
+  primary_knowledge_source:
+    description: The primary knowledge source for the association
+    slot_uri: biolink:primary_knowledge_source
+    range: uriorcurie
+  aggregator_knowledge_source:
+    description: The knowledge source that aggregated the association
+    slot_uri: biolink:aggregator_knowledge_source
+    range: uriorcurie
+  denormalized_slot:
+    mixin: true
+    description: |-
+      denormalized slots are for models that follow a denormalized data model
   

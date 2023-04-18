@@ -110,6 +110,7 @@ from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.kgcl_utilities import tidy_change_object
+from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 
 def _is_isa(x: str):
@@ -627,23 +628,27 @@ class SimpleOboImplementation(
         s = self._stanza(curie, strict=False)
         if s:
             for x in s.simple_values(TAG_XREF):
-                yield sssom.Mapping(
+                m = sssom.Mapping(
                     subject_id=curie,
                     predicate_id=SKOS_CLOSE_MATCH,
                     object_id=x,
                     mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
                 )
+                inject_mapping_sources(m)
+                yield m
         # TODO: use a cache to avoid re-calculating
         for _, stanza in self.obo_document.stanzas.items():
             if len(stanza.simple_values(TAG_XREF)) > 0:
                 for x in stanza.simple_values(TAG_XREF):
                     if x == curie:
-                        yield sssom.Mapping(
+                        m = sssom.Mapping(
                             subject_id=stanza.id,
                             predicate_id=SKOS_CLOSE_MATCH,
                             object_id=curie,
                             mapping_justification=SEMAPV.UnspecifiedMatching.value,
                         )
+                        inject_mapping_sources(m)
+                        yield m
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

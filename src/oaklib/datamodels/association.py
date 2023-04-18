@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-03-15T10:56:08
+# Generation date: 2023-04-13T08:34:13
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -20,7 +20,7 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, Uriorcurie
+from linkml_runtime.linkml_model.types import Boolean, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
@@ -50,10 +50,12 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+BIOLINK = CurieNamespace("biolink", "https://w3id.org/biolink/vocab/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
 ONTOASSOC = CurieNamespace("ontoassoc", "https://w3id.org/oak/association/")
 RDF = CurieNamespace("rdf", "http://example.org/UNKNOWN/rdf/")
+SSSOM = CurieNamespace("sssom", "https://w3id.org/sssom/")
 DEFAULT_ = ONTOASSOC
 
 
@@ -81,6 +83,11 @@ class Association(YAMLRoot):
     property_values: Optional[
         Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
     ] = empty_list()
+    subject_label: Optional[str] = None
+    predicate_label: Optional[str] = None
+    object_label: Optional[str] = None
+    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
+    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.subject is not None and not isinstance(self.subject, URIorCURIE):
@@ -100,6 +107,25 @@ class Association(YAMLRoot):
             v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
             for v in self.property_values
         ]
+
+        if self.subject_label is not None and not isinstance(self.subject_label, str):
+            self.subject_label = str(self.subject_label)
+
+        if self.predicate_label is not None and not isinstance(self.predicate_label, str):
+            self.predicate_label = str(self.predicate_label)
+
+        if self.object_label is not None and not isinstance(self.object_label, str):
+            self.object_label = str(self.object_label)
+
+        if self.primary_knowledge_source is not None and not isinstance(
+            self.primary_knowledge_source, URIorCURIE
+        ):
+            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
+
+        if self.aggregator_knowledge_source is not None and not isinstance(
+            self.aggregator_knowledge_source, URIorCURIE
+        ):
+            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
 
         super().__post_init__(**kwargs)
 
@@ -123,6 +149,11 @@ class NegatedAssociation(YAMLRoot):
     property_values: Optional[
         Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
     ] = empty_list()
+    subject_label: Optional[str] = None
+    predicate_label: Optional[str] = None
+    object_label: Optional[str] = None
+    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
+    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.subject is not None and not isinstance(self.subject, URIorCURIE):
@@ -142,6 +173,25 @@ class NegatedAssociation(YAMLRoot):
             v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
             for v in self.property_values
         ]
+
+        if self.subject_label is not None and not isinstance(self.subject_label, str):
+            self.subject_label = str(self.subject_label)
+
+        if self.predicate_label is not None and not isinstance(self.predicate_label, str):
+            self.predicate_label = str(self.predicate_label)
+
+        if self.object_label is not None and not isinstance(self.object_label, str):
+            self.object_label = str(self.object_label)
+
+        if self.primary_knowledge_source is not None and not isinstance(
+            self.primary_knowledge_source, URIorCURIE
+        ):
+            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
+
+        if self.aggregator_knowledge_source is not None and not isinstance(
+            self.aggregator_knowledge_source, URIorCURIE
+        ):
+            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
 
         super().__post_init__(**kwargs)
 
@@ -220,6 +270,8 @@ class ParserConfiguration(YAMLRoot):
 
     preserve_negated_associations: Optional[Union[bool, Bool]] = None
     include_association_attributes: Optional[Union[bool, Bool]] = None
+    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
+    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.preserve_negated_associations is not None and not isinstance(
@@ -231,6 +283,16 @@ class ParserConfiguration(YAMLRoot):
             self.include_association_attributes, Bool
         ):
             self.include_association_attributes = Bool(self.include_association_attributes)
+
+        if self.primary_knowledge_source is not None and not isinstance(
+            self.primary_knowledge_source, URIorCURIE
+        ):
+            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
+
+        if self.aggregator_knowledge_source is not None and not isinstance(
+            self.aggregator_knowledge_source, URIorCURIE
+        ):
+            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
 
         super().__post_init__(**kwargs)
 
@@ -252,6 +314,15 @@ slots.subject = Slot(
     range=Optional[Union[str, URIorCURIE]],
 )
 
+slots.subject_label = Slot(
+    uri=SSSOM.subject_label,
+    name="subject_label",
+    curie=SSSOM.curie("subject_label"),
+    model_uri=ONTOASSOC.subject_label,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.predicate = Slot(
     uri=RDF.predicate,
     name="predicate",
@@ -261,6 +332,15 @@ slots.predicate = Slot(
     range=Optional[Union[str, URIorCURIE]],
 )
 
+slots.predicate_label = Slot(
+    uri=SSSOM.predicate_label,
+    name="predicate_label",
+    curie=SSSOM.curie("predicate_label"),
+    model_uri=ONTOASSOC.predicate_label,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.object = Slot(
     uri=RDF.object,
     name="object",
@@ -268,6 +348,15 @@ slots.object = Slot(
     model_uri=ONTOASSOC.object,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.object_label = Slot(
+    uri=SSSOM.object_label,
+    name="object_label",
+    curie=SSSOM.curie("object_label"),
+    model_uri=ONTOASSOC.object_label,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.property_values = Slot(
@@ -306,6 +395,60 @@ slots.associations = Slot(
     range=Optional[Union[Union[dict, Association], List[Union[dict, Association]]]],
 )
 
+slots.original_subject = Slot(
+    uri=BIOLINK.original_subject,
+    name="original_subject",
+    curie=BIOLINK.curie("original_subject"),
+    model_uri=ONTOASSOC.original_subject,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.original_predicate = Slot(
+    uri=BIOLINK.original_predicate,
+    name="original_predicate",
+    curie=BIOLINK.curie("original_predicate"),
+    model_uri=ONTOASSOC.original_predicate,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.original_object = Slot(
+    uri=BIOLINK.original_object,
+    name="original_object",
+    curie=BIOLINK.curie("original_object"),
+    model_uri=ONTOASSOC.original_object,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.primary_knowledge_source = Slot(
+    uri=BIOLINK.primary_knowledge_source,
+    name="primary_knowledge_source",
+    curie=BIOLINK.curie("primary_knowledge_source"),
+    model_uri=ONTOASSOC.primary_knowledge_source,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.aggregator_knowledge_source = Slot(
+    uri=BIOLINK.aggregator_knowledge_source,
+    name="aggregator_knowledge_source",
+    curie=BIOLINK.curie("aggregator_knowledge_source"),
+    model_uri=ONTOASSOC.aggregator_knowledge_source,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.denormalized_slot = Slot(
+    uri=ONTOASSOC.denormalized_slot,
+    name="denormalized_slot",
+    curie=ONTOASSOC.curie("denormalized_slot"),
+    model_uri=ONTOASSOC.denormalized_slot,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.parserConfiguration__preserve_negated_associations = Slot(
     uri=ONTOASSOC.preserve_negated_associations,
     name="parserConfiguration__preserve_negated_associations",
@@ -322,4 +465,22 @@ slots.parserConfiguration__include_association_attributes = Slot(
     model_uri=ONTOASSOC.parserConfiguration__include_association_attributes,
     domain=None,
     range=Optional[Union[bool, Bool]],
+)
+
+slots.parserConfiguration__primary_knowledge_source = Slot(
+    uri=BIOLINK.primary_knowledge_source,
+    name="parserConfiguration__primary_knowledge_source",
+    curie=BIOLINK.curie("primary_knowledge_source"),
+    model_uri=ONTOASSOC.parserConfiguration__primary_knowledge_source,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.parserConfiguration__aggregator_knowledge_source = Slot(
+    uri=BIOLINK.aggregator_knowledge_source,
+    name="parserConfiguration__aggregator_knowledge_source",
+    curie=BIOLINK.curie("aggregator_knowledge_source"),
+    model_uri=ONTOASSOC.parserConfiguration__aggregator_knowledge_source,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
 )

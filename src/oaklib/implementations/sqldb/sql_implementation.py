@@ -117,6 +117,7 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
+from oaklib.interfaces.association_provider_interface import EntityNormalizer
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     DEFINITION,
@@ -1139,7 +1140,9 @@ class SqlImplementation(
             return
         q = self._associations_query(*args, **kwargs)
         for row in q:
-            yield Association(row.subject, row.predicate, row.object)
+            yield Association(
+                row.subject, row.predicate, row.object, primary_knowledge_source=row.source
+            )
 
     def _associations_query(
         self,
@@ -1187,14 +1190,21 @@ class SqlImplementation(
         logging.info(f"Association query: {q}")
         return q
 
-    def add_associations(self, associations: Iterable[Association]) -> bool:
+    def add_associations(
+        self, associations: Iterable[Association], normalizers: List[EntityNormalizer] = None
+    ) -> bool:
         if not self.can_store_associations:
-            return super().add_associations(associations)
+            return super().add_associations(associations, normalizers=normalizers)
         for a in associations:
+            if normalizers:
+                a = a.normalize(normalizers)
             if a.property_values:
                 raise NotImplementedError
             stmt = insert(TermAssociation).values(
-                subject=a.subject, predicate=a.predicate, object=a.object
+                subject=a.subject,
+                predicate=a.predicate,
+                object=a.object,
+                source=a.primary_knowledge_source,
             )
             self._execute(stmt)
         self.session.flush()
@@ -1555,19 +1565,29 @@ class SqlImplementation(
     ) -> Iterator[Mapping]:
         if isinstance(curies, CURIE):
             curies = [curies]
-        else:
+        elif curies is not None:
             curies = list(curies)
         justification = str(SEMAPV.UnspecifiedMatching.value)
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
-        for row in base_query.filter(Statements.subject.in_(curies)):
+        if curies is None:
+            by_subject_query = base_query
+        else:
+            by_subject_query = base_query.filter(Statements.subject.in_(curies))
+        for row in by_subject_query:
             mpg = Mapping(
                 subject_id=row.subject,
                 object_id=row.value if row.value is not None else row.object,
                 predicate_id=row.predicate,
                 mapping_justification=justification,
             )
-            yield inject_mapping_sources(mpg)
+            inject_mapping_sources(mpg)
+            if source and mpg.subject_source != source and mpg.object_source != source:
+                continue
+            yield mpg
+        if curies is None:
+            # all mappings have been returned
+            return
         # xrefs are stored as literals
         for row in base_query.filter(Statements.value.in_(curies)):
             mpg = Mapping(
@@ -1576,7 +1596,10 @@ class SqlImplementation(
                 predicate_id=row.predicate,
                 mapping_justification=justification,
             )
-            yield inject_mapping_sources(mpg)
+            inject_mapping_sources(mpg)
+            if source and mpg.subject_source != source and mpg.object_source != source:
+                continue
+            yield mpg
         # skos mappings are stored as objects
         for row in base_query.filter(Statements.object.in_(curies)):
             mpg = Mapping(
@@ -1585,7 +1608,10 @@ class SqlImplementation(
                 predicate_id=row.predicate,
                 mapping_justification=justification,
             )
-            yield inject_mapping_sources(mpg)
+            inject_mapping_sources(mpg)
+            if source and mpg.subject_source != source and mpg.object_source != source:
+                continue
+            yield mpg
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface

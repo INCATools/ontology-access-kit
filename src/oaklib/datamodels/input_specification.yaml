@@ -58,6 +58,17 @@ classes:
         range: string
         description: >-
           The selector of the ontology resource
+      aggregator_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:aggregator_knowledge_source
+        description: >-
+          The knowledge source that is the aggregator of the resource
+      primary_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:primary_knowledge_source
+        description: >-
+          The knowledge source that is the primary source of the resource
+         
 
   OntologyResource:
     description: >-
@@ -68,3 +79,54 @@ classes:
     description: >-
       A resource that points to a set of associations
     is_a: Resource
+    attributes:
+      normalizers:
+        range: Normalizer
+        multivalued: true
+        inlined: true
+        description: >-
+          The subject normalizers used in the input specification
+
+  PrefixAlias:
+    description: >-
+      Maps a prefix from the canonical prefix to an alias used in a particular adapter
+    attributes:
+      prefix:
+        range: string
+        description: >-
+          The source prefix
+        key: true
+      alias:
+        range: string
+        description: >-
+          The target prefix
+
+  Normalizer:
+    description: >-
+      specification of how identifier fields in an association resource should be normalized
+    attributes:
+      selector:
+        range: string
+        description: >-
+          The selector of the normalizer
+      prefix_alias_map:
+        range: PrefixAlias
+        multivalued: true
+        inlined: true
+        description: >-
+          The prefix aliases used in the input specification
+      source_prefixes:
+        range: string
+        multivalued: true
+        description: >-
+          The prefixes to normalize to
+      target_prefixes:
+        range: string
+        multivalued: true
+        description: >-
+          The prefixes to normalize to
+      slots:
+        range: string
+        multivalued: true
+        description: >-
+          The slots to normalize

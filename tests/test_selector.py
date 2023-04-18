@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
@@ -5,7 +6,11 @@ from oaklib.implementations.pronto.pronto_implementation import ProntoImplementa
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
-from oaklib.selector import get_resource_from_shorthand
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+)
+from oaklib.selector import get_adapter, get_resource_from_shorthand
+from tests import INPUT_DIR
 
 
 class TestResource(unittest.TestCase):
@@ -35,3 +40,16 @@ class TestResource(unittest.TestCase):
         resource = get_resource_from_shorthand("ontobee:")
         assert resource.implementation_class == OntobeeImplementation
         self.assertIsNone(resource.slug)
+
+    def test_input_specification(self):
+        os.chdir(INPUT_DIR.parent.parent)
+        adapter = get_adapter(str(INPUT_DIR / "example-g2d-input-specification.yaml"))
+        if not isinstance(adapter, AssociationProviderInterface):
+            raise ValueError("adapter is not an AssociationProviderInterface")
+        # test that normalization of IDs happens
+        expected = [("NCBIGene:1131", "MONDO:0007032"), ("NCBIGene:57514", "MONDO:0024506")]
+        assocs = []
+        for a in adapter.associations():
+            print(a)
+            assocs.append((a.subject, a.object))
+        self.assertCountEqual(expected, assocs)

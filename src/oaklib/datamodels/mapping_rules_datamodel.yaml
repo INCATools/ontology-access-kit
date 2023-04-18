@@ -114,5 +114,21 @@ classes:
       description: Reg-ex rule to replace substrings in labels
       range: string
     qualifier:
-       description: Type of match for the new synonym generated.
-       range: string
+      description: Type of match for the new synonym generated.
+      range: string
+    prefix:
+      description: The rule applies to nodes of a specific prefix.
+      range: string
+    tests:
+      description: Unit tests for each rules.
+      range: Test
+  
+  Test:
+   attributes:
+    input:
+     description: Input string for the rule.
+    output:
+     description: Output based on the rule.
+    prefix:
+      description: The prefix that qualifies for the rule.
+     

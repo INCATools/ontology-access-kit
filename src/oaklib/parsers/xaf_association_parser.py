@@ -41,6 +41,11 @@ class XafAssociationParser(AssociationParser):
     Comment lines should be at the beginning of the file. They may include metadata that can be parsed
     """
 
+    delimiter: str = field(default_factory=lambda: "\t")
+    """
+    Delimiter
+    """
+
     subject_prefix = None
     """
     Prefix to use for subjects that do not have a prefix. This is prepended onto the subject_prefix_column
@@ -110,12 +115,17 @@ class XafAssociationParser(AssociationParser):
         return [association]
 
     def parse(
-        self, file: TextIO, configuration: Optional[ParserConfiguration] = None
+        self,
+        file: TextIO,
+        configuration: Optional[ParserConfiguration] = None,
+        **kwargs,
     ) -> Iterator[Union[NegatedAssociation, Association]]:
         """
         Yields annotations from a GAF or GAF-like file
 
-        :param file:
+        :param file: File to parse
+        :param configuration: Configuration for the parser
+        :param kwargs: Additional arguments
         :return:
         """
         lookup_subject_prefix = self.index_lookup_function(self.subject_prefix_column)

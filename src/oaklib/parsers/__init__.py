@@ -4,7 +4,11 @@ from class_resolver import ClassResolver
 
 from oaklib.parsers.association_parser import AssociationParser
 from oaklib.parsers.gaf_association_parser import GafAssociationParser
+from oaklib.parsers.gencc_association_parser import GenCCAssociationParser
 from oaklib.parsers.hpoa_association_parser import HpoaAssociationParser
+from oaklib.parsers.hpoa_g2p_association_parser import HpoaG2PAssociationParser
+from oaklib.parsers.mim2gene_association_parser import MedgenMimG2DAssociationParser
+from oaklib.parsers.pairwise_association_parser import PairwiseAssociationParser
 from oaklib.parsers.phaf_association_parser import PhafAssociationParser
 
 __all__ = [
@@ -13,13 +17,13 @@ __all__ = [
     "AssociationParser",
     "PairwiseAssociationParser",
     "GafAssociationParser",
+    "GenCCAssociationParser",
     "HpoaAssociationParser",
     "HpoaG2PAssociationParser",
     "PhafAssociationParser",
+    "MedgenMimG2DAssociationParser",
 ]
 
-from oaklib.parsers.hpoa_g2p_association_parser import HpoaG2PAssociationParser
-from oaklib.parsers.pairwise_association_parser import PairwiseAssociationParser
 
 GAF = "gaf"
 """Gene Ontology GAF syntax"""
@@ -32,6 +36,12 @@ HPOA = "hpoa"
 
 HPOA_G2P = "hpoa_g2p"
 """HPO Gene-to-Phenotype syntax"""
+
+GENCC = "gencc"
+"""GenCC CSV format"""
+
+MEDGEN_MIM_G2D = "medgen_mim_g2d"
+"""Medgen/NCBI MIM G2D format"""
 
 KGX = "kgx"
 """KGX TSV syntax"""
@@ -58,6 +68,8 @@ def get_association_parser_resolver() -> ClassResolver[AssociationParser]:
             G2T: PairwiseAssociationParser,
             HPOA_G2P: HpoaG2PAssociationParser,
             PHAF: PhafAssociationParser,
+            GENCC: GenCCAssociationParser,
+            MEDGEN_MIM_G2D: MedgenMimG2DAssociationParser,
         }
     )
 
