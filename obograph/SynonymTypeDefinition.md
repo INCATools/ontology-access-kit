@@ -119,6 +119,7 @@ attributes:
     - SubsetDefinition
     - SynonymTypeDefinition
     range: OboIdentifierString
+    required: true
   lbl:
     name: lbl
     description: the human-readable label of a node

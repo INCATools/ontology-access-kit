@@ -141,6 +141,7 @@ attributes:
     domain_of:
     - Term
     range: uriorcurie
+    required: true
   label:
     name: label
     description: the human readable name or label of the term

@@ -83,6 +83,7 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
     range: uriorcurie
+    required: true
 class_uri: sh:ContributorRole
 
 ```
@@ -110,6 +111,7 @@ attributes:
     - Agent
     - ContributorRole
     range: uriorcurie
+    required: true
 class_uri: sh:ContributorRole
 
 ```

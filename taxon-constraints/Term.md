@@ -101,6 +101,7 @@ attributes:
     rank: 1000
     identifier: true
     range: uriorcurie
+    required: true
   label:
     name: label
     description: the human readable name or label of the term

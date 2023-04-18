@@ -118,7 +118,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="elementId.html"><span class="std std-doc">elementId</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The identifier of the item</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -222,6 +222,7 @@ from_schema: https://w3id.org/oak/item-list
 rank: 1000
 key: true
 range: string
+required: true
 </pre></div>
 </div>
 <p>idType:
@@ -283,6 +284,7 @@ attributes:
     domain_of:
     - ListItem
     range: string
+    required: true
   idType:
     name: idType
     description: The type of the identifier. For example, if the id is a symbol, this

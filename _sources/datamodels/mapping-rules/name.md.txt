@@ -23,6 +23,8 @@ URI: [mappingrules:name](https://w3id.org/oak/mapping-rules-datamodel/name)
 ## Properties
 
 * Range: [String](String.md)
+* Required: True
+
 
 
 
@@ -59,6 +61,7 @@ owner: LexicalTransformationPipeline
 domain_of:
 - LexicalTransformationPipeline
 range: string
+required: true
 
 ```
 </details>

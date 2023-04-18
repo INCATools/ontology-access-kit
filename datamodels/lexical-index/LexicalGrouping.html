@@ -110,7 +110,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="term.html"><span class="std std-doc">term</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>A normalized term that groups ontology elements</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -186,6 +186,7 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    required: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
@@ -216,6 +217,7 @@ attributes:
     domain_of:
     - LexicalGrouping
     range: string
+    required: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized

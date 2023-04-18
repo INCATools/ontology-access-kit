@@ -23,6 +23,8 @@ URI: [ontolexindex:name](https://w3id.org/oak/lexical-index/name)
 ## Properties
 
 * Range: [String](String.md)
+* Required: True
+
 
 
 
@@ -59,6 +61,7 @@ owner: LexicalTransformationPipeline
 domain_of:
 - LexicalTransformationPipeline
 range: string
+required: true
 
 ```
 </details>

@@ -36,7 +36,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [name](name.md) | 1..1 <br/> [String](String.md) |  | direct |
 | [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
 
 
@@ -103,6 +103,7 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    required: true
   transformations:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index
@@ -134,6 +135,7 @@ attributes:
     domain_of:
     - LexicalTransformationPipeline
     range: string
+    required: true
   transformations:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index

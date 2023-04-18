@@ -96,6 +96,7 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     key: true
     range: uriorcurie
+    required: true
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results
@@ -125,6 +126,7 @@ attributes:
     - TypeSeverityKeyValue
     - ValidationResult
     range: uriorcurie
+    required: true
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results

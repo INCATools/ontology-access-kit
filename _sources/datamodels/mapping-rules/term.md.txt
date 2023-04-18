@@ -25,6 +25,8 @@ URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 ## Properties
 
 * Range: [String](String.md)
+* Required: True
+
 
 
 
@@ -62,6 +64,7 @@ owner: LexicalGrouping
 domain_of:
 - LexicalGrouping
 range: string
+required: true
 
 ```
 </details>

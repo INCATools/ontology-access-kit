@@ -97,6 +97,7 @@ attributes:
     rank: 1000
     identifier: true
     range: uriorcurie
+    required: true
   text:
     name: text
     from_schema: https://w3id.org/oak/text_annotator
@@ -134,6 +135,7 @@ attributes:
     domain_of:
     - TextualElement
     range: uriorcurie
+    required: true
   text:
     name: text
     from_schema: https://w3id.org/oak/text_annotator

@@ -107,6 +107,7 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     key: true
+    required: true
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
@@ -141,6 +142,7 @@ attributes:
     - FacetedCount
     - ChangeTypeStatistic
     range: string
+    required: true
   filtered_count:
     name: filtered_count
     description: the number of items in the facet

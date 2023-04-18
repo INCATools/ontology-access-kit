@@ -88,6 +88,7 @@ attributes:
     rank: 1000
     identifier: true
     range: uriorcurie
+    required: true
 
 ```
 </details>

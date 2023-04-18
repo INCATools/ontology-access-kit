@@ -97,6 +97,7 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
     range: string
+    required: true
   label:
     name: label
     description: the label for the agent
@@ -131,6 +132,7 @@ attributes:
     - Agent
     - ContributorRole
     range: string
+    required: true
   label:
     name: label
     description: the label for the agent

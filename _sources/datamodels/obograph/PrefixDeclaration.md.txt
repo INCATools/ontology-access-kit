@@ -28,7 +28,7 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [prefix](prefix.md) | 0..1 <br/> [String](String.md) | The prefix of a prefix declaration | direct |
+| [prefix](prefix.md) | 1..1 <br/> [String](String.md) | The prefix of a prefix declaration | direct |
 | [namespace](namespace.md) | 0..1 <br/> [Uri](Uri.md) | The namespace associated with a prefix in a prefix declaration | direct |
 
 
@@ -99,6 +99,7 @@ attributes:
     slot_uri: sh:prefix
     key: true
     range: string
+    required: true
   namespace:
     name: namespace
     description: The namespace associated with a prefix in a prefix declaration.
@@ -135,6 +136,7 @@ attributes:
     domain_of:
     - PrefixDeclaration
     range: string
+    required: true
   namespace:
     name: namespace
     description: The namespace associated with a prefix in a prefix declaration.

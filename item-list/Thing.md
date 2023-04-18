@@ -104,6 +104,7 @@ attributes:
     slot_uri: schema:identifier
     identifier: true
     range: uriorcurie
+    required: true
   name:
     name: name
     description: The name of the item
@@ -164,6 +165,7 @@ attributes:
     - ItemList
     - Thing
     range: uriorcurie
+    required: true
   name:
     name: name
     description: The name of the item

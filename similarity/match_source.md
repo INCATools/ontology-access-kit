@@ -23,6 +23,8 @@ URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
 ## Properties
 
 * Range: [String](String.md)
+* Required: True
+
 
 
 
@@ -65,6 +67,7 @@ owner: BestMatch
 domain_of:
 - BestMatch
 range: string
+required: true
 
 ```
 </details>

@@ -90,6 +90,7 @@ attributes:
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
     identifier: true
+    required: true
   label:
     name: label
     from_schema: https://w3id.org/oak/similarity
@@ -117,6 +118,7 @@ attributes:
     domain_of:
     - TermInfo
     range: string
+    required: true
   label:
     name: label
     from_schema: https://w3id.org/oak/similarity

@@ -25,6 +25,8 @@ URI: [vm:id](https://w3id.org/linkml/validation-model/id)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+* Required: True
+
 
 
 
@@ -61,6 +63,7 @@ owner: NamedResource
 domain_of:
 - NamedResource
 range: uriorcurie
+required: true
 
 ```
 </details>

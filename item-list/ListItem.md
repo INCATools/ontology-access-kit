@@ -38,7 +38,7 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [elementId](elementId.md) | 0..1 <br/> [String](String.md) | The identifier of the item | direct |
+| [elementId](elementId.md) | 1..1 <br/> [String](String.md) | The identifier of the item | direct |
 | [idType](idType.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of the identifier | direct |
 | [item](item.md) | 0..1 <br/> [Thing](Thing.md) | The item represented by the list item | direct |
 | [position](position.md) | 0..1 <br/> [Integer](Integer.md) | The position of the item in the list | direct |
@@ -112,6 +112,7 @@ attributes:
     rank: 1000
     key: true
     range: string
+    required: true
   idType:
     name: idType
     description: The type of the identifier. For example, if the id is a symbol, this
@@ -173,6 +174,7 @@ attributes:
     domain_of:
     - ListItem
     range: string
+    required: true
   idType:
     name: idType
     description: The type of the identifier. For example, if the id is a symbol, this

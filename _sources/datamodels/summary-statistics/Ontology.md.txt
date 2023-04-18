@@ -110,6 +110,7 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
     range: string
+    required: true
   description:
     name: description
     description: a description of the resource
@@ -172,6 +173,7 @@ attributes:
     - Agent
     - ContributorRole
     range: string
+    required: true
   description:
     name: description
     description: a description of the resource

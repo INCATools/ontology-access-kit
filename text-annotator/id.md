@@ -23,6 +23,8 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+* Required: True
+
 
 
 
@@ -59,6 +61,7 @@ owner: TextualElement
 domain_of:
 - TextualElement
 range: uriorcurie
+required: true
 
 ```
 </details>

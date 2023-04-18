@@ -117,6 +117,7 @@ attributes:
     domain_of:
     - NamedResource
     range: uriorcurie
+    required: true
 
 ```
 </details>

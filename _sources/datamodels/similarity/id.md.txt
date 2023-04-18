@@ -23,6 +23,8 @@ URI: [sim:id](https://w3id.org/linkml/similarity/id)
 ## Properties
 
 * Range: [String](String.md)
+* Required: True
+
 
 
 
@@ -59,6 +61,7 @@ owner: TermInfo
 domain_of:
 - TermInfo
 range: string
+required: true
 
 ```
 </details>

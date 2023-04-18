@@ -28,6 +28,8 @@ URI: [obographs:id](https://github.com/geneontology/obographs/id)
 ## Properties
 
 * Range: [OboIdentifierString](OboIdentifierString.md)
+* Required: True
+
 
 
 
@@ -73,6 +75,7 @@ domain_of:
 - SubsetDefinition
 - SynonymTypeDefinition
 range: OboIdentifierString
+required: true
 
 ```
 </details>

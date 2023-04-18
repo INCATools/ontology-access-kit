@@ -25,6 +25,8 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 ## Properties
 
 * Range: [String](String.md)
+* Required: True
+
 
 
 
@@ -69,6 +71,7 @@ owner: PrefixDeclaration
 domain_of:
 - PrefixDeclaration
 range: string
+required: true
 
 ```
 </details>

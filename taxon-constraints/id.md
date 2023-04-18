@@ -28,6 +28,8 @@ URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+* Required: True
+
 
 
 
@@ -65,6 +67,7 @@ owner: Term
 domain_of:
 - Term
 range: uriorcurie
+required: true
 
 ```
 </details>

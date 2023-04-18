@@ -30,7 +30,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [term](term.md) | 0..1 <br/> [String](String.md) | A normalized term that groups ontology elements | direct |
+| [term](term.md) | 1..1 <br/> [String](String.md) | A normalized term that groups ontology elements | direct |
 | [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md) | All ontology elements grouped and their relationship to the normalized term | direct |
 
 
@@ -95,6 +95,7 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    required: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
@@ -127,6 +128,7 @@ attributes:
     domain_of:
     - LexicalGrouping
     range: string
+    required: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized

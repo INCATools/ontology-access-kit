@@ -26,6 +26,8 @@ URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
 ## Properties
 
 * Range: [String](String.md)
+* Required: True
+
 
 
 
@@ -66,6 +68,7 @@ owner: ListItem
 domain_of:
 - ListItem
 range: string
+required: true
 
 ```
 </details>
