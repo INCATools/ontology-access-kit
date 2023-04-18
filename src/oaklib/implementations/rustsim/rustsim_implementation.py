@@ -30,7 +30,7 @@ __all__ = [
 
 
 @dataclass
-class RustSimImplementation(SemanticSimilarityInterface, OboGraphInterface):
+class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
     """Rust implementation of semantic similarity measures."""
 
     delegated_methods: ClassVar[List[str]] = [
