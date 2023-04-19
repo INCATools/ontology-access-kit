@@ -25,6 +25,8 @@ class GafAssociationParserTest(unittest.TestCase):
                     predicate="is_active_in",
                     object="GO:0005737",
                     property_values=[],
+                    publications=["PMID:21873635"],
+                    primary_knowledge_source="GO_Central",
                 ),
                 assocs,
             )

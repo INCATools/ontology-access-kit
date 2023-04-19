@@ -41,6 +41,12 @@ ASSOCIATION_REGISTRY = {
         False,
     ),
     "gaf": (["group"], "gaf", "http://current.geneontology.org/annotations/{group}.gaf.gz", True),
+    "gaf_archive": (
+        ["date", "group"],
+        "gaf",
+        "http://release.geneontology.org/{date}/annotations/{group}.gaf.gz",
+        True,
+    ),
     "gencc": (
         [],
         "gencc",

@@ -15,6 +15,10 @@ class GafAssociationParser(XafAssociationParser):
     subject_column: ColumnReference = field(default_factory=lambda: ColumnReference(1))
     predicate_column: ColumnReference = field(default_factory=lambda: ColumnReference(3))
     object_column: ColumnReference = field(default_factory=lambda: ColumnReference(4))
+    publications_column: ColumnReference = field(default_factory=lambda: ColumnReference(5))
+    primary_knowledge_source_column: ColumnReference = field(
+        default_factory=lambda: ColumnReference(14)
+    )
     expected_object_prefixes = ["GO"]
 
     def post_process(

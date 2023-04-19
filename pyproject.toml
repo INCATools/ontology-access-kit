@@ -38,6 +38,7 @@ ndex2 = "^3.5.0"
 rustsim = {version = "^0.1.6", optional = true}
 upsetplot = "^0.8.0"
 pysolr = "^3.9.0"
+eutils = "^0.6.0"
 
 
 [tool.poetry.dev-dependencies]

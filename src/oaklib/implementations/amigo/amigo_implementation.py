@@ -36,6 +36,7 @@ ANNOTATION_CLASS_LABEL = "annotation_class_label"
 ISA_PARTOF_CLOSURE = "isa_partof_closure"
 TAXON_CLOSURE = "taxon_closure"
 ASSIGNED_BY = "assigned_by"
+REFERENCE = "reference"
 
 SELECT_FIELDS = [
     BIOENTITY,
@@ -45,6 +46,7 @@ SELECT_FIELDS = [
     ISA_PARTOF_CLOSURE,
     TAXON_CLOSURE,
     ASSIGNED_BY,
+    REFERENCE,
 ]
 
 
@@ -112,6 +114,7 @@ class AmiGOImplementation(
                 # predicate="",
                 object=doc[ANNOTATION_CLASS],
                 object_label=doc[ANNOTATION_CLASS_LABEL],
+                publications=doc[REFERENCE],
                 primary_knowledge_source=doc[ASSIGNED_BY],
                 aggregator_knowledge_source="infores:go",
             )
