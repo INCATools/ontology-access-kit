@@ -4325,11 +4325,16 @@ def enrichment(
 @output_option
 @click.option("-g", "--associations", help="associations")
 @click.option("-X", "--other-associations", help="other associations")
+@click.option(
+    "--group-by",
+    help="One of: publications; primary_knowledge_source",
+)
 def diff_associations(
     predicates: str,
     autolabel: bool,
     output_type: str,
     output: str,
+    group_by: str,
     associations: str,
     other_associations: str,
 ):
@@ -4345,26 +4350,35 @@ def diff_associations(
     actual_predicates = _process_predicates_arg(predicates)
     logging.info(f"Fetching parser for {settings.associations_type}")
     association_parser = get_association_parser(settings.associations_type)
-    if isinstance(impl, AssociationProviderInterface):
-        if associations:
-            logging.info(f"Loading main associations from {associations}")
-            with open(associations) as file:
-                assocs1 = list(association_parser.parse(file))
+    if not isinstance(impl, AssociationProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if associations:
+        logging.info(f"Loading main associations from {associations}")
+        with open(associations) as file:
+            assocs1 = list(association_parser.parse(file))
+    else:
+        assocs1 = list(impl.associations(predicates=actual_predicates))
+    if len(assocs1) == 0:
+        raise ValueError("No associations to compare")
+    logging.info(f"Loading other associations from {other_associations}")
+    with open(other_associations) as file:
+        assocs2 = list(association_parser.parse(file))
+        if not isinstance(impl, OboGraphInterface):
+            raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        differ = AssociationDiffer(impl)
+        impl.enable_transitive_query_cache()
+        if group_by == "publications":
+            changes = differ.changes_by_publication(assocs1, assocs2, actual_predicates)
+        elif group_by == "primary_knowledge_source":
+            changes = differ.changes_by_primary_knowledge_source(
+                assocs1, assocs2, actual_predicates
+            )
+        elif group_by:
+            raise ValueError(f"Unknown group-by: {group_by}")
         else:
-            assocs1 = list(impl.associations(predicates=actual_predicates))
-        if len(assocs1) == 0:
-            raise ValueError("No associations to compare")
-        logging.info(f"Loading other associations from {other_associations}")
-        with open(other_associations) as file:
-            assocs2 = list(association_parser.parse(file))
-            if isinstance(impl, OboGraphInterface):
-                differ = AssociationDiffer(impl)
-                impl.enable_transitive_query_cache()
-                for change in differ.changes(assocs1, assocs2, actual_predicates):
-                    writer.emit(
-                        {"entity": change[0], "set": change[1], "term": change[2]},
-                        label_fields=["term"],
-                    )
+            changes = differ.calculate_change_objects(assocs1, assocs2, actual_predicates)
+        for change in changes:
+            writer.emit(change, label_fields=["old_object", "new_object"])
     writer.finish()
 
 

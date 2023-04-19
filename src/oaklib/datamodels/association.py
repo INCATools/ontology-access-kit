@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-13T08:34:13
+# Generation date: 2023-04-18T12:40:46
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -86,6 +86,9 @@ class Association(YAMLRoot):
     subject_label: Optional[str] = None
     predicate_label: Optional[str] = None
     object_label: Optional[str] = None
+    publications: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
     primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
     aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
@@ -116,6 +119,12 @@ class Association(YAMLRoot):
 
         if self.object_label is not None and not isinstance(self.object_label, str):
             self.object_label = str(self.object_label)
+
+        if not isinstance(self.publications, list):
+            self.publications = [self.publications] if self.publications is not None else []
+        self.publications = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.publications
+        ]
 
         if self.primary_knowledge_source is not None and not isinstance(
             self.primary_knowledge_source, URIorCURIE
@@ -152,6 +161,9 @@ class NegatedAssociation(YAMLRoot):
     subject_label: Optional[str] = None
     predicate_label: Optional[str] = None
     object_label: Optional[str] = None
+    publications: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
     primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
     aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
@@ -182,6 +194,12 @@ class NegatedAssociation(YAMLRoot):
 
         if self.object_label is not None and not isinstance(self.object_label, str):
             self.object_label = str(self.object_label)
+
+        if not isinstance(self.publications, list):
+            self.publications = [self.publications] if self.publications is not None else []
+        self.publications = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.publications
+        ]
 
         if self.primary_knowledge_source is not None and not isinstance(
             self.primary_knowledge_source, URIorCURIE
@@ -293,6 +311,100 @@ class ParserConfiguration(YAMLRoot):
             self.aggregator_knowledge_source, URIorCURIE
         ):
             self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class AssociationChange(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.AssociationChange
+    class_class_curie: ClassVar[str] = "ontoassoc:AssociationChange"
+    class_name: ClassVar[str] = "AssociationChange"
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.AssociationChange
+
+    summary_group: Optional[str] = None
+    publications: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
+    publication_is_added: Optional[Union[bool, Bool]] = None
+    publication_is_deleted: Optional[Union[bool, Bool]] = None
+    subject: Optional[Union[str, URIorCURIE]] = None
+    old_predicate: Optional[Union[str, URIorCURIE]] = None
+    new_predicate: Optional[Union[str, URIorCURIE]] = None
+    old_object: Optional[Union[str, URIorCURIE]] = None
+    new_object: Optional[Union[str, URIorCURIE]] = None
+    old_object_obsolete: Optional[Union[bool, Bool]] = None
+    is_migration: Optional[Union[bool, Bool]] = None
+    is_generalization: Optional[Union[bool, Bool]] = None
+    is_specialization: Optional[Union[bool, Bool]] = None
+    is_creation: Optional[Union[bool, Bool]] = None
+    is_deletion: Optional[Union[bool, Bool]] = None
+    closure_predicates: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.summary_group is not None and not isinstance(self.summary_group, str):
+            self.summary_group = str(self.summary_group)
+
+        if not isinstance(self.publications, list):
+            self.publications = [self.publications] if self.publications is not None else []
+        self.publications = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.publications
+        ]
+
+        if self.publication_is_added is not None and not isinstance(
+            self.publication_is_added, Bool
+        ):
+            self.publication_is_added = Bool(self.publication_is_added)
+
+        if self.publication_is_deleted is not None and not isinstance(
+            self.publication_is_deleted, Bool
+        ):
+            self.publication_is_deleted = Bool(self.publication_is_deleted)
+
+        if self.subject is not None and not isinstance(self.subject, URIorCURIE):
+            self.subject = URIorCURIE(self.subject)
+
+        if self.old_predicate is not None and not isinstance(self.old_predicate, URIorCURIE):
+            self.old_predicate = URIorCURIE(self.old_predicate)
+
+        if self.new_predicate is not None and not isinstance(self.new_predicate, URIorCURIE):
+            self.new_predicate = URIorCURIE(self.new_predicate)
+
+        if self.old_object is not None and not isinstance(self.old_object, URIorCURIE):
+            self.old_object = URIorCURIE(self.old_object)
+
+        if self.new_object is not None and not isinstance(self.new_object, URIorCURIE):
+            self.new_object = URIorCURIE(self.new_object)
+
+        if self.old_object_obsolete is not None and not isinstance(self.old_object_obsolete, Bool):
+            self.old_object_obsolete = Bool(self.old_object_obsolete)
+
+        if self.is_migration is not None and not isinstance(self.is_migration, Bool):
+            self.is_migration = Bool(self.is_migration)
+
+        if self.is_generalization is not None and not isinstance(self.is_generalization, Bool):
+            self.is_generalization = Bool(self.is_generalization)
+
+        if self.is_specialization is not None and not isinstance(self.is_specialization, Bool):
+            self.is_specialization = Bool(self.is_specialization)
+
+        if self.is_creation is not None and not isinstance(self.is_creation, Bool):
+            self.is_creation = Bool(self.is_creation)
+
+        if self.is_deletion is not None and not isinstance(self.is_deletion, Bool):
+            self.is_deletion = Bool(self.is_deletion)
+
+        if not isinstance(self.closure_predicates, list):
+            self.closure_predicates = (
+                [self.closure_predicates] if self.closure_predicates is not None else []
+            )
+        self.closure_predicates = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.closure_predicates
+        ]
 
         super().__post_init__(**kwargs)
 
@@ -422,6 +534,15 @@ slots.original_object = Slot(
     range=Optional[Union[str, URIorCURIE]],
 )
 
+slots.publications = Slot(
+    uri=BIOLINK.publications,
+    name="publications",
+    curie=BIOLINK.curie("publications"),
+    model_uri=ONTOASSOC.publications,
+    domain=None,
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
 slots.primary_knowledge_source = Slot(
     uri=BIOLINK.primary_knowledge_source,
     name="primary_knowledge_source",
@@ -447,6 +568,132 @@ slots.denormalized_slot = Slot(
     model_uri=ONTOASSOC.denormalized_slot,
     domain=None,
     range=Optional[str],
+)
+
+slots.summary_group = Slot(
+    uri=ONTOASSOC.summary_group,
+    name="summary_group",
+    curie=ONTOASSOC.curie("summary_group"),
+    model_uri=ONTOASSOC.summary_group,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.publication_is_added = Slot(
+    uri=ONTOASSOC.publication_is_added,
+    name="publication_is_added",
+    curie=ONTOASSOC.curie("publication_is_added"),
+    model_uri=ONTOASSOC.publication_is_added,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.publication_is_deleted = Slot(
+    uri=ONTOASSOC.publication_is_deleted,
+    name="publication_is_deleted",
+    curie=ONTOASSOC.curie("publication_is_deleted"),
+    model_uri=ONTOASSOC.publication_is_deleted,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.old_predicate = Slot(
+    uri=ONTOASSOC.old_predicate,
+    name="old_predicate",
+    curie=ONTOASSOC.curie("old_predicate"),
+    model_uri=ONTOASSOC.old_predicate,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.new_predicate = Slot(
+    uri=ONTOASSOC.new_predicate,
+    name="new_predicate",
+    curie=ONTOASSOC.curie("new_predicate"),
+    model_uri=ONTOASSOC.new_predicate,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.old_object = Slot(
+    uri=ONTOASSOC.old_object,
+    name="old_object",
+    curie=ONTOASSOC.curie("old_object"),
+    model_uri=ONTOASSOC.old_object,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.new_object = Slot(
+    uri=ONTOASSOC.new_object,
+    name="new_object",
+    curie=ONTOASSOC.curie("new_object"),
+    model_uri=ONTOASSOC.new_object,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.old_object_obsolete = Slot(
+    uri=ONTOASSOC.old_object_obsolete,
+    name="old_object_obsolete",
+    curie=ONTOASSOC.curie("old_object_obsolete"),
+    model_uri=ONTOASSOC.old_object_obsolete,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.is_migration = Slot(
+    uri=ONTOASSOC.is_migration,
+    name="is_migration",
+    curie=ONTOASSOC.curie("is_migration"),
+    model_uri=ONTOASSOC.is_migration,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.is_generalization = Slot(
+    uri=ONTOASSOC.is_generalization,
+    name="is_generalization",
+    curie=ONTOASSOC.curie("is_generalization"),
+    model_uri=ONTOASSOC.is_generalization,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.is_specialization = Slot(
+    uri=ONTOASSOC.is_specialization,
+    name="is_specialization",
+    curie=ONTOASSOC.curie("is_specialization"),
+    model_uri=ONTOASSOC.is_specialization,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.is_creation = Slot(
+    uri=ONTOASSOC.is_creation,
+    name="is_creation",
+    curie=ONTOASSOC.curie("is_creation"),
+    model_uri=ONTOASSOC.is_creation,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.is_deletion = Slot(
+    uri=ONTOASSOC.is_deletion,
+    name="is_deletion",
+    curie=ONTOASSOC.curie("is_deletion"),
+    model_uri=ONTOASSOC.is_deletion,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.closure_predicates = Slot(
+    uri=ONTOASSOC.closure_predicates,
+    name="closure_predicates",
+    curie=ONTOASSOC.curie("closure_predicates"),
+    model_uri=ONTOASSOC.closure_predicates,
+    domain=None,
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
 )
 
 slots.parserConfiguration__preserve_negated_associations = Slot(

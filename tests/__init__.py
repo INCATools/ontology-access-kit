@@ -87,6 +87,7 @@ BONE_FRACTURE = "HP:0020110"
 
 PROTEIN1 = "UniProtKB:P1"
 PROTEIN2 = "UniProtKB:P2"
+PROTEIN3 = "UniProtKB:P3"
 GENE1 = "HGCN:1"
 GENE2 = "HGCN:2"
 GENE3 = "HGCN:3"
@@ -96,6 +97,8 @@ GENE6 = "HGCN:6"
 GENE7 = "HGCN:7"
 GENE8 = "HGCN:8"
 GENE9 = "HGCN:9"
+PMID1 = "PMID:1"
+PMID2 = "PMID:2"
 
 
 def object_subsumed_by(sub: YAMLRoot, parent: YAMLRoot, float_abs_tol=0.001) -> bool:
