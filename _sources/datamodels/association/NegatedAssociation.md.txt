@@ -27,6 +27,8 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
         
           NegatedAssociation ..> PropertyValue : property_values
         
+      NegatedAssociation : publications
+        
       NegatedAssociation : subject
         
       NegatedAssociation : subject_label
@@ -51,6 +53,7 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
 | [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The label of the thing which the association is about | direct |
 | [predicate_label](predicate_label.md) | 0..1 <br/> [String](String.md) | The label of the type of relationship between the subject and object | direct |
 | [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | direct |
+| [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | direct |
 | [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | direct |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | direct |
 
@@ -110,6 +113,7 @@ slots:
 - subject_label
 - predicate_label
 - object_label
+- publications
 - primary_knowledge_source
 - aggregator_knowledge_source
 
@@ -141,6 +145,7 @@ attributes:
     domain_of:
     - Association
     - NegatedAssociation
+    - AssociationChange
     range: uriorcurie
   predicate:
     name: predicate
@@ -227,6 +232,20 @@ attributes:
     - Association
     - NegatedAssociation
     range: string
+  publications:
+    name: publications
+    description: The publications that support the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: biolink:publications
+    multivalued: true
+    alias: publications
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - AssociationChange
+    range: uriorcurie
   primary_knowledge_source:
     name: primary_knowledge_source
     description: The primary knowledge source for the association

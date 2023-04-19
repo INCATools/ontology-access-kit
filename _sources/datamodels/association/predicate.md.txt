@@ -6,7 +6,13 @@ URI: [rdf:predicate](rdf:predicate)
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **predicate**
+    * [old_predicate](old_predicate.md)
+    * [new_predicate](new_predicate.md)
+
 
 
 

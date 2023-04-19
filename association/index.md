@@ -15,6 +15,7 @@ Name: association
 | Class | Description |
 | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |
+| [AssociationChange](AssociationChange.md) |  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |
 | [ParserConfiguration](ParserConfiguration.md) |  |
 | [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |
@@ -27,11 +28,22 @@ Name: association
 | --- | --- |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | The knowledge source that aggregated the association |
 | [associations](associations.md) |  |
+| [closure_predicates](closure_predicates.md) |  |
 | [denormalized_slot](denormalized_slot.md) | denormalized slots are for models that follow a denormalized data model |
 | [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
 | [include_association_attributes](include_association_attributes.md) | If true, then the parser will include non S/P/O properties as additional attr... |
+| [is_creation](is_creation.md) |  |
+| [is_deletion](is_deletion.md) |  |
+| [is_generalization](is_generalization.md) |  |
+| [is_migration](is_migration.md) |  |
+| [is_specialization](is_specialization.md) |  |
+| [new_object](new_object.md) |  |
+| [new_predicate](new_predicate.md) |  |
 | [object](object.md) | An ontology entity that is associated with the subject |
 | [object_label](object_label.md) | The label of the ontology entity that is associated with the subject |
+| [old_object](old_object.md) |  |
+| [old_object_obsolete](old_object_obsolete.md) |  |
+| [old_predicate](old_predicate.md) |  |
 | [original_object](original_object.md) | The original object of the association prior to normalization |
 | [original_predicate](original_predicate.md) | The original subject of the association prior to normalization |
 | [original_subject](original_subject.md) | The original subject of the association prior to normalization |
@@ -40,9 +52,13 @@ Name: association
 | [preserve_negated_associations](preserve_negated_associations.md) | If true, then the parser will keep negated associations in the output |
 | [primary_knowledge_source](primary_knowledge_source.md) | The primary knowledge source for the association |
 | [property_values](property_values.md) |  |
+| [publication_is_added](publication_is_added.md) |  |
+| [publication_is_deleted](publication_is_deleted.md) |  |
+| [publications](publications.md) | The publications that support the association |
 | [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |
 | [subject_label](subject_label.md) | The label of the thing which the association is about |
+| [summary_group](summary_group.md) |  |
 
 
 ## Enumerations

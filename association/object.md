@@ -6,7 +6,13 @@ URI: [rdf:object](rdf:object)
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **object**
+    * [old_object](old_object.md)
+    * [new_object](new_object.md)
+
 
 
 
