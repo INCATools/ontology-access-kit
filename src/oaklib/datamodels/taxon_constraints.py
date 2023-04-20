@@ -1,24 +1,45 @@
 # Auto generated from taxon_constraints.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-17T13:37:35
+# Generation date: 2023-04-09T15:54:03
 # Schema: taxon-constraints
 #
-# id: https://w3id.org/linkml/taxon_constraints
-# description: A datamodel for representing inferred and asserted taxon constraints
+# id: https://w3id.org/oak/taxon_constraints
+# description: A datamodel for representing inferred and asserted taxon constraints.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_dict, empty_list
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -45,6 +66,7 @@ DEFAULT_ = TC
 
 
 # Types
+
 
 # Class references
 class TermId(URIorCURIE):
@@ -168,7 +190,7 @@ class SubjectTerm(Term):
 @dataclass
 class Taxon(Term):
     """
-    A term that represents a taxonomic group
+    A term that represents a taxonomic group, may be at species level of a higher level
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -250,6 +272,7 @@ class TaxonConstraint(YAMLRoot):
     ] = empty_list()
     sources: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
     comments: Optional[Union[str, List[str]]] = empty_list()
+    candidate: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.subject is not None and not isinstance(self.subject, SubjectTermId):
@@ -309,10 +332,26 @@ class TaxonConstraint(YAMLRoot):
             self.comments = [self.comments] if self.comments is not None else []
         self.comments = [v if isinstance(v, str) else str(v) for v in self.comments]
 
+        if self.candidate is not None and not isinstance(self.candidate, Bool):
+            self.candidate = Bool(self.candidate)
+
         super().__post_init__(**kwargs)
 
 
 # Enumerations
+class ConfigurationOption(EnumDefinitionImpl):
+    ExcludeRedundant = PermissibleValue(text="ExcludeRedundant")
+    IncludeRedundant = PermissibleValue(text="IncludeRedundant")
+    IncludeNeverInIfRedundantWithOnlyIn = PermissibleValue(
+        text="IncludeNeverInIfRedundantWithOnlyIn"
+    )
+    ExcludeNeverInIfRedundantWithOnlyIn = PermissibleValue(
+        text="ExcludeNeverInIfRedundantWithOnlyIn"
+    )
+
+    _defn = EnumDefinition(
+        name="ConfigurationOption",
+    )
 
 
 # Slots
@@ -512,4 +551,13 @@ slots.taxonConstraint__comments = Slot(
     model_uri=TC.taxonConstraint__comments,
     domain=None,
     range=Optional[Union[str, List[str]]],
+)
+
+slots.taxonConstraint__candidate = Slot(
+    uri=TC.candidate,
+    name="taxonConstraint__candidate",
+    curie=TC.curie("candidate"),
+    model_uri=TC.taxonConstraint__candidate,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )

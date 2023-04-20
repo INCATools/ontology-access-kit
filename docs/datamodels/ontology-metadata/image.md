@@ -1,6 +1,6 @@
 # Slot: image
 
-URI: [http://schema.org/image](http://schema.org/image)
+URI: [sdo:image](http://schema.org/image)
 
 
 
@@ -12,9 +12,37 @@ URI: [http://schema.org/image](http://schema.org/image)
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasUserInformation](HasUserInformation.md) | 
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | 
+[Property](Property.md) | 
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
+
+
+
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+
+
+
+
 
 
 
@@ -33,3 +61,20 @@ URI: [http://schema.org/image](http://schema.org/image)
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: image
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: informative_property
+slot_uri: sdo:image
+alias: image
+domain_of:
+- HasUserInformation
+range: Thing
+
+```
+</details>

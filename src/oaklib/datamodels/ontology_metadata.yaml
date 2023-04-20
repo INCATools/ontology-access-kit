@@ -364,6 +364,19 @@ classes:
       id:
         pattern: "^orcid:.*"
 
+  Agent:
+    is_a: NamedIndividual
+    class_uri: prov:Agent
+    id_prefixes:
+      - orcid
+    slot_usage:
+      id:
+        pattern: "^orcid:.*"
+
+  Image:
+    is_a: NamedIndividual
+    class_uri: IAO:0000101
+
   Annotation:
     description: A reified property-object pair
     represents_relationship: true
@@ -535,6 +548,12 @@ slots:
     comments:
       - SHOULD be in Aristotelian (genus-differentia) form
 
+  predicate:
+    relational_role: PREDICATE
+
+  object:
+    relational_role: OBJECT
+
   title:
     slot_uri: dcterms:title
     range: narrative text
@@ -611,6 +630,11 @@ slots:
   defaultLanguage:
     is_a: informative_property
     slot_uri: protege:defaultLanguage
+  language:
+    is_a: informative_property
+    slot_uri: dcterms:language
+    exact_mappings:
+      - dce:language
   has_ontology_root_term:
     is_a: informative_property
     slot_uri: IAO:0000700
@@ -635,6 +659,7 @@ slots:
     is_a: informative_property
     slot_uri: foaf:depicted_by
     multivalued: true
+    range: Image
   page:
     is_a: informative_property
     slot_uri: foaf:page
@@ -735,7 +760,7 @@ slots:
     is_a: provenance_property
     slot_uri: dcterms:contributor
     multivalued: true
-    range: HomoSapiens
+    range: Agent
     close_mappings:
       - prov:wasAttributedTo
     structured_pattern:
@@ -746,7 +771,7 @@ slots:
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
-    range: HomoSapiens
+    range: Agent
     close_mappings:
       - prov:wasAttributedTo
     structured_pattern:

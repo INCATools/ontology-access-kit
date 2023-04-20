@@ -2,16 +2,36 @@
 _The instance which the result is about_
 
 
-URI: [http://www.w3.org/ns/shacl#focusNode](http://www.w3.org/ns/shacl#focusNode)
+URI: [sh:focusNode](http://www.w3.org/ns/shacl#focusNode)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Node](Node.md)
+* Required: True
+
+
+
+
+
 
 
 
@@ -30,3 +50,21 @@ URI: [http://www.w3.org/ns/shacl#focusNode](http://www.w3.org/ns/shacl#focusNode
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: subject
+description: The instance which the result is about
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+slot_uri: sh:focusNode
+alias: subject
+domain_of:
+- ValidationResult
+range: Node
+required: true
+
+```
+</details>

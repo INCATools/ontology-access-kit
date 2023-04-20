@@ -1,0 +1,22 @@
+# curie_map: {}
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_source	object_source
+MAXO:0000332	biopsy of anus	oio:hasDbXref	NCIT:C51586		semapv:UnspecifiedMatching	MAXO	NCIT
+MAXO:0001269	clinical biopsy	oio:hasDbXref	OBI:0002650	biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001269	clinical biopsy	oio:hasDbXref	OBI:0002650	biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001270	clinical computed tomography assisted biopsy	oio:hasDbXref	OBI:0002652	computed tomography assisted biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001270	clinical computed tomography assisted biopsy	oio:hasDbXref	OBI:0002652	computed tomography assisted biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001271	clinical core needle biopsy	oio:hasDbXref	OBI:0002656	core needle biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001271	clinical core needle biopsy	oio:hasDbXref	OBI:0002656	core needle biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001272	clinical fine needle aspiration biopsy	oio:hasDbXref	OBI:0002655	fine needle aspiration biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001272	clinical fine needle aspiration biopsy	oio:hasDbXref	OBI:0002655	fine needle aspiration biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001273	clinical image guided biopsy	oio:hasDbXref	OBI:0002651	image guided biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001273	clinical image guided biopsy	oio:hasDbXref	OBI:0002651	image guided biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001274	clinical needle biopsy	oio:hasDbXref	OBI:0002654	needle biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001274	clinical needle biopsy	oio:hasDbXref	OBI:0002654	needle biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001275	clinical surgical biopsy	oio:hasDbXref	OBI:0002657	surgical biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001275	clinical surgical biopsy	oio:hasDbXref	OBI:0002657	surgical biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001276	clinical ultrasound-guided needle biopsy	oio:hasDbXref	OBI:0002653	ultrasound-guided needle biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+MAXO:0001276	clinical ultrasound-guided needle biopsy	oio:hasDbXref	OBI:0002653	ultrasound-guided needle biopsy	semapv:UnspecifiedMatching	MAXO	OBI
+

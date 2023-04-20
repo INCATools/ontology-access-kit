@@ -11,20 +11,22 @@ import logging
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from collections import defaultdict
 from copy import deepcopy
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Optional, TextIO, Tuple
+from typing import Any, Callable, Dict, Iterator, List, Optional, TextIO, Tuple, Union
 
 import networkx as nx
 import yaml
+from curies import Converter
 from linkml_runtime.dumpers import json_dumper
 
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package
-from oaklib.datamodels.obograph import Edge, Graph, Node
+from oaklib.datamodels.obograph import Edge, Graph, GraphDocument, Node
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.types import CURIE, PRED_CURIE
 
@@ -34,6 +36,8 @@ DEFAULT_STYLEMAP = "obograph-style.json"
 DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p", RDF_TYPE: "t"}
 
 PREDICATE_WEIGHT_MAP = Dict[PRED_CURIE, float]
+
+PREDICATE_MAP = {"is_a": IS_A}
 
 
 class TreeFormatEnum(Enum):
@@ -48,16 +52,13 @@ def default_stylemap_path():
 
 def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     """
-    Convert an OBOGraph representation to a dictionary representation isomorphic to the
-    OBOGraphs json standard.
-
-    Note: in the python datamodel we use "label", this is converted to "lbl" for the standard
+    Serialize a graph to a dict.
 
     :param graph:
-    :return:
     """
     obj = json_dumper.to_dict(graph)
     for n in obj["nodes"]:
+        # normalization: no longer needed?
         if "label" in n:
             # annoying mutation: the json format uses 'lbl' not label
             n["lbl"] = n["label"]
@@ -80,7 +81,9 @@ def draw_graph(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=
     subprocess.run(["open", imgfile])
 
 
-def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None) -> str:
+def graph_to_image(
+    graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None, view=None
+) -> str:
     """
     Renders a graph to png using obographviz
 
@@ -102,7 +105,7 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         raise Exception(
             f"Cannot find {exec} on path. Install from https://github.com/INCATools/obographviz"
         )
-    with tempfile.NamedTemporaryFile(dir="/tmp", mode="w") as tmpfile:
+    with tempfile.NamedTemporaryFile(mode="w") as tmpfile:
         style = {}
         logging.info(f"Seed nodes: {seeds}")
         # if seeds is not None:
@@ -122,6 +125,7 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         tmpfile.write(json_dump)
         logging.debug(f"JSON {json_dump}")
         tmpfile.flush()
+
         if imgfile is None:
             imgfile = f"{temp_file_name}.png"
         style_json = json.dumps(style).replace("'", "\\'")
@@ -132,9 +136,17 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         if seeds is not None:
             for seed in seeds:
                 cmdtoks += ["-H", seed]
+        if sys.platform == "win32":
+            cmdtoks = ["cmd.exe", "/c"] + cmdtoks
+            opencmd = ["cmd.exe", "/c", "start", imgfile]
+        else:
+            opencmd = ["open", imgfile]
         logging.debug(f"Run: {cmdtoks}")
         subprocess.run(cmdtoks)
-        return imgfile
+
+        if view:
+            logging.debug(f"Run: {opencmd}")
+            subprocess.run(opencmd)
 
 
 def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: str = None) -> Graph:
@@ -148,7 +160,7 @@ def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: s
     """
     if graph_id is None:
         graph_id = graph.id
-    edges = [edge for edge in graph.edges if edge.pred in predicates]
+    edges = [edge for edge in graph.edges if PREDICATE_MAP.get(edge.pred, edge.pred) in predicates]
     return Graph(graph_id, nodes=deepcopy(graph.nodes), edges=edges)
 
 
@@ -262,6 +274,7 @@ def shortest_paths(
     start_curies: List[CURIE],
     end_curies: Optional[List[CURIE]] = None,
     predicate_weights: Optional[PREDICATE_WEIGHT_MAP] = None,
+    directed=False,
 ) -> Iterator[Tuple[CURIE, CURIE, List[CURIE]]]:
     """
     Finds all shortest paths from a set of start nodes to a set of end nodes
@@ -272,20 +285,36 @@ def shortest_paths(
     :param predicate_weights: an optional map of predicates to weights
     :return:
     """
-    dg = as_graph(graph, predicate_weights=predicate_weights)
+    if directed:
+        dg = as_digraph(graph, reverse=False)
+    else:
+        dg = as_graph(graph, predicate_weights=predicate_weights)
     logging.info(f"Calculating paths, starts={start_curies}")
     for start_curie in start_curies:
+        if not dg.has_node(start_curie):
+            logging.info(f"Skipping {start_curie} because it is not in the graph")
+            continue
         if end_curies:
             this_end_curies = end_curies
         else:
             this_end_curies = list(nx.ancestors(dg, start_curie))
         logging.info(f"Calculating distances for {start_curie}")
         for end_curie in set(this_end_curies):
+            if not dg.has_node(end_curie):
+                logging.info(f"Skipping {end_curie} because it is not in the graph")
+                continue
             logging.debug(f"COMPUTING {start_curie} to {end_curie}")
             try:
-                paths = nx.all_shortest_paths(
-                    dg, source=start_curie, target=end_curie, weight="weight", method="bellman-ford"
-                )
+                if directed:
+                    paths = nx.all_simple_paths(dg, source=start_curie, target=end_curie)
+                else:
+                    paths = nx.all_shortest_paths(
+                        dg,
+                        source=start_curie,
+                        target=end_curie,
+                        weight="weight",
+                        method="bellman-ford",
+                    )
                 for path in paths:
                     yield start_curie, end_curie, path
             except nx.NetworkXNoPath:
@@ -353,6 +382,62 @@ def trim_graph(
     new_graph = deepcopy(graph)
     remove_nodes_from_graph(new_graph, list(nodes_to_trim))
     return new_graph
+
+
+def merge_graphs(source: Graph, target: Graph, replace: bool = False) -> Graph:
+    """
+    Merge two graphs into a single graph
+
+    :param source: source graph
+    :param target: target graph
+    :param replace: if true, replace nodes that share the same id
+    :return: merged graph
+    """
+    new_graph = deepcopy(target)
+    nix = index_graph_nodes(target)
+    for node in source.nodes:
+        if replace or node.id not in nix:
+            new_graph.nodes.append(node)
+        else:
+            nix[node.id] = merge_graph_nodes(nix[node.id], node)
+    for edge in source.edges:
+        if edge not in target.edges:
+            new_graph.edges.append(edge)
+    return new_graph
+
+
+def merge_graph_nodes(target: Node, source: Node) -> Node:
+    """
+    Merge two nodes into a single node
+
+    :param target:
+    :param source:
+    :return:
+    """
+    new_node = Node(id=target.id, lbl=target.lbl, type=target.type, meta=target.meta)
+    if source.lbl:
+        new_node.lbl = source.lbl
+    if not new_node.meta:
+        new_node.meta = source.meta
+        return new_node
+    source_meta = source.meta
+    if not source_meta:
+        return new_node
+    if source_meta.definition:
+        new_node.meta.definition = source_meta.definition
+    if source_meta.synonyms:
+        for s in source_meta.synonyms:
+            if s not in new_node.meta.synonyms:
+                new_node.meta.synonyms.append(s)
+    if source_meta.xrefs:
+        for x in source_meta.xrefs:
+            if x not in new_node.meta.xrefs:
+                new_node.meta.xrefs.append(x)
+    if source_meta.subsets:
+        for s in source_meta.subsets:
+            if s not in new_node.meta.subsets:
+                new_node.meta.subsets.append(s)
+    return new_node
 
 
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
@@ -430,7 +515,7 @@ def reflexive(edge: Edge) -> bool:
     return edge.sub == edge.obj
 
 
-def graph_to_tree(
+def graph_to_tree_display(
     graph: Graph,
     predicates: List[PRED_CURIE] = None,
     skip: List[CURIE] = None,
@@ -440,6 +525,7 @@ def graph_to_tree(
     format: str = None,
     max_paths: int = 10,
     predicate_code_map=DEFAULT_PREDICATE_CODE_MAP,
+    display_options: Optional[List[str]] = None,
     stylemap=None,
 ) -> Optional[str]:
     """
@@ -454,9 +540,13 @@ def graph_to_tree(
     :param format: markdown or text
     :param max_paths: upper limit on number of distinct paths to show
     :param predicate_code_map: mapping between predicates and codes/acronyms
+    :param display_options: list of display options, as per info writer
     :param stylemap: kgviz stylemap (not yet used)
     :return:
     """
+    if not display_options:
+        display_options = []
+    show_all = "all" in display_options
     if seeds is None:
         seeds = []
     if output is None:
@@ -492,8 +582,9 @@ def graph_to_tree(
         if counts[n] > max_paths:
             logging.info(f"Reached {counts[n]} for node {n};; truncating rest")
             break
-        if rel in predicate_code_map:
-            code = predicate_code_map[rel]
+        rel_pred = PREDICATE_MAP.get(rel, rel)
+        if rel_pred in predicate_code_map:
+            code = predicate_code_map[rel_pred]
         elif rel in nix:
             code = nix[rel].lbl
             if code is None:
@@ -503,8 +594,19 @@ def graph_to_tree(
         output.write(depth * indent)
         output.write(f"* [{code}] ")
         node_info = f"{n}"
-        if n in nix and nix[n].lbl:
-            node_info += f" ! {nix[n].lbl}"
+        if n in nix:
+            obj = nix[n]
+            if obj.lbl:
+                node_info += f" ! {obj.lbl}"
+            if obj.meta:
+                meta = obj.meta
+                if (show_all or "d" in display_options) and meta.definition:
+                    node_info += f' "{meta.definition.val}"'
+                if (show_all or "x" in display_options) and meta.xrefs:
+                    node_info += " ["
+                    for x in meta.xrefs:
+                        node_info += f" {x.val}"
+                    node_info += " ]"
         if n in seeds:
             node_info = f"**{node_info}**"
         output.write(node_info)
@@ -518,3 +620,101 @@ def graph_to_tree(
                     todo.append((stack + [n], child_edge.pred, child_edge.sub))
     if is_str:
         return output.getvalue()
+
+
+def expand_all_graph_ids(graph: Union[Graph, GraphDocument], converter: Converter) -> None:
+    def _expand(x):
+        try:
+            return converter.expand(x)
+        except Exception:
+            return x
+
+    mutate_graph_ids(graph, _expand)
+
+
+def compress_all_graph_ids(graph: Union[Graph, GraphDocument], converter: Converter) -> None:
+    def _compress(x):
+        try:
+            return converter.compress(x)
+        except Exception:
+            return x
+
+    mutate_graph_ids(graph, _compress)
+
+
+def mutate_graph_ids(graph: Union[Graph, GraphDocument], func: Callable) -> None:
+    """
+    Iterate over the ids in a graph and modify them.
+
+    :param graph:
+    :param func:
+    :return:
+    """
+    if isinstance(graph, GraphDocument):
+        for g in graph.graphs:
+            mutate_graph_ids(g, func)
+        return
+    for n in graph.nodes:
+        n.id = func(n.id)
+    for e in graph.edges:
+        e.sub = func(e.sub)
+        e.pred = func(e.pred)
+        e.obj = func(e.obj)
+    for ld in graph.logicalDefinitionAxioms:
+        ld.definedClassId = func(ld.definedClassId)
+        ld.genusIds = [func(x) for x in ld.genusIds]
+        for r in ld.restrictions:
+            r.propertyId = func(r.propertyId)
+            r.fillerId = func(r.fillerId)
+    graph.equivalentNodesSets = [func(x) for x in graph.equivalentNodesSets]
+
+
+def graph_id_iterator(graph: Union[Graph, GraphDocument]) -> Iterator[CURIE]:
+    """
+    Iterate over the ids in a graph
+
+    :param graph:
+    :return:
+    """
+    if isinstance(graph, GraphDocument):
+        for g in graph.graphs:
+            yield from graph_id_iterator(g)
+        return
+    for n in graph.nodes:
+        yield n.id
+    for e in graph.edges:
+        yield from [e.sub, e.obj, e.pred]
+    for ld in graph.logicalDefinitionAxioms:
+        yield ld.definedClassId
+        yield from ld.genusIds
+        for r in ld.restrictions:
+            yield r.propertyId
+            yield r.fillerId
+    for ns in graph.equivalentNodesSets:
+        yield from ns.nodeIds
+
+
+def graph_ids(graph: Union[Graph, GraphDocument]) -> Iterator[CURIE]:
+    """
+    Return a set of all ids in a graph
+
+    :param graph:
+    :return:
+    """
+    yield from list(set(graph_id_iterator(graph)))
+
+
+def induce_graph_prefix_map(
+    graph: Union[Graph, GraphDocument], converter: Converter
+) -> Dict[str, str]:
+    def _id_to_prefix(id: CURIE) -> Optional[str]:
+        pfx, _ = converter.parse_uri(id)
+        if pfx:
+            return pfx
+        parts = id.split(":")
+        if len(parts) > 1:
+            return parts[0]
+        return None
+
+    prefixes = {_id_to_prefix(id) for id in graph_ids(graph)}
+    return {p: converter.expand_pair(p, "") for p in prefixes if p}

@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/search_datamodel
+id: https://w3id.org/oak/search-datamodel
 title: search datamodel
 name: search-datamodel
 description: |-
@@ -16,7 +16,7 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  search: https://w3id.org/linkml/search_datamodel/
+  ontosearch: https://w3id.org/oak/search-datamodel/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
@@ -24,7 +24,7 @@ prefixes:
   prov: http://www.w3.org/ns/prov#
   sssom: http://w3id.org/sssom/
 
-default_prefix: search
+default_prefix: ontosearch
 default_range: string
 
 default_curi_maps:
@@ -89,6 +89,10 @@ classes:
         multivalued: true
         range: uriorcurie
         description: categories that should be matched
+      force_case_insensitive:
+        range: boolean
+        description: >-
+          force case insensitive matching
 
   ComplexQuery:
     aliases:
@@ -197,6 +201,9 @@ enums:
       REPLACEMENT_IDENTIFIER:
         meaning: schema:identifier
         description: A replacement identifier or URI for the entity
+      MAPPED_IDENTIFIER:
+        meaning: skos:closeMatch
+        description: An identifier or URI for a mapping
       LABEL:
         meaning: rdfs:label
         description: The preferred label / human readable name of the entity

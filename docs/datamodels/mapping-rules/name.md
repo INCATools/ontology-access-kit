@@ -1,15 +1,32 @@
 # Slot: name
 
-URI: [https://w3id.org/linkml/lexical_index/name](https://w3id.org/linkml/lexical_index/name)
+URI: [mappingrules:name](https://w3id.org/oak/mapping-rules-datamodel/name)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas...
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
+
+
+
+
 
 
 
@@ -24,7 +41,24 @@ URI: [https://w3id.org/linkml/lexical_index/name](https://w3id.org/linkml/lexica
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: name
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
+rank: 1000
+key: true
+alias: name
+owner: LexicalTransformationPipeline
+domain_of:
+- LexicalTransformationPipeline
+range: string
+
+```
+</details>

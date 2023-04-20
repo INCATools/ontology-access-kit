@@ -1,0 +1,226 @@
+id: https://w3id.org/oak/mapping-cluster-datamodel
+title: Mapping Cluster Datamodel
+name: mapping-cluster-datamodel
+description: |-
+  A datamodel for specifying mapping clusters, such as those retrieved from boomer.
+  
+  A mapping cluster is the cluster formed from all potential and actual links between
+  a set of ontology entities, such as terms/classes.
+  
+  - Potential links come from heuristic processes such as lexical alignment, and have
+    probabilities associated
+  - Actual links come from the asserted logical axioms in the ontology, typically subClassOf
+  
+  A *solution* for the cluster is an interpretation of potential links, aka hypothetical
+  axioms.
+  
+  The probability of a solution is Pr(H|A), i.e. the probability of the set of hypothetical
+  axiom interpretations given the set of actual axioms:
+  
+  ```
+             P(A|H) P(H)          
+  Pr(H|A) =   -----------
+                P(A)
+  ```
+  
+  The term P(H) represents the *prior* probability of the set of hypothetical axioms, multiplying
+  all individual prior probabilities.
+  
+  The term P(A|H) represents the *conditional* probability of the axioms given the hypotheses, i.e
+  the likelihood of the hypothetical axioms given actual axioms.
+  Tools such as boomer treat this as a constant for all satisfiable solutions. If a solution H,A is
+  unsatisfiable, then P(A|H) = 0
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+see_also:
+  - https://www.biorxiv.org/content/10.1101/048843v3
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  mcluster: https://w3id.org/oak/mapping-cluster-datamodel/
+  sssom: https://w3id.org/sssom/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+
+default_prefix: mcluster
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+#==================================
+# Types                         #
+#==================================
+types:
+  Probability:
+    typeof: float
+    minimum_value: 0
+    maximum_value: 1
+  NaturalLogProbability:
+    typeof: float
+    maximum_value: 0
+  ImageLocation:
+    typeof: string
+  DataObjectLocation:
+    typeof: string
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  MappingClusterReport:
+    tree_root: true
+    description: A collection of equivalence clusters
+    attributes:
+      clusters:
+        description: clusters
+        range: MappingCluster
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+      started_at_time:
+        range: datetime
+      ended_at_time:
+        range: datetime
+      input_ontology_path:
+      input_ptable_path:
+
+  MappingCluster:
+    description: An individual mapping rule, if preconditions match the postconditions are applied
+    attributes:
+      id:
+        identifier: true
+      name:
+        description: name of the cluster
+      method:
+        description: e.g. exhaustive search
+      is_singleton:
+        range: boolean
+        description: >-
+          If true this is a trivial clique with a single member
+      log_prior_probability:
+        alias: boomer_score
+        range: NaturalLogProbability
+        description: all prior probabilities multiplied together, reported as natural log to avoid underflow
+        annotations:
+          formula: log(Π{H_i ∈ H}P(H_i=H))
+      subsequent_log_prior_probabilities:
+        alias: subsequent scores
+        range: NaturalLogProbability
+        multivalued: True
+        description: ordered list of logs of prior probabilities for next N solutions
+      log_joint_probability:
+        description: >-
+          The prior probability multiplied by conditional probability of observed axioms given hypotheses, reported as natural log to avoid underflow
+        comments:
+          - >-
+            not explicit in boomer, as all satisfiable solutions are treated as equally likely, so this
+            would be a constant factor multiplied by the priors.
+            For unsatisfiable solutions, the conditional probability is zero.
+        annotations:
+          formula: Π{H_i ∈ H}P(H_i=H)P(A|H)
+        range: NaturalLogProbability
+      posterior_probability:
+        aliases:
+          estimated posterior probability
+        range: Probability
+        description: >-
+          The probability of the overall solution, i.e. P(H|A)
+        comments:
+          - does not need to be expressed as log, as underflow unlikely
+          - >-
+            for boomer, this may be estimated by dividing the prior probability by the sum of other N most likely
+      confidence:
+        range: Probability
+        description: >-
+          log odds of the probability of the solution vs the next best solution
+
+      is_resolved:
+        range: boolean
+        description: True if the cluster has been resolved
+      resolved_mappings:
+        multivalued: true
+        range: SimpleMapping
+        description: >-
+          All mappings produced by the resolution process
+      input_mappings:
+        multivalued: true
+        range: SimpleMapping
+        description: >-
+          All mappings used as input to the resolution process
+
+      subsequent_raw_scores:
+        multivalued: true
+        range: float
+      depiction:
+        range: ImageLocation
+        description: >-
+          local path or URL of an image that depicts the cluster
+      data_objects:
+        range: DataObjectLocation
+        description: >-
+          local paths or URLs of additional data files
+
+  SimpleMapping:
+    attributes:
+      cluster_id:
+        range: MappingCluster
+      subject_id:
+        slot_uri: sssom:subject_id
+      subject_label:
+        slot_uri: sssom:subject_label
+      predicate_id:
+        slot_uri: sssom:predicate_id
+      predicate_label:
+        slot_uri: sssom:predicate_label
+      object_id:
+        slot_uri: sssom:object_id
+      object_label:
+        slot_uri: sssom:object_label
+      is_most_probable:
+        range: boolean
+      prior_probability:
+        range: Probability
+      posterior_probability:
+        range: Probability
+        comments:
+          - this is always equal to the posterior probability of the solution to which it belongs
+      predicate_probabilities:
+        range: PredicateProbability
+        multivalued: true
+      confidence:
+        range: Probability
+
+  PredicateProbability:
+    attributes:
+      predicate_id:
+        key: true
+      probability:
+        range: Probability
+
+enums:
+  MappingConcordanceEnum:
+    description: >-
+      The degree to which a mapping interpreted in light of a mapping cluster is consistent with the input mappings
+    permissible_values:
+      NEW:
+        description: this mapping interpretation can be added with high confidence
+      AMBIGUOUS:
+        description: the source ontology has different interpretations (e.g. exact, broad) for the same term pair. If you get this then you should tidy up your inputs
+      CONFLICT:
+        description: the source ontology mapping interpretation is different from what is inferred to be the correct one
+      REJECT:
+        description: a CONFLICT in which the source interpretation is non-exact

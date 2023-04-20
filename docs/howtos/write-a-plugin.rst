@@ -41,11 +41,11 @@ This can also be used programmatically
 
 .. code-block:: python
 
-    from oaklib.selector import get_resource_from_shorthand, discovered_plugins, get_implementation_from_shorthand
+    from oaklib.selector import get_resource_from_shorthand, discovered_plugins, get_adapter
     from oakx_robot.robot_implementation import RobotImplementation, OWL_NOTHING
 
     path = 'tests/input/go-nucleus-unsat.owl'
-    oi = get_implementation_from_shorthand(f'robot:{path}')
+    oi = get_adapter(f'robot:{path}')
     if oi.is_coherent():
         print('Congratulations! The ontology is coherent')
     else:

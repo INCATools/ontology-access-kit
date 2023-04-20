@@ -40,6 +40,7 @@ from tests import (
 from tests.test_implementations import ComplianceTester
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
+TEST_ONT_JSON = INPUT_DIR / "go-nucleus.json"
 TEST_SIMPLE_ONT = INPUT_DIR / "go-nucleus-simple.obo"
 TEST_ONT_COPY = OUTPUT_DIR / "go-nucleus.copy.obo"
 TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
@@ -109,6 +110,10 @@ class TestOboGraphImplementation(unittest.TestCase):
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
 
+    @unittest.skip("TODO - map synonym type URIs")
+    def test_synonym_types(self):
+        self.compliance_tester.test_synonym_types(self.oi)
+
     def test_labels(self):
         self.compliance_tester.test_labels(self.oi)
 
@@ -130,8 +135,6 @@ class TestOboGraphImplementation(unittest.TestCase):
 
     def test_synonyms_extra(self):
         syns = self.oi.entity_aliases("GO:0005575")
-        print(syns)
-        # logging.info(syns)
         self.assertCountEqual(
             syns,
             [
@@ -255,6 +258,9 @@ class TestOboGraphImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi)
+
     @unittest.skip("TODO")
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
@@ -299,6 +305,13 @@ class TestOboGraphImplementation(unittest.TestCase):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
+
+    def test_merge(self):
+        resource1 = OntologyResource(slug=TEST_ONT_JSON, directory=INPUT_DIR, local=True)
+        resource2 = OntologyResource(slug="interneuron.json", directory=INPUT_DIR, local=True)
+        oi1 = OboGraphImplementation(resource1)
+        oi2 = OboGraphImplementation(resource2)
+        self.compliance_tester.test_merge(oi1, oi2)
 
     @unittest.skip("TODO")
     def test_patcher(self):

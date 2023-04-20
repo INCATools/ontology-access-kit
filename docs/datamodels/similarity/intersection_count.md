@@ -1,6 +1,6 @@
 # Slot: intersection_count
 
-URI: [https://w3id.org/linkml/similarity/intersection_count](https://w3id.org/linkml/similarity/intersection_count)
+URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_count)
 
 
 
@@ -12,9 +12,17 @@ URI: [https://w3id.org/linkml/similarity/intersection_count](https://w3id.org/li
 
 
 
+
+
+
+
 ## Properties
 
- * Range: [ItemCount](ItemCount.md)
+* Range: [ItemCount](ItemCount.md)
+
+
+
+
 
 
 
@@ -29,7 +37,21 @@ URI: [https://w3id.org/linkml/similarity/intersection_count](https://w3id.org/li
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: intersection_count
+from_schema: https://w3id.org/oak/similarity
+rank: 1000
+is_a: score
+alias: intersection_count
+range: ItemCount
+
+```
+</details>

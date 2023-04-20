@@ -46,9 +46,6 @@ classes:
   Node:
     is_a: NamedResource
 
-
-
-
   ValidationConfiguration:
     description: Configuration parameters for execution of a validation report
     attributes:

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator
 
 from semsql.sqla.semsql import TermAssociation
-from sqlalchemy import create_engine
+from sqlalchemy import Column, String, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -15,9 +15,25 @@ from oaklib.types import CURIE, PRED_CURIE
 COLS = ["id", "subject", "predicate", "object", "evidence_type", "publication", "source"]
 
 
+class DenormalizedAssociation:
+    """A denormalized association. (for future extension)"""
+
+    __tablename__ = "denormalized_term_association"
+    subject_id = Column(String)
+    subject_label = Column(String)
+    object_id = Column(String)
+    object_label = Column(String)
+    predicate_id = Column(String)
+    predicate_label = Column(String)
+    subject_closure_json = Column(String)
+    object_closure_json = Column(String)
+    subject_property_values_json = Column(String)
+    object_property_values_json = Column(String)
+    association_property_values_json = Column(String)
+
+
 @dataclass
 class AssociationIndex:
-
     _connection: sqlite3.Connection = None
     _session: Session = None
     _engine: Engine = None
@@ -34,9 +50,13 @@ class AssociationIndex:
         self._engine = engine
 
     def populate(self, associations: Iterable[Association]):
-        tups = [(a.subject, a.predicate, a.object) for a in associations]
+        tups = [
+            (a.subject, a.predicate, a.object, a.primary_knowledge_source) for a in associations
+        ]
+        logging.info(f"Bulk loading {len(tups)} associations")
         self._connection.executemany(
-            "insert into term_association(subject, predicate, object) values (?,?,?)", tups
+            "insert into term_association(subject, predicate, object, source) values (?,?,?,?)",
+            tups,
         )
 
     def lookup(
@@ -58,4 +78,9 @@ class AssociationIndex:
             q = q.filter(TermAssociation.object.in_(tuple(objects)))
         logging.info(f"Association query: {q}")
         for row in q:
-            yield Association(subject=row.subject, predicate=row.predicate, object=row.object)
+            yield Association(
+                subject=row.subject,
+                predicate=row.predicate,
+                object=row.object,
+                primary_knowledge_source=row.source,
+            )

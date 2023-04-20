@@ -1,8 +1,8 @@
-id: https://w3id.org/linkml/taxon_constraints
+id: https://w3id.org/oak/taxon_constraints
 title: Taxon Constraints Reporting Datamodel
 name: taxon-constraints
 description: >-
-  A datamodel for representing inferred and asserted taxon constraints
+  A datamodel for representing inferred and asserted taxon constraints.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
@@ -43,28 +43,41 @@ classes:
       id:
         range: uriorcurie
         identifier: true
+        description: the OBO CURIE for the term
       label:
         slot_uri: rdfs:label
         range: string
+        description: the human readable name or label of the term
   SubjectTerm:
-    description: A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ...
+    description: >-
+      A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ...
     is_a: Term
     attributes:
       description:
-        description: A description of the taxon constraints and events
+        description: A description of the term
       unsatisfiable:
         range: boolean
-        description: If true then some combination of taxon constraints lead to contradictions
+        description: If true then some combination of taxon constraints plus ontology lead to contradictions
       only_in:
+        description: >
+          Points to a taxon constraint that states the SubjectTerm is ONLY found in a taxon or descendant.
+          Formally, the term AND its descendants MUST be in the specified taxon, or a descendant of that taxon
+        comments:
+          - Note that we conflate between the RO "only in taxon" and "in taxon" relations here
         range: TaxonConstraint
         multivalued: true
         slot_uri: RO:0002160
       never_in:
+        description: >
+          Points to a taxon constraint that states the SubjectTerm is NEVER found in a taxon or descendant.
+          Formally, the term AND its descendants MUST NOT be in the specified taxon, or a descendant of that taxon
         range: TaxonConstraint
         multivalued: true
         slot_uri: RO:0002161
       present_in:
         range: TaxonConstraint
+        description: >
+          The term MAY be in the specified taxon, or a descendant of that taxon
         multivalued: true
         slot_uri: RO:0002175
       present_in_ancestor_of:
@@ -72,7 +85,7 @@ classes:
         multivalued: true
         #slot_uri:
   Taxon:
-    description: A term that represents a taxonomic group
+    description: A term that represents a taxonomic group, may be at species level of a higher level
     is_a: Term
     exact_mappings:
       - NCBITaxon:1
@@ -80,23 +93,37 @@ classes:
       - NCBITaxon
       - NCBITaxon_Union
   PredicateTerm:
-    description: A term that represents a relationship type
+    description: >-
+      A term that represents a relationship type
     is_a: Term
+    id_prefixes:
+      - RO
 
   TaxonConstraint:
-    description: An individual taxon constraint
+    description: >-
+      An individual taxon constraint
     class_uri: rdf:Statement
     attributes:
       subject:
         slot_uri: rdf:subject
         range: SubjectTerm
+        description: The term to which the constraint applies
+        comments:
+          - this is a reciprocal slot and will be the same as the containing SubjectTerm
       predicate:
         slot_uri: rdf:predicate
         range: PredicateTerm
+        description: The relationship type for the contraint (e.g. in_taxon, never_in taxon)
+        todos:
+          - define a value set of this
       asserted:
         range: boolean
+        description: >-
+          holds if the constraint is asserted in the source ontology, rather than inferred by rules or reasoning
       evolutionary:
         range: boolean
+        description: >-
+          holds if the constraint is an evolutionary statement
       redundant:
         range: boolean
         description: >-
@@ -107,23 +134,31 @@ classes:
           True for never in constraints that are subsumed by an only in
       taxon:
         slot_uri: rdf:object
-        description: The taxon that the subject is constrained to be included or excluded from
+        description: >-
+          The taxon which this constraint is about. May be species or a more general class.
         range: Taxon
         inlined: true
       redundant_with:
         range: TaxonConstraint
         multivalued: true
+        description: >-
+          If the taxon constraint is redundant, then this is the set of taxon constraints that it is redundant with
       contradicted_by:
         range: TaxonConstraint
         multivalued: true
+        description: >-
+          If the taxon constraint conflicts with another, 
+          then this is the set of taxon constraints that it is redundant with
       via_terms:
-        description: The term that has the taxon constraint asserted
+        description: >-
+          For inferred taxon constraints, this is the term or terms that have the taxon constraint asserted
         range: SubjectTerm
         multivalued: true
         inlined: true
         inlined_as_list: true
       predicates:
-        description: The predicates that connect the subject term to the via_term
+        description: >-
+          The predicates that connect the subject term to the via_terms.
         range: PredicateTerm
         multivalued: true
       sources:
@@ -132,3 +167,16 @@ classes:
       comments:
         range: string
         multivalued: true
+      candidate:
+        range: boolean
+        description: >-
+          true if this is a proposed candidate constraint
+
+enums:
+
+  ConfigurationOption:
+    permissible_values:
+      ExcludeRedundant:
+      IncludeRedundant:
+      IncludeNeverInIfRedundantWithOnlyIn:
+      ExcludeNeverInIfRedundantWithOnlyIn:

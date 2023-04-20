@@ -1,9 +1,9 @@
 Part 3: Triplestore Backends
 =======
 
-Previously we have been working with *local* ontology files in :term:`OBO Format`. We will now show how OAK
-can be used to access information in a remote :term:`Triplestore`. The same approach can be used to
-query local files in any RDF format such as turtle.
+Previously we have been working with *local* ontology files in sqlite format, following the :term:`Semantic SQL` schema.
+We will now show how OAK can be used to access information in a remote :term:`Triplestore`. The same approach can be used to
+query local files in any :term:`RDF` format such as :term:`Turtle`.
 
 Triplestore Concepts
 -------------------
@@ -27,34 +27,61 @@ OAK interfaces specify the logical operation, and behind the scenes, OAK will em
 Ubergraph
 --------
 
-See:
-
-- :ref:`ubergraph_implementation`
+For full documentation, see :ref:`ubergraph_implementation`
 
 Connecting
 ^^^^^^^^^^
 
-.. code-block:: python
-
-    from oaklib.implementations import UbergraphImplementation
-
-    oi = UbergraphImplementation()
-
-
-
-Operations
-^^^^^^^^^^
+In this example we will use the ``ontologies()`` method for :ref:`basic_ontology_interface` to list
+all ontologies the adapter knows about.
 
 .. code-block:: python
 
-    term_id = "UBERON:0002544"
-    print(oi.label(term_id))
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("ubergraph:")
+    >>> for ont in adapter.ontologies():
+    ...     print(ont)
+    <BLANKLINE>
+    ...
+    bspo.owl
+    chebi.owl
+    ...
 
-This will write out "digit"
+Basic Operations
+^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
-    for rel in oi.entailed_outgoing_relationships_by_curie(term_id):
-       print(rel)
+    >>> term_id = "UBERON:0002544"
+    >>> print(adapter.label(term_id))
+    digit
+    >>> print(adapter.definition(term_id))
+    A subdivision of the autopod that has as part a...
 
-This will write out all relationships where digit is a subject
+Relationships
+^^^^^^^^^^^^^
+
+We can query for :term:`Asserted Relationships`:
+
+.. code-block:: python
+
+    >>> for rel in adapter.relationships([term_id]):
+    ...    print(rel)
+    <BLANKLINE>
+    ...
+    ('UBERON:0002544', 'RO:0002160', 'NCBITaxon:32523')
+    ...
+    ('UBERON:0002544', 'rdfs:subClassOf', 'UBERON:0005881')
+
+And also for :term:`Entailed Relationships` -- this time specifying
+the predicate :term:`IS_A`.
+
+.. code-block:: python
+
+    >>> from oaklib.datamodels.vocabulary import IS_A
+    >>> for rel in adapter.relationships([term_id], predicates=[IS_A], include_entailed=True):
+    ...    print(rel)
+    <BLANKLINE>
+    ...
+    ('UBERON:0002544', 'rdfs:subClassOf', 'UBERON:0001062')
+    ...

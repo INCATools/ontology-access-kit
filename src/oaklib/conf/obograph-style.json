@@ -14,6 +14,30 @@
             "arrowhead": "open",
             "label": "ⓘ"
         },
+        "rdfs:subPropertyOf": {
+            "color": "black",
+            "penwidth": 3,
+            "arrowhead": "open",
+            "label": "ⓘ"
+        },
+        "owl:inverseOf": {
+            "color": "blue:invis:blue",
+            "penwidth": 2,
+            "arrowhead": "none",
+            "label": "R⁻¹"
+        },
+        "rdfs:domain": {
+            "color": "chartreuse4",
+            "penwidth": 2,
+            "arrowhead": "crow",
+            "label": "Ⓓ"
+        },
+        "rdfs:range": {
+            "color": "chartreuse4",
+            "penwidth": 2,
+            "arrowhead": "crow",
+            "label": "Ⓡ"
+        },
         "rdf:type": {
             "color": "blue",
             "arrowhead": "open",
@@ -74,6 +98,17 @@
             },
             "properties": {
                 "style": "filled,square",
+                "fillcolor": "green"
+            }
+        },
+        {
+            "conditions": {
+                "subset": "path"
+            },
+            "properties": {
+                "style": "filled,square",
+                "arrowhead": "diamond",
+                "penwidth": "3",
                 "fillcolor": "green"
             }
         }
@@ -143,6 +178,9 @@
         },
         "STATO": {
             "fillcolor": "cornsilk"
+        },
+        "IAO": {
+            "fillcolor": "mediumturquoise"
         },
         "BFO": {
             "fillcolor": "cyan"

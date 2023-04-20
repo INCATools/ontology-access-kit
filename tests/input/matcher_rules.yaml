@@ -64,13 +64,13 @@ rules:
 
   - synonymizer:
       the_rule: Remove parentheses bound info from the label.
-      match: r'\([^)]*\)'
+      match: "\\([^)]*\\)"
       match_scope: "*"
       replacement: ""
 
   - synonymizer:
       the_rule: Remove box brackets bound info from the label.
-      match: r'\[[^)]*\]'
+      match: "\\[[^)]*\\]"
       match_scope: "*"
       replacement: ""
 

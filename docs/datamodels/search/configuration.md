@@ -1,15 +1,32 @@
 # Slot: configuration
 
-URI: [https://w3id.org/linkml/search_datamodel/configuration](https://w3id.org/linkml/search_datamodel/configuration)
+URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configuration)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchResultSet](SearchResultSet.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
+* Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
+
+
+
+
 
 
 
@@ -24,7 +41,23 @@ URI: [https://w3id.org/linkml/search_datamodel/configuration](https://w3id.org/l
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: configuration
+from_schema: https://w3id.org/oak/search-datamodel
+rank: 1000
+alias: configuration
+owner: SearchResultSet
+domain_of:
+- SearchResultSet
+range: SearchBaseConfiguration
+
+```
+</details>

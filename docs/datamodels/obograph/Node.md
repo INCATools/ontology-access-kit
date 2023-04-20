@@ -1,10 +1,10 @@
 # Class: Node
+_A node is a class, property, or other entity in an ontology_
 
 
 
 
-URI: [og:Node](https://github.com/geneontology/obographs/Node)
-
+URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 
 
@@ -12,9 +12,15 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
  classDiagram
     class Node
       Node : id
+        
       Node : lbl
+        
       Node : meta
+        
+          Node ..> Meta : meta
+        
       Node : type
+        
       
 ```
 
@@ -26,20 +32,25 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [id](id.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [lbl](lbl.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [type](type.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
+| [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
+| [type](type.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [nodes](nodes.md) | range | Node |
+| [Graph](Graph.md) | [nodes](nodes.md) | range | [Node](Node.md) |
+
+
+
 
 
 
@@ -60,17 +71,18 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Node'] |
-| native | ['og:Node'] |
+| self | rdf:Resource |
+| native | obographs:Node |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -79,12 +91,15 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 <details>
 ```yaml
 name: Node
+description: A node is a class, property, or other entity in an ontology
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 slots:
 - id
 - lbl
 - type
 - meta
+class_uri: rdf:Resource
 
 ```
 </details>
@@ -94,33 +109,74 @@ slots:
 <details>
 ```yaml
 name: Node
+description: A node is a class, property, or other entity in an ontology
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 attributes:
   id:
     name: id
+    description: The unique identifier of the entity
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
+    rank: 1000
     identifier: true
     alias: id
     owner: Node
-    range: string
+    domain_of:
+    - Graph
+    - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
+    range: OboIdentifierString
   lbl:
     name: lbl
+    description: the human-readable label of a node
+    comments:
+    - the name "lbl" exists for legacy purposes, this should be considered identical
+      to label in rdfs
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - label
+    - name
+    rank: 1000
+    slot_uri: rdfs:label
     alias: lbl
     owner: Node
+    domain_of:
+    - Graph
+    - Node
+    - SubsetDefinition
+    - SynonymTypeDefinition
     range: string
   type:
     name: type
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: type
     owner: Node
+    domain_of:
+    - Node
     range: string
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
+    rank: 1000
     alias: meta
     owner: Node
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - Edge
+    - PropertyValue
+    - Axiom
     range: Meta
+class_uri: rdf:Resource
 
 ```
 </details>

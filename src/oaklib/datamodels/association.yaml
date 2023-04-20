@@ -11,11 +11,13 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  assoc: https://w3id.org/oak/association/
+  ontoassoc: https://w3id.org/oak/association/
   oa: http://www.w3.org/ns/oa#
+  biolink: https://w3id.org/biolink/vocab/
+  sssom: https://w3id.org/sssom/
 imports:
   - linkml:types
-default_prefix: assoc
+default_prefix: ontoassoc
 
 classes:
 
@@ -27,30 +29,201 @@ classes:
       - predicate
       - object
       - property_values
+      - subject_label
+      - predicate_label
+      - object_label
+      - publications
+      - primary_knowledge_source
+      - aggregator_knowledge_source
+
+  NegatedAssociation:
+    description: A negated association between a thing (subject) and another thing (object).
+    slots:
+      - subject
+      - predicate
+      - object
+      - property_values
+      - subject_label
+      - predicate_label
+      - object_label
+      - publications
+      - primary_knowledge_source
+      - aggregator_knowledge_source
+
   PropertyValue:
     description: A generic tag-value that can be associated with an association.
     slots:
       - predicate
       - object
 
+  RollupGroup:
+    slots:
+      - group_object
+      - sub_groups
+      - associations
+
+  ParserConfiguration:
+    attributes:
+      preserve_negated_associations:
+        range: boolean
+        description: |-
+          If true, then the parser will keep negated associations in the output.
+          If false, then the parser will remove negated associations from the output.
+      include_association_attributes:
+        range: boolean
+        description: |-
+          If true, then the parser will include non S/P/O properties as additional attributes.
+          This may result in slower parsing
+      primary_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:primary_knowledge_source
+        description: |-
+          The default primary knowledge source for all associations in this resource.
+      aggregator_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:aggregator_knowledge_source
+        description: |-
+          The default aggregator knowledge source for all associations in this resource.
+
+  AssociationChange:
+    slots:
+      - summary_group
+      - publications
+      - publication_is_added
+      - publication_is_deleted
+      - subject
+      - old_predicate
+      - new_predicate
+      - old_object
+      - new_object
+      - old_object_obsolete
+      - is_migration
+      - is_generalization
+      - is_specialization
+      - is_creation
+      - is_deletion
+      - closure_predicates
+      
+
 slots:
   subject:
     description: The thing which the association is about.
+    comments:
+      - it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
     slot_uri: rdf:subject
     range: uriorcurie
     exact_mappings:
       - oa:hasBody
+  subject_label:
+    description: The label of the thing which the association is about.
+    slot_uri: sssom:subject_label
+    range: string
+    mixins:
+      - denormalized_slot
   predicate:
     description: The type of relationship between the subject and object.
     slot_uri: rdf:predicate
     range: uriorcurie
+  predicate_label:
+    description: The label of the type of relationship between the subject and object.
+    slot_uri: sssom:predicate_label
+    range: string
+    mixins:
+      - denormalized_slot
   object:
     description: An ontology entity that is associated with the subject.
+    comments:
+      - it is conventional for the subject to be the "entity" and the object to be the ontological descriptor
     slot_uri: rdf:object
     range: uriorcurie
     exact_mappings:
       - oa:hasTarget
+  object_label:
+    description: The label of the ontology entity that is associated with the subject.
+    slot_uri: sssom:object_label
+    range: string
+    mixins:
+      - denormalized_slot
   property_values:
     multivalued: true
     range: PropertyValue
     inlined: true
+  group_object:
+    description: |-
+      An ontology entity that is the ancestor of the objects in the group's 
+      associations and sub-group associations.
+    slot_uri: rdf:object
+    range: uriorcurie
+  sub_groups:
+    description: Container for groups within a rollup group.
+    range: RollupGroup
+    multivalued: true
+    inlined_as_list: true
+  associations:
+    range: Association
+    multivalued: true
+    inlined_as_list: true
+  original_subject:
+    description: The original subject of the association prior to normalization
+    slot_uri: biolink:original_subject
+    range: uriorcurie
+    exact_mappings:
+      - biolink:original_subject
+  original_predicate:
+    description: The original subject of the association prior to normalization
+    slot_uri: biolink:original_predicate
+    range: uriorcurie
+    exact_mappings:
+      - biolink:original_predicate
+  original_object:
+    description: The original object of the association prior to normalization
+    slot_uri: biolink:original_object
+    range: uriorcurie
+    exact_mappings:
+      - biolink:original_object
+  publications:
+    description: The publications that support the association
+    slot_uri: biolink:publications
+    range: uriorcurie
+    multivalued: true
+  primary_knowledge_source:
+    description: The primary knowledge source for the association
+    slot_uri: biolink:primary_knowledge_source
+    range: uriorcurie
+  aggregator_knowledge_source:
+    description: The knowledge source that aggregated the association
+    slot_uri: biolink:aggregator_knowledge_source
+    range: uriorcurie
+  denormalized_slot:
+    mixin: true
+    description: |-
+      denormalized slots are for models that follow a denormalized data model
+  summary_group:
+    range: string
+  publication_is_added:
+    range: boolean
+  publication_is_deleted:
+    range: boolean
+  old_predicate:
+    is_a: predicate
+  new_predicate:
+    is_a: predicate
+  old_object:
+    is_a: object
+  new_object:
+    is_a: object
+  old_object_obsolete:
+    range: boolean
+  is_migration:
+    range: boolean
+  is_generalization:
+    range: boolean
+  is_specialization:
+    range: boolean
+  is_creation:
+    range: boolean
+  is_deletion:
+    range: boolean
+  closure_predicates:
+    range: uriorcurie
+    multivalued: true

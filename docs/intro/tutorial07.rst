@@ -60,7 +60,9 @@ You can also specify that the sqlite file should be loaded from the repository:
 
     runoak -i sqlite:obo:pato search t~shape
 
-This will download the pato.db sqlite file once, and cache it
+This will download the pato.db sqlite file once, and cache it.
+
+PyStow is used to cache the file, and the default location is ``~/.data/oaklib``.
 
 Building your own SQLite files
 -------------------
@@ -75,15 +77,15 @@ There are two paths
 With docker
 ^^^^^^^^^^
 
-If you have an OWL file in ``path/to/obi.owl``
+If you have an OWL file in ``./path/to/obi.owl``
 
 Then you can do this:
 
 .. code-block::
 
-   semsql make --docker path/to/obi.db
+   docker run -w /work  -v `pwd`:/work --rm -ti obolibrary/odkfull:dev semsql make path/to/obi.db
 
-This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don't need to do anythiong else)
+This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don't need to do anything else)
 
 You can then query the file as normal:
 
@@ -95,6 +97,12 @@ You can then query the file as normal:
 
    for this to work, the OWL file **must** be in RDF/XML. Also, imports merging will NOT be done by default,
    please merge in advance using ROBOT if this is your desired behavior.
+
+.. note::
+
+   The recipe above works for any OWL file in a descendant of your current folder.
+   If you wish to use a file outside of your current folder, then change the
+   option from ``-v `pwd`:/work`` to ``-v /path/to/:/work/``
 
 Without docker
 ^^^^^^^^^

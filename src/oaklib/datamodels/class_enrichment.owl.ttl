@@ -1,0 +1,158 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix OBI: <http://purl.obolibrary.org/obo/OBI_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix ontoenrich: <https://w3id.org/oak/class-enrichment/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/oak/class-enrichment.owl.ttl> a owl:Ontology ;
+    rdfs:label "class-enrichment" ;
+    IAO:0000700 ontoenrich:ClassEnrichmentConfiguration,
+        ontoenrich:ClassEnrichmentResult,
+        ontoenrich:ClassEnrichmentResultSet ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Class Enrichment Datamodel" ;
+    linkml:generation_date "2023-02-27T09:54:59" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "class_enrichment.yaml" ;
+    linkml:source_file_date "2023-02-27T09:50:40" ;
+    linkml:source_file_size 2648 .
+
+ontoenrich:SortFieldEnum a owl:Class ;
+    rdfs:label "SortFieldEnum" ;
+    owl:unionOf ( <https://w3id.org/oak/class-enrichment/SortFieldEnum#ANY> <https://w3id.org/oak/class-enrichment/SortFieldEnum#P_VALUE> ) ;
+    linkml:permissible_values <https://w3id.org/oak/class-enrichment/SortFieldEnum#ANY>,
+        <https://w3id.org/oak/class-enrichment/SortFieldEnum#P_VALUE> .
+
+ontoenrich:ClassEnrichmentConfiguration a owl:Class ;
+    rdfs:label "ClassEnrichmentConfiguration" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty ontoenrich:p_value_cutoff ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "configuration for search" .
+
+ontoenrich:ClassEnrichmentResultSet a owl:Class ;
+    rdfs:label "ClassEnrichmentResultSet" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom ontoenrich:ClassEnrichmentResult ;
+            owl:onProperty ontoenrich:results ] ;
+    skos:definition "A collection of enrichemt results" .
+
+ontoenrich:background_count a owl:DatatypeProperty ;
+    rdfs:label "background_count" ;
+    rdfs:range xsd:integer ;
+    skos:definition "The background count" .
+
+ontoenrich:background_total a owl:DatatypeProperty ;
+    rdfs:label "background_total" ;
+    rdfs:range xsd:integer ;
+    skos:definition "The background total" .
+
+ontoenrich:class_id a owl:DatatypeProperty ;
+    rdfs:label "class_id" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The class id" .
+
+ontoenrich:class_label a owl:DatatypeProperty ;
+    rdfs:label "class_label" ;
+    rdfs:range xsd:string ;
+    skos:definition "The class label" .
+
+ontoenrich:false_discovery_rate a owl:DatatypeProperty ;
+    rdfs:label "false_discovery_rate" ;
+    rdfs:range xsd:float ;
+    skos:definition "The false discovery rate" .
+
+ontoenrich:fold_enrichment a owl:DatatypeProperty ;
+    rdfs:label "fold_enrichment" ;
+    rdfs:range xsd:float ;
+    skos:definition "The fold enrichment" .
+
+ontoenrich:p_value_adjusted a owl:DatatypeProperty ;
+    rdfs:label "p_value_adjusted" ;
+    rdfs:range xsd:float ;
+    skos:definition "The adjusted p-value" .
+
+ontoenrich:p_value_cutoff a owl:DatatypeProperty ;
+    rdfs:label "p_value_cutoff" ;
+    rdfs:range xsd:float ;
+    skos:definition "p-value cutoff for enrichment" .
+
+ontoenrich:results a owl:ObjectProperty ;
+    rdfs:label "results" ;
+    rdfs:range ontoenrich:ClassEnrichmentResult ;
+    skos:definition "The enrichment results" .
+
+ontoenrich:sample_count a owl:DatatypeProperty ;
+    rdfs:label "sample_count" ;
+    rdfs:range xsd:integer ;
+    skos:definition "The number of entities in the sample with this class" .
+
+ontoenrich:sample_total a owl:DatatypeProperty ;
+    rdfs:label "sample_total" ;
+    rdfs:range xsd:integer ;
+    skos:definition "The total number of entities in the sample" .
+
+OBI:0000175 a owl:DatatypeProperty ;
+    rdfs:label "p_value" ;
+    rdfs:range xsd:float ;
+    skos:definition "The p-value" ;
+    skos:exactMatch OBI:0000175 .
+
+<https://w3id.org/oak/class-enrichment/SortFieldEnum#ANY> a owl:Class ;
+    rdfs:label "ANY" .
+
+<https://w3id.org/oak/class-enrichment/SortFieldEnum#P_VALUE> a owl:Class ;
+    rdfs:label "P_VALUE" .
+
+ontoenrich:ClassEnrichmentResult a owl:Class ;
+    rdfs:label "ClassEnrichmentResult" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ontoenrich:background_total ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty ontoenrich:p_value_adjusted ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ontoenrich:class_label ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty ontoenrich:class_id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty OBI:0000175 ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ontoenrich:sample_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty ontoenrich:false_discovery_rate ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty ontoenrich:fold_enrichment ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ontoenrich:background_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ontoenrich:sample_total ] ;
+    skos:definition "A single enrichment result" .
+
+
+

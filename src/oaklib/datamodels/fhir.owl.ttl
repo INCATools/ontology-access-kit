@@ -1,0 +1,468 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fhir: <https://build.fhir.org/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/oak/fhir.owl.ttl> a owl:Ontology ;
+    rdfs:label "fhir" ;
+    IAO:0000700 fhir:CodeSystem,
+        fhir:CodeSystemFilter,
+        fhir:CodeSystemProperty,
+        fhir:Coding,
+        fhir:Concept,
+        fhir:ConceptDesignation,
+        fhir:ConceptMap,
+        fhir:ConceptMapGroup,
+        fhir:ConceptProperty ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "FHIR in LinkML" ;
+    pav:version "0.0.1" ;
+    linkml:generation_date "2023-02-27T09:55:00" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "fhir.yaml" ;
+    linkml:source_file_date "2023-02-27T09:50:58" ;
+    linkml:source_file_size 5003 .
+
+fhir:CodeSystem a owl:Class ;
+    rdfs:label "CodeSystem" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:url ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty fhir:contact ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:status ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom fhir:CodeSystemFilter ;
+            owl:onProperty fhir:filter ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:dateTime ;
+            owl:onProperty fhir:date ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:publisher ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty fhir:identifier ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:name ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom fhir:CodeSystemProperty ;
+            owl:onProperty fhir:property ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:resourceType ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:description ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom fhir:Concept ;
+            owl:onProperty fhir:concept ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:title ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty fhir:experimental ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:version ] ;
+    skos:definition "Declares the existence of and describes a code system or code system supplement" ;
+    skos:exactMatch fhir:codesystem .
+
+fhir:ConceptMap a owl:Class ;
+    rdfs:label "ConceptMap" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty fhir:contact ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:publisher ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:status ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:title ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:dateTime ;
+            owl:onProperty fhir:date ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom fhir:ConceptMapGroup ;
+            owl:onProperty fhir:group ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:sourceCanonical ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:targetCanonical ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:sourceUri ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:targetUri ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty fhir:experimental ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:resourceType ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:version ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:description ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:url ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty fhir:identifier ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:name ] .
+
+fhir:definition a owl:DatatypeProperty ;
+    rdfs:label "definition" ;
+    rdfs:range xsd:string .
+
+fhir:designation a owl:ObjectProperty ;
+    rdfs:label "designation" ;
+    rdfs:range fhir:ConceptDesignation .
+
+fhir:element a owl:DatatypeProperty ;
+    rdfs:label "element" ;
+    rdfs:range xsd:string .
+
+fhir:filter a owl:ObjectProperty ;
+    rdfs:label "filter" ;
+    rdfs:range fhir:CodeSystemFilter .
+
+fhir:group a owl:ObjectProperty ;
+    rdfs:label "group" ;
+    rdfs:range fhir:ConceptMapGroup .
+
+fhir:language a owl:DatatypeProperty ;
+    rdfs:label "language" ;
+    rdfs:range xsd:string .
+
+fhir:operator a owl:DatatypeProperty ;
+    rdfs:label "operator" ;
+    rdfs:range xsd:string .
+
+fhir:source a owl:DatatypeProperty ;
+    rdfs:label "source" ;
+    rdfs:range xsd:anyURI .
+
+fhir:sourceCanonical a owl:DatatypeProperty ;
+    rdfs:label "sourceCanonical" ;
+    rdfs:range xsd:anyURI .
+
+fhir:sourceUri a owl:DatatypeProperty ;
+    rdfs:label "sourceUri" ;
+    rdfs:range xsd:anyURI .
+
+fhir:sourceVersion a owl:DatatypeProperty ;
+    rdfs:label "sourceVersion" ;
+    rdfs:range xsd:string .
+
+fhir:system a owl:DatatypeProperty ;
+    rdfs:label "system" ;
+    rdfs:range xsd:anyURI .
+
+fhir:target a owl:DatatypeProperty ;
+    rdfs:label "target" ;
+    rdfs:range xsd:anyURI .
+
+fhir:targetCanonical a owl:DatatypeProperty ;
+    rdfs:label "targetCanonical" ;
+    rdfs:range xsd:anyURI .
+
+fhir:targetUri a owl:DatatypeProperty ;
+    rdfs:label "targetUri" ;
+    rdfs:range xsd:anyURI .
+
+fhir:targetVersion a owl:DatatypeProperty ;
+    rdfs:label "targetVersion" ;
+    rdfs:range xsd:string .
+
+fhir:type a owl:DatatypeProperty ;
+    rdfs:label "type" ;
+    rdfs:range xsd:string .
+
+fhir:uri a owl:DatatypeProperty ;
+    rdfs:label "uri" ;
+    rdfs:range xsd:anyURI .
+
+fhir:use a owl:ObjectProperty ;
+    rdfs:label "use" ;
+    rdfs:range fhir:Coding .
+
+fhir:userSelected a owl:DatatypeProperty ;
+    rdfs:label "userSelected" ;
+    rdfs:range xsd:string .
+
+fhir:valueBoolean a owl:DatatypeProperty ;
+    rdfs:label "valueBoolean" ;
+    rdfs:range xsd:string .
+
+fhir:valueCode a owl:DatatypeProperty ;
+    rdfs:label "valueCode" ;
+    rdfs:range xsd:string .
+
+fhir:valueCoding a owl:DatatypeProperty ;
+    rdfs:label "valueCoding" ;
+    rdfs:range xsd:string .
+
+fhir:valueDateTime a owl:DatatypeProperty ;
+    rdfs:label "valueDateTime" ;
+    rdfs:range xsd:string .
+
+fhir:valueDecimal a owl:DatatypeProperty ;
+    rdfs:label "valueDecimal" ;
+    rdfs:range xsd:string .
+
+fhir:valueInteger a owl:DatatypeProperty ;
+    rdfs:label "valueInteger" ;
+    rdfs:range xsd:string .
+
+fhir:valueString a owl:DatatypeProperty ;
+    rdfs:label "valueString" ;
+    rdfs:range xsd:string .
+
+fhir:CodeSystemProperty a owl:Class ;
+    rdfs:label "CodeSystemProperty" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:uri ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:code ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:description ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:type ;
+            owl:qualifiedCardinality 1 ] .
+
+fhir:ConceptProperty a owl:Class ;
+    rdfs:label "ConceptProperty" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:valueCode ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:valueDecimal ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:code ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:valueCoding ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:valueInteger ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:valueString ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:valueBoolean ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:valueDateTime ] .
+
+fhir:concept a owl:ObjectProperty .
+
+fhir:contact a owl:DatatypeProperty .
+
+fhir:date a owl:DatatypeProperty .
+
+fhir:display a owl:DatatypeProperty .
+
+fhir:experimental a owl:DatatypeProperty .
+
+fhir:id a owl:DatatypeProperty .
+
+fhir:identifier a owl:DatatypeProperty .
+
+fhir:name a owl:DatatypeProperty .
+
+fhir:property a owl:ObjectProperty .
+
+fhir:publisher a owl:DatatypeProperty .
+
+fhir:resourceType a owl:DatatypeProperty .
+
+fhir:status a owl:DatatypeProperty .
+
+fhir:title a owl:DatatypeProperty .
+
+fhir:url a owl:DatatypeProperty .
+
+fhir:value a owl:DatatypeProperty .
+
+fhir:CodeSystemFilter a owl:Class ;
+    rdfs:label "CodeSystemFilter" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:value ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:description ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty fhir:operator ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:code ;
+            owl:qualifiedCardinality 1 ] .
+
+fhir:Coding a owl:Class ;
+    rdfs:label "Coding" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:code ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:version ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:display ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:system ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:userSelected ] .
+
+fhir:Concept a owl:Class ;
+    rdfs:label "Concept" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:display ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:definition ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom fhir:Concept ;
+            owl:onProperty fhir:concept ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:code ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom fhir:ConceptDesignation ;
+            owl:onProperty fhir:designation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom fhir:ConceptProperty ;
+            owl:onProperty fhir:property ] .
+
+fhir:ConceptDesignation a owl:Class ;
+    rdfs:label "ConceptDesignation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:language ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:value ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass fhir:Coding ;
+            owl:onProperty fhir:use ] .
+
+fhir:ConceptMapGroup a owl:Class ;
+    rdfs:label "ConceptMapGroup" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:target ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty fhir:element ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:sourceVersion ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty fhir:source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty fhir:targetVersion ] .
+
+fhir:version a owl:DatatypeProperty .
+
+fhir:description a owl:DatatypeProperty .
+
+fhir:code a owl:DatatypeProperty .
+
+
+

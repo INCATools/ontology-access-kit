@@ -1,6 +1,6 @@
 # Slot: has_exact_synonym
 
-URI: [http://www.geneontology.org/formats/oboInOwl#hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExactSynonym)
+URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExactSynonym)
 
 
 
@@ -13,9 +13,40 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasExactSynonym](http://www.g
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms
+[Axiom](Axiom.md) | A logical or non-logical statement
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | 
+[Property](Property.md) | 
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
+
+
+
+
+
 ## Properties
 
- * Range: [label_type](label_type.md)
+* Range: [LabelType](LabelType.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -34,3 +65,24 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasExactSynonym](http://www.g
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: has_exact_synonym
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: synonym
+slot_uri: oio:hasExactSynonym
+multivalued: true
+alias: has_exact_synonym
+domain_of:
+- HasSynonyms
+- Axiom
+disjoint_with:
+- label
+range: label type
+
+```
+</details>

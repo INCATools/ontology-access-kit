@@ -4,10 +4,14 @@ import unittest
 
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
+from linkml_runtime.loaders import yaml_loader
 from semsql.sqla.semsql import Statements
 from sqlalchemy import delete
 
+from oaklib import BasicOntologyInterface, get_adapter
+from oaklib.conf import CONF_DIR_PATH
 from oaklib.datamodels import obograph
+from oaklib.datamodels.input_specification import InputSpecification
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResultType
@@ -41,6 +45,7 @@ from tests import (
     VACUOLE,
 )
 from tests.test_implementations import ComplianceTester
+from tests.test_parsers.test_gaf_association_parser import INPUT_GAF
 
 DB = INPUT_DIR / "go-nucleus.db"
 SSN_DB = INPUT_DIR / "ssn.db"
@@ -67,6 +72,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         obs_test = INPUT_DIR / "obsoletion_test.db"
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{obs_test}"))
         self.compliance_tester.test_obsolete_entities(oi)
+
+    def test_multilingual(self):
+        adapter = get_adapter(INPUT_DIR / "hp-international-test.db")
+        if not isinstance(adapter, BasicOntologyInterface):
+            raise ValueError("Expected BasicOntologyInterface")
+        self.compliance_tester.test_multilingual(adapter)
 
     def test_empty_db(self) -> None:
         """Should raise error when connecting to an empty db."""
@@ -112,8 +123,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual([IS_A, PART_OF], rels)
         rels = list(oi.outgoing_relationships(VACUOLE))
         self.assertCountEqual([(IS_A, IMBO), (PART_OF, CYTOPLASM)], rels)
-        hier_parents = list(oi.hierararchical_parents(VACUOLE))
+        hier_parents = list(oi.hierarchical_parents(VACUOLE))
         self.assertEqual([IMBO], hier_parents)
+
+    def test_rbox_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=str(DB)))
+        self.compliance_tester.test_rbox_relationships(oi)
 
     def test_instance_graph(self):
         oi = self.inst_oi
@@ -181,7 +196,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(curie)
 
     def test_definitions(self):
-        self.compliance_tester.test_definitions(self.oi)
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
+
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi, skip_oio=True)
 
     def test_labels(self):
         self.compliance_tester.test_labels(self.oi)
@@ -217,6 +235,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
+
+    def test_synonym_types(self):
+        self.compliance_tester.test_synonym_types(self.oi)
 
     def test_defined_bys(self):
         self.compliance_tester.test_defined_bys(self.oi)
@@ -302,20 +323,27 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert CYTOPLASM in curies
 
     def test_ancestors(self):
-        curies = list(self.oi.ancestors(VACUOLE))
-        for curie in curies:
-            logging.info(curie)
-        assert CELLULAR_COMPONENT in curies
-        assert VACUOLE in curies
-        assert CYTOPLASM in curies
-        curies = list(self.oi.ancestors([VACUOLE]))
-        assert CELLULAR_COMPONENT in curies
-        assert VACUOLE in curies
-        assert CYTOPLASM in curies
-        curies = list(self.oi.ancestors(VACUOLE, predicates=[IS_A]))
-        assert CELLULAR_COMPONENT in curies
-        assert VACUOLE in curies
-        assert CYTOPLASM not in curies
+        for cache_lookups in [False, True]:
+            self.oi.cache_lookups = cache_lookups
+            if cache_lookups:
+                self.oi.precompute_lookups()
+            curies = list(self.oi.ancestors(VACUOLE))
+            for curie in curies:
+                logging.info(curie)
+            assert CELLULAR_COMPONENT in curies
+            assert VACUOLE in curies
+            assert CYTOPLASM in curies
+            curies = list(self.oi.ancestors([VACUOLE]))
+            assert CELLULAR_COMPONENT in curies
+            assert VACUOLE in curies
+            assert CYTOPLASM in curies
+            curies = list(self.oi.ancestors(VACUOLE, predicates=[IS_A]))
+            assert CELLULAR_COMPONENT in curies
+            assert VACUOLE in curies
+            assert CYTOPLASM not in curies
+
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)
 
     # QC
 
@@ -469,11 +497,28 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         curies = list(self.oi.basic_search("^GO:...5773$", config=config))
         self.assertEqual([VACUOLE], curies)
 
+    def test_search_mapped_identifiers(self):
+        config = SearchConfiguration(
+            properties=[SearchProperty.MAPPED_IDENTIFIER], syntax=SearchTermSyntax.STARTS_WITH
+        )
+        curies = list(self.oi.basic_search("NIF_Subcellular:sao830981606", config=config))
+        self.assertEqual(["GO:0031090"], curies)
+
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
         # logging.info(curies)
         self.assertCountEqual([CYTOPLASM], curies)
+
+    def test_search_case_insensitive(self):
+        config = SearchConfiguration(force_case_insensitive=True)
+        curies = list(self.oi.basic_search("CYTOPLASM", config=config))
+        # logging.info(curies)
+        self.assertCountEqual([CYTOPLASM], curies)
+        config = SearchConfiguration(force_case_insensitive=False)
+        curies = list(self.oi.basic_search("CYTOPLASM", config=config))
+        # logging.info(curies)
+        self.assertCountEqual([], curies)
 
     def test_search_partial(self):
         config = SearchConfiguration(is_partial=True)
@@ -535,6 +580,20 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             results = list(oi.most_recent_common_ancestors(s, o, predicates=[IS_A, PART_OF]))
             # logging.info(f'{s} {o} == {results}')
             self.assertEqual([lca], results)
+
+    def test_create_from_input_specification(self):
+        spec = InputSpecification(
+            ontology_resources={"go": {"selector": str(DB)}},
+            association_resources={"gaf": {"selector": str(INPUT_GAF)}},
+        )
+        oi = get_adapter(spec)
+        self.compliance_tester.test_synonym_types(oi)
+
+    @unittest.skip("TODO: move to integration tests")
+    def test_integration_create_from_hpo_input_specification(self):
+        spec = yaml_loader.load(str(CONF_DIR_PATH / "hpoa-input-spec.yaml"), InputSpecification)
+        oi = get_adapter(spec)
+        print(oi)
 
     def test_store_associations(self):
         shutil.copyfile(DB, MUTABLE_DB)
@@ -619,8 +678,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual("foo", label)
         oi.set_label(NUCLEUS, "bar")
         oi.set_label(NUCLEAR_ENVELOPE, "baz")
-        self.assertNotEqual("bar", oi.label(NUCLEUS))
-        self.assertNotEqual("baz", oi.label(NUCLEAR_ENVELOPE))
+        # note: behavior difference when switching to sqla2.0;
+        # even though changes are not committed, they are local to the
+        # connection.
+        oi_alt_conn = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+        self.assertNotEqual("bar", oi_alt_conn.label(NUCLEUS))
+        self.assertNotEqual("baz", oi_alt_conn.label(NUCLEUS))
         oi.save()
         self.assertEqual("bar", oi.label(NUCLEUS))
         self.assertEqual("baz", oi.label(NUCLEAR_ENVELOPE))
@@ -677,7 +740,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual(
             expected_ancs, non_reflexive(oi.ancestors(FAKE_ID, predicates=preds2))
         )
-        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds)))
+        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False)))
+        self.assertCountEqual(
+            [NUCLEUS], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=True))
+        )
         self.assertCountEqual(
             descendants_ancs, non_reflexive(oi.descendants(FAKE_ID, predicates=preds2))
         )
@@ -692,6 +758,15 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(yaml_dumper.dumps(ax))
 
     def test_patcher(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+
+        self.compliance_tester.test_patcher(
+            oi,
+            self.oi,
+        )
+
+    def test_patcher_extra(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         # oi.autosave = True
@@ -752,6 +827,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(row)
         self.assertEqual([], rows)
 
+    # Stats
+
+    def test_summary_statistics(self):
+        self.compliance_tester.test_summary_statistics(self.oi)
+
     # SemSim
 
     def test_information_content_scores(self):
@@ -762,3 +842,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_pairwise_similarity(self):
         self.compliance_tester.test_pairwise_similarity(self.oi)
+
+    def test_disjoint_with(self):
+        self.compliance_tester.test_disjoint_with(self.oi)
+
+    # TextAnnotatorInterface tests
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)

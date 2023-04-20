@@ -1,9 +1,9 @@
 # Auto generated from mapping_rules_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-10-25T17:59:49
-# Schema: mapping-rules
+# Generation date: 2023-04-12T14:50:11
+# Schema: mapping-rules-datamodel
 #
-# id: https://w3id.org/linkml/mapping_rules_datamodel
-# description: A datamodel for specifying lexical mapping rules. NOTE -- this may move to another package
+# id: https://w3id.org/oak/mapping-rules-datamodel
+# description: A datamodel for specifying lexical mapping rules.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -48,9 +48,9 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-LI = CurieNamespace("li", "https://w3id.org/linkml/lexical_index/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
-MRULES = CurieNamespace("mrules", "https://w3id.org/linkml/mapping_rules_datamodel/")
+MAPPINGRULES = CurieNamespace("mappingrules", "https://w3id.org/oak/mapping-rules-datamodel/")
+ONTOLEXINDEX = CurieNamespace("ontolexindex", "https://w3id.org/oak/lexical-index/")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 PAV = CurieNamespace("pav", "http://purl.org/pav/")
 PROV = CurieNamespace("prov", "http://www.w3.org/ns/prov#")
@@ -60,10 +60,11 @@ SCHEMA = CurieNamespace("schema", "http://schema.org/")
 SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
-DEFAULT_ = MRULES
+DEFAULT_ = MAPPINGRULES
 
 
 # Types
+
 
 # Class references
 class LexicalGroupingTerm(extended_str):
@@ -82,10 +83,10 @@ class MappingRuleCollection(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = MRULES.MappingRuleCollection
-    class_class_curie: ClassVar[str] = "mrules:MappingRuleCollection"
+    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.MappingRuleCollection
+    class_class_curie: ClassVar[str] = "mappingrules:MappingRuleCollection"
     class_name: ClassVar[str] = "MappingRuleCollection"
-    class_model_uri: ClassVar[URIRef] = MRULES.MappingRuleCollection
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.MappingRuleCollection
 
     rules: Optional[
         Union[Union[dict, "MappingRule"], List[Union[dict, "MappingRule"]]]
@@ -113,10 +114,10 @@ class MappingRule(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = MRULES.MappingRule
-    class_class_curie: ClassVar[str] = "mrules:MappingRule"
+    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.MappingRule
+    class_class_curie: ClassVar[str] = "mappingrules:MappingRule"
     class_name: ClassVar[str] = "MappingRule"
-    class_model_uri: ClassVar[URIRef] = MRULES.MappingRule
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.MappingRule
 
     description: Optional[str] = None
     oneway: Optional[Union[bool, Bool]] = False
@@ -151,10 +152,10 @@ class Precondition(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = MRULES.Precondition
-    class_class_curie: ClassVar[str] = "mrules:Precondition"
+    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.Precondition
+    class_class_curie: ClassVar[str] = "mappingrules:Precondition"
     class_name: ClassVar[str] = "Precondition"
-    class_model_uri: ClassVar[URIRef] = MRULES.Precondition
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Precondition
 
     subject_source_one_of: Optional[Union[str, List[str]]] = empty_list()
     object_source_one_of: Optional[Union[str, List[str]]] = empty_list()
@@ -162,6 +163,7 @@ class Precondition(YAMLRoot):
     subject_match_field_one_of: Optional[Union[str, List[str]]] = empty_list()
     object_match_field_one_of: Optional[Union[str, List[str]]] = empty_list()
     transformations_included_in: Optional[Union[str, List[str]]] = empty_list()
+    predicate_id_one_of: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.subject_source_one_of, list):
@@ -218,6 +220,14 @@ class Precondition(YAMLRoot):
             v if isinstance(v, str) else str(v) for v in self.transformations_included_in
         ]
 
+        if not isinstance(self.predicate_id_one_of, list):
+            self.predicate_id_one_of = (
+                [self.predicate_id_one_of] if self.predicate_id_one_of is not None else []
+            )
+        self.predicate_id_one_of = [
+            v if isinstance(v, str) else str(v) for v in self.predicate_id_one_of
+        ]
+
         super().__post_init__(**kwargs)
 
 
@@ -225,10 +235,10 @@ class Precondition(YAMLRoot):
 class Postcondition(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = MRULES.Postcondition
-    class_class_curie: ClassVar[str] = "mrules:Postcondition"
+    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.Postcondition
+    class_class_curie: ClassVar[str] = "mappingrules:Postcondition"
     class_name: ClassVar[str] = "Postcondition"
-    class_model_uri: ClassVar[URIRef] = MRULES.Postcondition
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Postcondition
 
     predicate_id: Optional[str] = None
     weight: Optional[float] = None
@@ -247,16 +257,18 @@ class Postcondition(YAMLRoot):
 class Synonymizer(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = MRULES.Synonymizer
-    class_class_curie: ClassVar[str] = "mrules:Synonymizer"
+    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.Synonymizer
+    class_class_curie: ClassVar[str] = "mappingrules:Synonymizer"
     class_name: ClassVar[str] = "Synonymizer"
-    class_model_uri: ClassVar[URIRef] = MRULES.Synonymizer
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Synonymizer
 
     the_rule: Optional[str] = None
     match: Optional[str] = None
     match_scope: Optional[str] = None
     replacement: Optional[str] = None
     qualifier: Optional[str] = None
+    prefix: Optional[str] = None
+    tests: Optional[Union[dict, "Test"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.the_rule is not None and not isinstance(self.the_rule, str):
@@ -274,6 +286,38 @@ class Synonymizer(YAMLRoot):
         if self.qualifier is not None and not isinstance(self.qualifier, str):
             self.qualifier = str(self.qualifier)
 
+        if self.prefix is not None and not isinstance(self.prefix, str):
+            self.prefix = str(self.prefix)
+
+        if self.tests is not None and not isinstance(self.tests, Test):
+            self.tests = Test(**as_dict(self.tests))
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Test(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.Test
+    class_class_curie: ClassVar[str] = "mappingrules:Test"
+    class_name: ClassVar[str] = "Test"
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Test
+
+    input: Optional[str] = None
+    output: Optional[str] = None
+    prefix: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.input is not None and not isinstance(self.input, str):
+            self.input = str(self.input)
+
+        if self.output is not None and not isinstance(self.output, str):
+            self.output = str(self.output)
+
+        if self.prefix is not None and not isinstance(self.prefix, str):
+            self.prefix = str(self.prefix)
+
         super().__post_init__(**kwargs)
 
 
@@ -285,10 +329,10 @@ class LexicalIndex(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalIndex
-    class_class_curie: ClassVar[str] = "li:LexicalIndex"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalIndex
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalIndex"
     class_name: ClassVar[str] = "LexicalIndex"
-    class_model_uri: ClassVar[URIRef] = MRULES.LexicalIndex
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.LexicalIndex
 
     groupings: Optional[
         Union[
@@ -329,10 +373,10 @@ class LexicalGrouping(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalGrouping
-    class_class_curie: ClassVar[str] = "li:LexicalGrouping"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalGrouping
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalGrouping"
     class_name: ClassVar[str] = "LexicalGrouping"
-    class_model_uri: ClassVar[URIRef] = MRULES.LexicalGrouping
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.LexicalGrouping
 
     term: Union[str, LexicalGroupingTerm] = None
     relationships: Optional[
@@ -363,10 +407,10 @@ class RelationshipToTerm(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.RelationshipToTerm
-    class_class_curie: ClassVar[str] = "li:RelationshipToTerm"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.RelationshipToTerm
+    class_class_curie: ClassVar[str] = "ontolexindex:RelationshipToTerm"
     class_name: ClassVar[str] = "RelationshipToTerm"
-    class_model_uri: ClassVar[URIRef] = MRULES.RelationshipToTerm
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.RelationshipToTerm
 
     predicate: Optional[Union[str, URIorCURIE]] = None
     element: Optional[Union[str, URIorCURIE]] = None
@@ -418,7 +462,7 @@ class Activity(YAMLRoot):
     class_class_uri: ClassVar[URIRef] = PROV.Activity
     class_class_curie: ClassVar[str] = "prov:Activity"
     class_name: ClassVar[str] = "Activity"
-    class_model_uri: ClassVar[URIRef] = MRULES.Activity
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Activity
 
 
 @dataclass
@@ -429,10 +473,10 @@ class LexicalTransformationPipeline(Activity):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalTransformationPipeline
-    class_class_curie: ClassVar[str] = "li:LexicalTransformationPipeline"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalTransformationPipeline
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalTransformationPipeline"
     class_name: ClassVar[str] = "LexicalTransformationPipeline"
-    class_model_uri: ClassVar[URIRef] = MRULES.LexicalTransformationPipeline
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.LexicalTransformationPipeline
 
     name: Union[str, LexicalTransformationPipelineName] = None
     transformations: Optional[
@@ -465,22 +509,22 @@ class LexicalTransformation(Activity):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalTransformation
-    class_class_curie: ClassVar[str] = "li:LexicalTransformation"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalTransformation
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalTransformation"
     class_name: ClassVar[str] = "LexicalTransformation"
-    class_model_uri: ClassVar[URIRef] = MRULES.LexicalTransformation
+    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.LexicalTransformation
 
     type: Optional[Union[str, "TransformationType"]] = None
-    params: Optional[str] = None
+    params: Optional[Union[Union[dict, "Any"], List[Union[dict, "Any"]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.type is not None and not isinstance(self.type, TransformationType):
             self.type = TransformationType(self.type)
 
-        if self.params is not None and not isinstance(self.params, str):
-            self.params = str(self.params)
-
         super().__post_init__(**kwargs)
+
+
+Any = Any
 
 
 # Enumerations
@@ -532,37 +576,37 @@ class slots:
 
 
 slots.mappingRuleCollection__rules = Slot(
-    uri=MRULES.rules,
+    uri=MAPPINGRULES.rules,
     name="mappingRuleCollection__rules",
-    curie=MRULES.curie("rules"),
-    model_uri=MRULES.mappingRuleCollection__rules,
+    curie=MAPPINGRULES.curie("rules"),
+    model_uri=MAPPINGRULES.mappingRuleCollection__rules,
     domain=None,
     range=Optional[Union[Union[dict, MappingRule], List[Union[dict, MappingRule]]]],
 )
 
 slots.mappingRuleCollection__minimum_confidence = Slot(
-    uri=MRULES.minimum_confidence,
+    uri=MAPPINGRULES.minimum_confidence,
     name="mappingRuleCollection__minimum_confidence",
-    curie=MRULES.curie("minimum_confidence"),
-    model_uri=MRULES.mappingRuleCollection__minimum_confidence,
+    curie=MAPPINGRULES.curie("minimum_confidence"),
+    model_uri=MAPPINGRULES.mappingRuleCollection__minimum_confidence,
     domain=None,
     range=Optional[float],
 )
 
 slots.mappingRule__description = Slot(
-    uri=MRULES.description,
+    uri=MAPPINGRULES.description,
     name="mappingRule__description",
-    curie=MRULES.curie("description"),
-    model_uri=MRULES.mappingRule__description,
+    curie=MAPPINGRULES.curie("description"),
+    model_uri=MAPPINGRULES.mappingRule__description,
     domain=None,
     range=Optional[str],
 )
 
 slots.mappingRule__oneway = Slot(
-    uri=MRULES.oneway,
+    uri=MAPPINGRULES.oneway,
     name="mappingRule__oneway",
-    curie=MRULES.curie("oneway"),
-    model_uri=MRULES.mappingRule__oneway,
+    curie=MAPPINGRULES.curie("oneway"),
+    model_uri=MAPPINGRULES.mappingRule__oneway,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
@@ -571,151 +615,205 @@ slots.mappingRule__preconditions = Slot(
     uri=SH.condition,
     name="mappingRule__preconditions",
     curie=SH.curie("condition"),
-    model_uri=MRULES.mappingRule__preconditions,
+    model_uri=MAPPINGRULES.mappingRule__preconditions,
     domain=None,
     range=Optional[Union[dict, Precondition]],
 )
 
 slots.mappingRule__postconditions = Slot(
-    uri=MRULES.postconditions,
+    uri=MAPPINGRULES.postconditions,
     name="mappingRule__postconditions",
-    curie=MRULES.curie("postconditions"),
-    model_uri=MRULES.mappingRule__postconditions,
+    curie=MAPPINGRULES.curie("postconditions"),
+    model_uri=MAPPINGRULES.mappingRule__postconditions,
     domain=None,
     range=Optional[Union[dict, Postcondition]],
 )
 
 slots.mappingRule__synonymizer = Slot(
-    uri=MRULES.synonymizer,
+    uri=MAPPINGRULES.synonymizer,
     name="mappingRule__synonymizer",
-    curie=MRULES.curie("synonymizer"),
-    model_uri=MRULES.mappingRule__synonymizer,
+    curie=MAPPINGRULES.curie("synonymizer"),
+    model_uri=MAPPINGRULES.mappingRule__synonymizer,
     domain=None,
     range=Optional[Union[dict, Synonymizer]],
 )
 
 slots.precondition__subject_source_one_of = Slot(
-    uri=MRULES.subject_source_one_of,
+    uri=MAPPINGRULES.subject_source_one_of,
     name="precondition__subject_source_one_of",
-    curie=MRULES.curie("subject_source_one_of"),
-    model_uri=MRULES.precondition__subject_source_one_of,
+    curie=MAPPINGRULES.curie("subject_source_one_of"),
+    model_uri=MAPPINGRULES.precondition__subject_source_one_of,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.precondition__object_source_one_of = Slot(
-    uri=MRULES.object_source_one_of,
+    uri=MAPPINGRULES.object_source_one_of,
     name="precondition__object_source_one_of",
-    curie=MRULES.curie("object_source_one_of"),
-    model_uri=MRULES.precondition__object_source_one_of,
+    curie=MAPPINGRULES.curie("object_source_one_of"),
+    model_uri=MAPPINGRULES.precondition__object_source_one_of,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.precondition__mapping_source_one_of = Slot(
-    uri=MRULES.mapping_source_one_of,
+    uri=MAPPINGRULES.mapping_source_one_of,
     name="precondition__mapping_source_one_of",
-    curie=MRULES.curie("mapping_source_one_of"),
-    model_uri=MRULES.precondition__mapping_source_one_of,
+    curie=MAPPINGRULES.curie("mapping_source_one_of"),
+    model_uri=MAPPINGRULES.precondition__mapping_source_one_of,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.precondition__subject_match_field_one_of = Slot(
-    uri=MRULES.subject_match_field_one_of,
+    uri=MAPPINGRULES.subject_match_field_one_of,
     name="precondition__subject_match_field_one_of",
-    curie=MRULES.curie("subject_match_field_one_of"),
-    model_uri=MRULES.precondition__subject_match_field_one_of,
+    curie=MAPPINGRULES.curie("subject_match_field_one_of"),
+    model_uri=MAPPINGRULES.precondition__subject_match_field_one_of,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.precondition__object_match_field_one_of = Slot(
-    uri=MRULES.object_match_field_one_of,
+    uri=MAPPINGRULES.object_match_field_one_of,
     name="precondition__object_match_field_one_of",
-    curie=MRULES.curie("object_match_field_one_of"),
-    model_uri=MRULES.precondition__object_match_field_one_of,
+    curie=MAPPINGRULES.curie("object_match_field_one_of"),
+    model_uri=MAPPINGRULES.precondition__object_match_field_one_of,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.precondition__transformations_included_in = Slot(
-    uri=MRULES.transformations_included_in,
+    uri=MAPPINGRULES.transformations_included_in,
     name="precondition__transformations_included_in",
-    curie=MRULES.curie("transformations_included_in"),
-    model_uri=MRULES.precondition__transformations_included_in,
+    curie=MAPPINGRULES.curie("transformations_included_in"),
+    model_uri=MAPPINGRULES.precondition__transformations_included_in,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.precondition__predicate_id_one_of = Slot(
+    uri=MAPPINGRULES.predicate_id_one_of,
+    name="precondition__predicate_id_one_of",
+    curie=MAPPINGRULES.curie("predicate_id_one_of"),
+    model_uri=MAPPINGRULES.precondition__predicate_id_one_of,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.postcondition__predicate_id = Slot(
-    uri=MRULES.predicate_id,
+    uri=MAPPINGRULES.predicate_id,
     name="postcondition__predicate_id",
-    curie=MRULES.curie("predicate_id"),
-    model_uri=MRULES.postcondition__predicate_id,
+    curie=MAPPINGRULES.curie("predicate_id"),
+    model_uri=MAPPINGRULES.postcondition__predicate_id,
     domain=None,
     range=Optional[str],
 )
 
 slots.postcondition__weight = Slot(
-    uri=MRULES.weight,
+    uri=MAPPINGRULES.weight,
     name="postcondition__weight",
-    curie=MRULES.curie("weight"),
-    model_uri=MRULES.postcondition__weight,
+    curie=MAPPINGRULES.curie("weight"),
+    model_uri=MAPPINGRULES.postcondition__weight,
     domain=None,
     range=Optional[float],
 )
 
 slots.synonymizer__the_rule = Slot(
-    uri=MRULES.the_rule,
+    uri=MAPPINGRULES.the_rule,
     name="synonymizer__the_rule",
-    curie=MRULES.curie("the_rule"),
-    model_uri=MRULES.synonymizer__the_rule,
+    curie=MAPPINGRULES.curie("the_rule"),
+    model_uri=MAPPINGRULES.synonymizer__the_rule,
     domain=None,
     range=Optional[str],
 )
 
 slots.synonymizer__match = Slot(
-    uri=MRULES.match,
+    uri=MAPPINGRULES.match,
     name="synonymizer__match",
-    curie=MRULES.curie("match"),
-    model_uri=MRULES.synonymizer__match,
+    curie=MAPPINGRULES.curie("match"),
+    model_uri=MAPPINGRULES.synonymizer__match,
     domain=None,
     range=Optional[str],
 )
 
 slots.synonymizer__match_scope = Slot(
-    uri=MRULES.match_scope,
+    uri=MAPPINGRULES.match_scope,
     name="synonymizer__match_scope",
-    curie=MRULES.curie("match_scope"),
-    model_uri=MRULES.synonymizer__match_scope,
+    curie=MAPPINGRULES.curie("match_scope"),
+    model_uri=MAPPINGRULES.synonymizer__match_scope,
     domain=None,
     range=Optional[str],
 )
 
 slots.synonymizer__replacement = Slot(
-    uri=MRULES.replacement,
+    uri=MAPPINGRULES.replacement,
     name="synonymizer__replacement",
-    curie=MRULES.curie("replacement"),
-    model_uri=MRULES.synonymizer__replacement,
+    curie=MAPPINGRULES.curie("replacement"),
+    model_uri=MAPPINGRULES.synonymizer__replacement,
     domain=None,
     range=Optional[str],
 )
 
 slots.synonymizer__qualifier = Slot(
-    uri=MRULES.qualifier,
+    uri=MAPPINGRULES.qualifier,
     name="synonymizer__qualifier",
-    curie=MRULES.curie("qualifier"),
-    model_uri=MRULES.synonymizer__qualifier,
+    curie=MAPPINGRULES.curie("qualifier"),
+    model_uri=MAPPINGRULES.synonymizer__qualifier,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__prefix = Slot(
+    uri=MAPPINGRULES.prefix,
+    name="synonymizer__prefix",
+    curie=MAPPINGRULES.curie("prefix"),
+    model_uri=MAPPINGRULES.synonymizer__prefix,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__tests = Slot(
+    uri=MAPPINGRULES.tests,
+    name="synonymizer__tests",
+    curie=MAPPINGRULES.curie("tests"),
+    model_uri=MAPPINGRULES.synonymizer__tests,
+    domain=None,
+    range=Optional[Union[dict, Test]],
+)
+
+slots.test__input = Slot(
+    uri=MAPPINGRULES.input,
+    name="test__input",
+    curie=MAPPINGRULES.curie("input"),
+    model_uri=MAPPINGRULES.test__input,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.test__output = Slot(
+    uri=MAPPINGRULES.output,
+    name="test__output",
+    curie=MAPPINGRULES.curie("output"),
+    model_uri=MAPPINGRULES.test__output,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.test__prefix = Slot(
+    uri=MAPPINGRULES.prefix,
+    name="test__prefix",
+    curie=MAPPINGRULES.curie("prefix"),
+    model_uri=MAPPINGRULES.test__prefix,
     domain=None,
     range=Optional[str],
 )
 
 slots.lexicalIndex__groupings = Slot(
-    uri=MRULES.groupings,
+    uri=ONTOLEXINDEX.groupings,
     name="lexicalIndex__groupings",
-    curie=MRULES.curie("groupings"),
-    model_uri=MRULES.lexicalIndex__groupings,
+    curie=ONTOLEXINDEX.curie("groupings"),
+    model_uri=MAPPINGRULES.lexicalIndex__groupings,
     domain=None,
     range=Optional[
         Union[
@@ -726,10 +824,10 @@ slots.lexicalIndex__groupings = Slot(
 )
 
 slots.lexicalIndex__pipelines = Slot(
-    uri=MRULES.pipelines,
+    uri=ONTOLEXINDEX.pipelines,
     name="lexicalIndex__pipelines",
-    curie=MRULES.curie("pipelines"),
-    model_uri=MRULES.lexicalIndex__pipelines,
+    curie=ONTOLEXINDEX.curie("pipelines"),
+    model_uri=MAPPINGRULES.lexicalIndex__pipelines,
     domain=None,
     range=Optional[
         Union[
@@ -743,64 +841,64 @@ slots.lexicalIndex__pipelines = Slot(
 )
 
 slots.lexicalGrouping__term = Slot(
-    uri=MRULES.term,
+    uri=ONTOLEXINDEX.term,
     name="lexicalGrouping__term",
-    curie=MRULES.curie("term"),
-    model_uri=MRULES.lexicalGrouping__term,
+    curie=ONTOLEXINDEX.curie("term"),
+    model_uri=MAPPINGRULES.lexicalGrouping__term,
     domain=None,
     range=URIRef,
 )
 
 slots.lexicalGrouping__relationships = Slot(
-    uri=MRULES.relationships,
+    uri=ONTOLEXINDEX.relationships,
     name="lexicalGrouping__relationships",
-    curie=MRULES.curie("relationships"),
-    model_uri=MRULES.lexicalGrouping__relationships,
+    curie=ONTOLEXINDEX.curie("relationships"),
+    model_uri=MAPPINGRULES.lexicalGrouping__relationships,
     domain=None,
     range=Optional[Union[Union[dict, RelationshipToTerm], List[Union[dict, RelationshipToTerm]]]],
 )
 
 slots.relationshipToTerm__predicate = Slot(
-    uri=MRULES.predicate,
+    uri=ONTOLEXINDEX.predicate,
     name="relationshipToTerm__predicate",
-    curie=MRULES.curie("predicate"),
-    model_uri=MRULES.relationshipToTerm__predicate,
+    curie=ONTOLEXINDEX.curie("predicate"),
+    model_uri=MAPPINGRULES.relationshipToTerm__predicate,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.relationshipToTerm__element = Slot(
-    uri=MRULES.element,
+    uri=ONTOLEXINDEX.element,
     name="relationshipToTerm__element",
-    curie=MRULES.curie("element"),
-    model_uri=MRULES.relationshipToTerm__element,
+    curie=ONTOLEXINDEX.curie("element"),
+    model_uri=MAPPINGRULES.relationshipToTerm__element,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.relationshipToTerm__element_term = Slot(
-    uri=MRULES.element_term,
+    uri=ONTOLEXINDEX.element_term,
     name="relationshipToTerm__element_term",
-    curie=MRULES.curie("element_term"),
-    model_uri=MRULES.relationshipToTerm__element_term,
+    curie=ONTOLEXINDEX.curie("element_term"),
+    model_uri=MAPPINGRULES.relationshipToTerm__element_term,
     domain=None,
     range=Optional[str],
 )
 
 slots.relationshipToTerm__source = Slot(
-    uri=MRULES.source,
+    uri=ONTOLEXINDEX.source,
     name="relationshipToTerm__source",
-    curie=MRULES.curie("source"),
-    model_uri=MRULES.relationshipToTerm__source,
+    curie=ONTOLEXINDEX.curie("source"),
+    model_uri=MAPPINGRULES.relationshipToTerm__source,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.relationshipToTerm__pipeline = Slot(
-    uri=MRULES.pipeline,
+    uri=ONTOLEXINDEX.pipeline,
     name="relationshipToTerm__pipeline",
-    curie=MRULES.curie("pipeline"),
-    model_uri=MRULES.relationshipToTerm__pipeline,
+    curie=ONTOLEXINDEX.curie("pipeline"),
+    model_uri=MAPPINGRULES.relationshipToTerm__pipeline,
     domain=None,
     range=Optional[
         Union[
@@ -811,28 +909,28 @@ slots.relationshipToTerm__pipeline = Slot(
 )
 
 slots.relationshipToTerm__synonymized = Slot(
-    uri=MRULES.synonymized,
+    uri=ONTOLEXINDEX.synonymized,
     name="relationshipToTerm__synonymized",
-    curie=MRULES.curie("synonymized"),
-    model_uri=MRULES.relationshipToTerm__synonymized,
+    curie=ONTOLEXINDEX.curie("synonymized"),
+    model_uri=MAPPINGRULES.relationshipToTerm__synonymized,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.lexicalTransformationPipeline__name = Slot(
-    uri=MRULES.name,
+    uri=ONTOLEXINDEX.name,
     name="lexicalTransformationPipeline__name",
-    curie=MRULES.curie("name"),
-    model_uri=MRULES.lexicalTransformationPipeline__name,
+    curie=ONTOLEXINDEX.curie("name"),
+    model_uri=MAPPINGRULES.lexicalTransformationPipeline__name,
     domain=None,
     range=URIRef,
 )
 
 slots.lexicalTransformationPipeline__transformations = Slot(
-    uri=MRULES.transformations,
+    uri=ONTOLEXINDEX.transformations,
     name="lexicalTransformationPipeline__transformations",
-    curie=MRULES.curie("transformations"),
-    model_uri=MRULES.lexicalTransformationPipeline__transformations,
+    curie=ONTOLEXINDEX.curie("transformations"),
+    model_uri=MAPPINGRULES.lexicalTransformationPipeline__transformations,
     domain=None,
     range=Optional[
         Union[Union[dict, LexicalTransformation], List[Union[dict, LexicalTransformation]]]
@@ -840,19 +938,19 @@ slots.lexicalTransformationPipeline__transformations = Slot(
 )
 
 slots.lexicalTransformation__type = Slot(
-    uri=MRULES.type,
+    uri=ONTOLEXINDEX.type,
     name="lexicalTransformation__type",
-    curie=MRULES.curie("type"),
-    model_uri=MRULES.lexicalTransformation__type,
+    curie=ONTOLEXINDEX.curie("type"),
+    model_uri=MAPPINGRULES.lexicalTransformation__type,
     domain=None,
     range=Optional[Union[str, "TransformationType"]],
 )
 
 slots.lexicalTransformation__params = Slot(
-    uri=MRULES.params,
+    uri=ONTOLEXINDEX.params,
     name="lexicalTransformation__params",
-    curie=MRULES.curie("params"),
-    model_uri=MRULES.lexicalTransformation__params,
+    curie=ONTOLEXINDEX.curie("params"),
+    model_uri=MAPPINGRULES.lexicalTransformation__params,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[Union[dict, Any], List[Union[dict, Any]]]],
 )

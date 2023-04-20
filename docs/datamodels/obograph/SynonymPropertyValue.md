@@ -1,26 +1,39 @@
 # Class: SynonymPropertyValue
+_A property value that represents an assertion about a synonym of an entity_
 
 
 
 
-URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/SynonymPropertyValue)
-
+URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/SynonymPropertyValue)
 
 
 
 ```{mermaid}
  classDiagram
+    class SynonymPropertyValue
       PropertyValue <|-- SynonymPropertyValue
       
       SynonymPropertyValue : isExact
+        
+      SynonymPropertyValue : lang
+        
       SynonymPropertyValue : meta
+        
+          SynonymPropertyValue ..> Meta : meta
+        
       SynonymPropertyValue : pred
-      SynonymPropertyValue : scope
+        
+          SynonymPropertyValue ..> ScopeEnum : pred
+        
       SynonymPropertyValue : synonymType
+        
       SynonymPropertyValue : val
+        
+      SynonymPropertyValue : valType
+        
       SynonymPropertyValue : xrefs
+        
       
-
 ```
 
 
@@ -35,23 +48,29 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [synonymType](synonymType.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [isExact](isExact.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
-| [scope](scope.md) | [ScopesEnum](ScopesEnum.md) | 0..1 | None  | . |
-| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [val](val.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [synonymType](synonymType.md) | 0..1 <br/> [SynonymTypeIdentifierString](SynonymTypeIdentifierString.md) | This standard follows oboInOwl in allowing an open ended list of synonym type... | direct |
+| [isExact](isExact.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
+| [val](val.md) | 0..1 <br/> [String](String.md) | The textual string representing the synonym | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
+| [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
+| [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Meta](Meta.md) | [synonyms](synonyms.md) | range | SynonymPropertyValue |
+| [Meta](Meta.md) | [synonyms](synonyms.md) | range | [SynonymPropertyValue](SynonymPropertyValue.md) |
+
+
+
 
 
 
@@ -72,17 +91,18 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:SynonymPropertyValue'] |
-| native | ['og:SynonymPropertyValue'] |
+| self | obographs:SynonymPropertyValue |
+| native | obographs:SynonymPropertyValue |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -91,12 +111,29 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 <details>
 ```yaml
 name: SynonymPropertyValue
+description: A property value that represents an assertion about a synonym of an entity
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: PropertyValue
 slots:
 - synonymType
 - isExact
-- scope
+- pred
+slot_usage:
+  pred:
+    name: pred
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - SynonymTypeDefinition
+    range: ScopeEnum
+  val:
+    name: val
+    description: The textual string representing the synonym.
+    domain_of:
+    - PropertyValue
+    role: synonym text
 
 ```
 </details>
@@ -106,52 +143,132 @@ slots:
 <details>
 ```yaml
 name: SynonymPropertyValue
+description: A property value that represents an assertion about a synonym of an entity
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: PropertyValue
+slot_usage:
+  pred:
+    name: pred
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - SynonymTypeDefinition
+    range: ScopeEnum
+  val:
+    name: val
+    description: The textual string representing the synonym.
+    domain_of:
+    - PropertyValue
+    role: synonym text
 attributes:
   synonymType:
     name: synonymType
+    description: This standard follows oboInOwl in allowing an open ended list of
+      synonym types
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: synonymType
     owner: SynonymPropertyValue
-    range: string
+    domain_of:
+    - SynonymPropertyValue
+    range: SynonymTypeIdentifierString
   isExact:
     name: isExact
+    deprecated: use synonymType instead
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: isExact
     owner: SynonymPropertyValue
+    domain_of:
+    - SynonymPropertyValue
     range: boolean
-  scope:
-    name: scope
-    from_schema: https://github.com/geneontology/obographs
-    alias: scope
-    owner: SynonymPropertyValue
-    range: scopes_enum
   pred:
     name: pred
+    description: the predicate of an edge
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: rdf:predicate
     alias: pred
     owner: SynonymPropertyValue
-    range: string
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - SynonymTypeDefinition
+    range: ScopeEnum
   val:
     name: val
+    description: The textual string representing the synonym.
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: rdf:object
     alias: val
     owner: SynonymPropertyValue
+    domain_of:
+    - PropertyValue
+    role: synonym text
     range: string
   xrefs:
     name: xrefs
+    description: A list of cross references to other entities represented in other
+      ontologies, vocabularies, databases, or websites. The semantics of xrefs are
+      intentionally weak, and most closely align with rdfs:seeAlso
     from_schema: https://github.com/geneontology/obographs
+    exact_mappings:
+    - oio:hasDbXref
+    close_mappings:
+    - rdfs:seeAlso
+    rank: 1000
     multivalued: true
     alias: xrefs
     owner: SynonymPropertyValue
-    range: string
+    domain_of:
+    - Meta
+    - PropertyValue
+    range: XrefString
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
+    rank: 1000
     alias: meta
     owner: SynonymPropertyValue
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - Edge
+    - PropertyValue
+    - Axiom
     range: Meta
+  valType:
+    name: valType
+    description: the datatype of a property value
+    from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value type
+    - datatype
+    rank: 1000
+    alias: valType
+    owner: SynonymPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
+  lang:
+    name: lang
+    description: the language of a property value
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: lang
+    owner: SynonymPropertyValue
+    domain_of:
+    - PropertyValue
+    range: string
 
 ```
 </details>

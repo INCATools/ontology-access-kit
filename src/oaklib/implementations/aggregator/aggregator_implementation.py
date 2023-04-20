@@ -1,17 +1,20 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
+from io import TextIOWrapper
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
 
 from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import (
     ValidationConfiguration,
     ValidationResult,
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    DEFINITION,
     PRED_CURIE,
     RELATIONSHIP_MAP,
     BasicOntologyInterface,
@@ -21,6 +24,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.text_annotator_interface import TEXT, TextAnnotatorInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
@@ -33,6 +37,7 @@ class AggregatorImplementation(
     OboGraphInterface,
     SearchInterface,
     MappingProviderInterface,
+    TextAnnotatorInterface,
 ):
     """
     Wraps multiple implementations and integrates results together.
@@ -86,6 +91,14 @@ class AggregatorImplementation(
     def label(self, curie: CURIE) -> str:
         return self._delegate_first(lambda i: i.label(curie))
 
+    def definition(self, curie: CURIE) -> str:
+        return self._delegate_first(lambda i: i.definition(curie))
+
+    def definitions(
+        self, curies: Iterable[CURIE], include_metadata=False, include_missing=False
+    ) -> Iterator[DEFINITION]:
+        return self._delegate_iterator(lambda i: i.definitions(curies))
+
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.entity_alias_map(curie))
 
@@ -111,3 +124,15 @@ class AggregatorImplementation(
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.incoming_relationship_map(curie))
+
+    def annotate_text(
+        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
+    ) -> Iterable[TextAnnotation]:
+        return self._delegate_iterator(lambda i: i.annotate_text(text, configuration))
+
+    def annotate_file(
+        self,
+        text_file: TextIOWrapper,
+        configuration: TextAnnotationConfiguration = None,
+    ) -> Iterator[TextAnnotation]:
+        return self._delegate_iterator(lambda i: i.annotate_file(text_file, configuration))

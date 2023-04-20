@@ -30,7 +30,7 @@ from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
-from oaklib.interfaces import SubsetterInterface
+from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -74,6 +74,7 @@ class UniprotImplementation(
     SemanticSimilarityInterface,
     SubsetterInterface,
     AssociationProviderInterface,
+    TextAnnotatorInterface,
 ):
     """
     Wraps the Uniprot sparql endpoint.
@@ -83,7 +84,7 @@ class UniprotImplementation(
 
     An UniprotImplementation can be initialed by:
 
-        .. code:: python
+        .. packages:: python
 
            >>>  oi = UniprotImplementation()
 
@@ -176,7 +177,7 @@ class UniprotImplementation(
         if objects is not None:
             query.add_values("o", [self.curie_to_sparql(x) for x in objects])
         logging.info(f"REL: {query.query_str()}")
-        bindings = self._query(query, prefixes=UNIPROT_PREFIX_MAP)
+        bindings = self._sparql_query(query, prefixes=UNIPROT_PREFIX_MAP)
         for row in bindings:
             subj = self.uri_to_curie(row["s"]["value"])
             pred = self.uri_to_curie(row["p"]["value"])
@@ -247,7 +248,7 @@ class UniprotImplementation(
             else:
                 query.add_values("o", [self.curie_to_sparql(x) for x in objects])
         logging.info(f"REL: {query.query_str()}")
-        bindings = self._query(query, prefixes=UNIPROT_PREFIX_MAP)
+        bindings = self._sparql_query(query, prefixes=UNIPROT_PREFIX_MAP)
         for row in bindings:
             subj = self.uri_to_curie(row["s"]["value"])
             pred = self.uri_to_curie(row["p"]["value"])

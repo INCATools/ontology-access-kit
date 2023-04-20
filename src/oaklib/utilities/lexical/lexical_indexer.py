@@ -82,8 +82,9 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
 
 def create_lexical_index(
     oi: BasicOntologyInterface,
-    pipelines: List[LexicalTransformationPipeline] = None,
-    synonym_rules: List[Synonymizer] = None,
+    pipelines: Optional[List[LexicalTransformationPipeline]] = None,
+    synonym_rules: Optional[List[Synonymizer]] = None,
+    mapping_rule_collection: Optional[MappingRuleCollection] = None,
 ) -> LexicalIndex:
     """
     Generates a LexicalIndex keyed by normalized terms
@@ -96,21 +97,22 @@ def create_lexical_index(
     :param synonym_rules: list of synonymizer rules to apply
     :return: An index over an ontology keyed by lexical unit.
     """
+    if mapping_rule_collection:
+        if not synonym_rules:
+            synonym_rules = []
+        synonym_rules.extend(
+            [x.synonymizer for x in mapping_rule_collection.rules if x.synonymizer]
+        )
     if pipelines is None:
-        # Option 1: Apply synonymizer here.
-        step1 = LexicalTransformation(TransformationType.CaseNormalization)
-        step2 = LexicalTransformation(TransformationType.WhitespaceNormalization)
-        step3 = LexicalTransformation(TransformationType.Synonymization, params=synonym_rules)
+        steps = [
+            LexicalTransformation(TransformationType.CaseNormalization),
+            LexicalTransformation(TransformationType.WhitespaceNormalization),
+        ]
         if synonym_rules:
-            pipelines = [
-                LexicalTransformationPipeline(
-                    name="default_with_synonymizer", transformations=[step1, step2, step3]
-                )
-            ]
-        else:
-            pipelines = [
-                LexicalTransformationPipeline(name="default", transformations=[step1, step2])
-            ]
+            steps.append(
+                LexicalTransformation(TransformationType.Synonymization, params=synonym_rules)
+            )
+        pipelines = [LexicalTransformationPipeline(name="default", transformations=steps)]
     logging.info(f"Creating lexical index, pipelines={pipelines}")
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
     for curie in oi.entities():
@@ -152,7 +154,29 @@ def create_lexical_index(
     return ix
 
 
-def save_lexical_index(lexical_index: LexicalIndex, path: str, syntax: str = None):
+def create_or_load_lexical_index(
+    path: Optional[Union[Path, str]], oi: BasicOntologyInterface, **kwargs
+) -> LexicalIndex:
+    """
+    Creates a lexical index and saves it to the specified path if it does not exist.
+
+    :param path:
+    :param oi:
+    :param kwargs:
+    :return:
+    """
+    if path:
+        if isinstance(path, str):
+            path = Path(path)
+        if path.exists():
+            return load_lexical_index(path)
+    li = create_lexical_index(oi, **kwargs)
+    if path:
+        save_lexical_index(li, path)
+    return li
+
+
+def save_lexical_index(lexical_index: LexicalIndex, path: Union[Path, str], syntax: str = None):
     """
     Saves a YAML using standard mapping of datanodel to YAML
 
@@ -161,6 +185,8 @@ def save_lexical_index(lexical_index: LexicalIndex, path: str, syntax: str = Non
     :param syntax:
     :return:
     """
+    if isinstance(path, Path):
+        path = str(path)
     if syntax is None:
         syntax = _infer_syntax(path, "yaml")
     logging.info(f"Saving lexical index from {path} syntax={syntax}")
@@ -172,7 +198,7 @@ def save_lexical_index(lexical_index: LexicalIndex, path: str, syntax: str = Non
         raise ValueError(f"Cannot use syntax: {syntax}")
 
 
-def load_lexical_index(path: str, syntax: str = None) -> LexicalIndex:
+def load_lexical_index(path: Union[Path, str], syntax: str = None) -> LexicalIndex:
     """
     Loads from a YAML file
 
@@ -180,6 +206,8 @@ def load_lexical_index(path: str, syntax: str = None) -> LexicalIndex:
     :param syntax:
     :return: An index over an ontology keyed by lexical unit.
     """
+    if isinstance(path, Path):
+        path = str(path)
     if syntax is None:
         syntax = _infer_syntax(path, "yaml")
     logging.info(f"Loading lexical index from {path} syntax={syntax}")
@@ -203,9 +231,11 @@ def lexical_index_to_sssom(
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
     meta: Metadata = None,
+    prefix_map: dict = None,
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
+    ensure_strict_prefixes: bool = False,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
@@ -213,9 +243,11 @@ def lexical_index_to_sssom(
     :param oi: An ontology interface for making label lookups.
     :param lexical_index: An index over an ontology keyed by lexical unit.
     :param meta: Metadata object that contains the curie_map and metadata for the SSSOM maaping.
+    :param prefix_map: Prefix maps provided externally for mapping.
     :param subjects: An optional collection of entities, if specified, then only subjects in this set are reported
     :param objects: An optional collection of entities, if specified, then only objects in this set are reported
     :param symmetric: If true, then mappings in either direction are reported
+    :param ensure_strict_prefixes: If true, prefixes & mappings in SSSOM MappingSetDataFrame will be filtred.
     :return: SSSOM MappingSetDataFrame object.
     """
     mappings = []
@@ -253,7 +285,10 @@ def lexical_index_to_sssom(
 
     if meta is None:
         meta = get_default_metadata()
-
+    if prefix_map:
+        meta.prefix_map.update(
+            {k: v for k, v in prefix_map.items() if k not in meta.prefix_map.keys()}
+        )
     mapping_set_id = meta.metadata[MAPPING_SET_ID]
     license = meta.metadata[LICENSE]
 
@@ -261,9 +296,11 @@ def lexical_index_to_sssom(
     # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
     doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
-    # TODO uncomment below.
-    # TODO Right now it erases the entire msdf.df in the absence of CURIEs in map.
-    # msdf.clean_prefix_map()
+    num_mappings = len(msdf.df.index)
+    if ensure_strict_prefixes:
+        msdf.clean_prefix_map()
+        if len(msdf.df.index) < num_mappings:
+            raise ValueError("Mappings included prefixes that were not in the prefix map")
     return msdf
 
 
@@ -400,15 +437,12 @@ def invert_mapping_predicate(pred: PRED_CURIE) -> Optional[PRED_CURIE]:
 
 
 def precondition_holds(precondition: Precondition, mapping: Mapping) -> bool:
-    for k in ["subject_match_field", "object_match_field"]:
+    for k in ["subject_match_field", "object_match_field", "subject_source", "object_source"]:
         k_one_of = f"{k}_one_of"
         expected_values = getattr(precondition, k_one_of, [])
         actual_values = getattr(mapping, k, [])
-        # print(f'CHECKING {actual_values} << {expected_values}')
         if expected_values and not any(v for v in actual_values if v in expected_values):
-            # print('** NO MATCH')
             return False
-        # print(f'**** MTCH {k}')
     return True
 
 
@@ -429,7 +463,7 @@ def apply_transformation(
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
     elif typ == TransformationType.Synonymization.text:
-        synonymized_results = apply_synonymizer(term, eval(transformation.params))
+        synonymized_results = apply_synonymizer(term, transformation.params)
         true_results = [x for x in list(synonymized_results) if x[0] is True]
         if len(true_results) > 0:
             return true_results[-1]
@@ -461,7 +495,7 @@ def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, s
     """
     for rule in rules:
         tmp_term_2 = term
-        term = re.sub(eval(rule.match), rule.replacement, term)
+        term = re.sub(rule.match, rule.replacement, term)
 
         if tmp_term_2 != term:
             yield True, term.strip(), rule.qualifier

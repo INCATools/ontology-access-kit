@@ -1,22 +1,32 @@
 id: https://github.com/geneontology/obographs
 title: Obographs Datamodel
 name: obographs_datamodel
-description: Schema for benchmarking based on obographs
+description: >-
+  A data model for graph-oriented representations of ontologies.
+  Each ontology is represented as a Graph, and multiple ontologies
+  can be connected together in a GraphDocument.
+  
+  The principle elements of a Graph are Node objects and Edge objects.
+  A Node represents an arbitrary ontology element, including but not limited
+  to the core terms in the ontology. Edges represent simple relationships between
+  Nodes. Nodes and Edges can both have Meta objects attached, providing
+  additional metedata.
+  
+  Not everything in an ontology can be represented as nodes and edges.
+  More complex axioms have specialized structures such as DomainRangeAxiom
+  objects and LogicalDefinitionAxiom.
 license: https://creativecommons.org/publicdomain/zero/1.0/
-version: 0.0.1
 
 prefixes:
  linkml: https://w3id.org/linkml/
  sdo: https://schema.org/
  skos: http://www.w3.org/2004/02/skos/core#
- og: https://github.com/geneontology/obographs/
+ obographs: https://github.com/geneontology/obographs/
  sh: https://w3id.org/shacl/
  oio: http://www.geneontology.org/formats/oboInOwl#
 
 default_curi_maps:
   - obo_context
-  - idot_context
-  - monarch_context
   - semweb_context
 
 emit_prefixes:
@@ -27,91 +37,236 @@ emit_prefixes:
 
 imports:
  - linkml:types
-default_prefix: og
+default_prefix: obographs
 
 enums:
   ScopeEnum:
+    description: >-
+      A vocabulary of terms that can be used to "scope" a synonym
     permissible_values:
       hasExactSynonym:
         meaning: oio:hasExactSynonym
+        description: The synonym represents the exact meaning of the node.
       hasNarrowSynonym:
         meaning: oio:hasNarrowSynonym
+        description: The synonym represents something narrower in meaning than the node.
       hasBroadSynonym:
         meaning: oio:hasBroadSynonym
+        description: The synonym represents something broader in meaning than the node.
       hasRelatedSynonym:
         meaning: oio:hasRelatedSynonym
+        description: >-
+          The synonym represents something closely related in meaning than the node,
+          but in not exact, broad, or narrow.
+
+types:
+  XrefString:
+    typeof: string
+    description: >-
+      A string that is a cross reference to another entity represented in another ontology, vocabulary, database, or
+      website. The string SHOULD be a CURIE or a URL, but this standard relaxes this to a string to support
+      parsing of legacy ontologies that may use other syntaxes. If a CURIE is provided, this SHOULD be registered
+      in a standard registry such as bioregistry.
+    see_also:
+      - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
+
+  OboIdentifierString:
+    typeof: string
+    description: >-
+      A string that represents an OBO identifier. This MUST be EITHER a PrefixedID (CURIE), an UnprefixedID,
+      or a URI. If the identifier is for a Class, then the identifier MUST be a PrefixedID
+    see_also:
+      - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
+
+  SynonymTypeIdentifierString:
+    typeof: string
+    description: >-
+      A string that represents a synonym type. Note synonym types are distinct from synonym scopes.
+      A synonym type is commonly represented as a plain string such as ABBREVIATION
+    see_also:
+      - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
 
 slots:
   id:
-    range: string
+    range: OboIdentifierString
     identifier: true
+    description: The unique identifier of the entity
+    see_also:
+      - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
   sub:
     range: string
+    aliases:
+      - subject
+      - source
+      - child
+      - head
+    description: >-
+      the subject of an edge
+    slot_uri: rdf:subject
   pred:
     range: string
+    description: >-
+      the predicate of an edge
+    slot_uri: rdf:predicate
   obj:
     range: string
+    aliases:
+      - object
+      - target
+      - parent
+      - tail
+    description: >-
+      the object of an edge
+    slot_uri: rdf:object
   val:
     range: string
-  lbl:
+    aliases:
+      - value
+    description: >-
+      the value of a property
+    slot_uri: rdf:object
+  valType:
     range: string
+    aliases:
+      - value type
+      - datatype
+    description: >-
+      the datatype of a property value
+  lang:
+    range: string
+    description: >-
+      the language of a property value
+
+  lbl:
+    aliases:
+      - label
+      - name
+    range: string
+    description: >-
+      the human-readable label of a node
+    slot_uri: rdfs:label
+    comments:
+      - the name "lbl" exists for legacy purposes, this should be considered identical to label in rdfs
   type:
     # TODO: rdf:type not working - import problem?
     range: string
   meta:
+    aliases:
+      - annotations
     range: Meta
+    description: >-
+      A collection of metadata about either an ontology (graph), an entity, or an axiom
   definition:
     range: DefinitionPropertyValue
+    description: >-
+      A definition of an entity
+    slot_uri: IAO:0000115
   basicPropertyValues:
     range: BasicPropertyValue
     multivalued: true
+    description: >-
+      A list of open-ended property values that does not correspond to those predefined in this standard,
+      i.e xref, synonyms, definition
   comments:
     multivalued: true
     range: string
+    slot_uri: rdfs:comment
+    description: >-
+      A list of comments about the entity
+    comments:
+      - >-
+        for historic reasons obo format only supports a single comment per entity. This limitation is not
+        carried over here, but users should be aware that multiple comments will not be supported in converting
+        back to obo format.
   version:
     range: string
+    slot_uri: owl:versionInfo
   deprecated:
     range: boolean
+    slot_uri: owl:deprecated
   subsets:
     multivalued: true
     range: string
+    slot_uri: oio:inSubset
+    description: >-
+      A list of subsets to which this entity belongs
   xrefs:
     multivalued: true
-    range: string
+    range: XrefString
+    description: >-
+      A list of cross references to other entities represented in other ontologies, vocabularies, databases, or
+      websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso
+    close_mappings:
+      - rdfs:seeAlso
+    exact_mappings:
+      - oio:hasDbXref
   nodes:
     multivalued: true
     range: Node
     inlined: true
     inlined_as_list: true
+    description: >-
+      All nodes present in a graph. This includes class nodes as well as supporting nodes, including
+      nodes representing relationship types, subsets, annotation proeprties, etc
   edges:
     multivalued: true
     range: Edge
     inlined: true
     inlined_as_list: true
+    description: >-
+      All edges present in a graph.
+    comments:
+      Note that this only includes core edges, formed by translating (a) SubClassOf between named classes
+      (b) SubPropertyOf (c) SubClassOf between a named class and a simple existential axiom
+      (d) ObjectPropertyAssertions
   equivalentNodesSets:
     multivalued: true
     range: EquivalentNodesSet
+    description: >-
+      A list of sets of nodes that form equivalence cliques
   logicalDefinitionAxioms:
     multivalued: true
+    inlined_as_list: true
     range: LogicalDefinitionAxiom
+    description: >-
+      A list of logical definition axioms that define the meaning of a class in terms of other classes.
   domainRangeAxioms:
     multivalued: true
     range: DomainRangeAxiom
+    description: >-
+      A list of axioms that define the domain and range of a property
+  allValuesFromEdges:
+    description: >-
+      A list of edges that represent subclasses of universal restrictions
+    multivalued: true
+    range: Edge
   propertyChainAxioms:
     multivalued: true
     range: PropertyChainAxiom
+    description: >-
+      A list of axioms that define an OWL property chain
   representativeNodeId:
     range: string
+    description: >-
+      The identifier of a node that represents the class in an OWL equivalence clique
   chainPredicateIds:
     multivalued: true
     range: string
+    description: >-
+      A list of identifiers of predicates that form the precedent clause of a property chain rule
   nodeIds:
     multivalued: true
     range: string
   fillerId:
+    aliases:
+      - object
     range: string
+    description: >-
+      in an OWL restriction expression, the filler is the object of the restriction
   propertyId:
     range: string
+    description: >-
+      in an OWL restriction expression, this is the predicate
   predicateId:
     range: string
   domainClassIds:
@@ -123,25 +278,46 @@ slots:
   synonyms:
     multivalued: true
     range: SynonymPropertyValue
+    description: >-
+      A list of synonym property value assertions for an entity
   synonymType:
-    range: string
+    range: SynonymTypeIdentifierString
+    description: >-
+      This standard follows oboInOwl in allowing an open ended list of synonym types
   isExact:
     range: boolean
+    deprecated: use synonymType instead
   graphs:
     range: Graph
     inlined: true
     inlined_as_list: true
     multivalued: true
+    description: >-
+      A list of all graphs (ontologies) in an ontology document.
   prefixes:
     slot_uri: sh:declare
     range: PrefixDeclaration
     multivalued: true
     inlined: true
-    description: maps prefixes to namespaces
-
+    description: >-
+      A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to
+      IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)
+  synonymTypeDefinitions:
+    range: SynonymTypeDefinition
+    multivalued: true
+    inlined: true
+  subsetDefinitions:
+    range: SubsetDefinition
+    multivalued: true
+    inlined: true
 
 classes:
   GraphDocument:
+    description: >-
+      A graph document is a collection of graphs together with a set of prefixes that apply across all of them
+    comments:
+      - A graph document frequently has a single graph but a multi-graph document can be used to represent
+        multiple ontologies in an import closure in a single file.
     slots:
       - meta
       - graphs
@@ -149,12 +325,16 @@ classes:
 
   PrefixDeclaration:
     class_uri: sh:PrefixDeclaration
-    description: maps individual prefix to namespace
+    description: >-
+      A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)
     attributes:
       prefix:
+        key: true
         slot_uri: sh:prefix
         description: The prefix of a prefix declaration.
         range: string
+        comments:
+          - It is strongly recommended that the prefix is a valid NCName
       namespace:
         slot_uri: sh:namespace
         description: The namespace associated with a prefix in a prefix declaration.
@@ -162,18 +342,26 @@ classes:
 
   Graph:
     class_uri: owl:Ontology
+    description: >-
+      A graph is a collection of nodes and edges and other axioms that represents a single ontology.
     slots:
       - id
       - lbl
+      - prefixes
+      - subsetDefinitions
+      - synonymTypeDefinitions
       - meta
       - nodes
       - edges
       - equivalentNodesSets
       - logicalDefinitionAxioms
       - domainRangeAxioms
+      - allValuesFromEdges
       - propertyChainAxioms
 
   Node:
+    description: >-
+      A node is a class, property, or other entity in an ontology
     class_uri: rdf:Resource
     slots:
       - id
@@ -182,13 +370,23 @@ classes:
       - meta
 
   Edge:
+    description: >-
+      An edge is a simple typed relationship between two nodes.
+      When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o
+      (where s and o are individuals)
+      (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o
     slots:
       - sub
       - pred
       - obj
-#      - meta
+      - meta
 
   Meta:
+    aliases:
+      - annotation collection
+    description: >-
+      A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect
+      the logical interpretation of the container but provides useful information to humans or machines.
     slots:
       - subsets
       - version
@@ -205,12 +403,38 @@ classes:
 
   DefinitionPropertyValue:
     is_a: PropertyValue
+    description: >-
+      A property value that represents an assertion about the textual definition of an entity
+    slot_usage:
+      val:
+        role: definition text
+        description: >-
+          The textual string representing the definition.
+      xrefs:
+        role: supporting identifiers
+        description: >-
+          A list of identifiers that support the definition. The semantics are intentionally broad,
+          and these identifiers might represent individual agents that contributed to the text of the
+          definition, external publications, websites, or links to supporting information, or external
+          vocabulary entities that played a contributing role in the definition.
   BasicPropertyValue:
     is_a: PropertyValue
+    description: >-
+      A property value that represents an assertion about an entity that is not a definition, synonym, or xref
+
   XrefPropertyValue:
     is_a: PropertyValue
+    description: >-
+      A property value that represents an assertion about an external reference to an entity
+    slot_usage:
+      val:
+        role: xref
+        description: >-
+          The textual representation of the external reference, e.g. "PMID:12345"
   SynonymPropertyValue:
     is_a: PropertyValue
+    description: >-
+      A property value that represents an assertion about a synonym of an entity
     slots:
       - synonymType
       - isExact
@@ -218,50 +442,129 @@ classes:
     slot_usage:
       pred:
         range: ScopeEnum
+      val:
+        role: synonym text
+        description: >-
+          The textual string representing the synonym.
 
   PropertyValue:
+    aliases:
+      - annotation
     abstract: true
+    description: >-
+      A generic grouping for the different kinds of key-value associations on object. Minimally, a property value
+      has a predicate and a value. It can also have a list of xrefs indicating provenance, as well as a metadata
+      object.
+    comments:
+      - >-
+        Any PropertyValue can have a meta object, which can itself have basicPropertyValues, meaning that like
+        the OWL annotation model, axiom annotations can be nested to arbitrary levels.
     slots:
       - pred
       - val
       - xrefs
       - meta
+      - valType
+      - lang
+
+  SubsetDefinition:
+    class_uri: oio:SubsetProperty
+    slots:
+      - id
+      - lbl
+
+  SynonymTypeDefinition:
+    class_uri: oio:SynonymType
+    slots:
+      - id
+      - lbl
+      - pred
+
 
   Axiom:
+    class_uri: owl:Axiom
     abstract: true
+    description: >
+      A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.
     slots:
       - meta
 
   DomainRangeAxiom:
     is_a: Axiom
+    description: >-
+      This groups potentially multiple axioms that constrain the usage of a property depending on some combination
+      of domain and range.
+    comments:
+      - >-
+        When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom with a domainClassIds,
+        and no rangeClassIds. An OWL range axiom may be translated to a DomainRangeAxiom with a rangeClassIds, and
+        no domainClassIds. But translations may merge these, but only when semantically valid.
     slots:
       - predicateId
       - domainClassIds
       - rangeClassIds
+      - allValuesFromEdges
 
   EquivalentNodesSet:
+    class_uri: owl:equivalentClass
+    description: >-
+      A clique of nodes that are all mutually equivalent
     is_a: Axiom
     slots:
       - representativeNodeId
       - nodeIds
 
   ExistentialRestrictionExpression:
+    aliases:
+      - some values from expression
+    description: An existential restriction (OWL some values from) expression
+    comments:
+      - >-
+        note that most existing restrictions are present in simple A SubClassOf R some B axioms, which
+        are translated to *edges* in a graph. This class exists for other cases that do not map to edges.
+    class_uri: owl:Restriction
+    annotations:
+      owl.fstring: "ObjectSomeValuesFrom({propertyId} {fillerId})"
     slots:
       - fillerId
       - propertyId
 
   LogicalDefinitionAxiom:
+    aliases:
+      - genus differentia definition
+    description: An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia
+    annotations:
+      owl.fstring: "EquivalentClasses({definedClassId} ObjectIntersectionOf({genusIds} {restrictions}))"
     is_a: Axiom
     attributes:
       definedClassId:
+        description: The class that is defined by this axiom
+        required: true
       genusIds:
+        description: The set of classes that are the genus of the defined class
+        comments:
+          - typically, this will be a single class
         multivalued: true
+        recommended: true
+        see_also:
+          - https://github.com/geneontology/obographs/issues/89
       restrictions:
+        aliases:
+          - differentia
+        description: The set of restrictions that are the differentiating features of the defined class
+        comments:
+          - typically this will always be present.
         multivalued: true
         range: ExistentialRestrictionExpression
+        recommended: true
+        slot_uri: owl:someValuesFrom
+        see_also:
+          - https://github.com/geneontology/obographs/issues/89
 
   PropertyChainAxiom:
     is_a: Axiom
+    description: >-
+      An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn
     slots:
       - predicateId
       - chainPredicateIds

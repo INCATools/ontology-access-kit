@@ -2,9 +2,7 @@
 
 
 
-
-URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Postcondition)
-
+URI: [mappingrules:Postcondition](https://w3id.org/oak/mapping-rules-datamodel/Postcondition)
 
 
 
@@ -12,7 +10,9 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
  classDiagram
     class Postcondition
       Postcondition : predicate_id
+        
       Postcondition : weight
+        
       
 ```
 
@@ -24,18 +24,23 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [predicate_id](predicate_id.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [weight](weight.md) | [xsd:float](http://www.w3.org/2001/XMLSchema#float) | 0..1 | Weighting of the rule, positive increases the confidence, negative decreases  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [predicate_id](predicate_id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [weight](weight.md) | 0..1 <br/> [Float](Float.md) | Weighting of the rule, positive increases the confidence, negative decreases | direct |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [MappingRule](MappingRule.md) | [postconditions](postconditions.md) | range | Postcondition |
+| [MappingRule](MappingRule.md) | [postconditions](postconditions.md) | range | [Postcondition](Postcondition.md) |
+
+
+
 
 
 
@@ -50,9 +55,7 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/mapping_rules_datamodel
-
-
+* from schema: https://w3id.org/oak/mapping-rules-datamodel
 
 
 
@@ -62,11 +65,14 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['mrules:Postcondition'] |
-| native | ['mrules:Postcondition'] |
+| self | mappingrules:Postcondition |
+| native | mappingrules:Postcondition |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -75,22 +81,25 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 <details>
 ```yaml
 name: Postcondition
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
+rank: 1000
 attributes:
   predicate_id:
     name: predicate_id
     comments:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
   weight:
     name: weight
     description: Weighting of the rule, positive increases the confidence, negative
       decreases
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     see_also:
     - https://en.wikipedia.org/wiki/Logit
     - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
+    rank: 1000
     range: float
 
 ```
@@ -101,27 +110,34 @@ attributes:
 <details>
 ```yaml
 name: Postcondition
-from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+from_schema: https://w3id.org/oak/mapping-rules-datamodel
+rank: 1000
 attributes:
   predicate_id:
     name: predicate_id
     comments:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    rank: 1000
     alias: predicate_id
     owner: Postcondition
+    domain_of:
+    - Postcondition
     range: string
   weight:
     name: weight
     description: Weighting of the rule, positive increases the confidence, negative
       decreases
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    from_schema: https://w3id.org/oak/mapping-rules-datamodel
     see_also:
     - https://en.wikipedia.org/wiki/Logit
     - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
+    rank: 1000
     alias: weight
     owner: Postcondition
+    domain_of:
+    - Postcondition
     range: float
 
 ```

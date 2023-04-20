@@ -1,15 +1,36 @@
 # Slot: propertyChainAxioms
+_A list of axioms that define an OWL property chain_
 
-URI: [https://github.com/geneontology/obographs/propertyChainAxioms](https://github.com/geneontology/obographs/propertyChainAxioms)
+
+URI: [obographs:propertyChainAxioms](https://github.com/geneontology/obographs/propertyChainAxioms)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
+
+
+
+
+
+
 ## Properties
 
- * Range: [PropertyChainAxiom](PropertyChainAxiom.md)
+* Range: [PropertyChainAxiom](PropertyChainAxiom.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -28,3 +49,20 @@ URI: [https://github.com/geneontology/obographs/propertyChainAxioms](https://git
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: propertyChainAxioms
+description: A list of axioms that define an OWL property chain
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: propertyChainAxioms
+domain_of:
+- Graph
+range: PropertyChainAxiom
+
+```
+</details>

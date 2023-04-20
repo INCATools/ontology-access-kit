@@ -1,6 +1,6 @@
 # Slot: subsumed_by_score
 
-URI: [https://w3id.org/linkml/similarity/subsumed_by_score](https://w3id.org/linkml/similarity/subsumed_by_score)
+URI: [sim:subsumed_by_score](https://w3id.org/linkml/similarity/subsumed_by_score)
 
 
 
@@ -12,9 +12,17 @@ URI: [https://w3id.org/linkml/similarity/subsumed_by_score](https://w3id.org/lin
 
 
 
+
+
+
+
 ## Properties
 
- * Range: [ZeroToOne](ZeroToOne.md)
+* Range: [ZeroToOne](ZeroToOne.md)
+
+
+
+
 
 
 
@@ -29,7 +37,21 @@ URI: [https://w3id.org/linkml/similarity/subsumed_by_score](https://w3id.org/lin
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: subsumed_by_score
+from_schema: https://w3id.org/oak/similarity
+rank: 1000
+is_a: score
+alias: subsumed_by_score
+range: ZeroToOne
+
+```
+</details>

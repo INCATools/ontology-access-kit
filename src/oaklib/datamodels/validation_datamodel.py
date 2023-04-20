@@ -7,8 +7,6 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -62,6 +60,7 @@ DEFAULT_ = VM
 
 
 # Types
+
 
 # Class references
 class NamedResourceId(URIorCURIE):
@@ -461,7 +460,6 @@ class ExternalReferenceValidationResult(ValidationResult):
 
 # Enumerations
 class SeverityOptions(EnumDefinitionImpl):
-
     FATAL = PermissibleValue(text="FATAL")
     ERROR = PermissibleValue(text="ERROR", meaning=SH.Violation)
     WARNING = PermissibleValue(text="WARNING", meaning=SH.Warning)
@@ -473,7 +471,6 @@ class SeverityOptions(EnumDefinitionImpl):
 
 
 class ValidationResultType(EnumDefinitionImpl):
-
     DatatypeConstraintComponent = PermissibleValue(
         text="DatatypeConstraintComponent",
         description="constraint in which the range is a type, and the slot value must conform to the type",

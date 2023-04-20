@@ -1,0 +1,199 @@
+id: https://w3id.org/oak/item-list
+title: Item List Data Model
+name: itemList
+description: >-
+  A data model for representing simple lists of entities such as genes.
+  The data model is based on the schema.org ItemList class.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  itemList: https://w3id.org/linkml/item-list/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  dcterms: http://purl.org/dc/terms/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  prov: http://www.w3.org/ns/prov#
+
+default_prefix: itemList
+default_range: string
+
+imports:
+  - linkml:types
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+
+  ItemListCollection:
+    aliases:
+      - item list catalog
+    description: a set of item lists
+    comments:
+      - this is used for when you wish to pass around multiple lists.
+    attributes:
+      itemLists:
+        range: ItemList
+        multivalued: true
+        inlined: true
+
+  ItemList:
+    aliases:
+      - list
+    description: a list of entities plus metadata
+    class_uri: schema:ItemList
+    close_mappings:
+      - rdf:List
+    attributes:
+      id:
+        range: uriorcurie
+        description: The identifier of the list
+        comments:
+          - this is optional and hence declared as an identifier
+      name:
+        range: string
+        description: The name of the list
+        examples:
+          - description: mTOR-pathway
+          - description: my-shopping-list
+        recommended: true
+      description:
+        range: string
+        description: A description of the list
+        examples:
+          - description: A list of genes in the mTOR pathway
+          - description: A list of items to buy at the supermarket
+        recommended: true
+      itemListElements:
+        singular_name: itemListElement
+        slot_uri: schema:itemListElement
+        range: ListItem
+        multivalued: true
+        inlined: false
+        description: The entities in the list, represented as a simple list
+      numberOfItems:
+        slot_uri: schema:numberOfItems
+        range: ItemListOrderType
+        description: The order of the items in the list
+      itemMetadataMap:
+        range: ListItem
+        multivalued: true
+        inlined: true
+        description: The entities in the list, represented as a map keyed by item id
+      categories:
+        range: uriorcurie
+        singular_name: category
+        slot_uri: dcterms:subject
+        multivalued: true
+        description: >-
+          Controlled terms used to categorize an element.
+        comments:
+          - if you wish to use uncontrolled terms or terms that lack identifiers then use the keywords element
+      keywords:
+        singular_name: keyword
+        description: >-
+          Keywords or tags used to describe the element
+        slot_uri: schema:keywords
+        range: string
+        multivalued: true
+      additionalType:
+        range: uriorcurie
+        description: >-
+          An additional type for the item, typically used for adding more specific types from external vocabularies
+          in microdata syntax. This is a relationship between something and a class that the thing is in.
+          In RDFa syntax, it is better to use the native RDFa syntax - the 'typeof' attribute - for multiple
+          types. Schema.org tools may have only weaker understanding of extra types, in particular those
+          defined externally.
+        slot_uri: schema:additionalType
+        multivalued: true
+      wasGeneratedBy:
+        range: uriorcurie
+        description: >-
+          The provenance of the list, for example a script that generated the list
+        slot_uri: prov:wasGeneratedBy
+        multivalued: true
+
+  ListItem:
+    description: an item in an item list
+    class_uri: schema:ListItem
+    attributes:
+      elementId:
+        range: string
+        description: >
+          The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field,
+          for example symbol
+        key: true
+      idType:
+        range: uriorcurie
+        description: >-
+          The type of the identifier. For example, if the id is a symbol, this would be 'symbol'
+        examples:
+          - value: biolink:symbol
+          - value: skos:prefLabel
+          - value: schema:identifier
+      item:
+        range: Thing
+        description: The item represented by the list item
+        slot_uri: schema:item
+        inlined: true
+      position:
+        range: integer
+        description: The position of the item in the list
+        slot_uri: schema:position
+      previousItem:
+        range: ListItem
+        description: The previous item in the list
+        slot_uri: schema:previousItem
+
+  Thing:
+    class_uri: schema:Thing
+    attributes:
+      id:
+        range: uriorcurie
+        description: >-
+          The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field,
+          for example symbol
+        slot_uri: schema:identifier
+        identifier: true
+      name:
+        range: string
+        description: The name of the item
+        slot_uri: rdfs:label
+      url:
+        range: uri
+        description: A URL for the item
+      identifiers:
+        range: uriorcurie
+        multivalued: true
+        description: >-
+            A list of identifiers for the item. For example, if the id is a symbol, this would be a list of
+            identifiers for the item, such as HGNC, MGI, etc.
+      description:
+        range: string
+        description: A description of the item
+      type:
+        range: uriorcurie
+        description: >-
+          The type of the item.
+        examples:
+          - value: biolink:Gene
+          - value: schema:Person
+
+enums:
+  ItemListOrderType:
+    enum_uri: schema:ItemListOrderType
+    description: >-
+      The order of the items in the list
+    permissible_values:
+      Ascending:
+        description: >-
+          The items are ordered in ascending order
+        meaning: schema:ItemListOrderAscending
+      Descending:
+        description: >-
+          The items are ordered in descending order
+        meaning: schema:ItemListOrderDescending
+      Unordered:
+        description: >-
+          The items are unordered
+        meaning: schema:ItemListUnordered

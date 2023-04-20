@@ -1,5 +1,7 @@
 .. _concepts:
 
+**NOTE** this is largely replaced by the :ref:`guide`
+
 Ontology Concepts
 =================
 

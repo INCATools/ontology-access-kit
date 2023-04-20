@@ -23,11 +23,12 @@ class Parser(ABC):
     """Base class for all parsers."""
 
     @abstractmethod
-    def parse(self, file: TextIO) -> Iterator:
+    def parse(self, file: TextIO, **kwargs) -> Iterator:
         """
         Abstract method for all parsers.
 
-        :param file:
+        :param file: file-like object to parse
+        :param kwargs: additional arguments
         :return:
         """
         raise NotImplementedError

@@ -1,17 +1,36 @@
 # Slot: results
-_all annotations_
+_all differences between a pair of ontologies_
 
 
-URI: [https://w3id.org/linkml/text_annotator/results](https://w3id.org/linkml/text_annotator/results)
+URI: [xodiff:results](https://w3id.org/oak/cross-ontology-diff/results)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results
+
+
+
+
+
+
 ## Properties
 
- * Range: [RelationalDiff](RelationalDiff.md)
+* Range: [RelationalDiff](RelationalDiff.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -26,7 +45,26 @@ URI: [https://w3id.org/linkml/text_annotator/results](https://w3id.org/linkml/te
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: results
+description: all differences between a pair of ontologies
+from_schema: https://w3id.org/oak/cross-ontology-diff
+rank: 1000
+multivalued: true
+alias: results
+owner: StructureDiffResultSet
+domain_of:
+- StructureDiffResultSet
+range: RelationalDiff
+inlined: true
+
+```
+</details>

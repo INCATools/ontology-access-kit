@@ -2,16 +2,37 @@
 _The subject (child) of the matched/right edge, if matchable_
 
 
-URI: [https://w3id.org/linkml/text_annotator/right_subject_id](https://w3id.org/linkml/text_annotator/right_subject_id)
+URI: [xodiff:right_subject_id](https://w3id.org/oak/cross-ontology-diff/right_subject_id)
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **right_subject_id** [ [right_side](right_side.md) [subject](subject.md)]
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a...
+
+
+
+
 
 
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [EntityReference](EntityReference.md)
+
+
+
+
 
 
 
@@ -26,7 +47,27 @@ URI: [https://w3id.org/linkml/text_annotator/right_subject_id](https://w3id.org/
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/cross_ontology_diff
+* from schema: https://w3id.org/oak/cross-ontology-diff
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: right_subject_id
+description: The subject (child) of the matched/right edge, if matchable
+from_schema: https://w3id.org/oak/cross-ontology-diff
+rank: 1000
+mixins:
+- right_side
+- subject
+alias: right_subject_id
+owner: RelationalDiff
+domain_of:
+- RelationalDiff
+range: EntityReference
+
+```
+</details>

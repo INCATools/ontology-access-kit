@@ -49,9 +49,7 @@ class TestBioportal(unittest.TestCase):
         mappings = list(self.impl.get_sssom_mappings_by_curie(DIGIT))
         for m in mappings:
             logging.info(yaml_dumper.dumps(m))
-        assert any(
-            m for m in mappings if m.object_id == "http://purl.obolibrary.org/obo/NCIT_C73791"
-        )
+        assert any(m for m in mappings if m.object_id == "NCIT:C40186")
 
         # FMA:24879 cannot be converted to the IRI recognized by BioPortal automatically,
         # but this tests that the call to get_sssom_mappings_by_curie does not error out

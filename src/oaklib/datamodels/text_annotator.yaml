@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/text_annotator
+id: https://w3id.org/oak/text_annotator
 title: Text Annotator Datamodel
 name: text-annotator
 description: >-
@@ -53,6 +53,12 @@ classes:
         multivalued: true
       limit:
         range: integer
+      token_exclusion_list:
+        multivalued: true
+      model:
+        range: string
+      include_aliases:
+        range: boolean
 
   TextAnnotationResultSet:
     description: A collection of annotation results
@@ -126,6 +132,8 @@ classes:
         range: boolean
       match_type:
       info:
+      object_aliases:
+        multivalued: true
 
 enums:
   TransformationType:

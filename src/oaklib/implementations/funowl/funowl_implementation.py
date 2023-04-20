@@ -3,7 +3,15 @@ from dataclasses import dataclass
 from typing import Any, Iterable, List, Mapping, Optional
 
 import rdflib
-from funowl import IRI, AnnotationAssertion, Axiom, Declaration, OntologyDocument
+from funowl import (
+    IRI,
+    AnnotationAssertion,
+    Axiom,
+    Declaration,
+    ObjectSomeValuesFrom,
+    OntologyDocument,
+    SubClassOf,
+)
 from funowl.converters.functional_converter import to_python
 from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
@@ -11,9 +19,12 @@ from kgcl_schema.datamodel import kgcl
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
     HAS_DEFINITION_CURIE,
+    HAS_EXACT_SYNONYM,
+    IS_A,
     LABEL_PREDICATE,
 )
 from oaklib.interfaces import SearchInterface
+from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -35,15 +46,15 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     def __post_init__(self):
         if self.ontology_document is None:
             resource = self.resource
-            if resource is None:
+            if resource is None or resource.local_path is None:
                 doc = OntologyDocument()
             else:
-                # print(resource)
+                logging.info(f"Loading {resource.local_path} into FunOwl")
                 doc = to_python(str(resource.local_path))
             self.ontology_document = doc
         if self.functional_writer is None:
             self.functional_writer = FunctionalWriter()
-            for prefix in doc.prefixDeclarations:
+            for prefix in doc.prefixDeclarations.as_prefixes():
                 self.functional_writer.bind(prefix.prefixName, prefix.fullIRI)
 
     @property
@@ -69,10 +80,10 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             else:
                 raise ValueError(f"Label must be literal, not {val}")
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         return self._single_valued_assignment(curie, HAS_DEFINITION_CURIE)
 
-    def label(self, curie: CURIE) -> str:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> str:
         labels = [
             a.value for a in self.annotation_assertion_axioms(curie, property=LABEL_PREDICATE)
         ]
@@ -110,11 +121,13 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     def set_axioms(self, axioms: List[Axiom]) -> None:
         self._ontology.axioms = axioms
 
-    def dump(self, path: str = None, syntax: str = None):
+    def dump(self, path: str = None, syntax: str = None, **kwargs):
         if syntax is None or syntax == "ofn":
             out = self.ontology_document.to_functional(self.functional_writer)
-        elif syntax == "ttl":
-            out = self.ontology_document.to_rdf(self.functional_writer.g)
+        elif syntax == "ttl" or syntax == "turtle":
+            g = rdflib.Graph()
+            self.ontology_document.to_rdf(g)
+            out = g.serialize(format="ttl")
         else:
             out = str(self.ontology_document)
         if path is None:
@@ -145,6 +158,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
+        configuration: kgcl.Configuration = None,
     ) -> Optional[kgcl.Change]:
         if isinstance(patch, kgcl.NodeChange):
             about = patch.about_node
@@ -153,11 +167,19 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             elif isinstance(patch, kgcl.NodeTextDefinitionChange):
                 self._set_annotation_predicate_value(about, HAS_DEFINITION_CURIE, patch.new_value)
             elif isinstance(patch, kgcl.NewSynonym):
-                raise NotImplementedError
+                self._ontology.axioms.append(
+                    AnnotationAssertion(
+                        subject=about,
+                        property=self.curie_to_entity_iri(HAS_EXACT_SYNONYM),
+                        value=patch.new_value,
+                    )
+                )
             elif isinstance(patch, kgcl.NodeObsoletion):
                 self._set_annotation_predicate_value(about, DEPRECATED_PREDICATE, value=True)
             elif isinstance(patch, kgcl.NodeDeletion):
-                raise NotImplementedError
+                raise NotImplementedError("Deletions not supported yet")
+            elif isinstance(patch, kgcl.NodeCreation):
+                self._set_annotation_predicate_value(about, LABEL_PREDICATE, patch.name)
             elif isinstance(patch, kgcl.NameBecomesSynonym):
                 label = self.label(about)
                 self.apply_patch(
@@ -167,10 +189,21 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
                     kgcl.NewSynonym(id=f"{patch.id}-2", about_node=about, new_value=label)
                 )
             else:
-                raise NotImplementedError
+                raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         elif isinstance(patch, kgcl.EdgeChange):
             about = patch.about_edge
-            raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
+            subject = self.curie_to_uri(patch.subject)
+            object = self.curie_to_uri(patch.object)
+            if isinstance(patch, kgcl.EdgeCreation):
+                if patch.predicate == IS_A or patch.predicate == "is_a":
+                    self._ontology.axioms.append(SubClassOf(subject, object))
+                else:
+                    predicate = self.curie_to_entity_iri(patch.predicate)
+                    self._ontology.axioms.append(
+                        SubClassOf(subject, ObjectSomeValuesFrom(predicate, object))
+                    )
+            else:
+                raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         else:
-            raise NotImplementedError
+            raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         return patch

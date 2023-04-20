@@ -1,0 +1,132 @@
+id: https://w3id.org/oaklib/input-specification
+title: Input Specification Data Model
+name: inputspec
+description: >-
+  A data model for representing a set of inputs to OAK
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  itemList: https://w3id.org/linkml/item-list/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  dcterms: http://purl.org/dc/terms/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  prov: http://www.w3.org/ns/prov#
+
+default_prefix: itemList
+default_range: string
+
+imports:
+  - linkml:types
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+
+  InputSpecification:
+    description: input spec
+    attributes:
+      ontology_resources:
+        range: OntologyResource
+        multivalued: true
+        inlined: true
+        description: >-
+          The ontologies used in the input specification
+      association_resources:
+        range: AssociationResource
+        multivalued: true
+        inlined: true
+        description: >-
+          The associations used in the input specification
+
+  Resource:
+    abstract: true
+    attributes:
+      id:
+        range: string
+        identifier: true
+        description: >-
+          The identifier of the ontology resource
+      path:
+        range: string
+        description: >-
+          The path of the resource. May be a URL or file path
+      format:
+        range: string
+      selector:
+        range: string
+        description: >-
+          The selector of the ontology resource
+      aggregator_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:aggregator_knowledge_source
+        description: >-
+          The knowledge source that is the aggregator of the resource
+      primary_knowledge_source:
+        range: uriorcurie
+        slot_uri: biolink:primary_knowledge_source
+        description: >-
+          The knowledge source that is the primary source of the resource
+         
+
+  OntologyResource:
+    description: >-
+      A resource that points to an ontology
+    is_a: Resource
+
+  AssociationResource:
+    description: >-
+      A resource that points to a set of associations
+    is_a: Resource
+    attributes:
+      normalizers:
+        range: Normalizer
+        multivalued: true
+        inlined: true
+        description: >-
+          The subject normalizers used in the input specification
+
+  PrefixAlias:
+    description: >-
+      Maps a prefix from the canonical prefix to an alias used in a particular adapter
+    attributes:
+      prefix:
+        range: string
+        description: >-
+          The source prefix
+        key: true
+      alias:
+        range: string
+        description: >-
+          The target prefix
+
+  Normalizer:
+    description: >-
+      specification of how identifier fields in an association resource should be normalized
+    attributes:
+      selector:
+        range: string
+        description: >-
+          The selector of the normalizer
+      prefix_alias_map:
+        range: PrefixAlias
+        multivalued: true
+        inlined: true
+        description: >-
+          The prefix aliases used in the input specification
+      source_prefixes:
+        range: string
+        multivalued: true
+        description: >-
+          The prefixes to normalize to
+      target_prefixes:
+        range: string
+        multivalued: true
+        description: >-
+          The prefixes to normalize to
+      slots:
+        range: string
+        multivalued: true
+        description: >-
+          The slots to normalize

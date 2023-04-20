@@ -1,0 +1,6 @@
+ontology_resources:
+  hp:
+    selector: sqlite:obo:mondo
+association_resources:
+  g2d:
+    selector: "medgen_mim_g2d:"

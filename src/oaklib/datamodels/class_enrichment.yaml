@@ -1,16 +1,13 @@
-id: https://w3id.org/linkml/text_annotator
-title: Text Annotator Datamodel
-name: text-annotator
+id: https://w3id.org/oak/class-enrichment
+title: Class Enrichment Datamodel
+name: class-enrichment
 description: >-
-  A datamodel for representing the results of textual named entity recognition annotation results.
-  This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
+  A datamodel for representing the results of class enrichment on gene sets
 license: https://creativecommons.org/publicdomain/zero/1.0/
-see_also:
-  - https://github.com/mapping-commons/sssom/issues/155
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  ann: https://w3id.org/linkml/text_annotator/
+  ontoenrich: https://w3id.org/oak/class-enrichment/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
@@ -22,7 +19,7 @@ prefixes:
   STATO: http://purl.obolibrary.org/obo/STATO_
   OBI: http://purl.obolibrary.org/obo/OBI_
 
-default_prefix: ann
+default_prefix: ontoenrich
 default_range: string
 
 default_curi_maps:

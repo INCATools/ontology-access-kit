@@ -1,0 +1,98 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix oa: <http://www.w3.org/ns/oa#> .
+@prefix ontoassoc: <https://w3id.org/oak/association/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/oak/association.owl.ttl> a owl:Ontology ;
+    rdfs:label "association" ;
+    IAO:0000700 ontoassoc:Association,
+        ontoassoc:PropertyValue,
+        ontoassoc:RollupGroup ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "OAK Association Data Model" ;
+    linkml:generation_date "2023-02-28T16:17:34" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "association.yaml" ;
+    linkml:source_file_date "2023-02-28T16:16:35" ;
+    linkml:source_file_size 2014 .
+
+ontoassoc:associations a owl:ObjectProperty ;
+    rdfs:label "associations" ;
+    rdfs:range ontoassoc:Association .
+
+ontoassoc:property_values a owl:ObjectProperty ;
+    rdfs:label "property_values" ;
+    rdfs:range ontoassoc:PropertyValue .
+
+ontoassoc:sub_groups a owl:ObjectProperty ;
+    rdfs:label "sub_groups" ;
+    rdfs:range ontoassoc:RollupGroup ;
+    skos:definition "Container for groups within a rollup group." .
+
+<http://example.org/UNKNOWN/rdf/subject> a owl:DatatypeProperty ;
+    rdfs:label "subject" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The thing which the association is about." ;
+    skos:exactMatch <http://example.org/UNKNOWN/rdf/subject>,
+        oa:hasBody .
+
+<http://example.org/UNKNOWN/rdf/object> a owl:DatatypeProperty .
+
+<http://example.org/UNKNOWN/rdf/predicate> a owl:DatatypeProperty ;
+    rdfs:label "predicate" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The type of relationship between the subject and object." ;
+    skos:exactMatch <http://example.org/UNKNOWN/rdf/predicate> .
+
+ontoassoc:Association a owl:Class ;
+    rdfs:label "Association" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/predicate> ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom ontoassoc:PropertyValue ;
+            owl:onProperty ontoassoc:property_values ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/subject> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/object> ] ;
+    skos:definition "A generic association between a thing (subject) and another thing (object)." ;
+    skos:exactMatch oa:Annotation .
+
+ontoassoc:PropertyValue a owl:Class ;
+    rdfs:label "PropertyValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/predicate> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/object> ] ;
+    skos:definition "A generic tag-value that can be associated with an association." .
+
+ontoassoc:RollupGroup a owl:Class ;
+    rdfs:label "RollupGroup" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom ontoassoc:RollupGroup ;
+            owl:onProperty ontoassoc:sub_groups ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom ontoassoc:Association ;
+            owl:onProperty ontoassoc:associations ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty <http://example.org/UNKNOWN/rdf/object> ] .
+
+
+

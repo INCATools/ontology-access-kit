@@ -15,9 +15,10 @@ For a quick introduction, see the :ref:`tutorial`
    basics
    curies-and-uris
    primary-labels
-   relationships
    aliases
    mappings
    definitions
    obsoletion
+   relationships-and-graphs
+   learning-more
 

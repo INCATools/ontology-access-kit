@@ -2,16 +2,35 @@
 _Any parameters to be applied to the transformation algorithm_
 
 
-URI: [https://w3id.org/linkml/lexical_index/params](https://w3id.org/linkml/lexical_index/params)
+URI: [ontolexindex:params](https://w3id.org/oak/lexical-index/params)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf...
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [Any](Any.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -26,7 +45,27 @@ URI: [https://w3id.org/linkml/lexical_index/params](https://w3id.org/linkml/lexi
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: params
+description: Any parameters to be applied to the transformation algorithm
+from_schema: https://w3id.org/oak/lexical-index
+rank: 1000
+multivalued: true
+alias: params
+owner: LexicalTransformation
+domain_of:
+- LexicalTransformation
+range: Any
+inlined: true
+inlined_as_list: true
+
+```
+</details>

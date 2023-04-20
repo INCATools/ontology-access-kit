@@ -1,0 +1,18 @@
+ontology_resources:
+  go:
+    selector: sqlite:obo:go
+association_resources:
+  human:
+    selector: "gaf:goa_human"
+    normalizers:
+      - selector: sqlite:obo:hgnc
+        source_prefixes:
+          - UniProtKB
+        target_prefixes:
+          - HGNC
+        slots:
+          - subject
+        prefix_alias_map:
+          hgnc: HGNC
+          uniprot: UniProtKB
+    

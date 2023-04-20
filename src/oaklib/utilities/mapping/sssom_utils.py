@@ -9,6 +9,9 @@ from sssom_schema import Mapping, MappingSet
 
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
+from oaklib.utilities.basic_utils import get_curie_prefix
+
+UNSPECIFIED_MAPPING_SET_ID = "https://w3id.org/sssom/license/unspecified"
 
 
 def create_sssom_mapping(
@@ -50,6 +53,15 @@ def mappings_to_pairs(mappings: Iterable[Mapping]) -> List[Tuple[CURIE, CURIE]]:
     return list(set([(m.subject_id, m.object_id) for m in mappings]))
 
 
+def inject_mapping_sources(m: Mapping) -> Mapping:
+    """Auto-adds subject_source and object_source if they are not present"""
+    if not m.subject_source:
+        m.subject_source = get_curie_prefix(m.subject_id)
+    if not m.object_source:
+        m.object_source = get_curie_prefix(m.object_id)
+    return m
+
+
 @dataclass
 class StreamingSssomWriter(StreamingWriter):
     """
@@ -61,8 +73,12 @@ class StreamingSssomWriter(StreamingWriter):
     def emit(self, obj: Mapping):
         self.mappings.append(obj)
 
-    def close(self):
-        mset = MappingSet(mapping_set_id="temp", mappings=self.mappings, license="UNSPECIFIED")
-        doc = MappingSetDocument(prefix_map={}, mapping_set=mset)
+    def finish(self):
+        mset = MappingSet(
+            mapping_set_id="temp", mappings=self.mappings, license=UNSPECIFIED_MAPPING_SET_ID
+        )
+        prefix_map = self.ontology_interface.prefix_map()
+        doc = MappingSetDocument(prefix_map=prefix_map, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
+        msdf.clean_prefix_map(strict=False)
         write_table(msdf, self.file)

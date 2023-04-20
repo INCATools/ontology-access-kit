@@ -1,28 +1,52 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-06-08T15:32:53
+# Generation date: 2023-04-09T15:53:59
 # Schema: text-annotator
 #
-# id: https://w3id.org/linkml/text_annotator
+# id: https://w3id.org/oak/text_annotator
 # description: A datamodel for representing the results of textual named entity recognition annotation results.
 #              This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
-from linkml_runtime.linkml_model.types import Integer
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import (
+    Boolean,
+    Float,
+    Integer,
+    String,
+    Uriorcurie,
+)
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_list
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -77,6 +101,9 @@ class TextAnnotationConfiguration(YAMLRoot):
     matches_whole_text: Optional[Union[bool, Bool]] = None
     sources: Optional[Union[str, List[str]]] = empty_list()
     limit: Optional[int] = None
+    token_exclusion_list: Optional[Union[str, List[str]]] = empty_list()
+    model: Optional[str] = None
+    include_aliases: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
@@ -88,6 +115,20 @@ class TextAnnotationConfiguration(YAMLRoot):
 
         if self.limit is not None and not isinstance(self.limit, int):
             self.limit = int(self.limit)
+
+        if not isinstance(self.token_exclusion_list, list):
+            self.token_exclusion_list = (
+                [self.token_exclusion_list] if self.token_exclusion_list is not None else []
+            )
+        self.token_exclusion_list = [
+            v if isinstance(v, str) else str(v) for v in self.token_exclusion_list
+        ]
+
+        if self.model is not None and not isinstance(self.model, str):
+            self.model = str(self.model)
+
+        if self.include_aliases is not None and not isinstance(self.include_aliases, Bool):
+            self.include_aliases = Bool(self.include_aliases)
 
         super().__post_init__(**kwargs)
 
@@ -211,6 +252,7 @@ class TextAnnotation(YAMLRoot):
     matches_whole_text: Optional[Union[bool, Bool]] = None
     match_type: Optional[str] = None
     info: Optional[str] = None
+    object_aliases: Optional[Union[str, List[str]]] = empty_list()
     subject_start: Optional[Union[int, Position]] = None
     subject_end: Optional[Union[int, Position]] = None
     subject_label: Optional[str] = None
@@ -247,6 +289,10 @@ class TextAnnotation(YAMLRoot):
 
         if self.info is not None and not isinstance(self.info, str):
             self.info = str(self.info)
+
+        if not isinstance(self.object_aliases, list):
+            self.object_aliases = [self.object_aliases] if self.object_aliases is not None else []
+        self.object_aliases = [v if isinstance(v, str) else str(v) for v in self.object_aliases]
 
         if self.subject_start is not None and not isinstance(self.subject_start, Position):
             self.subject_start = Position(self.subject_start)
@@ -338,6 +384,33 @@ slots.textAnnotationConfiguration__limit = Slot(
     model_uri=ANN.textAnnotationConfiguration__limit,
     domain=None,
     range=Optional[int],
+)
+
+slots.textAnnotationConfiguration__token_exclusion_list = Slot(
+    uri=ANN.token_exclusion_list,
+    name="textAnnotationConfiguration__token_exclusion_list",
+    curie=ANN.curie("token_exclusion_list"),
+    model_uri=ANN.textAnnotationConfiguration__token_exclusion_list,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.textAnnotationConfiguration__model = Slot(
+    uri=ANN.model,
+    name="textAnnotationConfiguration__model",
+    curie=ANN.curie("model"),
+    model_uri=ANN.textAnnotationConfiguration__model,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.textAnnotationConfiguration__include_aliases = Slot(
+    uri=ANN.include_aliases,
+    name="textAnnotationConfiguration__include_aliases",
+    curie=ANN.curie("include_aliases"),
+    model_uri=ANN.textAnnotationConfiguration__include_aliases,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )
 
 slots.textAnnotationResultSet__annotations = Slot(
@@ -518,4 +591,13 @@ slots.textAnnotation__info = Slot(
     model_uri=ANN.textAnnotation__info,
     domain=None,
     range=Optional[str],
+)
+
+slots.textAnnotation__object_aliases = Slot(
+    uri=ANN.object_aliases,
+    name="textAnnotation__object_aliases",
+    curie=ANN.curie("object_aliases"),
+    model_uri=ANN.textAnnotation__object_aliases,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
 )

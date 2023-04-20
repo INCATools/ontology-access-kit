@@ -6,14 +6,13 @@ _Abstract root class for all anonymous (non-named; lacking an identifier) expres
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
-URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
-
+URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
 
 
 
 ```{mermaid}
  classDiagram
+    class Anonymous
       Anonymous <|-- AnonymousClassExpression
       
       
@@ -31,11 +30,14 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
 
-## Usages
+
+
+
+
 
 
 
@@ -56,17 +58,18 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:Anonymous'] |
-| native | ['omoschema:Anonymous'] |
+| self | omoschema:Anonymous |
+| native | omoschema:Anonymous |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -78,6 +81,7 @@ name: Anonymous
 description: Abstract root class for all anonymous (non-named; lacking an identifier)
   expressions
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 abstract: true
 
 ```
@@ -91,6 +95,7 @@ name: Anonymous
 description: Abstract root class for all anonymous (non-named; lacking an identifier)
   expressions
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 abstract: true
 
 ```
