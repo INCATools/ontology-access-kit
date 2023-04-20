@@ -402,7 +402,7 @@ class PoiImplementation(
             sim.subject_best_matches[s] = BestMatch(
                 s,
                 match_target=oix.int_to_curie[t_ix],
-                score=score,
+                similarity=score,
             )
             scores.append(score)
         for s_ix, t_ix in bm_object.items():

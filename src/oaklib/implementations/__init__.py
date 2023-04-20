@@ -35,6 +35,7 @@ from oaklib.implementations.ontoportal.matportal_implementation import (
 from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
+from oaklib.implementations.poi.poi_implementation import PoiImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.rustsim.rustsim_implementation import RustSimImplementation
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
@@ -82,6 +83,7 @@ __all__ = [
     "GildaImplementation",
     "KGXImplementation",
     "TranslatorImplementation",
+    "PoiImplementation",
     "OakMetaModelImplementation",
     "RustSimImplementation",
 ]
