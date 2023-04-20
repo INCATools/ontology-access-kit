@@ -242,11 +242,22 @@ class AssociationDiffer:
                 change.summary_group = pub
                 yield change
         for pub in set(pubmap1.keys()).difference(set(pubmap2.keys())):
-            yield AssociationChange(
-                publications=[pub],
-                publication_is_deleted=True,
-            )
+            for assoc in pubmap1[pub]:
+                yield AssociationChange(
+                    publications=[pub],
+                    publication_is_deleted=True,
+                    subject=assoc.subject,
+                    old_object=assoc.object,
+                    old_object_obsolete=assoc.object in self.obsoletion_map,
+                )
         for pub in set(pubmap2.keys()).difference(set(pubmap1.keys())):
+            for assoc in pubmap1[pub]:
+                yield AssociationChange(
+                    publications=[pub],
+                    publication_is_added=True,
+                    subject=assoc.subject,
+                    new_object=assoc.object,
+                )
             yield AssociationChange(
                 publications=[pub],
                 publication_is_added=True,

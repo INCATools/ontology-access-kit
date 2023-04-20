@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-18T12:40:46
+# Generation date: 2023-04-19T10:17:57
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -325,6 +325,10 @@ class AssociationChange(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = ONTOASSOC.AssociationChange
 
     summary_group: Optional[str] = None
+    old_date: Optional[str] = None
+    new_date: Optional[str] = None
+    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
+    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
     publications: Optional[
         Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
     ] = empty_list()
@@ -348,6 +352,22 @@ class AssociationChange(YAMLRoot):
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.summary_group is not None and not isinstance(self.summary_group, str):
             self.summary_group = str(self.summary_group)
+
+        if self.old_date is not None and not isinstance(self.old_date, str):
+            self.old_date = str(self.old_date)
+
+        if self.new_date is not None and not isinstance(self.new_date, str):
+            self.new_date = str(self.new_date)
+
+        if self.primary_knowledge_source is not None and not isinstance(
+            self.primary_knowledge_source, URIorCURIE
+        ):
+            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
+
+        if self.aggregator_knowledge_source is not None and not isinstance(
+            self.aggregator_knowledge_source, URIorCURIE
+        ):
+            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
 
         if not isinstance(self.publications, list):
             self.publications = [self.publications] if self.publications is not None else []
@@ -566,6 +586,51 @@ slots.denormalized_slot = Slot(
     name="denormalized_slot",
     curie=ONTOASSOC.curie("denormalized_slot"),
     model_uri=ONTOASSOC.denormalized_slot,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.date = Slot(
+    uri=ONTOASSOC.date,
+    name="date",
+    curie=ONTOASSOC.curie("date"),
+    model_uri=ONTOASSOC.date,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.modification_date = Slot(
+    uri=ONTOASSOC.modification_date,
+    name="modification_date",
+    curie=ONTOASSOC.curie("modification_date"),
+    model_uri=ONTOASSOC.modification_date,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.creation_date = Slot(
+    uri=ONTOASSOC.creation_date,
+    name="creation_date",
+    curie=ONTOASSOC.curie("creation_date"),
+    model_uri=ONTOASSOC.creation_date,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.old_date = Slot(
+    uri=ONTOASSOC.old_date,
+    name="old_date",
+    curie=ONTOASSOC.curie("old_date"),
+    model_uri=ONTOASSOC.old_date,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.new_date = Slot(
+    uri=ONTOASSOC.new_date,
+    name="new_date",
+    curie=ONTOASSOC.curie("new_date"),
+    model_uri=ONTOASSOC.new_date,
     domain=None,
     range=Optional[str],
 )
