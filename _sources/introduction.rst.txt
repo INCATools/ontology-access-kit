@@ -42,6 +42,16 @@ basic information on terms matching a search
    ...         for filler in fillers:
    ...             print(f'     * {filler} ! {adapter.label(filler)}')
 
+   CL:0000084 ! T cell
+   Definition: A type of lymphocyte whose defining characteristic is the expression of a T cell receptor complex.
+      RELATION: RO:0002202 ! develops from
+         * CL:0000827 ! pro-T cell
+      RELATION: RO:0002215 ! capable of
+         * GO:0002456 ! T cell mediated immunity
+      RELATION: rdfs:subClassOf ! None
+         * CL:0000542 ! lymphocyte
+
+
 Basic Command Line Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
