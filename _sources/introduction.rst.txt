@@ -35,12 +35,12 @@ basic information on terms matching a search
    >>> from oaklib import get_adapter
    >>> adapter = get_adapter("sqlite:obo:cl")
    >>> for curie in adapter.basic_search("T cell"):
-   ...     print(f'{curie} ! {si.label(curie)}')
-   ...     print(f'Definition: {si.definition(curie)}')
-   ...     for rel, fillers in si.outgoing_relationship_map(curie).items():
-   ...         print(f'  RELATION: {rel} ! {si.label(rel)}')
+   ...     print(f'{curie} ! {adapter.label(curie)}')
+   ...     print(f'Definition: {adapter.definition(curie)}')
+   ...     for rel, fillers in adapter.outgoing_relationship_map(curie).items():
+   ...         print(f'  RELATION: {rel} ! {adapter.label(rel)}')
    ...         for filler in fillers:
-   ...             print(f'     * {filler} ! {si.label(filler)}')
+   ...             print(f'     * {filler} ! {adapter.label(filler)}')
 
 Basic Command Line Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -188,7 +188,7 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 <p>In python this can be done by accessing the prefixmap directly:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/soil-profile.skos.nt&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># trivial example: show all CURIEs and labels</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">soil_oi</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">soil_oi</span><span class="o">.</span><span class="n">entities</span><span class="p">()):</span>
 <span class="gp">... </span>       <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> ! </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

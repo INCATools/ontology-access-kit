@@ -244,9 +244,9 @@ whether results should be auto-committed after each operation</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">expansion</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">expansion</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">GO http://purl.obolibrary.org/obo/GO_</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>By default, this returns a combination of the  OBO Foundry prefix map with
@@ -440,11 +440,11 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">ont</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ontologies</span><span class="p">()):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">ont</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">GO</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">UBERON</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -480,7 +480,7 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">COB:0000014</span>
 </pre></div>
 </div>
@@ -511,7 +511,7 @@ instead show up as <code class="docutils literal notranslate"><span class="pre">
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">(</span><span class="n">include_merged</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">COB:0000014</span>
 </pre></div>
 </div>
@@ -606,9 +606,9 @@ instead show up as <code class="docutils literal notranslate"><span class="pre">
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">GO:0005634</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
@@ -617,9 +617,9 @@ instead show up as <code class="docutils literal notranslate"><span class="pre">
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_OBJECT_PROPERTY</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">BFO:0000051</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -752,11 +752,11 @@ may choose to use heuristic measures, including using the ontology prefix.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">roots</span><span class="p">()):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">BFO:0000003</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">OBI:0100026</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>Note that the concept of a “root” in an ontology can be ambiguous:</p>
@@ -852,11 +852,11 @@ predicate list</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">subsets</span><span class="p">()):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">goslim_drosophila</span>
 <span class="go">goslim_flybase_ribbon</span>
 <span class="go">goslim_generic</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>All subsets yielded are contracted to their short form.</p>
@@ -892,12 +892,12 @@ predicate list</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">subset_members</span><span class="p">(</span><span class="s1">&#39;goslim_generic&#39;</span><span class="p">)):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">GO:0005634 nucleus</span>
 <span class="go">GO:0005635 nuclear envelope</span>
 <span class="go">GO:0005737 cytoplasm</span>
 <span class="go">GO:0005773 vacuole</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -916,11 +916,11 @@ predicate list</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">subset</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">terms_subsets</span><span class="p">([</span><span class="s1">&#39;GO:0005634&#39;</span><span class="p">,</span> <span class="s1">&#39;GO:0005635&#39;</span><span class="p">])):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
-<span class="gp">...</span>
+<span class="go">...</span>
 <span class="go">goslim_yeast GO:0005634 nucleus</span>
 <span class="go">goslim_chembl GO:0005635 nuclear envelope</span>
 <span class="go">goslim_generic GO:0005635 nuclear envelope</span>
-<span class="gp">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
