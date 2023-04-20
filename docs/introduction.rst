@@ -41,6 +41,7 @@ basic information on terms matching a search
    ...         print(f'  RELATION: {rel} ! {adapter.label(rel)}')
    ...         for filler in fillers:
    ...             print(f'     * {filler} ! {adapter.label(filler)}')
+
    CL:0000084 ! T cell
    Definition: A type of lymphocyte whose defining characteristic is the expression of a T cell receptor complex.
       RELATION: RO:0002202 ! develops from
