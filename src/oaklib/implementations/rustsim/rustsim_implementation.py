@@ -55,7 +55,7 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
             mn = m if isinstance(m, str) else m.__name__
             setattr(RustSimImplementation, mn, methods[mn])
         # TODO: initialize rust object with closure table
-        closure_table = [(s, p, o) for s, p, o in self.relationships(include_entailed=True)]
+        self._rust_closure_table = [(s, p, o) for s, p, o in self.relationships(include_entailed=True)]
         # pass this to a stateful rust object
         # OR initialize a rust object that can be passed in to the methods like jaccard_similarity
 
