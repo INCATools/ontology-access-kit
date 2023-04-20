@@ -35,12 +35,21 @@ basic information on terms matching a search
    >>> from oaklib import get_adapter
    >>> adapter = get_adapter("sqlite:obo:cl")
    >>> for curie in adapter.basic_search("T cell"):
-   ...     print(f'{curie} ! {si.label(curie)}')
-   ...     print(f'Definition: {si.definition(curie)}')
-   ...     for rel, fillers in si.outgoing_relationship_map(curie).items():
-   ...         print(f'  RELATION: {rel} ! {si.label(rel)}')
+   ...     print(f'{curie} ! {adapter.label(curie)}')
+   ...     print(f'Definition: {adapter.definition(curie)}')
+   ...     for rel, fillers in adapter.outgoing_relationship_map(curie).items():
+   ...         print(f'  RELATION: {rel} ! {adapter.label(rel)}')
    ...         for filler in fillers:
-   ...             print(f'     * {filler} ! {si.label(filler)}')
+   ...             print(f'     * {filler} ! {adapter.label(filler)}')
+   CL:0000084 ! T cell
+   Definition: A type of lymphocyte whose defining characteristic is the expression of a T cell receptor complex.
+      RELATION: RO:0002202 ! develops from
+         * CL:0000827 ! pro-T cell
+      RELATION: RO:0002215 ! capable of
+         * GO:0002456 ! T cell mediated immunity
+      RELATION: rdfs:subClassOf ! None
+         * CL:0000542 ! lymphocyte
+
 
 Basic Command Line Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
