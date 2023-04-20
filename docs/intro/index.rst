@@ -5,7 +5,7 @@ Tutorial
 
 .. note::
 
-    The tutorial is still highly incomplete. Additions welcome!
+    The tutorial is currently being extended. Additions welcome!
 
 .. toctree::
    :maxdepth: 3
