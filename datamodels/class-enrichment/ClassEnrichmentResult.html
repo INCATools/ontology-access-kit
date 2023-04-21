@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: ClassEnrichmentResult &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: ClassEnrichmentResult</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/class-enrichment/ClassEnrichmentResult.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-classenrichmentresult">
+<h1>Class: ClassEnrichmentResult<a class="headerlink" href="#class-classenrichmentresult" title="Permalink to this heading"></a></h1>
+<p><em>A single enrichment result</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/class-enrichment/ClassEnrichmentResult">ontoenrich:ClassEnrichmentResult</a></p>
+<div class="mermaid">
+             classDiagram
+    class ClassEnrichmentResult
+      ClassEnrichmentResult : ancestor_of_more_informative_result
+        
+      ClassEnrichmentResult : background_count
+        
+      ClassEnrichmentResult : background_total
+        
+      ClassEnrichmentResult : class_id
+        
+      ClassEnrichmentResult : class_label
+        
+      ClassEnrichmentResult : descendant_of_more_informative_result
+        
+      ClassEnrichmentResult : false_discovery_rate
+        
+      ClassEnrichmentResult : fold_enrichment
+        
+      ClassEnrichmentResult : p_value
+        
+      ClassEnrichmentResult : p_value_adjusted
+        
+      ClassEnrichmentResult : probability
+        
+      ClassEnrichmentResult : rank
+        
+      ClassEnrichmentResult : sample_count
+        
+      ClassEnrichmentResult : sample_total
+        
+      
+        </div><!-- no inheritance hierarchy -->
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="class_id.html"><span class="std std-doc">class_id</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The class id</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="class_label.html"><span class="std std-doc">class_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The class label</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rank.html"><span class="std std-doc">rank</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>The rank of this result</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="p_value.html"><span class="std std-doc">p_value</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>The p-value</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="p_value_adjusted.html"><span class="std std-doc">p_value_adjusted</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>The adjusted p-value</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="false_discovery_rate.html"><span class="std std-doc">false_discovery_rate</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>The false discovery rate</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="fold_enrichment.html"><span class="std std-doc">fold_enrichment</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>The fold enrichment</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="probability.html"><span class="std std-doc">probability</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>The probability, as estimated by model-based approaches</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sample_count.html"><span class="std std-doc">sample_count</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>The number of entities in the sample with this class</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sample_total.html"><span class="std std-doc">sample_total</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>The total number of entities in the sample</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="background_count.html"><span class="std std-doc">background_count</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>The background count</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="background_total.html"><span class="std std-doc">background_total</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>The background total</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ancestor_of_more_informative_result.html"><span class="std std-doc">ancestor_of_more_informative_result</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>This term is more general than a previously reported result</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="descendant_of_more_informative_result.html"><span class="std std-doc">descendant_of_more_informative_result</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>This term is more specific than a previously reported result</p></td>
+<td><p>direct</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usages">
+<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>used by</p></th>
+<th class="head"><p>used in</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="ClassEnrichmentResultSet.html"><span class="std std-doc">ClassEnrichmentResultSet</span></a></p></td>
+<td><p><a class="reference internal" href="results.html"><span class="std std-doc">results</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="std std-doc">ClassEnrichmentResult</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>from schema: https://w3id.org/oak/class-enrichment</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>ontoenrich:ClassEnrichmentResult</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>ontoenrich:ClassEnrichmentResult</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this heading"></a></h3>
+<details>
+```yaml
+name: ClassEnrichmentResult
+description: A single enrichment result
+from_schema: https://w3id.org/oak/class-enrichment
+rank: 1000
+attributes:
+  class_id:
+    name: class_id
+    description: The class id
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: uriorcurie
+    required: true
+  class_label:
+    name: class_label
+    description: The class label
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: string
+  rank:
+    name: rank
+    description: The rank of this result
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: integer
+  p_value:
+    name: p_value
+    description: The p-value
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    slot_uri: OBI:0000175
+    range: float
+    required: true
+  p_value_adjusted:
+    name: p_value_adjusted
+    description: The adjusted p-value
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: float
+  false_discovery_rate:
+    name: false_discovery_rate
+    description: The false discovery rate
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: float
+  fold_enrichment:
+    name: fold_enrichment
+    description: The fold enrichment
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: float
+  probability:
+    name: probability
+    description: The probability, as estimated by model-based approaches
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: float
+    minimum_value: 0
+    maximum_value: 1
+  sample_count:
+    name: sample_count
+    description: The number of entities in the sample with this class
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: integer
+  sample_total:
+    name: sample_total
+    description: The total number of entities in the sample
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: integer
+  background_count:
+    name: background_count
+    description: The background count
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: integer
+  background_total:
+    name: background_total
+    description: The background total
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: integer
+  ancestor_of_more_informative_result:
+    name: ancestor_of_more_informative_result
+    description: This term is more general than a previously reported result
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: boolean
+  descendant_of_more_informative_result:
+    name: descendant_of_more_informative_result
+    description: This term is more specific than a previously reported result
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    range: boolean
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: ClassEnrichmentResult
+description: A single enrichment result
+from_schema: https://w3id.org/oak/class-enrichment
+rank: 1000
+attributes:
+  class_id:
+    name: class_id
+    description: The class id
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: class_id
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: uriorcurie
+    required: true
+  class_label:
+    name: class_label
+    description: The class label
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: class_label
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: string
+  rank:
+    name: rank
+    description: The rank of this result
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: rank
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
+  p_value:
+    name: p_value
+    description: The p-value
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    slot_uri: OBI:0000175
+    alias: p_value
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: float
+    required: true
+  p_value_adjusted:
+    name: p_value_adjusted
+    description: The adjusted p-value
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: p_value_adjusted
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: float
+  false_discovery_rate:
+    name: false_discovery_rate
+    description: The false discovery rate
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: false_discovery_rate
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: float
+  fold_enrichment:
+    name: fold_enrichment
+    description: The fold enrichment
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: fold_enrichment
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: float
+  probability:
+    name: probability
+    description: The probability, as estimated by model-based approaches
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: probability
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: float
+    minimum_value: 0
+    maximum_value: 1
+  sample_count:
+    name: sample_count
+    description: The number of entities in the sample with this class
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: sample_count
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
+  sample_total:
+    name: sample_total
+    description: The total number of entities in the sample
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: sample_total
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
+  background_count:
+    name: background_count
+    description: The background count
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: background_count
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
+  background_total:
+    name: background_total
+    description: The background total
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: background_total
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
+  ancestor_of_more_informative_result:
+    name: ancestor_of_more_informative_result
+    description: This term is more general than a previously reported result
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: ancestor_of_more_informative_result
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: boolean
+  descendant_of_more_informative_result:
+    name: descendant_of_more_informative_result
+    description: This term is more specific than a previously reported result
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: descendant_of_more_informative_result
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: boolean
+
+</pre></div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
