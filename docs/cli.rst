@@ -37,6 +37,8 @@ It can be useful to create aliases for individual ontologies. For example, to cr
 .. code:: bash
 
     alias uberon='runoak -i obo:sqlite:uberon'
+    alias cl='runoak -i obo:sqlite:cl'
+    alias obi='runoak -i obo:sqlite:obi'
 
 You can specify further implementations with :code:`-a` which will create an :ref:`aggregator` implementation that wraps
 multiple implementations. For example, you can multiplex queries over different endpoints.
@@ -89,7 +91,6 @@ and tracing upwards through is_a and part_of relationships:
 
     uberon viz -p i,p hand foot
 
-
 Commands
 -----------
 
@@ -99,6 +100,12 @@ You should get the same results by running:
 .. code-block:: bash
 
     runoak COMMAND --help
+
+For example, to get help on the ``viz`` command:
+
+.. code-block:: bash
+
+    runoak viz --help
 
 .. currentmodule:: oaklib.cli
 

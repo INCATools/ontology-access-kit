@@ -1554,29 +1554,52 @@ class ComplianceTester:
         assocs = list(oi.associations())
         test.assertCountEqual(assoc_cases, assocs)
         cases = [
-            ([GENE1, GENE6, GENE7], None, None),
+            ([GENE1, GENE6, GENE7], 0.5, None, None, None, [NUCLEUS]),
+            ([GENE1, GENE6, GENE7], 0.5, [], None, None, [NUCLEAR_ENVELOPE]),
             # exact overlap
-            ([GENE3, GENE6, GENE7], None, [NUCLEAR_ENVELOPE]),
+            ([GENE3, GENE6, GENE7], 0.5, None, None, [NUCLEAR_ENVELOPE], [NUCLEAR_ENVELOPE]),
             # nuclear membrane is before nucleus as less common overall
-            ([GENE1, GENE2, GENE3], None, [NUCLEAR_MEMBRANE]),
-            ([GENE1, GENE2, GENE4, GENE5, GENE6], None, None),
-            ([GENE8, GENE9], None, [IMBO]),
+            ([GENE1, GENE2, GENE3], 1.0, None, None, [NUCLEAR_MEMBRANE], [NUCLEAR_MEMBRANE]),
+            ([GENE1, GENE2, GENE3], 0.05, None, None, [], []),
+            ([GENE1, GENE2, GENE4, GENE5, GENE6], 0.5, None, None, [VACUOLE, CYTOPLASM], [VACUOLE]),
+            ([GENE8, GENE9], 1.0, None, None, [IMBO], None),
         ]
         for case in cases:
-            genes, background, expected = case
+            genes, cutoff, preds, background, expected, expected_nr = case
+            if preds is None:
+                preds = [IS_A, PART_OF]
             results = list(
                 oi.enriched_classes(
                     genes,
                     background=background,
                     cutoff=1.0,
-                    object_closure_predicates=[IS_A, PART_OF],
+                    autolabel=True,
+                    object_closure_predicates=preds,
                 )
             )
+            logging.info(f"\nGene set: {genes} preds: {preds}")
+            for r in results:
+                redundant = (
+                    r.ancestor_of_more_informative_result,
+                    r.descendant_of_more_informative_result,
+                )
+                logging.info(f"  C: {r.class_id} ({r.class_label}) p: {r.p_value} {redundant}")
             if expected is not None:
                 test.assertCountEqual(
                     expected,
                     [r.class_id for r in results[0 : len(expected)]],
                     msg=f"Failed for {case}",
+                )
+            if expected_nr is not None:
+                test.assertCountEqual(
+                    expected_nr,
+                    [
+                        r.class_id
+                        for r in results[0 : len(expected_nr)]
+                        if not r.ancestor_of_more_informative_result
+                        or r.descendant_of_more_informative_result
+                    ],
+                    msg=f"Failed NR for {case}",
                 )
 
     def test_common_ancestors(self, oi: SemanticSimilarityInterface):
