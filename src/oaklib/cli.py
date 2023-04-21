@@ -440,7 +440,7 @@ def _process_predicates_arg(
     exclude_predicates_str: Optional[str] = None,
     impl: Optional[OntologyInterface] = None,
 ) -> Optional[List[PRED_CURIE]]:
-    if predicates_str and exclude_predicates_str is None:
+    if predicates_str is None and exclude_predicates_str is None:
         return None
     if predicates_str is None:
         inputs = []
@@ -2228,7 +2228,7 @@ def paths(
             )
         writer.finish()
     if not node_ids:
-        raise ValueError("No paths found")
+        logging.warning("No paths found")
     if viz:
         for node_id in node_ids:
             [n] = [n for n in graph.nodes if n.id == node_id]

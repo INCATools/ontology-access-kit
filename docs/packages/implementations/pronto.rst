@@ -6,8 +6,6 @@ Pronto / OBO Files Adapter
 About
 -----
 
-We use the `Pronto <https://github.com/althonos/pronto/>`_ library which implements an API conforming
-to the OBO Format 1.4 specification.
 
 Initialization
 --------------

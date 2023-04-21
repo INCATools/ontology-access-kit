@@ -179,6 +179,11 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     OBO Graphs are designed to be an abstraction that is more suited to data science tasks than
     :term:`OWL` or :term:`RDF`, and utilizes a different :term:`Ontology Graph Projection` than RDF.
 
+   Input Selector
+    A syntax that provides a shorthand for selecting an :term:`Adapter` to communicate with an ontology. These may
+    be command line based or for a remote endpoint. The syntax is typically ``<selector>:<path>``
+    but if a path is specified, a default adapter will be used. See :ref:`selectors`.
+
    OWL Annotation
     In the context of :term:`OWL`, the term :term:`Annotation` means a piece of metadata that does not have a strict logical
     interpretation. Annotations can be on entities, for example, :term:`Label` annotations, or annotations can be on :term:`Axioms<Axiom>`.
