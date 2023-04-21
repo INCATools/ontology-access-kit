@@ -372,7 +372,14 @@ ontological_output_type_option = click.option(
     type=click.Choice(ONT_FORMATS),
     help="Desired output type",
 )
-predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
+predicates_option = click.option(
+    "-p",
+    "--predicates",
+    help="A comma-separated list of predicates. This may be a shorthand (i, p) or CURIE",
+)
+exclude_predicates_option = click.option(
+    "--exclude-predicates", help="A comma-separated list of predicates to exclude"
+)
 graph_traversal_method_option = click.option(
     "-M",
     "--graph-traversal-method",
@@ -428,17 +435,34 @@ group_by_prefix_option = click.option(
 
 
 def _process_predicates_arg(
-    preds_str: str, expected_number: Optional[int] = None
+    predicates_str: str,
+    expected_number: Optional[int] = None,
+    exclude_predicates_str: Optional[str] = None,
+    impl: Optional[OntologyInterface] = None,
 ) -> Optional[List[PRED_CURIE]]:
-    if preds_str is None:
+    if predicates_str and exclude_predicates_str is None:
         return None
-    if "," in preds_str:
-        inputs = preds_str.split(",")
+    if predicates_str is None:
+        inputs = []
+    elif "," in predicates_str:
+        inputs = predicates_str.split(",")
     else:
-        inputs = preds_str.split("+")
+        inputs = predicates_str.split("+")
     preds = [_shorthand_to_pred_curie(p) for p in inputs]
+    if exclude_predicates_str:
+        if "," in exclude_predicates_str:
+            exclude_inputs = exclude_predicates_str.split(",")
+        else:
+            exclude_inputs = exclude_predicates_str.split("+")
+        exclude_preds = [_shorthand_to_pred_curie(p) for p in exclude_inputs]
+        if not preds:
+            if not impl or not isinstance(impl, BasicOntologyInterface):
+                raise ValueError("Must provide an BasicOntologyInterface to exclude predicates")
+            preds = list(impl.entities(owl_type=OWL_OBJECT_PROPERTY))
+        preds = [p for p in preds if p not in exclude_preds]
+        logging.info(f"Excluding predicates: {exclude_preds} yields: {preds}")
     if expected_number and len(preds) != expected_number:
-        raise ValueError(f"Expected {expected_number} parses of {preds_str}, got: {preds}")
+        raise ValueError(f"Expected {expected_number} parses of {predicates_str}, got: {preds}")
     return preds
 
 
@@ -2016,6 +2040,7 @@ def ancestors(
 )
 @autolabel_option
 @predicates_option
+@exclude_predicates_option
 @output_type_option
 @click.option(
     "--directed/--no-directed", default=False, show_default=True, help="only show directed paths"
@@ -2042,6 +2067,7 @@ def paths(
     viz: bool,
     directed: bool,
     include_predicates: bool,
+    exclude_predicates: str,
     target,
     stylemap,
     configure,
@@ -2105,7 +2131,10 @@ def paths(
         writer.file = sys.stdout
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    actual_predicates = _process_predicates_arg(predicates)
+    actual_predicates = _process_predicates_arg(
+        predicates, exclude_predicates_str=exclude_predicates, impl=impl
+    )
+    logging.info(f"Using predicates {actual_predicates}")
     if predicate_weights:
         pw = {}
         for k, v in yaml.safe_load(predicate_weights).items():
@@ -2198,6 +2227,8 @@ def paths(
                 label_fields=["subject", "object", "path"],
             )
         writer.finish()
+    if not node_ids:
+        raise ValueError("No paths found")
     if viz:
         for node_id in node_ids:
             [n] = [n for n in graph.nodes if n.id == node_id]

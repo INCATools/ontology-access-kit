@@ -131,7 +131,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         ...
          "concept": [
             {
-            "packages": "HP:0012639",
+            "code": "HP:0012639",
             "display": "Abnormal nervous system morphology",
             "definition": "A structural anomaly of the nervous system.",
             "designation": [

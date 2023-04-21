@@ -9,7 +9,7 @@ def powerset(iterable):
     """
     Calculate the powerset of an iterable.
 
-    >>> list(_powerset([1,2,3]))
+    >>> list(powerset([1,2,3]))
     [(), (1,), (2,), (3,), (1, 2), (1, 3), (2, 3), (1, 2, 3)]
 
     :param iterable:

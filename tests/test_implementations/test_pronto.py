@@ -319,6 +319,10 @@ class TestProntoImplementation(unittest.TestCase):
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)  # TODO
 
+    @unittest.skip("TODO: ensure that all test files used by compliance tests are the same")
+    def test_subgraph_from_traversal(self):
+        self.compliance_tester.test_subgraph_from_traversal(self.oi)
+
     def test_save_extract(self):
         g = self.oi.ancestor_graph(VACUOLE)
         oi = ProntoImplementation()

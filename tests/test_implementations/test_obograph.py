@@ -261,6 +261,10 @@ class TestOboGraphImplementation(unittest.TestCase):
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi)
 
+    @unittest.skip("TODO: Ensure all test files in different formats have the same contents")
+    def test_subgraph_from_traversal(self):
+        self.compliance_tester.test_subgraph_from_traversal(self.oi)
+
     @unittest.skip("TODO")
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
