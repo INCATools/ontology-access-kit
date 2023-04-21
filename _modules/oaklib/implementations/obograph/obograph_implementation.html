@@ -163,9 +163,14 @@
 
 <span class="sd">    .. packages :: python</span>
 
-<span class="sd">        &gt;&gt;&gt; oi = get_implementation_from_shorthand(&#39;obojson:path/to/my/ontology.json&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; for term in oi.entities():</span>
-<span class="sd">        &gt;&gt;&gt;     ...</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">    &gt;&gt;&gt; oi = get_adapter(&#39;obograph:tests/input/go-nucleus.json&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; for node_id in oi.entities():</span>
+<span class="sd">    ...     print(node_id, oi.label(node_id))</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+<span class="sd">    ...</span>
+<span class="sd">    GO:0043226 organelle</span>
+<span class="sd">    ...</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">obograph_document</span><span class="p">:</span> <span class="n">GraphDocument</span> <span class="o">=</span> <span class="kc">None</span>

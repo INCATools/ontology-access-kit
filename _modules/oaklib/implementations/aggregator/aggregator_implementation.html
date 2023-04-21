@@ -125,15 +125,38 @@
     <span class="n">TextAnnotatorInterface</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wraps multiple implementations and integrates results together.</span>
+<span class="sd">    An OAK adapter that wraps multiple implementations and integrates results together.</span>
 
 <span class="sd">    This allows for multiple implementations to be wrapped, with calls to</span>
 <span class="sd">    the aggregator farming out queries to multiple implementations, and weaving</span>
 <span class="sd">    the results together.</span>
 
-<span class="sd">    Documentation:</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib.implementations import AggregatorImplementation</span>
+<span class="sd">    &gt;&gt;&gt; hp = get_adapter(&quot;sqlite:obo:hp&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; mp = get_adapter(&quot;sqlite:obo:mp&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; agg = AggregatorImplementation(implementations=[hp, mp])</span>
+<span class="sd">    &gt;&gt;&gt; for entity in sorted(agg.basic_search(&quot;morphology&quot;)):</span>
+<span class="sd">    ...     print(entity)</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+<span class="sd">    ...</span>
+<span class="sd">    HP:3000036</span>
+<span class="sd">    ...</span>
+<span class="sd">    MP:0031139</span>
+<span class="sd">    ...</span>
 
-<span class="sd">    - `Aggregator Implementation &lt;https://incatools.github.io/ontology-access-kit/implementations/aggregator.html&gt;`_</span>
+<span class="sd">    Command Line Usage</span>
+<span class="sd">    ------------------</span>
+
+<span class="sd">    Use the :code:`--add` (:code:`-a`) option before the main command to add additional implementations.</span>
+
+<span class="sd">    E.g</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        runoak -i db/mp.db -a db/hp.db COMMAND [COMMAND OPTIONS]</span>
+
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">implementations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BasicOntologyInterface</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>

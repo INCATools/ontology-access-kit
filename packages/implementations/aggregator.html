@@ -68,8 +68,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gilda.html">Gilda Adapter</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Aggregator Adapter</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#command-line-usage">Command Line Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
 </ul>
 </li>
 </ul>
@@ -115,33 +114,38 @@
              
   <section id="aggregator-adapter">
 <span id="aggregator-implementation"></span><h1>Aggregator Adapter<a class="headerlink" href="#aggregator-adapter" title="Permalink to this heading"></a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Highly incomplete!</p>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.aggregator.aggregator_implementation.</span></span><span class="sig-name descname"><span class="pre">AggregatorImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementations:</span> <span class="pre">~typing.List[~oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/implementations/aggregator/aggregator_implementation.html#AggregatorImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation" title="Permalink to this definition"></a></dt>
+<dd><p>An OAK adapter that wraps multiple implementations and integrates results together.</p>
+<p>This allows for multiple implementations to be wrapped, with calls to
+the aggregator farming out queries to multiple implementations, and weaving
+the results together.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">AggregatorImplementation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mp</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:mp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agg</span> <span class="o">=</span> <span class="n">AggregatorImplementation</span><span class="p">(</span><span class="n">implementations</span><span class="o">=</span><span class="p">[</span><span class="n">hp</span><span class="p">,</span> <span class="n">mp</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;morphology&quot;</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+<span class="go">...</span>
+<span class="go">HP:3000036</span>
+<span class="go">...</span>
+<span class="go">MP:0031139</span>
+<span class="go">...</span>
+</pre></div>
 </div>
-<p>This wraps any number of other implementations, multiplexing queries and aggregating results, treating
-as if it were a single unified endpoints</p>
 <section id="command-line-usage">
-<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this heading"></a></h2>
+<h3>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this heading"></a></h3>
 <p>Use the <code class="code docutils literal notranslate"><span class="pre">--add</span></code> (<code class="code docutils literal notranslate"><span class="pre">-a</span></code>) option before the main command to add additional implementations.</p>
 <p>E.g</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">db</span><span class="o">/</span><span class="n">mp</span><span class="o">.</span><span class="n">db</span> <span class="o">-</span><span class="n">a</span> <span class="n">db</span><span class="o">/</span><span class="n">hp</span><span class="o">.</span><span class="n">db</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">COMMAND</span> <span class="n">OPTIONS</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
-<section id="code">
-<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.aggregator.aggregator_implementation.</span></span><span class="sig-name descname"><span class="pre">AggregatorImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementations:</span> <span class="pre">~typing.List[~oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/implementations/aggregator/aggregator_implementation.html#AggregatorImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation" title="Permalink to this definition"></a></dt>
-<dd><p>Wraps multiple implementations and integrates results together.</p>
-<p>This allows for multiple implementations to be wrapped, with calls to
-the aggregator farming out queries to multiple implementations, and weaving
-the results together.</p>
-<p>Documentation:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/aggregator.html">Aggregator Implementation</a></p></li>
-</ul>
 </dd></dl>
 
 </section>

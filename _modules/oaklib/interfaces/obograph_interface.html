@@ -395,22 +395,45 @@
         <span class="n">traversal</span><span class="p">:</span> <span class="n">TraversalConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Combines ancestors and descendants according to a traversal configuration</span>
+<span class="sd">        Combines ancestors and descendants according to a traversal configuration.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.interfaces.obograph_interface import TraversalConfiguration, Distance</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.vocabulary import IS_A, PART_OF</span>
+<span class="sd">        &gt;&gt;&gt; # use an adapter to talk to an endpoint (here, sqlite)</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.db&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; # get a subgraph centered around these nodes</span>
+<span class="sd">        &gt;&gt;&gt; seeds = [&quot;GO:0005634&quot;, &quot;GO:0005773&quot;] # nucleus, vacuole</span>
+<span class="sd">        &gt;&gt;&gt; # walk up the graph to get ancestors, and also get direct children</span>
+<span class="sd">        &gt;&gt;&gt; traversal = TraversalConfiguration(up_distance=Distance.TRANSITIVE, down_distance=Distance.DIRECT)</span>
+<span class="sd">        &gt;&gt;&gt; graph = adapter.subgraph_from_traversal(seeds, predicates=[IS_A, PART_OF], traversal=traversal)</span>
+<span class="sd">        &gt;&gt;&gt; len(graph.nodes)</span>
+<span class="sd">        22</span>
+<span class="sd">        &gt;&gt;&gt; len(graph.edges)</span>
+<span class="sd">        27</span>
 
 <span class="sd">        :param start_curies:</span>
 <span class="sd">        :param predicates:</span>
 <span class="sd">        :param traversal:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">start_curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_curies</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">traversal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">traversal</span> <span class="o">=</span> <span class="n">TraversalConfiguration</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">traversal</span><span class="o">.</span><span class="n">up_distance</span> <span class="o">==</span> <span class="n">Distance</span><span class="o">.</span><span class="n">TRANSITIVE</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting ancestor graph from </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">, start=</span><span class="si">{</span><span class="n">start_curies</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">up_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">traversal</span><span class="o">.</span><span class="n">up_distance</span> <span class="o">==</span> <span class="n">Distance</span><span class="o">.</span><span class="n">DIRECT</span><span class="p">:</span>
+            <span class="n">up_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">up_graph</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">traversal</span><span class="o">.</span><span class="n">down_distance</span> <span class="o">==</span> <span class="n">Distance</span><span class="o">.</span><span class="n">TRANSITIVE</span><span class="p">:</span>
             <span class="n">down_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">descendant_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">traversal</span><span class="o">.</span><span class="n">down_distance</span> <span class="o">==</span> <span class="n">Distance</span><span class="o">.</span><span class="n">DIRECT</span><span class="p">:</span>
+            <span class="n">down_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">down_graph</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_graphs</span><span class="p">([</span><span class="n">up_graph</span><span class="p">,</span> <span class="n">down_graph</span><span class="p">])</span>
