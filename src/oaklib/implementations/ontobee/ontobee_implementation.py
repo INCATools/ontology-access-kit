@@ -18,7 +18,8 @@ class OntobeeImplementation(
     """
     An OAK adapter that standardizes access to the Ontobee sparql endpoint.
 
-    Ontobee is the default linked data server for most OBO Foundry library ontologies. Ontobee has also been used for many non-OBO ontologies.
+    Ontobee is the default linked data server for most OBO Foundry library ontologies.
+    Ontobee has also been used for many non-OBO ontologies.
 
     To access this use the ``ontobee:`` :term:`Input Selector`:
 
@@ -65,7 +66,8 @@ class OntobeeImplementation(
     Notes
     -----
 
-    This is a specialization the :ref:`sparql` implementation to allow access for ontologies on the `Ontobee <https://www.ontobee.org/>`_ linked data server.
+    This is a specialization the :ref:`sparql` implementation to
+    allow access for ontologies on the `Ontobee <https://www.ontobee.org/>`_ linked data server.
 
     See: `<https://www.ontobee.org/>`_
     """
