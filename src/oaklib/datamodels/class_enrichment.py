@@ -1,5 +1,5 @@
 # Auto generated from class_enrichment.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-02-27T09:56:45
+# Generation date: 2023-04-21T10:35:22
 # Schema: class-enrichment
 #
 # id: https://w3id.org/oak/class-enrichment
@@ -18,14 +18,26 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Float, Integer, String, Uriorcurie
+from linkml_runtime.linkml_model.types import (
+    Boolean,
+    Float,
+    Integer,
+    String,
+    Uriorcurie,
+)
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
-from linkml_runtime.utils.metamodelcore import URIorCURIE, bnode, empty_dict, empty_list
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.yamlutils import (
     YAMLRoot,
@@ -137,13 +149,17 @@ class ClassEnrichmentResult(YAMLRoot):
     class_id: Union[str, URIorCURIE] = None
     p_value: float = None
     class_label: Optional[str] = None
+    rank: Optional[int] = None
     p_value_adjusted: Optional[float] = None
     false_discovery_rate: Optional[float] = None
     fold_enrichment: Optional[float] = None
+    probability: Optional[float] = None
     sample_count: Optional[int] = None
     sample_total: Optional[int] = None
     background_count: Optional[int] = None
     background_total: Optional[int] = None
+    ancestor_of_more_informative_result: Optional[Union[bool, Bool]] = None
+    descendant_of_more_informative_result: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.class_id):
@@ -159,6 +175,9 @@ class ClassEnrichmentResult(YAMLRoot):
         if self.class_label is not None and not isinstance(self.class_label, str):
             self.class_label = str(self.class_label)
 
+        if self.rank is not None and not isinstance(self.rank, int):
+            self.rank = int(self.rank)
+
         if self.p_value_adjusted is not None and not isinstance(self.p_value_adjusted, float):
             self.p_value_adjusted = float(self.p_value_adjusted)
 
@@ -169,6 +188,9 @@ class ClassEnrichmentResult(YAMLRoot):
 
         if self.fold_enrichment is not None and not isinstance(self.fold_enrichment, float):
             self.fold_enrichment = float(self.fold_enrichment)
+
+        if self.probability is not None and not isinstance(self.probability, float):
+            self.probability = float(self.probability)
 
         if self.sample_count is not None and not isinstance(self.sample_count, int):
             self.sample_count = int(self.sample_count)
@@ -181,6 +203,20 @@ class ClassEnrichmentResult(YAMLRoot):
 
         if self.background_total is not None and not isinstance(self.background_total, int):
             self.background_total = int(self.background_total)
+
+        if self.ancestor_of_more_informative_result is not None and not isinstance(
+            self.ancestor_of_more_informative_result, Bool
+        ):
+            self.ancestor_of_more_informative_result = Bool(
+                self.ancestor_of_more_informative_result
+            )
+
+        if self.descendant_of_more_informative_result is not None and not isinstance(
+            self.descendant_of_more_informative_result, Bool
+        ):
+            self.descendant_of_more_informative_result = Bool(
+                self.descendant_of_more_informative_result
+            )
 
         super().__post_init__(**kwargs)
 
@@ -243,6 +279,15 @@ slots.classEnrichmentResult__class_label = Slot(
     range=Optional[str],
 )
 
+slots.classEnrichmentResult__rank = Slot(
+    uri=ONTOENRICH.rank,
+    name="classEnrichmentResult__rank",
+    curie=ONTOENRICH.curie("rank"),
+    model_uri=ONTOENRICH.classEnrichmentResult__rank,
+    domain=None,
+    range=Optional[int],
+)
+
 slots.classEnrichmentResult__p_value = Slot(
     uri=OBI["0000175"],
     name="classEnrichmentResult__p_value",
@@ -275,6 +320,15 @@ slots.classEnrichmentResult__fold_enrichment = Slot(
     name="classEnrichmentResult__fold_enrichment",
     curie=ONTOENRICH.curie("fold_enrichment"),
     model_uri=ONTOENRICH.classEnrichmentResult__fold_enrichment,
+    domain=None,
+    range=Optional[float],
+)
+
+slots.classEnrichmentResult__probability = Slot(
+    uri=ONTOENRICH.probability,
+    name="classEnrichmentResult__probability",
+    curie=ONTOENRICH.curie("probability"),
+    model_uri=ONTOENRICH.classEnrichmentResult__probability,
     domain=None,
     range=Optional[float],
 )
@@ -313,4 +367,22 @@ slots.classEnrichmentResult__background_total = Slot(
     model_uri=ONTOENRICH.classEnrichmentResult__background_total,
     domain=None,
     range=Optional[int],
+)
+
+slots.classEnrichmentResult__ancestor_of_more_informative_result = Slot(
+    uri=ONTOENRICH.ancestor_of_more_informative_result,
+    name="classEnrichmentResult__ancestor_of_more_informative_result",
+    curie=ONTOENRICH.curie("ancestor_of_more_informative_result"),
+    model_uri=ONTOENRICH.classEnrichmentResult__ancestor_of_more_informative_result,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.classEnrichmentResult__descendant_of_more_informative_result = Slot(
+    uri=ONTOENRICH.descendant_of_more_informative_result,
+    name="classEnrichmentResult__descendant_of_more_informative_result",
+    curie=ONTOENRICH.curie("descendant_of_more_informative_result"),
+    model_uri=ONTOENRICH.classEnrichmentResult__descendant_of_more_informative_result,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )

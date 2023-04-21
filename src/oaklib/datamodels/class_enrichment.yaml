@@ -69,6 +69,9 @@ classes:
       class_label:
         description: The class label
         range: string
+      rank:
+        description: The rank of this result
+        range: integer
       p_value:
         slot_uri: OBI:0000175
         description: The p-value
@@ -83,6 +86,11 @@ classes:
       fold_enrichment:
         description: The fold enrichment
         range: float
+      probability:
+        description: The probability, as estimated by model-based approaches
+        range: float
+        minimum_value: 0
+        maximum_value: 1
       sample_count:
         description: The number of entities in the sample with this class
         range: integer
@@ -95,6 +103,12 @@ classes:
       background_total:
         description: The background total
         range: integer
+      ancestor_of_more_informative_result:
+        description: This term is more general than a previously reported result
+        range: boolean
+      descendant_of_more_informative_result:
+        description: This term is more specific than a previously reported result
+        range: boolean
 
 enums:
   SortFieldEnum:
