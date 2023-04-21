@@ -105,35 +105,39 @@ class ProntoImplementation(
     MergeInterface,
 ):
     """
-    Pronto wraps local-file based ontologies in the following formats:
+    An adapter that standardizes access to OBO Format files by wrapping the Pronto library.
 
-    - obo
-    - obojson
-    - owl rdf/xml
+    `Pronto <https://github.com/althonos/pronto/>`_ is a high-performance parsing library
+    for parsing obo format 1.4 and other formats.
 
-    To load a local file:
+    Input Selector
+    --------------
 
-    .. packages:: python
+    This adapter uses the ``pronto:`` :term:`Input Selector`; e.g.
 
-        >>> resource = OntologyResource(slug='go.obo', directory='input', local=True)
-        >>> oi = ProntoImplementation(resource)
+    - ``pronto:path/to/my/file``
+    - ``pronto:https://example.com/my/file``
+    - ``prontolib:go`
 
-    To load from the OBO library:
+    Examples
+    --------
 
-    .. packages:: python
+    >>> from oaklib.implementations import ProntoImplementation
+    >>> resource = OntologyResource(slug='go-nucleus.obo', directory='test/inputinput', local=True)
+    >>> oi = ProntoImplementation(resource)
 
-        >>> resource = OntologyResource(local=False, slug='go.obo'))
-        >>> oi = ProntoImplementation(resource)
+    Or use a selector:
 
-    Currently this implementation implements most of the BaseOntologyInterface
+    >>> from oaklib import get_adapter
+    >>> oi = get_adapter("pronto:tests/input/go-nucleus.obo")
 
-    .. packages:: python
+    Then you can use any of the methods implemented by pronto
 
-        >>> rels = oi.outgoing_relationships('GO:0005773')
-        >>> for rel, parents in rels.items():
-        >>>    print(f'  {rel} ! {oi.label(rel)}')
-        >>>        for parent in parents:
-        >>>            print(f'    {parent} ! {oi.label(parent)}')
+    >>> rels = oi.outgoing_relationships('GO:0005773')
+    >>> for rel, parents in rels.items():
+    >>>    print(f'  {rel} ! {oi.label(rel)}')
+    >>>        for parent in parents:
+    >>>            print(f'    {parent} ! {oi.label(parent)}')
 
     .. warning::
 

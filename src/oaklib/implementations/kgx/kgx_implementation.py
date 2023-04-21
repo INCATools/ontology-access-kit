@@ -208,17 +208,8 @@ class KGXImplementation(
 
     This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).
 
-    To connect, either use KGXImplementation directly:
-
-    .. packages:: python
-
-        >>> oi = KGXImplementation(OntologyResource(slug=f"sqlite:///{path}"))
-
-    Or use a selector:
-
-    .. packages:: python
-
-        >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.db')
+    >>> from oaklib import get_adapter
+    >>> oi = get_adapter('../semantic-sql/db/monarch-kg.db')
 
     The schema is assumed to follow the `semantic-sql <https://github.com/incatools/semantic-sql>`_ schema.
 

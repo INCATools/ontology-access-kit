@@ -258,6 +258,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             list(oi.entailed_relationships_between(NUCLEAR_ENVELOPE, NUCLEUS)),
         )
 
+    def test_subgraph_from_traversal(self):
+        self.compliance_tester.test_subgraph_from_traversal(self.oi)
+
     # OboGraphs tests
     def test_obograph_node_extra(self):
         n = self.oi.node(CELLULAR_COMPONENT)
