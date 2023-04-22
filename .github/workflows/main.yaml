@@ -84,7 +84,7 @@ jobs:
       #    install your root project, if required
       #----------------------------------------------
       - name: Install library
-        run: poetry install --no-interaction --extras "gilda rustsim"
+        run: poetry install --no-interaction --extras "gilda"
 
       #----------------------------------------------
       #        run test suite + coverage report

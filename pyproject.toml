@@ -35,7 +35,7 @@ pandas = "^1.5.1"
 linkml-renderer = "^0.1.2"
 airium = "^0.2.5"
 ndex2 = "^3.5.0"
-rustsim = {version = "^0.1.6", optional = true}
+rustsim = ">=0.1.6"
 upsetplot = "^0.8.0"
 pysolr = "^3.9.0"
 eutils = "^0.6.0"
@@ -69,7 +69,6 @@ boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid", "sphinx-copybutton"]
 gilda = ["scipy", "gilda"]
 seaborn = ["seaborn"]
-rustsim = ["rustsim"]
 
 [tool.black]
 line-length = 100
