@@ -10,6 +10,7 @@ from oaklib.implementations.aggregator.aggregator_implementation import (
 )
 from oaklib.implementations.amigo.amigo_implementation import AmiGOImplementation
 from oaklib.implementations.cx.cx_implementation import CXImplementation
+from oaklib.implementations.eutils.pubmed_implementation import PubMedImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
@@ -76,6 +77,7 @@ __all__ = [
     "LovImplementation",
     "SparqlImplementation",
     "WikidataImplementation",
+    "PubMedImplementation",
     "FunOwlImplementation",
     "GildaImplementation",
     "KGXImplementation",

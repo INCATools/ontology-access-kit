@@ -104,6 +104,16 @@ class XafAssociationParser(AssociationParser):
     If specified, then this value is used as the predicate if the predicate_column is not specified
     """
 
+    publications_column: Optional[ColumnReference] = None
+    """
+    Column that contains the publications (e.g. PMID, DOI).
+    """
+
+    primary_knowledge_source_column: Optional[ColumnReference] = None
+    """
+    Column that contains the primary association provider
+    """
+
     other_column_mappings: Optional[Dict[int, str]] = None
     """
     Mapping of column indices to attribute names.
@@ -132,6 +142,16 @@ class XafAssociationParser(AssociationParser):
         lookup_subject = self.index_lookup_function(self.subject_column)
         lookup_predicate = self.index_lookup_function(self.predicate_column)
         lookup_object = self.index_lookup_function(self.object_column)
+        if self.publications_column:
+            lookup_publications = self.index_lookup_function(self.publications_column)
+        else:
+            lookup_publications = None
+        if self.primary_knowledge_source_column:
+            lookup_primary_knowledge_source = self.index_lookup_function(
+                self.primary_knowledge_source_column
+            )
+        else:
+            lookup_primary_knowledge_source = None
         if (
             self.subject_prefix_column
             and self.expected_subject_prefixes
@@ -166,6 +186,14 @@ class XafAssociationParser(AssociationParser):
             if self.expected_predicates and p not in self.expected_predicates:
                 raise ValueError(f"Unexpected predicate {p} in line: {line}")
             association = Association(s, p, o)
+            if lookup_publications:
+                pub = lookup_publications(vals)
+                if pub:
+                    association.publications = pub.split("|")
+            if lookup_primary_knowledge_source:
+                src = lookup_primary_knowledge_source(vals)
+                if src:
+                    association.primary_knowledge_source = src
             if self.other_column_mappings:
                 for i, attr in self.other_column_mappings.items():
                     setattr(association, attr, vals[i])

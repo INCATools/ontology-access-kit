@@ -40,15 +40,38 @@ class AggregatorImplementation(
     TextAnnotatorInterface,
 ):
     """
-    Wraps multiple implementations and integrates results together.
+    An OAK adapter that wraps multiple implementations and integrates results together.
 
     This allows for multiple implementations to be wrapped, with calls to
     the aggregator farming out queries to multiple implementations, and weaving
     the results together.
 
-    Documentation:
+    >>> from oaklib import get_adapter
+    >>> from oaklib.implementations import AggregatorImplementation
+    >>> hp = get_adapter("sqlite:obo:hp")
+    >>> mp = get_adapter("sqlite:obo:mp")
+    >>> agg = AggregatorImplementation(implementations=[hp, mp])
+    >>> for entity in sorted(agg.basic_search("morphology")):
+    ...     print(entity)
+    <BLANKLINE>
+    ...
+    HP:3000036
+    ...
+    MP:0031139
+    ...
 
-    - `Aggregator Implementation <https://incatools.github.io/ontology-access-kit/implementations/aggregator.html>`_
+    Command Line Usage
+    ------------------
+
+    Use the :code:`--add` (:code:`-a`) option before the main command to add additional implementations.
+
+    E.g
+
+    .. code::
+
+        runoak -i db/mp.db -a db/hp.db COMMAND [COMMAND OPTIONS]
+
+
     """
 
     implementations: List[BasicOntologyInterface] = None

@@ -32,6 +32,7 @@ classes:
       - subject_label
       - predicate_label
       - object_label
+      - publications
       - primary_knowledge_source
       - aggregator_knowledge_source
 
@@ -45,6 +46,7 @@ classes:
       - subject_label
       - predicate_label
       - object_label
+      - publications
       - primary_knowledge_source
       - aggregator_knowledge_source
 
@@ -82,6 +84,25 @@ classes:
         slot_uri: biolink:aggregator_knowledge_source
         description: |-
           The default aggregator knowledge source for all associations in this resource.
+
+  AssociationChange:
+    slots:
+      - summary_group
+      - publications
+      - publication_is_added
+      - publication_is_deleted
+      - subject
+      - old_predicate
+      - new_predicate
+      - old_object
+      - new_object
+      - old_object_obsolete
+      - is_migration
+      - is_generalization
+      - is_specialization
+      - is_creation
+      - is_deletion
+      - closure_predicates
       
 
 slots:
@@ -160,6 +181,11 @@ slots:
     range: uriorcurie
     exact_mappings:
       - biolink:original_object
+  publications:
+    description: The publications that support the association
+    slot_uri: biolink:publications
+    range: uriorcurie
+    multivalued: true
   primary_knowledge_source:
     description: The primary knowledge source for the association
     slot_uri: biolink:primary_knowledge_source
@@ -172,4 +198,32 @@ slots:
     mixin: true
     description: |-
       denormalized slots are for models that follow a denormalized data model
-  
+  summary_group:
+    range: string
+  publication_is_added:
+    range: boolean
+  publication_is_deleted:
+    range: boolean
+  old_predicate:
+    is_a: predicate
+  new_predicate:
+    is_a: predicate
+  old_object:
+    is_a: object
+  new_object:
+    is_a: object
+  old_object_obsolete:
+    range: boolean
+  is_migration:
+    range: boolean
+  is_generalization:
+    range: boolean
+  is_specialization:
+    range: boolean
+  is_creation:
+    range: boolean
+  is_deletion:
+    range: boolean
+  closure_predicates:
+    range: uriorcurie
+    multivalued: true

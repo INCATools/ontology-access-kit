@@ -1,7 +1,22 @@
 from collections import defaultdict
+from itertools import chain, combinations
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from oaklib.types import CURIE
+
+
+def powerset(iterable):
+    """
+    Calculate the powerset of an iterable.
+
+    >>> list(powerset([1,2,3]))
+    [(), (1,), (2,), (3,), (1, 2), (1, 3), (2, 3), (1, 2, 3)]
+
+    :param iterable:
+    :return:
+    """
+    s = list(iterable)
+    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
 
 
 def pairs_as_dict(pairs: Iterable[Tuple[Any, Any]]) -> Dict[Any, List[Any]]:

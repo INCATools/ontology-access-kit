@@ -310,22 +310,45 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         traversal: TraversalConfiguration = None,
     ) -> Graph:
         """
-        Combines ancestors and descendants according to a traversal configuration
+        Combines ancestors and descendants according to a traversal configuration.
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.interfaces.obograph_interface import TraversalConfiguration, Distance
+        >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
+        >>> # use an adapter to talk to an endpoint (here, sqlite)
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> # get a subgraph centered around these nodes
+        >>> seeds = ["GO:0005634", "GO:0005773"] # nucleus, vacuole
+        >>> # walk up the graph to get ancestors, and also get direct children
+        >>> traversal = TraversalConfiguration(up_distance=Distance.TRANSITIVE, down_distance=Distance.DIRECT)
+        >>> graph = adapter.subgraph_from_traversal(seeds, predicates=[IS_A, PART_OF], traversal=traversal)
+        >>> len(graph.nodes)
+        22
+        >>> len(graph.edges)
+        27
 
         :param start_curies:
         :param predicates:
         :param traversal:
         :return:
         """
+        if not isinstance(start_curies, list):
+            start_curies = [start_curies]
         if traversal is None:
             traversal = TraversalConfiguration()
         if traversal.up_distance == Distance.TRANSITIVE:
             logging.info(f"Getting ancestor graph from {type(self)}, start={start_curies}")
             up_graph = self.ancestor_graph(start_curies, predicates=predicates)
+        elif traversal.up_distance == Distance.DIRECT:
+            up_graph = self._graph(self.relationships(start_curies, predicates=predicates))
         else:
             up_graph = None
         if traversal.down_distance == Distance.TRANSITIVE:
             down_graph = self.descendant_graph(start_curies, predicates=predicates)
+        elif traversal.down_distance == Distance.DIRECT:
+            down_graph = self._graph(
+                self.relationships(objects=start_curies, predicates=predicates)
+            )
         else:
             down_graph = None
         g = self._merge_graphs([up_graph, down_graph])

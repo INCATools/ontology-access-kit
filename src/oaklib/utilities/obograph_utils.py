@@ -57,7 +57,7 @@ def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     :param graph:
     """
     obj = json_dumper.to_dict(graph)
-    for n in obj["nodes"]:
+    for n in obj.get("nodes", []):
         # normalization: no longer needed?
         if "label" in n:
             # annoying mutation: the json format uses 'lbl' not label

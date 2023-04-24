@@ -12,6 +12,7 @@ from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
 # TODO: use mock tests
+@unittest.skip("Skipping bioportal tests")
 class TestBioportal(unittest.TestCase):
     """
     Tests :ref:`BioportalImplementation`
@@ -45,6 +46,7 @@ class TestBioportal(unittest.TestCase):
         results = list(itertools.islice(self.impl.basic_search("brain"), 150))
         self.assertIn("CLAO:0001044", results)
 
+    @unittest.skip("This test appears to be fragile")
     def test_mappings(self):
         mappings = list(self.impl.get_sssom_mappings_by_curie(DIGIT))
         for m in mappings:

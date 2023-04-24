@@ -78,9 +78,14 @@ class OboGraphImplementation(
 
     .. packages :: python
 
-        >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.json')
-        >>> for term in oi.entities():
-        >>>     ...
+    >>> from oaklib import get_adapter
+    >>> oi = get_adapter('obograph:tests/input/go-nucleus.json')
+    >>> for node_id in oi.entities():
+    ...     print(node_id, oi.label(node_id))
+    <BLANKLINE>
+    ...
+    GO:0043226 organelle
+    ...
     """
 
     obograph_document: GraphDocument = None

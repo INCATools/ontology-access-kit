@@ -64,7 +64,11 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import (
+    Distance,
+    OboGraphInterface,
+    TraversalConfiguration,
+)
 from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
@@ -103,6 +107,7 @@ from tests import (
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
+    INTRACELLULAR_ORGANELLE,
     MAMMALIA,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
@@ -922,6 +927,70 @@ class ComplianceTester:
         for typ, expected in cases:
             test.assertEqual(expected, residual[typ])
 
+    def test_subgraph_from_traversal(self, oi: OboGraphInterface):
+        """
+        Tests subgraph_from_traversal in OboGraphInterface
+
+        :param oi: OboGraphInterface
+        :return:
+        """
+        test = self.test
+        cases = [
+            (
+                [NUCLEUS, VACUOLE],
+                [IS_A, PART_OF],
+                Distance.TRANSITIVE,
+                Distance.ZERO,
+                20,
+                25,
+                [NUCLEUS, VACUOLE, IMBO, CYTOPLASM],
+                [(NUCLEUS, IS_A, IMBO), (IMBO, IS_A, INTRACELLULAR_ORGANELLE)],
+            ),
+            (
+                [NUCLEUS, VACUOLE],
+                [IS_A, PART_OF],
+                Distance.TRANSITIVE,
+                Distance.DIRECT,
+                22,
+                27,
+                [NUCLEAR_MEMBRANE, NUCLEAR_MEMBRANE],
+                [(NUCLEAR_MEMBRANE, PART_OF, NUCLEUS)],
+            ),
+            (
+                [NUCLEUS, VACUOLE],
+                [IS_A],
+                Distance.DIRECT,
+                Distance.DIRECT,
+                4,
+                2,
+                [IMBO],
+                [(NUCLEUS, IS_A, IMBO)],
+            ),
+            ([], [IS_A, PART_OF], Distance.TRANSITIVE, Distance.TRANSITIVE, 0, 0, [], []),
+            ([NUCLEUS, VACUOLE], [IS_A, PART_OF], Distance.ZERO, Distance.ZERO, 0, 0, [], []),
+        ]
+        for case in cases:
+            (
+                seeds,
+                predicates,
+                up_dist,
+                down_dist,
+                expected_num_nodes,
+                expected_num_edges,
+                expected_nodes_subset,
+                expected_edges_subset,
+            ) = case
+            traversal = TraversalConfiguration(up_distance=up_dist, down_distance=down_dist)
+            graph = oi.subgraph_from_traversal(seeds, predicates=predicates, traversal=traversal)
+            test.assertEqual(expected_num_nodes, len(graph.nodes))
+            test.assertEqual(expected_num_edges, len(graph.edges))
+            node_ids = [n.id for n in graph.nodes]
+            for node_id in expected_nodes_subset:
+                test.assertIn(node_id, node_ids, f"Failed for case: {case}")
+            edge_ids = [(e.sub, e.pred, e.obj) for e in graph.edges]
+            for edge_id in expected_edges_subset:
+                test.assertIn(edge_id, edge_ids)
+
     def test_extract_graph(self, oi: OboGraphInterface, test_metadata=False):
         test = self.test
         # TODO: add tests when test dataset is unified
@@ -1485,29 +1554,52 @@ class ComplianceTester:
         assocs = list(oi.associations())
         test.assertCountEqual(assoc_cases, assocs)
         cases = [
-            ([GENE1, GENE6, GENE7], None, None),
+            ([GENE1, GENE6, GENE7], 0.5, None, None, None, [NUCLEUS]),
+            ([GENE1, GENE6, GENE7], 0.5, [], None, None, [NUCLEAR_ENVELOPE]),
             # exact overlap
-            ([GENE3, GENE6, GENE7], None, [NUCLEAR_ENVELOPE]),
+            ([GENE3, GENE6, GENE7], 0.5, None, None, [NUCLEAR_ENVELOPE], [NUCLEAR_ENVELOPE]),
             # nuclear membrane is before nucleus as less common overall
-            ([GENE1, GENE2, GENE3], None, [NUCLEAR_MEMBRANE]),
-            ([GENE1, GENE2, GENE4, GENE5, GENE6], None, None),
-            ([GENE8, GENE9], None, [IMBO]),
+            ([GENE1, GENE2, GENE3], 1.0, None, None, [NUCLEAR_MEMBRANE], [NUCLEAR_MEMBRANE]),
+            ([GENE1, GENE2, GENE3], 0.05, None, None, [], []),
+            ([GENE1, GENE2, GENE4, GENE5, GENE6], 0.5, None, None, [VACUOLE, CYTOPLASM], [VACUOLE]),
+            ([GENE8, GENE9], 1.0, None, None, [IMBO], None),
         ]
         for case in cases:
-            genes, background, expected = case
+            genes, cutoff, preds, background, expected, expected_nr = case
+            if preds is None:
+                preds = [IS_A, PART_OF]
             results = list(
                 oi.enriched_classes(
                     genes,
                     background=background,
                     cutoff=1.0,
-                    object_closure_predicates=[IS_A, PART_OF],
+                    autolabel=True,
+                    object_closure_predicates=preds,
                 )
             )
+            logging.info(f"\nGene set: {genes} preds: {preds}")
+            for r in results:
+                redundant = (
+                    r.ancestor_of_more_informative_result,
+                    r.descendant_of_more_informative_result,
+                )
+                logging.info(f"  C: {r.class_id} ({r.class_label}) p: {r.p_value} {redundant}")
             if expected is not None:
                 test.assertCountEqual(
                     expected,
                     [r.class_id for r in results[0 : len(expected)]],
                     msg=f"Failed for {case}",
+                )
+            if expected_nr is not None:
+                test.assertCountEqual(
+                    expected_nr,
+                    [
+                        r.class_id
+                        for r in results[0 : len(expected_nr)]
+                        if not r.ancestor_of_more_informative_result
+                        or r.descendant_of_more_informative_result
+                    ],
+                    msg=f"Failed NR for {case}",
                 )
 
     def test_common_ancestors(self, oi: SemanticSimilarityInterface):

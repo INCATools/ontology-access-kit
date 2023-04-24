@@ -35,9 +35,10 @@ pandas = "^1.5.1"
 linkml-renderer = "^0.1.2"
 airium = "^0.2.5"
 ndex2 = "^3.5.0"
-rustsim = {version = "^0.1.6", optional = true}
+rustsim = ">=0.1.6"
 upsetplot = "^0.8.0"
 pysolr = "^3.9.0"
+eutils = "^0.6.0"
 
 
 [tool.poetry.dev-dependencies]
@@ -45,7 +46,7 @@ pytest = "^7.1.3"
 Sphinx = ">=6.1.3"
 jupyter = "^1.0.0"
 sphinx-rtd-theme = "^1.0.0"
-sphinx-click = "^3.1.0"
+sphinx-click = ">=4.4.0"
 myst-parser = ">=1.0.0"
 linkml = "^1.2.14"
 sphinxcontrib-mermaid = "^0.8.1"
@@ -68,7 +69,6 @@ boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid", "sphinx-copybutton"]
 gilda = ["scipy", "gilda"]
 seaborn = ["seaborn"]
-rustsim = ["rustsim"]
 
 [tool.black]
 line-length = 100
