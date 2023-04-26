@@ -1,7 +1,12 @@
 import os
 import unittest
 
-from rustsim import get_intersection, jaccard_similarity, mrca_and_score
+from rustsim import (
+    get_intersection,
+    mrca_and_score,
+    relationships_to_closure_table,
+    semantic_jaccard_similarity,
+)
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
@@ -25,24 +30,30 @@ class TestRustSimImplementation(unittest.TestCase):
         if os.name == "nt":
             _, db = os.path.splitdrive(db)
 
-        oi = get_adapter(f"rustsim:sqlite:///{db}")
-
-        self.oi = oi
+        self.oi = get_adapter(f"rustsim:sqlite:///{db}")
         self.information_content_scores = {
             "CARO:0000000": 21.05,
             "BFO:0000002": 0.7069,
             "BFO:0000003": 14.89,
         }
         self.compliance_tester = ComplianceTester(self)
+        self.predicates = [IS_A, PART_OF]
+        self._rust_closure_table = relationships_to_closure_table(
+            [r for r in self.oi.relationships(include_entailed=True)]
+        )
 
+    # * Testing python bindings for rustsim package.#################################################
     def test_pairwise_similarity(self):
         self.compliance_tester.test_pairwise_similarity(self.oi)
 
     def test_rustsim_jaccard(self):
         """Tests Rust implementations of Jaccard semantic similarity."""
-        subj_ancs = set(self.oi.ancestors(VACUOLE, predicates=[IS_A, PART_OF]))
-        obj_ancs = set(self.oi.ancestors(ENDOMEMBRANE_SYSTEM, predicates=[IS_A, PART_OF]))
-        jaccard = jaccard_similarity(subj_ancs, obj_ancs)
+        subj_ancs = set(self.oi.ancestors(VACUOLE, predicates=self.predicates))
+        obj_ancs = set(self.oi.ancestors(ENDOMEMBRANE_SYSTEM, predicates=self.predicates))
+
+        jaccard = semantic_jaccard_similarity(
+            self._rust_closure_table, VACUOLE, ENDOMEMBRANE_SYSTEM, set(self.predicates)
+        )
         calculated_jaccard = len(subj_ancs.intersection(obj_ancs)) / len(subj_ancs.union(obj_ancs))
         self.assertAlmostEqual(calculated_jaccard, jaccard)
 
@@ -86,3 +97,7 @@ class TestRustSimImplementation(unittest.TestCase):
         expected_result = {"GO:0005622", "GO:0043229", "CARO:0000006", "GO:0043227", "GO:0043231"}
         result = get_intersection(subject_ancestors, object_ancestors)
         self.assertEqual(result, expected_result)
+
+    # * ###############################################################################################
+    # * Testing RustSimImplementation
+

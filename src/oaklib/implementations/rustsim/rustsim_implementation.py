@@ -7,7 +7,12 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple, Union
 
-from rustsim import get_intersection, jaccard_similarity, mrca_and_score
+from rustsim import (
+    get_intersection,
+    mrca_and_score,
+    relationships_to_closure_table,
+    semantic_jaccard_similarity,
+)
 
 from oaklib.datamodels.similarity import (
     BestMatch,
@@ -16,7 +21,10 @@ from oaklib.datamodels.similarity import (
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import OWL_THING
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
+from oaklib.interfaces.basic_ontology_interface import (
+    RELATIONSHIP,
+    BasicOntologyInterface,
+)
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
@@ -55,10 +63,9 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
             mn = m if isinstance(m, str) else m.__name__
             setattr(RustSimImplementation, mn, methods[mn])
         # TODO: initialize rust object with closure table
-        self._rust_closure_table = [(s, p, o) for s, p, o in self.relationships(include_entailed=True)]
-        # pass this to a stateful rust object
-        # OR initialize a rust object that can be passed in to the methods like jaccard_similarity
-
+        self._rust_closure_table = relationships_to_closure_table(
+            [r for r in self.wrapped_adapter.relationships(include_entailed=True)]
+        )
 
     def most_recent_common_ancestors(
         self,
@@ -234,20 +241,35 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
             ancestor_information_content=max_ic,
         )
         sim.ancestor_information_content = max_ic
-        # TODO: remove this; we should not use python to query the closure table;
-        # the closure table should be available to rust already
-        #if subject_ancestors is None and isinstance(self, OboGraphInterface):
-        #    subject_ancestors = set(self.ancestors(subject, predicates=predicates))
-        #    subject_ancestors.add(subject)
-        #if object_ancestors is None and isinstance(self, OboGraphInterface):
-        #    object_ancestors = set(self.ancestors(object, predicates=predicates))
-        #    object_ancestors.add(object)
-        #if subject_ancestors is not None and object_ancestors is not None:
-        #   sim.jaccard_similarity = jaccard_similarity(subject_ancestors, object_ancestors)
-        # TODO: implement this
-        sim.jaccard_similarity = jaccard_similarity(subject, object, self._rust_closure_table)
-        # OR:
-        # sim.jaccard_similarity = self._rustim_instance.jaccard_similarity(subject, object)
+
+        # ? NEED TO VERIFY LOGIC ############################################################
+        if predicates is None:
+            subject_predicates = (
+                self._rust_closure_table[subject].keys()
+                if subject in self._rust_closure_table
+                else None
+            )
+            object_predicates = (
+                self._rust_closure_table[object].keys()
+                if object in self._rust_closure_table
+                else None
+            )
+            if subject_predicates is not None and object_predicates is not None:
+                predicates = list(subject_predicates).extend(list(object_predicates))
+            elif subject_predicates is None and object_predicates is not None:
+                predicates = object_predicates
+            elif subject_predicates is not None and object_predicates is None:
+                predicates = subject_predicates
+            else:
+                raise ValueError(f"Neither {subject} nor {object} have predicates")
+        if subject == object:
+            sim.jaccard_similarity = 1.0
+        else:
+            sim.jaccard_similarity = semantic_jaccard_similarity(
+                self._rust_closure_table, subject, object, set(predicates)
+            )
+        # ?####################################################################################
+
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(
                 sim.jaccard_similarity * sim.ancestor_information_content
@@ -392,4 +414,25 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
             predicates=predicates,
             object_closure_predicates=object_closure_predicates,
             use_associations=use_associations,
+        )
+
+    def relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = False,
+        include_dangling: bool = True,
+    ) -> Iterator[RELATIONSHIP]:
+        """Yield relationships of provided triples."""
+        yield from self.wrapped_adapter.relationships(
+            subjects=subjects,
+            predicates=predicates,
+            objects=objects,
+            include_abox=include_abox,
+            include_tbox=include_tbox,
+            include_entailed=include_entailed,
+            include_dangling=include_dangling,
         )
