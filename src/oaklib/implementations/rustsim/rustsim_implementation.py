@@ -241,30 +241,28 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
             ancestor_information_content=max_ic,
         )
         sim.ancestor_information_content = max_ic
-
-        # ? NEED TO VERIFY LOGIC ############################################################
-        if predicates is None:
-            subject_predicates = (
-                list(self._rust_closure_table[subject].keys())
-                if subject in self._rust_closure_table
-                else []
-            )
-            object_predicates = (
-                list(self._rust_closure_table[object].keys())
-                if object in self._rust_closure_table
-                else []
-            )
-            predicates = subject_predicates + object_predicates
-
-            if not predicates:
-                raise ValueError(f"Neither {subject} nor {object} have predicates")
         if subject == object:
             sim.jaccard_similarity = 1.0
         else:
+            if not predicates:
+                subject_predicates = (
+                    list(self._rust_closure_table[subject].keys())
+                    if subject in self._rust_closure_table
+                    else []
+                )
+                object_predicates = (
+                    list(self._rust_closure_table[object].keys())
+                    if object in self._rust_closure_table
+                    else []
+                )
+                predicates = subject_predicates + object_predicates
+
+                if not predicates:
+                    raise ValueError(f"Neither {subject} nor {object} have predicates")
+
             sim.jaccard_similarity = semantic_jaccard_similarity(
                 self._rust_closure_table, subject, object, set(predicates)
             )
-        # ?####################################################################################
 
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(

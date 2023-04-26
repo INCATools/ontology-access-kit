@@ -100,4 +100,3 @@ class TestRustSimImplementation(unittest.TestCase):
 
     # * ###############################################################################################
     # * Testing RustSimImplementation
-
