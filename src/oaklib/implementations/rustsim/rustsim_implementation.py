@@ -245,22 +245,18 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         # ? NEED TO VERIFY LOGIC ############################################################
         if predicates is None:
             subject_predicates = (
-                self._rust_closure_table[subject].keys()
+                list(self._rust_closure_table[subject].keys())
                 if subject in self._rust_closure_table
-                else None
+                else []
             )
             object_predicates = (
-                self._rust_closure_table[object].keys()
+                list(self._rust_closure_table[object].keys())
                 if object in self._rust_closure_table
-                else None
+                else []
             )
-            if subject_predicates is not None and object_predicates is not None:
-                predicates = list(subject_predicates).extend(list(object_predicates))
-            elif subject_predicates is None and object_predicates is not None:
-                predicates = object_predicates
-            elif subject_predicates is not None and object_predicates is None:
-                predicates = subject_predicates
-            else:
+            predicates = subject_predicates + object_predicates
+
+            if not predicates:
                 raise ValueError(f"Neither {subject} nor {object} have predicates")
         if subject == object:
             sim.jaccard_similarity = 1.0
