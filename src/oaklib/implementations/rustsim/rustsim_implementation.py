@@ -86,24 +86,12 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         :param include_owl_thing:
         :return:
         """
-        # if isinstance(self, OboGraphInterface):
-        #     s_ancs = set(self.ancestors([subject], predicates))
-        #     o_ancs = set(self.ancestors([object], predicates))
-        #     common = s_ancs.intersection(o_ancs)
-        #     ancs_of_common = []
-        #     for ca in common:
-        #         for caa in self.ancestors(ca, predicates):
-        #             if caa != ca:
-        #                 ancs_of_common.append(caa)
-        #     n = 0
-        #     for a in common:
-        #         if a not in ancs_of_common:
-        #             yield a
-        #             n += 1
-        #     if n == 0:
-        #         yield OWL_THING
-        # else:
-        raise NotImplementedError
+        yield from self.wrapped_adapter.most_recent_common_ancestors(
+            subject=subject,
+            object=object,
+            predicates=predicates,
+            include_owl_thing=include_owl_thing,
+        )
 
     def multiset_most_recent_common_ancestors(
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, asymmetric=True
@@ -116,20 +104,11 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         :param asymmetric:
         :return:
         """
-        # if isinstance(self, OboGraphInterface):
-        #     og = self.ancestor_graph(subjects, predicates)
-        #     dg = as_digraph(og)
-        #     pairs = []
-        #     subjects = [s for s in subjects if s in dg]
-        #     for s in subjects:
-        #         for o in subjects:
-        #             if asymmetric and s >= o:
-        #                 continue
-        #             pairs.append((s, o))
-        #     for (s, o), lca in nx.all_pairs_lowest_common_ancestor(dg, pairs=pairs):
-        #         yield s, o, lca
-        # else:
-        raise NotImplementedError
+        yield from self.wrapped_adapter.multiset_most_recent_common_ancestors(
+            subjects=subjects,
+            predicates=predicates,
+            asymmetric=asymmetric,
+        )
 
     def common_ancestors(
         self,

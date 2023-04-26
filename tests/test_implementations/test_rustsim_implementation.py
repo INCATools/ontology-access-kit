@@ -43,9 +43,6 @@ class TestRustSimImplementation(unittest.TestCase):
         )
 
     # * Testing python bindings for rustsim package.#################################################
-    def test_pairwise_similarity(self):
-        self.compliance_tester.test_pairwise_similarity(self.oi)
-
     def test_rustsim_jaccard(self):
         """Tests Rust implementations of Jaccard semantic similarity."""
         subj_ancs = set(self.oi.ancestors(VACUOLE, predicates=self.predicates))
@@ -100,3 +97,10 @@ class TestRustSimImplementation(unittest.TestCase):
 
     # * ###############################################################################################
     # * Testing RustSimImplementation
+    def test_pairwise_similarity(self):
+        """Test pairwise similarity."""
+        self.compliance_tester.test_pairwise_similarity(self.oi)
+
+    def test_common_ancestors(self):
+        """Test common ancestors."""
+        self.compliance_tester.test_common_ancestors(self.oi)
