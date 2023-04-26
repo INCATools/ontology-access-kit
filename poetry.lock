@@ -2967,6 +2967,7 @@ min-versions = ["babel (==2.9.0)", "click (==7.0)", "colorama (==0.4)", "ghp-imp
 [[package]]
 name = "mkdocs-material"
 version = "9.1.8"
+
 description = "Documentation that simply works"
 category = "main"
 optional = false
