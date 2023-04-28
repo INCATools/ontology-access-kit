@@ -201,8 +201,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                     number_subject_unique_to_entity2=len(elements2.difference(elements1)),
                 )
                 if include_entities:
-                    coassoc.subjects_in_common=list(common)
-                    coassoc.associations_for_subjects_in_common=assocs_to_common
+                    coassoc.subjects_in_common = list(common)
+                    coassoc.associations_for_subjects_in_common = assocs_to_common
                 yield coassoc
 
     def add_associations(
