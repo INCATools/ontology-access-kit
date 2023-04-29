@@ -29,6 +29,8 @@ Name: association
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | The knowledge source that aggregated the association |
 | [associations](associations.md) |  |
 | [closure_predicates](closure_predicates.md) |  |
+| [creation_date](creation_date.md) |  |
+| [date](date.md) |  |
 | [denormalized_slot](denormalized_slot.md) | denormalized slots are for models that follow a denormalized data model |
 | [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
 | [include_association_attributes](include_association_attributes.md) | If true, then the parser will include non S/P/O properties as additional attr... |
@@ -37,10 +39,13 @@ Name: association
 | [is_generalization](is_generalization.md) |  |
 | [is_migration](is_migration.md) |  |
 | [is_specialization](is_specialization.md) |  |
+| [modification_date](modification_date.md) |  |
+| [new_date](new_date.md) |  |
 | [new_object](new_object.md) |  |
 | [new_predicate](new_predicate.md) |  |
 | [object](object.md) | An ontology entity that is associated with the subject |
 | [object_label](object_label.md) | The label of the ontology entity that is associated with the subject |
+| [old_date](old_date.md) |  |
 | [old_object](old_object.md) |  |
 | [old_object_obsolete](old_object_obsolete.md) |  |
 | [old_predicate](old_predicate.md) |  |

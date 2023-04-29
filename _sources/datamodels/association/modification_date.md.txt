@@ -1,0 +1,57 @@
+# Slot: modification_date
+
+URI: [ontoassoc:modification_date](https://w3id.org/oak/association/modification_date)
+
+
+
+
+## Inheritance
+
+* [date](date.md)
+    * **modification_date**
+
+
+
+
+
+
+
+## Properties
+
+* Range: [String](String.md)
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/oak/association
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: modification_date
+from_schema: https://w3id.org/oak/association
+rank: 1000
+is_a: date
+alias: modification_date
+range: string
+
+```
+</details>

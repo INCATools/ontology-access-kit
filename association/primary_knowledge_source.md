@@ -17,6 +17,7 @@ URI: [biolink:primary_knowledge_source](https://w3id.org/biolink/vocab/primary_k
 | --- | --- |
 [Association](Association.md) | A generic association between a thing (subject) and another thing (object)
 [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
+[AssociationChange](AssociationChange.md) | 
 [ParserConfiguration](ParserConfiguration.md) | 
 
 
@@ -64,6 +65,7 @@ domain_of:
 - Association
 - NegatedAssociation
 - ParserConfiguration
+- AssociationChange
 range: uriorcurie
 
 ```

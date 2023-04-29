@@ -9,6 +9,8 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
 ```{mermaid}
  classDiagram
     class AssociationChange
+      AssociationChange : aggregator_knowledge_source
+        
       AssociationChange : closure_predicates
         
       AssociationChange : is_creation
@@ -21,15 +23,21 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
         
       AssociationChange : is_specialization
         
+      AssociationChange : new_date
+        
       AssociationChange : new_object
         
       AssociationChange : new_predicate
+        
+      AssociationChange : old_date
         
       AssociationChange : old_object
         
       AssociationChange : old_object_obsolete
         
       AssociationChange : old_predicate
+        
+      AssociationChange : primary_knowledge_source
         
       AssociationChange : publication_is_added
         
@@ -55,6 +63,10 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [summary_group](summary_group.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [old_date](old_date.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [new_date](new_date.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | direct |
+| [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | direct |
 | [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | direct |
 | [publication_is_added](publication_is_added.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [publication_is_deleted](publication_is_deleted.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
@@ -120,6 +132,10 @@ from_schema: https://w3id.org/oak/association
 rank: 1000
 slots:
 - summary_group
+- old_date
+- new_date
+- primary_knowledge_source
+- aggregator_knowledge_source
 - publications
 - publication_is_added
 - publication_is_deleted
@@ -156,6 +172,54 @@ attributes:
     domain_of:
     - AssociationChange
     range: string
+  old_date:
+    name: old_date
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    is_a: date
+    alias: old_date
+    owner: AssociationChange
+    domain_of:
+    - AssociationChange
+    range: string
+  new_date:
+    name: new_date
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    is_a: date
+    alias: new_date
+    owner: AssociationChange
+    domain_of:
+    - AssociationChange
+    range: string
+  primary_knowledge_source:
+    name: primary_knowledge_source
+    description: The primary knowledge source for the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: biolink:primary_knowledge_source
+    alias: primary_knowledge_source
+    owner: AssociationChange
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    - AssociationChange
+    range: uriorcurie
+  aggregator_knowledge_source:
+    name: aggregator_knowledge_source
+    description: The knowledge source that aggregated the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: biolink:aggregator_knowledge_source
+    alias: aggregator_knowledge_source
+    owner: AssociationChange
+    domain_of:
+    - Association
+    - NegatedAssociation
+    - ParserConfiguration
+    - AssociationChange
+    range: uriorcurie
   publications:
     name: publications
     description: The publications that support the association

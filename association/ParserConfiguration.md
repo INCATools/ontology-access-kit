@@ -163,6 +163,7 @@ attributes:
     - Association
     - NegatedAssociation
     - ParserConfiguration
+    - AssociationChange
     range: uriorcurie
   aggregator_knowledge_source:
     name: aggregator_knowledge_source
@@ -176,6 +177,7 @@ attributes:
     - Association
     - NegatedAssociation
     - ParserConfiguration
+    - AssociationChange
     range: uriorcurie
 
 ```
