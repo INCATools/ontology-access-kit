@@ -1,0 +1,71 @@
+# Slot: object2
+
+URI: [ontoassoc:object2](https://w3id.org/oak/association/object2)
+
+
+
+
+## Inheritance
+
+* [object](object.md)
+    * **object2**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[PairwiseCoAssociation](PairwiseCoAssociation.md) | 
+
+
+
+
+
+
+## Properties
+
+* Range: [Uriorcurie](Uriorcurie.md)
+* Required: True
+
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/oak/association
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: object2
+from_schema: https://w3id.org/oak/association
+rank: 1000
+is_a: object
+alias: object2
+domain_of:
+- PairwiseCoAssociation
+range: uriorcurie
+required: true
+
+```
+</details>

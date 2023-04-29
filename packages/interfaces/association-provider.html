@@ -198,6 +198,54 @@ an ontology class. Examples of associations include:</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations_subjects">
+<span class="sig-name descname"><span class="pre">associations_subjects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/association_provider_interface.html#AssociationProviderInterface.associations_subjects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations_subjects" title="Permalink to this definition"></a></dt>
+<dd><p>Yields all distinct subjects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – same arguments as for <a class="reference internal" href="../../cli.html#runoak-associations"><span class="std std-ref">associations</span></a></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_pairwise_coassociations">
+<span class="sig-name descname"><span class="pre">association_pairwise_coassociations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curies2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs_are_subjects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_reciprocals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_diagonal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">PairwiseCoAssociation</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/association_provider_interface.html#AssociationProviderInterface.association_pairwise_coassociations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_pairwise_coassociations" title="Permalink to this definition"></a></dt>
+<dd><p>Find co-associations.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GO:0000910&quot;</span><span class="p">,</span> <span class="s2">&quot;GO:0006281&quot;</span><span class="p">,</span> <span class="s2">&quot;GO:0006412&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">coassoc</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">association_pairwise_coassociations</span><span class="p">(</span><span class="n">curies1</span><span class="o">=</span><span class="n">terms</span><span class="p">,</span>
+<span class="gp">... </span>                                             <span class="n">curies2</span><span class="o">=</span><span class="n">terms</span><span class="p">,</span>
+<span class="gp">... </span>                                             <span class="n">object_closure_predicates</span><span class="o">=</span><span class="n">preds</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">coassoc</span><span class="o">.</span><span class="n">object1</span><span class="p">,</span> <span class="n">coassoc</span><span class="o">.</span><span class="n">object2</span><span class="p">,</span> <span class="n">coassoc</span><span class="o">.</span><span class="n">number_subjects_in_common</span><span class="p">)</span>
+
+<span class="go">...</span>
+<span class="go">GO:0006281 GO:0000910 0</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curies1</strong> – </p></li>
+<li><p><strong>curies2</strong> – </p></li>
+<li><p><strong>inputs_are_subjects</strong> – </p></li>
+<li><p><strong>kwargs</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations">
 <span class="sig-name descname"><span class="pre">add_associations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">associations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Association</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalizers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">EntityNormalizer</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/association_provider_interface.html#AssociationProviderInterface.add_associations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations" title="Permalink to this definition"></a></dt>
 <dd><p>Store a collection of associations for later retrievals.</p>

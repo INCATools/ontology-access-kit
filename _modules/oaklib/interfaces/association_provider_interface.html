@@ -89,12 +89,16 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="n">Association</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.association</span> <span class="kn">import</span> <span class="n">Association</span><span class="p">,</span> <span class="n">PairwiseCoAssociation</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.associations.association_index</span> <span class="kn">import</span> <span class="n">AssociationIndex</span>
+
+<span class="n">ASSOCIATION_CORRELATION</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span>
+    <span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Association</span><span class="p">]]</span>
+<span class="p">]</span>
 
 
 <span class="k">def</span> <span class="nf">associations_subjects</span><span class="p">(</span><span class="n">associations</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
@@ -206,6 +210,85 @@
             <span class="k">return</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ix</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">a</span></div>
+
+<div class="viewcode-block" id="AssociationProviderInterface.associations_subjects"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations_subjects">[docs]</a>    <span class="k">def</span> <span class="nf">associations_subjects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields all distinct subjects.</span>
+
+<span class="sd">        :param kwargs: same arguments as for :ref:`associations`</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># individual implementations should override this to be more efficient</span>
+        <span class="n">yielded</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">subject</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">yielded</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">s</span>
+            <span class="n">yielded</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AssociationProviderInterface.association_pairwise_coassociations"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_pairwise_coassociations">[docs]</a>    <span class="k">def</span> <span class="nf">association_pairwise_coassociations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curies1</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">curies2</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">inputs_are_subjects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_reciprocals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_diagonal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_entities</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">PairwiseCoAssociation</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find co-associations.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.vocabulary import IS_A, PART_OF</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; terms = [&quot;GO:0000910&quot;, &quot;GO:0006281&quot;, &quot;GO:0006412&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; preds = [IS_A, PART_OF]</span>
+<span class="sd">        &gt;&gt;&gt; for coassoc in adapter.association_pairwise_coassociations(curies1=terms,</span>
+<span class="sd">        ...                                              curies2=terms,</span>
+<span class="sd">        ...                                              object_closure_predicates=preds):</span>
+<span class="sd">        ...    print(coassoc.object1, coassoc.object2, coassoc.number_subjects_in_common)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO:0006281 GO:0000910 0</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        :param curies1:</span>
+<span class="sd">        :param curies2:</span>
+<span class="sd">        :param inputs_are_subjects:</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">inputs_are_subjects</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">curies1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies1</span><span class="p">)</span>
+        <span class="n">curies2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies2</span><span class="p">)</span>
+        <span class="n">assocmap1</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies1</span><span class="p">}</span>
+        <span class="n">assocmap2</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies2</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">curies1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">curies2</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">c2</span> <span class="o">&gt;</span> <span class="n">c1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">include_reciprocals</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">c1</span> <span class="o">==</span> <span class="n">c2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">include_diagonal</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">assocs1</span> <span class="o">=</span> <span class="n">assocmap1</span><span class="p">[</span><span class="n">c1</span><span class="p">]</span>
+                <span class="n">assocs2</span> <span class="o">=</span> <span class="n">assocmap2</span><span class="p">[</span><span class="n">c2</span><span class="p">]</span>
+                <span class="n">elements1</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assocs1</span><span class="p">}</span>
+                <span class="n">elements2</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assocs2</span><span class="p">}</span>
+                <span class="n">common</span> <span class="o">=</span> <span class="n">elements1</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">elements2</span><span class="p">)</span>
+                <span class="n">assocs_to_common</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assocs1</span> <span class="o">+</span> <span class="n">assocs2</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="ow">in</span> <span class="n">common</span><span class="p">]</span>
+                <span class="n">coassoc</span> <span class="o">=</span> <span class="n">PairwiseCoAssociation</span><span class="p">(</span>
+                    <span class="n">object1</span><span class="o">=</span><span class="n">c1</span><span class="p">,</span>
+                    <span class="n">object2</span><span class="o">=</span><span class="n">c2</span><span class="p">,</span>
+                    <span class="n">number_subjects_in_common</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">common</span><span class="p">),</span>
+                    <span class="n">number_subject_unique_to_entity1</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">elements1</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">elements2</span><span class="p">)),</span>
+                    <span class="n">number_subject_unique_to_entity2</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">elements2</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">elements1</span><span class="p">)),</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">include_entities</span><span class="p">:</span>
+                    <span class="n">coassoc</span><span class="o">.</span><span class="n">subjects_in_common</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">common</span><span class="p">)</span>
+                    <span class="n">coassoc</span><span class="o">.</span><span class="n">associations_for_subjects_in_common</span> <span class="o">=</span> <span class="n">assocs_to_common</span>
+                <span class="k">yield</span> <span class="n">coassoc</span></div>
 
 <div class="viewcode-block" id="AssociationProviderInterface.add_associations"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations">[docs]</a>    <span class="k">def</span> <span class="nf">add_associations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

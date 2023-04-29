@@ -66,6 +66,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [RollupGroup](RollupGroup.md) | [associations](associations.md) | range | [Association](Association.md) |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) | [associations_for_subjects_in_common](associations_for_subjects_in_common.md) | range | [Association](Association.md) |
 
 
 

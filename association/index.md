@@ -17,6 +17,7 @@ Name: association
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |
 | [AssociationChange](AssociationChange.md) |  |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) |  |
 | [ParserConfiguration](ParserConfiguration.md) |  |
 | [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |
 | [RollupGroup](RollupGroup.md) |  |
@@ -28,6 +29,7 @@ Name: association
 | --- | --- |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | The knowledge source that aggregated the association |
 | [associations](associations.md) |  |
+| [associations_for_subjects_in_common](associations_for_subjects_in_common.md) |  |
 | [closure_predicates](closure_predicates.md) |  |
 | [creation_date](creation_date.md) |  |
 | [date](date.md) |  |
@@ -43,7 +45,14 @@ Name: association
 | [new_date](new_date.md) |  |
 | [new_object](new_object.md) |  |
 | [new_predicate](new_predicate.md) |  |
+| [number_subject_unique_to_entity1](number_subject_unique_to_entity1.md) |  |
+| [number_subject_unique_to_entity2](number_subject_unique_to_entity2.md) |  |
+| [number_subjects_in_common](number_subjects_in_common.md) |  |
 | [object](object.md) | An ontology entity that is associated with the subject |
+| [object1](object1.md) |  |
+| [object1_label](object1_label.md) |  |
+| [object2](object2.md) |  |
+| [object2_label](object2_label.md) |  |
 | [object_label](object_label.md) | The label of the ontology entity that is associated with the subject |
 | [old_date](old_date.md) |  |
 | [old_object](old_object.md) |  |
@@ -63,6 +72,7 @@ Name: association
 | [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |
 | [subject_label](subject_label.md) | The label of the thing which the association is about |
+| [subjects_in_common](subjects_in_common.md) |  |
 | [summary_group](summary_group.md) |  |
 
 

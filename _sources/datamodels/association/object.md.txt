@@ -12,6 +12,8 @@ URI: [rdf:object](rdf:object)
 * **object**
     * [old_object](old_object.md)
     * [new_object](new_object.md)
+    * [object1](object1.md)
+    * [object2](object2.md)
 
 
 

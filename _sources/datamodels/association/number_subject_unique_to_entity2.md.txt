@@ -1,0 +1,62 @@
+# Slot: number_subject_unique_to_entity2
+
+URI: [ontoassoc:number_subject_unique_to_entity2](https://w3id.org/oak/association/number_subject_unique_to_entity2)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[PairwiseCoAssociation](PairwiseCoAssociation.md) | 
+
+
+
+
+
+
+## Properties
+
+* Range: [Integer](Integer.md)
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/oak/association
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: number_subject_unique_to_entity2
+from_schema: https://w3id.org/oak/association
+rank: 1000
+alias: number_subject_unique_to_entity2
+domain_of:
+- PairwiseCoAssociation
+range: integer
+
+```
+</details>

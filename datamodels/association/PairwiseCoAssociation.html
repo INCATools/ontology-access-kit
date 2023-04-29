@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: PairwiseCoAssociation &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: PairwiseCoAssociation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/association/PairwiseCoAssociation.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-pairwisecoassociation">
+<h1>Class: PairwiseCoAssociation<a class="headerlink" href="#class-pairwisecoassociation" title="Permalink to this heading"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/association/PairwiseCoAssociation">ontoassoc:PairwiseCoAssociation</a></p>
+<div class="mermaid">
+             classDiagram
+    class PairwiseCoAssociation
+      PairwiseCoAssociation : associations_for_subjects_in_common
+        
+          PairwiseCoAssociation ..&gt; Association : associations_for_subjects_in_common
+        
+      PairwiseCoAssociation : number_subject_unique_to_entity1
+        
+      PairwiseCoAssociation : number_subject_unique_to_entity2
+        
+      PairwiseCoAssociation : number_subjects_in_common
+        
+      PairwiseCoAssociation : object1
+        
+      PairwiseCoAssociation : object1_label
+        
+          PairwiseCoAssociation ..&gt; None : object1_label
+        
+      PairwiseCoAssociation : object2
+        
+      PairwiseCoAssociation : object2_label
+        
+          PairwiseCoAssociation ..&gt; None : object2_label
+        
+      PairwiseCoAssociation : subjects_in_common
+        
+          PairwiseCoAssociation ..&gt; None : subjects_in_common
+        
+      
+        </div><!-- no inheritance hierarchy -->
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="object1.html"><span class="std std-doc">object1</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object2.html"><span class="std std-doc">object2</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object1_label.html"><span class="std std-doc">object1_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object2_label.html"><span class="std std-doc">object2_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="number_subjects_in_common.html"><span class="std std-doc">number_subjects_in_common</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="number_subject_unique_to_entity1.html"><span class="std std-doc">number_subject_unique_to_entity1</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="number_subject_unique_to_entity2.html"><span class="std std-doc">number_subject_unique_to_entity2</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subjects_in_common.html"><span class="std std-doc">subjects_in_common</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="associations_for_subjects_in_common.html"><span class="std std-doc">associations_for_subjects_in_common</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>from schema: https://w3id.org/oak/association</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>ontoassoc:PairwiseCoAssociation</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>ontoassoc:PairwiseCoAssociation</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this heading"></a></h3>
+<details>
+```yaml
+name: PairwiseCoAssociation
+from_schema: https://w3id.org/oak/association
+rank: 1000
+slots:
+- object1
+- object2
+- object1_label
+- object2_label
+- number_subjects_in_common
+- number_subject_unique_to_entity1
+- number_subject_unique_to_entity2
+- subjects_in_common
+- associations_for_subjects_in_common
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: PairwiseCoAssociation
+from_schema: https://w3id.org/oak/association
+rank: 1000
+attributes:
+  object1:
+    name: object1
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    is_a: object
+    alias: object1
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: uriorcurie
+    required: true
+  object2:
+    name: object2
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    is_a: object
+    alias: object2
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: uriorcurie
+    required: true
+  object1_label:
+    name: object1_label
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: object1_label
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+  object2_label:
+    name: object2_label
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: object2_label
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+  number_subjects_in_common:
+    name: number_subjects_in_common
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: number_subjects_in_common
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: integer
+  number_subject_unique_to_entity1:
+    name: number_subject_unique_to_entity1
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: number_subject_unique_to_entity1
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: integer
+  number_subject_unique_to_entity2:
+    name: number_subject_unique_to_entity2
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: number_subject_unique_to_entity2
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: integer
+  subjects_in_common:
+    name: subjects_in_common
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: subjects_in_common
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+  associations_for_subjects_in_common:
+    name: associations_for_subjects_in_common
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: associations_for_subjects_in_common
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: Association
+
+</pre></div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
