@@ -22,6 +22,7 @@ __all__ = [
     "AmiGOImplementation",
 ]
 
+from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG
 from oaklib.types import CURIE, PRED_CURIE
 
 AMIGO_ENDPOINT = "http://golr.geneontology.org/solr/"
@@ -38,6 +39,10 @@ TAXON_CLOSURE = "taxon_closure"
 ASSIGNED_BY = "assigned_by"
 REFERENCE = "reference"
 
+# general
+ENTITY = "entity"
+ENTITY_LABEL = "entity_label"
+
 SELECT_FIELDS = [
     BIOENTITY,
     BIOENTITY_LABEL,
@@ -48,6 +53,17 @@ SELECT_FIELDS = [
     ASSIGNED_BY,
     REFERENCE,
 ]
+
+
+def _fq_element(k, vs):
+    v = " OR ".join([f'"{v}"' for v in vs])
+    return f"{k}:({v})"
+
+
+def _query(solr, fq, fields):
+    fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
+    params = {"fq": fq_list, "fl": ",".join(fields)}
+    return solr.search("*:*", rows=1000, **params)
 
 
 @dataclass
@@ -78,6 +94,15 @@ class AmiGOImplementation(
         self._source = self.resource.slug
         self._solr = pysolr.Solr(AMIGO_ENDPOINT)
 
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError
+        fq = {"document_category": ["general"], ENTITY: [curie]}
+        solr = self._solr
+        results = _query(solr, fq, [ENTITY_LABEL])
+        for doc in results:
+            return doc[ENTITY_LABEL]
+
     def associations(
         self,
         subjects: Iterable[CURIE] = None,
@@ -100,13 +125,11 @@ class AmiGOImplementation(
         if self._source:
             fq[TAXON_CLOSURE] = [self._source]
 
-        def _fq_element(k, vs):
-            v = " OR ".join([f'"{v}"' for v in vs])
-            return f"{k}:({v})"
+        results = _query(solr, fq, SELECT_FIELDS)
 
-        fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
-        params = {"fq": fq_list, "fl": ",".join(SELECT_FIELDS)}
-        results = solr.search("*:*", rows=1000, **params)
+        # fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
+        # params = {"fq": fq_list, "fl": ",".join(SELECT_FIELDS)}
+        # results = solr.search("*:*", rows=1000, **params)
         for doc in results:
             yield Association(
                 subject=doc[BIOENTITY],

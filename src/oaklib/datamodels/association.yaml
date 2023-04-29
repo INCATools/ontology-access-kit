@@ -62,6 +62,18 @@ classes:
       - sub_groups
       - associations
 
+  PairwiseCoAssociation:
+    slots:
+      - object1
+      - object2
+      - object1_label
+      - object2_label
+      - number_subjects_in_common
+      - number_subject_unique_to_entity1
+      - number_subject_unique_to_entity2
+      - subjects_in_common
+      - associations_for_subjects_in_common
+
   ParserConfiguration:
     attributes:
       preserve_negated_associations:
@@ -241,3 +253,23 @@ slots:
   closure_predicates:
     range: uriorcurie
     multivalued: true
+
+  object1:
+    is_a: object
+    required: true
+  object2:
+    is_a: object
+    required: true
+  object1_label:
+  object2_label:
+  number_subjects_in_common:
+    range: integer
+  number_subject_unique_to_entity1:
+    range: integer
+  number_subject_unique_to_entity2:
+    range: integer
+  subjects_in_common:
+    multivalued: true
+  associations_for_subjects_in_common:
+    multivalued: true
+    range: Association

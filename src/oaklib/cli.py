@@ -4071,60 +4071,129 @@ def associations(
     writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
-    if isinstance(impl, AssociationProviderInterface):
-        curies = list(query_terms_iterator(terms, impl))
-        qs_it = impl.associations(
-            curies,
-            predicates=actual_association_predicates,
-            subject_closure_predicates=actual_predicates,
-        )
-        qo_it = impl.associations(
-            objects=curies,
-            predicates=actual_association_predicates,
-            object_closure_predicates=actual_predicates,
-        )
-        if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
-            it = qs_it
-        elif terms_role == SubjectOrObjectRole.OBJECT.value:
-            it = qo_it
-        else:
-            logging.info("Using query terms to query both subject and object")
-            it = chain(qs_it, qo_it)
-        has_relationships = defaultdict(bool)
-        for assoc in it:
-            if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
-                has_relationships[assoc.subject] = True
-            elif terms_role == SubjectOrObjectRole.OBJECT.value:
-                has_relationships[assoc.object] = True
-            else:
-                has_relationships[assoc.subject] = True
-                has_relationships[assoc.object] = True
-            if if_absent and if_absent == IfAbsent.absent_only.value:
-                continue
-            writer.emit(
-                assoc,
-                label_fields=["subject", "predicate", "object"],
-            )
-        if if_absent and if_absent == IfAbsent.absent_only.value:
-            for curie in curies:
-                if not has_relationships[curie]:
-                    writer.emit(
-                        dict(subject=curie, predicate=None, object=None),
-                        label_fields=["subject", "predicate", "object"],
-                    )
-        if set_value:
-            if len(actual_predicates) != 1:
-                raise ValueError(f"predicates={actual_predicates}, expected exactly one")
-            pred = actual_predicates[0]
-            changes = []
-            for curie in curies:
-                changes.append(
-                    kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
-                )
-            _apply_changes(impl, changes)
-
-    else:
+    if not isinstance(impl, AssociationProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    qs_it = impl.associations(
+        curies,
+        predicates=actual_association_predicates,
+        subject_closure_predicates=actual_predicates,
+    )
+    qo_it = impl.associations(
+        objects=curies,
+        predicates=actual_association_predicates,
+        object_closure_predicates=actual_predicates,
+    )
+    if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+        it = qs_it
+    elif terms_role == SubjectOrObjectRole.OBJECT.value:
+        it = qo_it
+    else:
+        logging.info("Using query terms to query both subject and object")
+        it = chain(qs_it, qo_it)
+    has_relationships = defaultdict(bool)
+    for assoc in it:
+        if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+            has_relationships[assoc.subject] = True
+        elif terms_role == SubjectOrObjectRole.OBJECT.value:
+            has_relationships[assoc.object] = True
+        else:
+            has_relationships[assoc.subject] = True
+            has_relationships[assoc.object] = True
+        if if_absent and if_absent == IfAbsent.absent_only.value:
+            continue
+        writer.emit(
+            assoc,
+            label_fields=["subject", "predicate", "object"],
+        )
+    if if_absent and if_absent == IfAbsent.absent_only.value:
+        for curie in curies:
+            if not has_relationships[curie]:
+                writer.emit(
+                    dict(subject=curie, predicate=None, object=None),
+                    label_fields=["subject", "predicate", "object"],
+                )
+    if set_value:
+        if len(actual_predicates) != 1:
+            raise ValueError(f"predicates={actual_predicates}, expected exactly one")
+        pred = actual_predicates[0]
+        changes = []
+        for curie in curies:
+            changes.append(
+                kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
+            )
+        _apply_changes(impl, changes)
+
+
+@main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@output_option
+@if_absent_option
+@set_value_option
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@click.option(
+    "--terms-role",
+    "-Q",
+    type=click.Choice([x.value for x in SubjectOrObjectRole]),
+    default=SubjectOrObjectRole.OBJECT.value,
+    show_default=True,
+    help="How to interpret query terms.",
+)
+@click.argument("terms", nargs=-1)
+def associations_matrix(
+    terms,
+    predicates: str,
+    association_predicates: str,
+    terms_role: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    if_absent: bool,
+    set_value: str,
+):
+    """
+    Co-annotation matrix query.
+
+    Example:
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    actual_predicates = _process_predicates_arg(predicates)
+    actual_association_predicates = _process_predicates_arg(association_predicates)
+    if not isinstance(impl, AssociationProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if "@" in terms:
+        ix = terms.index("@")
+        logging.info(f"Splitting terms into two, position = {ix}")
+        curies1 = list(query_terms_iterator(terms[0:ix], impl))
+        curies2 = list(query_terms_iterator(terms[ix + 1 :], impl))
+    else:
+        curies1 = list(query_terms_iterator(terms, impl))
+        curies2 = list(curies1)
+    if terms_role != SubjectOrObjectRole.OBJECT.value:
+        raise NotImplementedError("terms-role not yet supported")
+    pairs_it = impl.association_pairwise_coassociations(
+        curies1=curies1,
+        curies2=curies2,
+        predicates=actual_association_predicates,
+        subject_closure_predicates=actual_predicates,
+    )
+    for pair in pairs_it:
+        # TODO: more elegant way to handle this
+        pair.associations_for_subjects_in_common = None
+        writer.emit(
+            pair,
+            label_fields=["object1", "object2"],
+        )
+    writer.finish()
 
 
 @main.command()

@@ -3,6 +3,7 @@ from typing import Dict, List, Union
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
+from oaklib.datamodels.association import PairwiseCoAssociation
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.io.streaming_writer import StreamingWriter
 
@@ -34,6 +35,15 @@ class HeatmapWriter(StreamingWriter):
             t2 = obj.object_id + f" {obj.object_label}" if obj.object_label else ""
             v = getattr(obj, self.value_field)
             self.items.append({"term1": t1, "term2": t2, "score": v})
+        if isinstance(obj, PairwiseCoAssociation):
+            if label_fields and self.autolabel:
+                t1 = f"{obj.object1} {self.ontology_interface.label(obj.object1)}"
+                t2 = f"{obj.object2} {self.ontology_interface.label(obj.object2)}"
+            else:
+                t1 = obj.object1
+                t2 = obj.object2
+            v = obj.number_subjects_in_common
+            self.items.append({"term1": t1, "term2": t2, "score": v})
         else:
             raise ValueError(f"Cannot handle: {obj}")
 
@@ -42,6 +52,6 @@ class HeatmapWriter(StreamingWriter):
         import seaborn
 
         df = pandas.DataFrame(self.items)
-        df = df.pivot(*list(self.items[0].keys()))
+        df = df.pivot(index="term1", columns="term2", values="score")
         ax = seaborn.heatmap(df, annot=True, fmt=".2f")
         ax.get_figure().savefig(self.output, bbox_inches="tight")

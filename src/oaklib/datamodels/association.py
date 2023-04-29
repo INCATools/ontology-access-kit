@@ -20,7 +20,7 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, String, Uriorcurie
+from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
@@ -272,6 +272,81 @@ class RollupGroup(YAMLRoot):
         self.associations = [
             v if isinstance(v, Association) else Association(**as_dict(v))
             for v in self.associations
+        ]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class PairwiseCoAssociation(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.PairwiseCoAssociation
+    class_class_curie: ClassVar[str] = "ontoassoc:PairwiseCoAssociation"
+    class_name: ClassVar[str] = "PairwiseCoAssociation"
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.PairwiseCoAssociation
+
+    object1: Union[str, URIorCURIE] = None
+    object2: Union[str, URIorCURIE] = None
+    object1_label: Optional[str] = None
+    object2_label: Optional[str] = None
+    number_subjects_in_common: Optional[int] = None
+    number_subject_unique_to_entity1: Optional[int] = None
+    number_subject_unique_to_entity2: Optional[int] = None
+    subjects_in_common: Optional[Union[str, List[str]]] = empty_list()
+    associations_for_subjects_in_common: Optional[
+        Union[Union[dict, Association], List[Union[dict, Association]]]
+    ] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.object1):
+            self.MissingRequiredField("object1")
+        if not isinstance(self.object1, URIorCURIE):
+            self.object1 = URIorCURIE(self.object1)
+
+        if self._is_empty(self.object2):
+            self.MissingRequiredField("object2")
+        if not isinstance(self.object2, URIorCURIE):
+            self.object2 = URIorCURIE(self.object2)
+
+        if self.object1_label is not None and not isinstance(self.object1_label, str):
+            self.object1_label = str(self.object1_label)
+
+        if self.object2_label is not None and not isinstance(self.object2_label, str):
+            self.object2_label = str(self.object2_label)
+
+        if self.number_subjects_in_common is not None and not isinstance(
+            self.number_subjects_in_common, int
+        ):
+            self.number_subjects_in_common = int(self.number_subjects_in_common)
+
+        if self.number_subject_unique_to_entity1 is not None and not isinstance(
+            self.number_subject_unique_to_entity1, int
+        ):
+            self.number_subject_unique_to_entity1 = int(self.number_subject_unique_to_entity1)
+
+        if self.number_subject_unique_to_entity2 is not None and not isinstance(
+            self.number_subject_unique_to_entity2, int
+        ):
+            self.number_subject_unique_to_entity2 = int(self.number_subject_unique_to_entity2)
+
+        if not isinstance(self.subjects_in_common, list):
+            self.subjects_in_common = (
+                [self.subjects_in_common] if self.subjects_in_common is not None else []
+            )
+        self.subjects_in_common = [
+            v if isinstance(v, str) else str(v) for v in self.subjects_in_common
+        ]
+
+        if not isinstance(self.associations_for_subjects_in_common, list):
+            self.associations_for_subjects_in_common = (
+                [self.associations_for_subjects_in_common]
+                if self.associations_for_subjects_in_common is not None
+                else []
+            )
+        self.associations_for_subjects_in_common = [
+            v if isinstance(v, Association) else Association(**as_dict(v))
+            for v in self.associations_for_subjects_in_common
         ]
 
         super().__post_init__(**kwargs)
@@ -759,6 +834,87 @@ slots.closure_predicates = Slot(
     model_uri=ONTOASSOC.closure_predicates,
     domain=None,
     range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
+slots.object1 = Slot(
+    uri=ONTOASSOC.object1,
+    name="object1",
+    curie=ONTOASSOC.curie("object1"),
+    model_uri=ONTOASSOC.object1,
+    domain=None,
+    range=Union[str, URIorCURIE],
+)
+
+slots.object2 = Slot(
+    uri=ONTOASSOC.object2,
+    name="object2",
+    curie=ONTOASSOC.curie("object2"),
+    model_uri=ONTOASSOC.object2,
+    domain=None,
+    range=Union[str, URIorCURIE],
+)
+
+slots.object1_label = Slot(
+    uri=ONTOASSOC.object1_label,
+    name="object1_label",
+    curie=ONTOASSOC.curie("object1_label"),
+    model_uri=ONTOASSOC.object1_label,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.object2_label = Slot(
+    uri=ONTOASSOC.object2_label,
+    name="object2_label",
+    curie=ONTOASSOC.curie("object2_label"),
+    model_uri=ONTOASSOC.object2_label,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.number_subjects_in_common = Slot(
+    uri=ONTOASSOC.number_subjects_in_common,
+    name="number_subjects_in_common",
+    curie=ONTOASSOC.curie("number_subjects_in_common"),
+    model_uri=ONTOASSOC.number_subjects_in_common,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.number_subject_unique_to_entity1 = Slot(
+    uri=ONTOASSOC.number_subject_unique_to_entity1,
+    name="number_subject_unique_to_entity1",
+    curie=ONTOASSOC.curie("number_subject_unique_to_entity1"),
+    model_uri=ONTOASSOC.number_subject_unique_to_entity1,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.number_subject_unique_to_entity2 = Slot(
+    uri=ONTOASSOC.number_subject_unique_to_entity2,
+    name="number_subject_unique_to_entity2",
+    curie=ONTOASSOC.curie("number_subject_unique_to_entity2"),
+    model_uri=ONTOASSOC.number_subject_unique_to_entity2,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.subjects_in_common = Slot(
+    uri=ONTOASSOC.subjects_in_common,
+    name="subjects_in_common",
+    curie=ONTOASSOC.curie("subjects_in_common"),
+    model_uri=ONTOASSOC.subjects_in_common,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.associations_for_subjects_in_common = Slot(
+    uri=ONTOASSOC.associations_for_subjects_in_common,
+    name="associations_for_subjects_in_common",
+    curie=ONTOASSOC.curie("associations_for_subjects_in_common"),
+    model_uri=ONTOASSOC.associations_for_subjects_in_common,
+    domain=None,
+    range=Optional[Union[Union[dict, Association], List[Union[dict, Association]]]],
 )
 
 slots.parserConfiguration__preserve_negated_associations = Slot(

@@ -4,12 +4,16 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from oaklib.datamodels.association import Association
+from oaklib.datamodels.association import Association, PairwiseCoAssociation
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.associations.association_index import AssociationIndex
+
+ASSOCIATION_CORRELATION = Tuple[
+    CURIE, CURIE, int, Optional[List[CURIE]], Optional[List[Association]]
+]
 
 
 def associations_subjects(associations: Iterable[Association]) -> Iterator[CURIE]:
@@ -121,6 +125,85 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             return
         for a in ix.lookup(subjects, predicates, objects):
             yield a
+
+    def associations_subjects(self, **kwargs) -> Iterator[CURIE]:
+        """
+        Yields all distinct subjects.
+
+        :param kwargs: same arguments as for :ref:`associations`
+        :return:
+        """
+        # individual implementations should override this to be more efficient
+        yielded = set()
+        for a in self.associations(**kwargs):
+            s = a.subject
+            if s in yielded:
+                continue
+            yield s
+            yielded.add(s)
+
+    def association_pairwise_coassociations(
+        self,
+        curies1: Iterable[CURIE],
+        curies2: Iterable[CURIE],
+        inputs_are_subjects=False,
+        include_reciprocals=False,
+        include_diagonal=True,
+        include_entities=True,
+        **kwargs,
+    ) -> Iterator[PairwiseCoAssociation]:
+        """
+        Find co-associations.
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
+        >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+        >>> terms = ["GO:0000910", "GO:0006281", "GO:0006412"]
+        >>> preds = [IS_A, PART_OF]
+        >>> for coassoc in adapter.association_pairwise_coassociations(curies1=terms,
+        ...                                              curies2=terms,
+        ...                                              object_closure_predicates=preds):
+        ...    print(coassoc.object1, coassoc.object2, coassoc.number_subjects_in_common)
+        <BLANKLINE>
+        ...
+        GO:0006281 GO:0000910 0
+        ...
+
+        :param curies1:
+        :param curies2:
+        :param inputs_are_subjects:
+        :param kwargs:
+        :return:
+        """
+        if inputs_are_subjects:
+            raise NotImplementedError
+        curies1 = list(curies1)
+        curies2 = list(curies2)
+        assocmap1 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies1}
+        assocmap2 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies2}
+        for c1 in curies1:
+            for c2 in curies2:
+                if c2 > c1 and not include_reciprocals:
+                    continue
+                if c1 == c2 and not include_diagonal:
+                    continue
+                assocs1 = assocmap1[c1]
+                assocs2 = assocmap2[c2]
+                elements1 = {a.subject for a in assocs1}
+                elements2 = {a.subject for a in assocs2}
+                common = elements1.intersection(elements2)
+                assocs_to_common = [a for a in assocs1 + assocs2 if a.subject in common]
+                coassoc = PairwiseCoAssociation(
+                    object1=c1,
+                    object2=c2,
+                    number_subjects_in_common=len(common),
+                    number_subject_unique_to_entity1=len(elements1.difference(elements2)),
+                    number_subject_unique_to_entity2=len(elements2.difference(elements1)),
+                )
+                if include_entities:
+                    coassoc.subjects_in_common = list(common)
+                    coassoc.associations_for_subjects_in_common = assocs_to_common
+                yield coassoc
 
     def add_associations(
         self,

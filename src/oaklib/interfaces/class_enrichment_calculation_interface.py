@@ -57,7 +57,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         :param item_list: An item list objects as an alternate way to specify subjects
         :param background: The set of entities to use as a background for the test (recommended)
         :param hypotheses: The set of classes to test for over-representation (default is all)
-        :param cutoff: The threshold to use for p-value
+        :param cutoff: The threshold to use for the adjusted p-value
         :param labels: Whether to include labels (names) for the classes
         :param direction: The direction of the test. One of 'greater', 'less', 'two-sided'
         :param filter_redundant: Whether to filter out redundant hypotheses
