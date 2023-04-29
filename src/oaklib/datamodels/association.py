@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-28T15:15:49
+# Generation date: 2023-04-29T01:37:20
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -288,6 +288,8 @@ class PairwiseCoAssociation(YAMLRoot):
 
     object1: Union[str, URIorCURIE] = None
     object2: Union[str, URIorCURIE] = None
+    object1_label: Optional[str] = None
+    object2_label: Optional[str] = None
     number_subjects_in_common: Optional[int] = None
     number_subject_unique_to_entity1: Optional[int] = None
     number_subject_unique_to_entity2: Optional[int] = None
@@ -306,6 +308,12 @@ class PairwiseCoAssociation(YAMLRoot):
             self.MissingRequiredField("object2")
         if not isinstance(self.object2, URIorCURIE):
             self.object2 = URIorCURIE(self.object2)
+
+        if self.object1_label is not None and not isinstance(self.object1_label, str):
+            self.object1_label = str(self.object1_label)
+
+        if self.object2_label is not None and not isinstance(self.object2_label, str):
+            self.object2_label = str(self.object2_label)
 
         if self.number_subjects_in_common is not None and not isinstance(
             self.number_subjects_in_common, int
@@ -779,6 +787,24 @@ slots.object2 = Slot(
     model_uri=ONTOASSOC.object2,
     domain=None,
     range=Union[str, URIorCURIE],
+)
+
+slots.object1_label = Slot(
+    uri=ONTOASSOC.object1_label,
+    name="object1_label",
+    curie=ONTOASSOC.curie("object1_label"),
+    model_uri=ONTOASSOC.object1_label,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.object2_label = Slot(
+    uri=ONTOASSOC.object2_label,
+    name="object2_label",
+    curie=ONTOASSOC.curie("object2_label"),
+    model_uri=ONTOASSOC.object2_label,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.number_subjects_in_common = Slot(

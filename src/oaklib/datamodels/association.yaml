@@ -66,6 +66,8 @@ classes:
     slots:
       - object1
       - object2
+      - object1_label
+      - object2_label
       - number_subjects_in_common
       - number_subject_unique_to_entity1
       - number_subject_unique_to_entity2
@@ -244,6 +246,8 @@ slots:
   object2:
     is_a: object
     required: true
+  object1_label:
+  object2_label:
   number_subjects_in_common:
     range: integer
   number_subject_unique_to_entity1:
