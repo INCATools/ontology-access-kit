@@ -20,6 +20,8 @@ NULL_VALUE = "None"
 def _keyval(x: Any) -> str:
     if isinstance(x, CurieNamespace):
         return str(x.curie())
+    if isinstance(x, list):
+        return "|".join([str(v) for v in x])
     # if isinstance(x, EnumDefinitionImpl):
     #    if x.curie:
     #        return str(x.curie)

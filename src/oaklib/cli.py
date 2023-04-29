@@ -4354,6 +4354,8 @@ def enrichment(
 @autolabel_option
 @output_type_option
 @output_option
+@click.option("--old-date", help="Old date, in YYYY-MM-DD format")
+@click.option("--new-date", help="Old date, in YYYY-MM-DD format")
 @click.option("-g", "--associations", help="associations")
 @click.option("-X", "--other-associations", help="other associations")
 @click.option(
@@ -4368,6 +4370,7 @@ def diff_associations(
     group_by: str,
     associations: str,
     other_associations: str,
+    **kwargs,
 ):
     """
     Diffs two association sources. EXPERIMENTAL.
@@ -4376,6 +4379,7 @@ def diff_associations(
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.heterogeneous_keys = True
     writer.autolabel = autolabel
     writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
@@ -4409,6 +4413,9 @@ def diff_associations(
         else:
             changes = differ.calculate_change_objects(assocs1, assocs2, actual_predicates)
         for change in changes:
+            if kwargs:
+                for k, v in kwargs.items():
+                    setattr(change, k, v)
             writer.emit(change, label_fields=["old_object", "new_object"])
     writer.finish()
 
