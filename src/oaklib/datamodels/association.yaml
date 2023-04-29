@@ -100,6 +100,10 @@ classes:
   AssociationChange:
     slots:
       - summary_group
+      - old_date
+      - new_date
+      - primary_knowledge_source
+      - aggregator_knowledge_source
       - publications
       - publication_is_added
       - publication_is_deleted
@@ -210,6 +214,16 @@ slots:
     mixin: true
     description: |-
       denormalized slots are for models that follow a denormalized data model
+  date:
+    range: string
+  modification_date:
+    is_a: date
+  creation_date:
+    is_a: date
+  old_date:
+    is_a: date
+  new_date:
+    is_a: date
   summary_group:
     range: string
   publication_is_added:
