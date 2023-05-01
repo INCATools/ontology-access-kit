@@ -39,6 +39,7 @@ rustsim = ">=0.1.6"
 upsetplot = "^0.8.0"
 pysolr = "^3.9.0"
 eutils = "^0.6.0"
+requests-cache = "^1.0.1"
 
 
 [tool.poetry.dev-dependencies]

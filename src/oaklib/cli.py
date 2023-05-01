@@ -844,6 +844,10 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
 @click.option(
     "--other-languages", multiple=True, help="Additional languages for labels and lexical elements"
 )
+@click.option(
+    "--requests-cache-db",
+    help="If specified, all http requests will be cached to this sqlite file",
+)
 @input_option
 @input_type_option
 @add_option
@@ -867,6 +871,7 @@ def main(
     autosave: bool,
     named_prefix_map,
     metamodel_mappings,
+    requests_cache_db,
     prefix,
     import_depth: Optional[int],
     **kwargs,
@@ -894,6 +899,10 @@ def main(
         logger.setLevel(logging.WARNING)
     if quiet:
         logger.setLevel(logging.ERROR)
+    if requests_cache_db:
+        import requests_cache
+
+        requests_cache.install_cache(requests_cache_db)
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
@@ -4442,9 +4451,20 @@ def diff_associations(
     **kwargs,
 ):
     """
-    Diffs two association sources. EXPERIMENTAL.
+    Diffs two association sources.
 
-    This functionality may move out of core
+    Example:
+
+        runoak -i sqlite:obo:go  -G gaf  diff-associations \
+           --old-date ${date1} --new-date ${date2} \
+           -g  "${download_dir}/${group}-${date1}.gaf" \
+           -X "${download_dir}/${group}-${date2}.gaf" \
+           --group-by publications -p i,p \
+           -o "${group}-diff-${date1}-to-${date2}.tsv
+
+    See https://w3id.org/oak/association for the diff data model.
+
+    NOTE: This functionality may move out of core
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
