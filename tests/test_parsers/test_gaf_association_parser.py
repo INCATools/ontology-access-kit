@@ -22,11 +22,12 @@ class GafAssociationParserTest(unittest.TestCase):
             self.assertIn(
                 Association(
                     subject="UniProtKB:Q9BPZ7",
+                    subject_label="MAPKAP1",
                     predicate="is_active_in",
                     object="GO:0005737",
                     property_values=[],
                     publications=["PMID:21873635"],
-                    primary_knowledge_source="GO_Central",
+                    primary_knowledge_source="infores:GO_Central",
                 ),
                 assocs,
             )

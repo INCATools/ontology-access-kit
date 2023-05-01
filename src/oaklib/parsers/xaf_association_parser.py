@@ -8,6 +8,7 @@ from oaklib.datamodels.association import (
     Association,
     NegatedAssociation,
     ParserConfiguration,
+    PropertyValue,
 )
 from oaklib.parsers.association_parser import AssociationParser
 from oaklib.parsers.parser_base import ColumnReference
@@ -62,6 +63,11 @@ class XafAssociationParser(AssociationParser):
     Column that contains the subject (e.g. gene ID).
     """
 
+    subject_label_column: Optional[ColumnReference] = None
+    """
+    Column that contains the subject label (e.g. gene symbol)
+    """
+
     predicate_column: Optional[ColumnReference] = None
     """
     Column that contains the predicate (e.g. RO:0002200)
@@ -70,6 +76,11 @@ class XafAssociationParser(AssociationParser):
     object_column: Optional[ColumnReference] = None
     """
     Column that contains the object (e.g. GO or Phenotype term ID)
+    """
+
+    object_label_column: Optional[ColumnReference] = None
+    """
+    Column that contains the object label (e.g. term name)
     """
 
     subject_must_be_curie = False
@@ -140,18 +151,13 @@ class XafAssociationParser(AssociationParser):
         """
         lookup_subject_prefix = self.index_lookup_function(self.subject_prefix_column)
         lookup_subject = self.index_lookup_function(self.subject_column)
+        lookup_subject_label = self.index_lookup_function(self.subject_label_column)
         lookup_predicate = self.index_lookup_function(self.predicate_column)
         lookup_object = self.index_lookup_function(self.object_column)
-        if self.publications_column:
-            lookup_publications = self.index_lookup_function(self.publications_column)
-        else:
-            lookup_publications = None
-        if self.primary_knowledge_source_column:
-            lookup_primary_knowledge_source = self.index_lookup_function(
-                self.primary_knowledge_source_column
-            )
-        else:
-            lookup_primary_knowledge_source = None
+        lookup_publications = self.index_lookup_function(self.publications_column)
+        lookup_primary_knowledge_source = self.index_lookup_function(
+            self.primary_knowledge_source_column
+        )
         if (
             self.subject_prefix_column
             and self.expected_subject_prefixes
@@ -185,6 +191,9 @@ class XafAssociationParser(AssociationParser):
             _check_identifier(o, self.expected_object_prefixes, self.object_must_be_curie)
             if self.expected_predicates and p not in self.expected_predicates:
                 raise ValueError(f"Unexpected predicate {p} in line: {line}")
+            if s.startswith("MGI:MGI:"):
+                # TODO: make this more configurable
+                s = s.replace("MGI:MGI:", "MGI:")
             association = Association(s, p, o)
             if lookup_publications:
                 pub = lookup_publications(vals)
@@ -193,10 +202,16 @@ class XafAssociationParser(AssociationParser):
             if lookup_primary_knowledge_source:
                 src = lookup_primary_knowledge_source(vals)
                 if src:
+                    if ":" not in src:
+                        src = f"infores:{src}"
                     association.primary_knowledge_source = src
+            if lookup_subject_label:
+                sl = lookup_subject_label(vals)
+                if sl:
+                    association.subject_label = sl
             if self.other_column_mappings:
                 for i, attr in self.other_column_mappings.items():
-                    setattr(association, attr, vals[i])
+                    association.property_values[attr] = PropertyValue(attr, vals[i])
             for processed_association in self.post_process(association):
                 if isinstance(processed_association, NegatedAssociation):
                     if configuration and configuration.preserve_negated_associations:

@@ -10,6 +10,7 @@ from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.associations.association_index import AssociationIndex
+from oaklib.utilities.iterator_utils import chunk
 
 ASSOCIATION_CORRELATION = Tuple[
     CURIE, CURIE, int, Optional[List[CURIE]], Optional[List[Association]]
@@ -69,6 +70,57 @@ class EntityNormalizer:
 class AssociationProviderInterface(BasicOntologyInterface, ABC):
     """
     An ontology provider that provides associations.
+
+    Associations (also known as annotations) connect data elements or entities to
+    an ontology class. Examples of associations include:
+
+    - Gene associations to terms in ontologies like GO, Mondo, Uberon, HPO, MPO, CL
+    - Associations between spans of text and ontology entities
+
+    Data models and file formats include:
+
+    - The GO GAF and GPAD formats.
+    - The HPOA association file format.
+    - KGX (Knowledge Graph Exchange).
+    - The W3 `Open Annotation <https://www.w3.org/TR/annotation-model/>`_ (OA) data model
+
+    The OA datamodel considers an annotation to be between a *body* and a *target*:
+
+    .. image:: https://www.w3.org/TR/annotation-vocab/images/examples/annotation.png
+
+    .. warning::
+
+        the signature of some methods are subject to change while we
+        decide on the best patterns to define here.
+
+    Note that most ontology sources are not themselves providers of associations; there is no agreed upon
+    way to represent associations in OWL, and associations are typically distributed separately from
+    ontologies. See the section :ref:`associations` in the OAK guide for more details.
+
+    OAK provides a number of ways to augment an ontology adapter with associations.
+
+    The most expressive way is to provide an :ref:`InputSpecification`:
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+
+    This combines an ontology source with one or more association sources.
+
+    Another approach is to use an adapter that directly supports associations. An example of this
+    is the :ref:`amigo_implementation`:
+
+    >>> from oaklib import get_adapter
+    >>> amigo = get_adapter("amigo:NCBITaxon:10090") # mouse
+
+
+
+
+    Command Line Use
+    ----------------
+
+    .. code::
+
+       runoak -i foo.db associations UBERON:0002101
     """
 
     _association_index: AssociationIndex = None
@@ -90,6 +142,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         """
         Yield all matching associations.
 
+        To query by subject (e.g. genes):
+
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
         >>> genes = ["PomBase:SPAC1142.02c", "PomBase:SPAC3H1.05", "PomBase:SPAC1142.06", "PomBase:SPAC4G8.02c"]
@@ -99,6 +153,22 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         ...
         GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane
         ...
+
+        To query by object (e.g. descriptor terms):
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
+        >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+        >>> for assoc in adapter.associations(objects=["GO:0006620"], object_closure_predicates=[IS_A, PART_OF]):
+        ...    print(f"{assoc.subject} {assoc.subject_label}")
+        <BLANKLINE>
+        ...
+        PomBase:SPAC1142.02c sgt2
+        ...
+
+        When determinining a match on `objects`, the predicates in ``object_closure_predicates`` is used.
+        We recommend you always explicitly provide this. A good choice is typically IS_A and PART_OF for
+        ontologies like GO, Uberon, CL, ENVO.
 
         :param subjects: constrain to these subjects (e.g. genes in a gene association)
         :param predicates: constrain to these predicates (e.g. involved-in for a gene to pathway association)
@@ -123,12 +193,33 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         if ix is None:
             logging.warning("No association index")
             return
-        for a in ix.lookup(subjects, predicates, objects):
-            yield a
+        yield from ix.lookup(subjects, predicates, objects)
+
+    def _inject_subject_labels(self, association_iterator: Iterable[Association]):
+        for assoc_it in chunk(association_iterator):
+            associations = list(assoc_it)
+            subjects = {a.subject for a in associations}
+            label_map = {s: l for s, l in self.labels(subjects)}
+            logging.info(f"LABEL MAP: {label_map} for {subjects}")
+            for association in associations:
+                if association.subject in label_map:
+                    association.subject_label = label_map[association.subject]
+            yield from associations
 
     def associations_subjects(self, **kwargs) -> Iterator[CURIE]:
         """
         Yields all distinct subjects.
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
+        >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+        >>> genes = ["PomBase:SPAC1142.02c", "PomBase:SPAC3H1.05", "PomBase:SPAC1142.06", "PomBase:SPAC4G8.02c"]
+        >>> for assoc in adapter.associations(genes, object_closure_predicates=[IS_A, PART_OF]):
+        ...    print(f"{assoc.object} {adapter.label(assoc.object)}")
+        <BLANKLINE>
+        ...
+        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane
+        ...
 
         :param kwargs: same arguments as for :ref:`associations`
         :return:

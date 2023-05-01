@@ -2,7 +2,7 @@ import logging
 from collections import defaultdict
 from copy import copy
 from dataclasses import dataclass, field
-from typing import Iterator, List, Mapping, Set, Tuple
+from typing import Collection, Iterator, List, Mapping, Set, Tuple
 
 from oaklib.datamodels.association import Association, AssociationChange
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -63,31 +63,52 @@ class AssociationDiffer:
         assocs2: List[Association],
         predicates: List[PRED_CURIE],
     ) -> Iterator[AssociationChange]:
+        """
+        Calculates diff between two association sets.
+
+        :param assocs1: the old association set
+        :param assocs2: the new association set
+        :param predicates: closure predicates
+        :return:
+        """
         obsoletion_map = self.obsoletion_map
         subject_map1 = pairs_as_dict([(a.subject, a) for a in assocs1])
         subject_map2 = pairs_as_dict([(a.subject, a) for a in assocs2])
-        entities = set(subject_map1.keys()).union(set(subject_map2.keys()))
-        for entity in entities:
-            if entity not in subject_map1:
-                for a in subject_map2[entity]:
-                    yield AssociationChange(
-                        subject=a.subject,
-                        new_object=a.object,
-                        is_creation=True,
-                    )
-                continue
-            if entity not in subject_map2:
-                for a in subject_map1[entity]:
-                    yield AssociationChange(
-                        subject=a.subject,
-                        old_object=a.object,
-                        is_deletion=True,
-                    )
-                continue
+        entities1 = set(subject_map1.keys())
+        entities2 = set(subject_map2.keys())
+
+        def _count_closure(o: CURIE, bg: Collection[CURIE]) -> int:
+            if o in bg:
+                return 0
+            bg_closure = self.adapter.ancestors(list(bg), predicates)
+            diff = set(self.adapter.ancestors([o], predicates)).difference(bg_closure)
+            return len(diff)
+
+        for entity in entities2.difference(entities1):
+            objects1 = set([a.object for a in subject_map1[entity]])
+            for a in subject_map2[entity]:
+                yield AssociationChange(
+                    subject=a.subject,
+                    new_object=a.object,
+                    is_creation=True,
+                    closure_delta=_count_closure(a.object, objects1),
+                )
+        for entity in entities1.difference(entities2):
+            objects2 = set([a.object for a in subject_map2[entity]])
+            for a in subject_map1[entity]:
+                yield AssociationChange(
+                    subject=a.subject,
+                    old_object=a.object,
+                    is_deletion=True,
+                    closure_delta=-_count_closure(a.object, objects2),
+                )
+        for entity in entities1.intersection(entities2):
             objects1 = set([a.object for a in subject_map1[entity]])
             objects2 = set([a.object for a in subject_map2[entity]])
+            common = objects1.intersection(objects2)
             accounted_for_in_objects2 = set()
             for o in objects1.difference(objects2):
+                logging.debug(f"Trying to account for {o} (unique to old) in {entity}")
                 old_object_obsolete = False
                 if o in obsoletion_map:
                     old_object_obsolete = True
@@ -100,6 +121,8 @@ class AssociationDiffer:
                                 new_object=o2,
                                 is_migration=True,
                                 old_object_obsolete=old_object_obsolete,
+                                closure_predicates=predicates,
+                                closure_delta=0,
                             )
                     continue
                 if not predicates:
@@ -109,15 +132,19 @@ class AssociationDiffer:
                         is_deletion=True,
                         old_object_obsolete=old_object_obsolete,
                         closure_predicates=[],
+                        closure_delta=-1,
                     )
                     continue
                 o_ancestors = list(
                     self.adapter.ancestors([o], predicates=predicates, reflexive=True)
                 )
-                ixn = objects2.intersection(o_ancestors)
+                # candidate generalizations: any ancestor of o that is
+                # not accounted for in the common set
+                ixn = objects2.intersection(o_ancestors).difference(common)
                 if ixn:
                     o2 = ixn.pop()
                     accounted_for_in_objects2.add(o2)
+                    all_o2_ancestors = list(self.adapter.ancestors(list(objects2), predicates))
                     yield AssociationChange(
                         subject=entity,
                         old_object=o,
@@ -125,16 +152,22 @@ class AssociationDiffer:
                         is_generalization=True,
                         old_object_obsolete=old_object_obsolete,
                         closure_predicates=predicates,
+                        closure_delta=-_count_closure(o, all_o2_ancestors),
                     )
                     continue
-                o2_ancestors = list(
-                    self.adapter.ancestors(list(objects2), predicates=predicates, reflexive=True)
+                # detect specializations, where o becomes a descendant of o
+                # ancestors of all in new
+                o2_ancestors_of_unique = list(
+                    self.adapter.ancestors(
+                        list(objects2.difference(objects1)), predicates=predicates, reflexive=True
+                    )
                 )
                 # o_descendants = list(
                 #    self.adapter.descendants([o], predicates=predicates, reflexive=True)
                 # )
                 # ixn = objects2.intersection(o_descendants)
-                if o in o2_ancestors:
+                if o in o2_ancestors_of_unique:
+                    all_o1_ancestors = list(self.adapter.ancestors(list(objects1), predicates))
                     new_object = None
                     for o2 in objects2:
                         if o in list(
@@ -151,6 +184,7 @@ class AssociationDiffer:
                         is_specialization=True,
                         old_object_obsolete=old_object_obsolete,
                         closure_predicates=predicates,
+                        closure_delta=_count_closure(new_object, all_o1_ancestors),
                     )
                     continue
                 # neither specialization nor generalization
@@ -160,6 +194,7 @@ class AssociationDiffer:
                     is_deletion=True,
                     old_object_obsolete=old_object_obsolete,
                     closure_predicates=predicates,
+                    closure_delta=-_count_closure(o, objects2),
                 )
             for o in objects2.difference(objects1):
                 if o in accounted_for_in_objects2:
@@ -169,6 +204,7 @@ class AssociationDiffer:
                     new_object=o,
                     is_creation=True,
                     closure_predicates=predicates,
+                    closure_delta=_count_closure(o, objects1),
                 )
 
     def compare(

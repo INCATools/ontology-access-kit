@@ -23,6 +23,23 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
 
     The core method in this interface is :py:meth:`sssom_mappings`.
 
+    .. note ::
+
+        This interface is for serving pre-calculated mappings.
+        See :ref:`sssom_utils` for on-the-fly mapping creation
+
+
+    Data Model
+    -----------
+
+    The central datamodel used here is `SSSOM <http://w3id.org/sssom>`_
+
+    Command Line Use
+    ----------------
+
+    .. code::
+
+       runoak -i bioportal: term-mappings UBERON:0002101  -O sssom -o limb-mappings.sssom.tsv
     """
 
     def sssom_mappings(

@@ -106,6 +106,7 @@ from oaklib.datamodels.vocabulary import (
     RDF_TYPE,
     RDFS_COMMENT,
     RDFS_DOMAIN,
+    RDFS_LABEL,
     RDFS_RANGE,
     SEMAPV,
     STANDARD_ANNOTATION_PROPERTIES,
@@ -1136,13 +1137,23 @@ class SqlImplementation(
 
     def associations(self, *args, **kwargs) -> Iterator[Association]:
         if not self.can_store_associations:
+            logging.info("Using base method")
             yield from super().associations(*args, **kwargs)
             return
         q = self._associations_query(*args, **kwargs)
-        for row in q:
-            yield Association(
-                row.subject, row.predicate, row.object, primary_knowledge_source=row.source
-            )
+        for row_it in chunk(q):
+            assocs = []
+            for row in row_it:
+                association = Association(
+                    row.subject, row.predicate, row.object, primary_knowledge_source=row.source
+                )
+                assocs.append(association)
+            subjects = {a.subject for a in assocs}
+            label_map = {s: l for s, l in self.labels(subjects)}
+            for association in assocs:
+                if association.subject in label_map:
+                    association.subject_label = label_map[association.subject]
+            yield from assocs
 
     def _associations_query(
         self,
@@ -1191,7 +1202,10 @@ class SqlImplementation(
         return q
 
     def add_associations(
-        self, associations: Iterable[Association], normalizers: List[EntityNormalizer] = None
+        self,
+        associations: Iterable[Association],
+        normalizers: List[EntityNormalizer] = None,
+        **kwargs,
     ) -> bool:
         if not self.can_store_associations:
             return super().add_associations(associations, normalizers=normalizers)
@@ -1207,6 +1221,13 @@ class SqlImplementation(
                 source=a.primary_knowledge_source,
             )
             self._execute(stmt)
+            if a.subject_label:
+                stmt = insert(Statements).values(
+                    subject=a.subject,
+                    predicate=RDFS_LABEL,
+                    value=a.subject_label,
+                )
+                self._execute(stmt)
         self.session.flush()
         return True
 

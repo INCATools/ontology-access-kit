@@ -1,8 +1,9 @@
 """An in-memory sqlite index for simple associations."""
 import logging
 import sqlite3
-from dataclasses import dataclass
-from typing import Any, Dict, Iterable, Iterator
+from collections import defaultdict
+from dataclasses import dataclass, field
+from typing import Any, Dict, Iterable, Iterator, List, Tuple
 
 from semsql.sqla.semsql import TermAssociation
 from sqlalchemy import Column, String, create_engine
@@ -34,9 +35,16 @@ class DenormalizedAssociation:
 
 @dataclass
 class AssociationIndex:
+    """
+    A sqlite in-memory index for a collection of associations.
+    """
+
     _connection: sqlite3.Connection = None
     _session: Session = None
     _engine: Engine = None
+    _associations_by_spo: Dict[Tuple[CURIE, PRED_CURIE, CURIE], List[Association]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
 
     def create(self):
         connection_string: str = "sqlite:///:memory:"
@@ -58,6 +66,9 @@ class AssociationIndex:
             "insert into term_association(subject, predicate, object, source) values (?,?,?,?)",
             tups,
         )
+        for a in associations:
+            tup = (a.subject, a.predicate, a.object)
+            self._associations_by_spo[tup].append(a)
 
     def lookup(
         self,
@@ -78,9 +89,5 @@ class AssociationIndex:
             q = q.filter(TermAssociation.object.in_(tuple(objects)))
         logging.info(f"Association query: {q}")
         for row in q:
-            yield Association(
-                subject=row.subject,
-                predicate=row.predicate,
-                object=row.object,
-                primary_knowledge_source=row.source,
-            )
+            tup = (row.subject, row.predicate, row.object)
+            yield from self._associations_by_spo[tup]

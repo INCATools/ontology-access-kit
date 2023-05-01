@@ -169,6 +169,7 @@ def _get_adapter_from_specification(
                 r.format,
                 normalizers,
                 primary_knowledge_source=r.primary_knowledge_source,
+                aggregator_knowledge_source=r.aggregator_knowledge_source,
             )
     return adapter
 
@@ -179,6 +180,7 @@ def add_associations(
     format: str = None,
     normalizers: Optional[List[Normalizer]] = None,
     primary_knowledge_source: Optional[str] = None,
+    aggregator_knowledge_source: Optional[str] = None,
 ) -> None:
     """
     Adds associations to an adapter.
@@ -213,8 +215,14 @@ def add_associations(
         logging.info(f"Adding associations from {url}")
         if primary_knowledge_source is None:
             primary_knowledge_source = f"infores:{scheme}"
+        if aggregator_knowledge_source is None:
+            aggregator_knowledge_source = f"infores:{scheme}"
         assocs = list(association_parser.parse(file))
-        association_parser.add_metadata(assocs, primary_knowledge_source=primary_knowledge_source)
+        association_parser.add_metadata(
+            assocs,
+            primary_knowledge_source=primary_knowledge_source,
+            aggregator_knowledge_source=aggregator_knowledge_source,
+        )
         adapter.add_associations(assocs, normalizers=normalizers)
         return
     if not format:
