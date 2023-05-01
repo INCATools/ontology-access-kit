@@ -20,5 +20,6 @@ For a quick introduction, see the :ref:`tutorial`
    definitions
    obsoletion
    relationships-and-graphs
+   associations
    learning-more
 

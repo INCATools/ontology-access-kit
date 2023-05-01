@@ -1,4 +1,4 @@
-.. ols:
+.. _ols_implementation:
 
 Ontology Lookup Service (OLS) Adapter
 =====================================

@@ -1,4 +1,4 @@
-.. _search-syntax:
+.. _search_syntax:
 
 Search Syntax
 =================

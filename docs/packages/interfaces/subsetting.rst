@@ -1,4 +1,4 @@
-.. _subsetter_interface
+.. _subsetter_interface:
 
 Subsetting
 ==============

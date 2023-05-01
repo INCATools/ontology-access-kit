@@ -1,7 +1,7 @@
 .. _packages:
 
-Package Documentation
-==================================
+OAK Library Documentation
+=========================
 
 .. toctree::
    :maxdepth: 2

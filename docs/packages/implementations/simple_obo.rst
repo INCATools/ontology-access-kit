@@ -1,4 +1,4 @@
-.. simple_obo_implementation:
+.. _simple_obo_implementation:
 
 Simple OBO Adapter
 ==================
