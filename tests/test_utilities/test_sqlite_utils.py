@@ -1,7 +1,7 @@
 import os
-from pathlib import Path
 import sqlite3
 import unittest
+from pathlib import Path
 
 from oaklib.implementations.sqldb.sqlite_utils import (
     sqlite_bulk_load,
@@ -18,7 +18,6 @@ TBL_NAME = "my_tbl"
 
 
 class TestSqliteUtils(unittest.TestCase):
-
     # @unittest.skipIf(os.name == "nt", "temporarily skip sqlite3 on Windows")
     def test_bulkload(self):
         if DB.exists():
