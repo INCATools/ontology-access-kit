@@ -809,16 +809,17 @@ class SimpleOboImplementation(
             t = self._stanza(patch.about_node, strict=True)
             t.add_quoted_tag_value(TAG_DEFINITION, patch.new_value.strip("'"), xrefs=[])
             modified_entities.append(patch.about_node)
+        elif isinstance(patch, kgcl.RemoveTextDefinition):
+            t = self._stanza(patch.about_node, strict=True)
+            for tv in t.tag_values:
+                if tv.tag == TAG_DEFINITION:
+                    # This is a remove_definition request
+                    tv.value = ""
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._stanza(patch.about_node, strict=True)
             for tv in t.tag_values:
                 if tv.tag == TAG_DEFINITION:
-                    if isinstance(patch, kgcl.RemoveTextDefinition):
-                        # This is a remove_definition request
-                        tv.value = ""
-                    else:
-                        # The strip() portion is to handle a KGCL bug
-                        tv.replace_quoted_part(patch.new_value.strip("'"))
+                    tv.replace_quoted_part(patch.new_value.strip("'"))
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
