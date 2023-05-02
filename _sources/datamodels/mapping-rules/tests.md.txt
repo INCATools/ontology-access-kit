@@ -1,5 +1,8 @@
 # Slot: tests
+
+
 _Unit tests for each rules._
+
 
 
 URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
@@ -13,9 +16,10 @@ URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Synonymizer](Synonymizer.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Synonymizer](Synonymizer.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
 ## Properties
 
 * Range: [Test](Test.md)
-
-
 
 
 

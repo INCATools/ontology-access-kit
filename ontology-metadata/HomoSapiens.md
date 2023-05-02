@@ -1,5 +1,8 @@
 # Class: HomoSapiens
+
+
 _An individual human being_
+
 
 
 
@@ -17,27 +20,27 @@ URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
         
       HomoSapiens : broadMatch
         
-          HomoSapiens ..> Thing : broadMatch
+          HomoSapiens --|> Thing : broadMatch
         
       HomoSapiens : category
         
       HomoSapiens : closeMatch
         
-          HomoSapiens ..> Thing : closeMatch
+          HomoSapiens --|> Thing : closeMatch
         
       HomoSapiens : comment
         
       HomoSapiens : conformsTo
         
-          HomoSapiens ..> Thing : conformsTo
+          HomoSapiens --|> Thing : conformsTo
         
       HomoSapiens : consider
         
-          HomoSapiens ..> Any : consider
+          HomoSapiens --|> Any : consider
         
       HomoSapiens : contributor
         
-          HomoSapiens ..> Agent : contributor
+          HomoSapiens --|> Agent : contributor
         
       HomoSapiens : created
         
@@ -47,7 +50,7 @@ URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
         
       HomoSapiens : creator
         
-          HomoSapiens ..> Agent : creator
+          HomoSapiens --|> Agent : creator
         
       HomoSapiens : curator_note
         
@@ -61,7 +64,7 @@ URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
         
       HomoSapiens : depicted_by
         
-          HomoSapiens ..> Image : depicted_by
+          HomoSapiens --|> Image : depicted_by
         
       HomoSapiens : deprecated
         
@@ -71,17 +74,17 @@ URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
         
       HomoSapiens : exactMatch
         
-          HomoSapiens ..> Thing : exactMatch
+          HomoSapiens --|> Thing : exactMatch
         
       HomoSapiens : example_of_usage
         
       HomoSapiens : excluded_from_QC_check
         
-          HomoSapiens ..> Thing : excluded_from_QC_check
+          HomoSapiens --|> Thing : excluded_from_QC_check
         
       HomoSapiens : excluded_subClassOf
         
-          HomoSapiens ..> Class : excluded_subClassOf
+          HomoSapiens --|> Class : excluded_subClassOf
         
       HomoSapiens : excluded_synonym
         
@@ -107,27 +110,27 @@ URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
         
       HomoSapiens : image
         
-          HomoSapiens ..> Thing : image
+          HomoSapiens --|> Thing : image
         
       HomoSapiens : imported_from
         
-          HomoSapiens ..> NamedIndividual : imported_from
+          HomoSapiens --|> NamedIndividual : imported_from
         
       HomoSapiens : in_subset
         
-          HomoSapiens ..> Subset : in_subset
+          HomoSapiens --|> Subset : in_subset
         
       HomoSapiens : ISA_alternative_term
         
       HomoSapiens : isDefinedBy
         
-          HomoSapiens ..> Ontology : isDefinedBy
+          HomoSapiens --|> Ontology : isDefinedBy
         
       HomoSapiens : label
         
       HomoSapiens : narrowMatch
         
-          HomoSapiens ..> Thing : narrowMatch
+          HomoSapiens --|> Thing : narrowMatch
         
       HomoSapiens : OBO_foundry_unique_label
         
@@ -137,17 +140,17 @@ URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
         
       HomoSapiens : seeAlso
         
-          HomoSapiens ..> Thing : seeAlso
+          HomoSapiens --|> Thing : seeAlso
         
       HomoSapiens : should_conform_to
         
-          HomoSapiens ..> Thing : should_conform_to
+          HomoSapiens --|> Thing : should_conform_to
         
       HomoSapiens : term_editor
         
       HomoSapiens : term_replaced_by
         
-          HomoSapiens ..> Any : term_replaced_by
+          HomoSapiens --|> Any : term_replaced_by
         
       HomoSapiens : term_tracker_item
         

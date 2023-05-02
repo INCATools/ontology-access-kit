@@ -11,9 +11,10 @@ URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

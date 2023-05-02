@@ -1,5 +1,8 @@
 # Slot: right_predicate_labels
+
+
 _The names corresponding to the right_predicate_ids_
+
 
 
 URI: [xodiff:right_predicate_labels](https://w3id.org/oak/cross-ontology-diff/right_predicate_labels)
@@ -17,9 +20,10 @@ URI: [xodiff:right_predicate_labels](https://w3id.org/oak/cross-ontology-diff/ri
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+
 
 
 
@@ -29,10 +33,8 @@ URI: [xodiff:right_predicate_labels](https://w3id.org/oak/cross-ontology-diff/ri
 ## Properties
 
 * Range: [Label](Label.md)
+
 * Multivalued: True
-
-
-
 
 
 

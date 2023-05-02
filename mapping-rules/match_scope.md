@@ -1,5 +1,8 @@
 # Slot: match_scope
+
+
 _Scope of the reg-ex rule_
+
 
 
 URI: [mappingrules:match_scope](https://w3id.org/oak/mapping-rules-datamodel/match_scope)
@@ -13,9 +16,10 @@ URI: [mappingrules:match_scope](https://w3id.org/oak/mapping-rules-datamodel/mat
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Synonymizer](Synonymizer.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Synonymizer](Synonymizer.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:match_scope](https://w3id.org/oak/mapping-rules-datamodel/mat
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

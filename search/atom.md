@@ -11,9 +11,10 @@ URI: [ontosearch:atom](https://w3id.org/oak/search-datamodel/atom)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ComplexQuery](ComplexQuery.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ComplexQuery](ComplexQuery.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontosearch:atom](https://w3id.org/oak/search-datamodel/atom)
 ## Properties
 
 * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
-
-
 
 
 

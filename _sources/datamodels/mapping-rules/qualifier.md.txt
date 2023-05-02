@@ -1,5 +1,8 @@
 # Slot: qualifier
+
+
 _Type of match for the new synonym generated._
+
 
 
 URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/qualifier)
@@ -13,9 +16,10 @@ URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/quali
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Synonymizer](Synonymizer.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Synonymizer](Synonymizer.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/quali
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

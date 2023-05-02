@@ -16,9 +16,10 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Restriction](Restriction.md) |  |  no  |
+
 
 
 
@@ -28,10 +29,8 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

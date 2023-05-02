@@ -11,9 +11,10 @@ URI: [ontosearch:include_obsoletes_in_results](https://w3id.org/oak/search-datam
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontosearch:include_obsoletes_in_results](https://w3id.org/oak/search-datam
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

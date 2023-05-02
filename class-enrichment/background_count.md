@@ -1,5 +1,8 @@
 # Slot: background_count
+
+
 _The background count_
+
 
 
 URI: [ontoenrich:background_count](https://w3id.org/oak/class-enrichment/background_count)
@@ -13,9 +16,10 @@ URI: [ontoenrich:background_count](https://w3id.org/oak/class-enrichment/backgro
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontoenrich:background_count](https://w3id.org/oak/class-enrichment/backgro
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: subject
+
+
 _The term to which the constraint applies_
+
 
 
 URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
@@ -13,9 +16,10 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 ## Properties
 
 * Range: [SubjectTerm](SubjectTerm.md)
-
-
 
 
 

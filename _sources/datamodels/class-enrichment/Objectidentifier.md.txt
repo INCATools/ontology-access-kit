@@ -1,7 +1,10 @@
 # Type: Objectidentifier
 
 
+
+
 _A URI or CURIE that represents an object in the model._
+
 
 
 URI: [shex:iri](http://www.w3.org/ns/shex#iri)

@@ -1,5 +1,8 @@
 # Slot: right_side
+
+
 _The second ontology is arbitrarily designated the right side_
+
 
 
 URI: [xodiff:right_side](https://w3id.org/oak/cross-ontology-diff/right_side)
@@ -11,6 +14,7 @@ URI: [xodiff:right_side](https://w3id.org/oak/cross-ontology-diff/right_side)
 
 * [side](side.md)
     * **right_side**
+
 
 
 
@@ -33,10 +37,8 @@ URI: [xodiff:right_side](https://w3id.org/oak/cross-ontology-diff/right_side)
 ## Properties
 
 * Range: [String](String.md)
+
 * Mixin: True
-
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Class: HasSynonyms
+
+
 _a mixin for a class whose members can have synonyms_
+
 
 
 

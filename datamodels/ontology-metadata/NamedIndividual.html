@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -102,27 +102,27 @@
         
       NamedIndividual : broadMatch
         
-          NamedIndividual ..&gt; Thing : broadMatch
+          NamedIndividual --|&gt; Thing : broadMatch
         
       NamedIndividual : category
         
       NamedIndividual : closeMatch
         
-          NamedIndividual ..&gt; Thing : closeMatch
+          NamedIndividual --|&gt; Thing : closeMatch
         
       NamedIndividual : comment
         
       NamedIndividual : conformsTo
         
-          NamedIndividual ..&gt; Thing : conformsTo
+          NamedIndividual --|&gt; Thing : conformsTo
         
       NamedIndividual : consider
         
-          NamedIndividual ..&gt; Any : consider
+          NamedIndividual --|&gt; Any : consider
         
       NamedIndividual : contributor
         
-          NamedIndividual ..&gt; Agent : contributor
+          NamedIndividual --|&gt; Agent : contributor
         
       NamedIndividual : created
         
@@ -132,7 +132,7 @@
         
       NamedIndividual : creator
         
-          NamedIndividual ..&gt; Agent : creator
+          NamedIndividual --|&gt; Agent : creator
         
       NamedIndividual : curator_note
         
@@ -146,7 +146,7 @@
         
       NamedIndividual : depicted_by
         
-          NamedIndividual ..&gt; Image : depicted_by
+          NamedIndividual --|&gt; Image : depicted_by
         
       NamedIndividual : deprecated
         
@@ -156,17 +156,17 @@
         
       NamedIndividual : exactMatch
         
-          NamedIndividual ..&gt; Thing : exactMatch
+          NamedIndividual --|&gt; Thing : exactMatch
         
       NamedIndividual : example_of_usage
         
       NamedIndividual : excluded_from_QC_check
         
-          NamedIndividual ..&gt; Thing : excluded_from_QC_check
+          NamedIndividual --|&gt; Thing : excluded_from_QC_check
         
       NamedIndividual : excluded_subClassOf
         
-          NamedIndividual ..&gt; Class : excluded_subClassOf
+          NamedIndividual --|&gt; Class : excluded_subClassOf
         
       NamedIndividual : excluded_synonym
         
@@ -192,27 +192,27 @@
         
       NamedIndividual : image
         
-          NamedIndividual ..&gt; Thing : image
+          NamedIndividual --|&gt; Thing : image
         
       NamedIndividual : imported_from
         
-          NamedIndividual ..&gt; NamedIndividual : imported_from
+          NamedIndividual --|&gt; NamedIndividual : imported_from
         
       NamedIndividual : in_subset
         
-          NamedIndividual ..&gt; Subset : in_subset
+          NamedIndividual --|&gt; Subset : in_subset
         
       NamedIndividual : ISA_alternative_term
         
       NamedIndividual : isDefinedBy
         
-          NamedIndividual ..&gt; Ontology : isDefinedBy
+          NamedIndividual --|&gt; Ontology : isDefinedBy
         
       NamedIndividual : label
         
       NamedIndividual : narrowMatch
         
-          NamedIndividual ..&gt; Thing : narrowMatch
+          NamedIndividual --|&gt; Thing : narrowMatch
         
       NamedIndividual : OBO_foundry_unique_label
         
@@ -222,17 +222,17 @@
         
       NamedIndividual : seeAlso
         
-          NamedIndividual ..&gt; Thing : seeAlso
+          NamedIndividual --|&gt; Thing : seeAlso
         
       NamedIndividual : should_conform_to
         
-          NamedIndividual ..&gt; Thing : should_conform_to
+          NamedIndividual --|&gt; Thing : should_conform_to
         
       NamedIndividual : term_editor
         
       NamedIndividual : term_replaced_by
         
-          NamedIndividual ..&gt; Any : term_replaced_by
+          NamedIndividual --|&gt; Any : term_replaced_by
         
       NamedIndividual : term_tracker_item
         

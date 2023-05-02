@@ -1,5 +1,8 @@
 # Class: ItemList
+
+
 _a list of entities plus metadata_
+
 
 
 
@@ -21,11 +24,11 @@ URI: [schema:ItemList](http://schema.org/ItemList)
         
       ItemList : itemListElements
         
-          ItemList ..> ListItem : itemListElements
+          ItemList --|> ListItem : itemListElements
         
       ItemList : itemMetadataMap
         
-          ItemList ..> ListItem : itemMetadataMap
+          ItemList --|> ListItem : itemMetadataMap
         
       ItemList : keywords
         
@@ -33,7 +36,7 @@ URI: [schema:ItemList](http://schema.org/ItemList)
         
       ItemList : numberOfItems
         
-          ItemList ..> ItemListOrderType : numberOfItems
+          ItemList --|> ItemListOrderType : numberOfItems
         
       ItemList : wasGeneratedBy
         
@@ -50,9 +53,9 @@ URI: [schema:ItemList](http://schema.org/ItemList)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [description](description.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [id](id.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The identifier of the list | direct |
+| [name](name.md) | 0..1 _recommended_ <br/> [String](String.md) | The name of the list | direct |
+| [description](description.md) | 0..1 _recommended_ <br/> [String](String.md) | A description of the list | direct |
 | [itemListElements](itemListElements.md) | 0..* <br/> [ListItem](ListItem.md) | The entities in the list, represented as a simple list | direct |
 | [numberOfItems](numberOfItems.md) | 0..1 <br/> [ItemListOrderType](ItemListOrderType.md) | The order of the items in the list | direct |
 | [itemMetadataMap](itemMetadataMap.md) | 0..* <br/> [ListItem](ListItem.md) | The entities in the list, represented as a map keyed by item id | direct |

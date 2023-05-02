@@ -1,5 +1,8 @@
 # Class: MappingRuleCollection
+
+
 _A collection of mapping rules_
+
 
 
 
@@ -15,7 +18,7 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
         
       MappingRuleCollection : rules
         
-          MappingRuleCollection ..> MappingRule : rules
+          MappingRuleCollection --|> MappingRule : rules
         
       
 ```

@@ -1,5 +1,8 @@
 # Slot: ancestor_of_more_informative_result
+
+
 _This term is more general than a previously reported result_
+
 
 
 URI: [ontoenrich:ancestor_of_more_informative_result](https://w3id.org/oak/class-enrichment/ancestor_of_more_informative_result)
@@ -13,9 +16,10 @@ URI: [ontoenrich:ancestor_of_more_informative_result](https://w3id.org/oak/class
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontoenrich:ancestor_of_more_informative_result](https://w3id.org/oak/class
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

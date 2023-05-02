@@ -1,5 +1,8 @@
 # Slot: false_discovery_rate
+
+
 _The false discovery rate_
+
 
 
 URI: [ontoenrich:false_discovery_rate](https://w3id.org/oak/class-enrichment/false_discovery_rate)
@@ -13,9 +16,10 @@ URI: [ontoenrich:false_discovery_rate](https://w3id.org/oak/class-enrichment/fal
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontoenrich:false_discovery_rate](https://w3id.org/oak/class-enrichment/fal
 ## Properties
 
 * Range: [Float](Float.md)
-
-
 
 
 

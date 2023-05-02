@@ -1,5 +1,8 @@
 # Class: TypeSeverityKeyValue
+
+
 _key-value pair that maps a validation result type to a severity setting, for overriding default severity_
+
 
 
 
@@ -13,7 +16,7 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
     class TypeSeverityKeyValue
       TypeSeverityKeyValue : severity
         
-          TypeSeverityKeyValue ..> severity_options : severity
+          TypeSeverityKeyValue --|> severity_options : severity
         
       TypeSeverityKeyValue : type
         
@@ -30,8 +33,8 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | direct |
-| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | direct |
+| [type](type.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) |  | direct |
 
 
 

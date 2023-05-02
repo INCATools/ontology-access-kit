@@ -1,5 +1,8 @@
 # Class: ContributorStatistics
+
+
 _Statistics for a contributor_
+
 
 
 
@@ -19,7 +22,7 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
         
       ContributorStatistics : role_counts
         
-          ContributorStatistics ..> FacetedCount : role_counts
+          ContributorStatistics --|> FacetedCount : role_counts
         
       
 ```

@@ -1,9 +1,17 @@
 # OAK Association Data Model
 
-A datamodel for representing generic associations.
+A data model for representing generic associations and changes of these associations.
 
-The core datamodel is broad, encompassing the W3 Open Annotation data model as well
-as common ontology annotation data models using in the biosciences.
+The core data model is broad, encompassing the W3 Open Annotation data model as well
+as common ontology annotation data models using in the biosciences, such as the GAF
+data model used by the Gene Ontology, and the HPOA association model used by the Human Phenotype
+Ontology.
+
+The core elements of the data model are the *subject* (the entity being described) and the *object*
+(the term, descriptor, or other entity that describes some aspect of the subject).
+
+A subject might be a biological entity such as gene, drug, disease, person, or chemical. The object is typically
+a class from an ontology such as a term from GO.
 
 URI: https://w3id.org/oak/association
 Name: association
@@ -15,10 +23,10 @@ Name: association
 | Class | Description |
 | --- | --- |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |
-| [AssociationChange](AssociationChange.md) |  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |
 | [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |
-| [PairwiseCoAssociation](PairwiseCoAssociation.md) |  |
-| [ParserConfiguration](ParserConfiguration.md) |  |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |
+| [ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |
 | [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |
 | [RollupGroup](RollupGroup.md) |  |
 
@@ -28,23 +36,28 @@ Name: association
 | Slot | Description |
 | --- | --- |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | The knowledge source that aggregated the association |
-| [associations](associations.md) |  |
+| [associations](associations.md) | A collection of associations |
 | [associations_for_subjects_in_common](associations_for_subjects_in_common.md) |  |
-| [closure_predicates](closure_predicates.md) |  |
-| [creation_date](creation_date.md) |  |
-| [date](date.md) |  |
+| [closure_delta](closure_delta.md) |  |
+| [closure_information_content_delta](closure_information_content_delta.md) |  |
+| [closure_predicates](closure_predicates.md) | The set of predicates used to determine if the new association object is a sp... |
+| [core_triple](core_triple.md) | A grouping slot for the core subject-predicate-object triple |
+| [creation_date](creation_date.md) | The date the association was created |
+| [date](date.md) | The date the association was created or last updated |
 | [denormalized_slot](denormalized_slot.md) | denormalized slots are for models that follow a denormalized data model |
+| [diff_slot](diff_slot.md) | A mixin for any paired slot that pertains to an association diff |
 | [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
 | [include_association_attributes](include_association_attributes.md) | If true, then the parser will include non S/P/O properties as additional attr... |
 | [is_creation](is_creation.md) |  |
 | [is_deletion](is_deletion.md) |  |
-| [is_generalization](is_generalization.md) |  |
-| [is_migration](is_migration.md) |  |
-| [is_specialization](is_specialization.md) |  |
-| [modification_date](modification_date.md) |  |
-| [new_date](new_date.md) |  |
-| [new_object](new_object.md) |  |
-| [new_predicate](new_predicate.md) |  |
+| [is_generalization](is_generalization.md) | True if the association was inferred to become more general (based on closure... |
+| [is_migration](is_migration.md) | if the object (e |
+| [is_specialization](is_specialization.md) | True if the association was inferred to become more specific (based on closur... |
+| [modification_date](modification_date.md) | The date the association was last modified |
+| [negated](negated.md) | True if the association is negated - i |
+| [new_date](new_date.md) | The date of the new association |
+| [new_object](new_object.md) | The object (e |
+| [new_predicate](new_predicate.md) | If the association diff is a change in predicate, this is the predicate on th... |
 | [number_subject_unique_to_entity1](number_subject_unique_to_entity1.md) |  |
 | [number_subject_unique_to_entity2](number_subject_unique_to_entity2.md) |  |
 | [number_subjects_in_common](number_subjects_in_common.md) |  |
@@ -54,10 +67,10 @@ Name: association
 | [object2](object2.md) |  |
 | [object2_label](object2_label.md) |  |
 | [object_label](object_label.md) | The label of the ontology entity that is associated with the subject |
-| [old_date](old_date.md) |  |
-| [old_object](old_object.md) |  |
-| [old_object_obsolete](old_object_obsolete.md) |  |
-| [old_predicate](old_predicate.md) |  |
+| [old_date](old_date.md) | The date of the old association |
+| [old_object](old_object.md) | The object (e |
+| [old_object_obsolete](old_object_obsolete.md) | if the object (e |
+| [old_predicate](old_predicate.md) | If the association diff is a change in predicate, this is the predicate on th... |
 | [original_object](original_object.md) | The original object of the association prior to normalization |
 | [original_predicate](original_predicate.md) | The original subject of the association prior to normalization |
 | [original_subject](original_subject.md) | The original subject of the association prior to normalization |
@@ -65,15 +78,15 @@ Name: association
 | [predicate_label](predicate_label.md) | The label of the type of relationship between the subject and object |
 | [preserve_negated_associations](preserve_negated_associations.md) | If true, then the parser will keep negated associations in the output |
 | [primary_knowledge_source](primary_knowledge_source.md) | The primary knowledge source for the association |
-| [property_values](property_values.md) |  |
-| [publication_is_added](publication_is_added.md) |  |
-| [publication_is_deleted](publication_is_deleted.md) |  |
+| [property_values](property_values.md) | Arbitrary key-value pairs with additional information about the association |
+| [publication_is_added](publication_is_added.md) | True if the publication was not present in the old association set (and prese... |
+| [publication_is_deleted](publication_is_deleted.md) | True if the publication is not present in the new association set (and presen... |
 | [publications](publications.md) | The publications that support the association |
 | [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |
 | [subject_label](subject_label.md) | The label of the thing which the association is about |
 | [subjects_in_common](subjects_in_common.md) |  |
-| [summary_group](summary_group.md) |  |
+| [summary_group](summary_group.md) | The field used to group an association diff summary |
 
 
 ## Enumerations

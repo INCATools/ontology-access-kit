@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -94,7 +94,7 @@
       
       UngroupedStatistics : agents
         
-          UngroupedStatistics ..&gt; Agent : agents
+          UngroupedStatistics --|&gt; Agent : agents
         
       UngroupedStatistics : annotation_property_count
         
@@ -104,17 +104,17 @@
         
       UngroupedStatistics : change_summary
         
-          UngroupedStatistics ..&gt; ChangeTypeStatistic : change_summary
+          UngroupedStatistics --|&gt; ChangeTypeStatistic : change_summary
         
       UngroupedStatistics : class_count
         
       UngroupedStatistics : class_count_by_category
         
-          UngroupedStatistics ..&gt; FacetedCount : class_count_by_category
+          UngroupedStatistics --|&gt; FacetedCount : class_count_by_category
         
       UngroupedStatistics : class_count_by_subset
         
-          UngroupedStatistics ..&gt; FacetedCount : class_count_by_subset
+          UngroupedStatistics --|&gt; FacetedCount : class_count_by_subset
         
       UngroupedStatistics : class_count_with_text_definitions
         
@@ -122,11 +122,11 @@
         
       UngroupedStatistics : compared_with
         
-          UngroupedStatistics ..&gt; Ontology : compared_with
+          UngroupedStatistics --|&gt; Ontology : compared_with
         
       UngroupedStatistics : contributor_summary
         
-          UngroupedStatistics ..&gt; ContributorStatistics : contributor_summary
+          UngroupedStatistics --|&gt; ContributorStatistics : contributor_summary
         
       UngroupedStatistics : datatype_property_count
         
@@ -140,11 +140,11 @@
         
       UngroupedStatistics : edge_count_by_predicate
         
-          UngroupedStatistics ..&gt; FacetedCount : edge_count_by_predicate
+          UngroupedStatistics --|&gt; FacetedCount : edge_count_by_predicate
         
       UngroupedStatistics : entailed_edge_count_by_predicate
         
-          UngroupedStatistics ..&gt; FacetedCount : entailed_edge_count_by_predicate
+          UngroupedStatistics --|&gt; FacetedCount : entailed_edge_count_by_predicate
         
       UngroupedStatistics : equivalent_classes_axiom_count
         
@@ -156,15 +156,15 @@
         
       UngroupedStatistics : mapping_statement_count_by_object_source
         
-          UngroupedStatistics ..&gt; FacetedCount : mapping_statement_count_by_object_source
+          UngroupedStatistics --|&gt; FacetedCount : mapping_statement_count_by_object_source
         
       UngroupedStatistics : mapping_statement_count_by_predicate
         
-          UngroupedStatistics ..&gt; FacetedCount : mapping_statement_count_by_predicate
+          UngroupedStatistics --|&gt; FacetedCount : mapping_statement_count_by_predicate
         
       UngroupedStatistics : mapping_statement_count_subject_by_object_source
         
-          UngroupedStatistics ..&gt; FacetedCount : mapping_statement_count_subject_by_object_source
+          UngroupedStatistics --|&gt; FacetedCount : mapping_statement_count_subject_by_object_source
         
       UngroupedStatistics : merged_class_count
         
@@ -178,7 +178,7 @@
         
       UngroupedStatistics : ontologies
         
-          UngroupedStatistics ..&gt; Ontology : ontologies
+          UngroupedStatistics --|&gt; Ontology : ontologies
         
       UngroupedStatistics : ontology_count
         
@@ -196,7 +196,7 @@
         
       UngroupedStatistics : synonym_statement_count_by_predicate
         
-          UngroupedStatistics ..&gt; FacetedCount : synonym_statement_count_by_predicate
+          UngroupedStatistics --|&gt; FacetedCount : synonym_statement_count_by_predicate
         
       UngroupedStatistics : unsatisfiable_class_count
         
@@ -204,7 +204,7 @@
         
       UngroupedStatistics : was_generated_by
         
-          UngroupedStatistics ..&gt; SummaryStatisticsCalculationActivity : was_generated_by
+          UngroupedStatistics --|&gt; SummaryStatisticsCalculationActivity : was_generated_by
         
       
         </div><section id="inheritance">

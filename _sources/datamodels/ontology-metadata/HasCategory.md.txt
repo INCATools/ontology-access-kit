@@ -19,13 +19,13 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCatego
         
       HasCategory : conformsTo
         
-          HasCategory ..> Thing : conformsTo
+          HasCategory --|> Thing : conformsTo
         
       HasCategory : has_obo_namespace
         
       HasCategory : in_subset
         
-          HasCategory ..> Subset : in_subset
+          HasCategory --|> Subset : in_subset
         
       
 ```

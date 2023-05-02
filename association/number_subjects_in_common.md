@@ -11,9 +11,10 @@ URI: [ontoassoc:number_subjects_in_common](https://w3id.org/oak/association/numb
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontoassoc:number_subjects_in_common](https://w3id.org/oak/association/numb
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

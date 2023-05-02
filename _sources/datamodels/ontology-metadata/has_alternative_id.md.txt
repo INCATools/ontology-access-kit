@@ -1,5 +1,8 @@
 # Slot: has_alternative_id
+
+
 _Relates a live term to a deprecated ID that was merged in_
+
 
 
 URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlternativeId)
@@ -18,20 +21,21 @@ URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlte
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasLifeCycle](HasLifeCycle.md) | 
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[HasLifeCycle](HasLifeCycle.md) |  |  no  |
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+[Class](Class.md) |  |  no  |
+[Property](Property.md) |  |  no  |
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+[HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+[Agent](Agent.md) |  |  no  |
+[Image](Image.md) |  |  no  |
+[Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+
 
 
 
@@ -41,10 +45,8 @@ URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlte
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

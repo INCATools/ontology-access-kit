@@ -11,9 +11,10 @@ URI: [ontosearch:path_to](https://w3id.org/oak/search-datamodel/path_to)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ComplexQuery](ComplexQuery.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ComplexQuery](ComplexQuery.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontosearch:path_to](https://w3id.org/oak/search-datamodel/path_to)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: object_mapping_predicate
+
+
 _The mapping predicate that holds between left_object_id and right_object_id_
+
 
 
 URI: [xodiff:object_mapping_predicate](https://w3id.org/oak/cross-ontology-diff/object_mapping_predicate)
@@ -17,9 +20,10 @@ URI: [xodiff:object_mapping_predicate](https://w3id.org/oak/cross-ontology-diff/
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+
 
 
 
@@ -29,8 +33,6 @@ URI: [xodiff:object_mapping_predicate](https://w3id.org/oak/cross-ontology-diff/
 ## Properties
 
 * Range: [EntityReference](EntityReference.md)
-
-
 
 
 

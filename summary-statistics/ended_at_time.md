@@ -1,5 +1,8 @@
 # Slot: ended_at_time
+
+
 _the time at which the activity ended_
+
 
 
 URI: [prov:endedAtTime](http://www.w3.org/ns/prov#endedAtTime)
@@ -13,9 +16,10 @@ URI: [prov:endedAtTime](http://www.w3.org/ns/prov#endedAtTime)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [prov:endedAtTime](http://www.w3.org/ns/prov#endedAtTime)
 ## Properties
 
 * Range: [Datetime](Datetime.md)
-
-
 
 
 

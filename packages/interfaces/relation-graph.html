@@ -24,7 +24,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Mapping Provider" href="mapping-provider.html" />
+    <link rel="next" title="Mapping Provider Interface" href="mapping-provider.html" />
     <link rel="prev" title="Validator Interface" href="validator.html" /> 
 </head>
 
@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">OAK Library Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
@@ -63,14 +63,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#oaklib.interfaces.relation_graph_interface.RelationGraphInterface"><code class="docutils literal notranslate"><span class="pre">RelationGraphInterface</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html">Differ Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html">Dumper Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 </ul>
 </li>
@@ -83,9 +85,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -102,7 +104,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Package Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">OAK Library Documentation</a></li>
           <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
       <li class="breadcrumb-item active">Relation Graph</li>
       <li class="wy-breadcrumbs-aside">
@@ -115,7 +117,7 @@
            <div itemprop="articleBody">
              
   <section id="relation-graph">
-<h1>Relation Graph<a class="headerlink" href="#relation-graph" title="Permalink to this heading"></a></h1>
+<span id="relation-graph-interface"></span><h1>Relation Graph<a class="headerlink" href="#relation-graph" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.relation_graph_interface.RelationGraphInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.relation_graph_interface.</span></span><span class="sig-name descname"><span class="pre">RelationGraphInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/relation_graph_interface.html#RelationGraphInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.relation_graph_interface.RelationGraphInterface" title="Permalink to this definition"></a></dt>
@@ -216,7 +218,7 @@ whether results should be auto-committed after each operation</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="validator.html" class="btn btn-neutral float-left" title="Validator Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="mapping-provider.html" class="btn btn-neutral float-right" title="Mapping Provider" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="mapping-provider.html" class="btn btn-neutral float-right" title="Mapping Provider Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

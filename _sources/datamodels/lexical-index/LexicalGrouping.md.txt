@@ -1,5 +1,8 @@
 # Class: LexicalGrouping
+
+
 _A grouping of ontology elements by a shared lexical term_
+
 
 
 
@@ -13,7 +16,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
     class LexicalGrouping
       LexicalGrouping : relationships
         
-          LexicalGrouping ..> RelationshipToTerm : relationships
+          LexicalGrouping --|> RelationshipToTerm : relationships
         
       LexicalGrouping : term
         
@@ -30,7 +33,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [term](term.md) | 1..1 <br/> [String](String.md) | A normalized term that groups ontology elements | direct |
+| [term](term.md) | 0..1 <br/> [String](String.md) | A normalized term that groups ontology elements | direct |
 | [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md) | All ontology elements grouped and their relationship to the normalized term | direct |
 
 

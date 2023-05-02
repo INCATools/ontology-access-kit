@@ -11,9 +11,10 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

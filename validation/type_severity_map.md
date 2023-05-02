@@ -1,5 +1,8 @@
 # Slot: type_severity_map
+
+
 _Allows overriding of severity of a particular type_
+
 
 
 URI: [vm:type_severity_map](https://w3id.org/linkml/validation-model/type_severity_map)
@@ -13,9 +16,10 @@ URI: [vm:type_severity_map](https://w3id.org/linkml/validation-model/type_severi
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [vm:type_severity_map](https://w3id.org/linkml/validation-model/type_severi
 ## Properties
 
 * Range: [TypeSeverityKeyValue](TypeSeverityKeyValue.md)
+
 * Multivalued: True
-
-
-
 
 
 

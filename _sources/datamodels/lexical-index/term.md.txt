@@ -1,5 +1,8 @@
 # Slot: term
+
+
 _A normalized term that groups ontology elements_
+
 
 
 URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
@@ -13,9 +16,10 @@ URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 ## Properties
 
 * Range: [String](String.md)
+
 * Required: True
-
-
-
 
 
 

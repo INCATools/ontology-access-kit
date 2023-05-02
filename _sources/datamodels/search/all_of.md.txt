@@ -11,9 +11,10 @@ URI: [ontosearch:all_of](https://w3id.org/oak/search-datamodel/all_of)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ComplexQuery](ComplexQuery.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ComplexQuery](ComplexQuery.md) |  |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [ontosearch:all_of](https://w3id.org/oak/search-datamodel/all_of)
 ## Properties
 
 * Range: [ComplexQuery](ComplexQuery.md)
+
 * Multivalued: True
-
-
-
 
 
 

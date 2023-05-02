@@ -1,5 +1,8 @@
 # Slot: sub_groups
+
+
 _Container for groups within a rollup group._
+
 
 
 URI: [ontoassoc:sub_groups](https://w3id.org/oak/association/sub_groups)
@@ -13,9 +16,10 @@ URI: [ontoassoc:sub_groups](https://w3id.org/oak/association/sub_groups)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RollupGroup](RollupGroup.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RollupGroup](RollupGroup.md) |  |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontoassoc:sub_groups](https://w3id.org/oak/association/sub_groups)
 ## Properties
 
 * Range: [RollupGroup](RollupGroup.md)
+
 * Multivalued: True
-
-
-
 
 
 

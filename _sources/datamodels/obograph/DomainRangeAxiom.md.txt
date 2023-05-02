@@ -1,5 +1,8 @@
 # Class: DomainRangeAxiom
+
+
 _This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range._
+
 
 
 
@@ -15,13 +18,13 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
       
       DomainRangeAxiom : allValuesFromEdges
         
-          DomainRangeAxiom ..> Edge : allValuesFromEdges
+          DomainRangeAxiom --|> Edge : allValuesFromEdges
         
       DomainRangeAxiom : domainClassIds
         
       DomainRangeAxiom : meta
         
-          DomainRangeAxiom ..> Meta : meta
+          DomainRangeAxiom --|> Meta : meta
         
       DomainRangeAxiom : predicateId
         

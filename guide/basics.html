@@ -64,16 +64,17 @@
 <li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="associations.html">Associations and Curated Annotations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -162,7 +163,7 @@ only way in which ontologies and vocabularies are represented.</p>
 <li><p>Some vocabularies such as schema.org use a lightweight <span class="xref std std-term">RDF Schema</span> representation.</p></li>
 </ul>
 <p>OAK is able to read (and in some cases write) ontologies in all of these formats. Different
-<a class="reference internal" href="../packages/interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> handle different formats and backends. You can use <a class="reference internal" href="../packages/selectors.html#selectors"><span class="std std-ref">Ontology Adapter Selectors</span></a> to choose
+<a class="reference internal" href="../packages/implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> handle different formats and backends. You can use <a class="reference internal" href="../packages/selectors.html#selectors"><span class="std std-ref">Ontology Adapter Selectors</span></a> to choose
 which implementation to use (alternatively, this is done automatically based on the file extension).</p>
 <p>For example, on the command line, to list all terms a downloaded OBO Format file of the Human Phenotype Ontology:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>hp.obo<span class="w"> </span>terms

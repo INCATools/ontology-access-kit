@@ -16,11 +16,10 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

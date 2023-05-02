@@ -1,5 +1,8 @@
 # Slot: predicate
+
+
 _The relationship type between subject and object on left or right side_
+
 
 
 URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
@@ -7,6 +10,7 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -28,10 +32,8 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 ## Properties
 
 * Range: [String](String.md)
+
 * Mixin: True
-
-
-
 
 
 

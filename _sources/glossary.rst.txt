@@ -165,6 +165,9 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     FunOWL is a Python :term:`Ontology Library` that provides a simple API for working with OWL ontologies
     conceptualized using the native OWL :term:`OWL Functional Syntax` representation.
 
+   Functional Syntax
+    A syntax / :term:`Ontology Format` that directly expresses the :term:`OWL` data model.
+
    OBO Format
     An :term:`Ontology Format` designed for easy viewing, direct editing, and readable diffs. It is popular in bioinformatics,
     but not widely used or known outside the genomics sphere. OBO is mapped to OWL, but only expresses a subset, and provides some OWL
@@ -318,3 +321,7 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
      - The :term:`SSSOM` data model, for representing :term:`Mappings<Mapping>`
      - A data model for representing :term:`Semantic Similarity` results
     See the list of all :ref:`datamodels`.
+
+   OntoGPT
+    A framework built on OAK that combines ontologies and Large Language Models.
+    See `<https://github.com/monarch-initiative/ontogpt/>`_

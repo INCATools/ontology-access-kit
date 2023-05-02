@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -85,13 +85,14 @@
              
   <section id="class-pairwisecoassociation">
 <h1>Class: PairwiseCoAssociation<a class="headerlink" href="#class-pairwisecoassociation" title="Permalink to this heading"></a></h1>
+<p><em>A collection of subjects co-associated with two objects</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/association/PairwiseCoAssociation">ontoassoc:PairwiseCoAssociation</a></p>
 <div class="mermaid">
              classDiagram
     class PairwiseCoAssociation
       PairwiseCoAssociation : associations_for_subjects_in_common
         
-          PairwiseCoAssociation ..&gt; Association : associations_for_subjects_in_common
+          PairwiseCoAssociation --|&gt; Association : associations_for_subjects_in_common
         
       PairwiseCoAssociation : number_subject_unique_to_entity1
         
@@ -103,17 +104,17 @@
         
       PairwiseCoAssociation : object1_label
         
-          PairwiseCoAssociation ..&gt; None : object1_label
+          PairwiseCoAssociation --|&gt; None : object1_label
         
       PairwiseCoAssociation : object2
         
       PairwiseCoAssociation : object2_label
         
-          PairwiseCoAssociation ..&gt; None : object2_label
+          PairwiseCoAssociation --|&gt; None : object2_label
         
       PairwiseCoAssociation : subjects_in_common
         
-          PairwiseCoAssociation ..&gt; None : subjects_in_common
+          PairwiseCoAssociation --|&gt; None : subjects_in_common
         
       
         </div><!-- no inheritance hierarchy -->
@@ -211,6 +212,7 @@
 <details>
 ```yaml
 name: PairwiseCoAssociation
+description: A collection of subjects co-associated with two objects
 from_schema: https://w3id.org/oak/association
 rank: 1000
 slots:
@@ -230,6 +232,7 @@ slots:
 &lt;details&gt;
 ```yaml
 name: PairwiseCoAssociation
+description: A collection of subjects co-associated with two objects
 from_schema: https://w3id.org/oak/association
 rank: 1000
 attributes:

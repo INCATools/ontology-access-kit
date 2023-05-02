@@ -16,9 +16,10 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 ## Properties
 
 * Range: [AnnotationProperty](AnnotationProperty.md)
-
-
 
 
 

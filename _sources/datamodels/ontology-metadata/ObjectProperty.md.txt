@@ -1,5 +1,8 @@
 # Class: ObjectProperty
+
+
 _A property that connects two objects in logical axioms_
+
 
 
 
@@ -22,27 +25,27 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
         
       ObjectProperty : broadMatch
         
-          ObjectProperty ..> Property : broadMatch
+          ObjectProperty --|> Property : broadMatch
         
       ObjectProperty : category
         
       ObjectProperty : closeMatch
         
-          ObjectProperty ..> Property : closeMatch
+          ObjectProperty --|> Property : closeMatch
         
       ObjectProperty : comment
         
       ObjectProperty : conformsTo
         
-          ObjectProperty ..> Thing : conformsTo
+          ObjectProperty --|> Thing : conformsTo
         
       ObjectProperty : consider
         
-          ObjectProperty ..> Any : consider
+          ObjectProperty --|> Any : consider
         
       ObjectProperty : contributor
         
-          ObjectProperty ..> Agent : contributor
+          ObjectProperty --|> Agent : contributor
         
       ObjectProperty : created
         
@@ -52,7 +55,7 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
         
       ObjectProperty : creator
         
-          ObjectProperty ..> Agent : creator
+          ObjectProperty --|> Agent : creator
         
       ObjectProperty : curator_note
         
@@ -66,7 +69,7 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
         
       ObjectProperty : depicted_by
         
-          ObjectProperty ..> Image : depicted_by
+          ObjectProperty --|> Image : depicted_by
         
       ObjectProperty : deprecated
         
@@ -80,21 +83,21 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
         
       ObjectProperty : equivalentProperty
         
-          ObjectProperty ..> Property : equivalentProperty
+          ObjectProperty --|> Property : equivalentProperty
         
       ObjectProperty : exactMatch
         
-          ObjectProperty ..> Property : exactMatch
+          ObjectProperty --|> Property : exactMatch
         
       ObjectProperty : example_of_usage
         
       ObjectProperty : excluded_from_QC_check
         
-          ObjectProperty ..> Thing : excluded_from_QC_check
+          ObjectProperty --|> Thing : excluded_from_QC_check
         
       ObjectProperty : excluded_subClassOf
         
-          ObjectProperty ..> Class : excluded_subClassOf
+          ObjectProperty --|> Class : excluded_subClassOf
         
       ObjectProperty : excluded_synonym
         
@@ -120,19 +123,19 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
         
       ObjectProperty : image
         
-          ObjectProperty ..> Thing : image
+          ObjectProperty --|> Thing : image
         
       ObjectProperty : imported_from
         
-          ObjectProperty ..> NamedIndividual : imported_from
+          ObjectProperty --|> NamedIndividual : imported_from
         
       ObjectProperty : in_subset
         
-          ObjectProperty ..> Subset : in_subset
+          ObjectProperty --|> Subset : in_subset
         
       ObjectProperty : inverseOf
         
-          ObjectProperty ..> Property : inverseOf
+          ObjectProperty --|> Property : inverseOf
         
       ObjectProperty : is_class_level
         
@@ -146,13 +149,13 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
         
       ObjectProperty : isDefinedBy
         
-          ObjectProperty ..> Ontology : isDefinedBy
+          ObjectProperty --|> Ontology : isDefinedBy
         
       ObjectProperty : label
         
       ObjectProperty : narrowMatch
         
-          ObjectProperty ..> Property : narrowMatch
+          ObjectProperty --|> Property : narrowMatch
         
       ObjectProperty : OBO_foundry_unique_label
         
@@ -166,23 +169,23 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
         
       ObjectProperty : seeAlso
         
-          ObjectProperty ..> Thing : seeAlso
+          ObjectProperty --|> Thing : seeAlso
         
       ObjectProperty : shorthand
         
       ObjectProperty : should_conform_to
         
-          ObjectProperty ..> Thing : should_conform_to
+          ObjectProperty --|> Thing : should_conform_to
         
       ObjectProperty : temporal_interpretation
         
-          ObjectProperty ..> NamedIndividual : temporal_interpretation
+          ObjectProperty --|> NamedIndividual : temporal_interpretation
         
       ObjectProperty : term_editor
         
       ObjectProperty : term_replaced_by
         
-          ObjectProperty ..> Any : term_replaced_by
+          ObjectProperty --|> Any : term_replaced_by
         
       ObjectProperty : term_tracker_item
         

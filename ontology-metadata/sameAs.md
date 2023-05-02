@@ -16,13 +16,12 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 
 
 
+
 ## Properties
 
 * Range: [Thing](Thing.md)
+
 * Multivalued: True
-
-
-
 
 
 

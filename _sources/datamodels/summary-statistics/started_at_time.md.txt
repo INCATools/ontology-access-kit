@@ -1,5 +1,8 @@
 # Slot: started_at_time
+
+
 _the time at which the activity started_
+
 
 
 URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
@@ -13,9 +16,10 @@ URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [prov:startedAtTime](http://www.w3.org/ns/prov#startedAtTime)
 ## Properties
 
 * Range: [Datetime](Datetime.md)
-
-
 
 
 

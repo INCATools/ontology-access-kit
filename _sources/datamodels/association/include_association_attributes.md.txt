@@ -1,6 +1,10 @@
 # Slot: include_association_attributes
-_If true, then the parser will include non S/P/O properties as additional attributes.
-This may result in slower parsing_
+
+
+_If true, then the parser will include non S/P/O properties as additional attributes._
+
+_This may result in slower parsing_
+
 
 
 URI: [ontoassoc:include_association_attributes](https://w3id.org/oak/association/include_association_attributes)
@@ -14,9 +18,10 @@ URI: [ontoassoc:include_association_attributes](https://w3id.org/oak/association
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ParserConfiguration](ParserConfiguration.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |  no  |
+
 
 
 
@@ -26,8 +31,6 @@ URI: [ontoassoc:include_association_attributes](https://w3id.org/oak/association
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

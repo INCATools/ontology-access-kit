@@ -1,5 +1,8 @@
 # Slot: owl_axiom_count
+
+
 _Number of OWL axioms in the ontology or subset_
+
 
 
 URI: [summary_statistics:owl_axiom_count](https://w3id.org/oaklib/summary_statistics.owl_axiom_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:owl_axiom_count](https://w3id.org/oaklib/summary_statis
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:owl_axiom_count](https://w3id.org/oaklib/summary_statis
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

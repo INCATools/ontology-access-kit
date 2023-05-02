@@ -1,5 +1,8 @@
 # Slot: object_property_count
+
+
 _Number of object properties (relations) in the ontology or subset_
+
 
 
 URI: [summary_statistics:object_property_count](https://w3id.org/oaklib/summary_statistics.object_property_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:object_property_count](https://w3id.org/oaklib/summary_
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:object_property_count](https://w3id.org/oaklib/summary_
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

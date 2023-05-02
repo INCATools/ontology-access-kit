@@ -1,5 +1,8 @@
 # Class: PairwiseSimilarity
+
+
 _Abstract grouping for representing individual pairwise similarities_
+
 
 
 

@@ -1,5 +1,8 @@
 # Slot: properties
+
+
 _determines which properties are searched over_
+
 
 
 URI: [ontosearch:properties](https://w3id.org/oak/search-datamodel/properties)
@@ -13,9 +16,10 @@ URI: [ontosearch:properties](https://w3id.org/oak/search-datamodel/properties)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontosearch:properties](https://w3id.org/oak/search-datamodel/properties)
 ## Properties
 
 * Range: [SearchProperty](SearchProperty.md)
+
 * Multivalued: True
-
-
-
 
 
 

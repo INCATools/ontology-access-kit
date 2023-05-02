@@ -1,5 +1,10 @@
 # Slot: modification_date
 
+
+_The date the association was last modified_
+
+
+
 URI: [ontoassoc:modification_date](https://w3id.org/oak/association/modification_date)
 
 
@@ -16,11 +21,10 @@ URI: [ontoassoc:modification_date](https://w3id.org/oak/association/modification
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -47,6 +51,7 @@ URI: [ontoassoc:modification_date](https://w3id.org/oak/association/modification
 <details>
 ```yaml
 name: modification_date
+description: The date the association was last modified
 from_schema: https://w3id.org/oak/association
 rank: 1000
 is_a: date

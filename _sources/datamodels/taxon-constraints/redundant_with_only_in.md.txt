@@ -1,5 +1,8 @@
 # Slot: redundant_with_only_in
+
+
 _True for never in constraints that are subsumed by an only in_
+
 
 
 URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redundant_with_only_in)
@@ -13,9 +16,10 @@ URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redun
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redun
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

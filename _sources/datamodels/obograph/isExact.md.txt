@@ -11,9 +11,10 @@ URI: [obographs:isExact](https://github.com/geneontology/obographs/isExact)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [obographs:isExact](https://github.com/geneontology/obographs/isExact)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

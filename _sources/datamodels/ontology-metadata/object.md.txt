@@ -11,9 +11,10 @@ URI: [omoschema:object](http://purl.obolibrary.org/obo/omo/schema/object)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Annotation](Annotation.md) | A reified property-object pair
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Annotation](Annotation.md) | A reified property-object pair |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [omoschema:object](http://purl.obolibrary.org/obo/omo/schema/object)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

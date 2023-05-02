@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mapping Provider &mdash; oaklib  documentation</title>
+  <title>Mapping Provider Interface &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">OAK Library Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
@@ -60,22 +60,19 @@
 <li class="toctree-l3"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html">Validator Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Mapping Provider</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#about">About</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#data-model">Data Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#implementations">Implementations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#command-line-use">Command Line Use</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#code">Code</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Mapping Provider Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html">Differ Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html">Dumper Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 </ul>
 </li>
@@ -88,9 +85,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -107,9 +104,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Package Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">OAK Library Documentation</a></li>
           <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
-      <li class="breadcrumb-item active">Mapping Provider</li>
+      <li class="breadcrumb-item active">Mapping Provider Interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/packages/interfaces/mapping-provider.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -119,82 +116,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="mapping-provider">
-<span id="mapping-provider-interface"></span><h1>Mapping Provider<a class="headerlink" href="#mapping-provider" title="Permalink to this heading"></a></h1>
-<section id="synopsis">
-<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DIGIT</span> <span class="o">=</span> <span class="s1">&#39;UBERON:0002544&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">OlsImplementation</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="n">DIGIT</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">subject_id</span><span class="si">}</span><span class="s1"> &lt;-&gt; </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">object_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="about">
-<h2>About<a class="headerlink" href="#about" title="Permalink to this heading"></a></h2>
-<p>This interface provides a “mappings” abstraction.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This interface is for serving pre-calculated mappings.
-See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping creation</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Some aspects may change, in particular how symmetrical mappings are handled</p>
-</div>
-</section>
-<section id="data-model">
-<h2>Data Model<a class="headerlink" href="#data-model" title="Permalink to this heading"></a></h2>
-<p>The central datamodel used here is <a class="reference external" href="http://w3id.org/sssom">SSSOM</a></p>
-</section>
-<section id="implementations">
-<h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this heading"></a></h2>
-<ul>
-<li><p><span class="xref std std-ref">BioportalImplementation</span></p>
-<blockquote>
-<div><ul class="simple">
-<li><p>uses the BioPortal API endpoint, which has pregenerated mappings using LOOM</p></li>
-<li><p>requires an <span class="xref std std-ref">APIkey</span></p></li>
-<li><p>implements a small subset of SSSOM fields</p></li>
-<li><p>match types are unspecified</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>:ref:.OlsImplementation` currently implements a subset of SSSOM fields</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>uses the OLS OxO API endpoint, which serves mappings that are provided by source ontologies</p></li>
-<li><p>implements a subset of SSSOM fields</p></li>
-<li><p>the original source is provided</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>Others</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Most other implementations provide this but only serve up limited SSSOM metadata, as only the base triple is stored</p></li>
-<li><p><span class="xref std std-ref">.ProntoImplementation</span></p></li>
-<li><p><span class="xref std std-ref">.SqlImplementation</span></p></li>
-<li><p><span class="xref std std-ref">.UbergraphImplementation</span></p></li>
-<li><p><span class="xref std std-ref">.OntobeeImplementation</span></p></li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
-</section>
-<section id="command-line-use">
-<h2>Command Line Use<a class="headerlink" href="#command-line-use" title="Permalink to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">term</span><span class="o">-</span><span class="n">mappings</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0002101</span>  <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span> <span class="o">-</span><span class="n">o</span> <span class="n">limb</span><span class="o">-</span><span class="n">mappings</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
-</pre></div>
-</div>
-</section>
-<section id="code">
-<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
-<section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h3>
-</section>
-<section id="autodoc">
-<h3>Autodoc<a class="headerlink" href="#autodoc" title="Permalink to this heading"></a></h3>
+  <section id="mapping-provider-interface">
+<span id="id1"></span><h1>Mapping Provider Interface<a class="headerlink" href="#mapping-provider-interface" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.mapping_provider_interface.</span></span><span class="sig-name descname"><span class="pre">MappingProviderInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface" title="Permalink to this definition"></a></dt>
@@ -206,6 +129,20 @@ See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping cre
 in the sssom mapping datamodel are not populated.</p>
 </div>
 <p>The core method in this interface is <a class="reference internal" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings" title="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sssom_mappings()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This interface is for serving pre-calculated mappings.
+See <span class="xref std std-ref">sssom_utils</span> for on-the-fly mapping creation</p>
+</div>
+<section id="data-model">
+<h2>Data Model<a class="headerlink" href="#data-model" title="Permalink to this heading"></a></h2>
+<p>The central datamodel used here is <a class="reference external" href="http://w3id.org/sssom">SSSOM</a></p>
+</section>
+<section id="command-line-use">
+<h2>Command Line Use<a class="headerlink" href="#command-line-use" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">term</span><span class="o">-</span><span class="n">mappings</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0002101</span>  <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span> <span class="o">-</span><span class="n">o</span> <span class="n">limb</span><span class="o">-</span><span class="n">mappings</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">
 <span class="sig-name descname"><span class="pre">sssom_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/mapping_provider_interface.html#MappingProviderInterface.sssom_mappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings" title="Permalink to this definition"></a></dt>
@@ -430,10 +367,9 @@ whether results should be auto-committed after each operation</p>
 <dd><p>Do not include owl:Thing or owl:Nothing</p>
 </dd></dl>
 
+</section>
 </dd></dl>
 
-</section>
-</section>
 </section>
 
 

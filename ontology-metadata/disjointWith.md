@@ -16,14 +16,15 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[PropertyExpression](PropertyExpression.md) | 
-[Class](Class.md) | 
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassExpression](ClassExpression.md) |  |  no  |
+[PropertyExpression](PropertyExpression.md) |  |  no  |
+[Class](Class.md) |  |  no  |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+[Restriction](Restriction.md) |  |  no  |
+
 
 
 
@@ -33,10 +34,8 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

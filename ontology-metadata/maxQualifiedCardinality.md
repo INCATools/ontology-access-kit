@@ -16,11 +16,10 @@ URI: [owl:maxQualifiedCardinality](http://www.w3.org/2002/07/owl#maxQualifiedCar
 
 
 
+
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

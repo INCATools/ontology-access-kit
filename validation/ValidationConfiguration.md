@@ -1,5 +1,8 @@
 # Class: ValidationConfiguration
+
+
 _Configuration parameters for execution of a validation report_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
         
       ValidationConfiguration : type_severity_map
         
-          ValidationConfiguration ..> TypeSeverityKeyValue : type_severity_map
+          ValidationConfiguration --|> TypeSeverityKeyValue : type_severity_map
         
       
 ```

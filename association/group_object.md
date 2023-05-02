@@ -1,6 +1,10 @@
 # Slot: group_object
-_An ontology entity that is the ancestor of the objects in the group's 
-associations and sub-group associations._
+
+
+_An ontology entity that is the ancestor of the objects in the group's _
+
+_associations and sub-group associations._
+
 
 
 URI: [rdf:object](rdf:object)
@@ -14,9 +18,10 @@ URI: [rdf:object](rdf:object)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RollupGroup](RollupGroup.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RollupGroup](RollupGroup.md) |  |  no  |
+
 
 
 
@@ -26,8 +31,6 @@ URI: [rdf:object](rdf:object)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

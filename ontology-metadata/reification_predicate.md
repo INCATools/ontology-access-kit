@@ -18,11 +18,10 @@ URI: [omoschema:reification_predicate](http://purl.obolibrary.org/obo/omo/schema
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

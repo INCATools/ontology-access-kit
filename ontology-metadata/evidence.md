@@ -11,9 +11,10 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

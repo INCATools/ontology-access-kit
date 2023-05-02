@@ -11,9 +11,10 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermInfo](TermInfo.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermInfo](TermInfo.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

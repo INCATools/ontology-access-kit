@@ -1,5 +1,8 @@
 # Slot: edge_count_by_predicate
+
+
 _Number of edges grouped by predicate in the ontology or subset_
+
 
 
 URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summary_statistics.edge_count_by_predicate)
@@ -13,9 +16,10 @@ URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summar
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summar
 ## Properties
 
 * Range: [FacetedCount](FacetedCount.md)
+
 * Multivalued: True
-
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: prefixes
+
+
 _A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)_
+
 
 
 URI: [sh:declare](https://w3id.org/shacl/declare)
@@ -13,10 +16,11 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th...
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |  no  |
+[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+
 
 
 
@@ -26,10 +30,8 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 ## Properties
 
 * Range: [PrefixDeclaration](PrefixDeclaration.md)
+
 * Multivalued: True
-
-
-
 
 
 

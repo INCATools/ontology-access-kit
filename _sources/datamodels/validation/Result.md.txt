@@ -1,5 +1,8 @@
 # Class: Result
+
+
 _Abstract base class for any individual report result_
+
 
 
 

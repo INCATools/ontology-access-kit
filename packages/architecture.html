@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Interfaces" href="interfaces/index.html" />
-    <link rel="prev" title="Package Documentation" href="index.html" /> 
+    <link rel="prev" title="OAK Library Documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">OAK Library Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Architecture</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ontology-interfaces">Ontology Interfaces</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#implementations">Implementations</a></li>
@@ -61,7 +61,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#partial-and-complete-implementation">Partial and Complete Implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datamodels-used">Datamodels used</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
@@ -74,9 +73,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -93,7 +92,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Package Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">OAK Library Documentation</a></li>
       <li class="breadcrumb-item active">Architecture</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/packages/architecture.rst.txt" rel="nofollow"> View page source</a>
@@ -118,8 +117,8 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
        +interfaces_implemented()
    }
    class BasicOntologyInterface {
-       +get_label_by_curie(curie)
-       +get_definition_by_curie(curie)
+       +label(curie)
+       +definition(curie)
        +all_entity_curies(curie)
        +basic_search(search_term)
        +get_outgoing_relationships_by_curie(curie)
@@ -129,20 +128,21 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
         </div></section>
 <section id="implementations">
 <h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this heading"></a></h2>
-<p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
+<p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
 <p>Here is an example of code that uses an Ubergraph implementation to do a simple lookup:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
-<span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
-<span class="n">paranasal</span> <span class="n">sinus</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="go">&gt;&gt; adapter = get_adapter(&quot;ubergraph:uberon&quot;)</span>
+<span class="go">&gt;&gt; print(adapter.label(&quot;UBERON:0001825&quot;))</span>
+<span class="go">paranasal sinus</span>
 </pre></div>
 </div>
 <p>Behind the scenes, this is implemented using a SPARQL query over the Ubergraph endpoint.</p>
-<p>You can do the same thing using a different implementation. This one uses the pronto library and the OBO library registry of OBO files</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">from</span> <span class="n">oaklib</span><span class="o">.</span><span class="n">implementations</span><span class="o">.</span><span class="n">pronto</span><span class="o">.</span><span class="n">pronto_basic_impl</span> <span class="kn">import</span> <span class="nn">ProntoImplementation</span>
-<span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go.obo&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
-<span class="n">paranasal</span> <span class="n">sinus</span>
+<p>You can do the same thing using a different implementation. This one uses the
+<a class="reference internal" href="implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="go">&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:uberon&quot;)</span>
+<span class="go">&gt;&gt; print(adapter.label(&quot;UBERON:0001825&quot;))</span>
+<span class="go">paranasal sinus</span>
 </pre></div>
 </div>
 <p>There are other implementations - for relational databases, for ontology portal APIs, for OWL ontologies…</p>
@@ -163,8 +163,8 @@ as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lex
         +interfaces_implemented()
     }
     class BasicOntologyInterface {
-        +get_label_by_curie(curie)
-        +get_definition_by_curie(curie)
+        +label(curie)
+        +definition(curie)
         +all_entity_curies(curie)
         +basic_search(search_term)
         +get_outgoing_relationships_by_curie(curie)
@@ -213,11 +213,11 @@ accepting and returning simple scalars, dicts, and lists). See <a class="referen
         +interfaces_implemented()
     }
     class BasicOntologyInterface {
-        +get_label_by_curie(curie)
-        +get_definition_by_curie(curie)
-        +all_entity_curies(curie)
+        +label(curie)
+        +definition(curie)
+        +entities(curie)
         +basic_search(search_term)
-        +get_outgoing_relationships_by_curie(curie)
+        +relationships(curie)
         +...()
     }
     OntologyInterface &lt;|-- BasicOntologyInterface
@@ -257,7 +257,7 @@ for this level of abstraction!</p>
 <h2>Partial and Complete Implementation<a class="headerlink" href="#partial-and-complete-implementation" title="Permalink to this heading"></a></h2>
 <p>Not all implementations work with all interfaces. Even if an implementation implements an
 interface, it may not implement all operations.</p>
-<p>See <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> for full documentation on each implementation (more coming soon), but
+<p>See <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> for full documentation on each implementation (more coming soon), but
 to give you a sense:</p>
 <ul class="simple">
 <li><p>the Pronto based implementation will not support all of OWL (which is fine for most purposes)</p></li>
@@ -271,17 +271,13 @@ to give you a sense:</p>
 <p>At this stage in development of this library, most implementations are partial and things are subject to change!</p>
 </div>
 </section>
-<section id="datamodels-used">
-<h2>Datamodels used<a class="headerlink" href="#datamodels-used" title="Permalink to this heading"></a></h2>
-<p>See <a class="reference internal" href="interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a></p>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Package Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="OAK Library Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="interfaces/index.html" class="btn btn-neutral float-right" title="Interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

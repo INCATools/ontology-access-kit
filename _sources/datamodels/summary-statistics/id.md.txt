@@ -11,14 +11,15 @@ URI: [summary_statistics:id](https://w3id.org/oaklib/summary_statistics.id)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports
-[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
-[Ontology](Ontology.md) | An ontology
-[Agent](Agent.md) | An agent
-[ContributorRole](ContributorRole.md) | A role that a contributor can have
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+[Ontology](Ontology.md) | An ontology |  no  |
+[Agent](Agent.md) | An agent |  no  |
+[ContributorRole](ContributorRole.md) | A role that a contributor can have |  no  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [summary_statistics:id](https://w3id.org/oaklib/summary_statistics.id)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

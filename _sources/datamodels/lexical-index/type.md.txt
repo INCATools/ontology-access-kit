@@ -1,5 +1,8 @@
 # Slot: type
+
+
 _The type of transformation_
+
 
 
 URI: [ontolexindex:type](https://w3id.org/oak/lexical-index/type)
@@ -13,9 +16,10 @@ URI: [ontolexindex:type](https://w3id.org/oak/lexical-index/type)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontolexindex:type](https://w3id.org/oak/lexical-index/type)
 ## Properties
 
 * Range: [TransformationType](TransformationType.md)
-
-
 
 
 

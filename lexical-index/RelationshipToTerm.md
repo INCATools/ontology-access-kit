@@ -1,5 +1,8 @@
 # Class: RelationshipToTerm
+
+
 _A relationship of an ontology element to a lexical term_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
         
       RelationshipToTerm : pipeline
         
-          RelationshipToTerm ..> LexicalTransformationPipeline : pipeline
+          RelationshipToTerm --|> LexicalTransformationPipeline : pipeline
         
       RelationshipToTerm : predicate
         

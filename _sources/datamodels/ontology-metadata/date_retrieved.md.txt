@@ -16,9 +16,10 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

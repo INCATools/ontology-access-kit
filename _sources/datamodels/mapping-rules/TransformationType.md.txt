@@ -1,7 +1,10 @@
 # Enum: TransformationType
 
 
+
+
 _A controlled datamodels of the types of transformation that can be applied to_
+
 
 
 URI: [TransformationType](TransformationType)

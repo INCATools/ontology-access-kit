@@ -1,5 +1,8 @@
 # Class: AnnotationPropertyMixin
+
+
 _Groups all annotation property bundles_
+
 
 
 

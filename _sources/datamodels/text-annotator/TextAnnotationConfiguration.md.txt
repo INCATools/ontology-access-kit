@@ -1,5 +1,8 @@
 # Class: TextAnnotationConfiguration
+
+
 _configuration for search_
+
 
 
 
@@ -36,7 +39,7 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [sources](sources.md) | 0..* <br/> [String](String.md) |  | direct |
 | [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 | [token_exclusion_list](token_exclusion_list.md) | 0..* <br/> [String](String.md) |  | direct |

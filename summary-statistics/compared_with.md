@@ -1,5 +1,8 @@
 # Slot: compared_with
+
+
 _For diffs, the ontologies being compared against_
+
 
 
 URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statistics.compared_with)
@@ -13,11 +16,12 @@ URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statisti
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports
-[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -27,10 +31,8 @@ URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statisti
 ## Properties
 
 * Range: [Ontology](Ontology.md)
+
 * Multivalued: True
-
-
-
 
 
 

@@ -21,7 +21,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
         
       HasUserInformation : depicted_by
         
-          HasUserInformation ..> Image : depicted_by
+          HasUserInformation --|> Image : depicted_by
         
       HasUserInformation : example_of_usage
         
@@ -29,13 +29,13 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
         
       HasUserInformation : image
         
-          HasUserInformation ..> Thing : image
+          HasUserInformation --|> Thing : image
         
       HasUserInformation : page
         
       HasUserInformation : seeAlso
         
-          HasUserInformation ..> Thing : seeAlso
+          HasUserInformation --|> Thing : seeAlso
         
       
 ```

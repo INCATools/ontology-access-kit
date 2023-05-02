@@ -1,5 +1,8 @@
 # Slot: categories
+
+
 _categories that should be matched_
+
 
 
 URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
@@ -13,9 +16,10 @@ URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontosearch:categories](https://w3id.org/oak/search-datamodel/categories)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

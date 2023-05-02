@@ -1,5 +1,8 @@
 # Slot: via_terms
+
+
 _For inferred taxon constraints, this is the term or terms that have the taxon constraint asserted_
+
 
 
 URI: [tc:via_terms](https://w3id.org/linkml/taxon_constraints/via_terms)
@@ -13,9 +16,10 @@ URI: [tc:via_terms](https://w3id.org/linkml/taxon_constraints/via_terms)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [tc:via_terms](https://w3id.org/linkml/taxon_constraints/via_terms)
 ## Properties
 
 * Range: [SubjectTerm](SubjectTerm.md)
+
 * Multivalued: True
-
-
-
 
 
 

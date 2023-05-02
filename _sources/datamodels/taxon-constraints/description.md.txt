@@ -1,5 +1,8 @@
 # Slot: description
+
+
 _A description of the term_
+
 
 
 URI: [tc:description](https://w3id.org/linkml/taxon_constraints/description)
@@ -13,9 +16,10 @@ URI: [tc:description](https://w3id.org/linkml/taxon_constraints/description)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [tc:description](https://w3id.org/linkml/taxon_constraints/description)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: left_side
+
+
 _The first ontology is arbitrarily designated the left side_
+
 
 
 URI: [xodiff:left_side](https://w3id.org/oak/cross-ontology-diff/left_side)
@@ -11,6 +14,7 @@ URI: [xodiff:left_side](https://w3id.org/oak/cross-ontology-diff/left_side)
 
 * [side](side.md)
     * **left_side**
+
 
 
 
@@ -35,10 +39,8 @@ URI: [xodiff:left_side](https://w3id.org/oak/cross-ontology-diff/left_side)
 ## Properties
 
 * Range: [String](String.md)
+
 * Mixin: True
-
-
-
 
 
 

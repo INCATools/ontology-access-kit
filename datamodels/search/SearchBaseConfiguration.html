@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -108,13 +108,13 @@
         
       SearchBaseConfiguration : properties
         
-          SearchBaseConfiguration ..&gt; SearchProperty : properties
+          SearchBaseConfiguration --|&gt; SearchProperty : properties
         
       SearchBaseConfiguration : search_terms
         
       SearchBaseConfiguration : syntax
         
-          SearchBaseConfiguration ..&gt; SearchTermSyntax : syntax
+          SearchBaseConfiguration --|&gt; SearchTermSyntax : syntax
         
       
         </div><!-- no inheritance hierarchy -->
@@ -150,8 +150,8 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="cursor.html"><span class="std std-doc">cursor</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>when the number of search results exceed the limit this can be used to iterat…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_partial.html"><span class="std std-doc">is_partial</span></a></p></td>

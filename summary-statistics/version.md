@@ -1,5 +1,8 @@
 # Slot: version
+
+
 _the version of the resource_
+
 
 
 URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
@@ -13,9 +16,10 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Ontology](Ontology.md) | An ontology |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

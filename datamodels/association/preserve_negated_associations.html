@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -85,8 +85,8 @@
              
   <section id="slot-preserve-negated-associations">
 <h1>Slot: preserve_negated_associations<a class="headerlink" href="#slot-preserve-negated-associations" title="Permalink to this heading"></a></h1>
-<p><em>If true, then the parser will keep negated associations in the output.
-If false, then the parser will remove negated associations from the output.</em></p>
+<p><em>If true, then the parser will keep negated associations in the output.</em></p>
+<p><em>If false, then the parser will remove negated associations from the output.</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/association/preserve_negated_associations">ontoassoc:preserve_negated_associations</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,11 +95,13 @@ If false, then the parser will remove negated associations from the output.</em>
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>Modifies Slot</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="ParserConfiguration.html"><span class="std std-doc">ParserConfiguration</span></a></p></td>
-<td><p></p></td>
+<td><p>Settings that determine behavior when parsing associations</p></td>
+<td><p>no</p></td>
 </tr>
 </tbody>
 </table>
@@ -108,6 +110,12 @@ If false, then the parser will remove negated associations from the output.</em>
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></li>
+</ul>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Note that to be defensive most applications should leave the default as false</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -126,12 +134,14 @@ If false, then the parser will remove negated associations from the output.</em>
 name: preserve_negated_associations
 description: 'If true, then the parser will keep negated associations in the output.
 <p>If false, then the parser will remove negated associations from the output.’
+comments:</p>
+<ul class="simple">
+<li><p>Note that to be defensive most applications should leave the default as false
 from_schema: https://w3id.org/oak/association
 rank: 1000
 alias: preserve_negated_associations
 owner: ParserConfiguration
-domain_of:</p>
-<ul class="simple">
+domain_of:</p></li>
 <li><p>ParserConfiguration
 range: boolean</p></li>
 </ul>

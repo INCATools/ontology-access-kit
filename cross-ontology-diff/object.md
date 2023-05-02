@@ -1,5 +1,8 @@
 # Slot: object
+
+
 _The object node on left or right side_
+
 
 
 URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
@@ -7,6 +10,7 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -26,10 +30,8 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 ## Properties
 
 * Range: [String](String.md)
+
 * Mixin: True
-
-
-
 
 
 

@@ -1,19 +1,29 @@
 # Slot: is_specialization
 
+
+_True if the association was inferred to become more specific (based on closure predicates). Note that depending on the tool, this may be inferred, if there is no explicit association-level migration information._
+
+
+
 URI: [ontoassoc:is_specialization](https://w3id.org/oak/association/is_specialization)
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **is_specialization** [ [diff_slot](diff_slot.md)]
+
 
 
 
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[AssociationChange](AssociationChange.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+
 
 
 
@@ -23,8 +33,6 @@ URI: [ontoassoc:is_specialization](https://w3id.org/oak/association/is_specializ
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 
@@ -51,8 +59,13 @@ URI: [ontoassoc:is_specialization](https://w3id.org/oak/association/is_specializ
 <details>
 ```yaml
 name: is_specialization
+description: True if the association was inferred to become more specific (based on
+  closure predicates). Note that depending on the tool, this may be inferred, if there
+  is no explicit association-level migration information.
 from_schema: https://w3id.org/oak/association
 rank: 1000
+mixins:
+- diff_slot
 alias: is_specialization
 domain_of:
 - AssociationChange

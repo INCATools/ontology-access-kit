@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -85,9 +85,15 @@
              
   <section id="association">
 <h1>association<a class="headerlink" href="#association" title="Permalink to this heading"></a></h1>
-<p>A datamodel for representing generic associations.</p>
-<p>The core datamodel is broad, encompassing the W3 Open Annotation data model as well
-as common ontology annotation data models using in the biosciences.</p>
+<p>A data model for representing generic associations and changes of these associations.</p>
+<p>The core data model is broad, encompassing the W3 Open Annotation data model as well
+as common ontology annotation data models using in the biosciences, such as the GAF
+data model used by the Gene Ontology, and the HPOA association model used by the Human Phenotype
+Ontology.</p>
+<p>The core elements of the data model are the <em>subject</em> (the entity being described) and the <em>object</em>
+(the term, descriptor, or other entity that describes some aspect of the subject).</p>
+<p>A subject might be a biological entity such as gene, drug, disease, person, or chemical. The object is typically
+a class from an ontology such as a term from GO.</p>
 <p>URI: https://w3id.org/oak/association</p>
 </section>
 

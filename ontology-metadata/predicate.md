@@ -11,9 +11,10 @@ URI: [omoschema:predicate](http://purl.obolibrary.org/obo/omo/schema/predicate)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Annotation](Annotation.md) | A reified property-object pair
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Annotation](Annotation.md) | A reified property-object pair |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [omoschema:predicate](http://purl.obolibrary.org/obo/omo/schema/predicate)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

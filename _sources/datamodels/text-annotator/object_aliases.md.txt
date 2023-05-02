@@ -11,9 +11,10 @@ URI: [ann:object_aliases](https://w3id.org/linkml/text_annotator/object_aliases)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [ann:object_aliases](https://w3id.org/linkml/text_annotator/object_aliases)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

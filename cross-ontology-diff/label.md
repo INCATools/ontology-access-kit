@@ -1,5 +1,8 @@
 # Slot: label
+
+
 _human readable label_
+
 
 
 URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
@@ -7,6 +10,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -28,10 +32,8 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ## Properties
 
 * Range: [Label](Label.md)
+
 * Mixin: True
-
-
-
 
 
 

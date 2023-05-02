@@ -1,5 +1,8 @@
 # Slot: probability
+
+
 _The probability, as estimated by model-based approaches_
+
 
 
 URI: [ontoenrich:probability](https://w3id.org/oak/class-enrichment/probability)
@@ -13,9 +16,10 @@ URI: [ontoenrich:probability](https://w3id.org/oak/class-enrichment/probability)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,10 +29,10 @@ URI: [ontoenrich:probability](https://w3id.org/oak/class-enrichment/probability)
 ## Properties
 
 * Range: [Float](Float.md)
+
+* Minimum Value: 0
+
 * Maximum Value: 1
-
-
-
 
 
 

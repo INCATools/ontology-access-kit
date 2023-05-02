@@ -1,5 +1,8 @@
 # Slot: original_predicate
+
+
 _The original subject of the association prior to normalization_
+
 
 
 URI: [biolink:original_predicate](https://w3id.org/biolink/vocab/original_predicate)
@@ -13,11 +16,10 @@ URI: [biolink:original_predicate](https://w3id.org/biolink/vocab/original_predic
 
 
 
+
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: info
+
+
 _additional information about the issue_
+
 
 
 URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
@@ -13,11 +16,12 @@ URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
-[RepairOperation](RepairOperation.md) | The result of performing an individual repair
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
+[RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+
 
 
 
@@ -27,8 +31,6 @@ URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

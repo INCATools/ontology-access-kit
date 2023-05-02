@@ -1,5 +1,8 @@
 # Slot: graphs
+
+
 _A list of all graphs (ontologies) in an ontology document._
+
 
 
 URI: [obographs:graphs](https://github.com/geneontology/obographs/graphs)
@@ -13,9 +16,10 @@ URI: [obographs:graphs](https://github.com/geneontology/obographs/graphs)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [obographs:graphs](https://github.com/geneontology/obographs/graphs)
 ## Properties
 
 * Range: [Graph](Graph.md)
+
 * Multivalued: True
-
-
-
 
 
 

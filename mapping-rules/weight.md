@@ -1,5 +1,8 @@
 # Slot: weight
+
+
 _Weighting of the rule, positive increases the confidence, negative decreases_
+
 
 
 URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
@@ -13,9 +16,10 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Postcondition](Postcondition.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Postcondition](Postcondition.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 ## Properties
 
 * Range: [Float](Float.md)
-
-
 
 
 

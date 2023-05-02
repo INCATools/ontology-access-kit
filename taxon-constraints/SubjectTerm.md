@@ -1,5 +1,8 @@
 # Class: SubjectTerm
+
+
 _A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ..._
+
 
 
 
@@ -21,19 +24,19 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
         
       SubjectTerm : never_in
         
-          SubjectTerm ..> TaxonConstraint : never_in
+          SubjectTerm --|> TaxonConstraint : never_in
         
       SubjectTerm : only_in
         
-          SubjectTerm ..> TaxonConstraint : only_in
+          SubjectTerm --|> TaxonConstraint : only_in
         
       SubjectTerm : present_in
         
-          SubjectTerm ..> TaxonConstraint : present_in
+          SubjectTerm --|> TaxonConstraint : present_in
         
       SubjectTerm : present_in_ancestor_of
         
-          SubjectTerm ..> TaxonConstraint : present_in_ancestor_of
+          SubjectTerm --|> TaxonConstraint : present_in_ancestor_of
         
       SubjectTerm : unsatisfiable
         

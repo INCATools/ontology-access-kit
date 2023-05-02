@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">OAK Library Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Interfaces</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
@@ -60,14 +60,16 @@
 <li class="toctree-l3"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html">Validator Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html">Differ Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html">Dumper Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 </ul>
 </li>
@@ -80,9 +82,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -99,7 +101,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Package Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">OAK Library Documentation</a></li>
       <li class="breadcrumb-item active">Interfaces</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/packages/interfaces/index.rst.txt" rel="nofollow"> View page source</a>
@@ -119,8 +121,8 @@ worrying about whether the implementation is a relational database, a local
 file, etc.</p>
 <p>For example, the <a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a> implements <a class="reference internal" href="search.html#search-interface"><span class="std std-ref">Search Interface</span></a> which
 has the method <a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search" title="oaklib.interfaces.search_interface.SearchInterface.basic_search"><code class="xref py py-meth docutils literal notranslate"><span class="pre">oaklib.interfaces.search_interface.SearchInterface.basic_search()</span></code></a>, so you can write code like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ubergraph:&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s1">&#39;CA4 hippocampus&#39;</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </pre></div>
@@ -130,20 +132,93 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Ontology Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="basic.html#code">Code</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.strict"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.strict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.autosave"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.exclude_owl_top_and_bottom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metamodel_mapper"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.ontology_metamodel_mapper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.auto_relax_axioms"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.auto_relax_axioms</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.cache_lookups"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.cache_lookups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.prefix_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.get_prefix_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.converter"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.converter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_metamodel_mappings"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.set_metamodel_mappings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.curie_to_uri()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.uri_to_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multilingual"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.multilingual</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.languages"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.languages()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.default_language"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.default_language</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontologies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.ontologies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_curies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.ontology_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.all_ontology_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.obsoletes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.obsoletes_migration_relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.all_obsolete_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_versions"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.ontology_versions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metadata_map"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.ontology_metadata_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.entities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.all_entity_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.owl_types()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_type"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.owl_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_by"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.defined_by()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_bys"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.defined_bys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.roots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.leafs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.singletons()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subsets"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.subsets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_curies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.subset_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.all_subset_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_members"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.subset_members()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_subsets"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.terms_subsets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_categories"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.terms_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_subset"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.curies_by_subset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.label"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.get_label_by_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.labels"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.labels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multilingual_labels"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.multilingual_labels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.get_labels_for_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.set_label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_label"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.curies_by_label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.get_curies_by_label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.comments"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.comments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierarchical_parents"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.hierarchical_parents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationship_map"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.outgoing_relationship_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationships"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.outgoing_relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationship_map"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.incoming_relationship_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationships"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.incoming_relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.all_relationships()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.definition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definitions"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.definitions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.get_definition_by_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings_by_curie"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.simple_mappings_by_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.simple_mappings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_aliases"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.entity_aliases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.aliases_by_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.entity_alias_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.alias_map_by_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_metadata_map"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.entity_metadata_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities_metadata_statements"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.entities_metadata_statements()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.add_missing_property_values"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.add_missing_property_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.create_entity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.delete_entity"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.delete_entity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.query"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.query()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.save"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.clone"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.precompute_lookups"><code class="docutils literal notranslate"><span class="pre">BasicOntologyInterface.precompute_lookups()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="search.html#command-line">Command Line</a></li>
-<li class="toctree-l2"><a class="reference internal" href="search.html#datamodels">Datamodels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="search.html#code">Code</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface"><code class="docutils literal notranslate"><span class="pre">SearchInterface</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchConfiguration"><code class="docutils literal notranslate"><span class="pre">SearchConfiguration</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface"><code class="docutils literal notranslate"><span class="pre">SearchInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search"><code class="docutils literal notranslate"><span class="pre">SearchInterface.basic_search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search"><code class="docutils literal notranslate"><span class="pre">SearchInterface.multiterm_search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface.autosave"><code class="docutils literal notranslate"><span class="pre">SearchInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">SearchInterface.exclude_owl_top_and_bottom</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="search.html#oaklib.interfaces.search_interface.SearchConfiguration"><code class="docutils literal notranslate"><span class="pre">SearchConfiguration</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="subsetting.html">Subsetting</a><ul>
@@ -180,15 +255,18 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#synopsis">Synopsis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#about">About</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#data-model">Data Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#implementations">Implementations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#command-line-use">Command Line Use</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#code">Code</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#example">Example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#autodoc">Autodoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping-provider.html">Mapping Provider Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.sssom_mappings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.sssom_mappings_by_source()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.all_sssom_mappings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.get_sssom_mappings_by_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.get_transitive_mappings_by_curie()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.normalize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize_prefix"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.normalize_prefix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.create_normalization_map"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.create_normalization_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.autosave"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">MappingProviderInterface.exclude_owl_top_and_bottom</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -242,6 +320,17 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="differ.html">Differ Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="differ.html#oaklib.interfaces.differ_interface.DifferInterface"><code class="docutils literal notranslate"><span class="pre">DifferInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff"><code class="docutils literal notranslate"><span class="pre">DifferInterface.diff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff_summary"><code class="docutils literal notranslate"><span class="pre">DifferInterface.diff_summary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html#oaklib.interfaces.differ_interface.DifferInterface.compare_ontology_term_lists"><code class="docutils literal notranslate"><span class="pre">DifferInterface.compare_ontology_term_lists()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html#oaklib.interfaces.differ_interface.DifferInterface.autosave"><code class="docutils literal notranslate"><span class="pre">DifferInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html#oaklib.interfaces.differ_interface.DifferInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">DifferInterface.exclude_owl_top_and_bottom</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="patcher.html">Patcher Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface"><code class="docutils literal notranslate"><span class="pre">PatcherInterface</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.auto_add_contributor_using"><code class="docutils literal notranslate"><span class="pre">PatcherInterface.auto_add_contributor_using</span></code></a></li>
@@ -272,14 +361,16 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="association-provider.html">Association Provider</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="association-provider.html#synopsis">Synopsis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="association-provider.html#about">About</a></li>
-<li class="toctree-l2"><a class="reference internal" href="association-provider.html#implementations">Implementations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="association-provider.html#command-line-use">Command Line Use</a></li>
-<li class="toctree-l2"><a class="reference internal" href="association-provider.html#code">Code</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="association-provider.html#example">Example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="association-provider.html#autodoc">Autodoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="association-provider.html">Association Provider Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.associations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations_subjects"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.associations_subjects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_pairwise_coassociations"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.association_pairwise_coassociations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.add_associations"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.add_associations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_subject_counts"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.association_subject_counts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.map_associations"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.map_associations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.normalize_associations"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.normalize_associations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.normalize_association"><code class="docutils literal notranslate"><span class="pre">AssociationProviderInterface.normalize_association()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -288,6 +379,15 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 <li class="toctree-l2"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface.enriched_classes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.create_self_associations"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface.create_self_associations()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dumper.html">Dumper Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface"><code class="docutils literal notranslate"><span class="pre">DumperInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.dump"><code class="docutils literal notranslate"><span class="pre">DumperInterface.dump()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.autosave"><code class="docutils literal notranslate"><span class="pre">DumperInterface.autosave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">DumperInterface.exclude_owl_top_and_bottom</span></code></a></li>
 </ul>
 </li>
 </ul>

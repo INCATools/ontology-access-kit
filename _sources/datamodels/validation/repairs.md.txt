@@ -11,9 +11,10 @@ URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RepairOperation](RepairOperation.md) | The result of performing an individual repair
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
 ## Properties
 
 * Range: [ValidationResult](ValidationResult.md)
-
-
 
 
 

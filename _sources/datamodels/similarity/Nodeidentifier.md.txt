@@ -1,7 +1,10 @@
 # Type: Nodeidentifier
 
 
+
+
 _A URI, CURIE or BNODE that represents a node in a model._
+
 
 
 URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)

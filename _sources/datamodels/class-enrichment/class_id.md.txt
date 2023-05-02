@@ -1,5 +1,8 @@
 # Slot: class_id
+
+
 _The class id_
+
 
 
 URI: [ontoenrich:class_id](https://w3id.org/oak/class-enrichment/class_id)
@@ -13,9 +16,10 @@ URI: [ontoenrich:class_id](https://w3id.org/oak/class-enrichment/class_id)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontoenrich:class_id](https://w3id.org/oak/class-enrichment/class_id)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Required: True
-
-
-
 
 
 

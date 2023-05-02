@@ -11,9 +11,10 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

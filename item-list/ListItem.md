@@ -1,5 +1,8 @@
 # Class: ListItem
+
+
 _an item in an item list_
+
 
 
 
@@ -17,13 +20,13 @@ URI: [schema:ListItem](http://schema.org/ListItem)
         
       ListItem : item
         
-          ListItem ..> Thing : item
+          ListItem --|> Thing : item
         
       ListItem : position
         
       ListItem : previousItem
         
-          ListItem ..> ListItem : previousItem
+          ListItem --|> ListItem : previousItem
         
       
 ```
@@ -38,7 +41,7 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [elementId](elementId.md) | 1..1 <br/> [String](String.md) | The identifier of the item | direct |
+| [elementId](elementId.md) | 0..1 <br/> [String](String.md) | The identifier of the item | direct |
 | [idType](idType.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of the identifier | direct |
 | [item](item.md) | 0..1 <br/> [Thing](Thing.md) | The item represented by the list item | direct |
 | [position](position.md) | 0..1 <br/> [Integer](Integer.md) | The position of the item in the list | direct |

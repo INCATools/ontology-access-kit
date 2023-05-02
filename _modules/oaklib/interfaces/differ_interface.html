@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oaklib.interfaces.differ_interface &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oaklib.interfaces.differ_interface</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for oaklib.interfaces.differ_interface</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="k">as</span> <span class="nn">kgcl</span>
+<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Change</span><span class="p">,</span>
+    <span class="n">ClassCreation</span><span class="p">,</span>
+    <span class="n">NewTextDefinition</span><span class="p">,</span>
+    <span class="n">NodeCreation</span><span class="p">,</span>
+    <span class="n">NodeDeletion</span><span class="p">,</span>
+    <span class="n">NodeTextDefinitionChange</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span>
+    <span class="n">HAS_OBSOLESCENCE_REASON</span><span class="p">,</span>
+    <span class="n">OWL_CLASS</span><span class="p">,</span>
+    <span class="n">TERM_REPLACED_BY</span><span class="p">,</span>
+    <span class="n">TERMS_MERGED</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.kgcl_utilities</span> <span class="kn">import</span> <span class="n">generate_change_id</span>
+
+<span class="n">TERM_LIST_DIFF</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]</span>
+<span class="n">RESIDUAL_KEY</span> <span class="o">=</span> <span class="s2">&quot;__RESIDUAL__&quot;</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">DiffConfiguration</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for the differ.&quot;&quot;&quot;</span>
+
+    <span class="n">simple</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">group_by_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_gen_id</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">generate_change_id</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="DifferInterface"><a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface">[docs]</a><span class="k">class</span> <span class="nc">DifferInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates Change objects between one ontology and another.</span>
+
+<span class="sd">    This uses the KGCL datamodel, see :ref:`kgcl-datamodel` for more information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DifferInterface.diff"><a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff">[docs]</a>    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">DiffConfiguration</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Diffs two ontologies.</span>
+
+<span class="sd">        The changes that are yielded describe transitions from the current ontology to the other ontology.</span>
+
+<span class="sd">        Note that this is not guaranteed to diff every axiom in both ontologies. Only a subset of KGCL change</span>
+<span class="sd">        types are supported:</span>
+
+<span class="sd">        - NodeCreation</span>
+<span class="sd">        - NodeDeletion</span>
+<span class="sd">        - NodeMove</span>
+<span class="sd">        - NodeRename</span>
+<span class="sd">        - PredicateChange</span>
+<span class="sd">        - NewTextDefinition</span>
+<span class="sd">        - NodeTextDefinitionChange</span>
+
+<span class="sd">        :param other_ontology:</span>
+<span class="sd">        :param configuration:</span>
+<span class="sd">        :return: KGCL change object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">configuration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">configuration</span> <span class="o">=</span> <span class="n">DiffConfiguration</span><span class="p">()</span>
+        <span class="n">other_ontology_entities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">other_ontology</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+        <span class="n">self_entities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Comparing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">self_entities</span><span class="p">)</span><span class="si">}</span><span class="s2"> terms in this ontology&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">e1</span> <span class="ow">in</span> <span class="n">self_entities</span><span class="p">:</span>
+            <span class="c1"># e1_types = self.owl_type(e1)</span>
+            <span class="c1"># is_class = OWL_CLASS in e1_types</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Comparing e1 </span><span class="si">{</span><span class="n">e1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">e1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">other_ontology_entities</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">NodeDeletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">configuration</span><span class="o">.</span><span class="n">simple</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">e1_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+            <span class="n">e2_metadata</span> <span class="o">=</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+            <span class="n">metadata_props</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">e1_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">e2_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">DEPRECATED_PREDICATE</span> <span class="ow">in</span> <span class="n">metadata_props</span><span class="p">:</span>
+                <span class="n">e1_dep</span> <span class="o">=</span> <span class="n">e1_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">e2_dep</span> <span class="o">=</span> <span class="n">e2_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">e1_dep</span> <span class="o">!=</span> <span class="n">e2_dep</span><span class="p">:</span>
+                    <span class="c1"># TODO: bundle associated changes</span>
+                    <span class="k">if</span> <span class="n">e1_dep</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">e2_dep</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeUnobsoletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="ow">not</span> <span class="n">e1_dep</span> <span class="ow">and</span> <span class="n">e2_dep</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">TERM_REPLACED_BY</span> <span class="ow">in</span> <span class="n">e2_metadata</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">TERMS_MERGED</span> <span class="ow">in</span> <span class="n">e2_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HAS_OBSOLESCENCE_REASON</span><span class="p">,</span> <span class="p">[]):</span>
+                                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeDirectMerge</span><span class="p">(</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span>
+                                    <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span>
+                                    <span class="n">has_direct_replacement</span><span class="o">=</span><span class="n">e2_metadata</span><span class="p">[</span><span class="n">TERM_REPLACED_BY</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                <span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletionWithDirectReplacement</span><span class="p">(</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span>
+                                    <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span>
+                                    <span class="n">has_direct_replacement</span><span class="o">=</span><span class="n">e2_metadata</span><span class="p">[</span><span class="n">TERM_REPLACED_BY</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">)</span>
+            <span class="c1"># Check for definition change/addition</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">old_value</span> <span class="o">=</span> <span class="n">new_value</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">):</span>
+                        <span class="n">old_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">):</span>
+                        <span class="n">new_value</span> <span class="o">=</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+
+                    <span class="k">yield</span> <span class="n">NewTextDefinition</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">new_value</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">old_value</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">NodeTextDefinitionChange</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span>
+                        <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span>
+                        <span class="n">new_value</span><span class="o">=</span><span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">),</span>
+                        <span class="n">old_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">e1</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Both ontologies have no definition for </span><span class="si">{</span><span class="n">e1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">differs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">different_from</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">differs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">differs</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">e1_arels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">exclude_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="n">e2_arels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">other_ontology</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">exclude_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">arel</span> <span class="ow">in</span> <span class="n">e1_arels</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">e2_arels</span><span class="p">):</span>
+                <span class="n">pred</span><span class="p">,</span> <span class="n">alias</span> <span class="o">=</span> <span class="n">arel</span>
+                <span class="n">switches</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">e2_arels</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">alias</span><span class="p">}</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">switches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">e2_arels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">e2_arels</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">alias</span><span class="p">])</span>
+                    <span class="c1"># TODO: KGCL model needs to include predicates</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">SynonymPredicateChange</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">alias</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">RemoveSynonym</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">alias</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">arel</span> <span class="ow">in</span> <span class="n">e2_arels</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">e1_arels</span><span class="p">):</span>
+                <span class="n">pred</span><span class="p">,</span> <span class="n">alias</span> <span class="o">=</span> <span class="n">arel</span>
+                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NewSynonym</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">alias</span><span class="p">)</span>
+            <span class="n">e1_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+            <span class="n">e2_label</span> <span class="o">=</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">e1_label</span> <span class="o">!=</span> <span class="n">e2_label</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeRename</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">e1_label</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">e2_label</span>
+                <span class="p">)</span>
+            <span class="n">e1_rels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outgoing_relationships</span><span class="p">(</span><span class="n">e1</span><span class="p">))</span>
+            <span class="n">e2_rels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">other_ontology</span><span class="o">.</span><span class="n">outgoing_relationships</span><span class="p">(</span><span class="n">e1</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">e1_rels</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">e2_rels</span><span class="p">):</span>
+                <span class="n">pred</span><span class="p">,</span> <span class="n">filler</span> <span class="o">=</span> <span class="n">rel</span>
+                <span class="n">edge</span> <span class="o">=</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Edge</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">filler</span><span class="p">)</span>
+                <span class="n">switches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">({</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">e2_rels</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">filler</span><span class="p">})</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">switches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">e2_rels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">e2_rels</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">filler</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">pred</span> <span class="o">!=</span> <span class="n">switches</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">PredicateChange</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">switches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeDeletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">filler</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">e2_rels</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">e1_rels</span><span class="p">):</span>
+                <span class="n">pred</span><span class="p">,</span> <span class="n">filler</span> <span class="o">=</span> <span class="n">rel</span>
+                <span class="n">edge</span> <span class="o">=</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Edge</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">e1</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">filler</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeMove</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">pred</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Comparing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">other_ontology_entities</span><span class="p">)</span><span class="si">}</span><span class="s2"> terms in other ontology&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">other_ontology_entities</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Comparing e2 </span><span class="si">{</span><span class="n">e2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">e2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">self_entities</span><span class="p">:</span>
+                <span class="n">e2_types</span> <span class="o">=</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">owl_type</span><span class="p">(</span><span class="n">e2</span><span class="p">)</span>
+                <span class="n">is_class</span> <span class="o">=</span> <span class="n">OWL_CLASS</span> <span class="ow">in</span> <span class="n">e2_types</span>
+                <span class="k">if</span> <span class="n">is_class</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">ClassCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e2</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">NodeCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">e2</span><span class="p">)</span>
+                <span class="k">continue</span></div>
+
+<div class="viewcode-block" id="DifferInterface.diff_summary"><a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff_summary">[docs]</a>    <span class="k">def</span> <span class="nf">diff_summary</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">DiffConfiguration</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides high level summary of differences.</span>
+
+<span class="sd">        The result is a two-level dictionary</span>
+
+<span class="sd">        - the first level is the grouping key</span>
+<span class="sd">        - the second level is the type of change</span>
+
+<span class="sd">        The value of the second level is a count of the number of changes of that type.</span>
+
+
+
+<span class="sd">        :param other_ontology:</span>
+<span class="sd">        :param configuration:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;All_Obsoletion&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletion</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletionWithDirectReplacement</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeDirectMerge</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;All_Synonym&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">kgcl</span><span class="o">.</span><span class="n">NewSynonym</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="n">kgcl</span><span class="o">.</span><span class="n">RemoveSynonym</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="n">kgcl</span><span class="o">.</span><span class="n">SynonymPredicateChange</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="n">kgcl</span><span class="o">.</span><span class="n">SynonymReplacement</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">other_ontology</span><span class="p">,</span> <span class="n">configuration</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeChange</span><span class="p">):</span>
+                <span class="n">about</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">about_node</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeChange</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeDeletion</span><span class="p">):</span>
+                    <span class="n">about</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">subject</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">about</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">about_edge</span><span class="o">.</span><span class="n">subject</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">about</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">partition</span> <span class="o">=</span> <span class="n">RESIDUAL_KEY</span>
+            <span class="k">if</span> <span class="n">about</span> <span class="ow">and</span> <span class="n">configuration</span> <span class="ow">and</span> <span class="n">configuration</span><span class="o">.</span><span class="n">group_by_property</span><span class="p">:</span>
+                <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">about</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">md</span> <span class="ow">or</span> <span class="n">configuration</span><span class="o">.</span><span class="n">group_by_property</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">md</span><span class="p">:</span>
+                    <span class="n">md</span> <span class="o">=</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">about</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">configuration</span><span class="o">.</span><span class="n">group_by_property</span> <span class="ow">in</span> <span class="n">md</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="n">configuration</span><span class="o">.</span><span class="n">group_by_property</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">partition</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;Multiple values for </span><span class="si">{</span><span class="n">configuration</span><span class="o">.</span><span class="n">group_by_property</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+            <span class="k">if</span> <span class="n">partition</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">summary</span><span class="p">:</span>
+                <span class="n">summary</span><span class="p">[</span><span class="n">partition</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">typ</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">change</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">typ</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">summary</span><span class="p">[</span><span class="n">partition</span><span class="p">]:</span>
+                <span class="n">summary</span><span class="p">[</span><span class="n">partition</span><span class="p">][</span><span class="n">typ</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">summary</span><span class="p">[</span><span class="n">partition</span><span class="p">][</span><span class="n">typ</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">partition_summary</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">categories</span> <span class="ow">in</span> <span class="n">bins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">partition_summary</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">partition_summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">different_from</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="DifferInterface.compare_ontology_term_lists"><a class="viewcode-back" href="../../../packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.compare_ontology_term_lists">[docs]</a>    <span class="k">def</span> <span class="nf">compare_ontology_term_lists</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides high level summary of differences</span>
+
+<span class="sd">        :param other_ontology:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">this_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">())</span>
+        <span class="n">other_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">other_ontology</span><span class="o">.</span><span class="n">entities</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">this_terms</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">other_terms</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">NodeDeletion</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+                <span class="c1"># type=&#39;NodeDeletion&#39;,</span>
+                <span class="n">about_node</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">other_terms</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">this_terms</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">NodeCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">compare_term_in_two_ontologies</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">other_curie</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

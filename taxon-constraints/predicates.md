@@ -1,5 +1,8 @@
 # Slot: predicates
+
+
 _The predicates that connect the subject term to the via_terms._
+
 
 
 URI: [tc:predicates](https://w3id.org/linkml/taxon_constraints/predicates)
@@ -13,9 +16,10 @@ URI: [tc:predicates](https://w3id.org/linkml/taxon_constraints/predicates)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [tc:predicates](https://w3id.org/linkml/taxon_constraints/predicates)
 ## Properties
 
 * Range: [PredicateTerm](PredicateTerm.md)
+
 * Multivalued: True
-
-
-
 
 
 

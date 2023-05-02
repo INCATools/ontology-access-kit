@@ -1,5 +1,8 @@
 # Slot: phenodigm_score
+
+
 _the geometric mean of the jaccard similarity and the information content_
+
 
 
 URI: [sim:phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
@@ -18,9 +21,10 @@ URI: [sim:phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [sim:phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
 ## Properties
 
 * Range: [NonNegativeFloat](NonNegativeFloat.md)
-
-
 
 
 

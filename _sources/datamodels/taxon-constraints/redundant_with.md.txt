@@ -1,5 +1,8 @@
 # Slot: redundant_with
+
+
 _If the taxon constraint is redundant, then this is the set of taxon constraints that it is redundant with_
+
 
 
 URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_with)
@@ -13,9 +16,10 @@ URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_wit
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_wit
 ## Properties
 
 * Range: [TaxonConstraint](TaxonConstraint.md)
+
 * Multivalued: True
-
-
-
 
 
 

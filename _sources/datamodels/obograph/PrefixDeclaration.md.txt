@@ -1,5 +1,8 @@
 # Class: PrefixDeclaration
+
+
 _A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)_
+
 
 
 
@@ -28,7 +31,7 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [prefix](prefix.md) | 1..1 <br/> [String](String.md) | The prefix of a prefix declaration | direct |
+| [prefix](prefix.md) | 0..1 <br/> [String](String.md) | The prefix of a prefix declaration | direct |
 | [namespace](namespace.md) | 0..1 <br/> [Uri](Uri.md) | The namespace associated with a prefix in a prefix declaration | direct |
 
 

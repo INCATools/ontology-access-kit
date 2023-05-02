@@ -28,11 +28,10 @@ URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/omo/schema/
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

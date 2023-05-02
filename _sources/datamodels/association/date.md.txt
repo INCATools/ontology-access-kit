@@ -1,5 +1,10 @@
 # Slot: date
 
+
+_The date the association was created or last updated_
+
+
+
 URI: [ontoassoc:date](https://w3id.org/oak/association/date)
 
 
@@ -10,8 +15,9 @@ URI: [ontoassoc:date](https://w3id.org/oak/association/date)
 * **date**
     * [modification_date](modification_date.md)
     * [creation_date](creation_date.md)
-    * [old_date](old_date.md)
-    * [new_date](new_date.md)
+    * [old_date](old_date.md) [ [diff_slot](diff_slot.md)]
+    * [new_date](new_date.md) [ [diff_slot](diff_slot.md)]
+
 
 
 
@@ -22,8 +28,6 @@ URI: [ontoassoc:date](https://w3id.org/oak/association/date)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -50,6 +54,7 @@ URI: [ontoassoc:date](https://w3id.org/oak/association/date)
 <details>
 ```yaml
 name: date
+description: The date the association was created or last updated
 from_schema: https://w3id.org/oak/association
 rank: 1000
 alias: date

@@ -16,9 +16,10 @@ URI: [ontoassoc:object2](https://w3id.org/oak/association/object2)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+
 
 
 
@@ -28,10 +29,8 @@ URI: [ontoassoc:object2](https://w3id.org/oak/association/object2)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Required: True
-
-
-
 
 
 

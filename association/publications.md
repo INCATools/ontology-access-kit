@@ -1,5 +1,8 @@
 # Slot: publications
+
+
 _The publications that support the association_
+
 
 
 URI: [biolink:publications](https://w3id.org/biolink/vocab/publications)
@@ -13,11 +16,12 @@ URI: [biolink:publications](https://w3id.org/biolink/vocab/publications)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
-[AssociationChange](AssociationChange.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+
 
 
 
@@ -27,10 +31,8 @@ URI: [biolink:publications](https://w3id.org/biolink/vocab/publications)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

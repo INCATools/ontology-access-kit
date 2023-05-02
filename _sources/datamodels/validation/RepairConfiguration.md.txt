@@ -1,5 +1,8 @@
 # Class: RepairConfiguration
+
+
 _Configuration parameters for execution of validation repairs_
+
 
 
 
@@ -15,7 +18,7 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
         
       RepairConfiguration : validation_configuration
         
-          RepairConfiguration ..> ValidationConfiguration : validation_configuration
+          RepairConfiguration --|> ValidationConfiguration : validation_configuration
         
       
 ```

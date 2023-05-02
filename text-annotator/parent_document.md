@@ -11,9 +11,10 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextualElement](TextualElement.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextualElement](TextualElement.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

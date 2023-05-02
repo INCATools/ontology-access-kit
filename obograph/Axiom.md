@@ -1,6 +1,10 @@
 # Class: Axiom
-_A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.
-_
+
+
+_A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard._
+
+__
+
 
 
 
@@ -21,7 +25,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
       
       Axiom : meta
         
-          Axiom ..> Meta : meta
+          Axiom --|> Meta : meta
         
       
 ```

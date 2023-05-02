@@ -11,9 +11,10 @@ URI: [sim:match_subsumer_label](https://w3id.org/linkml/similarity/match_subsume
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[BestMatch](BestMatch.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[BestMatch](BestMatch.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [sim:match_subsumer_label](https://w3id.org/linkml/similarity/match_subsume
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: additionalType
+
+
 _An additional type for the item, typically used for adding more specific types from external vocabularies in microdata syntax. This is a relationship between something and a class that the thing is in. In RDFa syntax, it is better to use the native RDFa syntax - the 'typeof' attribute - for multiple types. Schema.org tools may have only weaker understanding of extra types, in particular those defined externally._
+
 
 
 URI: [schema:additionalType](http://schema.org/additionalType)
@@ -13,9 +16,10 @@ URI: [schema:additionalType](http://schema.org/additionalType)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [schema:additionalType](http://schema.org/additionalType)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

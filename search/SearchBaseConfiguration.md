@@ -1,5 +1,8 @@
 # Class: SearchBaseConfiguration
+
+
 _A user-specified configuration that determines how a particular search operation works_
+
 
 
 
@@ -29,13 +32,13 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
         
       SearchBaseConfiguration : properties
         
-          SearchBaseConfiguration ..> SearchProperty : properties
+          SearchBaseConfiguration --|> SearchProperty : properties
         
       SearchBaseConfiguration : search_terms
         
       SearchBaseConfiguration : syntax
         
-          SearchBaseConfiguration ..> SearchTermSyntax : syntax
+          SearchBaseConfiguration --|> SearchTermSyntax : syntax
         
       
 ```
@@ -54,7 +57,7 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
 | [syntax](syntax.md) | 0..1 <br/> [SearchTermSyntax](SearchTermSyntax.md) | Determines how the search term is interpreted | direct |
 | [properties](properties.md) | 0..* <br/> [SearchProperty](SearchProperty.md) | determines which properties are searched over | direct |
 | [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) | the maximum number of search results to be returned in one batch | direct |
-| [cursor](cursor.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [cursor](cursor.md) | 0..1 <br/> [Integer](Integer.md) | when the number of search results exceed the limit this can be used to iterat... | direct |
 | [is_partial](is_partial.md) | 0..1 <br/> [Boolean](Boolean.md) | allows matches where the search term is a subset of the full span | direct |
 | [is_complete](is_complete.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |

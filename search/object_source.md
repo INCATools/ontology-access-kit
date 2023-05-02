@@ -1,5 +1,8 @@
 # Slot: object_source
+
+
 _The ontology or other source that contains the matched term_
+
 
 
 URI: [sssom:object_source](http://w3id.org/sssom/object_source)
@@ -13,9 +16,10 @@ URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResult](SearchResult.md) | An individual search result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchResult](SearchResult.md) | An individual search result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

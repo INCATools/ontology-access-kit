@@ -1,5 +1,10 @@
 # Slot: summary_group
 
+
+_The field used to group an association diff summary_
+
+
+
 URI: [ontoassoc:summary_group](https://w3id.org/oak/association/summary_group)
 
 
@@ -11,9 +16,10 @@ URI: [ontoassoc:summary_group](https://w3id.org/oak/association/summary_group)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[AssociationChange](AssociationChange.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ontoassoc:summary_group](https://w3id.org/oak/association/summary_group)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -51,6 +55,7 @@ URI: [ontoassoc:summary_group](https://w3id.org/oak/association/summary_group)
 <details>
 ```yaml
 name: summary_group
+description: The field used to group an association diff summary
 from_schema: https://w3id.org/oak/association
 rank: 1000
 alias: summary_group

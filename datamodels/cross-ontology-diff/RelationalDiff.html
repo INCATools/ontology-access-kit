@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -85,34 +85,38 @@
              
   <section id="class-relationaldiff">
 <h1>Class: RelationalDiff<a class="headerlink" href="#class-relationaldiff" title="Permalink to this heading"></a></h1>
-<p>_A relational diff expresses the difference between an edge in one ontology, and an edge (or lack of edge) in
-another ontology (or a different version of the same ontology). The diff is from the perspective of one
-ontology (the one on the “left” side).</p>
-<p>For every edge in the left ontology, the subject and object are mapped to the right ontology.
-If mappings cannot be found then the diff is categorized as missing mappings.
-The predicate is also mapped, with the reflexivity assumption.</p>
-<p>for every mapped subject and object pair (the “right” subject and object), the entailed relationship
-is examined to determine if it consistent with the left predicate.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left_object</span>    <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_object</span>
-   <span class="o">^</span>                                  <span class="o">^</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span> <span class="n">left</span>                             <span class="o">|</span> <span class="n">right</span>
-   <span class="o">|</span> <span class="n">predicate</span>                        <span class="o">|</span> <span class="n">predicate</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-<span class="n">left_subject</span>   <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_subject</span>
-</pre></div>
-</div>
-<p>The above figure gives hows the basic structure. Classification of the edge is done from the perspective
-of the left edge._</p>
+<p><em>A relational diff expresses the difference between an edge in one ontology, and an edge (or lack of edge) in</em></p>
+<p><em>another ontology (or a different version of the same ontology). The diff is from the perspective of one</em></p>
+<p><em>ontology (the one on the “left” side).</em></p>
+<p>__</p>
+<p><em>For every edge in the left ontology, the subject and object are mapped to the right ontology.</em></p>
+<p><em>If mappings cannot be found then the diff is categorized as missing mappings.</em></p>
+<p><em>The predicate is also mapped, with the reflexivity assumption.</em></p>
+<p>__</p>
+<p><em>for every mapped subject and object pair (the “right” subject and object), the entailed relationship</em></p>
+<p><em>is examined to determine if it consistent with the left predicate.</em></p>
+<p>__</p>
+<p><em>```</em></p>
+<p><em>left_object    &lt;— mapped to —&gt; right_object</em></p>
+<p>_   ^                                  ^_</p>
+<p>_   |                                  |_</p>
+<p>_   |                                  |_</p>
+<p>_   | left                             | right_</p>
+<p>_   | predicate                        | predicate_</p>
+<p>_   |                                  |_</p>
+<p>_   |                                  |_</p>
+<p><em>left_subject   &lt;— mapped to —&gt; right_subject</em></p>
+<p><em>```</em></p>
+<p>__</p>
+<p><em>The above figure gives hows the basic structure. Classification of the edge is done from the perspective</em></p>
+<p><em>of the left edge.</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/cross-ontology-diff/RelationalDiff">xodiff:RelationalDiff</a></p>
 <div class="mermaid">
              classDiagram
     class RelationalDiff
       RelationalDiff : category
         
-          RelationalDiff ..&gt; DiffCategory : category
+          RelationalDiff --|&gt; DiffCategory : category
         
       RelationalDiff : left_object_id
         
@@ -132,7 +136,7 @@ of the left edge._</p>
         
       RelationalDiff : object_mapping_cardinality
         
-          RelationalDiff ..&gt; MappingCardinalityEnum : object_mapping_cardinality
+          RelationalDiff --|&gt; MappingCardinalityEnum : object_mapping_cardinality
         
       RelationalDiff : object_mapping_predicate
         
@@ -152,7 +156,7 @@ of the left edge._</p>
         
       RelationalDiff : subject_mapping_cardinality
         
-          RelationalDiff ..&gt; MappingCardinalityEnum : subject_mapping_cardinality
+          RelationalDiff --|&gt; MappingCardinalityEnum : subject_mapping_cardinality
         
       RelationalDiff : subject_mapping_predicate
         
@@ -235,12 +239,12 @@ of the left edge._</p>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="std std-doc">left_subject_is_functional</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>True if a subject mapping is present, and maps uniquely within the same ontol…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="std std-doc">left_object_is_functional</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>True if an object mapping is present, and maps uniquely within the same ontol…</p></td>
 <td><p>direct</p></td>
 </tr>

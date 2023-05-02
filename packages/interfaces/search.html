@@ -52,27 +52,28 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Package Documentation</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">OAK Library Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Search Interface</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#command-line">Command Line</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datamodels">Datamodels</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.interfaces.search_interface.SearchInterface"><code class="docutils literal notranslate"><span class="pre">SearchInterface</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.interfaces.search_interface.SearchConfiguration"><code class="docutils literal notranslate"><span class="pre">SearchConfiguration</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html">Validator Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html">Differ Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dumper.html">Dumper Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
 </ul>
 </li>
@@ -85,9 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -104,7 +105,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Package Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">OAK Library Documentation</a></li>
           <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
       <li class="breadcrumb-item active">Search Interface</li>
       <li class="wy-breadcrumbs-aside">
@@ -118,6 +119,10 @@
              
   <section id="search-interface">
 <span id="id1"></span><h1>Search Interface<a class="headerlink" href="#search-interface" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.interfaces.search_interface.SearchInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.search_interface.</span></span><span class="sig-name descname"><span class="pre">SearchInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/search_interface.html#SearchInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface" title="Permalink to this definition"></a></dt>
+<dd><p>An Ontology Interface that supports text-based search.</p>
 <p>The search interface provides a largely implementation-neutral way to query an ontology. It allows for</p>
 <ul class="simple">
 <li><p>exact or partial matches</p></li>
@@ -126,7 +131,8 @@
 </ul>
 <p>It also allows you to control which metadata elements are searched over (typically labels and aliases)</p>
 <p>Implementations may differ in their behavior. Some implementations may not be able to honor specific requests.
-For example, the <span class="xref std std-ref">SqlDatabaseImplementation</span> implementation may not be able to fulfil regular expression queries.</p>
+For example, the <span class="xref std std-ref">SqlDatabaseImplementation</span> implementation may not be able to fulfil regular
+expression queries.</p>
 <p>Some endpoints may return results that are ranked by relevance, others may be arbitrary</p>
 <section id="command-line">
 <h2>Command Line<a class="headerlink" href="#command-line" title="Permalink to this heading"></a></h2>
@@ -136,7 +142,7 @@ For example, the <span class="xref std std-ref">SqlDatabaseImplementation</span>
 </pre></div>
 </div>
 <p>Exact match for a label using sqlite:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">run</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">db</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">search</span> <span class="n">l</span><span class="o">=</span><span class="n">neuron</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">db</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">search</span> <span class="n">l</span><span class="o">=</span><span class="n">neuron</span>
 </pre></div>
 </div>
 <p>Inexact match for a label or synonym using sqlite:</p>
@@ -146,14 +152,10 @@ For example, the <span class="xref std std-ref">SqlDatabaseImplementation</span>
 </section>
 <section id="datamodels">
 <h2>Datamodels<a class="headerlink" href="#datamodels" title="Permalink to this heading"></a></h2>
-<p>Search uses the <span class="xref std std-ref">SearchDatamodel</span> to specify both an input query and search results, see <a class="reference internal" href="#datamodels"><span class="std std-ref">Datamodels</span></a></p>
-</section>
-<section id="code">
-<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="oaklib.interfaces.search_interface.SearchInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.search_interface.</span></span><span class="sig-name descname"><span class="pre">SearchInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/search_interface.html#SearchInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface" title="Permalink to this definition"></a></dt>
-<dd><p>An Ontology Interface that supports text-based search</p>
+<dl class="simple">
+<dt>Search uses <a class="reference external" href="https://w3id.org/oak/search">https://w3id.org/oak/search</a> to specify both an input query and search results,</dt><dd><p>see <a class="reference internal" href="#datamodels"><span class="std std-ref">Datamodels</span></a></p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.search_interface.SearchInterface.basic_search">
 <span class="sig-name descname"><span class="pre">basic_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../search-syntax.html#oaklib.datamodels.search.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">SearchConfiguration</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/search_interface.html#SearchInterface.basic_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface.basic_search" title="Permalink to this definition"></a></dt>
@@ -202,6 +204,7 @@ whether results should be auto-committed after each operation</p>
 <dd><p>Do not include owl:Thing or owl:Nothing</p>
 </dd></dl>
 
+</section>
 </dd></dl>
 
 <dl class="py class">
@@ -218,7 +221,6 @@ whether results should be auto-committed after each operation</p>
 <tbody>
 </tbody>
 </table>
-</section>
 </section>
 
 

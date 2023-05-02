@@ -1,5 +1,8 @@
 # Slot: original_subject
+
+
 _The original subject of the association prior to normalization_
+
 
 
 URI: [biolink:original_subject](https://w3id.org/biolink/vocab/original_subject)
@@ -13,11 +16,10 @@ URI: [biolink:original_subject](https://w3id.org/biolink/vocab/original_subject)
 
 
 
+
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

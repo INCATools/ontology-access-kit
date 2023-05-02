@@ -23,7 +23,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OWL Interface" href="owl.html" />
+    <link rel="prev" title="Class Enrichment Calculation Interface" href="class-enrichment.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,17 +48,46 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Package Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">OAK Library Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="search.html">Search Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html">Validator Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mapping-provider.html">Mapping Provider Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="differ.html">Differ Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patcher.html">Patcher Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="semantic-similarity.html">Semantic Similarity Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="association-provider.html">Association Provider Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Dumper Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#oaklib.interfaces.dumper_interface.DumperInterface"><code class="docutils literal notranslate"><span class="pre">DumperInterface</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="owl.html">OWL Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../selectors.html">Ontology Adapter Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../converters/index.html">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -73,6 +104,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">OAK Library Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interfaces</a></li>
       <li class="breadcrumb-item active">Dumper Interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/packages/interfaces/dumper.rst.txt" rel="nofollow"> View page source</a>
@@ -128,7 +161,10 @@ whether results should be auto-committed after each operation</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="class-enrichment.html" class="btn btn-neutral float-left" title="Class Enrichment Calculation Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="owl.html" class="btn btn-neutral float-right" title="OWL Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

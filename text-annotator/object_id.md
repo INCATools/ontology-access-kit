@@ -11,9 +11,10 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

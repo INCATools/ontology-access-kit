@@ -1,5 +1,8 @@
 # Class: GroupedStatistics
+
+
 _summary statistics for the entire resource_
+
 
 
 
@@ -15,25 +18,25 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
       
       GroupedStatistics : agents
         
-          GroupedStatistics ..> Agent : agents
+          GroupedStatistics --|> Agent : agents
         
       GroupedStatistics : compared_with
         
-          GroupedStatistics ..> Ontology : compared_with
+          GroupedStatistics --|> Ontology : compared_with
         
       GroupedStatistics : id
         
       GroupedStatistics : ontologies
         
-          GroupedStatistics ..> Ontology : ontologies
+          GroupedStatistics --|> Ontology : ontologies
         
       GroupedStatistics : partitions
         
-          GroupedStatistics ..> UngroupedStatistics : partitions
+          GroupedStatistics --|> UngroupedStatistics : partitions
         
       GroupedStatistics : was_generated_by
         
-          GroupedStatistics ..> SummaryStatisticsCalculationActivity : was_generated_by
+          GroupedStatistics --|> SummaryStatisticsCalculationActivity : was_generated_by
         
       
 ```

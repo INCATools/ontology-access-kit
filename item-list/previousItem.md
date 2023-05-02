@@ -1,5 +1,8 @@
 # Slot: previousItem
+
+
 _The previous item in the list_
+
 
 
 URI: [schema:previousItem](http://schema.org/previousItem)
@@ -13,9 +16,10 @@ URI: [schema:previousItem](http://schema.org/previousItem)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ListItem](ListItem.md) | an item in an item list
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ListItem](ListItem.md) | an item in an item list |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [schema:previousItem](http://schema.org/previousItem)
 ## Properties
 
 * Range: [ListItem](ListItem.md)
-
-
 
 
 

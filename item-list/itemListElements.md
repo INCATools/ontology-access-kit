@@ -1,5 +1,8 @@
 # Slot: itemListElements
+
+
 _The entities in the list, represented as a simple list_
+
 
 
 URI: [schema:itemListElement](http://schema.org/itemListElement)
@@ -13,9 +16,10 @@ URI: [schema:itemListElement](http://schema.org/itemListElement)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [schema:itemListElement](http://schema.org/itemListElement)
 ## Properties
 
 * Range: [ListItem](ListItem.md)
+
 * Multivalued: True
-
-
-
 
 
 

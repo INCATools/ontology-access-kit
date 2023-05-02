@@ -24,19 +24,19 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
         
       ClassExpression : equivalentClass
         
-          ClassExpression ..> ClassExpression : equivalentClass
+          ClassExpression --|> ClassExpression : equivalentClass
         
       ClassExpression : intersectionOf
         
-          ClassExpression ..> ClassExpression : intersectionOf
+          ClassExpression --|> ClassExpression : intersectionOf
         
       ClassExpression : oneOf
         
-          ClassExpression ..> ClassExpression : oneOf
+          ClassExpression --|> ClassExpression : oneOf
         
       ClassExpression : subClassOf
         
-          ClassExpression ..> ClassExpression : subClassOf
+          ClassExpression --|> ClassExpression : subClassOf
         
       ClassExpression : unionOf
         

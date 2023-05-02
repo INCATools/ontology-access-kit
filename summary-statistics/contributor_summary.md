@@ -11,9 +11,10 @@ URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_st
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_st
 ## Properties
 
 * Range: [ContributorStatistics](ContributorStatistics.md)
+
 * Multivalued: True
-
-
-
 
 
 

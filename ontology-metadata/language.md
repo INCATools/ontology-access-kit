@@ -16,11 +16,10 @@ URI: [dcterms:language](http://purl.org/dc/terms/language)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

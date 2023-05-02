@@ -34,11 +34,11 @@ URI: [schema:Thing](http://schema.org/Thing)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | The identifier of the item | direct |
+| [name](name.md) | 0..1 <br/> [String](String.md) | The name of the item | direct |
 | [url](url.md) | 0..1 <br/> [Uri](Uri.md) | A URL for the item | direct |
 | [identifiers](identifiers.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | A list of identifiers for the item | direct |
-| [description](description.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | A description of the item | direct |
 | [type](type.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of the item | direct |
 
 

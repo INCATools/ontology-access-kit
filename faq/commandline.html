@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ: Command Line &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">FAQ: Command Line</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/faq/commandline.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="faq-command-line">
+<span id="faq-commandline"></span><h1>FAQ: Command Line<a class="headerlink" href="#faq-command-line" title="Permalink to this heading"></a></h1>
+<section id="how-do-i-see-a-list-of-commands">
+<h2>How do I see a list of commands?<a class="headerlink" href="#how-do-i-see-a-list-of-commands" title="Permalink to this heading"></a></h2>
+<p>Type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>This will list all OAK commands, as well as listing all <em>global</em> options.</p>
+</section>
+<section id="how-do-i-get-help-on-a-command">
+<h2>How do I get help on a command?<a class="headerlink" href="#how-do-i-get-help-on-a-command" title="Permalink to this heading"></a></h2>
+<p>Type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>COMMAND<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>Each command typically comes with some examples of use</p>
+</section>
+<section id="how-do-i-get-more-examples-of-command-line-usage">
+<h2>How do I get more examples of command line usage?<a class="headerlink" href="#how-do-i-get-more-examples-of-command-line-usage" title="Permalink to this heading"></a></h2>
+<p>See the <a href="#id1"><span class="problematic" id="id2">``</span></a>Commands &lt;<a class="reference external" href="https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands">https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands</a>&gt;`_ folder
+of the Jupyter notebooks directory in GitHub. Our aim is to eventually have one notebook per command.</p>
+</section>
+<section id="i-want-to-query-an-ontology-what-do-i-pass-for-the-input-option">
+<h2>I want to query an ontology, what do I pass for the <code class="docutils literal notranslate"><span class="pre">--input</span></code> option?<a class="headerlink" href="#i-want-to-query-an-ontology-what-do-i-pass-for-the-input-option" title="Permalink to this heading"></a></h2>
+<p>There are a number of different ways to access an ontology. If your ontology is in the
+<a class="reference internal" href="../glossary.html#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a> repository (which includes everything in <span class="xref std std-term">OBO</span>) then the easiest
+thing is to provide a value of the form <code class="docutils literal notranslate"><span class="pre">sqlite:obo:&lt;MyOntID&gt;</span></code>.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:chebi<span class="w"> </span>info<span class="w"> </span>cysteine
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="../packages/selectors.html#selectors"><span class="std std-ref">Ontology Adapter Selectors</span></a> documentation.</p>
+</section>
+<section id="why-do-i-get-a-no-such-option-error-when-i-pass-the-input-option">
+<h2>Why do I get a “no such option” error when I pass the “–input” option?<a class="headerlink" href="#why-do-i-get-a-no-such-option-error-when-i-pass-the-input-option" title="Permalink to this heading"></a></h2>
+<p>If you see this error it means you have likely specified the <code class="docutils literal notranslate"><span class="pre">--input</span></code> (or <code class="docutils literal notranslate"><span class="pre">-i</span></code>)
+option <em>after</em> the main subcommand.</p>
+<p>This is correct:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--input<span class="w"> </span>SOURCE<span class="w"> </span>COMMAND<span class="w"> </span>COMMAND-OPTION...<span class="w"> </span>ARGUMENT...
+</pre></div>
+</div>
+<p>This is <strong>not</strong> correct:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>COMMAND<span class="w"> </span>--input<span class="w"> </span>SOURCE<span class="w"> </span>ARGUMENT...
+</pre></div>
+</div>
+</section>
+<section id="what-do-the-codes-i-and-p-mean">
+<h2>What do the codes “i” and “p” mean?<a class="headerlink" href="#what-do-the-codes-i-and-p-mean" title="Permalink to this heading"></a></h2>
+<p>Many commands take a <code class="code docutils literal notranslate"><span class="pre">--predicates</span></code> option, the value is a comma separated list of <a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIEs</span></a>.
+You can use “i” as a shortcut for is_a (rdfs:subClassOf) and “p” as a shortcut for part_of (BFO:0000050)</p>
+<p>See the section <a class="reference internal" href="../guide/relationships-and-graphs.html#relationships-and-graphs"><span class="std std-ref">Relationships and Graphs</span></a> in the <a class="reference internal" href="../guide/index.html#guide"><span class="std std-ref">The OAK Guide</span></a>.</p>
+</section>
+<section id="can-i-pass-a-list-of-ids-curies-as-input-to-a-command">
+<h2>Can I pass a list of IDs (CURIEs) as input to a command?<a class="headerlink" href="#can-i-pass-a-list-of-ids-curies-as-input-to-a-command" title="Permalink to this heading"></a></h2>
+<p>Yes, almost all commands accept lists of CURIEs. These are treated formally as a disjunctive query,
+i.e. the command operates on the union of all identifiers.</p>
+</section>
+<section id="can-i-pass-entity-labels-as-command-inputs">
+<h2>Can I pass entity labels as command inputs?<a class="headerlink" href="#can-i-pass-entity-labels-as-command-inputs" title="Permalink to this heading"></a></h2>
+<p>Yes. This can be very handy if you don’t have IDs memorized or don’t want to issue another command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:ro<span class="w"> </span>info<span class="w"> </span><span class="s1">&#39;part of&#39;</span><span class="w"> </span><span class="s1">&#39;develops from&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="can-i-pass-lexical-queries-as-command-inputs">
+<h2>Can I pass lexical queries as command inputs?<a class="headerlink" href="#can-i-pass-lexical-queries-as-command-inputs" title="Permalink to this heading"></a></h2>
+<p>Yes. See <span class="xref std std-ref">search-syntax</span></p>
+<p>For example, all terms with a label matching “device”.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:obi<span class="w"> </span>l~device
+</pre></div>
+</div>
+</section>
+<section id="can-i-pass-the-results-of-graph-queries-as-command-inputs">
+<h2>Can I pass the results of graph queries as command inputs?<a class="headerlink" href="#can-i-pass-the-results-of-graph-queries-as-command-inputs" title="Permalink to this heading"></a></h2>
+<p>Yes. See <span class="xref std std-ref">search-syntax</span>.</p>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">.descendants</span></code> (or just <code class="docutils literal notranslate"><span class="pre">.desc</span></code>) to query for descendants, and <code class="docutils literal notranslate"><span class="pre">.ancestors</span></code> (or just <code class="docutils literal notranslate"><span class="pre">.anc</span></code>) to
+query for ancestors. Both of these can be pameterized by predicate arguments (after the optional <code class="docutils literal notranslate"><span class="pre">//</span></code>).</p>
+<p>For example, to get all logical definitions of is-a descendants (i.e entailed subclasses)
+of “bone element” in UBERON:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>logical-definitions<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;bone element&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="can-i-make-boolean-combinations-of-query-terms">
+<h2>Can I make boolean combinations of query terms?<a class="headerlink" href="#can-i-make-boolean-combinations-of-query-terms" title="Permalink to this heading"></a></h2>
+<p>Yes. See <span class="xref std std-ref">search-syntax</span></p>
+<p>For example, all bone elements that are part of a forelimb:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>logical-definitions<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;bone element&quot;</span><span class="w"> </span>.and<span class="w"> </span>.desc//p<span class="o">=</span>i,p<span class="w"> </span><span class="s2">&quot;forelimb&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="can-i-chain-commands-together-unix-style">
+<h2>Can I chain commands together, unix-style?<a class="headerlink" href="#can-i-chain-commands-together-unix-style" title="Permalink to this heading"></a></h2>
+<p>Yes! Most commands take a term list as input, and allow for <code class="docutils literal notranslate"><span class="pre">-</span></code> to specify input from standard input</p>
+<p>For example, to pipe the output from the <code class="docutils literal notranslate"><span class="pre">descendants</span></code> command into the <code class="docutils literal notranslate"><span class="pre">definitions</span></code> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">cl</span><span class="o">=</span><span class="s1">&#39;runoak -i sqlite:obo:cl&#39;</span>
+cl<span class="w"> </span>descendants<span class="w"> </span>interneuron<span class="w"> </span><span class="p">|</span><span class="w"> </span>cl<span class="w"> </span>definitions<span class="w"> </span>-
+</pre></div>
+</div>
+<p>The first column of the output from the descendants command will be used as input for the next command.</p>
+</section>
+<section id="what-does-the-symbol-mean-in-a-query-term-list">
+<h2>What does the symbol <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> mean in a query term list<a class="headerlink" href="#what-does-the-symbol-mean-in-a-query-term-list" title="Permalink to this heading"></a></h2>
+<p>Most OAK commands accept as input a simple list of terms. Some commands operate on <em>pairs</em> of terms.
+The <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> symbol separates two term lists.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>similarity<span class="w"> </span>CL:0002405<span class="w"> </span>CL:0002039<span class="w"> </span>CL:0000893<span class="w"> </span>@<span class="w"> </span>CL:0001042<span class="w"> </span>CL:0000935
+</pre></div>
+</div>
+</section>
+<section id="can-i-use-the-command-line-to-visualize-a-subgraph">
+<h2>Can I use the command line to visualize a subgraph?<a class="headerlink" href="#can-i-use-the-command-line-to-visualize-a-subgraph" title="Permalink to this heading"></a></h2>
+</section>
+<section id="is-there-an-over-arching-philosophy-or-set-of-design-principles-to-the-oak-command-line">
+<h2>Is there an over-arching philosophy or set of design principles to the OAK command line?<a class="headerlink" href="#is-there-an-over-arching-philosophy-or-set-of-design-principles-to-the-oak-command-line" title="Permalink to this heading"></a></h2>
+<p>Yes! We follow the <a class="reference external" href="https://glib.dev">CLIG</a> guidelines as far as possible, in order
+to provide both internal consistency and consistency with other commands.</p>
+<p>OAK is also designed to be <em>chainable</em> as far as possible. Most OAK commands take
+<em>term lists</em> as input</p>
+</section>
+<section id="the-command-isn-t-working-the-way-i-expected-how-do-i-get-help">
+<h2>The command isn’t working the way I expected - how do I get help?<a class="headerlink" href="#the-command-isn-t-working-the-way-i-expected-how-do-i-get-help" title="Permalink to this heading"></a></h2>
+<p>You are welcome to post questions on our issue tracker or slack channel. It can help if you pass the
+<code class="docutils literal notranslate"><span class="pre">--stacktrace</span></code> global option and copy the full stacktrace.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

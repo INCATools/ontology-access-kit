@@ -11,9 +11,10 @@ URI: [ontoassoc:object1_label](https://w3id.org/oak/association/object1_label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+
 
 
 
@@ -22,9 +23,7 @@ URI: [ontoassoc:object1_label](https://w3id.org/oak/association/object1_label)
 
 ## Properties
 
-* Range: [String](String.md)
-
-
+* Range: NONE
 
 
 
@@ -56,7 +55,6 @@ rank: 1000
 alias: object1_label
 domain_of:
 - PairwiseCoAssociation
-range: string
 
 ```
 </details>

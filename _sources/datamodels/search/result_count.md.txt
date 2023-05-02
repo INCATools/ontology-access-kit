@@ -11,9 +11,10 @@ URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_coun
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResultSet](SearchResultSet.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchResultSet](SearchResultSet.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_coun
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

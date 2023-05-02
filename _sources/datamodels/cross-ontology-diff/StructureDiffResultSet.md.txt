@@ -1,5 +1,8 @@
 # Class: StructureDiffResultSet
+
+
 _A collection of relational diff results_
+
 
 
 
@@ -15,7 +18,7 @@ URI: [xodiff:StructureDiffResultSet](https://w3id.org/oak/cross-ontology-diff/St
         
       StructureDiffResultSet : results
         
-          StructureDiffResultSet ..> RelationalDiff : results
+          StructureDiffResultSet --|> RelationalDiff : results
         
       StructureDiffResultSet : right_source
         

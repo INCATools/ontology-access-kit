@@ -1,5 +1,8 @@
 # Class: LexicalTransformationPipeline
+
+
 _A collection of atomic lexical transformations that are applied in serial fashion_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
         
       LexicalTransformationPipeline : transformations
         
-          LexicalTransformationPipeline ..> LexicalTransformation : transformations
+          LexicalTransformationPipeline --|> LexicalTransformation : transformations
         
       
 ```
@@ -36,7 +39,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 1..1 <br/> [String](String.md) |  | direct |
+| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
 
 

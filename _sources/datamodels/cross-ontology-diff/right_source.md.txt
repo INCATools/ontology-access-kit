@@ -1,5 +1,8 @@
 # Slot: right_source
+
+
 _Ontology source for right entities_
+
 
 
 URI: [xodiff:right_source](https://w3id.org/oak/cross-ontology-diff/right_source)
@@ -13,9 +16,10 @@ URI: [xodiff:right_source](https://w3id.org/oak/cross-ontology-diff/right_source
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [xodiff:right_source](https://w3id.org/oak/cross-ontology-diff/right_source
 ## Properties
 
 * Range: [Source](Source.md)
-
-
 
 
 

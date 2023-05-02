@@ -1,7 +1,10 @@
 # Type: LabelType
 
 
+
+
 _A string that provides a human-readable name for an entity_
+
 
 
 URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)

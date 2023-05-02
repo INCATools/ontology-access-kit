@@ -11,9 +11,10 @@ URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

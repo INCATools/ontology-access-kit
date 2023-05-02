@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -100,27 +100,27 @@
         
       AnnotationProperty : broadMatch
         
-          AnnotationProperty ..&gt; Property : broadMatch
+          AnnotationProperty --|&gt; Property : broadMatch
         
       AnnotationProperty : category
         
       AnnotationProperty : closeMatch
         
-          AnnotationProperty ..&gt; Property : closeMatch
+          AnnotationProperty --|&gt; Property : closeMatch
         
       AnnotationProperty : comment
         
       AnnotationProperty : conformsTo
         
-          AnnotationProperty ..&gt; Thing : conformsTo
+          AnnotationProperty --|&gt; Thing : conformsTo
         
       AnnotationProperty : consider
         
-          AnnotationProperty ..&gt; Any : consider
+          AnnotationProperty --|&gt; Any : consider
         
       AnnotationProperty : contributor
         
-          AnnotationProperty ..&gt; Agent : contributor
+          AnnotationProperty --|&gt; Agent : contributor
         
       AnnotationProperty : created
         
@@ -130,7 +130,7 @@
         
       AnnotationProperty : creator
         
-          AnnotationProperty ..&gt; Agent : creator
+          AnnotationProperty --|&gt; Agent : creator
         
       AnnotationProperty : curator_note
         
@@ -144,7 +144,7 @@
         
       AnnotationProperty : depicted_by
         
-          AnnotationProperty ..&gt; Image : depicted_by
+          AnnotationProperty --|&gt; Image : depicted_by
         
       AnnotationProperty : deprecated
         
@@ -156,17 +156,17 @@
         
       AnnotationProperty : exactMatch
         
-          AnnotationProperty ..&gt; Property : exactMatch
+          AnnotationProperty --|&gt; Property : exactMatch
         
       AnnotationProperty : example_of_usage
         
       AnnotationProperty : excluded_from_QC_check
         
-          AnnotationProperty ..&gt; Thing : excluded_from_QC_check
+          AnnotationProperty --|&gt; Thing : excluded_from_QC_check
         
       AnnotationProperty : excluded_subClassOf
         
-          AnnotationProperty ..&gt; Class : excluded_subClassOf
+          AnnotationProperty --|&gt; Class : excluded_subClassOf
         
       AnnotationProperty : excluded_synonym
         
@@ -192,15 +192,15 @@
         
       AnnotationProperty : image
         
-          AnnotationProperty ..&gt; Thing : image
+          AnnotationProperty --|&gt; Thing : image
         
       AnnotationProperty : imported_from
         
-          AnnotationProperty ..&gt; NamedIndividual : imported_from
+          AnnotationProperty --|&gt; NamedIndividual : imported_from
         
       AnnotationProperty : in_subset
         
-          AnnotationProperty ..&gt; Subset : in_subset
+          AnnotationProperty --|&gt; Subset : in_subset
         
       AnnotationProperty : is_class_level
         
@@ -210,13 +210,13 @@
         
       AnnotationProperty : isDefinedBy
         
-          AnnotationProperty ..&gt; Ontology : isDefinedBy
+          AnnotationProperty --|&gt; Ontology : isDefinedBy
         
       AnnotationProperty : label
         
       AnnotationProperty : narrowMatch
         
-          AnnotationProperty ..&gt; Property : narrowMatch
+          AnnotationProperty --|&gt; Property : narrowMatch
         
       AnnotationProperty : OBO_foundry_unique_label
         
@@ -228,19 +228,19 @@
         
       AnnotationProperty : seeAlso
         
-          AnnotationProperty ..&gt; Thing : seeAlso
+          AnnotationProperty --|&gt; Thing : seeAlso
         
       AnnotationProperty : shorthand
         
       AnnotationProperty : should_conform_to
         
-          AnnotationProperty ..&gt; Thing : should_conform_to
+          AnnotationProperty --|&gt; Thing : should_conform_to
         
       AnnotationProperty : term_editor
         
       AnnotationProperty : term_replaced_by
         
-          AnnotationProperty ..&gt; Any : term_replaced_by
+          AnnotationProperty --|&gt; Any : term_replaced_by
         
       AnnotationProperty : term_tracker_item
         

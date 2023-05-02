@@ -49,13 +49,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -108,6 +108,23 @@
 
 <span class="sd">    The core method in this interface is :py:meth:`sssom_mappings`.</span>
 
+<span class="sd">    .. note ::</span>
+
+<span class="sd">        This interface is for serving pre-calculated mappings.</span>
+<span class="sd">        See :ref:`sssom_utils` for on-the-fly mapping creation</span>
+
+
+<span class="sd">    Data Model</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    The central datamodel used here is `SSSOM &lt;http://w3id.org/sssom&gt;`_</span>
+
+<span class="sd">    Command Line Use</span>
+<span class="sd">    ----------------</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">       runoak -i bioportal: term-mappings UBERON:0002101  -O sssom -o limb-mappings.sssom.tsv</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="MappingProviderInterface.sssom_mappings"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">[docs]</a>    <span class="k">def</span> <span class="nf">sssom_mappings</span><span class="p">(</span>

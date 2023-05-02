@@ -1,5 +1,8 @@
 # Class: ClassEnrichmentResultSet
+
+
 _A collection of enrichemt results_
+
 
 
 
@@ -13,7 +16,7 @@ URI: [ontoenrich:ClassEnrichmentResultSet](https://w3id.org/oak/class-enrichment
     class ClassEnrichmentResultSet
       ClassEnrichmentResultSet : results
         
-          ClassEnrichmentResultSet ..> ClassEnrichmentResult : results
+          ClassEnrichmentResultSet --|> ClassEnrichmentResult : results
         
       
 ```

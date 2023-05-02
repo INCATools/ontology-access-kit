@@ -1,7 +1,10 @@
 # Type: IriType
 
 
+
+
 _An IRI_
+
 
 
 URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)

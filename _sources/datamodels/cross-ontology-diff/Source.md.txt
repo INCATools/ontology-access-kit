@@ -1,7 +1,10 @@
 # Type: Source
 
 
+
+
 _The name of an ontology that acts as a source_
+
 
 
 URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)

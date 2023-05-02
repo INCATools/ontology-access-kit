@@ -1,5 +1,8 @@
 # Slot: schema_path
+
+
 _allows overriding the default OMO schema_
+
 
 
 URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
@@ -13,9 +16,10 @@ URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: namespace
+
+
 _The namespace associated with a prefix in a prefix declaration._
+
 
 
 URI: [sh:namespace](https://w3id.org/shacl/namespace)
@@ -13,9 +16,10 @@ URI: [sh:namespace](https://w3id.org/shacl/namespace)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PrefixDeclaration](PrefixDeclaration.md) | A mapping between an individual prefix (e
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PrefixDeclaration](PrefixDeclaration.md) | A mapping between an individual prefix (e |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sh:namespace](https://w3id.org/shacl/namespace)
 ## Properties
 
 * Range: [Uri](Uri.md)
-
-
 
 
 

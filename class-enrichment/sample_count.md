@@ -1,5 +1,8 @@
 # Slot: sample_count
+
+
 _The number of entities in the sample with this class_
+
 
 
 URI: [ontoenrich:sample_count](https://w3id.org/oak/class-enrichment/sample_count)
@@ -13,9 +16,10 @@ URI: [ontoenrich:sample_count](https://w3id.org/oak/class-enrichment/sample_coun
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontoenrich:sample_count](https://w3id.org/oak/class-enrichment/sample_coun
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

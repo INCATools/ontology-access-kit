@@ -1,5 +1,8 @@
 # Class: Term
+
+
 _An ontology term. In this model this is either the SubjectTerm of a taxon constraint, or an actual taxon_
+
 
 
 

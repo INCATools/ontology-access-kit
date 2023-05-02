@@ -1,7 +1,10 @@
 # Type: Boolean
 
 
+
+
 _A binary (true or false) value_
+
 
 
 URI: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)

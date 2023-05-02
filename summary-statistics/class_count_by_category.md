@@ -1,5 +1,8 @@
 # Slot: class_count_by_category
+
+
 _Number of classes grouped by category in the ontology or subset_
+
 
 
 URI: [summary_statistics:class_count_by_category](https://w3id.org/oaklib/summary_statistics.class_count_by_category)
@@ -13,9 +16,10 @@ URI: [summary_statistics:class_count_by_category](https://w3id.org/oaklib/summar
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [summary_statistics:class_count_by_category](https://w3id.org/oaklib/summar
 ## Properties
 
 * Range: [FacetedCount](FacetedCount.md)
+
 * Multivalued: True
-
-
-
 
 
 

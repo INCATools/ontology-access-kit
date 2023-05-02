@@ -11,9 +11,10 @@ URI: [mappingrules:subject_match_field_one_of](https://w3id.org/oak/mapping-rule
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [mappingrules:subject_match_field_one_of](https://w3id.org/oak/mapping-rule
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

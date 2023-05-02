@@ -11,9 +11,10 @@ URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeli
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeli
 ## Properties
 
 * Range: [LexicalTransformationPipeline](LexicalTransformationPipeline.md)
+
 * Multivalued: True
-
-
-
 
 
 

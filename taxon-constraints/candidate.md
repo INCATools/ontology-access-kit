@@ -1,5 +1,8 @@
 # Slot: candidate
+
+
 _true if this is a proposed candidate constraint_
+
 
 
 URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
@@ -13,9 +16,10 @@ URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [tc:candidate](https://w3id.org/linkml/taxon_constraints/candidate)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

@@ -11,11 +11,10 @@ URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

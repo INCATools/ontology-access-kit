@@ -16,11 +16,10 @@ URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 
 
 
+
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

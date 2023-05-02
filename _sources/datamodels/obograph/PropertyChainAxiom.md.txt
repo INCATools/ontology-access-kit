@@ -1,5 +1,8 @@
 # Class: PropertyChainAxiom
+
+
 _An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/Pr
         
       PropertyChainAxiom : meta
         
-          PropertyChainAxiom ..> Meta : meta
+          PropertyChainAxiom --|> Meta : meta
         
       PropertyChainAxiom : predicateId
         

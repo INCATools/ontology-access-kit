@@ -1,7 +1,10 @@
 # Type: Label
 
 
+
+
 _A string that is used as a human-readable label_
+
 
 
 URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)

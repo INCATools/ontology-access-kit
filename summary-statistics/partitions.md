@@ -1,5 +1,8 @@
 # Slot: partitions
+
+
 _statistics grouped by a particular property_
+
 
 
 URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.partitions)
@@ -13,9 +16,10 @@ URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.
 ## Properties
 
 * Range: [UngroupedStatistics](UngroupedStatistics.md)
+
 * Multivalued: True
-
-
-
 
 
 

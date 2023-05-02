@@ -11,9 +11,10 @@ URI: [sim:subject_termset](https://w3id.org/linkml/similarity/subject_termset)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [sim:subject_termset](https://w3id.org/linkml/similarity/subject_termset)
 ## Properties
 
 * Range: [TermInfo](TermInfo.md)
+
 * Multivalued: True
-
-
-
 
 
 

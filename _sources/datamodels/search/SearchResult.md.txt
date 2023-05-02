@@ -1,5 +1,8 @@
 # Class: SearchResult
+
+
 _An individual search result_
+
 
 
 

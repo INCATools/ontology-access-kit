@@ -1,5 +1,8 @@
 # Class: ItemListCollection
+
+
 _a set of item lists_
+
 
 
 
@@ -13,7 +16,7 @@ URI: [itemList:ItemListCollection](https://w3id.org/linkml/item-list/ItemListCol
     class ItemListCollection
       ItemListCollection : itemLists
         
-          ItemListCollection ..> ItemList : itemLists
+          ItemListCollection --|> ItemList : itemLists
         
       
 ```

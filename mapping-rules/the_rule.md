@@ -1,5 +1,8 @@
 # Slot: the_rule
+
+
 _Description of the rule._
+
 
 
 URI: [mappingrules:the_rule](https://w3id.org/oak/mapping-rules-datamodel/the_rule)
@@ -13,9 +16,10 @@ URI: [mappingrules:the_rule](https://w3id.org/oak/mapping-rules-datamodel/the_ru
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Synonymizer](Synonymizer.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Synonymizer](Synonymizer.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:the_rule](https://w3id.org/oak/mapping-rules-datamodel/the_ru
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

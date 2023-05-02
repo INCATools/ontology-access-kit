@@ -1,5 +1,8 @@
 # Slot: subject
+
+
 _The thing which the association is about._
+
 
 
 URI: [rdf:subject](rdf:subject)
@@ -13,11 +16,12 @@ URI: [rdf:subject](rdf:subject)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
-[AssociationChange](AssociationChange.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+
 
 
 
@@ -27,8 +31,6 @@ URI: [rdf:subject](rdf:subject)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 
@@ -73,6 +75,7 @@ domain_of:
 - Association
 - NegatedAssociation
 - AssociationChange
+slot_group: core_triple
 range: uriorcurie
 
 ```

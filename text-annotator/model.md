@@ -11,9 +11,10 @@ URI: [ann:model](https://w3id.org/linkml/text_annotator/model)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ann:model](https://w3id.org/linkml/text_annotator/model)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

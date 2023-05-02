@@ -11,9 +11,10 @@ URI: [vm:url](https://w3id.org/linkml/validation-model/url)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [vm:url](https://w3id.org/linkml/validation-model/url)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

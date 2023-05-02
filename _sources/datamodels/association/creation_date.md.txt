@@ -1,5 +1,10 @@
 # Slot: creation_date
 
+
+_The date the association was created_
+
+
+
 URI: [ontoassoc:creation_date](https://w3id.org/oak/association/creation_date)
 
 
@@ -16,11 +21,10 @@ URI: [ontoassoc:creation_date](https://w3id.org/oak/association/creation_date)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -47,6 +51,7 @@ URI: [ontoassoc:creation_date](https://w3id.org/oak/association/creation_date)
 <details>
 ```yaml
 name: creation_date
+description: The date the association was created
 from_schema: https://w3id.org/oak/association
 rank: 1000
 is_a: date

@@ -11,9 +11,10 @@ URI: [vm:dry_run](https://w3id.org/linkml/validation-model/dry_run)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RepairConfiguration](RepairConfiguration.md) | Configuration parameters for execution of validation repairs
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RepairConfiguration](RepairConfiguration.md) | Configuration parameters for execution of validation repairs |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [vm:dry_run](https://w3id.org/linkml/validation-model/dry_run)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

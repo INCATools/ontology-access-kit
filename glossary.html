@@ -24,8 +24,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Frequently Asked Questions" href="faq.html" />
-    <link rel="prev" title="Notebooks" href="notebooks.html" /> 
+    <link rel="next" title="FAQ" href="faq/index.html" />
+    <link rel="prev" title="Jupyter Notebooks" href="notebooks.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,13 +52,13 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -222,19 +222,21 @@ See also:</p>
 </div></blockquote>
 </dd>
 <dt id="term-OWL">OWL<a class="headerlink" href="#term-OWL" title="Permalink to this term"></a></dt><dd><p>An ontology language that uses constructs from <span class="xref std std-term">Description Logic</span>. OWL is not itself an ontology format, it can be serialized
-through different <a class="reference internal" href="#term-Ontology-Format"><span class="xref std std-term">Ontology Formats</span></a> such as <span class="xref std std-term">Functional Syntax</span>, and it can be mapped to <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> and serialized via an RDF format.</p>
+through different <a class="reference internal" href="#term-Ontology-Format"><span class="xref std std-term">Ontology Formats</span></a> such as <a class="reference internal" href="#term-Functional-Syntax"><span class="xref std std-term">Functional Syntax</span></a>, and it can be mapped to <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> and serialized via an RDF format.</p>
 </dd>
 <dt id="term-RDF">RDF<a class="headerlink" href="#term-RDF" title="Permalink to this term"></a></dt><dd><p>A <a class="reference internal" href="#term-Datamodel"><span class="xref std std-term">Datamodel</span></a> consisting of simple <span class="xref std std-term">Subject</span> <a class="reference internal" href="#term-Predicate"><span class="xref std std-term">Predicate</span></a> <span class="xref std std-term">Object</span> <span class="xref std std-term">Triples</span> organized into an RDF <a class="reference internal" href="#term-Graph"><span class="xref std std-term">Graph</span></a></p>
 </dd>
 <dt id="term-FunOWL">FunOWL<a class="headerlink" href="#term-FunOWL" title="Permalink to this term"></a></dt><dd><p>FunOWL is a Python <span class="xref std std-term">Ontology Library</span> that provides a simple API for working with OWL ontologies
 conceptualized using the native OWL <span class="xref std std-term">OWL Functional Syntax</span> representation.</p>
 </dd>
+<dt id="term-Functional-Syntax">Functional Syntax<a class="headerlink" href="#term-Functional-Syntax" title="Permalink to this term"></a></dt><dd><p>A syntax / <a class="reference internal" href="#term-Ontology-Format"><span class="xref std std-term">Ontology Format</span></a> that directly expresses the <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a> data model.</p>
+</dd>
 <dt id="term-OBO-Format">OBO Format<a class="headerlink" href="#term-OBO-Format" title="Permalink to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-Format"><span class="xref std std-term">Ontology Format</span></a> designed for easy viewing, direct editing, and readable diffs. It is popular in bioinformatics,
 but not widely used or known outside the genomics sphere. OBO is mapped to OWL, but only expresses a subset, and provides some OWL
 abstractions in a more easy to understand fashion. See: <a class="reference external" href="https://owlcollab.github.io/oboformat/doc/obo-syntax.html">https://owlcollab.github.io/oboformat/doc/obo-syntax.html</a></p>
 </dd>
 <dt id="term-Pronto">Pronto<a class="headerlink" href="#term-Pronto" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Ontology Library</span> for parsing <a class="reference internal" href="#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> with some support for <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a> files.
-OAK provides a wrapper around Pronto via the <span class="xref std std-ref">pronto_implementation</span>.</p>
+OAK provides a wrapper around Pronto via the <a class="reference internal" href="packages/implementations/pronto.html#pronto-implementation"><span class="std std-ref">Pronto / OBO Files Adapter</span></a>.</p>
 </dd>
 <dt id="term-OBO-Graphs">OBO Graphs<a class="headerlink" href="#term-OBO-Graphs" title="Permalink to this term"></a></dt><dd><p>A JSON-based serialization <a class="reference internal" href="#term-Ontology-Format"><span class="xref std std-term">Ontology Format</span></a> and also a <a class="reference internal" href="#term-Datamodel"><span class="xref std std-term">Datamodel</span></a> for representing <span class="xref std std-term">Ontology Graphs</span>.
 OBO Graphs are designed to be an abstraction that is more suited to data science tasks than
@@ -312,7 +314,7 @@ Accessible via <a class="reference internal" href="packages/implementations/uber
 Ubergraph includes inferred <a class="reference internal" href="#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a> edges as triples.</p>
 </dd>
 <dt id="term-Ontobee">Ontobee<a class="headerlink" href="#term-Ontobee" title="Permalink to this term"></a></dt><dd><p>A <a class="reference internal" href="#term-Triplestore"><span class="xref std std-term">Triplestore</span></a> and a <span class="xref std std-term">Ontology Repository</span> that allows for <a class="reference internal" href="#term-SPARQL"><span class="xref std std-term">SPARQL</span></a> querying of integrated <span class="xref std std-term">OBO</span> ontologies.
-Accessible via <span class="xref std std-ref">ontobee_implementation</span>.</p>
+Accessible via <a class="reference internal" href="packages/implementations/ontobee.html#ontobee-implementation"><span class="std std-ref">Ontobee Adapter</span></a>.</p>
 </dd>
 <dt id="term-Semantic-SQL">Semantic SQL<a class="headerlink" href="#term-Semantic-SQL" title="Permalink to this term"></a></dt><dd><p>Semantic SQL is a proposed standardized schema for representing any RDF/OWL ontology, plus a set of tools for building
 a database conforming to this schema from RDF/OWL files. See <a class="reference external" href="https://github.com/INCATools/semantic-sql">Semantic-SQL</a></p>
@@ -345,7 +347,7 @@ be exposed, and developers of applications that use OAK should always <span clas
 For example, the method to query for all <a class="reference internal" href="#term-Relationship"><span class="xref std std-term">Relationships</span></a> from a term should
 have the same meaning regardless of whether the adapter <em>implementing</em> the interface is a remote
 triplestore like <a class="reference internal" href="#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, a <a class="reference internal" href="#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a> adapter, or a local <a class="reference internal" href="#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> file.
-See the list of <a class="reference internal" href="packages/interfaces/mapping-provider.html#implementations"><span class="std std-ref">all implementations</span></a></p>
+See the list of <a class="reference internal" href="packages/implementations/index.html#implementations"><span class="std std-ref">all implementations</span></a></p>
 </dd>
 <dt id="term-Datamodel">Datamodel<a class="headerlink" href="#term-Datamodel" title="Permalink to this term"></a></dt><dd><p>Aka schema. OAK follows a pluralistic worldview, and includes many different
 datamodels for different purposes. Examples include:</p>
@@ -360,6 +362,9 @@ datamodels for different purposes. Examples include:</p>
 </div></blockquote>
 <p>See the list of all <a class="reference internal" href="packages/interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a>.</p>
 </dd>
+<dt id="term-OntoGPT">OntoGPT<a class="headerlink" href="#term-OntoGPT" title="Permalink to this term"></a></dt><dd><p>A framework built on OAK that combines ontologies and Large Language Models.
+See <a class="reference external" href="https://github.com/monarch-initiative/ontogpt/">https://github.com/monarch-initiative/ontogpt/</a></p>
+</dd>
 </dl>
 </section>
 
@@ -367,8 +372,8 @@ datamodels for different purposes. Examples include:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="notebooks.html" class="btn btn-neutral float-left" title="Notebooks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="faq.html" class="btn btn-neutral float-right" title="Frequently Asked Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="notebooks.html" class="btn btn-neutral float-left" title="Jupyter Notebooks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="faq/index.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

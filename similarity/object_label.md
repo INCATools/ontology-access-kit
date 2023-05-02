@@ -1,5 +1,8 @@
 # Slot: object_label
+
+
 _the label or name for the second entity_
+
 
 
 URI: [sssom:object_label](http://w3id.org/sssom/object_label)
@@ -13,9 +16,10 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Class: NamedObject
+
+
 _Anything with an IRI_
+
 
 
 

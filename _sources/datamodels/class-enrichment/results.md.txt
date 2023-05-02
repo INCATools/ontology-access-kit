@@ -1,5 +1,8 @@
 # Slot: results
+
+
 _The enrichment results_
+
 
 
 URI: [ontoenrich:results](https://w3id.org/oak/class-enrichment/results)
@@ -13,9 +16,10 @@ URI: [ontoenrich:results](https://w3id.org/oak/class-enrichment/results)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResultSet](ClassEnrichmentResultSet.md) | A collection of enrichemt results
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResultSet](ClassEnrichmentResultSet.md) | A collection of enrichemt results |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontoenrich:results](https://w3id.org/oak/class-enrichment/results)
 ## Properties
 
 * Range: [ClassEnrichmentResult](ClassEnrichmentResult.md)
+
 * Multivalued: True
-
-
-
 
 
 

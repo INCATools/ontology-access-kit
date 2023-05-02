@@ -17,7 +17,7 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
       
       HasProvenance : contributor
         
-          HasProvenance ..> Agent : contributor
+          HasProvenance --|> Agent : contributor
         
       HasProvenance : created
         
@@ -27,7 +27,7 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
         
       HasProvenance : creator
         
-          HasProvenance ..> Agent : creator
+          HasProvenance --|> Agent : creator
         
       HasProvenance : date
         
@@ -37,11 +37,11 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
         
       HasProvenance : imported_from
         
-          HasProvenance ..> NamedIndividual : imported_from
+          HasProvenance --|> NamedIndividual : imported_from
         
       HasProvenance : isDefinedBy
         
-          HasProvenance ..> Ontology : isDefinedBy
+          HasProvenance --|> Ontology : isDefinedBy
         
       HasProvenance : ontology_term_requester
         

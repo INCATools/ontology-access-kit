@@ -11,9 +11,10 @@ URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResultSet](SearchResultSet.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchResultSet](SearchResultSet.md) |  |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
 ## Properties
 
 * Range: [SearchResult](SearchResult.md)
+
 * Multivalued: True
-
-
-
 
 
 

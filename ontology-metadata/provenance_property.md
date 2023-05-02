@@ -31,11 +31,10 @@ URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/omo/schema/p
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

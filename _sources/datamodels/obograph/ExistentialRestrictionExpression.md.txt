@@ -1,5 +1,8 @@
 # Class: ExistentialRestrictionExpression
+
+
 _An existential restriction (OWL some values from) expression_
+
 
 
 

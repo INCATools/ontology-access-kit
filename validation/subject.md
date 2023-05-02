@@ -1,5 +1,8 @@
 # Slot: subject
+
+
 _The instance which the result is about_
+
 
 
 URI: [sh:focusNode](http://www.w3.org/ns/shacl#focusNode)
@@ -13,10 +16,11 @@ URI: [sh:focusNode](http://www.w3.org/ns/shacl#focusNode)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+
 
 
 
@@ -26,10 +30,8 @@ URI: [sh:focusNode](http://www.w3.org/ns/shacl#focusNode)
 ## Properties
 
 * Range: [Node](Node.md)
+
 * Required: True
-
-
-
 
 
 

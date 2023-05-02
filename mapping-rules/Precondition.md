@@ -1,5 +1,8 @@
 # Class: Precondition
+
+
 _A pattern to be matched against an individual SSSOM mapping_
+
 
 
 

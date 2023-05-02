@@ -11,10 +11,11 @@ URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statist
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[FacetedCount](FacetedCount.md) | Counts broken down by a facet
-[ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[FacetedCount](FacetedCount.md) | Counts broken down by a facet |  no  |
+[ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff |  no  |
+
 
 
 
@@ -24,8 +25,6 @@ URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statist
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

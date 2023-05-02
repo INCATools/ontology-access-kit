@@ -1,5 +1,8 @@
 # Class: ContributorRole
+
+
 _A role that a contributor can have_
+
 
 
 
@@ -26,7 +29,7 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | the unique identifier for the role | direct |
 
 
 

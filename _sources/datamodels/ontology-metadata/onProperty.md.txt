@@ -16,9 +16,10 @@ URI: [owl:onProperty](http://www.w3.org/2002/07/owl#onProperty)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Restriction](Restriction.md) |  |  no  |
+
 
 
 
@@ -28,10 +29,8 @@ URI: [owl:onProperty](http://www.w3.org/2002/07/owl#onProperty)
 ## Properties
 
 * Range: [PropertyExpression](PropertyExpression.md)
+
 * Multivalued: True
-
-
-
 
 
 

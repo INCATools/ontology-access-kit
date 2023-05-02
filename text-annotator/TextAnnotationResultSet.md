@@ -1,5 +1,8 @@
 # Class: TextAnnotationResultSet
+
+
 _A collection of annotation results_
+
 
 
 
@@ -13,7 +16,7 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
     class TextAnnotationResultSet
       TextAnnotationResultSet : annotations
         
-          TextAnnotationResultSet ..> TextAnnotation : annotations
+          TextAnnotationResultSet --|> TextAnnotation : annotations
         
       
 ```

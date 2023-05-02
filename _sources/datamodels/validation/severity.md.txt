@@ -1,5 +1,8 @@
 # Slot: severity
+
+
 _the severity of the issue_
+
 
 
 URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
@@ -13,11 +16,12 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
-[TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ...
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
+[TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ... |  no  |
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+
 
 
 
@@ -27,8 +31,6 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 ## Properties
 
 * Range: [SeverityOptions](SeverityOptions.md)
-
-
 
 
 

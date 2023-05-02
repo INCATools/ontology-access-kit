@@ -1,6 +1,10 @@
 # Slot: preserve_negated_associations
-_If true, then the parser will keep negated associations in the output.
-If false, then the parser will remove negated associations from the output._
+
+
+_If true, then the parser will keep negated associations in the output._
+
+_If false, then the parser will remove negated associations from the output._
+
 
 
 URI: [ontoassoc:preserve_negated_associations](https://w3id.org/oak/association/preserve_negated_associations)
@@ -14,9 +18,10 @@ URI: [ontoassoc:preserve_negated_associations](https://w3id.org/oak/association/
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ParserConfiguration](ParserConfiguration.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |  no  |
+
 
 
 
@@ -31,7 +36,9 @@ URI: [ontoassoc:preserve_negated_associations](https://w3id.org/oak/association/
 
 
 
+## Comments
 
+* Note that to be defensive most applications should leave the default as false
 
 ## Identifier and Mapping Information
 
@@ -57,6 +64,8 @@ name: preserve_negated_associations
 description: 'If true, then the parser will keep negated associations in the output.
 
   If false, then the parser will remove negated associations from the output.'
+comments:
+- Note that to be defensive most applications should leave the default as false
 from_schema: https://w3id.org/oak/association
 rank: 1000
 alias: preserve_negated_associations

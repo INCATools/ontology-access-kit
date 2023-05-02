@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -85,6 +85,7 @@
              
   <section id="class-parserconfiguration">
 <h1>Class: ParserConfiguration<a class="headerlink" href="#class-parserconfiguration" title="Permalink to this heading"></a></h1>
+<p><em>Settings that determine behavior when parsing associations.</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/association/ParserConfiguration">ontoassoc:ParserConfiguration</a></p>
 <div class="mermaid">
              classDiagram
@@ -122,12 +123,12 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p>The primary knowledge source for the association</p></td>
+<td><p>The default primary knowledge source for all associations in this resource</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="aggregator_knowledge_source.html"><span class="std std-doc">aggregator_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p>The knowledge source that aggregated the association</p></td>
+<td><p>The default aggregator knowledge source for all associations in this resource</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -168,6 +169,7 @@
 <details>
 ```yaml
 name: ParserConfiguration
+description: Settings that determine behavior when parsing associations.
 from_schema: https://w3id.org/oak/association
 rank: 1000
 attributes:
@@ -175,6 +177,8 @@ attributes:
     name: preserve_negated_associations
     description: 'If true, then the parser will keep negated associations in the output.
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  If false, then the parser will remove negated associations from the output.&#39;
+comments:
+- Note that to be defensive most applications should leave the default as false
 from_schema: https://w3id.org/oak/association
 rank: 1000
 range: boolean
@@ -211,6 +215,7 @@ range: uriorcurie</p>
 &lt;details&gt;
 ```yaml
 name: ParserConfiguration
+description: Settings that determine behavior when parsing associations.
 from_schema: https://w3id.org/oak/association
 rank: 1000
 attributes:
@@ -219,6 +224,8 @@ attributes:
     description: &#39;If true, then the parser will keep negated associations in the output.
 
       If false, then the parser will remove negated associations from the output.&#39;
+    comments:
+    - Note that to be defensive most applications should leave the default as false
     from_schema: https://w3id.org/oak/association
     rank: 1000
     alias: preserve_negated_associations

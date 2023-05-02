@@ -1,5 +1,8 @@
 # Slot: normalization_comments
+
+
 _if contributor name normalization was applied, provide details here_
+
 
 
 URI: [summary_statistics:normalization_comments](https://w3id.org/oaklib/summary_statistics.normalization_comments)
@@ -13,9 +16,10 @@ URI: [summary_statistics:normalization_comments](https://w3id.org/oaklib/summary
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [summary_statistics:normalization_comments](https://w3id.org/oaklib/summary
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

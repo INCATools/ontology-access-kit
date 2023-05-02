@@ -1,7 +1,10 @@
 # Type: Integer
 
 
+
+
 _An integer_
+
 
 
 URI: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)

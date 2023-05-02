@@ -1,5 +1,8 @@
 # Slot: description_logic_profile
+
+
 _Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset_
+
 
 
 URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summary_statistics.description_logic_profile)
@@ -13,9 +16,10 @@ URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summ
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summ
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

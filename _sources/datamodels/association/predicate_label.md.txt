@@ -1,5 +1,8 @@
 # Slot: predicate_label
+
+
 _The label of the type of relationship between the subject and object._
+
 
 
 URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
@@ -17,10 +20,11 @@ URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

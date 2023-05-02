@@ -1,5 +1,8 @@
 # Class: GraphDocument
+
+
 _A graph document is a collection of graphs together with a set of prefixes that apply across all of them_
+
 
 
 
@@ -13,15 +16,15 @@ URI: [obographs:GraphDocument](https://github.com/geneontology/obographs/GraphDo
     class GraphDocument
       GraphDocument : graphs
         
-          GraphDocument ..> Graph : graphs
+          GraphDocument --|> Graph : graphs
         
       GraphDocument : meta
         
-          GraphDocument ..> Meta : meta
+          GraphDocument --|> Meta : meta
         
       GraphDocument : prefixes
         
-          GraphDocument ..> PrefixDeclaration : prefixes
+          GraphDocument --|> PrefixDeclaration : prefixes
         
       
 ```

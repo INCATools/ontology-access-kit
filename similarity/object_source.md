@@ -1,5 +1,8 @@
 # Slot: object_source
+
+
 _the source for the second entity_
+
 
 
 URI: [sssom:object_source](http://w3id.org/sssom/object_source)
@@ -13,9 +16,10 @@ URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

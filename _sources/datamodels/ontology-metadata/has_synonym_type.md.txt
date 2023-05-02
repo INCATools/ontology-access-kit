@@ -11,9 +11,10 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 ## Properties
 
 * Range: [AnnotationProperty](AnnotationProperty.md)
+
 * Multivalued: True
-
-
-
 
 
 

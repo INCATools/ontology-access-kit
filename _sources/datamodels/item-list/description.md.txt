@@ -11,10 +11,11 @@ URI: [itemList:description](https://w3id.org/linkml/item-list/description)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
-[Thing](Thing.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+[Thing](Thing.md) |  |  no  |
+
 
 
 
@@ -24,8 +25,6 @@ URI: [itemList:description](https://w3id.org/linkml/item-list/description)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ: Architecture and Design &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FAQ: Contributing" href="contributing.html" />
+    <link rel="prev" title="FAQ: Ontologies" href="ontologies.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">FAQ</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="general.html">FAQ: General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ontologies.html">FAQ: Ontologies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FAQ: Architecture and Design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-an-interface">What is an interface?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-a-data-model">What is a Data Model?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-an-interator-and-why-does-oak-use-them-so-much">What is an interator and why does OAK use them so much?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">FAQ: Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">FAQ: Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">FAQ</a></li>
+      <li class="breadcrumb-item active">FAQ: Architecture and Design</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/faq/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="faq-architecture-and-design">
+<span id="faq-architecture"></span><h1>FAQ: Architecture and Design<a class="headerlink" href="#faq-architecture-and-design" title="Permalink to this heading"></a></h1>
+<section id="what-is-an-interface">
+<h2>What is an interface?<a class="headerlink" href="#what-is-an-interface" title="Permalink to this heading"></a></h2>
+<p>OAK is designed so that application developers can focus on <em>coding to an interface</em> without
+worrying about the details of the implementation.</p>
+<p>For example, the following code will talk to the SQLite backend for CL to find all <span class="xref std std-term">IS_A</span>
+descendants of “neuron”, and show them alongside their labels:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="s2">&quot;CL:0000540&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In this case, the developer does not need to know anything about the underlying implementation.
+It could be SQL or a flat file.</p>
+<p>In this case, the <code class="docutils literal notranslate"><span class="pre">ancestors</span></code> and <code class="docutils literal notranslate"><span class="pre">label</span></code> methods are both part of the <span class="xref std std-ref">basic_ontology_imerface</span></p>
+<p>The actual implementation when <code class="docutils literal notranslate"><span class="pre">sqlite:obo:cl</span></code> is used as an input selector is the <a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a>,
+but the application developer doesn’t need to know this.</p>
+</section>
+<section id="what-is-a-data-model">
+<h2>What is a Data Model?<a class="headerlink" href="#what-is-a-data-model" title="Permalink to this heading"></a></h2>
+<p>A <span class="xref std std-ref">Datamodel</span> is a way of structuring data for a particular domain. OAK takes a pluralistic
+approach, and supports many different data models for different tasks. These are often coupled
+with interfaces:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> avoids data models and yields simple structures like lists of tuples</p></li>
+<li><p><a class="reference internal" href="../packages/interfaces/text-annotator.html#text-annotator-interface"><span class="std std-ref">Text Annotator Interface</span></a> uses the <a class="reference external" href="https://w3id.org/oak/text-annotator">https://w3id.org/oak/text-annotator</a> data model</p></li>
+<li><p><a class="reference internal" href="../packages/interfaces/mapping-provider.html#mapping-provider-interface"><span class="std std-ref">Mapping Provider Interface</span></a> uses the <a class="reference internal" href="../glossary.html#term-SSSOM"><span class="xref std std-term">SSSOM</span></a> data model</p></li>
+<li><p><a class="reference internal" href="../packages/interfaces/class-enrichment.html#class-enrichment-calculation-interface"><span class="std std-ref">Class Enrichment Calculation Interface</span></a> uses the <a class="reference external" href="https://w3id.org/oak/class-enrichment">https://w3id.org/oak/class-enrichment</a> data model</p></li>
+<li><p><a class="reference internal" href="../packages/interfaces/patcher.html#patcher-interface"><span class="std std-ref">Patcher Interface</span></a> uses the <a class="reference internal" href="../glossary.html#term-KGCL"><span class="xref std std-term">KGCL</span></a> data model</p></li>
+<li><p><a class="reference internal" href="../packages/interfaces/association-provider.html#association-provider-interface"><span class="std std-ref">Association Provider Interface</span></a> uses the <a class="reference external" href="https://w3id.org/oak/association">https://w3id.org/oak/association</a> data model</p></li>
+<li><p><a class="reference internal" href="../packages/interfaces/validator.html#validator-interface"><span class="std std-ref">Validator Interface</span></a> uses the <a class="reference external" href="https://w3id.org/oak/validation">https://w3id.org/oak/validation</a></p></li>
+<li><p>…</p></li>
+</ul>
+<p>When used within Python, an object oriented structure is followed, where the different
+attributes of the data model are accessed via <code class="docutils literal notranslate"><span class="pre">.</span></code> notation.</p>
+<p>For example, <a class="reference internal" href="../packages/interfaces/mapping-provider.html#mapping-provider-interface"><span class="std std-ref">Mapping Provider Interface</span></a> provides a method <code class="docutils literal notranslate"><span class="pre">sssom_mappings</span></code> which
+yields <a class="reference internal" href="../glossary.html#term-Mapping"><span class="xref std std-term">Mapping</span></a> objects conforming to the SSSOM data model. A mapping object has fields like
+<code class="docutils literal notranslate"><span class="pre">subject_id</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">([</span><span class="s2">&quot;GO:0005886&quot;</span><span class="p">],</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;Wikipedia&quot;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>OAK uses a mixture of native an external data models.</p>
+<p>Native data models have the OAK w3id namespace - for example, <a class="reference external" href="https://w3id.org/oak/class-enrichment">https://w3id.org/oak/class-enrichment</a>.</p>
+</section>
+<section id="what-is-an-interator-and-why-does-oak-use-them-so-much">
+<h2>What is an interator and why does OAK use them so much?<a class="headerlink" href="#what-is-an-interator-and-why-does-oak-use-them-so-much" title="Permalink to this heading"></a></h2>
+<p>OAK uses iterators in place of lists in a lot of places, in order to make the
+code more scalable and more amenable to streaming.</p>
+<p>See <a class="reference internal" href="../glossary.html#term-Iterator"><span class="xref std std-term">Iterator</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ontologies.html" class="btn btn-neutral float-left" title="FAQ: Ontologies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contributing.html" class="btn btn-neutral float-right" title="FAQ: Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,5 +1,8 @@
 # Slot: prefix
+
+
 _the prefix for the ontology_
+
 
 
 URI: [sh:prefix](https://w3id.org/shacl/prefix)
@@ -13,9 +16,10 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Ontology](Ontology.md) | An ontology |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

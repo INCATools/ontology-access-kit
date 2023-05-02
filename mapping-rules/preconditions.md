@@ -1,5 +1,8 @@
 # Slot: preconditions
+
+
 _all of the criteria that must be true before a rule is fired_
+
 
 
 URI: [sh:condition](https://w3id.org/shacl/condition)
@@ -13,9 +16,10 @@ URI: [sh:condition](https://w3id.org/shacl/condition)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sh:condition](https://w3id.org/shacl/condition)
 ## Properties
 
 * Range: [Precondition](Precondition.md)
-
-
 
 
 

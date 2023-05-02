@@ -1,5 +1,8 @@
 # Slot: groupings
+
+
 _all groupings_
+
 
 
 URI: [mappingrules:groupings](https://w3id.org/oak/mapping-rules-datamodel/groupings)
@@ -13,9 +16,10 @@ URI: [mappingrules:groupings](https://w3id.org/oak/mapping-rules-datamodel/group
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [mappingrules:groupings](https://w3id.org/oak/mapping-rules-datamodel/group
 ## Properties
 
 * Range: [LexicalGrouping](LexicalGrouping.md)
+
 * Multivalued: True
-
-
-
 
 
 

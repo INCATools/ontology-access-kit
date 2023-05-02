@@ -11,9 +11,10 @@ URI: [vm:time_checked](https://w3id.org/linkml/validation-model/time_checked)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [vm:time_checked](https://w3id.org/linkml/validation-model/time_checked)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

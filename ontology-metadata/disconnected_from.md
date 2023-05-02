@@ -16,9 +16,10 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/dis
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Class](Class.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Class](Class.md) |  |  no  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/dis
 ## Properties
 
 * Range: [Class](Class.md)
-
-
 
 
 

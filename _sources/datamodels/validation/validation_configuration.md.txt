@@ -1,5 +1,8 @@
 # Slot: validation_configuration
+
+
 _repair configurations include validation configurations_
+
 
 
 URI: [vm:validation_configuration](https://w3id.org/linkml/validation-model/validation_configuration)
@@ -13,9 +16,10 @@ URI: [vm:validation_configuration](https://w3id.org/linkml/validation-model/vali
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RepairConfiguration](RepairConfiguration.md) | Configuration parameters for execution of validation repairs
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RepairConfiguration](RepairConfiguration.md) | Configuration parameters for execution of validation repairs |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [vm:validation_configuration](https://w3id.org/linkml/validation-model/vali
 ## Properties
 
 * Range: [ValidationConfiguration](ValidationConfiguration.md)
-
-
 
 
 

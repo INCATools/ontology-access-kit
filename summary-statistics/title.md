@@ -1,5 +1,8 @@
 # Slot: title
+
+
 _the title of the resource_
+
 
 
 URI: [dcterms:title](http://purl.org/dc/terms/title)
@@ -13,9 +16,10 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Ontology](Ontology.md) | An ontology |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

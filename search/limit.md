@@ -1,5 +1,8 @@
 # Slot: limit
+
+
 _the maximum number of search results to be returned in one batch_
+
 
 
 URI: [ontosearch:limit](https://w3id.org/oak/search-datamodel/limit)
@@ -13,9 +16,10 @@ URI: [ontosearch:limit](https://w3id.org/oak/search-datamodel/limit)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontosearch:limit](https://w3id.org/oak/search-datamodel/limit)
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

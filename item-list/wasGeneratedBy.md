@@ -1,5 +1,8 @@
 # Slot: wasGeneratedBy
+
+
 _The provenance of the list, for example a script that generated the list_
+
 
 
 URI: [prov:wasGeneratedBy](http://www.w3.org/ns/prov#wasGeneratedBy)
@@ -13,9 +16,10 @@ URI: [prov:wasGeneratedBy](http://www.w3.org/ns/prov#wasGeneratedBy)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [prov:wasGeneratedBy](http://www.w3.org/ns/prov#wasGeneratedBy)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

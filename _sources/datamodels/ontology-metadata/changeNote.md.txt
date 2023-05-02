@@ -16,13 +16,12 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

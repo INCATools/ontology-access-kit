@@ -11,9 +11,10 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

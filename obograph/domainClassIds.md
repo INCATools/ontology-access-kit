@@ -11,9 +11,10 @@ URI: [obographs:domainClassIds](https://github.com/geneontology/obographs/domain
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [obographs:domainClassIds](https://github.com/geneontology/obographs/domain
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

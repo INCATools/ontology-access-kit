@@ -1,5 +1,8 @@
 # Slot: idType
+
+
 _The type of the identifier. For example, if the id is a symbol, this would be 'symbol'_
+
 
 
 URI: [itemList:idType](https://w3id.org/linkml/item-list/idType)
@@ -13,9 +16,10 @@ URI: [itemList:idType](https://w3id.org/linkml/item-list/idType)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ListItem](ListItem.md) | an item in an item list
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ListItem](ListItem.md) | an item in an item list |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [itemList:idType](https://w3id.org/linkml/item-list/idType)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

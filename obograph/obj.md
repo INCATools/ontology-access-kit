@@ -1,5 +1,8 @@
 # Slot: obj
+
+
 _the object of an edge_
+
 
 
 URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
@@ -13,9 +16,10 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Edge](Edge.md) | An edge is a simple typed relationship between two nodes
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Edge](Edge.md) | An edge is a simple typed relationship between two nodes |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

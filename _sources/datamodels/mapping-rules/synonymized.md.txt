@@ -11,9 +11,10 @@ URI: [mappingrules:synonymized](https://w3id.org/oak/mapping-rules-datamodel/syn
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [mappingrules:synonymized](https://w3id.org/oak/mapping-rules-datamodel/syn
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

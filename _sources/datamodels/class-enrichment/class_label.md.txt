@@ -1,5 +1,8 @@
 # Slot: class_label
+
+
 _The class label_
+
 
 
 URI: [ontoenrich:class_label](https://w3id.org/oak/class-enrichment/class_label)
@@ -13,9 +16,10 @@ URI: [ontoenrich:class_label](https://w3id.org/oak/class-enrichment/class_label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontoenrich:class_label](https://w3id.org/oak/class-enrichment/class_label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

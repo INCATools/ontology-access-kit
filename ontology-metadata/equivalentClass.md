@@ -16,11 +16,12 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[Class](Class.md) | 
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassExpression](ClassExpression.md) |  |  no  |
+[Class](Class.md) |  |  no  |
+[Restriction](Restriction.md) |  |  no  |
+
 
 
 
@@ -30,10 +31,8 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
+
 * Multivalued: True
-
-
-
 
 
 

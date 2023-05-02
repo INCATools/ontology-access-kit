@@ -1,5 +1,8 @@
 # Class: PathExpression
+
+
 _A path query_
+
 
 
 
@@ -15,11 +18,11 @@ URI: [ontosearch:PathExpression](https://w3id.org/oak/search-datamodel/PathExpre
         
       PathExpression : search_term
         
-          PathExpression ..> SearchBaseConfiguration : search_term
+          PathExpression --|> SearchBaseConfiguration : search_term
         
       PathExpression : traversal
         
-          PathExpression ..> GraphFunction : traversal
+          PathExpression --|> GraphFunction : traversal
         
       
 ```

@@ -1,5 +1,8 @@
 # Class: TaxonConstraint
+
+
 _An individual taxon constraint_
+
 
 
 
@@ -19,23 +22,23 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
         
       TaxonConstraint : contradicted_by
         
-          TaxonConstraint ..> TaxonConstraint : contradicted_by
+          TaxonConstraint --|> TaxonConstraint : contradicted_by
         
       TaxonConstraint : evolutionary
         
       TaxonConstraint : predicate
         
-          TaxonConstraint ..> PredicateTerm : predicate
+          TaxonConstraint --|> PredicateTerm : predicate
         
       TaxonConstraint : predicates
         
-          TaxonConstraint ..> PredicateTerm : predicates
+          TaxonConstraint --|> PredicateTerm : predicates
         
       TaxonConstraint : redundant
         
       TaxonConstraint : redundant_with
         
-          TaxonConstraint ..> TaxonConstraint : redundant_with
+          TaxonConstraint --|> TaxonConstraint : redundant_with
         
       TaxonConstraint : redundant_with_only_in
         
@@ -43,15 +46,15 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
         
       TaxonConstraint : subject
         
-          TaxonConstraint ..> SubjectTerm : subject
+          TaxonConstraint --|> SubjectTerm : subject
         
       TaxonConstraint : taxon
         
-          TaxonConstraint ..> Taxon : taxon
+          TaxonConstraint --|> Taxon : taxon
         
       TaxonConstraint : via_terms
         
-          TaxonConstraint ..> SubjectTerm : via_terms
+          TaxonConstraint --|> SubjectTerm : via_terms
         
       
 ```

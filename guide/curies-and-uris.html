@@ -66,16 +66,17 @@
 <li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="associations.html">Associations and Curated Annotations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -186,7 +187,8 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 <p>For most purposes, the default prefixmap should suffice.</p>
 <p>You can also choose to override the default prefixmap with your own, using the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> or <code class="docutils literal notranslate"><span class="pre">--named-prefix-map</span></code> options.</p>
 <p>In python this can be done by accessing the prefixmap directly:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/soil-profile.skos.nt&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;tests/input/soil-profile.skos.nt&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
 <span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># trivial example: show all CURIEs and labels</span>

@@ -1,5 +1,8 @@
 # Class: TermPairwiseSimilarity
+
+
 _A simple pairwise similarity between two atomic concepts/terms_
+
 
 
 

@@ -1,5 +1,8 @@
 # Slot: deprecated_object_property_count
+
+
 _Number of deprecated (obsoleted) object properties in the ontology or subset_
+
 
 
 URI: [summary_statistics:deprecated_object_property_count](https://w3id.org/oaklib/summary_statistics.deprecated_object_property_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:deprecated_object_property_count](https://w3id.org/oakl
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:deprecated_object_property_count](https://w3id.org/oakl
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

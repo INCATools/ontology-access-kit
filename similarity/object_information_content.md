@@ -1,5 +1,8 @@
 # Slot: object_information_content
+
+
 _The IC of the object_
+
 
 
 URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_information_content)
@@ -19,9 +22,10 @@ URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -31,8 +35,6 @@ URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
-
-
 
 
 

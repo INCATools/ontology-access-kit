@@ -16,11 +16,10 @@ URI: [owl:qualifiedCardinality](http://www.w3.org/2002/07/owl#qualifiedCardinali
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -11,10 +11,11 @@ URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_who
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -24,8 +25,6 @@ URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_who
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

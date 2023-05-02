@@ -1,5 +1,8 @@
 # Slot: categories
+
+
 _Controlled terms used to categorize an element._
+
 
 
 URI: [dcterms:subject](http://purl.org/dc/terms/subject)
@@ -13,9 +16,10 @@ URI: [dcterms:subject](http://purl.org/dc/terms/subject)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [dcterms:subject](http://purl.org/dc/terms/subject)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

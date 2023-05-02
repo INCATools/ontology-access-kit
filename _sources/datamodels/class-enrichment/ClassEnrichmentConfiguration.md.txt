@@ -1,5 +1,8 @@
 # Class: ClassEnrichmentConfiguration
+
+
 _configuration for search_
+
 
 
 

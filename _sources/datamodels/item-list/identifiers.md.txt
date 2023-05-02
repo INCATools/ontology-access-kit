@@ -1,5 +1,8 @@
 # Slot: identifiers
+
+
 _A list of identifiers for the item. For example, if the id is a symbol, this would be a list of identifiers for the item, such as HGNC, MGI, etc._
+
 
 
 URI: [itemList:identifiers](https://w3id.org/linkml/item-list/identifiers)
@@ -13,9 +16,10 @@ URI: [itemList:identifiers](https://w3id.org/linkml/item-list/identifiers)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Thing](Thing.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Thing](Thing.md) |  |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [itemList:identifiers](https://w3id.org/linkml/item-list/identifiers)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

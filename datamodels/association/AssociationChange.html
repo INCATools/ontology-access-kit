@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -85,11 +85,14 @@
              
   <section id="class-associationchange">
 <h1>Class: AssociationChange<a class="headerlink" href="#class-associationchange" title="Permalink to this heading"></a></h1>
+<p><em>A change object describing a change between two associations.</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/association/AssociationChange">ontoassoc:AssociationChange</a></p>
 <div class="mermaid">
              classDiagram
     class AssociationChange
       AssociationChange : aggregator_knowledge_source
+        
+      AssociationChange : closure_delta
         
       AssociationChange : closure_predicates
         
@@ -144,17 +147,17 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="summary_group.html"><span class="std std-doc">summary_group</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The field used to group an association diff summary</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="old_date.html"><span class="std std-doc">old_date</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The date of the old association</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="new_date.html"><span class="std std-doc">new_date</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The date of the new association</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
@@ -174,12 +177,12 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="publication_is_added.html"><span class="std std-doc">publication_is_added</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>True if the publication was not present in the old association set (and prese…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="publication_is_deleted.html"><span class="std std-doc">publication_is_deleted</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>True if the publication is not present in the new association set (and presen…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
@@ -189,42 +192,42 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="old_predicate.html"><span class="std std-doc">old_predicate</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p></p></td>
+<td><p>If the association diff is a change in predicate, this is the predicate on th…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="new_predicate.html"><span class="std std-doc">new_predicate</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p></p></td>
+<td><p>If the association diff is a change in predicate, this is the predicate on th…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="old_object.html"><span class="std std-doc">old_object</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p></p></td>
+<td><p>The object (e</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="new_object.html"><span class="std std-doc">new_object</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
-<td><p></p></td>
+<td><p>The object (e</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="old_object_obsolete.html"><span class="std std-doc">old_object_obsolete</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>if the object (e</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_migration.html"><span class="std std-doc">is_migration</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>if the object (e</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_generalization.html"><span class="std std-doc">is_generalization</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>True if the association was inferred to become more general (based on closure…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_specialization.html"><span class="std std-doc">is_specialization</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>True if the association was inferred to become more specific (based on closur…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_creation.html"><span class="std std-doc">is_creation</span></a></p></td>
@@ -239,11 +242,22 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="closure_predicates.html"><span class="std std-doc">closure_predicates</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The set of predicates used to determine if the new association object is a sp…</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="closure_delta.html"><span class="std std-doc">closure_delta</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>the change may be between associations in the same set at different times, or associations from different sources.</p></li>
+</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
@@ -280,6 +294,10 @@
 <details>
 ```yaml
 name: AssociationChange
+description: A change object describing a change between two associations.
+comments:
+- the change may be between associations in the same set at different times, or associations
+  from different sources.
 from_schema: https://w3id.org/oak/association
 rank: 1000
 slots:
@@ -303,6 +321,7 @@ slots:
 - is_creation
 - is_deletion
 - closure_predicates
+- closure_delta
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -310,11 +329,16 @@ slots:
 &lt;details&gt;
 ```yaml
 name: AssociationChange
+description: A change object describing a change between two associations.
+comments:
+- the change may be between associations in the same set at different times, or associations
+  from different sources.
 from_schema: https://w3id.org/oak/association
 rank: 1000
 attributes:
   summary_group:
     name: summary_group
+    description: The field used to group an association diff summary
     from_schema: https://w3id.org/oak/association
     rank: 1000
     alias: summary_group
@@ -324,9 +348,12 @@ attributes:
     range: string
   old_date:
     name: old_date
+    description: The date of the old association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     is_a: date
+    mixins:
+    - diff_slot
     alias: old_date
     owner: AssociationChange
     domain_of:
@@ -334,9 +361,12 @@ attributes:
     range: string
   new_date:
     name: new_date
+    description: The date of the new association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     is_a: date
+    mixins:
+    - diff_slot
     alias: new_date
     owner: AssociationChange
     domain_of:
@@ -386,8 +416,12 @@ attributes:
     range: uriorcurie
   publication_is_added:
     name: publication_is_added
+    description: True if the publication was not present in the old association set
+      (and present in the new)
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: publication_is_added
     owner: AssociationChange
     domain_of:
@@ -395,8 +429,12 @@ attributes:
     range: boolean
   publication_is_deleted:
     name: publication_is_deleted
+    description: True if the publication is not present in the new association set
+      (and present in the old)
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: publication_is_deleted
     owner: AssociationChange
     domain_of:
@@ -419,12 +457,17 @@ attributes:
     - Association
     - NegatedAssociation
     - AssociationChange
+    slot_group: core_triple
     range: uriorcurie
   old_predicate:
     name: old_predicate
+    description: If the association diff is a change in predicate, this is the predicate
+      on the old association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     is_a: predicate
+    mixins:
+    - diff_slot
     alias: old_predicate
     owner: AssociationChange
     domain_of:
@@ -432,9 +475,13 @@ attributes:
     range: uriorcurie
   new_predicate:
     name: new_predicate
+    description: If the association diff is a change in predicate, this is the predicate
+      on the new association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     is_a: predicate
+    mixins:
+    - diff_slot
     alias: new_predicate
     owner: AssociationChange
     domain_of:
@@ -442,9 +489,12 @@ attributes:
     range: uriorcurie
   old_object:
     name: old_object
+    description: The object (e.g. term) on the old association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     is_a: object
+    mixins:
+    - diff_slot
     alias: old_object
     owner: AssociationChange
     domain_of:
@@ -452,9 +502,12 @@ attributes:
     range: uriorcurie
   new_object:
     name: new_object
+    description: The object (e.g. term) on the new association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     is_a: object
+    mixins:
+    - diff_slot
     alias: new_object
     owner: AssociationChange
     domain_of:
@@ -462,8 +515,12 @@ attributes:
     range: uriorcurie
   old_object_obsolete:
     name: old_object_obsolete
+    description: if the object (e.g. term) of the old object has been obsoleted, this
+      is true
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: old_object_obsolete
     owner: AssociationChange
     domain_of:
@@ -471,8 +528,13 @@ attributes:
     range: boolean
   is_migration:
     name: is_migration
+    description: if the object (e.g. term) of the old object has been obsoleted, and
+      the object has been migrated (either automatically or manually) to a new object
+      based on obsoletion migration metadata, this is True
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: is_migration
     owner: AssociationChange
     domain_of:
@@ -480,8 +542,13 @@ attributes:
     range: boolean
   is_generalization:
     name: is_generalization
+    description: True if the association was inferred to become more general (based
+      on closure predicates). Note that depending on the tool, this may be inferred,
+      if there is no explicit association-level migration information.
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: is_generalization
     owner: AssociationChange
     domain_of:
@@ -489,8 +556,13 @@ attributes:
     range: boolean
   is_specialization:
     name: is_specialization
+    description: True if the association was inferred to become more specific (based
+      on closure predicates). Note that depending on the tool, this may be inferred,
+      if there is no explicit association-level migration information.
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: is_specialization
     owner: AssociationChange
     domain_of:
@@ -500,6 +572,8 @@ attributes:
     name: is_creation
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: is_creation
     owner: AssociationChange
     domain_of:
@@ -509,6 +583,8 @@ attributes:
     name: is_deletion
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    mixins:
+    - diff_slot
     alias: is_deletion
     owner: AssociationChange
     domain_of:
@@ -516,6 +592,8 @@ attributes:
     range: boolean
   closure_predicates:
     name: closure_predicates
+    description: The set of predicates used to determine if the new association object
+      is a specialization or generalization of the old one.
     from_schema: https://w3id.org/oak/association
     rank: 1000
     multivalued: true
@@ -524,6 +602,15 @@ attributes:
     domain_of:
     - AssociationChange
     range: uriorcurie
+  closure_delta:
+    name: closure_delta
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: closure_delta
+    owner: AssociationChange
+    domain_of:
+    - AssociationChange
+    range: integer
 
 </pre></div>
 </div>

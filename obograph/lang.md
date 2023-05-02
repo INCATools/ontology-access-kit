@@ -1,5 +1,8 @@
 # Slot: lang
+
+
 _the language of a property value_
+
 
 
 URI: [obographs:lang](https://github.com/geneontology/obographs/lang)
@@ -13,13 +16,14 @@ URI: [obographs:lang](https://github.com/geneontology/obographs/lang)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec...
-[DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of...
-[BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d...
-[XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ...
-[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |  no  |
+[DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |  no  |
+[BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |  no  |
+[XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |  no  |
+[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
+
 
 
 
@@ -29,8 +33,6 @@ URI: [obographs:lang](https://github.com/geneontology/obographs/lang)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

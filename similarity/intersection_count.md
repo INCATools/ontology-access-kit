@@ -16,11 +16,10 @@ URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_co
 
 
 
+
 ## Properties
 
 * Range: [ItemCount](ItemCount.md)
-
-
 
 
 

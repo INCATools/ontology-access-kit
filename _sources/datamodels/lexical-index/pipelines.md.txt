@@ -1,5 +1,8 @@
 # Slot: pipelines
+
+
 _all pipelines used to build the index_
+
 
 
 URI: [ontolexindex:pipelines](https://w3id.org/oak/lexical-index/pipelines)
@@ -13,9 +16,10 @@ URI: [ontolexindex:pipelines](https://w3id.org/oak/lexical-index/pipelines)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontolexindex:pipelines](https://w3id.org/oak/lexical-index/pipelines)
 ## Properties
 
 * Range: [LexicalTransformationPipeline](LexicalTransformationPipeline.md)
+
 * Multivalued: True
-
-
-
 
 
 

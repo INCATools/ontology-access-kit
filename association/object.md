@@ -1,5 +1,8 @@
 # Slot: object
+
+
 _An ontology entity that is associated with the subject._
+
 
 
 URI: [rdf:object](rdf:object)
@@ -10,8 +13,8 @@ URI: [rdf:object](rdf:object)
 ## Inheritance
 
 * **object**
-    * [old_object](old_object.md)
-    * [new_object](new_object.md)
+    * [old_object](old_object.md) [ [diff_slot](diff_slot.md)]
+    * [new_object](new_object.md) [ [diff_slot](diff_slot.md)]
     * [object1](object1.md)
     * [object2](object2.md)
 
@@ -21,11 +24,12 @@ URI: [rdf:object](rdf:object)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
-[PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+[PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |  no  |
+
 
 
 
@@ -35,8 +39,6 @@ URI: [rdf:object](rdf:object)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 
@@ -81,6 +83,7 @@ domain_of:
 - Association
 - NegatedAssociation
 - PropertyValue
+slot_group: core_triple
 range: uriorcurie
 
 ```

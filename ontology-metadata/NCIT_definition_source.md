@@ -11,11 +11,10 @@ URI: [NCIT:P378](http://purl.obolibrary.org/obo/NCIT_P378)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

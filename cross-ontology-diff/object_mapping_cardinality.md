@@ -1,5 +1,8 @@
 # Slot: object_mapping_cardinality
+
+
 _The mapping cardinality of the object pair_
+
 
 
 URI: [xodiff:object_mapping_cardinality](https://w3id.org/oak/cross-ontology-diff/object_mapping_cardinality)
@@ -13,9 +16,10 @@ URI: [xodiff:object_mapping_cardinality](https://w3id.org/oak/cross-ontology-dif
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [xodiff:object_mapping_cardinality](https://w3id.org/oak/cross-ontology-dif
 ## Properties
 
 * Range: [MappingCardinalityEnum](MappingCardinalityEnum.md)
-
-
 
 
 

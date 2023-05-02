@@ -11,9 +11,10 @@ URI: [ontoassoc:associations_for_subjects_in_common](https://w3id.org/oak/associ
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [ontoassoc:associations_for_subjects_in_common](https://w3id.org/oak/associ
 ## Properties
 
 * Range: [Association](Association.md)
+
 * Multivalued: True
-
-
-
 
 
 

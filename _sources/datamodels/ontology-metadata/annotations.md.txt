@@ -11,9 +11,10 @@ URI: [omoschema:annotations](http://purl.obolibrary.org/obo/omo/schema/annotatio
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [omoschema:annotations](http://purl.obolibrary.org/obo/omo/schema/annotatio
 ## Properties
 
 * Range: [Annotation](Annotation.md)
+
 * Multivalued: True
-
-
-
 
 
 

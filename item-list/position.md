@@ -1,5 +1,8 @@
 # Slot: position
+
+
 _The position of the item in the list_
+
 
 
 URI: [schema:position](http://schema.org/position)
@@ -13,9 +16,10 @@ URI: [schema:position](http://schema.org/position)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ListItem](ListItem.md) | an item in an item list
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ListItem](ListItem.md) | an item in an item list |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [schema:position](http://schema.org/position)
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

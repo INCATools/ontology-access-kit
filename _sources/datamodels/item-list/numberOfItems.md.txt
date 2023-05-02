@@ -1,5 +1,8 @@
 # Slot: numberOfItems
+
+
 _The order of the items in the list_
+
 
 
 URI: [schema:numberOfItems](http://schema.org/numberOfItems)
@@ -13,9 +16,10 @@ URI: [schema:numberOfItems](http://schema.org/numberOfItems)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [schema:numberOfItems](http://schema.org/numberOfItems)
 ## Properties
 
 * Range: [ItemListOrderType](ItemListOrderType.md)
-
-
 
 
 

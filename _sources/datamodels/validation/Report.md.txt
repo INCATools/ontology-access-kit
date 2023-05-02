@@ -1,5 +1,8 @@
 # Class: Report
+
+
 _A report object that is a holder to multiple report results_
+
 
 
 
@@ -18,7 +21,7 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
       
       Report : results
         
-          Report ..> Result : results
+          Report --|> Result : results
         
       
 ```

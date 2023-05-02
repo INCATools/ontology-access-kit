@@ -1,5 +1,8 @@
 # Class: Edge
+
+
 _An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o_
+
 
 
 
@@ -13,7 +16,7 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
     class Edge
       Edge : meta
         
-          Edge ..> Meta : meta
+          Edge --|> Meta : meta
         
       Edge : obj
         

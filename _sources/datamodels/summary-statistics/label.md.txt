@@ -1,5 +1,8 @@
 # Slot: label
+
+
 _the label for the agent_
+
 
 
 URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
@@ -13,9 +16,10 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Agent](Agent.md) | An agent
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Agent](Agent.md) | An agent |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

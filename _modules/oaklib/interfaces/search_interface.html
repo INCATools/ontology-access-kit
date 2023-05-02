@@ -49,13 +49,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -95,7 +95,50 @@
 
 <div class="viewcode-block" id="SearchInterface"><a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">[docs]</a><span class="k">class</span> <span class="nc">SearchInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An Ontology Interface that supports text-based search</span>
+<span class="sd">    An Ontology Interface that supports text-based search.</span>
+
+<span class="sd">    The search interface provides a largely implementation-neutral way to query an ontology. It allows for</span>
+
+<span class="sd">    - exact or partial matches</span>
+<span class="sd">    - matching the beginning of a term</span>
+<span class="sd">    - regular expression search</span>
+
+<span class="sd">    It also allows you to control which metadata elements are searched over (typically labels and aliases)</span>
+
+<span class="sd">    Implementations may differ in their behavior. Some implementations may not be able to honor specific requests.</span>
+<span class="sd">    For example, the :ref:`SqlDatabaseImplementation` implementation may not be able to fulfil regular</span>
+<span class="sd">    expression queries.</span>
+
+<span class="sd">    Some endpoints may return results that are ranked by relevance, others may be arbitrary</span>
+
+<span class="sd">    Command Line</span>
+<span class="sd">    ------------</span>
+
+<span class="sd">    A good way to explore this interface is via the search subcommand:</span>
+
+<span class="sd">    Ubergraph uses relevancy ranking:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        runoak -i ubergraph:uberon search limb</span>
+
+<span class="sd">    Exact match for a label using sqlite:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        runoak -i db/cl.db search l=neuron</span>
+
+<span class="sd">    Inexact match for a label or synonym using sqlite:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        poetry run runoak -i db/cl.db search .~neuron</span>
+
+<span class="sd">    Datamodels</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Search uses `&lt;https://w3id.org/oak/search&gt;`_ to specify both an input query and search results,</span>
+<span class="sd">     see :ref:`datamodels`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SearchInterface.basic_search"><a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">[docs]</a>    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span>

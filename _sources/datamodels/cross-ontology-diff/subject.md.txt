@@ -1,5 +1,8 @@
 # Slot: subject
+
+
 _The child node on left or right side_
+
 
 
 URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
@@ -7,6 +10,7 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -28,10 +32,8 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 ## Properties
 
 * Range: [String](String.md)
+
 * Mixin: True
-
-
-
 
 
 

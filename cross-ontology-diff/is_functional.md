@@ -1,5 +1,8 @@
 # Slot: is_functional
+
+
 _Maps to exactly one thing_
+
 
 
 URI: [xodiff:is_functional](https://w3id.org/oak/cross-ontology-diff/is_functional)
@@ -7,6 +10,7 @@ URI: [xodiff:is_functional](https://w3id.org/oak/cross-ontology-diff/is_function
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -24,10 +28,8 @@ URI: [xodiff:is_functional](https://w3id.org/oak/cross-ontology-diff/is_function
 ## Properties
 
 * Range: [Boolean](Boolean.md)
+
 * Mixin: True
-
-
-
 
 
 

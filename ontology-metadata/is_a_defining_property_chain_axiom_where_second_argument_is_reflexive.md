@@ -11,9 +11,10 @@ URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,10 @@
 # Slot: associations
 
+
+_A collection of associations_
+
+
+
 URI: [ontoassoc:associations](https://w3id.org/oak/association/associations)
 
 
@@ -11,9 +16,10 @@ URI: [ontoassoc:associations](https://w3id.org/oak/association/associations)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RollupGroup](RollupGroup.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RollupGroup](RollupGroup.md) |  |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [ontoassoc:associations](https://w3id.org/oak/association/associations)
 ## Properties
 
 * Range: [Association](Association.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -53,6 +57,7 @@ URI: [ontoassoc:associations](https://w3id.org/oak/association/associations)
 <details>
 ```yaml
 name: associations
+description: A collection of associations
 from_schema: https://w3id.org/oak/association
 rank: 1000
 multivalued: true

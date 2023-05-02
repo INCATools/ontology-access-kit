@@ -1,5 +1,8 @@
 # Slot: contributor_name
+
+
 _the name of the contributor_
+
 
 
 URI: [summary_statistics:contributor_name](https://w3id.org/oaklib/summary_statistics.contributor_name)
@@ -13,9 +16,10 @@ URI: [summary_statistics:contributor_name](https://w3id.org/oaklib/summary_stati
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [summary_statistics:contributor_name](https://w3id.org/oaklib/summary_stati
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

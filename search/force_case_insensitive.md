@@ -1,5 +1,8 @@
 # Slot: force_case_insensitive
+
+
 _force case insensitive matching_
+
 
 
 URI: [ontosearch:force_case_insensitive](https://w3id.org/oak/search-datamodel/force_case_insensitive)
@@ -13,9 +16,10 @@ URI: [ontosearch:force_case_insensitive](https://w3id.org/oak/search-datamodel/f
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontosearch:force_case_insensitive](https://w3id.org/oak/search-datamodel/f
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

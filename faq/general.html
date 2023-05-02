@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ: General &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FAQ: Ontologies" href="ontologies.html" />
+    <link rel="prev" title="FAQ" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">FAQ</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FAQ: General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-oak">What is OAK?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#are-there-any-tutorials-for-oak">Are there any tutorials for OAK?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#are-there-runnable-examples-of-how-to-use-oak">Are there runnable examples of how to use OAK?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#i-am-familiar-with-both-python-and-ontologies-where-should-i-start">I am familiar with both Python and Ontologies. Where should I start?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#i-find-ontologies-confusing-is-there-a-general-guide-to-help-me">I find ontologies confusing. Is there a general guide to help me?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-is-it-called-oak">Why is it called OAK?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-install-oak">How do I install OAK?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-use-oak-if-i-don-t-know-python">Can I use OAK if I don’t know Python?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-contribute-to-oak">Can I contribute to OAK?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-oak-just-for-bio-ontologies">Is OAK just for bio-ontologies?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-oak-access-ontologies-in-ontology-portals-such-as-matportal-or-bioportal">Can OAK access ontologies in ontology portals such as MatPortal or BioPortal?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-oak-access-ontologies-in-triplestores-such-as-ontobee-or-ubergraph">Can OAK access ontologies in triplestores such as OntoBee or Ubergraph?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-oak-access-local-files">Can OAK access local files?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-oak-access-obo-format-files">Can OAK access OBO Format files?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#does-oak-support-all-of-owl">Does OAK support all of OWL?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#does-oak-support-reasoning">Does OAK support reasoning?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-use-oak-to-do-graph-queries-over-ontologies">Can I use OAK to do graph queries over ontologies?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-use-oak-to-do-lexical-search">Can I use OAK to do lexical search?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-use-oak-as-a-text-annotator">Can I use OAK as a text annotator?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ontologies.html">FAQ: Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">FAQ: Architecture and Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">FAQ: Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">FAQ: Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">FAQ</a></li>
+      <li class="breadcrumb-item active">FAQ: General</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/faq/general.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="faq-general">
+<span id="id1"></span><h1>FAQ: General<a class="headerlink" href="#faq-general" title="Permalink to this heading"></a></h1>
+<section id="what-is-oak">
+<h2>What is OAK?<a class="headerlink" href="#what-is-oak" title="Permalink to this heading"></a></h2>
+<p>OAK is for both technical and non-technical users of ontologies. Non-technical users can use the <a class="reference internal" href="../howtos/fhir-conversions.html#cli"><span class="std std-ref">CLI</span></a> to
+query ontologies in a variety of ways. Technical users can write Python code that uses the OAK library to
+perform ontology-related tasks, ranging from basic lookup, search, graph traversals, validation, data annotation,
+mapping, and OWL processing.</p>
+</section>
+<section id="are-there-any-tutorials-for-oak">
+<h2>Are there any tutorials for OAK?<a class="headerlink" href="#are-there-any-tutorials-for-oak" title="Permalink to this heading"></a></h2>
+<p>Yes! There are a few sources:</p>
+<ul class="simple">
+<li><p>The main <a class="reference internal" href="../intro/index.html#tutorial"><span class="std std-ref">Tutorial</span></a> on this site</p></li>
+<li><p>The OBO Academy OAK command line tutorial (<a class="reference external" href="https://doi.org/10.5281/zenodo.7708963">https://doi.org/10.5281/zenodo.7708963</a>)</p></li>
+<li><p>The Monarch OAK tutorial for Python developers (<a class="reference external" href="https://www.youtube.com/watch?v=nVTWazO_Gu0">Video</a>)</p></li>
+</ul>
+</section>
+<section id="are-there-runnable-examples-of-how-to-use-oak">
+<h2>Are there runnable examples of how to use OAK?<a class="headerlink" href="#are-there-runnable-examples-of-how-to-use-oak" title="Permalink to this heading"></a></h2>
+<p>There are three main sources of examples:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../notebooks.html#notebooks"><span class="std std-ref">Jupyter Notebooks</span></a></p></li>
+<li><p>Python “docstrings” that are present throughout the <a class="reference internal" href="../packages/index.html#packages"><span class="std std-ref">OAK Library Documentation</span></a> documentation</p></li>
+<li><p>Unit tests, in the tests folder of the GitHub repo.</p></li>
+</ul>
+</section>
+<section id="i-am-familiar-with-both-python-and-ontologies-where-should-i-start">
+<h2>I am familiar with both Python and Ontologies. Where should I start?<a class="headerlink" href="#i-am-familiar-with-both-python-and-ontologies-where-should-i-start" title="Permalink to this heading"></a></h2>
+<p>See the list of all methods in all interfaces, in the package documentation:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../packages/interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a></p></li>
+</ul>
+</section>
+<section id="i-find-ontologies-confusing-is-there-a-general-guide-to-help-me">
+<h2>I find ontologies confusing. Is there a general guide to help me?<a class="headerlink" href="#i-find-ontologies-confusing-is-there-a-general-guide-to-help-me" title="Permalink to this heading"></a></h2>
+<p>Yes! See the <a class="reference internal" href="../guide/index.html#guide"><span class="std std-ref">The OAK Guide</span></a>.</p>
+</section>
+<section id="why-is-it-called-oak">
+<h2>Why is it called OAK?<a class="headerlink" href="#why-is-it-called-oak" title="Permalink to this heading"></a></h2>
+<p>OAK stands for the Ontology Access Kit. The name was chosen to mirror a companion
+package, the Ontology Development Kit (ODK), and also as a homage to Oakland, where
+some of the OAK developers are based.</p>
+</section>
+<section id="how-do-i-install-oak">
+<h2>How do I install OAK?<a class="headerlink" href="#how-do-i-install-oak" title="Permalink to this heading"></a></h2>
+<p>See <a class="reference internal" href="../intro/tutorial01.html#tutorial01"><span class="std std-ref">Part 1: Getting Started</span></a> of the tutorial.</p>
+</section>
+<section id="can-i-use-oak-if-i-don-t-know-python">
+<h2>Can I use OAK if I don’t know Python?<a class="headerlink" href="#can-i-use-oak-if-i-don-t-know-python" title="Permalink to this heading"></a></h2>
+<p>OAK provides a fully-featured command line interface. See <a class="reference internal" href="../intro/tutorial01.html#tutorial01"><span class="std std-ref">Part 1: Getting Started</span></a> of the tutorial.</p>
+<p>Once you have installed OAK (see above), you can use the command <code class="docutils literal notranslate"><span class="pre">runoak</span></code> to run any of
+a large number of subcommands.</p>
+<p>To get a full list, see:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>Typically you use OAK in combination with an ontology from some source, specified with a selector,
+for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>COMMAND<span class="w"> </span>OPTIONS...<span class="w"> </span>ARGUMENTS...
+</pre></div>
+</div>
+</section>
+<section id="can-i-contribute-to-oak">
+<h2>Can I contribute to OAK?<a class="headerlink" href="#can-i-contribute-to-oak" title="Permalink to this heading"></a></h2>
+<p>Please consult the <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> guide</p>
+</section>
+<section id="is-oak-just-for-bio-ontologies">
+<h2>Is OAK just for bio-ontologies?<a class="headerlink" href="#is-oak-just-for-bio-ontologies" title="Permalink to this heading"></a></h2>
+<p>No, OAK can be used for any ontology, provided certain minimal conventions are followed:</p>
+<ul class="simple">
+<li><p>the ontology should be available in a standard format like OWL (OR: should be available in a portal such as an <span class="xref std std-term">OntoPortal</span> portal)</p></li>
+<li><p>if the ontology uses non-standard properties for <a class="reference internal" href="../glossary.html#term-Annotation"><span class="xref std std-term">Annotations</span></a>, a mapping should be provided</p></li>
+</ul>
+</section>
+<section id="can-oak-access-ontologies-in-ontology-portals-such-as-matportal-or-bioportal">
+<h2>Can OAK access ontologies in ontology portals such as MatPortal or BioPortal?<a class="headerlink" href="#can-oak-access-ontologies-in-ontology-portals-such-as-matportal-or-bioportal" title="Permalink to this heading"></a></h2>
+<p>Yes, OAK has a number of <span class="xref std std-term">Adapters</span> that can “talk to” a remote endpoint provided that
+endpoint speaks a standard API such as the <span class="xref std std-term">OntoPortal</span> alliance API or the <a class="reference internal" href="../glossary.html#term-OLS"><span class="xref std std-term">OLS</span></a> API.</p>
+<p>See:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../packages/implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a></p></li>
+<li><p><a class="reference internal" href="../packages/implementations/ols.html#ols-implementation"><span class="std std-ref">Ontology Lookup Service (OLS) Adapter</span></a></p></li>
+</ul>
+<p>Note that not all OAK operations are supported for all endpoints. Some would be too expensive to do via
+API calls.</p>
+<p>Endpoints such as the <a class="reference internal" href="../glossary.html#term-Bioportal"><span class="xref std std-term">BioPortal</span></a> API or the OLS excel in particular at tasks
+such as <a class="reference internal" href="../glossary.html#term-Text-Annotation"><span class="xref std std-term">Text Annotation</span></a>, where it is possible to run a text against a large bank
+of ontologies without having to download any locally.</p>
+<p>For example, on the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>bioportal:<span class="w"> </span>annotate<span class="w"> </span><span class="s2">&quot;the quick brown fox&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="can-oak-access-ontologies-in-triplestores-such-as-ontobee-or-ubergraph">
+<h2>Can OAK access ontologies in triplestores such as OntoBee or Ubergraph?<a class="headerlink" href="#can-oak-access-ontologies-in-triplestores-such-as-ontobee-or-ubergraph" title="Permalink to this heading"></a></h2>
+<p>Yes, see:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../packages/implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a></p></li>
+<li><p><a class="reference internal" href="../packages/implementations/ontobee.html#ontobee-implementation"><span class="std std-ref">Ontobee Adapter</span></a></p></li>
+</ul>
+<p>Note that different triplestores will have different selections of ontologies loaded,
+and the loads may not be synchronized, so results may differ.</p>
+<p>Additionally, each triplestore has different capabilities (e.g. full text search), and may store
+ontologies differently. For example, <a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a> stores the full <a class="reference internal" href="../glossary.html#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a>
+closure, which is particularly convenient for OAK graph operations. Some graph operations
+involving ancestry over arbitrary sets of <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">predicates</span></a> may not be possible on
+other triplestores.</p>
+</section>
+<section id="can-oak-access-local-files">
+<h2>Can OAK access local files?<a class="headerlink" href="#can-oak-access-local-files" title="Permalink to this heading"></a></h2>
+<p>Yes. The main use case for OAK is accessing an ontology or ontologies serialized in some standard
+format and stored locally on disk.</p>
+</section>
+<section id="can-oak-access-obo-format-files">
+<h2>Can OAK access OBO Format files?<a class="headerlink" href="#can-oak-access-obo-format-files" title="Permalink to this heading"></a></h2>
+<p>Yes. There are currently two adapters for working with OBO Format:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../packages/implementations/pronto.html#pronto-implementation"><span class="std std-ref">Pronto / OBO Files Adapter</span></a></p></li>
+<li><p><span class="xref std std-ref">simpleobo_implementation</span></p></li>
+</ul>
+<p>Currently pronto is the default. It is fast and implements the complete OBO Format specification.
+However, it can be very rigorous in enforcing syntactic rules, and as a result some
+ontologies will not load.</p>
+</section>
+<section id="does-oak-support-all-of-owl">
+<h2>Does OAK support all of OWL?<a class="headerlink" href="#does-oak-support-all-of-owl" title="Permalink to this heading"></a></h2>
+<p>Currently supporting all of <a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a> is out of scope for OAK. However, this should not
+be a major blocker for most intended uses of OAK, as an application library.</p>
+<p>The main application of OWL is for constructing and maintaining ontologies - after an
+ontology is released, only a small subset of OWL constructs are typically used (e.g
+SubClassOf, SomeValuesFrom, Annotations).</p>
+<p>There are a variety of ways of consuming OWL in OAK</p>
+<ul class="simple">
+<li><p>The recommended way is to use <a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a>, which works off of RDF/OWL compiled to sqlite3</p></li>
+<li><p>You can also use <a class="reference internal" href="../packages/implementations/funowl.html#funowl-implementation"><span class="std std-ref">FunOwl Adapter</span></a>, but this requires the ontology is in <a class="reference internal" href="../glossary.html#term-Functional-Syntax"><span class="xref std std-term">Functional Syntax</span></a></p></li>
+<li><p>You can use a local or remote OWL ontologies serialized as RDF via the <span class="xref std std-ref">sparql_implementation</span></p></li>
+<li><p>Using a tool like <span class="xref std std-ref">ROBOT</span> to convert an OWL ontology to a serialization like <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a></p></li>
+</ul>
+<p>Note that in future it is likely that OAK will support a wider range of OWL constructs</p>
+</section>
+<section id="does-oak-support-reasoning">
+<h2>Does OAK support reasoning?<a class="headerlink" href="#does-oak-support-reasoning" title="Permalink to this heading"></a></h2>
+<p>Currently OAK does not have access to <span class="xref std std-term">Reasoning</span>. But note that this is often not a limitation.</p>
+<ul class="simple">
+<li><p>OAK has the ability to traverse <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">ancestors</span></a> and <a class="reference internal" href="../glossary.html#term-Descendant"><span class="xref std std-term">descendants</span></a></p></li>
+<li><p><a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a> has transitive reasoning performed in advance, calculating the <a class="reference internal" href="../glossary.html#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a> closure</p></li>
+</ul>
+<p>There is an experimental <a class="reference external" href="https://github.com/INCATools/oakx-robot">ROBOT plugin</a> that can be used
+to interface with an OWL reasoner via ROBOT.</p>
+<p>We also have plans to interface with Rust reasoners such as <a class="reference external" href="https://github.com/INCATools/whelk.rs">Whelk</a>.</p>
+</section>
+<section id="can-i-use-oak-to-do-graph-queries-over-ontologies">
+<h2>Can I use OAK to do graph queries over ontologies?<a class="headerlink" href="#can-i-use-oak-to-do-graph-queries-over-ontologies" title="Permalink to this heading"></a></h2>
+<p>On the command line you can use the commands <code class="docutils literal notranslate"><span class="pre">ancestors</span></code>, <code class="docutils literal notranslate"><span class="pre">tree</span></code>, <code class="docutils literal notranslate"><span class="pre">viz</span></code>, all of which are
+variants of fetching and displaying ancestors.</p>
+</section>
+<section id="can-i-use-oak-to-do-lexical-search">
+<h2>Can I use OAK to do lexical search?<a class="headerlink" href="#can-i-use-oak-to-do-lexical-search" title="Permalink to this heading"></a></h2>
+<p>Yes. See <a class="reference internal" href="../search-syntax.html#search-syntax"><span class="std std-ref">Search Syntax</span></a></p>
+</section>
+<section id="can-i-use-oak-as-a-text-annotator">
+<h2>Can I use OAK as a text annotator?<a class="headerlink" href="#can-i-use-oak-as-a-text-annotator" title="Permalink to this heading"></a></h2>
+<p>Yes. See the <a class="reference internal" href="../packages/interfaces/text-annotator.html#text-annotator-interface"><span class="std std-ref">Text Annotator Interface</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ontologies.html" class="btn btn-neutral float-right" title="FAQ: Ontologies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

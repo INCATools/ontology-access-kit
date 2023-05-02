@@ -1,5 +1,8 @@
 # Slot: match_target
+
+
 _the entity matches_
+
 
 
 URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
@@ -13,9 +16,10 @@ URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[BestMatch](BestMatch.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[BestMatch](BestMatch.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

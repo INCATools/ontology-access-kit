@@ -16,11 +16,10 @@ URI: [owl:members](http://www.w3.org/2002/07/owl#members)
 
 
 
+
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 

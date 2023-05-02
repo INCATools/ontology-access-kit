@@ -11,9 +11,10 @@ URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transform
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transform
 ## Properties
 
 * Range: [LexicalTransformation](LexicalTransformation.md)
+
 * Multivalued: True
-
-
-
 
 
 

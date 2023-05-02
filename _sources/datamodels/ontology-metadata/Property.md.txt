@@ -22,27 +22,27 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
         
       Property : broadMatch
         
-          Property ..> Property : broadMatch
+          Property --|> Property : broadMatch
         
       Property : category
         
       Property : closeMatch
         
-          Property ..> Property : closeMatch
+          Property --|> Property : closeMatch
         
       Property : comment
         
       Property : conformsTo
         
-          Property ..> Thing : conformsTo
+          Property --|> Thing : conformsTo
         
       Property : consider
         
-          Property ..> Any : consider
+          Property --|> Any : consider
         
       Property : contributor
         
-          Property ..> Agent : contributor
+          Property --|> Agent : contributor
         
       Property : created
         
@@ -52,7 +52,7 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
         
       Property : creator
         
-          Property ..> Agent : creator
+          Property --|> Agent : creator
         
       Property : curator_note
         
@@ -66,7 +66,7 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
         
       Property : depicted_by
         
-          Property ..> Image : depicted_by
+          Property --|> Image : depicted_by
         
       Property : deprecated
         
@@ -78,17 +78,17 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
         
       Property : exactMatch
         
-          Property ..> Property : exactMatch
+          Property --|> Property : exactMatch
         
       Property : example_of_usage
         
       Property : excluded_from_QC_check
         
-          Property ..> Thing : excluded_from_QC_check
+          Property --|> Thing : excluded_from_QC_check
         
       Property : excluded_subClassOf
         
-          Property ..> Class : excluded_subClassOf
+          Property --|> Class : excluded_subClassOf
         
       Property : excluded_synonym
         
@@ -114,15 +114,15 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
         
       Property : image
         
-          Property ..> Thing : image
+          Property --|> Thing : image
         
       Property : imported_from
         
-          Property ..> NamedIndividual : imported_from
+          Property --|> NamedIndividual : imported_from
         
       Property : in_subset
         
-          Property ..> Subset : in_subset
+          Property --|> Subset : in_subset
         
       Property : is_class_level
         
@@ -132,13 +132,13 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
         
       Property : isDefinedBy
         
-          Property ..> Ontology : isDefinedBy
+          Property --|> Ontology : isDefinedBy
         
       Property : label
         
       Property : narrowMatch
         
-          Property ..> Property : narrowMatch
+          Property --|> Property : narrowMatch
         
       Property : OBO_foundry_unique_label
         
@@ -150,17 +150,17 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
         
       Property : seeAlso
         
-          Property ..> Thing : seeAlso
+          Property --|> Thing : seeAlso
         
       Property : should_conform_to
         
-          Property ..> Thing : should_conform_to
+          Property --|> Thing : should_conform_to
         
       Property : term_editor
         
       Property : term_replaced_by
         
-          Property ..> Any : term_replaced_by
+          Property --|> Any : term_replaced_by
         
       Property : term_tracker_item
         

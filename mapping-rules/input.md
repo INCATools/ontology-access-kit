@@ -1,5 +1,8 @@
 # Slot: input
+
+
 _Input string for the rule._
+
 
 
 URI: [mappingrules:input](https://w3id.org/oak/mapping-rules-datamodel/input)
@@ -13,9 +16,10 @@ URI: [mappingrules:input](https://w3id.org/oak/mapping-rules-datamodel/input)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Test](Test.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Test](Test.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:input](https://w3id.org/oak/mapping-rules-datamodel/input)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -49,13 +49,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -95,6 +95,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.associations.association_index</span> <span class="kn">import</span> <span class="n">AssociationIndex</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.iterator_utils</span> <span class="kn">import</span> <span class="n">chunk</span>
 
 <span class="n">ASSOCIATION_CORRELATION</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span>
     <span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Association</span><span class="p">]]</span>
@@ -154,6 +155,57 @@
 <span class="k">class</span> <span class="nc">AssociationProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An ontology provider that provides associations.</span>
+
+<span class="sd">    Associations (also known as annotations) connect data elements or entities to</span>
+<span class="sd">    an ontology class. Examples of associations include:</span>
+
+<span class="sd">    - Gene associations to terms in ontologies like GO, Mondo, Uberon, HPO, MPO, CL</span>
+<span class="sd">    - Associations between spans of text and ontology entities</span>
+
+<span class="sd">    Data models and file formats include:</span>
+
+<span class="sd">    - The GO GAF and GPAD formats.</span>
+<span class="sd">    - The HPOA association file format.</span>
+<span class="sd">    - KGX (Knowledge Graph Exchange).</span>
+<span class="sd">    - The W3 `Open Annotation &lt;https://www.w3.org/TR/annotation-model/&gt;`_ (OA) data model</span>
+
+<span class="sd">    The OA datamodel considers an annotation to be between a *body* and a *target*:</span>
+
+<span class="sd">    .. image:: https://www.w3.org/TR/annotation-vocab/images/examples/annotation.png</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        the signature of some methods are subject to change while we</span>
+<span class="sd">        decide on the best patterns to define here.</span>
+
+<span class="sd">    Note that most ontology sources are not themselves providers of associations; there is no agreed upon</span>
+<span class="sd">    way to represent associations in OWL, and associations are typically distributed separately from</span>
+<span class="sd">    ontologies. See the section :ref:`associations` in the OAK guide for more details.</span>
+
+<span class="sd">    OAK provides a number of ways to augment an ontology adapter with associations.</span>
+
+<span class="sd">    The most expressive way is to provide an :ref:`InputSpecification`:</span>
+
+<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">    &gt;&gt;&gt; adapter = get_adapter(&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;)</span>
+
+<span class="sd">    This combines an ontology source with one or more association sources.</span>
+
+<span class="sd">    Another approach is to use an adapter that directly supports associations. An example of this</span>
+<span class="sd">    is the :ref:`amigo_implementation`:</span>
+
+<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">    &gt;&gt;&gt; amigo = get_adapter(&quot;amigo:NCBITaxon:10090&quot;) # mouse</span>
+
+
+
+
+<span class="sd">    Command Line Use</span>
+<span class="sd">    ----------------</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">       runoak -i foo.db associations UBERON:0002101</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_association_index</span><span class="p">:</span> <span class="n">AssociationIndex</span> <span class="o">=</span> <span class="kc">None</span>
@@ -175,6 +227,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yield all matching associations.</span>
 
+<span class="sd">        To query by subject (e.g. genes):</span>
+
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; genes = [&quot;PomBase:SPAC1142.02c&quot;, &quot;PomBase:SPAC3H1.05&quot;, &quot;PomBase:SPAC1142.06&quot;, &quot;PomBase:SPAC4G8.02c&quot;]</span>
@@ -184,6 +238,22 @@
 <span class="sd">        ...</span>
 <span class="sd">        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane</span>
 <span class="sd">        ...</span>
+
+<span class="sd">        To query by object (e.g. descriptor terms):</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.vocabulary import IS_A, PART_OF</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for assoc in adapter.associations(objects=[&quot;GO:0006620&quot;], object_closure_predicates=[IS_A, PART_OF]):</span>
+<span class="sd">        ...    print(f&quot;{assoc.subject} {assoc.subject_label}&quot;)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        PomBase:SPAC1142.02c sgt2</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        When determinining a match on `objects`, the predicates in ``object_closure_predicates`` is used.</span>
+<span class="sd">        We recommend you always explicitly provide this. A good choice is typically IS_A and PART_OF for</span>
+<span class="sd">        ontologies like GO, Uberon, CL, ENVO.</span>
 
 <span class="sd">        :param subjects: constrain to these subjects (e.g. genes in a gene association)</span>
 <span class="sd">        :param predicates: constrain to these predicates (e.g. involved-in for a gene to pathway association)</span>
@@ -208,12 +278,33 @@
         <span class="k">if</span> <span class="n">ix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No association index&quot;</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ix</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">a</span></div>
+        <span class="k">yield from</span> <span class="n">ix</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_inject_subject_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">association_iterator</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Association</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">assoc_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">association_iterator</span><span class="p">):</span>
+            <span class="n">associations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assoc_it</span><span class="p">)</span>
+            <span class="n">subjects</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">}</span>
+            <span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">l</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">subjects</span><span class="p">)}</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LABEL MAP: </span><span class="si">{</span><span class="n">label_map</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">subjects</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">association</span> <span class="ow">in</span> <span class="n">associations</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">association</span><span class="o">.</span><span class="n">subject</span> <span class="ow">in</span> <span class="n">label_map</span><span class="p">:</span>
+                    <span class="n">association</span><span class="o">.</span><span class="n">subject_label</span> <span class="o">=</span> <span class="n">label_map</span><span class="p">[</span><span class="n">association</span><span class="o">.</span><span class="n">subject</span><span class="p">]</span>
+            <span class="k">yield from</span> <span class="n">associations</span>
 
 <div class="viewcode-block" id="AssociationProviderInterface.associations_subjects"><a class="viewcode-back" href="../../../packages/interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.associations_subjects">[docs]</a>    <span class="k">def</span> <span class="nf">associations_subjects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all distinct subjects.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.vocabulary import IS_A, PART_OF</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; genes = [&quot;PomBase:SPAC1142.02c&quot;, &quot;PomBase:SPAC3H1.05&quot;, &quot;PomBase:SPAC1142.06&quot;, &quot;PomBase:SPAC4G8.02c&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; for assoc in adapter.associations(genes, object_closure_predicates=[IS_A, PART_OF]):</span>
+<span class="sd">        ...    print(f&quot;{assoc.object} {adapter.label(assoc.object)}&quot;)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane</span>
+<span class="sd">        ...</span>
 
 <span class="sd">        :param kwargs: same arguments as for :ref:`associations`</span>
 <span class="sd">        :return:</span>

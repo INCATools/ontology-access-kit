@@ -1,5 +1,8 @@
 # Slot: named_individual_count
+
+
 _Number of named individuals in the ontology or subset_
+
 
 
 URI: [summary_statistics:named_individual_count](https://w3id.org/oaklib/summary_statistics.named_individual_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:named_individual_count](https://w3id.org/oaklib/summary
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:named_individual_count](https://w3id.org/oaklib/summary
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

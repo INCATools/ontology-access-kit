@@ -1,5 +1,8 @@
 # Slot: p_value_cutoff
+
+
 _p-value cutoff for enrichment_
+
 
 
 URI: [ontoenrich:p_value_cutoff](https://w3id.org/oak/class-enrichment/p_value_cutoff)
@@ -13,9 +16,10 @@ URI: [ontoenrich:p_value_cutoff](https://w3id.org/oak/class-enrichment/p_value_c
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentConfiguration](ClassEnrichmentConfiguration.md) | configuration for search
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentConfiguration](ClassEnrichmentConfiguration.md) | configuration for search |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontoenrich:p_value_cutoff](https://w3id.org/oak/class-enrichment/p_value_c
 ## Properties
 
 * Range: [Float](Float.md)
+
 * Required: True
-
-
-
 
 
 

@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -92,19 +92,19 @@
     class Axiom
       Axiom : annotatedProperty
         
-          Axiom ..&gt; AnnotationProperty : annotatedProperty
+          Axiom --|&gt; AnnotationProperty : annotatedProperty
         
       Axiom : annotatedSource
         
-          Axiom ..&gt; NamedObject : annotatedSource
+          Axiom --|&gt; NamedObject : annotatedSource
         
       Axiom : annotatedTarget
         
-          Axiom ..&gt; Any : annotatedTarget
+          Axiom --|&gt; Any : annotatedTarget
         
       Axiom : annotations
         
-          Axiom ..&gt; Annotation : annotations
+          Axiom --|&gt; Annotation : annotations
         
       Axiom : comment
         
@@ -120,13 +120,13 @@
         
       Axiom : has_axiom_label
         
-          Axiom ..&gt; Thing : has_axiom_label
+          Axiom --|&gt; Thing : has_axiom_label
         
       Axiom : has_exact_synonym
         
       Axiom : has_synonym_type
         
-          Axiom ..&gt; AnnotationProperty : has_synonym_type
+          Axiom --|&gt; AnnotationProperty : has_synonym_type
         
       Axiom : is_a_defining_property_chain_axiom
         
@@ -140,7 +140,7 @@
         
       Axiom : seeAlso
         
-          Axiom ..&gt; Thing : seeAlso
+          Axiom --|&gt; Thing : seeAlso
         
       Axiom : source
         
@@ -236,7 +236,7 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="database_cross_reference.html"><span class="std std-doc">database_cross_reference</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="CURIELiteral.html"><span class="std std-doc">CURIELiteral</span></a></p></td>
-<td><p></p></td>
+<td><p>Uses to indicate the source of an axiom</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_exact_synonym.html"><span class="std std-doc">has_exact_synonym</span></a></p></td>

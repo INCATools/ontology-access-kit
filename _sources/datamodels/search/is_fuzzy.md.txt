@@ -11,9 +11,10 @@ URI: [ontosearch:is_fuzzy](https://w3id.org/oak/search-datamodel/is_fuzzy)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontosearch:is_fuzzy](https://w3id.org/oak/search-datamodel/is_fuzzy)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

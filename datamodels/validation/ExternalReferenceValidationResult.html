@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -98,35 +98,35 @@
         
       ExternalReferenceValidationResult : instantiates
         
-          ExternalReferenceValidationResult ..&gt; Node : instantiates
+          ExternalReferenceValidationResult --|&gt; Node : instantiates
         
       ExternalReferenceValidationResult : number_of_attempts
         
       ExternalReferenceValidationResult : object
         
-          ExternalReferenceValidationResult ..&gt; Node : object
+          ExternalReferenceValidationResult --|&gt; Node : object
         
       ExternalReferenceValidationResult : object_str
         
       ExternalReferenceValidationResult : predicate
         
-          ExternalReferenceValidationResult ..&gt; Node : predicate
+          ExternalReferenceValidationResult --|&gt; Node : predicate
         
       ExternalReferenceValidationResult : severity
         
-          ExternalReferenceValidationResult ..&gt; severity_options : severity
+          ExternalReferenceValidationResult --|&gt; severity_options : severity
         
       ExternalReferenceValidationResult : source
         
       ExternalReferenceValidationResult : subject
         
-          ExternalReferenceValidationResult ..&gt; Node : subject
+          ExternalReferenceValidationResult --|&gt; Node : subject
         
       ExternalReferenceValidationResult : time_checked
         
       ExternalReferenceValidationResult : type
         
-          ExternalReferenceValidationResult ..&gt; ConstraintComponent : type
+          ExternalReferenceValidationResult --|&gt; ConstraintComponent : type
         
       ExternalReferenceValidationResult : url
         

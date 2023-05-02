@@ -20,11 +20,10 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: side
+
+
 _left or right side_
+
 
 
 URI: [xodiff:side](https://w3id.org/oak/cross-ontology-diff/side)
@@ -18,6 +21,7 @@ URI: [xodiff:side](https://w3id.org/oak/cross-ontology-diff/side)
 
 
 
+
 ## Mixin Usage
 
 | mixed into | description | range | domain |
@@ -28,10 +32,8 @@ URI: [xodiff:side](https://w3id.org/oak/cross-ontology-diff/side)
 ## Properties
 
 * Range: [String](String.md)
+
 * Mixin: True
-
-
-
 
 
 

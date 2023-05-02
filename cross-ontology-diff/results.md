@@ -1,5 +1,8 @@
 # Slot: results
+
+
 _all differences between a pair of ontologies_
+
 
 
 URI: [xodiff:results](https://w3id.org/oak/cross-ontology-diff/results)
@@ -13,9 +16,10 @@ URI: [xodiff:results](https://w3id.org/oak/cross-ontology-diff/results)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [xodiff:results](https://w3id.org/oak/cross-ontology-diff/results)
 ## Properties
 
 * Range: [RelationalDiff](RelationalDiff.md)
+
 * Multivalued: True
-
-
-
 
 
 

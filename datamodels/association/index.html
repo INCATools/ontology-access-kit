@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Datamodels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../ontology-metadata/index.html">Ontology Metadata Ontology Schema</a></li>
@@ -80,9 +80,9 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -112,9 +112,15 @@
              
   <section id="oak-association-data-model">
 <h1>OAK Association Data Model<a class="headerlink" href="#oak-association-data-model" title="Permalink to this heading"></a></h1>
-<p>A datamodel for representing generic associations.</p>
-<p>The core datamodel is broad, encompassing the W3 Open Annotation data model as well
-as common ontology annotation data models using in the biosciences.</p>
+<p>A data model for representing generic associations and changes of these associations.</p>
+<p>The core data model is broad, encompassing the W3 Open Annotation data model as well
+as common ontology annotation data models using in the biosciences, such as the GAF
+data model used by the Gene Ontology, and the HPOA association model used by the Human Phenotype
+Ontology.</p>
+<p>The core elements of the data model are the <em>subject</em> (the entity being described) and the <em>object</em>
+(the term, descriptor, or other entity that describes some aspect of the subject).</p>
+<p>A subject might be a biological entity such as gene, drug, disease, person, or chemical. The object is typically
+a class from an ontology such as a term from GO.</p>
 <p>URI: https://w3id.org/oak/association
 Name: association</p>
 <section id="classes">
@@ -130,16 +136,16 @@ Name: association</p>
 <td><p>A generic association between a thing (subject) and another thing (object)</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="AssociationChange.html"><span class="std std-doc">AssociationChange</span></a></p></td>
-<td><p></p></td>
+<td><p>A change object describing a change between two associations</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="NegatedAssociation.html"><span class="std std-doc">NegatedAssociation</span></a></p></td>
 <td><p>A negated association between a thing (subject) and another thing (object)</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="PairwiseCoAssociation.html"><span class="std std-doc">PairwiseCoAssociation</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of subjects co-associated with two objects</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ParserConfiguration.html"><span class="std std-doc">ParserConfiguration</span></a></p></td>
-<td><p></p></td>
+<td><p>Settings that determine behavior when parsing associations</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 <td><p>A generic tag-value that can be associated with an association</p></td>
@@ -163,22 +169,34 @@ Name: association</p>
 <td><p>The knowledge source that aggregated the association</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="associations.html"><span class="std std-doc">associations</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of associations</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="associations_for_subjects_in_common.html"><span class="std std-doc">associations_for_subjects_in_common</span></a></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="closure_delta.html"><span class="std std-doc">closure_delta</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="closure_information_content_delta.html"><span class="std std-doc">closure_information_content_delta</span></a></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="closure_predicates.html"><span class="std std-doc">closure_predicates</span></a></p></td>
-<td><p></p></td>
+<td><p>The set of predicates used to determine if the new association object is a sp…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="creation_date.html"><span class="std std-doc">creation_date</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="core_triple.html"><span class="std std-doc">core_triple</span></a></p></td>
+<td><p>A grouping slot for the core subject-predicate-object triple</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="std std-doc">date</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="creation_date.html"><span class="std std-doc">creation_date</span></a></p></td>
+<td><p>The date the association was created</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="denormalized_slot.html"><span class="std std-doc">denormalized_slot</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="date.html"><span class="std std-doc">date</span></a></p></td>
+<td><p>The date the association was created or last updated</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="denormalized_slot.html"><span class="std std-doc">denormalized_slot</span></a></p></td>
 <td><p>denormalized slots are for models that follow a denormalized data model</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="diff_slot.html"><span class="std std-doc">diff_slot</span></a></p></td>
+<td><p>A mixin for any paired slot that pertains to an association diff</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="group_object.html"><span class="std std-doc">group_object</span></a></p></td>
 <td><p>An ontology entity that is the ancestor of the objects in the group’s</p></td>
@@ -193,112 +211,115 @@ Name: association</p>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_generalization.html"><span class="std std-doc">is_generalization</span></a></p></td>
-<td><p></p></td>
+<td><p>True if the association was inferred to become more general (based on closure…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_migration.html"><span class="std std-doc">is_migration</span></a></p></td>
-<td><p></p></td>
+<td><p>if the object (e</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_specialization.html"><span class="std std-doc">is_specialization</span></a></p></td>
-<td><p></p></td>
+<td><p>True if the association was inferred to become more specific (based on closur…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="modification_date.html"><span class="std std-doc">modification_date</span></a></p></td>
+<td><p>The date the association was last modified</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="negated.html"><span class="std std-doc">negated</span></a></p></td>
+<td><p>True if the association is negated - i</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="new_date.html"><span class="std std-doc">new_date</span></a></p></td>
+<td><p>The date of the new association</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="new_object.html"><span class="std std-doc">new_object</span></a></p></td>
+<td><p>The object (e</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="new_predicate.html"><span class="std std-doc">new_predicate</span></a></p></td>
+<td><p>If the association diff is a change in predicate, this is the predicate on th…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="number_subject_unique_to_entity1.html"><span class="std std-doc">number_subject_unique_to_entity1</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="new_date.html"><span class="std std-doc">new_date</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="number_subject_unique_to_entity2.html"><span class="std std-doc">number_subject_unique_to_entity2</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="new_object.html"><span class="std std-doc">new_object</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="number_subjects_in_common.html"><span class="std std-doc">number_subjects_in_common</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="new_predicate.html"><span class="std std-doc">new_predicate</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="number_subject_unique_to_entity1.html"><span class="std std-doc">number_subject_unique_to_entity1</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="number_subject_unique_to_entity2.html"><span class="std std-doc">number_subject_unique_to_entity2</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="number_subjects_in_common.html"><span class="std std-doc">number_subjects_in_common</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object.html"><span class="std std-doc">object</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="std std-doc">object</span></a></p></td>
 <td><p>An ontology entity that is associated with the subject</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object1.html"><span class="std std-doc">object1</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="object1.html"><span class="std std-doc">object1</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object1_label.html"><span class="std std-doc">object1_label</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object1_label.html"><span class="std std-doc">object1_label</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object2.html"><span class="std std-doc">object2</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="object2.html"><span class="std std-doc">object2</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object2_label.html"><span class="std std-doc">object2_label</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object2_label.html"><span class="std std-doc">object2_label</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="std std-doc">object_label</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_label.html"><span class="std std-doc">object_label</span></a></p></td>
 <td><p>The label of the ontology entity that is associated with the subject</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="old_date.html"><span class="std std-doc">old_date</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="old_date.html"><span class="std std-doc">old_date</span></a></p></td>
+<td><p>The date of the old association</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="old_object.html"><span class="std std-doc">old_object</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="old_object.html"><span class="std std-doc">old_object</span></a></p></td>
+<td><p>The object (e</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="old_object_obsolete.html"><span class="std std-doc">old_object_obsolete</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="old_object_obsolete.html"><span class="std std-doc">old_object_obsolete</span></a></p></td>
+<td><p>if the object (e</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="old_predicate.html"><span class="std std-doc">old_predicate</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="old_predicate.html"><span class="std std-doc">old_predicate</span></a></p></td>
+<td><p>If the association diff is a change in predicate, this is the predicate on th…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="original_object.html"><span class="std std-doc">original_object</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="original_object.html"><span class="std std-doc">original_object</span></a></p></td>
 <td><p>The original object of the association prior to normalization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="original_predicate.html"><span class="std std-doc">original_predicate</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="original_predicate.html"><span class="std std-doc">original_predicate</span></a></p></td>
 <td><p>The original subject of the association prior to normalization</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="original_subject.html"><span class="std std-doc">original_subject</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="original_subject.html"><span class="std std-doc">original_subject</span></a></p></td>
 <td><p>The original subject of the association prior to normalization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="std std-doc">predicate</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="std std-doc">predicate</span></a></p></td>
 <td><p>The type of relationship between the subject and object</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicate_label.html"><span class="std std-doc">predicate_label</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate_label.html"><span class="std std-doc">predicate_label</span></a></p></td>
 <td><p>The label of the type of relationship between the subject and object</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="preserve_negated_associations.html"><span class="std std-doc">preserve_negated_associations</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="preserve_negated_associations.html"><span class="std std-doc">preserve_negated_associations</span></a></p></td>
 <td><p>If true, then the parser will keep negated associations in the output</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
 <td><p>The primary knowledge source for the association</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
+<td><p>Arbitrary key-value pairs with additional information about the association</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="publication_is_added.html"><span class="std std-doc">publication_is_added</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="publication_is_added.html"><span class="std std-doc">publication_is_added</span></a></p></td>
+<td><p>True if the publication was not present in the old association set (and prese…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="publication_is_deleted.html"><span class="std std-doc">publication_is_deleted</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="publication_is_deleted.html"><span class="std std-doc">publication_is_deleted</span></a></p></td>
+<td><p>True if the publication is not present in the new association set (and presen…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="publications.html"><span class="std std-doc">publications</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="publications.html"><span class="std std-doc">publications</span></a></p></td>
 <td><p>The publications that support the association</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sub_groups.html"><span class="std std-doc">sub_groups</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sub_groups.html"><span class="std std-doc">sub_groups</span></a></p></td>
 <td><p>Container for groups within a rollup group</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
 <td><p>The thing which the association is about</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
 <td><p>The label of the thing which the association is about</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subjects_in_common.html"><span class="std std-doc">subjects_in_common</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subjects_in_common.html"><span class="std std-doc">subjects_in_common</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="summary_group.html"><span class="std std-doc">summary_group</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="summary_group.html"><span class="std std-doc">summary_group</span></a></p></td>
+<td><p>The field used to group an association diff summary</p></td>
 </tr>
 </tbody>
 </table>

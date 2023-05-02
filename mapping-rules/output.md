@@ -1,5 +1,8 @@
 # Slot: output
+
+
 _Output based on the rule._
+
 
 
 URI: [mappingrules:output](https://w3id.org/oak/mapping-rules-datamodel/output)
@@ -13,9 +16,10 @@ URI: [mappingrules:output](https://w3id.org/oak/mapping-rules-datamodel/output)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Test](Test.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Test](Test.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:output](https://w3id.org/oak/mapping-rules-datamodel/output)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

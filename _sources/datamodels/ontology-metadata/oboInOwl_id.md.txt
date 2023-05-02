@@ -11,11 +11,10 @@ URI: [oio:id](http://www.geneontology.org/formats/oboInOwl#id)
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

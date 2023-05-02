@@ -1,5 +1,8 @@
 # Slot: taxon
+
+
 _The taxon which this constraint is about. May be species or a more general class._
+
 
 
 URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
@@ -13,9 +16,10 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 ## Properties
 
 * Range: [Taxon](Taxon.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: type
+
+
 _The type of the item._
+
 
 
 URI: [itemList:type](https://w3id.org/linkml/item-list/type)
@@ -13,9 +16,10 @@ URI: [itemList:type](https://w3id.org/linkml/item-list/type)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Thing](Thing.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Thing](Thing.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [itemList:type](https://w3id.org/linkml/item-list/type)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

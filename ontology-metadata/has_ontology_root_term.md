@@ -16,9 +16,10 @@ URI: [IAO:0000700](http://purl.obolibrary.org/obo/IAO_0000700)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An OWL ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Ontology](Ontology.md) | An OWL ontology |  no  |
+
 
 
 
@@ -28,10 +29,8 @@ URI: [IAO:0000700](http://purl.obolibrary.org/obo/IAO_0000700)
 ## Properties
 
 * Range: [Class](Class.md)
+
 * Multivalued: True
-
-
-
 
 
 

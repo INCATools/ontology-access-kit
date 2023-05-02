@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -92,6 +92,8 @@
     class NegatedAssociation
       NegatedAssociation : aggregator_knowledge_source
         
+      NegatedAssociation : negated
+        
       NegatedAssociation : object
         
       NegatedAssociation : object_label
@@ -104,7 +106,7 @@
         
       NegatedAssociation : property_values
         
-          NegatedAssociation ..&gt; PropertyValue : property_values
+          NegatedAssociation --|&gt; PropertyValue : property_values
         
       NegatedAssociation : publications
         
@@ -142,7 +144,7 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>Arbitrary key-value pairs with additional information about the association</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
@@ -160,17 +162,22 @@
 <td><p>The label of the ontology entity that is associated with the subject</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="publications.html"><span class="std std-doc">publications</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="negated.html"><span class="std std-doc">negated</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>True if the association is negated - i</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="publications.html"><span class="std std-doc">publications</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The publications that support the association</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The primary knowledge source for the association</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="aggregator_knowledge_source.html"><span class="std std-doc">aggregator_knowledge_source</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="aggregator_knowledge_source.html"><span class="std std-doc">aggregator_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The knowledge source that aggregated the association</p></td>
 <td><p>direct</p></td>
@@ -224,9 +231,17 @@ slots:
 - subject_label
 - predicate_label
 - object_label
+- negated
 - publications
 - primary_knowledge_source
 - aggregator_knowledge_source
+slot_usage:
+  negated:
+    name: negated
+    domain_of:
+    - Association
+    - NegatedAssociation
+    equals_expression: 'True'
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -237,6 +252,13 @@ name: NegatedAssociation
 description: A negated association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
 rank: 1000
+slot_usage:
+  negated:
+    name: negated
+    domain_of:
+    - Association
+    - NegatedAssociation
+    equals_expression: &#39;True&#39;
 attributes:
   subject:
     name: subject
@@ -255,6 +277,7 @@ attributes:
     - Association
     - NegatedAssociation
     - AssociationChange
+    slot_group: core_triple
     range: uriorcurie
   predicate:
     name: predicate
@@ -268,6 +291,7 @@ attributes:
     - Association
     - NegatedAssociation
     - PropertyValue
+    slot_group: core_triple
     range: uriorcurie
   object:
     name: object
@@ -286,9 +310,11 @@ attributes:
     - Association
     - NegatedAssociation
     - PropertyValue
+    slot_group: core_triple
     range: uriorcurie
   property_values:
     name: property_values
+    description: Arbitrary key-value pairs with additional information about the association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     multivalued: true
@@ -341,6 +367,18 @@ attributes:
     - Association
     - NegatedAssociation
     range: string
+  negated:
+    name: negated
+    description: True if the association is negated - i.e the core triple is not true.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: negated
+    owner: NegatedAssociation
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: boolean
+    equals_expression: &#39;True&#39;
   publications:
     name: publications
     description: The publications that support the association

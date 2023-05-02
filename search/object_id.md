@@ -1,5 +1,8 @@
 # Slot: object_id
+
+
 _The CURIE of the matched term_
+
 
 
 URI: [sssom:object_id](http://w3id.org/sssom/object_id)
@@ -13,9 +16,10 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResult](SearchResult.md) | An individual search result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchResult](SearchResult.md) | An individual search result |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 ## Properties
 
 * Range: [String](String.md)
+
 * Required: True
-
-
-
 
 
 

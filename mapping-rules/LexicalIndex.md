@@ -1,5 +1,8 @@
 # Class: LexicalIndex
+
+
 _An index over an ontology keyed by lexical unit_
+
 
 
 
@@ -13,11 +16,11 @@ URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/Le
     class LexicalIndex
       LexicalIndex : groupings
         
-          LexicalIndex ..> LexicalGrouping : groupings
+          LexicalIndex --|> LexicalGrouping : groupings
         
       LexicalIndex : pipelines
         
-          LexicalIndex ..> LexicalTransformationPipeline : pipelines
+          LexicalIndex --|> LexicalTransformationPipeline : pipelines
         
       
 ```

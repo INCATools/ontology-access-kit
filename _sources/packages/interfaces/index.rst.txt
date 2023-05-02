@@ -14,8 +14,8 @@ has the method :meth:`oaklib.interfaces.search_interface.SearchInterface.basic_s
 
 .. code:: python
 
-    >>> from oaklib.implementations import UbergraphImplementation
-    >>> adapter = UbergraphImplementation()
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("ubergraph:")
     >>> for r in adapter.basic_search('CA4 hippocampus'):
     ...     print(r)
 
@@ -41,6 +41,7 @@ The most common operations are found in the :ref:`basic_ontology_interface`
    semantic-similarity
    association-provider
    class-enrichment
+   dumper
    owl
 
 .. note::

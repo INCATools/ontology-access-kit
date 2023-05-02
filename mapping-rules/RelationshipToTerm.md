@@ -1,5 +1,8 @@
 # Class: RelationshipToTerm
+
+
 _A relationship of an ontology element to a lexical term_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [mappingrules:RelationshipToTerm](https://w3id.org/oak/mapping-rules-datamo
         
       RelationshipToTerm : pipeline
         
-          RelationshipToTerm ..> LexicalTransformationPipeline : pipeline
+          RelationshipToTerm --|> LexicalTransformationPipeline : pipeline
         
       RelationshipToTerm : predicate
         

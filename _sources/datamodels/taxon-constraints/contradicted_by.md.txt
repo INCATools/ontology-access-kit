@@ -1,5 +1,8 @@
 # Slot: contradicted_by
+
+
 _If the taxon constraint conflicts with another,  then this is the set of taxon constraints that it is redundant with_
+
 
 
 URI: [tc:contradicted_by](https://w3id.org/linkml/taxon_constraints/contradicted_by)
@@ -13,9 +16,10 @@ URI: [tc:contradicted_by](https://w3id.org/linkml/taxon_constraints/contradicted
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [tc:contradicted_by](https://w3id.org/linkml/taxon_constraints/contradicted
 ## Properties
 
 * Range: [TaxonConstraint](TaxonConstraint.md)
+
 * Multivalued: True
-
-
-
 
 
 

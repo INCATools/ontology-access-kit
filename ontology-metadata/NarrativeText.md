@@ -1,7 +1,10 @@
 # Type: NarrativeText
 
 
+
+
 _A string that provides a human-readable description of something_
+
 
 
 URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)

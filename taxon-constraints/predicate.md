@@ -1,5 +1,8 @@
 # Slot: predicate
+
+
 _The relationship type for the contraint (e.g. in_taxon, never_in taxon)_
+
 
 
 URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
@@ -13,9 +16,10 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 ## Properties
 
 * Range: [PredicateTerm](PredicateTerm.md)
-
-
 
 
 

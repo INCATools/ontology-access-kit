@@ -11,9 +11,10 @@ URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_ma
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_ma
 ## Properties
 
 * Range: [BestMatch](BestMatch.md)
+
 * Multivalued: True
-
-
-
 
 
 

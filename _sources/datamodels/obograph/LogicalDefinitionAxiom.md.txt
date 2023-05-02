@@ -1,5 +1,8 @@
 # Class: LogicalDefinitionAxiom
+
+
 _An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia_
+
 
 
 
@@ -15,19 +18,19 @@ URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obograph
       
       LogicalDefinitionAxiom : definedClassId
         
-          LogicalDefinitionAxiom ..> None : definedClassId
+          LogicalDefinitionAxiom --|> None : definedClassId
         
       LogicalDefinitionAxiom : genusIds
         
-          LogicalDefinitionAxiom ..> None : genusIds
+          LogicalDefinitionAxiom --|> None : genusIds
         
       LogicalDefinitionAxiom : meta
         
-          LogicalDefinitionAxiom ..> Meta : meta
+          LogicalDefinitionAxiom --|> Meta : meta
         
       LogicalDefinitionAxiom : restrictions
         
-          LogicalDefinitionAxiom ..> ExistentialRestrictionExpression : restrictions
+          LogicalDefinitionAxiom --|> ExistentialRestrictionExpression : restrictions
         
       
 ```

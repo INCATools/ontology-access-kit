@@ -1,5 +1,10 @@
 # Slot: closure_predicates
 
+
+_The set of predicates used to determine if the new association object is a specialization or generalization of the old one._
+
+
+
 URI: [ontoassoc:closure_predicates](https://w3id.org/oak/association/closure_predicates)
 
 
@@ -11,9 +16,10 @@ URI: [ontoassoc:closure_predicates](https://w3id.org/oak/association/closure_pre
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[AssociationChange](AssociationChange.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [ontoassoc:closure_predicates](https://w3id.org/oak/association/closure_pre
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -53,6 +57,8 @@ URI: [ontoassoc:closure_predicates](https://w3id.org/oak/association/closure_pre
 <details>
 ```yaml
 name: closure_predicates
+description: The set of predicates used to determine if the new association object
+  is a specialization or generalization of the old one.
 from_schema: https://w3id.org/oak/association
 rank: 1000
 multivalued: true

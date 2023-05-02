@@ -1,5 +1,8 @@
 # Class: RepairReport
+
+
 _A report that consists of repair operation results_
+
 
 
 
@@ -15,7 +18,7 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
       
       RepairReport : results
         
-          RepairReport ..> RepairOperation : results
+          RepairReport --|> RepairOperation : results
         
       
 ```

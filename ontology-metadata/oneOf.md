@@ -16,11 +16,12 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[Class](Class.md) | 
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassExpression](ClassExpression.md) |  |  no  |
+[Class](Class.md) |  |  no  |
+[Restriction](Restriction.md) |  |  no  |
+
 
 
 
@@ -30,8 +31,6 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
-
-
 
 
 

@@ -1,5 +1,10 @@
 # Slot: new_date
 
+
+_The date of the new association_
+
+
+
 URI: [ontoassoc:new_date](https://w3id.org/oak/association/new_date)
 
 
@@ -8,7 +13,7 @@ URI: [ontoassoc:new_date](https://w3id.org/oak/association/new_date)
 ## Inheritance
 
 * [date](date.md)
-    * **new_date**
+    * **new_date** [ [diff_slot](diff_slot.md)]
 
 
 
@@ -16,9 +21,10 @@ URI: [ontoassoc:new_date](https://w3id.org/oak/association/new_date)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[AssociationChange](AssociationChange.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [ontoassoc:new_date](https://w3id.org/oak/association/new_date)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -56,9 +60,12 @@ URI: [ontoassoc:new_date](https://w3id.org/oak/association/new_date)
 <details>
 ```yaml
 name: new_date
+description: The date of the new association
 from_schema: https://w3id.org/oak/association
 rank: 1000
 is_a: date
+mixins:
+- diff_slot
 alias: new_date
 domain_of:
 - AssociationChange

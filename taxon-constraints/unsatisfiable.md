@@ -1,5 +1,8 @@
 # Slot: unsatisfiable
+
+
 _If true then some combination of taxon constraints plus ontology lead to contradictions_
+
 
 
 URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
@@ -13,9 +16,10 @@ URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

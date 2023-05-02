@@ -1,5 +1,8 @@
 # Slot: match
+
+
 _Reg-ex rule to match substrings in labels._
+
 
 
 URI: [mappingrules:match](https://w3id.org/oak/mapping-rules-datamodel/match)
@@ -13,9 +16,10 @@ URI: [mappingrules:match](https://w3id.org/oak/mapping-rules-datamodel/match)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Synonymizer](Synonymizer.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Synonymizer](Synonymizer.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:match](https://w3id.org/oak/mapping-rules-datamodel/match)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

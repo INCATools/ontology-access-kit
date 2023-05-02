@@ -11,9 +11,10 @@ URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_p
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PathExpression](PathExpression.md) | A path query
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PathExpression](PathExpression.md) | A path query |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_p
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 

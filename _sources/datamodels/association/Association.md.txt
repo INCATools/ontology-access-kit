@@ -1,5 +1,8 @@
 # Class: Association
+
+
 _A generic association between a thing (subject) and another thing (object)._
+
 
 
 
@@ -13,6 +16,8 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
     class Association
       Association : aggregator_knowledge_source
         
+      Association : negated
+        
       Association : object
         
       Association : object_label
@@ -25,7 +30,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
         
       Association : property_values
         
-          Association ..> PropertyValue : property_values
+          Association --|> PropertyValue : property_values
         
       Association : publications
         
@@ -49,10 +54,11 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [subject](subject.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The thing which the association is about | direct |
 | [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | direct |
 | [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | direct |
-| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) |  | direct |
+| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) | Arbitrary key-value pairs with additional information about the association | direct |
 | [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The label of the thing which the association is about | direct |
 | [predicate_label](predicate_label.md) | 0..1 <br/> [String](String.md) | The label of the type of relationship between the subject and object | direct |
 | [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | direct |
+| [negated](negated.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the association is negated - i | direct |
 | [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | direct |
 | [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | direct |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | direct |
@@ -121,9 +127,17 @@ slots:
 - subject_label
 - predicate_label
 - object_label
+- negated
 - publications
 - primary_knowledge_source
 - aggregator_knowledge_source
+slot_usage:
+  negated:
+    name: negated
+    domain_of:
+    - Association
+    - NegatedAssociation
+    equals_expression: 'False'
 class_uri: oa:Annotation
 
 ```
@@ -137,6 +151,13 @@ name: Association
 description: A generic association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
 rank: 1000
+slot_usage:
+  negated:
+    name: negated
+    domain_of:
+    - Association
+    - NegatedAssociation
+    equals_expression: 'False'
 attributes:
   subject:
     name: subject
@@ -155,6 +176,7 @@ attributes:
     - Association
     - NegatedAssociation
     - AssociationChange
+    slot_group: core_triple
     range: uriorcurie
   predicate:
     name: predicate
@@ -168,6 +190,7 @@ attributes:
     - Association
     - NegatedAssociation
     - PropertyValue
+    slot_group: core_triple
     range: uriorcurie
   object:
     name: object
@@ -186,9 +209,11 @@ attributes:
     - Association
     - NegatedAssociation
     - PropertyValue
+    slot_group: core_triple
     range: uriorcurie
   property_values:
     name: property_values
+    description: Arbitrary key-value pairs with additional information about the association
     from_schema: https://w3id.org/oak/association
     rank: 1000
     multivalued: true
@@ -241,6 +266,18 @@ attributes:
     - Association
     - NegatedAssociation
     range: string
+  negated:
+    name: negated
+    description: True if the association is negated - i.e the core triple is not true.
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: negated
+    owner: Association
+    domain_of:
+    - Association
+    - NegatedAssociation
+    range: boolean
+    equals_expression: 'False'
   publications:
     name: publications
     description: The publications that support the association

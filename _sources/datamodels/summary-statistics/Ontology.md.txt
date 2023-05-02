@@ -1,5 +1,8 @@
 # Class: Ontology
+
+
 _An ontology_
+
 
 
 
@@ -36,7 +39,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [id](id.md) | 1..1 <br/> [String](String.md) | the unique identifier for the resource | direct |
 | [description](description.md) | 0..1 <br/> [String](String.md) | a description of the resource | direct |
 | [title](title.md) | 0..1 <br/> [String](String.md) | the title of the resource | direct |
 | [prefix](prefix.md) | 0..1 <br/> [String](String.md) | the prefix for the ontology | direct |

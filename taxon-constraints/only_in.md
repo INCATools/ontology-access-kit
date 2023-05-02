@@ -1,6 +1,10 @@
 # Slot: only_in
-_Points to a taxon constraint that states the SubjectTerm is ONLY found in a taxon or descendant. Formally, the term AND its descendants MUST be in the specified taxon, or a descendant of that taxon
-_
+
+
+_Points to a taxon constraint that states the SubjectTerm is ONLY found in a taxon or descendant. Formally, the term AND its descendants MUST be in the specified taxon, or a descendant of that taxon_
+
+__
+
 
 
 URI: [RO:0002160](http://purl.obolibrary.org/obo/RO_0002160)
@@ -14,9 +18,10 @@ URI: [RO:0002160](http://purl.obolibrary.org/obo/RO_0002160)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
+
 
 
 
@@ -26,10 +31,8 @@ URI: [RO:0002160](http://purl.obolibrary.org/obo/RO_0002160)
 ## Properties
 
 * Range: [TaxonConstraint](TaxonConstraint.md)
+
 * Multivalued: True
-
-
-
 
 
 

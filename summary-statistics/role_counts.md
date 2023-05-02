@@ -11,9 +11,10 @@ URI: [summary_statistics:role_counts](https://w3id.org/oaklib/summary_statistics
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [summary_statistics:role_counts](https://w3id.org/oaklib/summary_statistics
 ## Properties
 
 * Range: [FacetedCount](FacetedCount.md)
+
 * Multivalued: True
-
-
-
 
 
 

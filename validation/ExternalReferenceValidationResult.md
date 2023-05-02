@@ -1,5 +1,8 @@
 # Class: ExternalReferenceValidationResult
+
+
 _A validation result where the check is to determine if a link to an external resource is still valid_
+
 
 
 
@@ -19,35 +22,35 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
         
       ExternalReferenceValidationResult : instantiates
         
-          ExternalReferenceValidationResult ..> Node : instantiates
+          ExternalReferenceValidationResult --|> Node : instantiates
         
       ExternalReferenceValidationResult : number_of_attempts
         
       ExternalReferenceValidationResult : object
         
-          ExternalReferenceValidationResult ..> Node : object
+          ExternalReferenceValidationResult --|> Node : object
         
       ExternalReferenceValidationResult : object_str
         
       ExternalReferenceValidationResult : predicate
         
-          ExternalReferenceValidationResult ..> Node : predicate
+          ExternalReferenceValidationResult --|> Node : predicate
         
       ExternalReferenceValidationResult : severity
         
-          ExternalReferenceValidationResult ..> severity_options : severity
+          ExternalReferenceValidationResult --|> severity_options : severity
         
       ExternalReferenceValidationResult : source
         
       ExternalReferenceValidationResult : subject
         
-          ExternalReferenceValidationResult ..> Node : subject
+          ExternalReferenceValidationResult --|> Node : subject
         
       ExternalReferenceValidationResult : time_checked
         
       ExternalReferenceValidationResult : type
         
-          ExternalReferenceValidationResult ..> ConstraintComponent : type
+          ExternalReferenceValidationResult --|> ConstraintComponent : type
         
       ExternalReferenceValidationResult : url
         

@@ -11,9 +11,10 @@ URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

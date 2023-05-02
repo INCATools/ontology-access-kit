@@ -16,9 +16,10 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An OWL ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Ontology](Ontology.md) | An OWL ontology |  yes  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 

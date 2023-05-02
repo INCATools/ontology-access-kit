@@ -1,5 +1,8 @@
 # Slot: oneway
+
+
 _if true then subject and object can be switched and predicate inverted_
+
 
 
 URI: [mappingrules:oneway](https://w3id.org/oak/mapping-rules-datamodel/oneway)
@@ -13,9 +16,10 @@ URI: [mappingrules:oneway](https://w3id.org/oak/mapping-rules-datamodel/oneway)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:oneway](https://w3id.org/oak/mapping-rules-datamodel/oneway)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

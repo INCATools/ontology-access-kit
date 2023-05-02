@@ -1,5 +1,8 @@
 # Class: Agent
+
+
 _An agent_
+
 
 
 
@@ -28,7 +31,7 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [id](id.md) | 1..1 <br/> [String](String.md) | the unique identifier for the agent | direct |
 | [label](label.md) | 0..1 <br/> [String](String.md) | the label for the agent | direct |
 
 

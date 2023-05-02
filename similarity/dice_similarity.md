@@ -16,9 +16,10 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 ## Properties
 
 * Range: [ZeroToOne](ZeroToOne.md)
-
-
 
 
 

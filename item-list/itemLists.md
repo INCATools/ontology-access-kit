@@ -11,9 +11,10 @@ URI: [itemList:itemLists](https://w3id.org/linkml/item-list/itemLists)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemListCollection](ItemListCollection.md) | a set of item lists
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemListCollection](ItemListCollection.md) | a set of item lists |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [itemList:itemLists](https://w3id.org/linkml/item-list/itemLists)
 ## Properties
 
 * Range: [ItemList](ItemList.md)
+
 * Multivalued: True
-
-
-
 
 
 

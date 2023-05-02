@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -112,27 +112,27 @@
         
       Term : broadMatch
         
-          Term ..&gt; Thing : broadMatch
+          Term --|&gt; Thing : broadMatch
         
       Term : category
         
       Term : closeMatch
         
-          Term ..&gt; Thing : closeMatch
+          Term --|&gt; Thing : closeMatch
         
       Term : comment
         
       Term : conformsTo
         
-          Term ..&gt; Thing : conformsTo
+          Term --|&gt; Thing : conformsTo
         
       Term : consider
         
-          Term ..&gt; Any : consider
+          Term --|&gt; Any : consider
         
       Term : contributor
         
-          Term ..&gt; Agent : contributor
+          Term --|&gt; Agent : contributor
         
       Term : created
         
@@ -142,7 +142,7 @@
         
       Term : creator
         
-          Term ..&gt; Agent : creator
+          Term --|&gt; Agent : creator
         
       Term : curator_note
         
@@ -156,7 +156,7 @@
         
       Term : depicted_by
         
-          Term ..&gt; Image : depicted_by
+          Term --|&gt; Image : depicted_by
         
       Term : deprecated
         
@@ -166,17 +166,17 @@
         
       Term : exactMatch
         
-          Term ..&gt; Thing : exactMatch
+          Term --|&gt; Thing : exactMatch
         
       Term : example_of_usage
         
       Term : excluded_from_QC_check
         
-          Term ..&gt; Thing : excluded_from_QC_check
+          Term --|&gt; Thing : excluded_from_QC_check
         
       Term : excluded_subClassOf
         
-          Term ..&gt; Class : excluded_subClassOf
+          Term --|&gt; Class : excluded_subClassOf
         
       Term : excluded_synonym
         
@@ -202,27 +202,27 @@
         
       Term : image
         
-          Term ..&gt; Thing : image
+          Term --|&gt; Thing : image
         
       Term : imported_from
         
-          Term ..&gt; NamedIndividual : imported_from
+          Term --|&gt; NamedIndividual : imported_from
         
       Term : in_subset
         
-          Term ..&gt; Subset : in_subset
+          Term --|&gt; Subset : in_subset
         
       Term : ISA_alternative_term
         
       Term : isDefinedBy
         
-          Term ..&gt; Ontology : isDefinedBy
+          Term --|&gt; Ontology : isDefinedBy
         
       Term : label
         
       Term : narrowMatch
         
-          Term ..&gt; Thing : narrowMatch
+          Term --|&gt; Thing : narrowMatch
         
       Term : OBO_foundry_unique_label
         
@@ -232,17 +232,17 @@
         
       Term : seeAlso
         
-          Term ..&gt; Thing : seeAlso
+          Term --|&gt; Thing : seeAlso
         
       Term : should_conform_to
         
-          Term ..&gt; Thing : should_conform_to
+          Term --|&gt; Thing : should_conform_to
         
       Term : term_editor
         
       Term : term_replaced_by
         
-          Term ..&gt; Any : term_replaced_by
+          Term --|&gt; Any : term_replaced_by
         
       Term : term_tracker_item
         

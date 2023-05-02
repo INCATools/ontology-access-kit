@@ -21,7 +21,7 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
         
       HasSpan : subject_text_id
         
-          HasSpan ..> TextualElement : subject_text_id
+          HasSpan --|> TextualElement : subject_text_id
         
       
 ```

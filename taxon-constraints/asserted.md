@@ -1,5 +1,8 @@
 # Slot: asserted
+
+
 _holds if the constraint is asserted in the source ontology, rather than inferred by rules or reasoning_
+
 
 
 URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
@@ -13,9 +16,10 @@ URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

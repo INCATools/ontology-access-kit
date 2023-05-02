@@ -1,5 +1,8 @@
 # Slot: left_object_id
+
+
 _The object (parent) of the source/left edge_
+
 
 
 URI: [xodiff:left_object_id](https://w3id.org/oak/cross-ontology-diff/left_object_id)
@@ -17,9 +20,10 @@ URI: [xodiff:left_object_id](https://w3id.org/oak/cross-ontology-diff/left_objec
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+
 
 
 
@@ -29,10 +33,8 @@ URI: [xodiff:left_object_id](https://w3id.org/oak/cross-ontology-diff/left_objec
 ## Properties
 
 * Range: [EntityReference](EntityReference.md)
+
 * Required: True
-
-
-
 
 
 

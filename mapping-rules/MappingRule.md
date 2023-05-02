@@ -1,5 +1,8 @@
 # Class: MappingRule
+
+
 _An individual mapping rule, if preconditions match the postconditions are applied_
+
 
 
 
@@ -17,15 +20,15 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
         
       MappingRule : postconditions
         
-          MappingRule ..> Postcondition : postconditions
+          MappingRule --|> Postcondition : postconditions
         
       MappingRule : preconditions
         
-          MappingRule ..> Precondition : preconditions
+          MappingRule --|> Precondition : preconditions
         
       MappingRule : synonymizer
         
-          MappingRule ..> Synonymizer : synonymizer
+          MappingRule --|> Synonymizer : synonymizer
         
       
 ```

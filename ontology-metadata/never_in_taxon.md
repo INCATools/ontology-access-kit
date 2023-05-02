@@ -11,9 +11,10 @@ URI: [RO:0002161](http://purl.obolibrary.org/obo/RO_0002161)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Class](Class.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Class](Class.md) |  |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [RO:0002161](http://purl.obolibrary.org/obo/RO_0002161)
 ## Properties
 
 * Range: [Class](Class.md)
+
 * Multivalued: True
-
-
-
 
 
 

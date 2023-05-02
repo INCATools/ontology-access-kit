@@ -1,5 +1,8 @@
 # Class: ValidationReport
+
+
 _A report that consists of validation results_
+
 
 
 
@@ -15,7 +18,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
       
       ValidationReport : results
         
-          ValidationReport ..> ValidationResult : results
+          ValidationReport --|> ValidationResult : results
         
       
 ```

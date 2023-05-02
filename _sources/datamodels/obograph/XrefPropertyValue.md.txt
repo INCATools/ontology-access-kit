@@ -1,5 +1,8 @@
 # Class: XrefPropertyValue
+
+
 _A property value that represents an assertion about an external reference to an entity_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
         
       XrefPropertyValue : meta
         
-          XrefPropertyValue ..> Meta : meta
+          XrefPropertyValue --|> Meta : meta
         
       XrefPropertyValue : pred
         

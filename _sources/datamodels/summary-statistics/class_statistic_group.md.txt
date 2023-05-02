@@ -11,11 +11,10 @@ URI: [summary_statistics:class_statistic_group](https://w3id.org/oaklib/summary_
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

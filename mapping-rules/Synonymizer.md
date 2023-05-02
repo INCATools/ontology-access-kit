@@ -21,7 +21,7 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
         
       Synonymizer : tests
         
-          Synonymizer ..> Test : tests
+          Synonymizer --|> Test : tests
         
       Synonymizer : the_rule
         
@@ -43,7 +43,7 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 | [match_scope](match_scope.md) | 0..1 <br/> [String](String.md) | Scope of the reg-ex rule | direct |
 | [replacement](replacement.md) | 0..1 <br/> [String](String.md) | Reg-ex rule to replace substrings in labels | direct |
 | [qualifier](qualifier.md) | 0..1 <br/> [String](String.md) | Type of match for the new synonym generated | direct |
-| [prefix](prefix.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [prefix](prefix.md) | 0..1 <br/> [String](String.md) | The rule applies to nodes of a specific prefix | direct |
 | [tests](tests.md) | 0..1 <br/> [Test](Test.md) | Unit tests for each rules | direct |
 
 

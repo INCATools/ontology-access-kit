@@ -16,9 +16,10 @@ URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Restriction](Restriction.md) |  |  no  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

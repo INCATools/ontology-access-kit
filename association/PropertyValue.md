@@ -1,5 +1,8 @@
 # Class: PropertyValue
+
+
 _A generic tag-value that can be associated with an association._
+
 
 
 
@@ -115,6 +118,7 @@ attributes:
     - Association
     - NegatedAssociation
     - PropertyValue
+    slot_group: core_triple
     range: uriorcurie
   object:
     name: object
@@ -133,6 +137,7 @@ attributes:
     - Association
     - NegatedAssociation
     - PropertyValue
+    slot_group: core_triple
     range: uriorcurie
 
 ```

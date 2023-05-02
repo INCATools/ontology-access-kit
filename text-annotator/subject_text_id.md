@@ -11,10 +11,11 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasSpan](HasSpan.md) | 
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[HasSpan](HasSpan.md) |  |  no  |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -24,8 +25,6 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 ## Properties
 
 * Range: [TextualElement](TextualElement.md)
-
-
 
 
 

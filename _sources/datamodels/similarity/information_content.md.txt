@@ -1,5 +1,8 @@
 # Slot: information_content
+
+
 _The IC is the negative log of the probability of the concept_
+
 
 
 URI: [sim:information_content](https://w3id.org/linkml/similarity/information_content)
@@ -21,11 +24,10 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
 
 
 
+
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
-
-
 
 
 

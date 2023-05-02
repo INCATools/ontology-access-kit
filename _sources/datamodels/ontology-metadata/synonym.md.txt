@@ -19,13 +19,12 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 
 
 
+
 ## Properties
 
 * Range: [LabelType](LabelType.md)
+
 * Multivalued: True
-
-
-
 
 
 

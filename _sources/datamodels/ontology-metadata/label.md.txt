@@ -16,21 +16,22 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model
-[Axiom](Axiom.md) | A logical or non-logical statement
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+[Class](Class.md) |  |  yes  |
+[Property](Property.md) |  |  yes  |
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+[HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+[Agent](Agent.md) |  |  no  |
+[Image](Image.md) |  |  no  |
+[Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+
 
 
 
@@ -40,8 +41,6 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ## Properties
 
 * Range: [LabelType](LabelType.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: was_associated_with
+
+
 _the agent that was associated with the activity_
+
 
 
 URI: [prov:wasAssociatedWith](http://www.w3.org/ns/prov#wasAssociatedWith)
@@ -13,9 +16,10 @@ URI: [prov:wasAssociatedWith](http://www.w3.org/ns/prov#wasAssociatedWith)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [prov:wasAssociatedWith](http://www.w3.org/ns/prov#wasAssociatedWith)
 ## Properties
 
 * Range: [Agent](Agent.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: rank
+
+
 _The rank of this result_
+
 
 
 URI: [ontoenrich:rank](https://w3id.org/oak/class-enrichment/rank)
@@ -13,9 +16,10 @@ URI: [ontoenrich:rank](https://w3id.org/oak/class-enrichment/rank)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [ontoenrich:rank](https://w3id.org/oak/class-enrichment/rank)
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

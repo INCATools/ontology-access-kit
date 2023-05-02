@@ -1,5 +1,8 @@
 # Slot: denormalized_slot
+
+
 _denormalized slots are for models that follow a denormalized data model_
+
 
 
 URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized_slot)
@@ -7,6 +10,7 @@ URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized
 ## Properties
 
 * Range: NONE
+
 * Mixin: True
-
-
-
 
 
 

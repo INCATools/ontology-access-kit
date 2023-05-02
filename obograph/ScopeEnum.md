@@ -1,7 +1,10 @@
 # Enum: ScopeEnum
 
 
+
+
 _A vocabulary of terms that can be used to "scope" a synonym_
+
 
 
 URI: [ScopeEnum](ScopeEnum)

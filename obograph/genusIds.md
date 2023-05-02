@@ -1,5 +1,8 @@
 # Slot: genusIds
+
+
 _The set of classes that are the genus of the defined class_
+
 
 
 URI: [obographs:genusIds](https://github.com/geneontology/obographs/genusIds)
@@ -13,9 +16,10 @@ URI: [obographs:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |  no  |
+
 
 
 
@@ -24,13 +28,11 @@ URI: [obographs:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 ## Properties
 
-* Range: [String](String.md)
+* Range: NONE
+
 * Multivalued: True
 
 * Recommended: True
-
-
-
 
 
 
@@ -77,7 +79,6 @@ alias: genusIds
 owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
-range: string
 recommended: true
 
 ```

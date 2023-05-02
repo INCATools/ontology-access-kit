@@ -1,5 +1,8 @@
 # Slot: p_value
+
+
 _The p-value_
+
 
 
 URI: [OBI:0000175](http://purl.obolibrary.org/obo/OBI_0000175)
@@ -13,9 +16,10 @@ URI: [OBI:0000175](http://purl.obolibrary.org/obo/OBI_0000175)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [OBI:0000175](http://purl.obolibrary.org/obo/OBI_0000175)
 ## Properties
 
 * Range: [Float](Float.md)
+
 * Required: True
-
-
-
 
 
 

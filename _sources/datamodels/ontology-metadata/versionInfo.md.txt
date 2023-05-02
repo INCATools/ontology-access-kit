@@ -16,9 +16,10 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An OWL ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Ontology](Ontology.md) | An OWL ontology |  yes  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

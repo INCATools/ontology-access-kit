@@ -11,9 +11,10 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Postcondition](Postcondition.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Postcondition](Postcondition.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

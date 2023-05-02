@@ -1,5 +1,8 @@
 # Class: LexicalTransformation
+
+
 _An atomic lexical transformation applied on a term (string) yielding a transformed string_
+
 
 
 
@@ -15,11 +18,11 @@ URI: [ontolexindex:LexicalTransformation](https://w3id.org/oak/lexical-index/Lex
       
       LexicalTransformation : params
         
-          LexicalTransformation ..> Any : params
+          LexicalTransformation --|> Any : params
         
       LexicalTransformation : type
         
-          LexicalTransformation ..> TransformationType : type
+          LexicalTransformation --|> TransformationType : type
         
       
 ```

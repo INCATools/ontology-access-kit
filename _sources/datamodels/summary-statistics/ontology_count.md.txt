@@ -1,5 +1,8 @@
 # Slot: ontology_count
+
+
 _Number of ontologies (including imports) for the ontology or subset_
+
 
 
 URI: [summary_statistics:ontology_count](https://w3id.org/oaklib/summary_statistics.ontology_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:ontology_count](https://w3id.org/oaklib/summary_statist
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:ontology_count](https://w3id.org/oaklib/summary_statist
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

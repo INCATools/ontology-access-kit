@@ -1,5 +1,8 @@
 # Slot: pipelines
+
+
 _all pipelines used to build the index_
+
 
 
 URI: [mappingrules:pipelines](https://w3id.org/oak/mapping-rules-datamodel/pipelines)
@@ -13,9 +16,10 @@ URI: [mappingrules:pipelines](https://w3id.org/oak/mapping-rules-datamodel/pipel
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [mappingrules:pipelines](https://w3id.org/oak/mapping-rules-datamodel/pipel
 ## Properties
 
 * Range: [LexicalTransformationPipeline](LexicalTransformationPipeline.md)
+
 * Multivalued: True
-
-
-
 
 
 

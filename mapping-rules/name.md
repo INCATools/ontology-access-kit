@@ -11,9 +11,10 @@ URI: [mappingrules:name](https://w3id.org/oak/mapping-rules-datamodel/name)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [mappingrules:name](https://w3id.org/oak/mapping-rules-datamodel/name)
 ## Properties
 
 * Range: [String](String.md)
+
 * Required: True
-
-
-
 
 
 

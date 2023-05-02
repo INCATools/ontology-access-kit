@@ -1,5 +1,8 @@
 # Slot: search_terms
+
+
 _An individual search term. The syntax is determined by the syntax slot_
+
 
 
 URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_terms)
@@ -13,9 +16,10 @@ URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_term
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_term
 ## Properties
 
 * Range: [SearchTerm](SearchTerm.md)
+
 * Multivalued: True
-
-
-
 
 
 

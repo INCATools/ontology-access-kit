@@ -11,9 +11,10 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/omo/schema/has_rank)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Class](Class.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Class](Class.md) |  |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/omo/schema/has_rank)
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 

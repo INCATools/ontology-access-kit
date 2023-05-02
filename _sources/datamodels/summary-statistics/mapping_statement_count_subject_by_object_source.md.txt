@@ -1,5 +1,8 @@
 # Slot: mapping_statement_count_subject_by_object_source
+
+
 _Number of distinct subject entities grouped by object_source (prefix of external vocabulary) in the ontology or subset_
+
 
 
 URI: [summary_statistics:mapping_statement_count_subject_by_object_source](https://w3id.org/oaklib/summary_statistics.mapping_statement_count_subject_by_object_source)
@@ -13,9 +16,10 @@ URI: [summary_statistics:mapping_statement_count_subject_by_object_source](https
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [summary_statistics:mapping_statement_count_subject_by_object_source](https
 ## Properties
 
 * Range: [FacetedCount](FacetedCount.md)
+
 * Multivalued: True
-
-
-
 
 
 

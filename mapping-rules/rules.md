@@ -1,5 +1,8 @@
 # Slot: rules
+
+
 _all rules_
+
 
 
 URI: [mappingrules:rules](https://w3id.org/oak/mapping-rules-datamodel/rules)
@@ -13,9 +16,10 @@ URI: [mappingrules:rules](https://w3id.org/oak/mapping-rules-datamodel/rules)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [mappingrules:rules](https://w3id.org/oak/mapping-rules-datamodel/rules)
 ## Properties
 
 * Range: [MappingRule](MappingRule.md)
+
 * Multivalued: True
-
-
-
 
 
 

@@ -1,6 +1,10 @@
 # Slot: elementId
-_The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field, for example symbol
-_
+
+
+_The identifier of the item. Note this can be a 'proper' CURIE ID or any other unique field, for example symbol_
+
+__
+
 
 
 URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
@@ -14,9 +18,10 @@ URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ListItem](ListItem.md) | an item in an item list
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ListItem](ListItem.md) | an item in an item list |  no  |
+
 
 
 
@@ -26,10 +31,8 @@ URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
 ## Properties
 
 * Range: [String](String.md)
+
 * Required: True
-
-
-
 
 
 

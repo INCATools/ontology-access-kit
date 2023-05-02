@@ -1,5 +1,8 @@
 # Class: TextAnnotation
+
+
 _An individual text annotation_
+
 
 
 
@@ -45,7 +48,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
         
       TextAnnotation : subject_text_id
         
-          TextAnnotation ..> TextualElement : subject_text_id
+          TextAnnotation --|> TextualElement : subject_text_id
         
       
 ```
@@ -70,7 +73,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [confidence](confidence.md) | 0..1 <br/> [Float](Float.md) |  | direct |
 | [match_string](match_string.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [is_longest_match](is_longest_match.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 | [match_type](match_type.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [info](info.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [object_aliases](object_aliases.md) | 0..* <br/> [String](String.md) |  | direct |

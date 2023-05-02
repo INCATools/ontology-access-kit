@@ -1,5 +1,8 @@
 # Slot: replacement
+
+
 _Reg-ex rule to replace substrings in labels_
+
 
 
 URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/replacement)
@@ -13,9 +16,10 @@ URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/rep
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Synonymizer](Synonymizer.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Synonymizer](Synonymizer.md) |  |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/rep
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

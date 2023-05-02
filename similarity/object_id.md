@@ -1,5 +1,8 @@
 # Slot: object_id
+
+
 _The second of the two entities being compared_
+
 
 
 URI: [sssom:object_id](http://w3id.org/sssom/object_id)
@@ -13,9 +16,10 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

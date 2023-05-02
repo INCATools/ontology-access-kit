@@ -1,5 +1,8 @@
 # Slot: item
+
+
 _The item represented by the list item_
+
 
 
 URI: [schema:item](http://schema.org/item)
@@ -13,9 +16,10 @@ URI: [schema:item](http://schema.org/item)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ListItem](ListItem.md) | an item in an item list
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ListItem](ListItem.md) | an item in an item list |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [schema:item](http://schema.org/item)
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 

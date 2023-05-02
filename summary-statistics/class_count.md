@@ -1,5 +1,8 @@
 # Slot: class_count
+
+
 _Number of classes in the ontology or subset_
+
 
 
 URI: [summary_statistics:class_count](https://w3id.org/oaklib/summary_statistics.class_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:class_count](https://w3id.org/oaklib/summary_statistics
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:class_count](https://w3id.org/oaklib/summary_statistics
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

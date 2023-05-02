@@ -16,9 +16,10 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -28,8 +29,6 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 

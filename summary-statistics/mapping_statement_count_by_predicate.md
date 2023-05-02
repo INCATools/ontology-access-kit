@@ -1,5 +1,8 @@
 # Slot: mapping_statement_count_by_predicate
+
+
 _Number of mappings grouped by predicate (e.g. xref, skos predicate) in the ontology or subset_
+
 
 
 URI: [summary_statistics:mapping_statement_count_by_predicate](https://w3id.org/oaklib/summary_statistics.mapping_statement_count_by_predicate)
@@ -13,9 +16,10 @@ URI: [summary_statistics:mapping_statement_count_by_predicate](https://w3id.org/
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [summary_statistics:mapping_statement_count_by_predicate](https://w3id.org/
 ## Properties
 
 * Range: [FacetedCount](FacetedCount.md)
+
 * Multivalued: True
-
-
-
 
 
 

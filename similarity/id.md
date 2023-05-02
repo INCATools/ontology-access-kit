@@ -11,9 +11,10 @@ URI: [sim:id](https://w3id.org/linkml/similarity/id)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermInfo](TermInfo.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermInfo](TermInfo.md) |  |  no  |
+
 
 
 
@@ -23,10 +24,8 @@ URI: [sim:id](https://w3id.org/linkml/similarity/id)
 ## Properties
 
 * Range: [String](String.md)
+
 * Required: True
-
-
-
 
 
 

@@ -11,9 +11,10 @@ URI: [ontosearch:traversal](https://w3id.org/oak/search-datamodel/traversal)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PathExpression](PathExpression.md) | A path query
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PathExpression](PathExpression.md) | A path query |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontosearch:traversal](https://w3id.org/oak/search-datamodel/traversal)
 ## Properties
 
 * Range: [GraphFunction](GraphFunction.md)
-
-
 
 
 

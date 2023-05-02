@@ -1,5 +1,8 @@
 # Slot: subject_label
+
+
 _The label of the thing which the association is about._
+
 
 
 URI: [sssom:subject_label](https://w3id.org/sssom/subject_label)
@@ -17,10 +20,11 @@ URI: [sssom:subject_label](https://w3id.org/sssom/subject_label)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [sssom:subject_label](https://w3id.org/sssom/subject_label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

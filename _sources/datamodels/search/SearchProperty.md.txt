@@ -1,7 +1,10 @@
 # Enum: SearchProperty
 
 
+
+
 _A property that can be searched on_
+
 
 
 URI: [SearchProperty](SearchProperty)

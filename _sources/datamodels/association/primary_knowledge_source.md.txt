@@ -1,5 +1,8 @@
 # Slot: primary_knowledge_source
+
+
 _The primary knowledge source for the association_
+
 
 
 URI: [biolink:primary_knowledge_source](https://w3id.org/biolink/vocab/primary_knowledge_source)
@@ -13,12 +16,13 @@ URI: [biolink:primary_knowledge_source](https://w3id.org/biolink/vocab/primary_k
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object)
-[AssociationChange](AssociationChange.md) | 
-[ParserConfiguration](ParserConfiguration.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
+[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+[ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |  no  |
+
 
 
 
@@ -28,8 +32,6 @@ URI: [biolink:primary_knowledge_source](https://w3id.org/biolink/vocab/primary_k
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 

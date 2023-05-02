@@ -1,7 +1,10 @@
 # Type: CURIELiteral
 
 
+
+
 _A string representation of a CURIE_
+
 
 
 URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)

@@ -1,5 +1,8 @@
 # Slot: object_source_version
+
+
 _Version IRI or version string of the source of the object term._
+
 
 
 URI: [sssom:object_source_version](http://w3id.org/sssom/object_source_version)
@@ -13,9 +16,10 @@ URI: [sssom:object_source_version](http://w3id.org/sssom/object_source_version)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResult](SearchResult.md) | An individual search result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[SearchResult](SearchResult.md) | An individual search result |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [sssom:object_source_version](http://w3id.org/sssom/object_source_version)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

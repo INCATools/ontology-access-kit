@@ -1,5 +1,8 @@
 # Slot: id
+
+
 _this maps to the URI in RDF_
+
 
 
 URI: [omoschema:id](http://purl.obolibrary.org/obo/omo/schema/id)
@@ -18,21 +21,22 @@ URI: [omoschema:id](http://purl.obolibrary.org/obo/omo/schema/id)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[NamedObject](NamedObject.md) | Anything with an IRI
-[Ontology](Ontology.md) | An OWL ontology
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[NamedObject](NamedObject.md) | Anything with an IRI |  no  |
+[Ontology](Ontology.md) | An OWL ontology |  no  |
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+[Class](Class.md) |  |  no  |
+[Property](Property.md) |  |  no  |
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+[HomoSapiens](HomoSapiens.md) | An individual human being |  yes  |
+[Agent](Agent.md) |  |  yes  |
+[Image](Image.md) |  |  no  |
+[Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+
 
 
 
@@ -42,10 +46,8 @@ URI: [omoschema:id](http://purl.obolibrary.org/obo/omo/schema/id)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Required: True
-
-
-
 
 
 

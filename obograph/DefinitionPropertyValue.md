@@ -1,5 +1,8 @@
 # Class: DefinitionPropertyValue
+
+
 _A property value that represents an assertion about the textual definition of an entity_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
         
       DefinitionPropertyValue : meta
         
-          DefinitionPropertyValue ..> Meta : meta
+          DefinitionPropertyValue --|> Meta : meta
         
       DefinitionPropertyValue : pred
         

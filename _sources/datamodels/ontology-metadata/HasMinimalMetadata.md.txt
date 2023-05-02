@@ -1,5 +1,8 @@
 # Class: HasMinimalMetadata
+
+
 _Absolute minimum metadata model_
+
 
 
 

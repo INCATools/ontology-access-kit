@@ -11,19 +11,19 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
     class ComplexQuery
       ComplexQuery : all_of
         
-          ComplexQuery ..> ComplexQuery : all_of
+          ComplexQuery --|> ComplexQuery : all_of
         
       ComplexQuery : any_of
         
-          ComplexQuery ..> ComplexQuery : any_of
+          ComplexQuery --|> ComplexQuery : any_of
         
       ComplexQuery : atom
         
-          ComplexQuery ..> SearchBaseConfiguration : atom
+          ComplexQuery --|> SearchBaseConfiguration : atom
         
       ComplexQuery : none_of
         
-          ComplexQuery ..> ComplexQuery : none_of
+          ComplexQuery --|> ComplexQuery : none_of
         
       ComplexQuery : path_to
         

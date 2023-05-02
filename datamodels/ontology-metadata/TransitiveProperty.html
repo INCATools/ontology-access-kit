@@ -50,13 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -96,27 +96,27 @@
         
       TransitiveProperty : broadMatch
         
-          TransitiveProperty ..&gt; Property : broadMatch
+          TransitiveProperty --|&gt; Property : broadMatch
         
       TransitiveProperty : category
         
       TransitiveProperty : closeMatch
         
-          TransitiveProperty ..&gt; Property : closeMatch
+          TransitiveProperty --|&gt; Property : closeMatch
         
       TransitiveProperty : comment
         
       TransitiveProperty : conformsTo
         
-          TransitiveProperty ..&gt; Thing : conformsTo
+          TransitiveProperty --|&gt; Thing : conformsTo
         
       TransitiveProperty : consider
         
-          TransitiveProperty ..&gt; Any : consider
+          TransitiveProperty --|&gt; Any : consider
         
       TransitiveProperty : contributor
         
-          TransitiveProperty ..&gt; Agent : contributor
+          TransitiveProperty --|&gt; Agent : contributor
         
       TransitiveProperty : created
         
@@ -126,7 +126,7 @@
         
       TransitiveProperty : creator
         
-          TransitiveProperty ..&gt; Agent : creator
+          TransitiveProperty --|&gt; Agent : creator
         
       TransitiveProperty : curator_note
         
@@ -140,7 +140,7 @@
         
       TransitiveProperty : depicted_by
         
-          TransitiveProperty ..&gt; Image : depicted_by
+          TransitiveProperty --|&gt; Image : depicted_by
         
       TransitiveProperty : deprecated
         
@@ -154,21 +154,21 @@
         
       TransitiveProperty : equivalentProperty
         
-          TransitiveProperty ..&gt; Property : equivalentProperty
+          TransitiveProperty --|&gt; Property : equivalentProperty
         
       TransitiveProperty : exactMatch
         
-          TransitiveProperty ..&gt; Property : exactMatch
+          TransitiveProperty --|&gt; Property : exactMatch
         
       TransitiveProperty : example_of_usage
         
       TransitiveProperty : excluded_from_QC_check
         
-          TransitiveProperty ..&gt; Thing : excluded_from_QC_check
+          TransitiveProperty --|&gt; Thing : excluded_from_QC_check
         
       TransitiveProperty : excluded_subClassOf
         
-          TransitiveProperty ..&gt; Class : excluded_subClassOf
+          TransitiveProperty --|&gt; Class : excluded_subClassOf
         
       TransitiveProperty : excluded_synonym
         
@@ -194,19 +194,19 @@
         
       TransitiveProperty : image
         
-          TransitiveProperty ..&gt; Thing : image
+          TransitiveProperty --|&gt; Thing : image
         
       TransitiveProperty : imported_from
         
-          TransitiveProperty ..&gt; NamedIndividual : imported_from
+          TransitiveProperty --|&gt; NamedIndividual : imported_from
         
       TransitiveProperty : in_subset
         
-          TransitiveProperty ..&gt; Subset : in_subset
+          TransitiveProperty --|&gt; Subset : in_subset
         
       TransitiveProperty : inverseOf
         
-          TransitiveProperty ..&gt; Property : inverseOf
+          TransitiveProperty --|&gt; Property : inverseOf
         
       TransitiveProperty : is_class_level
         
@@ -220,13 +220,13 @@
         
       TransitiveProperty : isDefinedBy
         
-          TransitiveProperty ..&gt; Ontology : isDefinedBy
+          TransitiveProperty --|&gt; Ontology : isDefinedBy
         
       TransitiveProperty : label
         
       TransitiveProperty : narrowMatch
         
-          TransitiveProperty ..&gt; Property : narrowMatch
+          TransitiveProperty --|&gt; Property : narrowMatch
         
       TransitiveProperty : OBO_foundry_unique_label
         
@@ -240,23 +240,23 @@
         
       TransitiveProperty : seeAlso
         
-          TransitiveProperty ..&gt; Thing : seeAlso
+          TransitiveProperty --|&gt; Thing : seeAlso
         
       TransitiveProperty : shorthand
         
       TransitiveProperty : should_conform_to
         
-          TransitiveProperty ..&gt; Thing : should_conform_to
+          TransitiveProperty --|&gt; Thing : should_conform_to
         
       TransitiveProperty : temporal_interpretation
         
-          TransitiveProperty ..&gt; NamedIndividual : temporal_interpretation
+          TransitiveProperty --|&gt; NamedIndividual : temporal_interpretation
         
       TransitiveProperty : term_editor
         
       TransitiveProperty : term_replaced_by
         
-          TransitiveProperty ..&gt; Any : term_replaced_by
+          TransitiveProperty --|&gt; Any : term_replaced_by
         
       TransitiveProperty : term_tracker_item
         

@@ -16,11 +16,12 @@ URI: [rdfs:subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[Class](Class.md) | 
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ClassExpression](ClassExpression.md) |  |  no  |
+[Class](Class.md) |  |  yes  |
+[Restriction](Restriction.md) |  |  no  |
+
 
 
 
@@ -30,10 +31,8 @@ URI: [rdfs:subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
+
 * Multivalued: True
-
-
-
 
 
 

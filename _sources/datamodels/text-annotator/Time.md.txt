@@ -1,7 +1,10 @@
 # Type: Time
 
 
+
+
 _A time object represents a (local) time of day, independent of any particular day_
+
 
 
 URI: [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime)

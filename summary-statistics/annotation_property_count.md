@@ -1,5 +1,8 @@
 # Slot: annotation_property_count
+
+
 _Number of annotation properties (metadata properties) in the ontology or subset_
+
 
 
 URI: [summary_statistics:annotation_property_count](https://w3id.org/oaklib/summary_statistics.annotation_property_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:annotation_property_count](https://w3id.org/oaklib/summ
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:annotation_property_count](https://w3id.org/oaklib/summ
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

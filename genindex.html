@@ -49,13 +49,13 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -1795,6 +1795,13 @@
 </li>
       </ul></li>
       <li>
+    --requests-cache-db
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-requests-cache-db">runoak command line option</a>
+</li>
+      </ul></li>
+      <li>
     --root
 
       <ul>
@@ -2593,10 +2600,10 @@
 </li>
       <li><a href="packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms">annotation_assertion_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-AnnotationProperty"><strong>AnnotationProperty</strong></a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">apply_patch() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
       <li><a href="packages/converters/obo-graph-to-obo-format.html#oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter.as_bytes_io">as_bytes_io() (oaklib.converters.obo_graph_to_obo_format_converter.OboGraphToOboFormatConverter method)</a>
@@ -2622,6 +2629,8 @@
       <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.autosave">autosave (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 
       <ul>
+        <li><a href="packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.autosave">(oaklib.interfaces.differ_interface.DifferInterface attribute)</a>
+</li>
         <li><a href="packages/interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.autosave">(oaklib.interfaces.dumper_interface.DumperInterface attribute)</a>
 </li>
         <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.autosave">(oaklib.interfaces.mapping_provider_interface.MappingProviderInterface attribute)</a>
@@ -2694,6 +2703,8 @@
       <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.comments">comments() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="packages/interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.common_ancestors">common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.compare_ontology_term_lists">compare_ontology_term_lists() (oaklib.interfaces.differ_interface.DifferInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Concept"><strong>Concept</strong></a>
 </li>
@@ -2778,15 +2789,21 @@
 </li>
       <li><a href="glossary.html#term-Descendant"><strong>Descendant</strong></a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_count">descendant_count() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">descendants() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Diff"><strong>Diff</strong></a>
+</li>
+      <li><a href="packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff">diff() (oaklib.interfaces.differ_interface.DifferInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.diff_summary">diff_summary() (oaklib.interfaces.differ_interface.DifferInterface method)</a>
+</li>
+      <li><a href="packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface">DifferInterface (class in oaklib.interfaces.differ_interface)</a>
 </li>
       <li><a href="packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">disable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
@@ -2853,6 +2870,8 @@
       <li><a href="packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.exclude_owl_top_and_bottom">exclude_owl_top_and_bottom (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 
       <ul>
+        <li><a href="packages/interfaces/differ.html#oaklib.interfaces.differ_interface.DifferInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.differ_interface.DifferInterface attribute)</a>
+</li>
         <li><a href="packages/interfaces/dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.dumper_interface.DumperInterface attribute)</a>
 </li>
         <li><a href="packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.exclude_owl_top_and_bottom">(oaklib.interfaces.mapping_provider_interface.MappingProviderInterface attribute)</a>
@@ -2882,7 +2901,13 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-Functional-Syntax"><strong>Functional Syntax</strong></a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-FunOWL"><strong>FunOWL</strong></a>
+</li>
+      <li><a href="packages/implementations/funowl.html#oaklib.implementations.funowl.funowl_implementation.FunOwlImplementation">FunOwlImplementation (class in oaklib.implementations.funowl.funowl_implementation)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -3194,6 +3219,8 @@
 </li>
       <li><a href="packages/implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">OntobeeImplementation (class in oaklib.implementations.ontobee.ontobee_implementation)</a>
 </li>
+      <li><a href="glossary.html#term-OntoGPT"><strong>OntoGPT</strong></a>
+</li>
       <li>
     ONTOLOGIES
 
@@ -3348,6 +3375,8 @@
         <li><a href="cli.html#cmdoption-runoak-prefix">--prefix</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-q">--quiet</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-requests-cache-db">--requests-cache-db</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-save-as">--save-as</a>
 </li>

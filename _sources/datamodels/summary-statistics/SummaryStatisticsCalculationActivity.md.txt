@@ -1,5 +1,8 @@
 # Class: SummaryStatisticsCalculationActivity
+
+
 _An activity that calculates summary statistics for an ontology_
+
 
 
 
@@ -13,7 +16,7 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
     class SummaryStatisticsCalculationActivity
       SummaryStatisticsCalculationActivity : acted_on_behalf_of
         
-          SummaryStatisticsCalculationActivity ..> Agent : acted_on_behalf_of
+          SummaryStatisticsCalculationActivity --|> Agent : acted_on_behalf_of
         
       SummaryStatisticsCalculationActivity : ended_at_time
         
@@ -21,7 +24,7 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
         
       SummaryStatisticsCalculationActivity : was_associated_with
         
-          SummaryStatisticsCalculationActivity ..> Agent : was_associated_with
+          SummaryStatisticsCalculationActivity --|> Agent : was_associated_with
         
       
 ```

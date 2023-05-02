@@ -1,5 +1,8 @@
 # Slot: category
+
+
 _Each match (or lack of match) is placed into exactly one category_
+
 
 
 URI: [xodiff:category](https://w3id.org/oak/cross-ontology-diff/category)
@@ -13,9 +16,10 @@ URI: [xodiff:category](https://w3id.org/oak/cross-ontology-diff/category)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [xodiff:category](https://w3id.org/oak/cross-ontology-diff/category)
 ## Properties
 
 * Range: [DiffCategory](DiffCategory.md)
-
-
 
 
 

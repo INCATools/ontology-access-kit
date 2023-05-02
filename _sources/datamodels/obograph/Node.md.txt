@@ -1,5 +1,8 @@
 # Class: Node
+
+
 _A node is a class, property, or other entity in an ontology_
+
 
 
 
@@ -17,7 +20,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
         
       Node : meta
         
-          Node ..> Meta : meta
+          Node --|> Meta : meta
         
       Node : type
         

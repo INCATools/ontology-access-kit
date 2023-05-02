@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Associations and Curated Annotations &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Learning More" href="learning-more.html" />
+    <link rel="prev" title="Relationships and Graphs" href="relationships-and-graphs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The OAK Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">OAK Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Associations and Curated Annotations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#association-support-in-oak">Association support in OAK</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data-model">Data Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#selecting-association-sources">Selecting association sources</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further reading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">The OAK Guide</a></li>
+      <li class="breadcrumb-item active">Associations and Curated Annotations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/associations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="associations-and-curated-annotations">
+<span id="associations"></span><h1>Associations and Curated Annotations<a class="headerlink" href="#associations-and-curated-annotations" title="Permalink to this heading"></a></h1>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h2>
+<p>The main purpose of OAK is to provide uniform access onto an <a class="reference internal" href="../glossary.html#term-Ontology"><span class="xref std std-term">Ontology</span></a>.
+Ontologies are frequently used in combination with some form of tagging data entities.
+In the bio-ontologies and other realms, this kind of tagging is usually called <a class="reference internal" href="../glossary.html#term-Annotation"><span class="xref std std-term">Annotation</span></a>
+(but this term can be ambiguous).</p>
+<p>There are many different formats and data models for associations. The <span class="xref std std-term">Gene Ontology</span> uses
+the <span class="xref std std-term">GAF</span> format, which associates genes or gene products with terms in the ontology,
+alongside additional contextual information and provenance. There is a similar format for
+<span class="xref std std-term">Human Phenotype Ontology</span> associations, which associate disease identifiers with phenotypic feature
+terms, alongside information about severity, age of onset, as well as provenance. Outside
+the bio-ontology world, the <span class="xref std std-term">Open Annotation</span> standard provides a way of associating
+a wide range of entities of different types.</p>
+<p>The difference in use cases make supporting a single data model challenging. However, there
+are a number of core elements that are typically shared.</p>
+<p>The association:</p>
+<ul class="simple">
+<li><p>is typically about something, i.e the <span class="xref std std-term">Subject</span> of the association</p></li>
+<li><p>relates the subject to another thing (the <span class="xref std std-term">Object</span>), typically a class from an ontology</p></li>
+<li><p>may have an (explicit or implicit) <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicate</span></a> indicating the nature of the relationship between subject and object</p></li>
+<li><p>should have provenance, typically indicated via CURIEs to publications like DOIs or PMIDs</p></li>
+<li><p>may have some kind of semantic modifier, including a negation flag</p></li>
+<li><p>may have any number of pieces of additional evidence, providence, or administrative metadata</p></li>
+<li><p>may include additional <em>denormalized</em> fields for convenience.</p></li>
+</ul>
+<p>The first three of these constitute the OAK <a class="reference internal" href="../glossary.html#term-Edge"><span class="xref std std-term">Edge</span></a> data model. You may well ask,
+why treat associations differently from other kinds of edges in the ontology?</p>
+<p>There are a variety of answers to this question. Some are pragmatically oriented:</p>
+<ul class="simple">
+<li><p>associations have historically been separated from ontology relationships in many domains</p></li>
+<li><p>the operations we may want to do on one may differ from those on the other</p></li>
+<li><p>associations typically emphasize the importance of provenance and additional metadata whereas ontology relationships are taken “as given”</p></li>
+<li><p>associations are typically curated by different groups than those that curate ontologies</p></li>
+</ul>
+<p>Others answers are more formally oriented:</p>
+<ul class="simple">
+<li><p>ontology relationships have strict OWL logical semantics (usually some combination of <span class="xref std std-term">SubClassOf</span> and <span class="xref std std-term">SomeValuesFrom</span>), whereas associations don’t have defined semantics (or are weak Some-Some axioms)</p></li>
+<li><p>ontology relationships represent <em>term</em> invariant relationships, whereas associations are <em>contingent</em></p></li>
+</ul>
+<p>For a more detailed treatment of these formal aspects, see <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/34384571/">On beyond Gruber: “Ontologies” in today’s biomedical information systems and the limits of OWL</a>.</p>
+</section>
+<section id="association-support-in-oak">
+<h2>Association support in OAK<a class="headerlink" href="#association-support-in-oak" title="Permalink to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The current way associations are loaded and modeled in OAK is subject to change</p>
+</div>
+<section id="data-model">
+<h3>Data Model<a class="headerlink" href="#data-model" title="Permalink to this heading"></a></h3>
+<p>See the <a class="reference external" href="https://w3id.org/oak/association/">Association data model</a> for details of the data model.</p>
+<p>The data model is intentionally minimalist, and intends to capture the core features of multiple
+association data models. A generic <code class="docutils literal notranslate"><span class="pre">PropertyValue</span></code> object captures domain-specific extensions.</p>
+</section>
+<section id="selecting-association-sources">
+<h3>Selecting association sources<a class="headerlink" href="#selecting-association-sources" title="Permalink to this heading"></a></h3>
+<p>There are a number of ways to select an association source.</p>
+<p>On the command line you can supplement the main ontology input (passed with <code class="docutils literal notranslate"><span class="pre">--input</span></code> or <code class="docutils literal notranslate"><span class="pre">-i</span></code>) with
+an <code class="docutils literal notranslate"><span class="pre">--associations</span></code> option (shorthand <code class="docutils literal notranslate"><span class="pre">-g</span></code>). You will also need to specify the association
+format (<code class="docutils literal notranslate"><span class="pre">--associations-type</span></code> or <code class="docutils literal notranslate"><span class="pre">-G</span></code>).</p>
+<p>The following will query HPO associations for any diseases associated with “Abnormal lacrimal gland morphology”
+or any is-a <a class="reference internal" href="../glossary.html#term-Descendant"><span class="xref std std-term">Descendant</span></a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa
+runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>-G<span class="w"> </span>hpoa<span class="w"> </span>-g<span class="w"> </span>phenotype.hpoa<span class="w"> </span>associations<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>HP:0011482
+</pre></div>
+</div>
+</section>
+</section>
+<section id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.nature.com/articles/ng0500_25">Gene Ontology: tool for the unification of biology</a></p></li>
+<li><p><a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/34384571/">On beyond Gruber: “Ontologies” in today’s biomedical information systems and the limits of OWL</a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="relationships-and-graphs.html" class="btn btn-neutral float-left" title="Relationships and Graphs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="learning-more.html" class="btn btn-neutral float-right" title="Learning More" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

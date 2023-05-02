@@ -1,5 +1,8 @@
 # Slot: itemMetadataMap
+
+
 _The entities in the list, represented as a map keyed by item id_
+
 
 
 URI: [itemList:itemMetadataMap](https://w3id.org/linkml/item-list/itemMetadataMap)
@@ -13,9 +16,10 @@ URI: [itemList:itemMetadataMap](https://w3id.org/linkml/item-list/itemMetadataMa
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [itemList:itemMetadataMap](https://w3id.org/linkml/item-list/itemMetadataMa
 ## Properties
 
 * Range: [ListItem](ListItem.md)
+
 * Multivalued: True
-
-
-
 
 
 

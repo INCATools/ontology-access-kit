@@ -30,7 +30,7 @@ URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
 | ---  | --- | --- | --- |
 | [input](input.md) | 0..1 <br/> [String](String.md) | Input string for the rule | direct |
 | [output](output.md) | 0..1 <br/> [String](String.md) | Output based on the rule | direct |
-| [prefix](prefix.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [prefix](prefix.md) | 0..1 <br/> [String](String.md) | The prefix that qualifies for the rule | direct |
 
 
 

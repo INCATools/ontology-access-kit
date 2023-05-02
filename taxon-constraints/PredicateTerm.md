@@ -1,5 +1,8 @@
 # Class: PredicateTerm
+
+
 _A term that represents a relationship type_
+
 
 
 

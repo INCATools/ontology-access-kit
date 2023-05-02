@@ -11,9 +11,10 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

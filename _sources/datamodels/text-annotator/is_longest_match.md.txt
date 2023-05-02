@@ -11,9 +11,10 @@ URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_ma
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_ma
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 

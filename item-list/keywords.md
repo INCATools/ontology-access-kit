@@ -1,5 +1,8 @@
 # Slot: keywords
+
+
 _Keywords or tags used to describe the element_
+
 
 
 URI: [schema:keywords](http://schema.org/keywords)
@@ -13,9 +16,10 @@ URI: [schema:keywords](http://schema.org/keywords)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [schema:keywords](http://schema.org/keywords)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 

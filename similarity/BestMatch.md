@@ -25,7 +25,7 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
         
       BestMatch : similarity
         
-          BestMatch ..> TermPairwiseSimilarity : similarity
+          BestMatch --|> TermPairwiseSimilarity : similarity
         
       
 ```
@@ -44,7 +44,7 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 | [match_source_label](match_source_label.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [match_target](match_target.md) | 0..1 <br/> [String](String.md) | the entity matches | direct |
 | [match_target_label](match_target_label.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [score](score.md) | 0..1 <br/> [String](String.md) | Abstract base slot for different kinds of scores | direct |
+| [score](score.md) | 1..1 <br/> [Float](Float.md) |  | direct |
 | [match_subsumer](match_subsumer.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 | [match_subsumer_label](match_subsumer_label.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [similarity](similarity.md) | 1..1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md) |  | direct |

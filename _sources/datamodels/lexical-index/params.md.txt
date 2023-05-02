@@ -1,5 +1,8 @@
 # Slot: params
+
+
 _Any parameters to be applied to the transformation algorithm_
+
 
 
 URI: [ontolexindex:params](https://w3id.org/oak/lexical-index/params)
@@ -13,9 +16,10 @@ URI: [ontolexindex:params](https://w3id.org/oak/lexical-index/params)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |  no  |
+
 
 
 
@@ -25,10 +29,8 @@ URI: [ontolexindex:params](https://w3id.org/oak/lexical-index/params)
 ## Properties
 
 * Range: [Any](Any.md)
+
 * Multivalued: True
-
-
-
 
 
 

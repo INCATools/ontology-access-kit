@@ -11,9 +11,10 @@ URI: [ontosearch:search_term](https://w3id.org/oak/search-datamodel/search_term)
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[PathExpression](PathExpression.md) | A path query
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[PathExpression](PathExpression.md) | A path query |  no  |
+
 
 
 
@@ -23,8 +24,6 @@ URI: [ontosearch:search_term](https://w3id.org/oak/search-datamodel/search_term)
 ## Properties
 
 * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
-
-
 
 
 

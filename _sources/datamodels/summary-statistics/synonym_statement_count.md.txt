@@ -1,5 +1,8 @@
 # Slot: synonym_statement_count
+
+
 _Number of synonym statements (assertions) in the ontology or subset_
+
 
 
 URI: [summary_statistics:synonym_statement_count](https://w3id.org/oaklib/summary_statistics.synonym_statement_count)
@@ -18,9 +21,10 @@ URI: [summary_statistics:synonym_statement_count](https://w3id.org/oaklib/summar
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [summary_statistics:synonym_statement_count](https://w3id.org/oaklib/summar
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 

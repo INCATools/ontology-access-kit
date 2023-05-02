@@ -1,4 +1,4 @@
-.. _text_annotator_interface
+.. _text_annotator_interface:
 
 Text Annotator Interface
 ------------------------

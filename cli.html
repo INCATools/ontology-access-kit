@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Package Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-guidelines">General Guidelines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#common-patterns">Common Patterns</a><ul>
@@ -133,9 +133,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq/index.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -202,7 +202,7 @@ multiple implementations. For example, you can multiplex queries over different 
 <p>Many commands take a <em>term</em> or a <em>list of terms</em> as their primary argument. These are typically one of:</p>
 <ul>
 <li><p>a <span class="xref std std-ref">CURIE</span> such as <code class="code docutils literal notranslate"><span class="pre">UBERON:0000955</span></code></p></li>
-<li><p>a <a class="reference internal" href="search-syntax.html#search-syntax"><span class="std std-ref">Search Syntax</span></a> term, which is either:</p>
+<li><p>a <span class="xref std std-ref">search-syntax</span> term, which is either:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>an exact match to a label; for example “limb” or “plasma membrane”</p></li>
@@ -350,6 +350,12 @@ You should get the same results by running:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-other-languages">
 <span class="sig-name descname"><span class="pre">--other-languages</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;other_languages&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-other-languages" title="Permalink to this definition"></a></dt>
 <dd><p>Additional languages for labels and lexical elements</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-requests-cache-db">
+<span class="sig-name descname"><span class="pre">--requests-cache-db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;requests_cache_db&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-requests-cache-db" title="Permalink to this definition"></a></dt>
+<dd><p>If specified, all http requests will be cached to this sqlite file</p>
 </dd></dl>
 
 <dl class="std option">
@@ -1417,8 +1423,13 @@ use ROBOT.</p>
 </section>
 <section id="runoak-diff-associations">
 <h4>diff-associations<a class="headerlink" href="#runoak-diff-associations" title="Permalink to this heading"></a></h4>
-<p>Diffs two association sources. EXPERIMENTAL.</p>
-<p>This functionality may move out of core</p>
+<p>Diffs two association sources.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:go  -G gaf  diff-associations            –old-date ${date1} –new-date ${date2}            -g  “${download_dir}/${group}-${date1}.gaf”            -X “${download_dir}/${group}-${date2}.gaf”            –group-by publications -p i,p            -o “${group}-diff-${date1}-to-${date2}.tsv</p>
+</div></blockquote>
+<p>See <a class="reference external" href="https://w3id.org/oak/association">https://w3id.org/oak/association</a> for the diff data model.</p>
+<p>NOTE: This functionality may move out of core</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff-associations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>

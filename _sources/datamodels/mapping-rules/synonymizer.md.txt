@@ -1,5 +1,8 @@
 # Slot: synonymizer
+
+
 _Normalizing rules to labels._
+
 
 
 URI: [mappingrules:synonymizer](https://w3id.org/oak/mapping-rules-datamodel/synonymizer)
@@ -13,9 +16,10 @@ URI: [mappingrules:synonymizer](https://w3id.org/oak/mapping-rules-datamodel/syn
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+
 
 
 
@@ -25,8 +29,6 @@ URI: [mappingrules:synonymizer](https://w3id.org/oak/mapping-rules-datamodel/syn
 ## Properties
 
 * Range: [Synonymizer](Synonymizer.md)
-
-
 
 
 

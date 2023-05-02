@@ -41,11 +41,10 @@ URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/omo/schema/log
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 

@@ -1,5 +1,8 @@
 # Slot: jaccard_similarity
+
+
 _The number of concepts in the intersection divided by the number in the union_
+
 
 
 URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similarity)
@@ -18,9 +21,10 @@ URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similar
 
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -30,8 +34,6 @@ URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similar
 ## Properties
 
 * Range: [ZeroToOne](ZeroToOne.md)
-
-
 
 
 

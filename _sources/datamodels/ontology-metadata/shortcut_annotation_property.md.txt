@@ -16,11 +16,10 @@ URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/omo
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
