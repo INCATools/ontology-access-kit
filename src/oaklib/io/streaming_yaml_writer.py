@@ -39,4 +39,4 @@ class StreamingYamlWriter(StreamingWriter):
         self.object_count += 1
 
     def emit_dict(self, obj: dict, object_type: Type = None):
-        self.file.write(yaml.dump(obj))
+        self.file.write(yaml.dump(obj, sort_keys=False))
