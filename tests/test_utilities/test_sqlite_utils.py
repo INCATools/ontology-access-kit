@@ -13,7 +13,7 @@ TSV = INPUT_DIR / "foo.tsv"
 DB = OUTPUT_DIR / "test.db"
 if os.name == "nt":
     _, db = os.path.splitdrive(DB)
-    db = Path(DB)
+    DB = Path(db)
 TBL_NAME = "my_tbl"
 
 
