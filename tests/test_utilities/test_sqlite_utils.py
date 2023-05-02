@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import unittest
 
@@ -9,6 +10,8 @@ from tests import INPUT_DIR, OUTPUT_DIR
 
 TSV = INPUT_DIR / "foo.tsv"
 DB = OUTPUT_DIR / "test.db"
+if os.name == "nt":
+    _, DB = os.path.splitdrive(DB)
 TBL_NAME = "my_tbl"
 
 
