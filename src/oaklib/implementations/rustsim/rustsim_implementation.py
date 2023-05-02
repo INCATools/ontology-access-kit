@@ -217,6 +217,14 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         #     max_ic = 0.0
         #     anc = None
         # logging.info(f"MRCA = {anc} with {max_ic}")
+        # sim = TermPairwiseSimilarity(
+        #      subject_id=subject,
+        #      object_id=object,
+        #      ancestor_id=anc,
+        #      ancestor_information_content=max_ic,
+        #  )
+        #  sim.ancestor_information_content = max_ic
+
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
@@ -224,11 +232,26 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
             ancestor_information_content=None,
         )
         sim.ancestor_information_content = None
+
         if subject == object:
             sim.jaccard_similarity = 1.0
         else:
             if not predicates:
                 raise NotImplementedError()
+                # subject_predicates = (
+                #     list(self._rust_closure_table[subject].keys())
+                #     if subject in self._rust_closure_table
+                #     else []
+                # )
+                # object_predicates = (
+                #     list(self._rust_closure_table[object].keys())
+                #     if object in self._rust_closure_table
+                #     else []
+                # )
+                # predicates = subject_predicates + object_predicates
+
+                # if not predicates:
+                #     raise ValueError(f"Neither {subject} nor {object} have predicates")
 
             sim.jaccard_similarity = semantic_jaccard_similarity(
                 self._rust_closure_table, subject, object, set(predicates)
