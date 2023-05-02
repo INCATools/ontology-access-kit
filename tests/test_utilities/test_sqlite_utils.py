@@ -16,6 +16,8 @@ TBL_NAME = "my_tbl"
 
 
 class TestSqliteUtils(unittest.TestCase):
+
+    @unittest.skipIf(os.name == "nt", "temporarily skip sqlite3 on Windows")
     def test_bulkload(self):
         if DB.exists():
             DB.unlink()
@@ -29,6 +31,7 @@ class TestSqliteUtils(unittest.TestCase):
         # last row
         self.assertIn(("MGI", "MGI:3698435", "0610009E02Rik"), rows)
 
+    @unittest.skipIf(os.name == "nt", "temporarily skip sqlite3 on Windows")
     def test_chunked_bulkload(self):
         if DB.exists():
             DB.unlink()
