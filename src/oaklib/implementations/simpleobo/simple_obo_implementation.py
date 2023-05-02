@@ -814,7 +814,7 @@ class SimpleOboImplementation(
             for tv in t.tag_values:
                 if tv.tag == TAG_DEFINITION:
                     # This is a remove_definition request
-                    tv.value = ""
+                    t.remove_tag_quoted_value(TAG_DEFINITION, t._quoted_value(tv.value))
         elif isinstance(patch, kgcl.NodeTextDefinitionChange):
             t = self._stanza(patch.about_node, strict=True)
             for tv in t.tag_values:
