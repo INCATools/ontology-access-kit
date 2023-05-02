@@ -1,11 +1,16 @@
 # Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-19T10:17:57
+# Generation date: 2023-05-01T17:10:02
 # Schema: association
 #
 # id: https://w3id.org/oak/association
-# description: A datamodel for representing generic associations. The core datamodel is broad, encompassing the W3
-#              Open Annotation data model as well as common ontology annotation data models using in the
-#              biosciences.
+# description: A data model for representing generic associations and changes of these associations. The core data
+#              model is broad, encompassing the W3 Open Annotation data model as well as common ontology
+#              annotation data models using in the biosciences, such as the GAF data model used by the Gene
+#              Ontology, and the HPOA association model used by the Human Phenotype Ontology. The core elements of
+#              the data model are the *subject* (the entity being described) and the *object* (the term,
+#              descriptor, or other entity that describes some aspect of the subject). A subject might be a
+#              biological entity such as gene, drug, disease, person, or chemical. The object is typically a class
+#              from an ontology such as a term from GO.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -20,7 +25,13 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
+from linkml_runtime.linkml_model.types import (
+    Boolean,
+    Float,
+    Integer,
+    String,
+    Uriorcurie,
+)
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
@@ -86,6 +97,7 @@ class Association(YAMLRoot):
     subject_label: Optional[str] = None
     predicate_label: Optional[str] = None
     object_label: Optional[str] = None
+    negated: Optional[Union[bool, Bool]] = None
     publications: Optional[
         Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
     ] = empty_list()
@@ -119,6 +131,9 @@ class Association(YAMLRoot):
 
         if self.object_label is not None and not isinstance(self.object_label, str):
             self.object_label = str(self.object_label)
+
+        if self.negated is not None and not isinstance(self.negated, Bool):
+            self.negated = Bool(self.negated)
 
         if not isinstance(self.publications, list):
             self.publications = [self.publications] if self.publications is not None else []
@@ -161,6 +176,7 @@ class NegatedAssociation(YAMLRoot):
     subject_label: Optional[str] = None
     predicate_label: Optional[str] = None
     object_label: Optional[str] = None
+    negated: Optional[Union[bool, Bool]] = None
     publications: Optional[
         Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
     ] = empty_list()
@@ -194,6 +210,9 @@ class NegatedAssociation(YAMLRoot):
 
         if self.object_label is not None and not isinstance(self.object_label, str):
             self.object_label = str(self.object_label)
+
+        if self.negated is not None and not isinstance(self.negated, Bool):
+            self.negated = Bool(self.negated)
 
         if not isinstance(self.publications, list):
             self.publications = [self.publications] if self.publications is not None else []
@@ -279,6 +298,10 @@ class RollupGroup(YAMLRoot):
 
 @dataclass
 class PairwiseCoAssociation(YAMLRoot):
+    """
+    A collection of subjects co-associated with two objects
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = ONTOASSOC.PairwiseCoAssociation
@@ -354,6 +377,10 @@ class PairwiseCoAssociation(YAMLRoot):
 
 @dataclass
 class ParserConfiguration(YAMLRoot):
+    """
+    Settings that determine behavior when parsing associations.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = ONTOASSOC.ParserConfiguration
@@ -392,6 +419,10 @@ class ParserConfiguration(YAMLRoot):
 
 @dataclass
 class AssociationChange(YAMLRoot):
+    """
+    A change object describing a change between two associations.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = ONTOASSOC.AssociationChange
@@ -423,6 +454,7 @@ class AssociationChange(YAMLRoot):
     closure_predicates: Optional[
         Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
     ] = empty_list()
+    closure_delta: Optional[int] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.summary_group is not None and not isinstance(self.summary_group, str):
@@ -501,6 +533,9 @@ class AssociationChange(YAMLRoot):
             v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.closure_predicates
         ]
 
+        if self.closure_delta is not None and not isinstance(self.closure_delta, int):
+            self.closure_delta = int(self.closure_delta)
+
         super().__post_init__(**kwargs)
 
 
@@ -564,6 +599,24 @@ slots.object_label = Slot(
     model_uri=ONTOASSOC.object_label,
     domain=None,
     range=Optional[str],
+)
+
+slots.core_triple = Slot(
+    uri=ONTOASSOC.core_triple,
+    name="core_triple",
+    curie=ONTOASSOC.curie("core_triple"),
+    model_uri=ONTOASSOC.core_triple,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.negated = Slot(
+    uri=ONTOASSOC.negated,
+    name="negated",
+    curie=ONTOASSOC.curie("negated"),
+    model_uri=ONTOASSOC.negated,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )
 
 slots.property_values = Slot(
@@ -688,6 +741,15 @@ slots.creation_date = Slot(
     name="creation_date",
     curie=ONTOASSOC.curie("creation_date"),
     model_uri=ONTOASSOC.creation_date,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.diff_slot = Slot(
+    uri=ONTOASSOC.diff_slot,
+    name="diff_slot",
+    curie=ONTOASSOC.curie("diff_slot"),
+    model_uri=ONTOASSOC.diff_slot,
     domain=None,
     range=Optional[str],
 )
@@ -836,6 +898,24 @@ slots.closure_predicates = Slot(
     range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
 )
 
+slots.closure_delta = Slot(
+    uri=ONTOASSOC.closure_delta,
+    name="closure_delta",
+    curie=ONTOASSOC.curie("closure_delta"),
+    model_uri=ONTOASSOC.closure_delta,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.closure_information_content_delta = Slot(
+    uri=ONTOASSOC.closure_information_content_delta,
+    name="closure_information_content_delta",
+    curie=ONTOASSOC.curie("closure_information_content_delta"),
+    model_uri=ONTOASSOC.closure_information_content_delta,
+    domain=None,
+    range=Optional[float],
+)
+
 slots.object1 = Slot(
     uri=ONTOASSOC.object1,
     name="object1",
@@ -951,4 +1031,22 @@ slots.parserConfiguration__aggregator_knowledge_source = Slot(
     model_uri=ONTOASSOC.parserConfiguration__aggregator_knowledge_source,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.Association_negated = Slot(
+    uri=ONTOASSOC.negated,
+    name="Association_negated",
+    curie=ONTOASSOC.curie("negated"),
+    model_uri=ONTOASSOC.Association_negated,
+    domain=Association,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.NegatedAssociation_negated = Slot(
+    uri=ONTOASSOC.negated,
+    name="NegatedAssociation_negated",
+    curie=ONTOASSOC.curie("negated"),
+    model_uri=ONTOASSOC.NegatedAssociation_negated,
+    domain=NegatedAssociation,
+    range=Optional[Union[bool, Bool]],
 )

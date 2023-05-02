@@ -1,12 +1,4 @@
-"""
-Adapter for AmiGO solr index.
-
-.. warning ::
-
-    this is currently highly incomplete.
-    Only NodeNormalizer API implemented so far
-
-"""
+"""Adapter for AmiGO solr index."""
 import logging
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional
@@ -28,6 +20,8 @@ from oaklib.types import CURIE, PRED_CURIE
 AMIGO_ENDPOINT = "http://golr.geneontology.org/solr/"
 
 logger = logging.getLogger(__name__)
+
+LIMIT = 10000
 
 # TODO: derive from schema
 BIOENTITY = "bioentity"
@@ -63,7 +57,23 @@ def _fq_element(k, vs):
 def _query(solr, fq, fields):
     fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
     params = {"fq": fq_list, "fl": ",".join(fields)}
-    return solr.search("*:*", rows=1000, **params)
+    results = solr.search("*:*", rows=LIMIT, **params)
+    if len(results) > LIMIT:
+        # TODO:
+        raise ValueError(f"Too many results, increase LIMIT: {len(results)} > {LIMIT}")
+    return results
+
+
+def _unnnormalize(curie: CURIE) -> CURIE:
+    if curie.startswith("MGI:") and not curie.startswith("MGI:MGI:"):
+        curie = f"MGI:{curie}"
+    return curie
+
+
+def _normalize(curie: CURIE) -> CURIE:
+    if curie.startswith("MGI:MGI:"):
+        curie = curie.replace("MGI:MGI:", "MGI:")
+    return curie
 
 
 @dataclass
@@ -72,6 +82,8 @@ class AmiGOImplementation(
 ):
     """
     Wraps AmiGO endpoint.
+
+    The general form of the argument to :ref:`get_adapter()` is ``amigo:<NCBITaxonID>``:
 
     >>> from oaklib import get_adapter
     >>> amigo = get_adapter("amigo:NCBITaxon:9606")
@@ -84,6 +96,10 @@ class AmiGOImplementation(
     ...
     UniProtKB:P23677
     ...
+
+    On the command line:
+
+
 
     """
 
@@ -117,7 +133,7 @@ class AmiGOImplementation(
         solr = self._solr
         fq = {"document_category": ["annotation"]}
         if subjects:
-            subjects = list(subjects)
+            subjects = [_unnnormalize(s) for s in subjects]
             fq[BIOENTITY] = subjects
         if objects:
             objects = list(objects)
@@ -132,7 +148,7 @@ class AmiGOImplementation(
         # results = solr.search("*:*", rows=1000, **params)
         for doc in results:
             yield Association(
-                subject=doc[BIOENTITY],
+                subject=_normalize(doc[BIOENTITY]),
                 subject_label=doc[BIOENTITY_LABEL],
                 # predicate="",
                 object=doc[ANNOTATION_CLASS],

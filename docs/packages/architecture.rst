@@ -21,8 +21,8 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
           +interfaces_implemented()
       }
       class BasicOntologyInterface {
-          +get_label_by_curie(curie)
-          +get_definition_by_curie(curie)
+          +label(curie)
+          +definition(curie)
           +all_entity_curies(curie)
           +basic_search(search_term)
           +get_outgoing_relationships_by_curie(curie)
@@ -39,21 +39,23 @@ Here is an example of code that uses an Ubergraph implementation to do a simple 
 
 .. code:: python
 
-    >> from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
-    >> oi = UbergraphImplementation.create()
-    >> print(oi.get_label_by_curie('UBERON:0001825'))
+    >>> from oaklib import get_adapter
+    >> adapter = get_adapter("ubergraph:uberon")
+    >> print(adapter.label("UBERON:0001825"))
     paranasal sinus
 
 Behind the scenes, this is implemented using a SPARQL query over the Ubergraph endpoint.
 
-You can do the same thing using a different implementation. This one uses the pronto library and the OBO library registry of OBO files
+You can do the same thing using a different implementation. This one uses the
+:ref:`sql_implementation`:
 
 .. code:: python
 
-    >> from from oaklib.implementations.pronto.pronto_basic_impl import ProntoImplementation
-    >> oi = ProntoImplementation.create(OntologyResource(local=False, slug='go.obo'))
-    >> print(oi.get_label_by_curie('UBERON:0001825'))
+    >>> from oaklib import get_adapter
+    >> adapter = get_adapter("sqlite:obo:uberon")
+    >> print(adapter.label("UBERON:0001825"))
     paranasal sinus
+
 
 There are other implementations - for relational databases, for ontology portal APIs, for OWL ontologies...
 
@@ -79,8 +81,8 @@ We provide a number of different interfaces, designed for these different purpos
           +interfaces_implemented()
       }
       class BasicOntologyInterface {
-          +get_label_by_curie(curie)
-          +get_definition_by_curie(curie)
+          +label(curie)
+          +definition(curie)
           +all_entity_curies(curie)
           +basic_search(search_term)
           +get_outgoing_relationships_by_curie(curie)
@@ -135,11 +137,11 @@ An example would be an OWL interface that uses an OWL object model (here funowl)
           +interfaces_implemented()
       }
       class BasicOntologyInterface {
-          +get_label_by_curie(curie)
-          +get_definition_by_curie(curie)
-          +all_entity_curies(curie)
+          +label(curie)
+          +definition(curie)
+          +entities(curie)
           +basic_search(search_term)
-          +get_outgoing_relationships_by_curie(curie)
+          +relationships(curie)
           +...()
       }
       OntologyInterface <|-- BasicOntologyInterface
@@ -190,9 +192,3 @@ to give you a sense:
 .. warning ::
 
     At this stage in development of this library, most implementations are partial and things are subject to change!
-
-Datamodels used
-----------------
-
-See :ref:`datamodels` 
-

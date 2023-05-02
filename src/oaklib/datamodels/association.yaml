@@ -2,10 +2,18 @@ id: https://w3id.org/oak/association
 title: OAK Association Data Model
 name: association
 description: |-
-  A datamodel for representing generic associations.
+  A data model for representing generic associations and changes of these associations.
   
-  The core datamodel is broad, encompassing the W3 Open Annotation data model as well
-  as common ontology annotation data models using in the biosciences.
+  The core data model is broad, encompassing the W3 Open Annotation data model as well
+  as common ontology annotation data models using in the biosciences, such as the GAF
+  data model used by the Gene Ontology, and the HPOA association model used by the Human Phenotype
+  Ontology.
+  
+  The core elements of the data model are the *subject* (the entity being described) and the *object*
+  (the term, descriptor, or other entity that describes some aspect of the subject).
+  
+  A subject might be a biological entity such as gene, drug, disease, person, or chemical. The object is typically
+  a class from an ontology such as a term from GO.
 
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
@@ -32,9 +40,13 @@ classes:
       - subject_label
       - predicate_label
       - object_label
+      - negated
       - publications
       - primary_knowledge_source
       - aggregator_knowledge_source
+    slot_usage:
+      negated:
+        equals_expression: "False"
 
   NegatedAssociation:
     description: A negated association between a thing (subject) and another thing (object).
@@ -46,9 +58,13 @@ classes:
       - subject_label
       - predicate_label
       - object_label
+      - negated
       - publications
       - primary_knowledge_source
       - aggregator_knowledge_source
+    slot_usage:
+      negated:
+        equals_expression: "True"
 
   PropertyValue:
     description: A generic tag-value that can be associated with an association.
@@ -63,6 +79,7 @@ classes:
       - associations
 
   PairwiseCoAssociation:
+    description: A collection of subjects co-associated with two objects
     slots:
       - object1
       - object2
@@ -75,12 +92,15 @@ classes:
       - associations_for_subjects_in_common
 
   ParserConfiguration:
+    description: Settings that determine behavior when parsing associations.
     attributes:
       preserve_negated_associations:
         range: boolean
         description: |-
           If true, then the parser will keep negated associations in the output.
           If false, then the parser will remove negated associations from the output.
+        comments:
+          - Note that to be defensive most applications should leave the default as false
       include_association_attributes:
         range: boolean
         description: |-
@@ -98,6 +118,9 @@ classes:
           The default aggregator knowledge source for all associations in this resource.
 
   AssociationChange:
+    description: A change object describing a change between two associations.
+    comments:
+      - the change may be between associations in the same set at different times, or associations from different sources.
     slots:
       - summary_group
       - old_date
@@ -119,6 +142,7 @@ classes:
       - is_creation
       - is_deletion
       - closure_predicates
+      - closure_delta
       
 
 slots:
@@ -130,6 +154,7 @@ slots:
     range: uriorcurie
     exact_mappings:
       - oa:hasBody
+    slot_group: core_triple
   subject_label:
     description: The label of the thing which the association is about.
     slot_uri: sssom:subject_label
@@ -140,6 +165,7 @@ slots:
     description: The type of relationship between the subject and object.
     slot_uri: rdf:predicate
     range: uriorcurie
+    slot_group: core_triple
   predicate_label:
     description: The label of the type of relationship between the subject and object.
     slot_uri: sssom:predicate_label
@@ -154,13 +180,21 @@ slots:
     range: uriorcurie
     exact_mappings:
       - oa:hasTarget
+    slot_group: core_triple
   object_label:
     description: The label of the ontology entity that is associated with the subject.
     slot_uri: sssom:object_label
     range: string
     mixins:
       - denormalized_slot
+  core_triple:
+    description: A grouping slot for the core subject-predicate-object triple
+    is_grouping_slot: true
+  negated:
+    description: True if the association is negated - i.e the core triple is not true.
+    range: boolean
   property_values:
+    description: Arbitrary key-value pairs with additional information about the association
     multivalued: true
     range: PropertyValue
     inlined: true
@@ -176,6 +210,7 @@ slots:
     multivalued: true
     inlined_as_list: true
   associations:
+    description: A collection of associations
     range: Association
     multivalued: true
     inlined_as_list: true
@@ -215,44 +250,106 @@ slots:
     description: |-
       denormalized slots are for models that follow a denormalized data model
   date:
+    description: The date the association was created or last updated
     range: string
   modification_date:
+    description: The date the association was last modified
     is_a: date
   creation_date:
+    description: The date the association was created
     is_a: date
+  diff_slot:
+    description: A mixin for any paired slot that pertains to an association diff
+    mixin: true
   old_date:
+    description: The date of the old association
     is_a: date
+    mixins:
+      - diff_slot
   new_date:
+    description: The date of the new association
     is_a: date
+    mixins:
+      - diff_slot
   summary_group:
+    description: The field used to group an association diff summary
     range: string
   publication_is_added:
+    description: True if the publication was not present in the old association set (and present in the new)
     range: boolean
+    mixins:
+      - diff_slot
   publication_is_deleted:
+    description: True if the publication is not present in the new association set (and present in the old)
     range: boolean
+    mixins:
+      - diff_slot
   old_predicate:
+    description: If the association diff is a change in predicate, this is the predicate on the old association
     is_a: predicate
+    mixins:
+      - diff_slot
   new_predicate:
+    description: If the association diff is a change in predicate, this is the predicate on the new association
     is_a: predicate
+    mixins:
+      - diff_slot
   old_object:
+    description: The object (e.g. term) on the old association
     is_a: object
+    mixins:
+      - diff_slot
   new_object:
+    description: The object (e.g. term) on the new association
     is_a: object
+    mixins:
+      - diff_slot
   old_object_obsolete:
+    description: if the object (e.g. term) of the old object has been obsoleted, this is true
     range: boolean
+    mixins:
+      - diff_slot
   is_migration:
+    description: >-
+      if the object (e.g. term) of the old object has been obsoleted, and the object has been migrated (either
+      automatically or manually) to a new object based on obsoletion migration metadata, this is True
     range: boolean
+    mixins:
+      - diff_slot
   is_generalization:
+    description: >-
+      True if the association was inferred to become more general (based on closure predicates).
+      Note that depending on the tool, this may be inferred, if there is no explicit association-level
+      migration information.
     range: boolean
+    mixins:
+      - diff_slot
   is_specialization:
+    description:
+      True if the association was inferred to become more specific (based on closure predicates).
+      Note that depending on the tool, this may be inferred, if there is no explicit association-level
+      migration information.
     range: boolean
+    mixins:
+      - diff_slot
   is_creation:
     range: boolean
+    mixins:
+      - diff_slot
   is_deletion:
     range: boolean
+    mixins:
+      - diff_slot
   closure_predicates:
+    description: >-
+      The set of predicates used to determine if the new association object is a specialization or generalization
+      of the old one.
     range: uriorcurie
     multivalued: true
+  closure_delta:
+    range: integer
+  closure_information_content_delta:
+    range: float
 
   object1:
     is_a: object

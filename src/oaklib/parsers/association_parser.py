@@ -25,6 +25,7 @@ class AssociationParser(Parser, ABC):
         self,
         associations: Iterable[Union[NegatedAssociation, Association]],
         primary_knowledge_source: Optional[str] = None,
+        aggregator_knowledge_source: Optional[str] = None,
     ):
         """
         Add metadata to associations.
@@ -33,6 +34,9 @@ class AssociationParser(Parser, ABC):
         :param primary_knowledge_source:
         :return:
         """
-        if primary_knowledge_source:
+        if primary_knowledge_source or aggregator_knowledge_source:
             for association in associations:
-                association.primary_knowledge_source = primary_knowledge_source
+                if primary_knowledge_source and not association.primary_knowledge_source:
+                    association.primary_knowledge_source = primary_knowledge_source
+                if aggregator_knowledge_source and not association.aggregator_knowledge_source:
+                    association.aggregator_knowledge_source = aggregator_knowledge_source

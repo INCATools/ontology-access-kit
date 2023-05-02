@@ -21,7 +21,11 @@ class HpoaAssociationParserTest(unittest.TestCase):
                 logging.info(association)
             self.assertIn(
                 Association(
-                    subject="DECIPHER:1", predicate=None, object="HP:0000252", property_values=[]
+                    subject="DECIPHER:1",
+                    subject_label="Wolf-Hirschhorn syndrome",
+                    predicate=None,
+                    object="HP:0000252",
+                    property_values=[],
                 ),
                 assocs,
             )

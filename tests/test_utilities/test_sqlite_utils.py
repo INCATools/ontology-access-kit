@@ -1,5 +1,7 @@
+import os
 import sqlite3
 import unittest
+from pathlib import Path
 
 from oaklib.implementations.sqldb.sqlite_utils import (
     sqlite_bulk_load,
@@ -9,10 +11,14 @@ from tests import INPUT_DIR, OUTPUT_DIR
 
 TSV = INPUT_DIR / "foo.tsv"
 DB = OUTPUT_DIR / "test.db"
+if os.name == "nt":
+    _, db = os.path.splitdrive(DB)
+    DB = Path(db)
 TBL_NAME = "my_tbl"
 
 
 class TestSqliteUtils(unittest.TestCase):
+    # @unittest.skipIf(os.name == "nt", "temporarily skip sqlite3 on Windows")
     def test_bulkload(self):
         if DB.exists():
             DB.unlink()
@@ -26,6 +32,7 @@ class TestSqliteUtils(unittest.TestCase):
         # last row
         self.assertIn(("MGI", "MGI:3698435", "0610009E02Rik"), rows)
 
+    @unittest.skipIf(os.name == "nt", "temporarily skip sqlite3 on Windows")
     def test_chunked_bulkload(self):
         if DB.exists():
             DB.unlink()

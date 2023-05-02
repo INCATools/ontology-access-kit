@@ -1,4 +1,4 @@
-.. ontobee:
+.. _ontobee_implementation:
 
 Ontobee Adapter
 ===============

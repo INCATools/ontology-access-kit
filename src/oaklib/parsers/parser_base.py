@@ -33,7 +33,9 @@ class Parser(ABC):
         """
         raise NotImplementedError
 
-    def index_lookup_function(self, column_reference: Optional[ColumnReference]) -> Callable:
+    def index_lookup_function(
+        self, column_reference: Optional[ColumnReference]
+    ) -> Optional[Callable]:
         """
         Returns a function that can be used to lookup a row by reference.
 

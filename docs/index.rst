@@ -16,7 +16,7 @@ Ontology Access Kit (OAK) Documentation
    howtos/index
    notebooks
    glossary
-   faq
+   faq/index
 
 Indices and tables
 ==================
