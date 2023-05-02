@@ -58,6 +58,7 @@ class AssociationIndex:
         self._engine = engine
 
     def populate(self, associations: Iterable[Association]):
+        associations = list(associations)
         tups = [
             (a.subject, a.predicate, a.object, a.primary_knowledge_source) for a in associations
         ]
