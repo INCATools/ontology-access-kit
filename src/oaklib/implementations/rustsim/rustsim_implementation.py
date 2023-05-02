@@ -225,6 +225,20 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         #  )
         #  sim.ancestor_information_content = max_ic
 
+        # TODO: Make this work: information_content_scores comes from rustsim
+        # anc, max_ic = mrca_and_score(information_content_scores(
+        #         self._rust_closure_table,
+        #         subject,
+        #         object,
+        #         predicates))
+        # sim = TermPairwiseSimilarity(
+        #      subject_id=subject,
+        #      object_id=object,
+        #      ancestor_id=anc,
+        #      ancestor_information_content=max_ic,
+        #  )
+        #  sim.ancestor_information_content = max_ic
+
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
@@ -236,25 +250,11 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         if subject == object:
             sim.jaccard_similarity = 1.0
         else:
-            if not predicates:
-                raise NotImplementedError()
-                # subject_predicates = (
-                #     list(self._rust_closure_table[subject].keys())
-                #     if subject in self._rust_closure_table
-                #     else []
-                # )
-                # object_predicates = (
-                #     list(self._rust_closure_table[object].keys())
-                #     if object in self._rust_closure_table
-                #     else []
-                # )
-                # predicates = subject_predicates + object_predicates
-
-                # if not predicates:
-                #     raise ValueError(f"Neither {subject} nor {object} have predicates")
+            if predicates:
+                predicates = set(predicates)
 
             sim.jaccard_similarity = semantic_jaccard_similarity(
-                self._rust_closure_table, subject, object, set(predicates)
+                self._rust_closure_table, subject, object, predicates
             )
 
         # if sim.ancestor_information_content and sim.jaccard_similarity:
