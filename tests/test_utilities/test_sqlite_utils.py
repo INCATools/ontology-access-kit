@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import sqlite3
 import unittest
 
@@ -11,13 +12,14 @@ from tests import INPUT_DIR, OUTPUT_DIR
 TSV = INPUT_DIR / "foo.tsv"
 DB = OUTPUT_DIR / "test.db"
 if os.name == "nt":
-    _, DB = os.path.splitdrive(DB)
+    _, db = os.path.splitdrive(DB)
+    db = Path(DB)
 TBL_NAME = "my_tbl"
 
 
 class TestSqliteUtils(unittest.TestCase):
 
-    @unittest.skipIf(os.name == "nt", "temporarily skip sqlite3 on Windows")
+    # @unittest.skipIf(os.name == "nt", "temporarily skip sqlite3 on Windows")
     def test_bulkload(self):
         if DB.exists():
             DB.unlink()
