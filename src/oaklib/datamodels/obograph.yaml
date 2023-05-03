@@ -58,7 +58,7 @@ enums:
         description: >-
           The synonym represents something closely related in meaning than the node,
           but in not exact, broad, or narrow.
-  NodeTypeEnum:
+  NodeType:
     description: The main type of a node
     permissible_values:
       CLASS:
@@ -67,7 +67,7 @@ enums:
         meaning: rdfs:Property
       INDIVIDUAL:
         meaning: owl:NamedIndividual
-  PropertyTypeEnum:
+  PropertyType:
     description: The node subtype for property nodes
     permissible_values:
       ANNOTATION:
@@ -167,10 +167,10 @@ slots:
       - the name "lbl" exists for legacy purposes, this should be considered identical to label in rdfs
   type:
     # switch to enums when we move to pydantic
-    # range: NodeTypeEnum
+    # range: NodeType
     range: string
   property_type:
-     range: PropertyTypeEnum
+     range: PropertyType
   meta:
     aliases:
       - annotations

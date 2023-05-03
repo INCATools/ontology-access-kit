@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-03-16T14:19:05
+# Generation date: 2023-05-03T08:30:07
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -330,6 +330,7 @@ class Node(YAMLRoot):
     id: Union[str, NodeId] = None
     lbl: Optional[str] = None
     type: Optional[str] = None
+    property_type: Optional[Union[str, "PropertyType"]] = None
     meta: Optional[Union[dict, "Meta"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -343,6 +344,9 @@ class Node(YAMLRoot):
 
         if self.type is not None and not isinstance(self.type, str):
             self.type = str(self.type)
+
+        if self.property_type is not None and not isinstance(self.property_type, PropertyType):
+            self.property_type = PropertyType(self.property_type)
 
         if self.meta is not None and not isinstance(self.meta, Meta):
             self.meta = Meta(**as_dict(self.meta))
@@ -879,6 +883,36 @@ class ScopeEnum(EnumDefinitionImpl):
     )
 
 
+class NodeType(EnumDefinitionImpl):
+    """
+    The main type of a node
+    """
+
+    CLASS = PermissibleValue(text="CLASS", meaning=OWL.Class)
+    PROPERTY = PermissibleValue(text="PROPERTY", meaning=RDFS.Property)
+    INDIVIDUAL = PermissibleValue(text="INDIVIDUAL", meaning=OWL.NamedIndividual)
+
+    _defn = EnumDefinition(
+        name="NodeType",
+        description="The main type of a node",
+    )
+
+
+class PropertyType(EnumDefinitionImpl):
+    """
+    The node subtype for property nodes
+    """
+
+    ANNOTATION = PermissibleValue(text="ANNOTATION", meaning=OWL.AnnotationProperty)
+    OBJECT = PermissibleValue(text="OBJECT", meaning=OWL.ObjectProperty)
+    DATA = PermissibleValue(text="DATA", meaning=OWL.DatatypeProperty)
+
+    _defn = EnumDefinition(
+        name="PropertyType",
+        description="The node subtype for property nodes",
+    )
+
+
 # Slots
 class slots:
     pass
@@ -963,6 +997,15 @@ slots.type = Slot(
     model_uri=OBOGRAPHS.type,
     domain=None,
     range=Optional[str],
+)
+
+slots.property_type = Slot(
+    uri=OBOGRAPHS.property_type,
+    name="property_type",
+    curie=OBOGRAPHS.curie("property_type"),
+    model_uri=OBOGRAPHS.property_type,
+    domain=None,
+    range=Optional[Union[str, "PropertyType"]],
 )
 
 slots.meta = Slot(
