@@ -171,9 +171,6 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
                 raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
             return pairs[0][1]
 
-    # TODO: need a function that's just jaccard sim 
-    # (and need a corresponding interface function to call it)
-    # TODO: that jaccard sim can be in rust - then just call that
 
     def pairwise_similarity(
         self,
@@ -193,51 +190,6 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         :param object_ancestors: optional pre-generated ancestor list
         :return:
         """
-        # logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
-        # cas = list(
-        #     self.common_ancestors(
-        #         subject,
-        #         object,
-        #         predicates,
-        #         subject_ancestors=subject_ancestors,
-        #         object_ancestors=object_ancestors,
-        #     )
-        # )
-        # if OWL_THING in cas:
-        #     cas.remove(OWL_THING)
-        # logging.info(f"Retrieving IC for {len(cas)} common ancestors")
-        # ics = {
-        #     a: ic
-        #     for a, ic in self.information_content_scores(cas, object_closure_predicates=predicates)
-        # }
-        # if len(ics) > 0:
-        #     anc, max_ic = mrca_and_score(ics)
-
-        # else:
-        #     max_ic = 0.0
-        #     anc = None
-        # logging.info(f"MRCA = {anc} with {max_ic}")
-        # sim = TermPairwiseSimilarity(
-        #      subject_id=subject,
-        #      object_id=object,
-        #      ancestor_id=anc,
-        #      ancestor_information_content=max_ic,
-        #  )
-        #  sim.ancestor_information_content = max_ic
-
-        # TODO: Make this work: information_content_scores comes from rustsim
-        # anc, max_ic = mrca_and_score(information_content_scores(
-        #         self._rust_closure_table,
-        #         subject,
-        #         object,
-        #         predicates))
-        # sim = TermPairwiseSimilarity(
-        #      subject_id=subject,
-        #      object_id=object,
-        #      ancestor_id=anc,
-        #      ancestor_information_content=max_ic,
-        #  )
-        #  sim.ancestor_information_content = max_ic
 
         sim = TermPairwiseSimilarity(
             subject_id=subject,
@@ -257,10 +209,6 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
                 self._rust_closure_table, subject, object, predicates
             )
 
-        # if sim.ancestor_information_content and sim.jaccard_similarity:
-        #     sim.phenodigm_score = math.sqrt(
-        #         sim.jaccard_similarity * sim.ancestor_information_content
-        #     )
         return sim
 
     def termset_pairwise_similarity(
