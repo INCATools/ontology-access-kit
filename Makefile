@@ -85,6 +85,16 @@ bin/runoak:
 
 #* Benchmarking of Rustsim
 RUNOAK := $(shell which runoak)
+RUSTSIM_PROFILE = "oak_rustsim_hp.profile"
+NON_RUSTSIM_PROFILE = "oak_hp.profile"
+PROFILER_SCRIPT= "src/oaklib/implementations/rustsim/profiler.py"
+
+run_benchmark: benchmarks profiles
+
 benchmarks:
-	time python -m cProfile -o oak_rustsim_hp.profile -s tottime $(RUNOAK) -i rustsim:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
-	time python -m cProfile -o oak_hp.profile -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+	time python -m cProfile -o $(RUSTSIM_PROFILE) -s tottime $(RUNOAK) -i rustsim:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+	time python -m cProfile -o $(NON_RUSTSIM_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+
+profiles:
+	python $(PROFILER_SCRIPT) $(RUSTSIM_PROFILE)
+	python $(PROFILER_SCRIPT) $(NON_RUSTSIM_PROFILE)
