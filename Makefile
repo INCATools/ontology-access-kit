@@ -86,5 +86,5 @@ bin/runoak:
 #* Benchmarking of Rustsim
 RUNOAK := $(shell which runoak)
 benchmarks:
-	time python -m cProfile -o oak_rustsim_hp.profile -s tottime $(RUNOAK) -i rustsim:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432
-	time python -m cProfile -o oak_hp.profile -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432
+	time python -m cProfile -o oak_rustsim_hp.profile -s tottime $(RUNOAK) -i rustsim:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+	time python -m cProfile -o oak_hp.profile -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
