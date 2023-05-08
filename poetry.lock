@@ -2123,37 +2123,37 @@ files = [
 
 [[package]]
 name = "kgcl-rdflib"
-version = "0.3.0"
-description = "Schema fro the KGCL project."
-category = "main"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "kgcl-rdflib-0.3.0.tar.gz", hash = "sha256:3a290942d96036bdb6e1ed0ee7131d89b6d9266a0e7bfcfc83bffc4af43d1d53"},
-    {file = "kgcl_rdflib-0.3.0-py3-none-any.whl", hash = "sha256:0d81571187c2ae5b455e7699f27deb87f6f31ea41e94996d9a3ec07374790283"},
-]
-
-[package.dependencies]
-kgcl-schema = ">=0.3.0,<0.4.0"
-lark = ">=1.1.2,<2.0.0"
-linkml-runtime = ">=1.1.24,<2.0.0"
-
-[[package]]
-name = "kgcl-schema"
-version = "0.3.6"
+version = "0.4.0rc1"
 description = "Schema for the KGCL project."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "kgcl_schema-0.3.6-py3-none-any.whl", hash = "sha256:270a5bbb2af10f6566763d676f505b81a2369eec7fec2e436c322ded1b62efbf"},
-    {file = "kgcl_schema-0.3.6.tar.gz", hash = "sha256:090a8135650e88442f5ca36f0b67e6261be2406f7eefd1bdb3cb45fbc2dc60c6"},
+    {file = "kgcl_rdflib-0.4.0rc1-py3-none-any.whl", hash = "sha256:6092c785616c296ade92e4485e21c430171eeec2c6ee7a47a51bc157e972971e"},
+    {file = "kgcl_rdflib-0.4.0rc1.tar.gz", hash = "sha256:9240121c9e27301fd3283c5cfa2c22df6567d7e48c4fafd4f81a24f2b085306d"},
 ]
 
 [package.dependencies]
-bioregistry = ">=0.6.0,<0.7.0"
+kgcl-schema = "0.4.0-rc1"
 lark = ">=1.1.2,<2.0.0"
 linkml-runtime = ">=1.1.24,<2.0.0"
+
+[[package]]
+name = "kgcl-schema"
+version = "0.4.0rc1"
+description = "Schema for the KGCL project."
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "kgcl_schema-0.4.0rc1-py3-none-any.whl", hash = "sha256:010c650cc85155b0ababecd0db864c8100bf7a71fb5a6be1e1d3622e8c450bdd"},
+    {file = "kgcl_schema-0.4.0rc1.tar.gz", hash = "sha256:74a87af12ec59d1776963141b14083505e8eb6490d5b7e6f324306c083a665a8"},
+]
+
+[package.dependencies]
+bioregistry = ">=0.6.0"
+lark = ">=1.1.2"
+linkml-runtime = ">=1.1.24"
 
 [[package]]
 name = "kiwisolver"
@@ -5754,4 +5754,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "5ab5c5e411fd2179b6563d0f10eb710b74c2e5ff9b66398ca9bdd1744db39bc0"
+content-hash = "7f21851c2f8d3e9ed796210abcca0a6ec96f8f075ee2f88fd6c49e07e88aead8"
