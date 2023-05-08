@@ -26,3 +26,5 @@ notebooks/api-key.txt
 .coverage
 coverage.*
 tests/input/fhirjson_conf.json
+oak_hp.profile
+oak_rustsim_hp.profile
