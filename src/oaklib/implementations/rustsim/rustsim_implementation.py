@@ -1,7 +1,6 @@
 """Rust implementation of semantic similarity measures."""
 import inspect
 import logging
-import math
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass
@@ -9,7 +8,7 @@ from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple, Union
 
 from rustsim import (
     get_intersection,
-    mrca_and_score,
+    max_information_content,
     relationships_to_closure_table,
     semantic_jaccard_similarity,
 )
@@ -171,7 +170,6 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
                 raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
             return pairs[0][1]
 
-
     def pairwise_similarity(
         self,
         subject: CURIE,
@@ -206,6 +204,10 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
                 predicates = set(predicates)
 
             sim.jaccard_similarity = semantic_jaccard_similarity(
+                self._rust_closure_table, subject, object, predicates
+            )
+
+            sim.ancestor_information_content = max_information_content(
                 self._rust_closure_table, subject, object, predicates
             )
 
