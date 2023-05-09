@@ -35,7 +35,7 @@ from semsql.sqla.semsql import (
     DeprecatedNode,
     Edge,
     EntailedEdge,
-    HasMappingStatement,
+    # HasMappingStatement,
     HasSynonymStatement,
     HasTextDefinitionStatement,
     IriNode,
