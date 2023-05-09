@@ -28,14 +28,13 @@ from linkml_runtime import SchemaView
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from semsql.sqla.semsql import (
+from semsql.sqla.semsql import (  # HasMappingStatement,
     AnnotationPropertyNode,
     Base,
     ClassNode,
     DeprecatedNode,
     Edge,
     EntailedEdge,
-    # HasMappingStatement,
     HasSynonymStatement,
     HasTextDefinitionStatement,
     IriNode,
