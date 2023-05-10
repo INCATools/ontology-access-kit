@@ -1050,12 +1050,8 @@ class SqlImplementation(
             raise ValueError(f"Node {curie} does not exist")
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        # for row in self.session.query(HasMappingStatement).filter(
-        #     HasMappingStatement.subject == curie
-        # ):
-        #     yield row.predicate, row.value
-        for x in self.sssom_mappings(curies=[curie]):
-            yield x.predicate_id, x.object_id
+        for mpg in self.sssom_mappings(curies=[curie]):
+            yield mpg.predicate_id, mpg.object_id
 
     def query(
         self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
