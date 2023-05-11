@@ -58,6 +58,24 @@ enums:
         description: >-
           The synonym represents something closely related in meaning than the node,
           but in not exact, broad, or narrow.
+  NodeTypeEnum:
+    description: The main type of a node
+    permissible_values:
+      CLASS:
+        meaning: owl:Class
+      PROPERTY:
+        meaning: rdfs:Property
+      INDIVIDUAL:
+        meaning: owl:NamedIndividual
+  PropertyTypeEnum:
+    description: The node subtype for property nodes
+    permissible_values:
+      ANNOTATION:
+        meaning: owl:AnnotationProperty
+      OBJECT:
+        meaning: owl:ObjectProperty
+      DATA:
+        meaning: owl:DatatypeProperty
 
 types:
   XrefString:
@@ -148,8 +166,11 @@ slots:
     comments:
       - the name "lbl" exists for legacy purposes, this should be considered identical to label in rdfs
   type:
-    # TODO: rdf:type not working - import problem?
+    # switch to enums when we move to pydantic
+    # range: NodeTypeEnum
     range: string
+  propertyType:
+     range: PropertyTypeEnum
   meta:
     aliases:
       - annotations
@@ -367,6 +388,7 @@ classes:
       - id
       - lbl
       - type
+      - propertyType
       - meta
 
   Edge:

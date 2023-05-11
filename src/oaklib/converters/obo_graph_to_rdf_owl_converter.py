@@ -13,6 +13,7 @@ from oaklib.datamodels.obograph import (
     GraphDocument,
     Meta,
     Node,
+    PropertyTypeEnum,
     PropertyValue,
 )
 from oaklib.datamodels.vocabulary import (
@@ -89,6 +90,17 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         uri = self._uri_ref(source.id)
         if not source.type or source.type == "CLASS":
             target.add((uri, RDF.type, OWL.Class))
+        elif source.type == "PROPERTY":
+            if source.propertyType == PropertyTypeEnum.OBJECT:
+                target.add((uri, RDF.type, OWL.ObjectProperty))
+            elif source.propertyType == PropertyTypeEnum.ANNOTATION:
+                target.add((uri, RDF.type, OWL.AnnotationProperty))
+            elif source.propertyType == PropertyTypeEnum.DATA:
+                target.add((uri, RDF.type, OWL.DatatypeProperty))
+        elif source.type == "INDIVIDUAL":
+            target.add((uri, RDF.type, OWL.NamedIndividual))
+        else:
+            raise ValueError(f"Unknown node type: {source.type}")
         if source.lbl:
             target.add((uri, RDFS.label, rdflib.Literal(source.lbl)))
         if source.meta:
