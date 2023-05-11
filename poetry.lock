@@ -2123,31 +2123,30 @@ files = [
 
 [[package]]
 name = "kgcl-rdflib"
-version = "0.4.0rc1"
+version = "0.5.0"
 description = "Schema for the KGCL project."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "kgcl_rdflib-0.4.0rc1-py3-none-any.whl", hash = "sha256:6092c785616c296ade92e4485e21c430171eeec2c6ee7a47a51bc157e972971e"},
-    {file = "kgcl_rdflib-0.4.0rc1.tar.gz", hash = "sha256:9240121c9e27301fd3283c5cfa2c22df6567d7e48c4fafd4f81a24f2b085306d"},
+    {file = "kgcl_rdflib-0.5.0-py3-none-any.whl", hash = "sha256:214c011eac692384dd18397e455af2a7375f6a2f71fa318df245e8826678f454"},
+    {file = "kgcl_rdflib-0.5.0.tar.gz", hash = "sha256:19e34690316714b9c500e1749a35d1a0d17282f2a38cd2b1fd3d7d8cf5e6013d"},
 ]
 
 [package.dependencies]
-kgcl-schema = "0.4.0-rc1"
-lark = ">=1.1.2,<2.0.0"
-linkml-runtime = ">=1.1.24,<2.0.0"
+kgcl-schema = ">=0.5.0"
+linkml-runtime = ">=1.1.24"
 
 [[package]]
 name = "kgcl-schema"
-version = "0.4.0rc1"
+version = "0.5.0"
 description = "Schema for the KGCL project."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "kgcl_schema-0.4.0rc1-py3-none-any.whl", hash = "sha256:010c650cc85155b0ababecd0db864c8100bf7a71fb5a6be1e1d3622e8c450bdd"},
-    {file = "kgcl_schema-0.4.0rc1.tar.gz", hash = "sha256:74a87af12ec59d1776963141b14083505e8eb6490d5b7e6f324306c083a665a8"},
+    {file = "kgcl_schema-0.5.0-py3-none-any.whl", hash = "sha256:e3fde6f2e26fbc89dd28029262785c41126cb6dd609c2f8f259d99ee0819b130"},
+    {file = "kgcl_schema-0.5.0.tar.gz", hash = "sha256:97296737684065be88a5e522f20aebfe66e97ca391afa06e6112d3285d68fb45"},
 ]
 
 [package.dependencies]
@@ -5754,4 +5753,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "7f21851c2f8d3e9ed796210abcca0a6ec96f8f075ee2f88fd6c49e07e88aead8"
+content-hash = "2f9d8abf2f2209b2dc9d6d9892af84aa7af96ee28e6804645e949e8df7b97ad8"
