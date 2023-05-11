@@ -351,7 +351,7 @@ def compare(input_report, input_ontology: str, **kwargs):
 
     Example:
 
-        boomerang foo-boomer.md -i foo.db
+        boomerang compare foo-boomer.md -i foo.db
 
     For any mapping marked NEW, this can be incorporated into the ontology.
 
@@ -362,7 +362,7 @@ def compare(input_report, input_ontology: str, **kwargs):
 
     Example:
 
-        boomerang foo-boomer.md -i foo.db -L 0.999
+        boomerang compare foo-boomer.md -i foo.db -L 0.999
 
     For each high confidence boomer mapping, this is compared against current mappings and
     a suggestion made.
@@ -377,7 +377,7 @@ def compare(input_report, input_ontology: str, **kwargs):
 
     Example:
 
-        boomerang foo-boomer.md -i foo.db -L 0.999 --reject-non-exact --promote-xref-to-exact
+        boomerang compare foo-boomer.md -i foo.db -L 0.999 --reject-non-exact --promote-xref-to-exact
 
     The results here are straightforward, either REJECT, NEW, or OK
 
