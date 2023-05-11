@@ -68,6 +68,7 @@ Name: obographs_datamodel
 | [prefixes](prefixes.md) | A collection of mappings between prefixes and namespaces, used to map CURIEs ... |
 | [propertyChainAxioms](propertyChainAxioms.md) | A list of axioms that define an OWL property chain |
 | [propertyId](propertyId.md) | in an OWL restriction expression, this is the predicate |
+| [propertyType](propertyType.md) |  |
 | [rangeClassIds](rangeClassIds.md) |  |
 | [representativeNodeId](representativeNodeId.md) | The identifier of a node that represents the class in an OWL equivalence cliq... |
 | [restrictions](restrictions.md) | The set of restrictions that are the differentiating features of the defined ... |
@@ -88,6 +89,8 @@ Name: obographs_datamodel
 
 | Enumeration | Description |
 | --- | --- |
+| [NodeTypeEnum](NodeTypeEnum.md) | The main type of a node |
+| [PropertyTypeEnum](PropertyTypeEnum.md) | The node subtype for property nodes |
 | [ScopeEnum](ScopeEnum.md) | A vocabulary of terms that can be used to "scope" a synonym |
 
 

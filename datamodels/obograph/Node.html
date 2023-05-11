@@ -98,6 +98,10 @@
         
           Node --|&gt; Meta : meta
         
+      Node : propertyType
+        
+          Node --|&gt; PropertyTypeEnum : propertyType
+        
       Node : type
         
       
@@ -128,7 +132,12 @@
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="std std-doc">meta</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="propertyType.html"><span class="std std-doc">propertyType</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="PropertyTypeEnum.html"><span class="std std-doc">PropertyTypeEnum</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="std std-doc">Meta</span></a></p></td>
 <td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p>direct</p></td>
@@ -197,6 +206,7 @@ slots:
 - id
 - lbl
 - type
+- propertyType
 - meta
 class_uri: rdf:Resource
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -256,6 +266,15 @@ attributes:
     domain_of:
     - Node
     range: string
+  propertyType:
+    name: propertyType
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: propertyType
+    owner: Node
+    domain_of:
+    - Node
+    range: PropertyTypeEnum
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

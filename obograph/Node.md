@@ -22,6 +22,10 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
         
           Node --|> Meta : meta
         
+      Node : propertyType
+        
+          Node --|> PropertyTypeEnum : propertyType
+        
       Node : type
         
       
@@ -40,6 +44,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 | [id](id.md) | 1..1 <br/> [OboIdentifierString](OboIdentifierString.md) | The unique identifier of the entity | direct |
 | [lbl](lbl.md) | 0..1 <br/> [String](String.md) | the human-readable label of a node | direct |
 | [type](type.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [propertyType](propertyType.md) | 0..1 <br/> [PropertyTypeEnum](PropertyTypeEnum.md) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 
 
@@ -101,6 +106,7 @@ slots:
 - id
 - lbl
 - type
+- propertyType
 - meta
 class_uri: rdf:Resource
 
@@ -162,6 +168,15 @@ attributes:
     domain_of:
     - Node
     range: string
+  propertyType:
+    name: propertyType
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: propertyType
+    owner: Node
+    domain_of:
+    - Node
+    range: PropertyTypeEnum
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,
