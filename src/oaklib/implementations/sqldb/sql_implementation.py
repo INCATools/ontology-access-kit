@@ -28,14 +28,13 @@ from linkml_runtime import SchemaView
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from semsql.sqla.semsql import (
+from semsql.sqla.semsql import (  # HasMappingStatement,
     AnnotationPropertyNode,
     Base,
     ClassNode,
     DeprecatedNode,
     Edge,
     EntailedEdge,
-    HasMappingStatement,
     HasSynonymStatement,
     HasTextDefinitionStatement,
     IriNode,
@@ -1050,11 +1049,11 @@ class SqlImplementation(
         if not self.node_exists(curie):
             raise ValueError(f"Node {curie} does not exist")
 
-    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        for row in self.session.query(HasMappingStatement).filter(
-            HasMappingStatement.subject == curie
-        ):
-            yield row.predicate, row.value
+    def simple_mappings_by_curie(
+        self, curie: CURIE, bidirectional=False
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        for mpg in self.sssom_mappings(curies=curie, bidirectional=bidirectional):
+            yield mpg.predicate_id, mpg.object_id
 
     def query(
         self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
@@ -1582,7 +1581,10 @@ class SqlImplementation(
                     raise ValueError(f"not a CURIE: {v}")
 
     def sssom_mappings(
-        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
+        self,
+        curies: Optional[Union[CURIE, Iterable[CURIE]]] = None,
+        source: Optional[str] = None,
+        bidirectional=True,
     ) -> Iterator[Mapping]:
         if isinstance(curies, CURIE):
             curies = [curies]
@@ -1609,30 +1611,31 @@ class SqlImplementation(
         if curies is None:
             # all mappings have been returned
             return
-        # xrefs are stored as literals
-        for row in base_query.filter(Statements.value.in_(curies)):
-            mpg = Mapping(
-                subject_id=row.subject,
-                object_id=row.value,
-                predicate_id=row.predicate,
-                mapping_justification=justification,
-            )
-            inject_mapping_sources(mpg)
-            if source and mpg.subject_source != source and mpg.object_source != source:
-                continue
-            yield mpg
-        # skos mappings are stored as objects
-        for row in base_query.filter(Statements.object.in_(curies)):
-            mpg = Mapping(
-                subject_id=row.subject,
-                object_id=row.object,
-                predicate_id=row.predicate,
-                mapping_justification=justification,
-            )
-            inject_mapping_sources(mpg)
-            if source and mpg.subject_source != source and mpg.object_source != source:
-                continue
-            yield mpg
+        if bidirectional:
+            # xrefs are stored as literals
+            for row in base_query.filter(Statements.value.in_(curies)):
+                mpg = Mapping(
+                    subject_id=row.subject,
+                    object_id=row.value,
+                    predicate_id=row.predicate,
+                    mapping_justification=justification,
+                )
+                inject_mapping_sources(mpg)
+                if source and mpg.subject_source != source and mpg.object_source != source:
+                    continue
+                yield mpg
+            # skos mappings are stored as objects
+            for row in base_query.filter(Statements.object.in_(curies)):
+                mpg = Mapping(
+                    subject_id=row.subject,
+                    object_id=row.object,
+                    predicate_id=row.predicate,
+                    mapping_justification=justification,
+                )
+                inject_mapping_sources(mpg)
+                if source and mpg.subject_source != source and mpg.object_source != source:
+                    continue
+                yield mpg
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface
