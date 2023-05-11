@@ -302,17 +302,17 @@ def report(input_report, output, output_type, **kwargs):
 
     Example:
 
-        boomerang filter tests/input/boomer-example.md  report.yaml
+        boomerang report tests/input/boomer-example.md  report.yaml
 
     The generic LinkML rendered can be used:
 
     Example:
 
-        boomerang filter tests/input/boomer-example.md -O html -o report.html
+        boomerang report tests/input/boomer-example.md -O html -o report.html
 
     To show the lowest confidence first:
 
-        boomerang filter tests/input/boomer-example.md --no-best-first
+        boomerang report tests/input/boomer-example.md --no-best-first
 
     """
     ben = BoomerEngine()
