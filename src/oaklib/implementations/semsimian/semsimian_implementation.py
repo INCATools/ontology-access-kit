@@ -7,7 +7,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple, Union
 
-from rustsim import get_intersection, jaccard_similarity, mrca_and_score
+from semsimian import get_intersection, jaccard_similarity, mrca_and_score
 
 from oaklib.datamodels.similarity import (
     BestMatch,
@@ -47,7 +47,7 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         slug = self.resource.slug
         from oaklib.selector import get_adapter
 
-        slug = slug.replace("rustsim:", "")
+        slug = slug.replace("semsimian:", "")
         logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
         self.wrapped_adapter = get_adapter(slug)
         methods = dict(inspect.getmembers(self.wrapped_adapter))
