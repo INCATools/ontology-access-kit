@@ -36,7 +36,9 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.implementations.semsimian.semsimian_implementation import RustSimImplementation
+from oaklib.implementations.semsimian.semsimian_implementation import (
+    RustSimImplementation,
+)
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
