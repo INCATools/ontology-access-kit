@@ -25,12 +25,12 @@ from oaklib.types import CURIE, PRED_CURIE
 wrapped_adapter: BasicOntologyInterface = None
 
 __all__ = [
-    "RustSimImplementation",
+    "SemSimianImplementation",
 ]
 
 
 @dataclass
-class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
+class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
     """Rust implementation of semantic similarity measures."""
 
     delegated_methods: ClassVar[List[str]] = [
@@ -53,7 +53,7 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         methods = dict(inspect.getmembers(self.wrapped_adapter))
         for m in self.delegated_methods:
             mn = m if isinstance(m, str) else m.__name__
-            setattr(RustSimImplementation, mn, methods[mn])
+            setattr(SemSimianImplementation, mn, methods[mn])
 
     def most_recent_common_ancestors(
         self,
