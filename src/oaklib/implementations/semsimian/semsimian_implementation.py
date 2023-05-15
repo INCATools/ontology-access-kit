@@ -7,7 +7,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple, Union
 
-from rustsim import get_intersection, jaccard_similarity, mrca_and_score
+from semsimian import get_intersection, jaccard_similarity, mrca_and_score
 
 from oaklib.datamodels.similarity import (
     BestMatch,
@@ -25,12 +25,12 @@ from oaklib.types import CURIE, PRED_CURIE
 wrapped_adapter: BasicOntologyInterface = None
 
 __all__ = [
-    "RustSimImplementation",
+    "SemSimianImplementation",
 ]
 
 
 @dataclass
-class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
+class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
     """Rust implementation of semantic similarity measures."""
 
     delegated_methods: ClassVar[List[str]] = [
@@ -47,13 +47,13 @@ class RustSimImplementation(SearchInterface, SemanticSimilarityInterface, OboGra
         slug = self.resource.slug
         from oaklib.selector import get_adapter
 
-        slug = slug.replace("rustsim:", "")
+        slug = slug.replace("semsimian:", "")
         logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
         self.wrapped_adapter = get_adapter(slug)
         methods = dict(inspect.getmembers(self.wrapped_adapter))
         for m in self.delegated_methods:
             mn = m if isinstance(m, str) else m.__name__
-            setattr(RustSimImplementation, mn, methods[mn])
+            setattr(SemSimianImplementation, mn, methods[mn])
 
     def most_recent_common_ancestors(
         self,

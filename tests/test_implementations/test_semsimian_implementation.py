@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from rustsim import get_intersection, jaccard_similarity, mrca_and_score
+from semsimian import get_intersection, jaccard_similarity, mrca_and_score
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
@@ -21,11 +21,11 @@ class TestRustSimImplementation(unittest.TestCase):
         """Set up"""
         db = DB.as_posix()
         # this is to drop the drive name from the database path.
-        # The main reason for this is use of 2 descriptors [rustsim and sqlite].
+        # The main reason for this is use of 2 descriptors [semsimian and sqlite].
         if os.name == "nt":
             _, db = os.path.splitdrive(db)
 
-        oi = get_adapter(f"rustsim:sqlite:///{db}")
+        oi = get_adapter(f"semsimian:sqlite:///{db}")
 
         self.oi = oi
         self.information_content_scores = {
@@ -38,7 +38,7 @@ class TestRustSimImplementation(unittest.TestCase):
     def test_pairwise_similarity(self):
         self.compliance_tester.test_pairwise_similarity(self.oi)
 
-    def test_rustsim_jaccard(self):
+    def test_semsimian_jaccard(self):
         """Tests Rust implementations of Jaccard semantic similarity."""
         subj_ancs = set(self.oi.ancestors(VACUOLE, predicates=[IS_A, PART_OF]))
         obj_ancs = set(self.oi.ancestors(ENDOMEMBRANE_SYSTEM, predicates=[IS_A, PART_OF]))
@@ -46,7 +46,7 @@ class TestRustSimImplementation(unittest.TestCase):
         calculated_jaccard = len(subj_ancs.intersection(obj_ancs)) / len(subj_ancs.union(obj_ancs))
         self.assertAlmostEqual(calculated_jaccard, jaccard)
 
-    def test_rustsim_mrca(self):
+    def test_semsimian_mrca(self):
         """Tests Rust implementations of Most Recent Common Ancestor (mrca) with score."""
         expected_tuple = ("CARO:0000000", 21.05)
         mrca = mrca_and_score(self.information_content_scores)

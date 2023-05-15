@@ -36,7 +36,9 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.implementations.rustsim.rustsim_implementation import RustSimImplementation
+from oaklib.implementations.semsimian.semsimian_implementation import (
+    SemSimianImplementation,
+)
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
@@ -83,7 +85,7 @@ __all__ = [
     "KGXImplementation",
     "TranslatorImplementation",
     "OakMetaModelImplementation",
-    "RustSimImplementation",
+    "SemSimianImplementation",
 ]
 
 
@@ -130,7 +132,7 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
             "oak": OakMetaModelImplementation,
             "cx": CXImplementation,
             "ndexbio": CXImplementation,
-            "rustsim": RustSimImplementation,
+            "semsimian": SemSimianImplementation,
         }
     )
 
