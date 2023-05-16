@@ -8,12 +8,14 @@ from class_resolver import ClassResolver
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
+from oaklib.implementations.agrkb.agrkb_implementation import AGRKBImplementation
 from oaklib.implementations.amigo.amigo_implementation import AmiGOImplementation
 from oaklib.implementations.cx.cx_implementation import CXImplementation
 from oaklib.implementations.eutils.pubmed_implementation import PubMedImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
+from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
 from oaklib.implementations.ols import (
     BaseOlsImplementation,
     OlsImplementation,
@@ -69,6 +71,7 @@ __all__ = [
     "MatPortalImplementation",
     "OlsImplementation",
     "TIBOlsImplementation",
+    "MonarchImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
     "SimpleOboImplementation",

@@ -16,6 +16,7 @@ jsonschema: $(patsubst %, src/oaklib/datamodels/%.schema.json, $(MODELS))
 owl: $(patsubst %, src/oaklib/datamodels/%.owl.ttl, $(MODELS))
 
 src/oaklib/datamodels/%.py: src/oaklib/datamodels/%.yaml
+#	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
 	$(RUN) gen-python $< > $@.tmp && mv $@.tmp $@
 	$(RUN) tox -e lint
 src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml

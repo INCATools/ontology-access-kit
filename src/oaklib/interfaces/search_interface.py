@@ -62,7 +62,33 @@ class SearchInterface(BasicOntologyInterface, ABC):
         """
         Search over ontology using the specified search term.
 
-        The search term may be a CURIE, label, or alias
+        Searching over aliases (synonyms) as well as labels:
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.search import SearchProperty, SearchConfiguration
+        >>> uberon = get_adapter("sqlite:obo:uberon")
+        >>> config = SearchConfiguration(properties=[SearchProperty.ALIAS])
+        >>> for curie in uberon.basic_search("hand", config=config):
+        ...     print(curie, uberon.label(curie))
+        UBERON:0002398 manus
+
+        Searching over mapped identifiers (xrefs):
+
+        >>> config = SearchConfiguration(properties=[SearchProperty.MAPPED_IDENTIFIER])
+        >>> for curie in uberon.basic_search("FMA:9712", config=config):
+        ...     print(curie, uberon.label(curie))
+        UBERON:0002398 manus
+
+        Partial search:
+
+        >>> config = SearchConfiguration(is_partial=True, properties=[SearchProperty.ALIAS])
+        >>> for curie in sorted(uberon.basic_search("hand", config=config)):
+        ...     print(curie, uberon.label(curie))
+        <BLANKLINE>
+        ...
+        UBERON:0007723 interphalangeal joint of manual digit 1
+        UBERON:0007729 interphalangeal joint of manual digit 2
+        ...
 
         :param search_term:
         :param config:

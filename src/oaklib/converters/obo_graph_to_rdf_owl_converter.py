@@ -2,12 +2,11 @@ from dataclasses import dataclass
 from typing import Any, Tuple, Union
 
 import rdflib
-from rdflib import OWL, RDFS
+from rdflib import OWL, RDF, RDFS
 
 from oaklib import BasicOntologyInterface
 from oaklib.converters.data_model_converter import DataModelConverter
 from oaklib.datamodels.obograph import (
-    RDF,
     Edge,
     Graph,
     GraphDocument,

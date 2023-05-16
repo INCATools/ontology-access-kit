@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 LIMIT = 10000
 
 # TODO: derive from schema
+DOCUMENT_CATEGORY = "document_category"
 BIOENTITY = "bioentity"
 BIOENTITY_LABEL = "bioentity_label"
 ANNOTATION_CLASS = "annotation_class"
@@ -131,7 +132,7 @@ class AmiGOImplementation(
         include_modified: bool = False,
     ) -> Iterator[Association]:
         solr = self._solr
-        fq = {"document_category": ["annotation"]}
+        fq = {DOCUMENT_CATEGORY: ["annotation"]}
         if subjects:
             subjects = [_unnnormalize(s) for s in subjects]
             fq[BIOENTITY] = subjects
