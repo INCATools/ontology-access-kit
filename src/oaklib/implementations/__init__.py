@@ -64,6 +64,7 @@ __all__ = [
     # Concrete classes
     "AggregatorImplementation",
     "AgroPortalImplementation",
+    "AGRKBImplementation",
     "AmiGOImplementation",
     "BioPortalImplementation",
     "CXImplementation",

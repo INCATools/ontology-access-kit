@@ -5,7 +5,6 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional
 
 import requests_cache
 
-from oaklib import BasicOntologyInterface
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
@@ -87,7 +86,7 @@ class MonarchImplementation(
         ]
         for item in obj["items"]:
 
-            def _get(k):
+            def _get(k, item=item):
                 v = item.get(k, None)
                 if isinstance(v, list):
                     return v[0]

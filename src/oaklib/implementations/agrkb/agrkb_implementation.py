@@ -5,7 +5,6 @@ from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional
 
 import requests_cache
 
-from oaklib import BasicOntologyInterface
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
@@ -69,7 +68,7 @@ class AGRKBImplementation(
         ]:
             url = f"{BASE_URL}/gene/{subject}/interactions?filter.joinType={join_type}"
 
-            def gen_assoc(obj: dict) -> Association:
+            def gen_assoc(obj: dict, predicate=predicate) -> Association:
                 return Association(
                     subject=subject,
                     predicate=predicate,
