@@ -97,17 +97,14 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                 sim.jaccard_similarity = 0.0
             sim.ancestor_information_content = 0.0
             return sim
-        if False and subject == object:
-            sim.jaccard_similarity = 1.0
-            sim.ancestor_information_content = 1.0  # TODO
-        else:
-            if predicates:
-                predicates = set(predicates)
-            sim.jaccard_similarity = semantic_jaccard_similarity(
-                self._rust_closure_table, subject, object, predicates
-            )
-            sim.ancestor_information_content = max_information_content(
-                self._rust_closure_table, subject, object, predicates
-            )
+
+        if predicates:
+            predicates = set(predicates)
+        sim.jaccard_similarity = semantic_jaccard_similarity(
+            self._rust_closure_table, subject, object, predicates
+        )
+        sim.ancestor_information_content = max_information_content(
+            self._rust_closure_table, subject, object, predicates
+        )
         sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
         return sim

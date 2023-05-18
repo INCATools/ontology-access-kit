@@ -4,7 +4,7 @@ import unittest
 from linkml_runtime.dumpers import yaml_dumper
 from semsimian import get_intersection, jaccard_similarity, mrca_and_score
 
-from oaklib.datamodels.vocabulary import IS_A, OWL_CLASS, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.selector import get_adapter
 from tests import (
