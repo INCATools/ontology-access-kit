@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-05-03T08:52:36
+# Generation date: 2023-05-13T10:22:20
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs

@@ -170,7 +170,10 @@ from oaklib.utilities.obograph_utils import (
     shortest_paths,
     trim_graph,
 )
-from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
+from oaklib.utilities.subsets.slimmer_utils import (
+    filter_redundant,
+    roll_up_to_named_subset,
+)
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
 from oaklib.utilities.validation.definition_ontology_rule import (
@@ -785,6 +788,13 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
                 )
             else:
                 raise NotImplementedError
+        elif term.startswith(".nr"):
+            # graph query: non-redundant
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
+            chain_results(filter_redundant(impl, rest, this_predicates))
         else:
             # term is not query syntax: feed directly to search
             if not isinstance(impl, SearchInterface):

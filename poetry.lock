@@ -817,14 +817,14 @@ toml = ["tomli"]
 
 [[package]]
 name = "curies"
-version = "0.4.5"
+version = "0.5.4"
 description = "Idiomatic conversion between URIs and compact URIs (CURIEs)."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "curies-0.4.5-py3-none-any.whl", hash = "sha256:73281f6616ec47c8d46d842def7a2021416c9ac10f580f9116125abf4bd2f943"},
-    {file = "curies-0.4.5.tar.gz", hash = "sha256:c01626183b520db1b4af6a1fd41ee6d02462fea4ce54d8c5a528e5782268589c"},
+    {file = "curies-0.5.4-py3-none-any.whl", hash = "sha256:833be5989b9d71ffb54fe521810ae126d122b78ab56a57370aa9049de1eac291"},
+    {file = "curies-0.5.4.tar.gz", hash = "sha256:bad4262b7f0ddd3dfa8a7159f70bc3745b9a1c24048ad2bbc241d5e23a3131e3"},
 ]
 
 [package.dependencies]
@@ -834,8 +834,8 @@ requests = "*"
 [package.extras]
 bioregistry = ["bioregistry (>=0.5.136)"]
 docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-automodapi", "sphinx-rtd-theme"]
-fastapi = ["fastapi", "httpx"]
-flask = ["flask"]
+fastapi = ["defusedxml", "fastapi", "httpx", "python-multipart", "uvicorn"]
+flask = ["defusedxml", "flask"]
 pandas = ["pandas"]
 rdflib = ["rdflib"]
 tests = ["coverage", "pytest"]
@@ -2336,19 +2336,19 @@ docs = ["myst-parser[docs] (>=0.18.1,<0.19.0)", "sphinx-autodoc-typehints[docs] 
 
 [[package]]
 name = "linkml-runtime"
-version = "1.5.1"
+version = "1.5.3"
 description = "Runtime environment for LinkML, the Linked open data modeling language"
 category = "main"
 optional = false
 python-versions = ">=3.7.6,<4.0.0"
 files = [
-    {file = "linkml_runtime-1.5.1-py3-none-any.whl", hash = "sha256:1ae23259500d7fde465313547d8be33049fc071857e6c546b5212b23a9bf0016"},
-    {file = "linkml_runtime-1.5.1.tar.gz", hash = "sha256:fd5cdd6403ae5e087e1e5e4023542a6da6e6df4538e9b516c30d6315f8be61dc"},
+    {file = "linkml_runtime-1.5.3-py3-none-any.whl", hash = "sha256:e8f82ebce2af7e71998a7fca0cf9d37eabfa18c21efe34393b698074da430bbb"},
+    {file = "linkml_runtime-1.5.3.tar.gz", hash = "sha256:b53876389cd88fcf9d259079f46edfc8e59665fbed71934c40db04908ddaf937"},
 ]
 
 [package.dependencies]
 click = "*"
-curies = ">=0.4.0,<0.5.0"
+curies = ">=0.5.4"
 deprecated = "*"
 hbreader = "*"
 json-flattener = ">=0.1.9"
@@ -2356,6 +2356,7 @@ jsonasobj2 = ">=1.0.4,<2.0.0"
 jsonschema = ">=3.2.0"
 prefixcommons = ">=0.1.12"
 prefixmaps = ">=0.1.4"
+pydantic = ">=1.10.2,<2.0.0"
 pyyaml = "*"
 rdflib = ">=6.0.0"
 requests = "*"
@@ -5772,5 +5773,5 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
+content-hash = "661fcef0804ceaae8edb4b718ea50f7150963c5db3f79f41dffed7ed46e25cab"
 
-content-hash = "2f9d8abf2f2209b2dc9d6d9892af84aa7af96ee28e6804645e949e8df7b97ad8"

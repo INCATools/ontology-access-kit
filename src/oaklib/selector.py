@@ -291,7 +291,6 @@ def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]
     if scheme == "http" or scheme == "https":
         raise NotImplementedError("Web requests not implemented yet")
     else:
-        # return SCHEME_DICT[scheme]
         from oaklib.implementations import get_implementation_resolver
 
         return get_implementation_resolver().lookup(scheme)

@@ -82,15 +82,24 @@ def draw_graph(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=
 
 
 def graph_to_image(
-    graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None, view=None
-) -> str:
+    graph: Graph,
+    seeds: Optional[list[str]] = None,
+    configure: Optional[str] = None,
+    stylemap: Optional[str] = None,
+    imgfile: Optional[str] = None,
+    view: bool = None,
+    format="png",
+) -> None:
     """
-    Renders a graph to png using obographviz
+    Renders a graph to png using obographviz.
 
-    :param graph:
-    :param seeds:
-    :param configure:
-    :param stylemap:
+    :param graph: OboGraph object to visualize
+    :param seeds: list of node ids to highlight
+    :param configure: yaml string to configure the graph
+    :param stylemap: path to stylemap file following kgviz data model
+    :param imgfile: path to image file to write
+    :param view:
+    :param format: defaults to png
     :return:
     """
     g = {"graphs": [graph_as_dict(graph)]}
@@ -127,10 +136,10 @@ def graph_to_image(
         tmpfile.flush()
 
         if imgfile is None:
-            imgfile = f"{temp_file_name}.png"
+            imgfile = f"{temp_file_name}.{format}"
         style_json = json.dumps(style).replace("'", "\\'")
         logging.debug(f"Style = {style_json}")
-        cmdtoks = [exec, "-S", style_json, "-t", "png", temp_file_name, "-o", imgfile]
+        cmdtoks = [exec, "-S", style_json, "-t", format, temp_file_name, "-o", imgfile]
         if stylemap is not None:
             cmdtoks += ["-s", stylemap]
         if seeds is not None:
