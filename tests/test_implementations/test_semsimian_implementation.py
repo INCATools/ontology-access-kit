@@ -2,22 +2,29 @@ import os
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from semsimian import get_intersection, jaccard_similarity, mrca_and_score
 
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, OWL_CLASS
-
+from oaklib.datamodels.vocabulary import IS_A, OWL_CLASS, PART_OF
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.selector import get_adapter
-from tests import ENDOMEMBRANE_SYSTEM, INPUT_DIR, VACUOLE, NUCLEUS, NUCLEAR_MEMBRANE, HUMAN, FUNGI
+from tests import (
+    ENDOMEMBRANE_SYSTEM,
+    FUNGI,
+    HUMAN,
+    INPUT_DIR,
+    NUCLEAR_MEMBRANE,
+    NUCLEUS,
+    VACUOLE,
+)
 from tests.test_implementations import ComplianceTester
 
 DB = INPUT_DIR / "go-nucleus.db"
 
 EXPECTED_ICS = {
-            "CARO:0000000": 21.05,
-            "BFO:0000002": 0.7069,
-            "BFO:0000003": 14.89,
-        }
+    "CARO:0000000": 21.05,
+    "BFO:0000002": 0.7069,
+    "BFO:0000003": 14.89,
+}
 
 
 class TestSemSimianImplementation(unittest.TestCase):
@@ -57,12 +64,23 @@ class TestSemSimianImplementation(unittest.TestCase):
             for o in entities:
                 for preds in [[IS_A, PART_OF]]:
                     sim = adapter.pairwise_similarity(s, o, predicates=preds)
-                    original_sim = adapter.wrapped_adapter.pairwise_similarity(s, o, predicates=preds)
+                    original_sim = adapter.wrapped_adapter.pairwise_similarity(
+                        s, o, predicates=preds
+                    )
                     self.assertEqual(sim.subject_id, original_sim.subject_id)
                     self.assertEqual(sim.object_id, original_sim.object_id)
-                    self.assertAlmostEqual(sim.jaccard_similarity, original_sim.jaccard_similarity, places=2, msg=f"Jaccard similarity for {s} and {o} with predicates {preds} does not match")
+                    self.assertAlmostEqual(
+                        sim.jaccard_similarity,
+                        original_sim.jaccard_similarity,
+                        places=2,
+                        msg=f"Jaccard similarity for {s} and {o} with predicates {preds} does not match",
+                    )
                     # TODO: we expect these to match with the coming soon version of semsimian
-                    if debug and sim.ancestor_information_content != original_sim.ancestor_information_content:
+                    if (
+                        debug
+                        and sim.ancestor_information_content
+                        != original_sim.ancestor_information_content
+                    ):
                         print("\n\n## COMPARING:")
                         print("Rust:")
                         print(yaml_dumper.dumps(sim))

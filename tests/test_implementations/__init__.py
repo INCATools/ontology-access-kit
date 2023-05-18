@@ -1696,7 +1696,11 @@ class ComplianceTester:
         test.assertEqual(4, len(pairs))
         for pair in pairs:
             if pair.subject_id == pair.object_id:
-                test.assertGreater(pair.jaccard_similarity, 0.99, f"self similarity should be 1.0; {pair.subject_id}")
+                test.assertGreater(
+                    pair.jaccard_similarity,
+                    0.99,
+                    f"self similarity should be 1.0; {pair.subject_id}",
+                )
             else:
                 test.assertEqual(0.0, pair.ancestor_information_content)
         terms = [
@@ -1717,7 +1721,9 @@ class ComplianceTester:
                 if pair.subject_id == FAKE_ID:
                     test.assertIsNone(pair.phenodigm_score)
                 else:
-                    test.assertGreater(pair.phenodigm_score, 0.5, f"expected phenodigm match for {pair}")
+                    test.assertGreater(
+                        pair.phenodigm_score, 0.5, f"expected phenodigm match for {pair}"
+                    )
             distances[(pair.subject_id, pair.object_id)] = 1 - pair.jaccard_similarity
         # test triangle inequality
         for x in terms:

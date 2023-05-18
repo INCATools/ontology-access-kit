@@ -2,23 +2,18 @@
 import inspect
 import logging
 import math
-import statistics
-from collections import defaultdict
 from dataclasses import dataclass
-from typing import ClassVar, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import ClassVar, List
 
-from semsimian import get_intersection, jaccard_similarity, mrca_and_score, semantic_jaccard_similarity, \
-    relationships_to_closure_table, max_information_content
-
-from oaklib.datamodels.similarity import (
-    BestMatch,
-    TermInfo,
-    TermPairwiseSimilarity,
-    TermSetPairwiseSimilarity,
+from semsimian import (
+    max_information_content,
+    relationships_to_closure_table,
+    semantic_jaccard_similarity,
 )
-from oaklib.datamodels.vocabulary import OWL_THING
+
+from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -69,7 +64,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         # TODO: eliminate the need for this
         self._entities = {r[0] for r in rels}
 
-
     def pairwise_similarity(
         self,
         subject: CURIE,
@@ -105,7 +99,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             return sim
         if False and subject == object:
             sim.jaccard_similarity = 1.0
-            sim.ancestor_information_content = 1.0 # TODO
+            sim.ancestor_information_content = 1.0  # TODO
         else:
             if predicates:
                 predicates = set(predicates)
@@ -115,7 +109,5 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             sim.ancestor_information_content = max_information_content(
                 self._rust_closure_table, subject, object, predicates
             )
-        sim.phenodigm_score = math.sqrt(
-            sim.jaccard_similarity * sim.ancestor_information_content
-        )
+        sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
         return sim
