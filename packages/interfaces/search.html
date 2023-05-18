@@ -160,7 +160,34 @@ expression queries.</p>
 <dt class="sig sig-object py" id="oaklib.interfaces.search_interface.SearchInterface.basic_search">
 <span class="sig-name descname"><span class="pre">basic_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../search-syntax.html#oaklib.datamodels.search.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">SearchConfiguration</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/search_interface.html#SearchInterface.basic_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface.basic_search" title="Permalink to this definition"></a></dt>
 <dd><p>Search over ontology using the specified search term.</p>
-<p>The search term may be a CURIE, label, or alias</p>
+<p>Searching over aliases (synonyms) as well as labels:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchProperty</span><span class="p">,</span> <span class="n">SearchConfiguration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uberon</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">ALIAS</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">uberon</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;hand&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">uberon</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+<span class="go">UBERON:0002398 manus</span>
+</pre></div>
+</div>
+<p>Searching over mapped identifiers (xrefs):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">MAPPED_IDENTIFIER</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">uberon</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;FMA:9712&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">uberon</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+<span class="go">UBERON:0002398 manus</span>
+</pre></div>
+</div>
+<p>Partial search:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">(</span><span class="n">is_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">ALIAS</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">uberon</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;hand&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">uberon</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+
+<span class="go">...</span>
+<span class="go">UBERON:0007723 interphalangeal joint of manual digit 1</span>
+<span class="go">UBERON:0007729 interphalangeal joint of manual digit 2</span>
+<span class="go">...</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

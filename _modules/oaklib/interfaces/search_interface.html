@@ -147,7 +147,33 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Search over ontology using the specified search term.</span>
 
-<span class="sd">        The search term may be a CURIE, label, or alias</span>
+<span class="sd">        Searching over aliases (synonyms) as well as labels:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.search import SearchProperty, SearchConfiguration</span>
+<span class="sd">        &gt;&gt;&gt; uberon = get_adapter(&quot;sqlite:obo:uberon&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; config = SearchConfiguration(properties=[SearchProperty.ALIAS])</span>
+<span class="sd">        &gt;&gt;&gt; for curie in uberon.basic_search(&quot;hand&quot;, config=config):</span>
+<span class="sd">        ...     print(curie, uberon.label(curie))</span>
+<span class="sd">        UBERON:0002398 manus</span>
+
+<span class="sd">        Searching over mapped identifiers (xrefs):</span>
+
+<span class="sd">        &gt;&gt;&gt; config = SearchConfiguration(properties=[SearchProperty.MAPPED_IDENTIFIER])</span>
+<span class="sd">        &gt;&gt;&gt; for curie in uberon.basic_search(&quot;FMA:9712&quot;, config=config):</span>
+<span class="sd">        ...     print(curie, uberon.label(curie))</span>
+<span class="sd">        UBERON:0002398 manus</span>
+
+<span class="sd">        Partial search:</span>
+
+<span class="sd">        &gt;&gt;&gt; config = SearchConfiguration(is_partial=True, properties=[SearchProperty.ALIAS])</span>
+<span class="sd">        &gt;&gt;&gt; for curie in sorted(uberon.basic_search(&quot;hand&quot;, config=config)):</span>
+<span class="sd">        ...     print(curie, uberon.label(curie))</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        UBERON:0007723 interphalangeal joint of manual digit 1</span>
+<span class="sd">        UBERON:0007729 interphalangeal joint of manual digit 2</span>
+<span class="sd">        ...</span>
 
 <span class="sd">        :param search_term:</span>
 <span class="sd">        :param config:</span>
