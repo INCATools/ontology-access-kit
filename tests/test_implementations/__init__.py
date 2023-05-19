@@ -1689,14 +1689,18 @@ class ComplianceTester:
         # test non-existent item
         test.assertEqual([(OWL_THING, 0.0)], list(oi.information_content_scores([OWL_THING])))
         sim = oi.pairwise_similarity(NUCLEUS, FAKE_ID)
-        test.assertEqual(0.0, sim.ancestor_information_content)
+        test.assertEqual(0.0, sim.ancestor_information_content, "fake id should have no IC")
         test.assertEqual(0.0, sim.jaccard_similarity)
         terms = [NUCLEUS, FAKE_ID]
         pairs = list(oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A]))
         test.assertEqual(4, len(pairs))
         for pair in pairs:
             if pair.subject_id == pair.object_id:
-                test.assertGreater(pair.jaccard_similarity, 0.99)
+                test.assertGreater(
+                    pair.jaccard_similarity,
+                    0.99,
+                    f"self similarity should be 1.0; {pair.subject_id}",
+                )
             else:
                 test.assertEqual(0.0, pair.ancestor_information_content)
         terms = [
@@ -1717,7 +1721,9 @@ class ComplianceTester:
                 if pair.subject_id == FAKE_ID:
                     test.assertIsNone(pair.phenodigm_score)
                 else:
-                    test.assertGreater(pair.phenodigm_score, 0.5)
+                    test.assertGreater(
+                        pair.phenodigm_score, 0.5, f"expected phenodigm match for {pair}"
+                    )
             distances[(pair.subject_id, pair.object_id)] = 1 - pair.jaccard_similarity
         # test triangle inequality
         for x in terms:
