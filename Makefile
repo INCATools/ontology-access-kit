@@ -82,3 +82,19 @@ tests/input/%.db: tests/input/%.owl
 # this can be used outside the poetry environment
 bin/runoak:
 	echo `poetry run which runoak` '"$$@"' > $@ && chmod +x $@
+
+# Benchmarking for Semsimian
+RUNOAK := $(shell which runoak)
+SEMSIMIAN_PROFILE = "oak_semsimian_hp.profile"
+NON_SEMSIMIAN_PROFILE = "oak_hp.profile"
+PROFILER_SCRIPT= "src/oaklib/implementations/semsimian/profiler.py"
+
+run_benchmark: benchmarks profiles
+
+benchmarks:
+	time python -m cProfile -o $(SEMSIMIAN_PROFILE) -s tottime $(RUNOAK) -i rustsim:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+	time python -m cProfile -o $(NON_SEMSIMIAN_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+
+profiles:
+	python $(PROFILER_SCRIPT) $(SEMSIMIAN_PROFILE)
+	python $(PROFILER_SCRIPT) $(NON_SEMSIMIAN_PROFILE)
