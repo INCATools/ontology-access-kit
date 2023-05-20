@@ -215,16 +215,17 @@
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> can&#39;t be used to match partial text&quot;</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Indexing ontology...&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_directory</span><span class="p">:</span>
                 <span class="n">index_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="si">}</span><span class="s2">-index.yaml&quot;</span>
                 <span class="n">index_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache_directory</span><span class="p">)</span> <span class="o">/</span> <span class="n">index_name</span><span class="p">)</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Caching to </span><span class="si">{</span><span class="n">index_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">index_path</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span> <span class="o">=</span> <span class="n">create_or_load_lexical_index</span><span class="p">(</span>
-                <span class="n">index_path</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">mapping_rule_collection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rule_collection</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Indexing ontology...&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span> <span class="o">=</span> <span class="n">create_or_load_lexical_index</span><span class="p">(</span>
+                    <span class="n">index_path</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">mapping_rule_collection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rule_collection</span>
+                <span class="p">)</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Performing naive search using lexical index&quot;</span><span class="p">)</span>
             <span class="n">li</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexical_index</span>
             <span class="n">text_lower</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
