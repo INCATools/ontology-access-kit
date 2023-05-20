@@ -130,16 +130,17 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                     f"{self.__class__.__name__} can't be used to match partial text"
                 )
         else:
-            logging.info("Indexing ontology...")
             if self.cache_directory:
                 index_name = f"{self.resource.scheme}-{self.resource.slug}-index.yaml"
                 index_path = str(Path(self.cache_directory) / index_name)
                 logging.info(f"Caching to {index_path}")
             else:
                 index_path = None
-            self.lexical_index = create_or_load_lexical_index(
-                index_path, self, mapping_rule_collection=self.rule_collection
-            )
+            if not self.lexical_index:
+                logging.info("Indexing ontology...")
+                self.lexical_index = create_or_load_lexical_index(
+                    index_path, self, mapping_rule_collection=self.rule_collection
+                )
             logging.info("Performing naive search using lexical index")
             li = self.lexical_index
             text_lower = text.lower()
