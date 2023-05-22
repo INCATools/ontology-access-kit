@@ -80,21 +80,24 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param min_ancestor_information_content: optional minimum ancestor information content
         :return:
         """
-        logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+        logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
 
         jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
 
         if math.isnan(jaccard_val):
             return None
 
-        ancestor_information_content_val = self.semsimian.resnik_similarity(subject, object, set(predicates))
+        ancestor_information_content_val = self.semsimian.resnik_similarity(
+            subject, object, set(predicates)
+        )
 
         if math.isnan(ancestor_information_content_val):
             return None
 
-        if (min_jaccard_similarity is not None and jaccard_val < min_jaccard_similarity) or \
-                (min_ancestor_information_content is not None and
-                 ancestor_information_content_val < min_ancestor_information_content):
+        if (min_jaccard_similarity is not None and jaccard_val < min_jaccard_similarity) or (
+            min_ancestor_information_content is not None
+            and ancestor_information_content_val < min_ancestor_information_content
+        ):
             return None
 
         sim = TermPairwiseSimilarity(

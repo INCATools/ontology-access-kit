@@ -2744,9 +2744,11 @@ def similarity(
                 set2it = query_terms_iterator(terms, impl)
         actual_predicates = _process_predicates_arg(predicates)
         for sim in impl.all_by_all_pairwise_similarity(
-            set1it, set2it, predicates=actual_predicates,
+            set1it,
+            set2it,
+            predicates=actual_predicates,
             min_jaccard_similarity=min_jaccard_similarity,
-            min_ancestor_information_content=min_ancestor_information_content
+            min_ancestor_information_content=min_ancestor_information_content,
         ):
             if autolabel:
                 # TODO: this can be made more efficient
