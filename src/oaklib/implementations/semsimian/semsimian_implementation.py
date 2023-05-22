@@ -3,7 +3,7 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass
-from typing import ClassVar, List
+from typing import ClassVar, List, Optional
 
 from semsimian import Semsimian
 
@@ -65,7 +65,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         subject_ancestors: List[CURIE] = None,
         object_ancestors: List[CURIE] = None,
-    ) -> TermPairwiseSimilarity:
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
+    ) -> Optional[TermPairwiseSimilarity]:
         """
         Pairwise similarity between a pair of ontology terms
 
@@ -74,9 +76,20 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates:
         :param subject_ancestors: optional pre-generated ancestor list
         :param object_ancestors: optional pre-generated ancestor list
+        :param min_jaccard_similarity: optional minimum jaccard similarity
+        :param min_ancestor_information_content: optional minimum ancestor information content
         :return:
         """
         logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+
+        jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
+        ancestor_information_content_val = self.semsimian.resnik_similarity(subject, object, set(predicates))
+
+        if (min_jaccard_similarity is not None and jaccard_val < min_jaccard_similarity) or \
+                (min_ancestor_information_content is not None and
+                 ancestor_information_content_val < min_ancestor_information_content):
+            return None
+
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
@@ -84,8 +97,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             ancestor_information_content=None,
         )
 
-        sim.jaccard_similarity = self.semsimian.jaccard_similarity(subject, object, predicates)
-        sim.ancestor_information_content = self.resnik_similarity(subject, object, predicates)
+        sim.jaccard_similarity = jaccard_val
+        sim.ancestor_information_content = ancestor_information_content_val
 
         sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
+
         return sim

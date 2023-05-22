@@ -220,6 +220,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         subject_ancestors: List[CURIE] = None,
         object_ancestors: List[CURIE] = None,
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
     ) -> TermPairwiseSimilarity:
         """
         Pairwise similarity between a pair of ontology terms
@@ -229,6 +231,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param predicates:
         :param subject_ancestors: optional pre-generated ancestor list
         :param object_ancestors: optional pre-generated ancestor list
+        :param min_jaccard_similarity: minimum Jaccard similarity for a pair to be considered
+        :param min_ancestor_information_content: minimum IC for a common ancestor to be considered
         :return:
         """
         logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
@@ -345,6 +349,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         subjects: Iterable[CURIE],
         objects: Iterable[CURIE],
         predicates: List[PRED_CURIE] = None,
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
         """
         Compute similarity for all combinations of terms in subsets vs all terms in objects
@@ -357,4 +363,6 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         objects = list(objects)
         for s in subjects:
             for o in objects:
-                yield self.pairwise_similarity(s, o, predicates=predicates)
+                val = self.pairwise_similarity(s, o, predicates=predicates)
+                if val:
+                    yield val
