@@ -2629,12 +2629,12 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     help="ID file for set2",
 )
 @click.option(
-    "--jaccard-minimum",
+    "--min-jaccard-similarity",
     type=float,
     help="Minimum value for jaccard score",
 )
 @click.option(
-    "--ic-minimum",
+    "--min-ancestor-information-content",
     type=float,
     help="Minimum value for information content",
 )
@@ -2654,8 +2654,8 @@ def similarity(
     set1_file,
     set2_file,
     autolabel: bool,
-    jaccard_minimum,
-    ic_minimum,
+    min_jaccard_similarity: Optional[float],
+    min_ancestor_information_content: Optional[float],
     main_score_field,
     output_type,
     output,
@@ -2744,19 +2744,17 @@ def similarity(
                 set2it = query_terms_iterator(terms, impl)
         actual_predicates = _process_predicates_arg(predicates)
         for sim in impl.all_by_all_pairwise_similarity(
-            set1it, set2it, predicates=actual_predicates
+            set1it,
+            set2it,
+            predicates=actual_predicates,
+            min_jaccard_similarity=min_jaccard_similarity,
+            min_ancestor_information_content=min_ancestor_information_content,
         ):
             if autolabel:
                 # TODO: this can be made more efficient
                 sim.subject_label = impl.label(sim.subject_id)
                 sim.object_label = impl.label(sim.object_id)
                 sim.ancestor_label = impl.label(sim.ancestor_id)
-            if jaccard_minimum is not None:
-                if sim.jaccard_similarity < jaccard_minimum:
-                    continue
-            if ic_minimum is not None:
-                if sim.ancestor_information_content < ic_minimum:
-                    continue
             writer.emit(sim)
         writer.finish()
         writer.file.close()
