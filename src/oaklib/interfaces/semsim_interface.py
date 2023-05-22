@@ -363,6 +363,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         objects = list(objects)
         for s in subjects:
             for o in objects:
-                val = self.pairwise_similarity(s, o, predicates=predicates)
+                val = self.pairwise_similarity(s, o, predicates=predicates,
+                                               min_jaccard_similarity=min_jaccard_similarity,
+                                               min_ancestor_information_content=min_ancestor_information_content)
                 if val:
                     yield val
