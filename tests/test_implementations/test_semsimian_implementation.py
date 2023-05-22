@@ -68,7 +68,10 @@ class TestSemSimianImplementation(unittest.TestCase):
                         s, o, predicates=preds
                     )
                     if sim is None:
-                        if original_sim is not None and original_sim.subject_id != original_sim.object_id:
+                        if (
+                            original_sim is not None
+                            and original_sim.subject_id != original_sim.object_id
+                        ):
                             raise ValueError(f"Expected None, got {original_sim}")
                         continue
                     self.assertEqual(sim.subject_id, original_sim.subject_id)
@@ -90,5 +93,3 @@ class TestSemSimianImplementation(unittest.TestCase):
                         print(yaml_dumper.dumps(sim))
                         print("Wrapped:")
                         print(yaml_dumper.dumps(original_sim))
-
-
