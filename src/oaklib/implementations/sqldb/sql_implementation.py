@@ -791,6 +791,10 @@ class SqlImplementation(
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self.outgoing_relationships(curie, predicates, entailed=True)
 
+    def _rebuild_relationship_index(self):
+        self._relationships_by_subject_index = None
+        self.precompute_lookups()
+
     def precompute_lookups(self) -> None:
         if self._relationships_by_subject_index is None:
             self._relationships_by_subject_index = {}
@@ -2177,6 +2181,7 @@ class SqlImplementation(
                         subject=patch.subject, predicate=patch.predicate, object=patch.object
                     )
                 )
+                self._rebuild_relationship_index()
                 logging.warning("entailed_edge is now stale")
             elif isinstance(patch, kgcl.EdgeDeletion):
                 self._execute(
