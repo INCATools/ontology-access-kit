@@ -1975,6 +1975,8 @@ class SqlImplementation(
         subjects: Iterable[CURIE],
         objects: Iterable[CURIE],
         predicates: List[PRED_CURIE] = None,
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
         def tuples_to_map(
             entities: List[CURIE], relationships: Iterable[RELATIONSHIP]
