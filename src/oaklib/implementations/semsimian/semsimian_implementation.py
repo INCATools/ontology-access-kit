@@ -5,11 +5,7 @@ import math
 from dataclasses import dataclass
 from typing import ClassVar, List
 
-from semsimian import (
-    max_information_content,
-    relationships_to_closure_table,
-    semantic_jaccard_similarity,
-)
+from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
@@ -59,10 +55,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             mn = m if isinstance(m, str) else m.__name__
             setattr(SemSimianImplementation, mn, methods[mn])
 
-        rels = [r for r in self.wrapped_adapter.relationships(include_entailed=True)]
-        self._rust_closure_table = relationships_to_closure_table(rels)
-        # TODO: eliminate the need for this
-        self._entities = {r[0] for r in rels}
+        spo = [r for r in self.wrapped_adapter.relationships(include_entailed=True)]
+        self.semsimian = Semsimian(spo)
 
     def pairwise_similarity(
         self,
@@ -89,22 +83,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             ancestor_id=None,
             ancestor_information_content=None,
         )
-        if subject not in self._entities or object not in self._entities:
-            logging.debug(f"Unknown entity in {subject} x {object}")
-            if subject == object:
-                sim.jaccard_similarity = 1.0
-            else:
-                sim.jaccard_similarity = 0.0
-            sim.ancestor_information_content = 0.0
-            return sim
 
-        if predicates:
-            predicates = set(predicates)
-        sim.jaccard_similarity = semantic_jaccard_similarity(
-            self._rust_closure_table, subject, object, predicates
-        )
-        sim.ancestor_information_content = max_information_content(
-            self._rust_closure_table, subject, object, predicates
-        )
+        sim.jaccard_similarity = self.semsimian.jaccard_similarity(subject, object, predicates)
+        sim.ancestor_information_content = self.resnik_similarity(subject, object, predicates)
+
         sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
         return sim
