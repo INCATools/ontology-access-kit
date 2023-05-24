@@ -3,7 +3,7 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass
-from typing import ClassVar, List, Optional
+from typing import ClassVar, List, Optional, Iterable, Iterator
 
 from semsimian import Semsimian
 
@@ -113,3 +113,36 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
 
         return sim
+
+    def all_by_all_pairwise_similarity(
+        self,
+        subjects: Iterable[CURIE],
+        objects: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
+    ) -> Iterator[TermPairwiseSimilarity]:
+        """
+        Compute similarity for all combinations of terms in subsets vs all terms in objects
+
+        :param subjects:
+        :param objects:
+        :param predicates:
+        :return:
+        """
+        objects = list(objects)
+
+        for result in self.semsimian.all_by_all_pairwise_similarity(subjects,
+                                                                    objects,
+                                                                    set(predicates)):
+            sim = TermPairwiseSimilarity(
+                subject_id=result.subject_id,
+                object_id=result.object_id,
+                ancestor_id=result.ancestor_id,
+                ancestor_information_content=result.ancestor_information_content,
+            )
+            sim.jaccard_similarity = result.jaccard_similarity
+            sim.ancestor_information_content = result.ancestor_information_content
+            sim.phenodigm_score = math.sqrt(
+                sim.jaccard_similarity * sim.ancestor_information_content)
+            yield sim
