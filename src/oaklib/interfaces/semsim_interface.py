@@ -222,7 +222,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         object_ancestors: List[CURIE] = None,
         min_jaccard_similarity: Optional[float] = None,
         min_ancestor_information_content: Optional[float] = None,
-    ) -> TermPairwiseSimilarity:
+    ) -> Optional[TermPairwiseSimilarity]:
         """
         Pairwise similarity between a pair of ontology terms
 
@@ -235,7 +235,15 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param min_ancestor_information_content: minimum IC for a common ancestor to be considered
         :return:
         """
-        logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+        logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+        if subject_ancestors is None and isinstance(self, OboGraphInterface):
+            subject_ancestors = self.ancestors(subject, predicates=predicates)
+        if object_ancestors is None and isinstance(self, OboGraphInterface):
+            object_ancestors = self.ancestors(object, predicates=predicates)
+        if subject_ancestors is not None and object_ancestors is not None:
+            jaccard_similarity = setwise_jaccard_similarity(subject_ancestors, object_ancestors)
+        if min_jaccard_similarity is not None and jaccard_similarity < min_jaccard_similarity:
+            return None
         cas = list(
             self.common_ancestors(
                 subject,
@@ -259,20 +267,19 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         else:
             max_ic = 0.0
             anc = None
+        if min_ancestor_information_content is not None:
+            if max_ic < min_ancestor_information_content:
+                return None
         logging.info(f"MRCA = {anc} with {max_ic}")
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
             ancestor_id=anc,
             ancestor_information_content=max_ic,
+            jaccard_similarity=jaccard_similarity,
         )
         sim.ancestor_information_content = max_ic
-        if subject_ancestors is None and isinstance(self, OboGraphInterface):
-            subject_ancestors = self.ancestors(subject, predicates=predicates)
-        if object_ancestors is None and isinstance(self, OboGraphInterface):
-            object_ancestors = self.ancestors(object, predicates=predicates)
-        if subject_ancestors is not None and object_ancestors is not None:
-            sim.jaccard_similarity = setwise_jaccard_similarity(subject_ancestors, object_ancestors)
+
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(
                 sim.jaccard_similarity * sim.ancestor_information_content
@@ -362,6 +369,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         """
         objects = list(objects)
         for s in subjects:
+            logging.info(f"Computing pairwise similarity for {s} x {len(objects)} objects")
             for o in objects:
                 val = self.pairwise_similarity(
                     s,
