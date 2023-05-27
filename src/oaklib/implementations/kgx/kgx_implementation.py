@@ -12,7 +12,7 @@ from linkml_runtime import SchemaView
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from sqlalchemy import Column, MetaData, String, Table, create_engine
-from sqlalchemy.orm import declarative_base, mapper, registry
+from sqlalchemy.orm import declarative_base, registry
 
 import oaklib.datamodels.ontology_metadata as om
 from oaklib.datamodels import obograph, ontology_metadata
