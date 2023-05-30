@@ -59,6 +59,9 @@ OWL_DATATYPE_PROPERTY = "owl:DatatypeProperty"
 OWL_ANNOTATION_PROPERTY = "owl:AnnotationProperty"
 OWL_TRANSITIVE_PROPERTY = "owl:TransitiveProperty"
 OWL_SYMMETRIC_PROPERTY = "owl:SymmetricProperty"
+OWL_ASYMMETRIC_PROPERTY = "owl:SymmetricProperty"
+OWL_REFLEXIVE_PROPERTY = "owl:ReflexiveProperty"
+OWL_IRREFLEXIVE_PROPERTY = "owl:IrreflexiveProperty"
 OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
 IS_DEFINED_BY = "rdfs:isDefinedBy"
@@ -75,6 +78,10 @@ RDFS_LABEL = "rdfs:label"
 EQUIVALENT_CLASS = "owl:equivalentClass"
 OWL_SAME_AS = "owl:sameAs"
 RDF_SEE_ALSO = "rdfs:seeAlso"
+OWL_RESTRICTION = "owl:Restriction"
+OWL_ON_PROPERTY = "owl:onProperty"
+OWL_SOME_VALUES_FROM = "owl:someValuesFrom"
+OWL_PROPERTY_CHAIN_AXIOM = "owl:propertyChainAxiom"
 
 OWL_META_CLASSES = [
     OWL_CLASS,
@@ -102,6 +109,8 @@ STANDARD_ANNOTATION_PROPERTIES = [
 ]
 
 PART_OF = "BFO:0000050"
+PRECEDED_BY = "BFO:0000062"
+OVERLAPS = "RO:0002131"
 LOCATED_IN = "RO:0001025"
 DEVELOPS_FROM = "RO:0002202"
 HAS_PART = "BFO:0000051"

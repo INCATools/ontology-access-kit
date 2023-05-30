@@ -90,7 +90,9 @@ class SearchConfiguration(SearchBaseConfiguration):
     """
     Parameters for altering behavior of search
 
-    .. note ::
+    Examples:
 
-        many of these parameters are not yet implemented
+    >>> from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax
+    >>> cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+
     """

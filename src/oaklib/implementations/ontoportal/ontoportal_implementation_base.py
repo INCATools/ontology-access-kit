@@ -1,7 +1,8 @@
+import collections
 import logging
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Tuple, Union
+from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 from urllib.parse import quote
 
 import requests
@@ -17,7 +18,11 @@ from oaklib.interfaces import (
     SearchInterface,
     TextAnnotatorInterface,
 )
-from oaklib.interfaces.basic_ontology_interface import METADATA_MAP, PREFIX_MAP
+from oaklib.interfaces.basic_ontology_interface import (
+    LANGUAGE_TAG,
+    METADATA_MAP,
+    PREFIX_MAP,
+)
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, URI
 from oaklib.utilities.apikey_manager import get_apikey_value
@@ -122,6 +127,26 @@ class OntoPortalImplementationBase(
                 label_cache[curie] = label
                 yield curie, label
 
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language not supported")
+        _obj = self._class(curie)
+        return _obj.get("prefLabel", None)
+
+    def _class(self, curie: CURIE) -> dict:
+        ontology, class_uri = self._get_ontology_and_uri_from_id(curie)
+        logging.debug(f"Fetching class for {ontology} class = {class_uri}")
+        quoted_class_uri = quote(class_uri, safe="")
+        req_url = f"/ontologies/{ontology}/classes/{quoted_class_uri}"
+        logging.debug(req_url)
+        response = self._get_response(
+            req_url, params={"display_context": "false"}, raise_for_status=False
+        )
+        if response.status_code != requests.codes.ok:
+            logging.warning(f"Could not fetch class for {curie}")
+            return {}
+        return response.json()
+
     def annotate_text(
         self, text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
@@ -220,7 +245,18 @@ class OntoPortalImplementationBase(
     # Implements: MappingProviderInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_sssom_mappings_by_curie(self, id: Union[CURIE, URI]) -> Iterable[Mapping]:
+    def sssom_mappings(
+        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
+    ) -> Iterable[Mapping]:
+        if not isinstance(curies, str):
+            if isinstance(curies, collections.Iterable):
+                curies = list(curies)
+            if not isinstance(curies, list):
+                raise ValueError(f"Invalid curies: {curies}")
+            for curie in curies:
+                yield from self.sssom_mappings(curie, source=source)
+            return
+        id = curies
         ontology, class_uri = self._get_ontology_and_uri_from_id(id)
         logging.debug(f"Fetching mappings for {ontology} class = {class_uri}")
         # This may return lots of duplicate mappings

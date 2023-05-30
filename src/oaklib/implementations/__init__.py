@@ -56,6 +56,7 @@ from oaklib.implementations.translator.translator_implementation import (
 from oaklib.implementations.ubergraph.ubergraph_implementation import (
     UbergraphImplementation,
 )
+from oaklib.implementations.uniprot.uniprot_implementation import UniprotImplementation
 from oaklib.implementations.wikidata.wikidata_implementation import (
     WikidataImplementation,
 )
@@ -87,6 +88,7 @@ __all__ = [
     "FunOwlImplementation",
     "GildaImplementation",
     "KGXImplementation",
+    "UniprotImplementation",
     "TranslatorImplementation",
     "OakMetaModelImplementation",
     "SemSimianImplementation",

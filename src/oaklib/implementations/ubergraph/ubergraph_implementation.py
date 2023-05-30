@@ -64,11 +64,17 @@ class UbergraphImplementation(
 
     An UbergraphImplementation can be initialed by:
 
-        .. packages:: python
+    >>> from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
+    >>> adapter = UbergraphImplementation()
 
-           >>>  oi = UbergraphImplementation()
+    or
 
-        The default ubergraph endpoint will be assumed
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("ubergraph:")
+
+    to use a specific ontology or named graph within ubergraph:
+
+    >>> adapter = get_adapter("ubergraph:cl")
 
     """
 

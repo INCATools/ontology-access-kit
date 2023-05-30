@@ -84,9 +84,13 @@ class UniprotImplementation(
 
     An UniprotImplementation can be initialed by:
 
-        .. packages:: python
+    >>> from oaklib.implementations.uniprot.uniprot_implementation import UniprotImplementation
+    >>> adapter = UniprotImplementation()
 
-           >>>  oi = UniprotImplementation()
+    or
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("uniprot:")
 
     The default Uniprot endpoint will be assumed
 
@@ -198,17 +202,26 @@ class UniprotImplementation(
         """
         Uniprot implementation of :ref:`associations`
 
-        To query for all associations for a protein:
+        To query for some associations for a protein:
 
-            >>> for assoc in oi.associations(["UniProtKB:Q62226"]):
-            >>>     print(assoc)
+        >>> import itertools
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("uniprot:")
+        >>> # for demo purposes we pick the first N
+        >>> for assoc in itertools.islice(adapter.associations(["UniProtKB:Q62226"]), 5):
+        ...     print(assoc.subject, assoc.predicate, assoc.object)
+        <BLANKLINE>
+        UniProtKB:Q62226 up:classifiedWith GO:...
+        ...
 
         To query for all associations to a keyword, including closures
 
-            >>> for assoc in oi.associations(
-            >>>         objects=["UniProtKB-KW:9993"],
-            >>>         object_closure_predicates=[IS_A]):
-            >>>     print(assoc)
+        >>> from oaklib.datamodels.vocabulary import IS_A
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("uniprot:")
+        >>> assocs = adapter.associations(
+        ...         objects=["UniProtKB-KW:9993"],
+        ...         object_closure_predicates=[IS_A])
 
         Note: this may be slow
 

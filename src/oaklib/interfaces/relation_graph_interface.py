@@ -7,14 +7,11 @@ from oaklib.types import CURIE, PRED_CURIE
 
 class RelationGraphInterface(BasicOntologyInterface, ABC):
     """
-    an interface that provides relation graph abstractions
+    An interface that provides relation graph abstractions.
 
     .. note ::
 
-        that the operations provided here are similar to the graph-walking
-        operations provided in :class:`.OboGraphInterface`.
-        The main difference is that a RG provides a more restricted
-        and formally correct set of entailments.
+        this interface is now largely subsumed into the BasicOntologyInterface
     """
 
     def entailed_outgoing_relationships(

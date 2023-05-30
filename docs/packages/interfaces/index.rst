@@ -15,9 +15,13 @@ has the method :meth:`oaklib.interfaces.search_interface.SearchInterface.basic_s
 .. code:: python
 
     >>> from oaklib import get_adapter
-    >>> adapter = get_adapter("ubergraph:")
-    >>> for r in adapter.basic_search('CA4 hippocampus'):
+    >>> adapter = get_adapter("sqlite:obo:uberon")
+    >>> for r in adapter.descendants('UBERON:0003884'):
     ...     print(r)
+    <BLANKLINE>
+    ...
+
+    ...
 
 
 The most common operations are found in the :ref:`basic_ontology_interface`

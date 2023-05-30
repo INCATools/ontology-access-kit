@@ -54,6 +54,7 @@ from semsql.sqla.semsql import (  # HasMappingStatement,
     RdfTypeStatement,
     Statements,
     TermAssociation,
+    TransitivePropertyNode,
 )
 from sqlalchemy import and_, create_engine, delete, distinct, func, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
@@ -99,6 +100,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_META_CLASSES,
     OWL_NAMED_INDIVIDUAL,
     OWL_NOTHING,
+    OWL_PROPERTY_CHAIN_AXIOM,
     OWL_THING,
     OWL_VERSION_IRI,
     PREFIX_PREDICATE,
@@ -258,19 +260,22 @@ class SqlImplementation(
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.
 
-    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).
+    Currently this must be a SQLite database. PostgreSQL support is planned.
 
     To connect, either use SqlImplementation directly:
 
-    .. packages:: python
+    >>> from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+    >>> from oaklib.resource import OntologyResource
+    >>> adapter = SqlImplementation(OntologyResource("tests/input/go-nucleus.db"))
 
-        >>> oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{path}"))
+    or
 
-    Or use a selector:
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("sqlite:tests/input/go-nucleus.db")
 
-    .. packages:: python
+    you can also load from the semantic-sql repository:
 
-        >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.db')
+    >>> adapter = get_adapter("sqlite:obo:obi")
 
     The schema is assumed to follow the `semantic-sql <https://github.com/incatools/semantic-sql>`_ schema.
 
@@ -839,6 +844,7 @@ class SqlImplementation(
             # materialize iterators
             subjects = list(subjects)
         if subjects and not objects and self._relationships_by_subject_index:
+            # TODO: unify indexes with other implementations
             for s in subjects:
                 for _, p, o in self._relationships_by_subject_index.get(s, []):
                     if not o:
@@ -1602,12 +1608,16 @@ class SqlImplementation(
         else:
             by_subject_query = base_query.filter(Statements.subject.in_(curies))
         for row in by_subject_query:
-            mpg = Mapping(
-                subject_id=row.subject,
-                object_id=row.value if row.value is not None else row.object,
-                predicate_id=row.predicate,
-                mapping_justification=justification,
-            )
+            try:
+                mpg = Mapping(
+                    subject_id=row.subject,
+                    object_id=row.value if row.value is not None else row.object,
+                    predicate_id=row.predicate,
+                    mapping_justification=justification,
+                )
+            except ValueError as e:
+                logging.error(f"Skipping {row}; ValueError: {e}")
+                continue
             inject_mapping_sources(mpg)
             if source and mpg.subject_source != source and mpg.object_source != source:
                 continue
@@ -1922,6 +1932,17 @@ class SqlImplementation(
         if bidirectional:
             return self.is_disjoint(object, subject, bidirectional=False)
         return False
+
+    def transitive_object_properties(self) -> Iterable[CURIE]:
+        for row in self.session.query(TransitivePropertyNode.id):
+            yield row[0]
+
+    def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
+        q = self.session.query(Statements)
+        q = q.filter(Statements.predicate == OWL_PROPERTY_CHAIN_AXIOM)
+        for row in q:
+            chain = list(self._rdf_list(row.object))
+            yield row.subject, chain
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SemSim
