@@ -68,6 +68,17 @@ TAG_CREATION_DATE = "creation_date"
 SYNONYM_TUPLE = Tuple[PRED_CURIE, str, Optional[str], List[CURIE]]
 PROPERTY_VALUE_TUPLE = Tuple[PRED_CURIE, str, Optional[CURIE], Optional[List[CURIE]]]
 
+TAG_IS_TRANSITIVE = "is_transitive"
+TAG_IS_SYMMETRIC = "is_symmetric"
+TAG_IS_ANTI_SYMMETRIC = "is_anti_symmetric"
+TAG_IS_REFLEXIVE = "is_reflexive"
+TAG_IS_ASYMMETRIC = "is_asymmetric"
+TAG_IS_FUNCTIONAL = "is_functional"
+TAG_IS_INVERSE_FUNCTIONAL = "is_inverse_functional"
+TAG_HOLDS_OVER_CHAIN = "holds_over_chain"
+TAG_DOMAIN = "domain"
+TAG_RANGE = "range"
+
 TERM_TAGS = [
     TAG_ID,
     # TAG_IS_ANONYMOUS,
@@ -588,6 +599,7 @@ class OboDocument:
 
     header: Header = field(default_factory=lambda: Header())
     stanzas: Mapping[CURIE, Stanza] = field(default_factory=lambda: {})
+    curie_to_shorthand_map: Mapping[CURIE, CURIE] = field(default_factory=lambda: {})
 
     def add_stanza(self, stanza: Stanza) -> None:
         """

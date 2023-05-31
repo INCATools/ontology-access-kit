@@ -12,7 +12,7 @@ from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
 # TODO: use mock tests
-@unittest.skip("Skipping bioportal tests")
+# @unittest.skip("Skipping bioportal tests")
 class TestBioportal(unittest.TestCase):
     """
     Tests :ref:`BioportalImplementation`

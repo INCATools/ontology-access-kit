@@ -5,6 +5,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
+from sssom.constants import RDFS_SUBCLASS_OF, RDFS_SUBPROPERTY_OF
+
 from oaklib.datamodels.obograph import (
     Edge,
     Graph,
@@ -202,7 +204,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         # this implements a traversal approach that iteratively walks up the graph;
         # this may be inefficient. It is recommended that different implementations
         # override this with a more efficient method that leverages cached tables
-        logging.info(f"Computing ancestor graph for {start_curies} using graph walking")
+        logging.info(
+            f"Computing ancestor graph for {start_curies} / {predicates} using graph walking"
+        )
         g = self._graph(walk_up(self, start_curies, predicates=predicates))
         if self.transitive_query_cache is not None:
             self.transitive_query_cache[key] = g
@@ -253,10 +257,19 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :return: all ancestor CURIEs
         """
         if method and method == GraphTraversalMethod.ENTAILMENT:
-            raise NotImplementedError(f"entailment method not implemented in {type(self)}")
-        return _edges_to_nodes(
-            start_curies, self.ancestor_graph(start_curies, predicates).edges, reflexive
-        )
+            if isinstance(start_curies, str):
+                start_curies = [start_curies]
+            yielded = set()
+            for rel in self.relationships(
+                start_curies, predicates=predicates, include_entailed=True
+            ):
+                o = rel[2]
+                if o not in yielded:
+                    yield o
+                    yielded.add(o)
+        else:
+            g = self.ancestor_graph(start_curies, predicates).edges
+            yield from _edges_to_nodes(start_curies, g, reflexive)
 
     def descendants(
         self,
@@ -280,10 +293,19 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :return: all descendant CURIEs
         """
         if method and method == GraphTraversalMethod.ENTAILMENT:
-            raise NotImplementedError(f"entailment method not implemented in {type(self)}")
-        return _edges_to_nodes(
-            start_curies, self.descendant_graph(start_curies, predicates).edges, reflexive
-        )
+            if isinstance(start_curies, str):
+                start_curies = [start_curies]
+            yielded = set()
+            for rel in self.relationships(
+                objects=start_curies, predicates=predicates, include_entailed=True
+            ):
+                s = rel[0]
+                if s not in yielded:
+                    yield s
+                    yielded.add(s)
+        else:
+            g = self.descendant_graph(start_curies, predicates).edges
+            yield from _edges_to_nodes(start_curies, g, reflexive)
 
     def descendant_count(
         self,
@@ -373,9 +395,12 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         nodes = [self.node(e, include_metadata=include_metadata) for e in entities]
         edges = []
         logging.info(f"extracting rels for {len(entities)} p={predicates} dangling={dangling}")
+        used_predicates = set()
         for s, p, o in self.relationships(subjects=entities, predicates=predicates):
             if dangling or o in entities:
                 edges.append(Edge(sub=s, pred=p, obj=o))
+                if p not in [RDFS_SUBCLASS_OF, RDFS_SUBPROPERTY_OF]:
+                    used_predicates.add(p)
         ontologies = list(self.ontologies())
         curr_id = ontologies[0]
         g = Graph(id=f"{curr_id}-transformed", nodes=nodes, edges=edges)
@@ -388,6 +413,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
                 if signature.difference(entities):
                     continue
             g.logicalDefinitionAxioms.append(lda)
+            for r in lda.restrictions:
+                used_predicates.add(r.propertyId)
+        logging.info(f"Used predicates = {used_predicates}")
+        pred_nodes = [self.node(e, include_metadata=include_metadata) for e in used_predicates]
+        g.nodes.extend([n for n in pred_nodes if n])
         return g
 
     def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:

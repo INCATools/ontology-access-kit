@@ -3,4 +3,6 @@
 SSSOM
 =====
 
-We import the sssom-py datamodel for representing ontology mappings
+We import the sssom-py data model for representing ontology mappings.
+
+See `<https://w3id.org/sssom/>`_ for more information.

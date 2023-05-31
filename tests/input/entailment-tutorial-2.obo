@@ -1,0 +1,72 @@
+[Term]
+id: GO:0012505
+name: endomembrane system
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: has_part GO:0005773 ! vacuole
+
+[Term]
+id: GO:0005773
+name: vacuole
+is_a: GO:0043231 ! intracellular membrane-bounded organelle
+relationship: part_of GO:0005737 ! cytoplasm
+
+[Term]
+id: GO:0043227
+name: membrane-bounded organelle
+is_a: GO:0043226 ! organelle
+
+[Term]
+id: GO:0043229
+name: intracellular organelle
+is_a: GO:0043226 ! organelle
+
+[Term]
+id: GO:0043231
+name: intracellular membrane-bounded organelle
+is_a: GO:0043227 ! membrane-bounded organelle
+is_a: GO:0043229 ! intracellular organelle
+
+[Term]
+id: GO:0043226
+name: organelle
+is_a: GO:0110165 ! cellular anatomical entity
+
+[Term]
+id: GO:0005737
+name: cytoplasm
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: has_characteristic PATO:0001735 ! liquid configuration
+
+[Term]
+id: PATO:0001735
+name: liquid configuration
+
+
+[Term]
+id: GO:0110165
+name: cellular anatomical entity
+
+[Typedef]
+id: part_of
+name: part of
+xref: BFO:0000050
+is_transitive: true
+is_a: overlaps
+
+[Typedef]
+id: has_part
+name: has part
+xref: BFO:0000051
+inverse_of: part_of
+is_a: overlaps
+
+[Typedef]
+id: overlaps
+name: overlaps
+xref: RO:0002131
+holds_over_chain: has_part part_of
+
+[Typedef]
+id: has_characteristic
+name: has characteristic
+xref: RO:0000053

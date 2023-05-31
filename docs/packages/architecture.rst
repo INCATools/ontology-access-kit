@@ -40,8 +40,8 @@ Here is an example of code that uses an Ubergraph implementation to do a simple 
 .. code:: python
 
     >>> from oaklib import get_adapter
-    >> adapter = get_adapter("ubergraph:uberon")
-    >> print(adapter.label("UBERON:0001825"))
+    >>> adapter = get_adapter("ubergraph:uberon")
+    >>> print(adapter.label("UBERON:0001825"))
     paranasal sinus
 
 Behind the scenes, this is implemented using a SPARQL query over the Ubergraph endpoint.
@@ -52,10 +52,9 @@ You can do the same thing using a different implementation. This one uses the
 .. code:: python
 
     >>> from oaklib import get_adapter
-    >> adapter = get_adapter("sqlite:obo:uberon")
-    >> print(adapter.label("UBERON:0001825"))
+    >>> adapter = get_adapter("sqlite:obo:uberon")
+    >>> print(adapter.label("UBERON:0001825"))
     paranasal sinus
-
 
 There are other implementations - for relational databases, for ontology portal APIs, for OWL ontologies...
 
