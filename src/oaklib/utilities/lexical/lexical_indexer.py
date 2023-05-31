@@ -115,13 +115,26 @@ def create_lexical_index(
         pipelines = [LexicalTransformationPipeline(name="default", transformations=steps)]
     logging.info(f"Creating lexical index, pipelines={pipelines}")
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
+
+    def _invert_mapping_pred(mapping_pred: PRED_CURIE) -> PRED_CURIE:
+        return f"{mapping_pred}-INVERSE"
+
+    logging.info("Creating mapping index")
+    mapping_pairs_by_curie = defaultdict(list)
+    for curie in oi.entities():
+        pairs = list(oi.simple_mappings_by_curie(curie))
+        for pred, object_id in pairs:
+            mapping_pairs_by_curie[curie].append((pred, object_id))
+            mapping_pairs_by_curie[object_id].append((_invert_mapping_pred(pred), curie))
+    logging.info(f"Created mapping index; {len(mapping_pairs_by_curie)} mappings")
     for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
         if not URIorCURIE.is_valid(curie):
             logging.warning(f"Skipping {curie} as it is not a valid CURIE")
             continue
         alias_map = oi.entity_alias_map(curie)
-        mapping_map = pairs_as_dict(oi.simple_mappings_by_curie(curie))
+        mapping_map = pairs_as_dict(mapping_pairs_by_curie.get(curie, []))
+        print(f"C={curie} // mapping_map={mapping_map}")
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
                 if not term:
@@ -259,6 +272,7 @@ def lexical_index_to_sssom(
     if subjects and objects and subjects != objects:
         symmetric = True
         logging.info("Forcing symmetric comparison")
+    logging.info(f"Iterating over {len(lexical_index.groupings)} groupings")
     for term, grouping in lexical_index.groupings.items():
         # elements = set([r.element for r in grouping.relationships])
         elementmap = defaultdict(list)
@@ -266,6 +280,7 @@ def lexical_index_to_sssom(
             elementmap[r.element].append(r)
         if len(elementmap.keys()) < 2:
             continue
+        logging.debug(f"Processing {term} with {len(elementmap.keys())} elements")
         for e1 in elementmap:
             for e2 in elementmap:
                 for r1 in elementmap[e1]:
@@ -275,7 +290,16 @@ def lexical_index_to_sssom(
                         if objects and r2.element not in objects:
                             continue
                         if symmetric or r1.element < r2.element:
-                            mappings.append(inferred_mapping(oi, term, r1, r2, ruleset=ruleset))
+                            mapping = inferred_mapping(oi, term, r1, r2, ruleset=ruleset)
+                            if (
+                                ruleset
+                                and ruleset.minimum_confidence is not None
+                                and mapping.confidence < ruleset.minimum_confidence
+                            ):
+                                logging.debug("Skipping low confidence mapping:"
+                                              f"{mapping.confidence} < {ruleset.minimum_confidence}")
+                                continue
+                            mappings.append(mapping)
 
         # for r1 in grouping.relationships:
         #    for r2 in grouping.relationships:
