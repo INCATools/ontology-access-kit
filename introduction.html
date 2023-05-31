@@ -100,7 +100,7 @@ kinds of ontology operations, including:</p>
 <a class="reference internal" href="glossary.html#term-Relationship"><span class="xref std std-term">Relationships</span></a>, or <span class="xref std std-term">Synonyms</span>.</p></li>
 <li><p><span class="xref std std-term">Search</span> an ontology for a term.</p></li>
 <li><p><span class="xref std std-term">Apply</span> modifications to terms, including adding, deleting, or updating</p></li>
-<li><p>numerous specialized operations, such as <span class="xref std std-term">Graph Traversal</span>, or <span class="xref std std-term">Axiom</span> processing,
+<li><p>numerous specialized operations, such as <a class="reference internal" href="glossary.html#term-Graph-Traversal"><span class="xref std std-term">Graph Traversal</span></a>, or <span class="xref std std-term">Axiom</span> processing,
 <span class="xref std std-term">Ontology Alignment</span>, or :term`Text Annotation`.</p></li>
 </ul>
 <p>These interfaces are <em>separated</em> from any particular backend. This means
@@ -126,7 +126,6 @@ basic information on terms matching a search</p>
 <span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  RELATION: </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="gp">... </span>        <span class="k">for</span> <span class="n">filler</span> <span class="ow">in</span> <span class="n">fillers</span><span class="p">:</span>
 <span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;     * </span><span class="si">{</span><span class="n">filler</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">filler</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
 <span class="go">CL:0000084 ! T cell</span>
 <span class="go">Definition: A type of lymphocyte whose defining characteristic is the expression of a T cell receptor complex.</span>
 <span class="go">   RELATION: RO:0002202 ! develops from</span>

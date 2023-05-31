@@ -149,11 +149,17 @@
 
 <span class="sd">    An UbergraphImplementation can be initialed by:</span>
 
-<span class="sd">        .. packages:: python</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation</span>
+<span class="sd">    &gt;&gt;&gt; adapter = UbergraphImplementation()</span>
 
-<span class="sd">           &gt;&gt;&gt;  oi = UbergraphImplementation()</span>
+<span class="sd">    or</span>
 
-<span class="sd">        The default ubergraph endpoint will be assumed</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">    &gt;&gt;&gt; adapter = get_adapter(&quot;ubergraph:&quot;)</span>
+
+<span class="sd">    to use a specific ontology or named graph within ubergraph:</span>
+
+<span class="sd">    &gt;&gt;&gt; adapter = get_adapter(&quot;ubergraph:cl&quot;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 

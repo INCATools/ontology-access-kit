@@ -86,6 +86,7 @@
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
@@ -295,6 +296,8 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">node</span> <span class="o">=</span> <span class="n">n</span>
         <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">node</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
@@ -389,16 +392,14 @@
         <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">exclude_blank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
-        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">subjects</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">for</span> <span class="n">s2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="n">s2</span> <span class="o">==</span> <span class="n">s</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">predicates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                    <span class="k">if</span> <span class="n">objects</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">o</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                    <span class="k">yield</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span>
+        <span class="n">ei</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span>
+        <span class="k">if</span> <span class="n">include_entailed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Entailment not supported for pronto&quot;</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">ei</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span>
+            <span class="n">subjects</span><span class="o">=</span><span class="n">subjects</span><span class="p">,</span>
+            <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span>
+            <span class="n">objects</span><span class="o">=</span><span class="n">objects</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="c1"># TODO: DRY</span>
     <span class="k">def</span> <span class="nf">outgoing_relationships</span><span class="p">(</span>
@@ -545,7 +546,22 @@
         <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1"># Implements: OwlInterface</span>
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+    <span class="k">def</span> <span class="nf">transitive_object_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="c1"># TODO: obographs datamodel needs to be expanded to support this</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">simple_subproperty_of_chains</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]:</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">obograph_document</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pca</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">propertyChainAxioms</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">predicateId</span><span class="p">),</span> <span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pca</span><span class="o">.</span><span class="n">chainPredicateIds</span>
+                <span class="p">]</span></div>
 </pre></div>
 
            </div>

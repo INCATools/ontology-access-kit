@@ -208,7 +208,8 @@ OAK makes use of a simple projection where OWL existential axioms are mapped to 
 similar to <a class="reference internal" href="#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a>.</p>
 </dd>
 <dt id="term-Relation-Graph">Relation Graph<a class="headerlink" href="#term-Relation-Graph" title="Permalink to this term"></a></dt><dd><p>Relation Graph is both a tool and a <a class="reference internal" href="#term-Ontology-Graph-Projection"><span class="xref std std-term">Ontology Graph Projection</span></a>.
-Relation Graph is used behind the scenes in both <a class="reference internal" href="#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a> and in <a class="reference internal" href="#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a>.</p>
+Relation Graph is used behind the scenes in both <a class="reference internal" href="#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a> and in <a class="reference internal" href="#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a>.
+For the tool, see <a class="reference external" href="https://github.com/INCATools/relation-graph">INCATools/relation-graph</a>.</p>
 </dd>
 <dt id="term-Ontology-Format">Ontology Format<a class="headerlink" href="#term-Ontology-Format" title="Permalink to this term"></a></dt><dd><p>A syntax for serializing an <a class="reference internal" href="#term-Ontology"><span class="xref std std-term">Ontology</span></a> as text. Examples include <span class="xref std std-term">OWL Functional Syntax</span>,
 various <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> formats such as <span class="xref std std-term">Turtle</span>, or <a class="reference internal" href="#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>.
@@ -290,8 +291,29 @@ Subsets are commonly used in ontologies like the <span class="xref std std-term"
 <dt id="term-Reasoner">Reasoner<a class="headerlink" href="#term-Reasoner" title="Permalink to this term"></a></dt><dd><p>An ontology tool that will perform inference over an ontology to yield new <em>axioms</em> (e.g. new <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edges</span></a>) or
 to determine if an ontology is logically <span class="xref std std-term">Coherent</span>.</p>
 </dd>
+<dt id="term-Reasoning">Reasoning<a class="headerlink" href="#term-Reasoning" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="#term-Reasoner"><span class="xref std std-term">Reasoner</span></a> and <a class="reference internal" href="#term-Entailed"><span class="xref std std-term">Entailed</span></a></p>
+</dd>
 <dt id="term-Bioportal">Bioportal<a class="headerlink" href="#term-Bioportal" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Ontology Repository</span> that is a comprehensive collection of multiple biologically relevant ontologies.
 Bioportal exposes an <span class="xref std std-term">API</span> endpoint, that is utilized by the OAK <a class="reference internal" href="packages/implementations/bioportal.html#bioportal-implementation"><span class="std std-ref">Bioportal Adapter</span></a>.</p>
+</dd>
+<dt id="term-Asserted">Asserted<a class="headerlink" href="#term-Asserted" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Axiom</span> or <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edge</span></a> that is directly asserted in an ontology,
+as opposed to being <a class="reference internal" href="#term-Entailed"><span class="xref std std-term">Entailed</span></a>. Note that asserted edges or axioms usually
+correspond to <span class="xref std std-term">Direct</span> (one-hop) edges, but this isn’t always the case.</p>
+</dd>
+<dt id="term-Entailed">Entailed<a class="headerlink" href="#term-Entailed" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Axiom</span> or <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edge</span></a> that is is inferred by a <a class="reference internal" href="#term-Reasoner"><span class="xref std std-term">Reasoner</span></a>.
+Note that all asserted edges or axioms are also entailed. Note also that sometimes
+entailed axioms can include trivial <a class="reference internal" href="#term-Tautology"><span class="xref std std-term">Tautologies</span></a>.</p>
+</dd>
+<dt id="term-Graph-Traversal">Graph Traversal<a class="headerlink" href="#term-Graph-Traversal" title="Permalink to this term"></a></dt><dd><p>A strategy for walking <a class="reference internal" href="#term-Graph"><span class="xref std std-term">graphs</span></a>, such as from a start node to all
+ancestors or descendants. In some cases, graph traversal can be used in place of
+<a class="reference internal" href="#term-Reasoning"><span class="xref std std-term">Reasoning</span></a>. See the section on <a class="reference internal" href="guide/relationships-and-graphs.html#relationships-and-graphs"><span class="std std-ref">Relationships and Graphs</span></a> in the OAK guide.</p>
+</dd>
+<dt id="term-Reflexive">Reflexive<a class="headerlink" href="#term-Reflexive" title="Permalink to this term"></a></dt><dd><p>A <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edge</span></a> or <span class="xref std std-term">Axiom</span> that connects an <a class="reference internal" href="#term-Ontology-Element"><span class="xref std std-term">Ontology Element</span></a> to itself.
+These are trivially true (<a class="reference internal" href="#term-Tautology"><span class="xref std std-term">Tautology</span></a>), but in general these are included by
+default in operations involving <a class="reference internal" href="#term-Reasoning"><span class="xref std std-term">Reasoning</span></a> and <a class="reference internal" href="#term-Graph-Traversal"><span class="xref std std-term">Graph Traversal</span></a>.
+See also the <a href="#id1"><span class="problematic" id="id2">`RO guide to reflexivity&lt;https://oborel.github.io/obo-relations/reflexivity/&gt;`_</span></a>.</p>
+</dd>
+<dt id="term-Tautology">Tautology<a class="headerlink" href="#term-Tautology" title="Permalink to this term"></a></dt><dd><p>A <span class="xref std std-term">Axiom</span> or <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edge</span></a> that is trivially true.</p>
 </dd>
 <dt id="term-OLS">OLS<a class="headerlink" href="#term-OLS" title="Permalink to this term"></a></dt><dd><p>Ontology Lookup Service. An <span class="xref std std-term">Ontology Repository</span> that is a curated collection of multiple biologically relevant ontologies,
 many from <span class="xref std std-term">OBO</span>.

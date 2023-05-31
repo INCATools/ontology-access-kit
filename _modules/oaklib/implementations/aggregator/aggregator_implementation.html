@@ -133,16 +133,18 @@
 
 <span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">    &gt;&gt;&gt; from oaklib.implementations import AggregatorImplementation</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax</span>
 <span class="sd">    &gt;&gt;&gt; hp = get_adapter(&quot;sqlite:obo:hp&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; mp = get_adapter(&quot;sqlite:obo:mp&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)</span>
 <span class="sd">    &gt;&gt;&gt; agg = AggregatorImplementation(implementations=[hp, mp])</span>
-<span class="sd">    &gt;&gt;&gt; for entity in sorted(agg.basic_search(&quot;morphology&quot;)):</span>
-<span class="sd">    ...     print(entity)</span>
+<span class="sd">    &gt;&gt;&gt; for entity in sorted(agg.basic_search(&quot;parathyroid&quot;, config=cfg)):</span>
+<span class="sd">    ...     print(entity, agg.label(entity))</span>
 <span class="sd">    &lt;BLANKLINE&gt;</span>
 <span class="sd">    ...</span>
-<span class="sd">    HP:3000036</span>
+<span class="sd">    HP:0000860 Parathyroid hypoplasia</span>
 <span class="sd">    ...</span>
-<span class="sd">    MP:0031139</span>
+<span class="sd">    MP:0000680 absent parathyroid glands</span>
 <span class="sd">    ...</span>
 
 <span class="sd">    Command Line Usage</span>

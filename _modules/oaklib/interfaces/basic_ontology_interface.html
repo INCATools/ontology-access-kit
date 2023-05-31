@@ -83,7 +83,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.basic_ontology_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
@@ -109,10 +110,12 @@
     <span class="n">PREFIX_PREDICATE</span><span class="p">,</span>
     <span class="n">URL_PREDICATE</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.indexes.edge_index</span> <span class="kn">import</span> <span class="n">EdgeIndex</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.ontology_interface</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.mappers.ontology_metadata_mapper</span> <span class="kn">import</span> <span class="n">OntologyMetadataMapper</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CATEGORY_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span><span class="p">,</span> <span class="n">URI</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.basic_utils</span> <span class="kn">import</span> <span class="n">get_curie_prefix</span><span class="p">,</span> <span class="n">pairs_as_dict</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.iterator_utils</span> <span class="kn">import</span> <span class="n">chunk</span>
 
 <span class="n">LANGUAGE_TAG</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">NC_NAME</span> <span class="o">=</span> <span class="nb">str</span>
@@ -240,6 +243,9 @@
     <span class="n">cache_lookups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;If True, the implementation may choose to cache lookup operations&quot;&quot;&quot;</span>
 
+    <span class="n">_edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_entailed_edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
 <div class="viewcode-block" id="BasicOntologyInterface.prefix_map"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">[docs]</a>    <span class="k">def</span> <span class="nf">prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a dictionary mapping all prefixes known to the resource to their URI expansion.</span>
@@ -359,10 +365,51 @@
         <span class="k">return</span> <span class="n">rv</span></div>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EdgeIndex</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An index of all asserted edges in the ontology.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            not all adapters populate this index.</span>
+
+<span class="sd">        :return: index of edges</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_edge_index</span> <span class="o">=</span> <span class="n">EdgeIndex</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_relationships</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_index</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">entailed_edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EdgeIndex</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An index of all entailed edges in the ontology.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            not all adapters populate this index.</span>
+
+<span class="sd">        :return: index of entailed edges</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_edge_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_edge_index</span> <span class="o">=</span> <span class="n">EdgeIndex</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_entailed_relationships</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entailed_edge_index</span>
+
+    <span class="k">def</span> <span class="nf">_all_entailed_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This adapter does not support entailed relationships&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_relationship_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An index of relationships keyed by either subject or object.</span>
+
+<span class="sd">        The first time this is called, it will build the index.</span>
+<span class="sd">        Subsequent calls will return the cached index.</span>
+
+<span class="sd">        :return: dictionary mapping subject or object to list of relationships</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building relationship&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building relationship index&quot;</span><span class="p">)</span>
         <span class="n">ix</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_relationships</span><span class="p">():</span>
             <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">rel</span>
@@ -373,9 +420,11 @@
 
     <span class="k">def</span> <span class="nf">_rebuild_relationship_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_index</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index</span>  <span class="c1"># force re-index</span>
 
     <span class="k">def</span> <span class="nf">_clear_relationship_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_index</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_all_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
@@ -566,6 +615,49 @@
 <div class="viewcode-block" id="BasicOntologyInterface.all_obsolete_curies"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by obsoletes()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">all_obsolete_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.dangling"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.dangling">[docs]</a>    <span class="k">def</span> <span class="nf">dangling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields all known entities in provided set that are dangling.</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">        This example is over an OBO file with one stanza:</span>
+
+<span class="sd">        .. code-block:: obo</span>
+
+<span class="sd">            [Term]</span>
+<span class="sd">            id: GO:0012505</span>
+<span class="sd">            name: endomembrane system</span>
+<span class="sd">            is_a: GO:0110165 ! cellular anatomical entity</span>
+<span class="sd">            relationship: has_part GO:0005773 ! vacuole</span>
+
+<span class="sd">        The two edges point to entities that do not exist in the file.</span>
+
+<span class="sd">        The following code will show these:</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; # Note: pronto adapter refuses to parse ontology files with dangling</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;simpleobo:tests/input/dangling-node-test.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for entity in sorted(adapter.dangling()):</span>
+<span class="sd">        ...     print(entity)</span>
+<span class="sd">        GO:0005773</span>
+<span class="sd">        GO:0110165</span>
+
+<span class="sd">        :param curies: CURIEs to check for dangling; if empty will check all</span>
+<span class="sd">        :return: iterator over CURIEs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">curies</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="p">{</span><span class="n">rel</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">()})</span>
+        <span class="k">for</span> <span class="n">curie_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">curies</span><span class="p">):</span>
+            <span class="n">chunked_curies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curie_it</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checking </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chunked_curies</span><span class="p">)</span><span class="si">}</span><span class="s2"> curies for dangling&quot;</span><span class="p">)</span>
+            <span class="n">curie_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">chunked_curies</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">curie</span> <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">curie_labels</span> <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">exclude</span> <span class="o">=</span> <span class="p">{</span><span class="n">rel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">candidates</span><span class="p">)}</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Candidates </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span><span class="si">}</span><span class="s2"> exclude: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="p">[</span><span class="n">curie</span> <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.ontology_versions"><a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_versions">[docs]</a>    <span class="k">def</span> <span class="nf">ontology_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ontology</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -92,14 +92,11 @@
 
 <div class="viewcode-block" id="RelationGraphInterface"><a class="viewcode-back" href="../../../packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface">[docs]</a><span class="k">class</span> <span class="nc">RelationGraphInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    an interface that provides relation graph abstractions</span>
+<span class="sd">    An interface that provides relation graph abstractions.</span>
 
 <span class="sd">    .. note ::</span>
 
-<span class="sd">        that the operations provided here are similar to the graph-walking</span>
-<span class="sd">        operations provided in :class:`.OboGraphInterface`.</span>
-<span class="sd">        The main difference is that a RG provides a more restricted</span>
-<span class="sd">        and formally correct set of entailments.</span>
+<span class="sd">        this interface is now largely subsumed into the BasicOntologyInterface</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="RelationGraphInterface.entailed_outgoing_relationships"><a class="viewcode-back" href="../../../packages/interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">entailed_outgoing_relationships</span><span class="p">(</span>

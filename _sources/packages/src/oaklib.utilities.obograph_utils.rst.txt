@@ -34,6 +34,7 @@
       index_graph_edges_by_subject_object
       index_graph_nodes
       induce_graph_prefix_map
+      load_obograph_document
       merge_graph_nodes
       merge_graphs
       mutate_graph_ids

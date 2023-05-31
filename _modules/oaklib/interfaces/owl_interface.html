@@ -95,22 +95,36 @@
 <span class="kn">from</span> <span class="nn">funowl</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">IRI</span><span class="p">,</span>
     <span class="n">AnnotationAssertion</span><span class="p">,</span>
+    <span class="n">AsymmetricObjectProperty</span><span class="p">,</span>
     <span class="n">Axiom</span><span class="p">,</span>
     <span class="n">Class</span><span class="p">,</span>
     <span class="n">ClassExpression</span><span class="p">,</span>
     <span class="n">DisjointClasses</span><span class="p">,</span>
     <span class="n">EquivalentClasses</span><span class="p">,</span>
+    <span class="n">IrreflexiveObjectProperty</span><span class="p">,</span>
     <span class="n">Literal</span><span class="p">,</span>
     <span class="n">ObjectAllValuesFrom</span><span class="p">,</span>
     <span class="n">ObjectIntersectionOf</span><span class="p">,</span>
+    <span class="n">ObjectPropertyChain</span><span class="p">,</span>
     <span class="n">ObjectPropertyExpression</span><span class="p">,</span>
     <span class="n">ObjectSomeValuesFrom</span><span class="p">,</span>
     <span class="n">ObjectUnionOf</span><span class="p">,</span>
     <span class="n">Ontology</span><span class="p">,</span>
+    <span class="n">ReflexiveObjectProperty</span><span class="p">,</span>
     <span class="n">SubClassOf</span><span class="p">,</span>
+    <span class="n">SubObjectPropertyOf</span><span class="p">,</span>
+    <span class="n">SymmetricObjectProperty</span><span class="p">,</span>
+    <span class="n">TransitiveObjectProperty</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">funowl.writers</span> <span class="kn">import</span> <span class="n">FunctionalWriter</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OWL_ASYMMETRIC_PROPERTY</span><span class="p">,</span>
+    <span class="n">OWL_IRREFLEXIVE_PROPERTY</span><span class="p">,</span>
+    <span class="n">OWL_REFLEXIVE_PROPERTY</span><span class="p">,</span>
+    <span class="n">OWL_SYMMETRIC_PROPERTY</span><span class="p">,</span>
+    <span class="n">OWL_TRANSITIVE_PROPERTY</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 
@@ -136,6 +150,7 @@
     <span class="n">about</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">references</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">ontologies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axiom_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">Axiom</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -411,7 +426,56 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_axiom_is_about_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axiom</span><span class="p">:</span> <span class="n">Axiom</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axiom_is_about</span><span class="p">(</span><span class="n">axiom</span><span class="p">)]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axiom_is_about</span><span class="p">(</span><span class="n">axiom</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="OwlInterface.property_characteristics"><a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.property_characteristics">[docs]</a>    <span class="k">def</span> <span class="nf">property_characteristics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">property</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets all property characteristics for a given property</span>
+
+<span class="sd">        :param property:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pc_tuples</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">TransitiveObjectProperty</span><span class="p">,</span> <span class="n">OWL_TRANSITIVE_PROPERTY</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">SymmetricObjectProperty</span><span class="p">,</span> <span class="n">OWL_SYMMETRIC_PROPERTY</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">AsymmetricObjectProperty</span><span class="p">,</span> <span class="n">OWL_ASYMMETRIC_PROPERTY</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">ReflexiveObjectProperty</span><span class="p">,</span> <span class="n">OWL_REFLEXIVE_PROPERTY</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">IrreflexiveObjectProperty</span><span class="p">,</span> <span class="n">OWL_IRREFLEXIVE_PROPERTY</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">pcs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">pc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pc</span> <span class="ow">in</span> <span class="n">pc_tuples</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">pcs</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">pc</span><span class="p">,</span> <span class="n">pc_curie</span> <span class="ow">in</span> <span class="n">pc_tuples</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">pc</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">)</span> <span class="o">==</span> <span class="nb">property</span><span class="p">:</span>
+                                <span class="k">yield</span> <span class="n">pc_curie</span></div>
+
+<div class="viewcode-block" id="OwlInterface.transitive_object_properties"><a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.transitive_object_properties">[docs]</a>    <span class="k">def</span> <span class="nf">transitive_object_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets all transitive object properties</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">TransitiveObjectProperty</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">objectPropertyExpression</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OwlInterface.simple_subproperty_of_chains"><a class="viewcode-back" href="../../../packages/interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.simple_subproperty_of_chains">[docs]</a>    <span class="k">def</span> <span class="nf">simple_subproperty_of_chains</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets all property chains of where the super property is a chain of IRIs</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">SubObjectPropertyOf</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">superObjectPropertyExpression</span><span class="p">,</span> <span class="n">ObjectPropertyChain</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subObjectPropertyExpression</span><span class="p">,</span> <span class="n">IRI</span><span class="p">):</span>
+                        <span class="n">chain_exprs</span> <span class="o">=</span> <span class="n">axiom</span><span class="o">.</span><span class="n">superObjectPropertyExpression</span><span class="o">.</span><span class="n">objectPropertyExpressions</span>
+                        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">IRI</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chain_exprs</span><span class="p">):</span>
+                            <span class="n">chain</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chain_exprs</span><span class="p">]</span>
+                            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_iri_to_curie</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">subObjectPropertyExpression</span><span class="p">),</span> <span class="n">chain</span></div></div>
 </pre></div>
 
            </div>

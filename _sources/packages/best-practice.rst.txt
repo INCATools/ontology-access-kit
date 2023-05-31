@@ -16,15 +16,21 @@ You can iterate over these in exactly the same way you iterate over lists, for e
 
 .. code:: python
 
-    >>> for curie in oi.basic_search("cell"):
-    >>>     ## do something with results
-    >>>     print(f'MATCH: {curie}')
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("sqlite:obo:hsapdv")
+    >>> for curie in adapter.entities():
+    ...     print(f'ENTITY: {curie}')
+    <BLANKLINE>
+    ...
+    ENTITY: HsapDv:0000013
+    ENTITY: HsapDv:0000014
+    ...
 
 If you like you can directly convert an iterator to a list:
 
 .. code:: python
 
-    >>> curies = list(oi.basic_search("cell"))
+    >>> curies = list(adapter.entities())
 
 However, this may be an anti-pattern if the implementation is a remote service and the results include possible thousands of results,
 as this will block on waiting for all results.
@@ -38,15 +44,17 @@ A common pattern is to iterate over a result set and issue a separate call for e
 
 .. code:: python
 
-    >>> for curie in oi.basic_search("cell"):
-            >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+    >>> for curie in adapter.entities():
+    ...     print(f'{curie} ! {adapter.label(curie)}')
+    <BLANKLINE>
+    ...
+    HsapDv:0000013 ! Carnegie stage 07
+    HsapDv:0000014 ! Carnegie stage 08
+    ...
 
-        This is fine if the implementation has a low latency for individual calls, but if the implementation is backed by
-        a remote service (for example, a SPARQL endpoint like ontobee or ubergraph, or a remote SQL database) then this will
-        issue one network call for each result, which may be inefficient.
-
-        One possibility is to use a dedicated method for retrieving batch results, for example
-        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+This is fine if the implementation has a low latency for individual calls, but if the implementation is backed by
+a remote service (for example, a SPARQL endpoint like ontobee or ubergraph, or a remote SQL database) then this will
+issue one network call for each result, which may be inefficient.
 
 A better approach is to *chunk* over iterators:
 
@@ -57,21 +65,19 @@ The :ref:`.chunk` utility function will chunk iterator calls into sizeable amoun
 
 .. code:: python
 
-    >>> for curie_it in chunk(impl.basic_search(t)):
-        >>>     logging.info('** Next chunk:')
-        >>>     for curie, label in impl.labels(curie_it):
-        >>>         print(f'{curie} ! {label}')
-
-    This is slightly more boilerplate code, and may not be necessary for an in-memory implementation like Pronto. However, this
-    pattern could have considerable advantages for result sets that are potentially large. Even if the external server is
-    slow to return results, users will see batches or results rather than waiting on the external server to produce
-    >>>     logging.info('** Next chunk:')
-    >>>     for curie, label in impl.get_labels_for_curies(curie_it):
-    >>>         print(f'{curie} ! {label}')
+    >>> from oaklib.utilities.iterator_utils import chunk
+    >>> for curie_it in chunk(adapter.entities()):
+    ...     for curie, label in adapter.labels(curie_it):
+    ...         print(f'{curie} ! {label}')
+    <BLANKLINE>
+    ...
+    HsapDv:0000013 ! Carnegie stage 07
+    HsapDv:0000014 ! Carnegie stage 08
+    ...
 
 This is slightly more boilerplate code, and may not be necessary for an in-memory implementation like Pronto. However, this
 pattern could have considerable advantages for result sets that are potentially large. Even if the external server is
-slow to return results, users will see batches or results rather than waiting on the external server to produce *all* results.
+slow to return results, users will see batches or results rather than waiting on the external server to produce
 
 Command Line
 ------------

@@ -131,8 +131,8 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
 <p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
 <p>Here is an example of code that uses an Ubergraph implementation to do a simple lookup:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="go">&gt;&gt; adapter = get_adapter(&quot;ubergraph:uberon&quot;)</span>
-<span class="go">&gt;&gt; print(adapter.label(&quot;UBERON:0001825&quot;))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ubergraph:uberon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;UBERON:0001825&quot;</span><span class="p">))</span>
 <span class="go">paranasal sinus</span>
 </pre></div>
 </div>
@@ -140,8 +140,8 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
 <p>You can do the same thing using a different implementation. This one uses the
 <a class="reference internal" href="implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="go">&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:uberon&quot;)</span>
-<span class="go">&gt;&gt; print(adapter.label(&quot;UBERON:0001825&quot;))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;UBERON:0001825&quot;</span><span class="p">))</span>
 <span class="go">paranasal sinus</span>
 </pre></div>
 </div>

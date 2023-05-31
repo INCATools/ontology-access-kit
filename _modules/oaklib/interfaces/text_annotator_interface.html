@@ -143,11 +143,18 @@
 <span class="sd">    the need for a local indexing step. For example, the :ref:`bioportal_implementation` will use</span>
 <span class="sd">    the OntoPortal annotate endpoint which is pre-indexed over all &gt;1000 ontologies in bioportal.</span>
 
-
-
 <span class="sd">    All return payloads conform to the `TextAnnotation` data model:</span>
 
 <span class="sd">     - `&lt;https://w3id.org/oak/text-annotator&gt;`_</span>
+
+<span class="sd">    Additional plugins may be available to provide more advanced functionality:</span>
+
+<span class="sd">    - `OAK SciSpacy plugin &lt;https://pypi.org/project/oakx-spacy/&gt;`_ - provides a Spacy pipeline component</span>
+<span class="sd">    - `OAK OGER plugin &lt;https://pypi.org/project/oakx-oger/&gt;`_ - provides a OGER pipeline component</span>
+
+<span class="sd">    For more advanced extraction use cases, see:</span>
+
+<span class="sd">    - `OntoGPT &lt;https://github.com/monarch-initiative/ontogpt&gt;`_ - LLM-based NER and schema extraction</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">lexical_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LexicalIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -171,9 +178,12 @@
 <span class="sd">        Annotate a piece of text.</span>
 
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
-<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;go.db&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; for annotation in adapter.annotate_text(&quot;The mitochondrion is a membrane-bound organelle&quot;):</span>
-<span class="sd">        &gt;&gt;&gt;     print(annotation)</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;tests/input/go-nucleus.obo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for annotation in adapter.annotate_text(&quot;The nucleus is a organelle with a membrane&quot;):</span>
+<span class="sd">        ...     print(annotation.object_id, annotation.object_label, annotation.subject_start, annotation.subject_end)</span>
+<span class="sd">        GO:0005634 nucleus 5 11</span>
+<span class="sd">        GO:0016020 membrane 35 42</span>
+<span class="sd">        GO:0043226 organelle 18 26</span>
 
 <span class="sd">        :param text: Text to be annotated.</span>
 <span class="sd">        :param configuration: Text annotation configuration.</span>

@@ -62,6 +62,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#exploring-relationships">Exploring relationships</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#graph-traversal-and-relation-graph-reasoning">Graph Traversal and Relation Graph Reasoning</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#graph-traversal-strategies">Graph Traversal Strategies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples-of-where-entailment-yields-more">Examples of where entailment yields more</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples-of-where-graph-traversal-yields-more-ancestors-than-entailment">Examples of where graph traversal yields more ancestors than entailment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#which-strategy-should-i-use">Which strategy should I use?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-note-on-entailed-direct-edges">A note on entailed direct edges</a></li>
 </ul>
 </li>
 </ul>
@@ -107,18 +111,20 @@
   <section id="relationships-and-graphs">
 <span id="id1"></span><h1>Relationships and Graphs<a class="headerlink" href="#relationships-and-graphs" title="Permalink to this heading"></a></h1>
 <p>One of the main uses of an ontology is to precisely state the <a class="reference internal" href="../glossary.html#term-Relationship"><span class="xref std std-term">Relationships</span></a> between different entities or concepts.</p>
-<p>In OAK, classes in ontologies can be related to one another via different <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Relationship Types</span></a>. These
+<p>In OAK, classes in ontologies can be related to one another via different <em>relationship types</em>, also known as <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a>. These
 may come from a relationship type ontology such as <span class="xref std std-term">RO</span>, or they may be a “builtin” construct in <a class="reference internal" href="../glossary.html#term-RDF"><span class="xref std std-term">RDF</span></a> or <a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>
 such as <code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf</span></code>.</p>
 <p>These can be thought of as a <a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> of concepts and relationships. This is a common idiom
-for bioinformatics users of ontologies - but perhaps surprisingly, graphs do not
+for bioinformatics users of ontologies - but, perhaps surprisingly, graphs do not
 feature heavily in Description Logic formalisms of ontologies like <a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>.</p>
 <p>Instead there exist a number of different <a class="reference internal" href="../glossary.html#term-Ontology-Graph-Projection"><span class="xref std std-term">Ontology Graph Projection</span></a> methods that
 project from OWL to a graph. The fact there is no one standard method can lead to confusion.</p>
 <p>But let’s start with a standard bio-ontology example - the <span class="xref std std-term">UBERON</span> ontology.</p>
 <section id="exploring-relationships">
 <h2>Exploring relationships<a class="headerlink" href="#exploring-relationships" title="Permalink to this heading"></a></h2>
-<p>Let’s explore Uberon, looking at the relationships for <em>hand</em> (“manus”) and <em>foot</em> (“pes”)</p>
+<p>Let’s explore Uberon, looking at the relationships for <em>hand</em> (“manus”) and <em>foot</em> (“pes”),
+which have respective CURIEs <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0002398">UBERON:0002398</a>
+and <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0002387">UBERON:0002387</a>.</p>
 <p>We will use the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> method from <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
@@ -136,6 +142,7 @@ project from OWL to a graph. The fact there is no one standard method can lead t
 <span class="go">(&#39;UBERON:0002398&#39;, &#39;rdfs:subClassOf&#39;, &#39;UBERON:0008785&#39;)</span>
 </pre></div>
 </div>
+<p>Each line is Relationship <em>tuple</em>, <code class="docutils literal notranslate"><span class="pre">(SUBJECT,</span> <span class="pre">PREDICATE,</span> <span class="pre">OBJECT)</span></code>.</p>
 <p>We can make this more human readable:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="s2">&quot;UBERON:0002387&quot;</span><span class="p">]):</span>
 <span class="gp">... </span>   <span class="nb">print</span><span class="p">((</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">)))</span>
@@ -151,7 +158,7 @@ project from OWL to a graph. The fact there is no one standard method can lead t
 <span class="go">(&#39;manus&#39;, None, &#39;upper limb segment&#39;)</span>
 </pre></div>
 </div>
-<p>(note subClassOf labels are outside the ontology so they have no labels)</p>
+<p>(note subClassOf / <span class="xref std std-term">IS_A</span> labels are outside the ontology so they have no labels)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>if you are used to working with OWL and the underlying RDF/OWL representation
@@ -162,23 +169,20 @@ constructs like existential restriction. We will return to this later.</p>
 </section>
 <section id="graph-traversal-and-relation-graph-reasoning">
 <h2>Graph Traversal and Relation Graph Reasoning<a class="headerlink" href="#graph-traversal-and-relation-graph-reasoning" title="Permalink to this heading"></a></h2>
-<p>The above examples show <span class="xref std std-term">Direct Relationships</span> between concepts. A common
-use case for ontologies is exploring <em>indirect</em> or <span class="xref std std-term">Entailed Relationships</span>,
+<p>The above examples show <a class="reference internal" href="../glossary.html#term-Asserted"><span class="xref std std-term">Asserted</span></a> Relationships between concepts. A common
+use case for ontologies is exploring <em>indirect</em> or <a class="reference internal" href="../glossary.html#term-Entailed"><span class="xref std std-term">Entailed</span></a> Relationships,
 which roughly corresponds to the concept of <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestor</span></a> in a graph.</p>
 <p>We will use the <code class="docutils literal notranslate"><span class="pre">ancestors</span></code> method from <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]):</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;UBERON:0002398&quot;</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">])):</span>
 <span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">anc</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">anc</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 <span class="go">BFO:0000001 &#39;entity&#39;</span>
 <span class="go">BFO:0000002 &#39;continuant&#39;</span>
 <span class="go">BFO:0000004 &#39;independent continuant&#39;</span>
 <span class="go">BFO:0000040 &#39;material entity&#39;</span>
-<span class="go">CARO:0000000 &#39;anatomical entity&#39;</span>
-<span class="go">CARO:0000003 &#39;None&#39;</span>
-<span class="go">CARO:0030000 &#39;biological entity&#39;</span>
-<span class="go">RO:0002577 &#39;system&#39;</span>
+<span class="go">...</span>
 <span class="go">UBERON:0000026 &#39;appendage&#39;</span>
 <span class="go">UBERON:0000061 &#39;anatomical structure&#39;</span>
 <span class="go">UBERON:0000153 &#39;anterior region of body&#39;</span>
@@ -187,27 +191,15 @@ which roughly corresponds to the concept of <a class="reference internal" href="
 <span class="go">UBERON:0000475 &#39;organism subdivision&#39;</span>
 <span class="go">UBERON:0001062 &#39;anatomical entity&#39;</span>
 <span class="go">UBERON:0002101 &#39;limb&#39;</span>
-<span class="go">UBERON:0002102 &#39;forelimb&#39;</span>
-<span class="go">UBERON:0004708 &#39;paired limb/fin&#39;</span>
-<span class="go">UBERON:0004710 &#39;pectoral appendage&#39;</span>
-<span class="go">UBERON:0010000 &#39;multicellular anatomical structure&#39;</span>
-<span class="go">UBERON:0010707 &#39;appendage girdle complex&#39;</span>
-<span class="go">UBERON:0010708 &#39;pectoral complex&#39;</span>
-<span class="go">UBERON:0015212 &#39;lateral structure&#39;</span>
-<span class="go">UBERON:0002398 &#39;manus&#39;</span>
-<span class="go">UBERON:0002470 &#39;autopod region&#39;</span>
-<span class="go">UBERON:0002529 &#39;limb segment&#39;</span>
-<span class="go">UBERON:0008785 &#39;upper limb segment&#39;</span>
-<span class="go">UBERON:0010538 &#39;paired limb/fin segment&#39;</span>
-<span class="go">UBERON:0010758 &#39;subdivision of organism along appendicular axis&#39;</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <section id="graph-traversal-strategies">
 <h3>Graph Traversal Strategies<a class="headerlink" href="#graph-traversal-strategies" title="Permalink to this heading"></a></h3>
 <p>There are actually <em>two</em> strategies for getting indirect relationships in OAK:</p>
 <ul class="simple">
-<li><p>HOP, aka <span class="xref std std-term">Graph Traversal</span></p></li>
-<li><p>ENTAILMENT, aka term:<cite>Reasoning</cite></p></li>
+<li><p>HOP, aka <a class="reference internal" href="../glossary.html#term-Graph-Traversal"><span class="xref std std-term">Graph Traversal</span></a></p></li>
+<li><p>ENTAILMENT, aka <a class="reference internal" href="../glossary.html#term-Reasoning"><span class="xref std std-term">Reasoning</span></a></p></li>
 </ul>
 <p>You can specify which you would like, but if you leave this open the adapter will choose a
 default. Not all adapters can implement both strategies.</p>
@@ -218,21 +210,309 @@ over the specified relationships</p></li>
 <li><p>ENTAILMENT uses deductive reasoning to compute inferred relationships, and yields any relationships
 whose entailed predicate matches the input list</p></li>
 </ul>
-<p>Currently the only OAK adapters to implement ENTAILMENT are:</p>
+<p>Currently the following OAK adapters incorporate entailment:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../packages/implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a></p></li>
 <li><p><a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a></p></li>
 </ul>
 <p>In both cases the entailment is done ahead of time using <a class="reference internal" href="../glossary.html#term-Relation-Graph"><span class="xref std std-term">Relation Graph</span></a> to compute the
 entailed edges.</p>
-<p>An example of a case where results between these approaches differ is in computing
-the ancestors of <code class="docutils literal notranslate"><span class="pre">GO:1901494</span></code> <em>regulation of cysteine metabolic process</em>.</p>
-<p>Following a path of two hops, we can traverse over a <em>regulates</em> relationship to get to <em>cysteine metabolic process</em>,
-and then over a <em>has primary input ot output</em> relationship to the CHEBI concept for <em>cysteine</em></p>
-<p>the Relation Ontology doesn’t include a property chain naming the relationship between
-<a class="reference external" href="GO:1901494">GO:1901494</a> and cysteine, so this wouldn’t show up in an ancestor lookup for the GO term.</p>
-<p>entailment can also yield <em>new</em> relationship types. For example, RO contains
-an axiom that if A has-part B and B part-of C, then it necessarily follows that A overlaps C.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We have experimental support for entailment with other adapters, this requires
+having <code class="docutils literal notranslate"><span class="pre">relation-graph</span></code> on the command line.</p>
+</div>
+</section>
+<section id="examples-of-where-entailment-yields-more">
+<h3>Examples of where entailment yields more<a class="headerlink" href="#examples-of-where-entailment-yields-more" title="Permalink to this heading"></a></h3>
+<p>Assuming we have edges:</p>
+<ul class="simple">
+<li><p>A has-part B (in OWL: A SubClassOf has-part some B)</p></li>
+<li><p>B part-of C (in OWL: B SubClassOf part-of some C)</p></li>
+</ul>
+<p>And additionally, the ontology contains a <span class="xref std std-term">Property Chain</span> axiom:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">has-part</span> <span class="pre">o</span> <span class="pre">part-of</span> <span class="pre">-&gt;</span> <span class="pre">overlaps</span></code></p></li>
+</ul>
+<p>Then using the entailment strategy we get an entailed edge:</p>
+<ul class="simple">
+<li><p>A overlaps C (in OWL: A SubClassOf overlaps some C)</p></li>
+</ul>
+<p>Using graph traversal will tell us that there is at least one path between A and B,
+and that this path involves hoping over two predicates, but it doesn’t give us
+<em>precise</em> information about the relationship between A and C.</p>
+<p>Furthermore, if we use graph traversal and don’t filter over predicates, then
+we may end up with lots of essentially meaningless paths, especially if the ontology
+makes use of extensive relationships from an ontology like RO.</p>
+<p>Let’s make this more concrete with a subset of an actual ontology:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0012505</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">endomembrane system</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0110165 ! cellular anatomical entity</span>
+<span class="nt">relationship</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_part GO:0005773 ! vacuole</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0005773</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vacuole</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043231 ! intracellular membrane-bounded organelle</span>
+<span class="nt">relationship</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">part_of GO:0005737 ! cytoplasm</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043227</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">membrane-bounded organelle</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043226 ! organelle</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043229</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">intracellular organelle</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043226 ! organelle</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043231</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">intracellular membrane-bounded organelle</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043227 ! membrane-bounded organelle</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043229 ! intracellular organelle</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0043226</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">organelle</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0110165 ! cellular anatomical entity</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0005737</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cytoplasm</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0110165 ! cellular anatomical entity</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Term</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0110165</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cellular anatomical entity</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Typedef</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">part_of</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">part of</span>
+<span class="nt">xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BFO:0000050</span>
+<span class="nt">is_transitive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overlaps</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Typedef</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_part</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has part</span>
+<span class="nt">xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BFO:0000051</span>
+<span class="nt">inverse_of</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">part_of</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overlaps</span>
+
+<span class="p p-Indicator">[</span><span class="nv">Typedef</span><span class="p p-Indicator">]</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overlaps</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overlaps</span>
+<span class="nt">xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RO:0002131</span>
+<span class="nt">holds_over_chain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_part part_of</span>
+</pre></div>
+</div>
+<p>We use <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> for compactness here, but the same thing that can be done in
+OWL. Note the <code class="docutils literal notranslate"><span class="pre">holds_over_chain</span></code> axiom, which is a <span class="xref std std-term">Property Chain</span> axiom.</p>
+<p>The ontology can be visualized:</p>
+<figure class="align-default" id="id2">
+<img alt="../_images/entailment-example.png" class="with-border" src="../_images/entailment-example.png" />
+<figcaption>
+<p><span class="caption-text">Example sub-ontology focused on the endomembrane system (<a class="reference external" href="GO:0012505">GO:0012505</a>).
+This is a simplified subset of GO for demo purposes. Figure generated using
+<code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">viz</span> <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial.obo</span> <span class="pre">&quot;endomembrane</span> <span class="pre">system&quot;</span></code></span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Let’s load up the ontology:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;simpleobo:tests/input/entailment-tutorial.obo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let’s use the default graph traversal to get the ancestors of <code class="docutils literal notranslate"><span class="pre">GO:0012505</span></code> <em>endomembrane system</em>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">)))</span>
+<span class="go">8</span>
+</pre></div>
+</div>
+<p>This is all the nodes in the graph (including the query node itself, as operations
+are by default <a class="reference internal" href="../glossary.html#term-Reflexive"><span class="xref std std-term">Reflexive</span></a>).</p>
+<p>Now let’s use the entailment strategy to get <a class="reference internal" href="../glossary.html#term-Entailed"><span class="xref std std-term">Entailed</span></a> ancestors:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">GraphTraversalMethod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">)))</span>
+<span class="go">8</span>
+</pre></div>
+</div>
+<p>Identical results! (Later on we will use an example where the results are different).</p>
+<p>One advantage of the entailment strategy is that we can see the inferred
+relationship between any term pair. To do this, we use the <code class="docutils literal notranslate"><span class="pre">relationships</span></code>
+method in <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                                        <span class="n">include_entailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+<span class="go">BFO:0000051 GO:0005773 vacuole</span>
+<span class="go">BFO:0000051 GO:0043226 organelle</span>
+<span class="go">BFO:0000051 GO:0043227 membrane-bounded organelle</span>
+<span class="go">BFO:0000051 GO:0043229 intracellular organelle</span>
+<span class="go">BFO:0000051 GO:0043231 intracellular membrane-bounded organelle</span>
+<span class="go">BFO:0000051 GO:0110165 cellular anatomical entity</span>
+<span class="go">RO:0002131 GO:0005737 cytoplasm</span>
+<span class="go">RO:0002131 GO:0005773 vacuole</span>
+<span class="go">RO:0002131 GO:0043226 organelle</span>
+<span class="go">RO:0002131 GO:0043227 membrane-bounded organelle</span>
+<span class="go">RO:0002131 GO:0043229 intracellular organelle</span>
+<span class="go">RO:0002131 GO:0043231 intracellular membrane-bounded organelle</span>
+<span class="go">RO:0002131 GO:0110165 cellular anatomical entity</span>
+<span class="go">rdfs:subClassOf GO:0012505 endomembrane system</span>
+<span class="go">rdfs:subClassOf GO:0110165 cellular anatomical entity</span>
+</pre></div>
+</div>
+<p>No equivalent operation exists for graph traversal.</p>
+<p>However, it is possible to use the <code class="docutils literal notranslate"><span class="pre">paths</span></code> method to see all paths, e.g. between
+endomembrane system and cytoplasm:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">_s</span><span class="p">,</span> <span class="n">_e</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">paths</span><span class="p">([</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                                         <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>                                         <span class="n">target_curies</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GO:0005737&quot;</span><span class="p">])):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+<span class="go">GO:0005737</span>
+<span class="go">GO:0005773</span>
+<span class="go">GO:0012505</span>
+</pre></div>
+</div>
+<p>This is the list of intermediate nodes.</p>
+<p>We can also see a difference if we restrict the graph traversal to specified
+predicates, e.g. has-part (BFO:0000051):</p>
+<p>With the default method:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;BFO:0000051&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                                  <span class="n">method</span><span class="o">=</span><span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">HOP</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="go">GO:0005773 vacuole</span>
+<span class="go">GO:0012505 endomembrane system</span>
+</pre></div>
+</div>
+<p>Here the ancestors method is walking the graph, and performing
+a direct filter on edges.</p>
+<p>With entailment</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;BFO:0000051&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                                  <span class="n">method</span><span class="o">=</span><span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="go">GO:0005773 vacuole</span>
+<span class="go">GO:0043226 organelle</span>
+<span class="go">GO:0043227 membrane-bounded organelle</span>
+<span class="go">GO:0043229 intracellular organelle</span>
+<span class="go">GO:0043231 intracellular membrane-bounded organelle</span>
+<span class="go">GO:0110165 cellular anatomical entity</span>
+</pre></div>
+</div>
+<p>Here the entailment strategy yields all ancestors <em>A</em> such that the
+axiom “endomembrane system SubClassOf has-part some <em>A</em>” is true.</p>
+<p>This difference is further marked when we query using the overlaps (RO:0002131) relation. Note
+this is not <a class="reference internal" href="../glossary.html#term-Asserted"><span class="xref std std-term">Asserted</span></a> in the sample ontology.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RO:0002131&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="n">reflexive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">method</span><span class="o">=</span><span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">HOP</span><span class="p">))</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>But if we ask the same question using the entailment strategy, we
+get everything that overlaps with the endomembrane system:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">predicates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RO:0002131&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                                  <span class="n">reflexive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">method</span><span class="o">=</span><span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="go">GO:0005737 cytoplasm</span>
+<span class="go">GO:0005773 vacuole</span>
+<span class="go">GO:0043226 organelle</span>
+<span class="go">GO:0043227 membrane-bounded organelle</span>
+<span class="go">GO:0043229 intracellular organelle</span>
+<span class="go">GO:0043231 intracellular membrane-bounded organelle</span>
+<span class="go">GO:0110165 cellular anatomical entity</span>
+</pre></div>
+</div>
+</section>
+<section id="examples-of-where-graph-traversal-yields-more-ancestors-than-entailment">
+<h3>Examples of where graph traversal yields more ancestors than entailment<a class="headerlink" href="#examples-of-where-graph-traversal-yields-more-ancestors-than-entailment" title="Permalink to this heading"></a></h3>
+<p>Let’s extend our ontology by adding an additional edge:</p>
+<ul class="simple">
+<li><p>cytoplasm has-characteristic liquid (PATO:0001735)</p></li>
+</ul>
+<p>Our ontology now looks like:</p>
+<figure class="align-default" id="id3">
+<img alt="../_images/entailment-example-2.png" class="with-border" src="../_images/entailment-example-2.png" />
+<figcaption>
+<p><span class="caption-text">This extends the previous figure by the addition of a new edge
+with a new predicate (has-characteristic).
+Figure generated using <code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">viz</span> <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial-2.obo</span></code></span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Let’s load up the 2nd ontology:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;simpleobo:tests/input/entailment-tutorial-2.obo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let’s compare the results of the two strategies, without filtering for predicates:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hop_ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">method</span><span class="o">=</span><span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">HOP</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ent_ancs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="s2">&quot;GO:0012505&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">method</span><span class="o">=</span><span class="n">GraphTraversalMethod</span><span class="o">.</span><span class="n">ENTAILMENT</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">hop_ancs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ent_ancs</span><span class="p">)</span>
+<span class="go">(9, 8)</span>
+</pre></div>
+</div>
+<p>This time the HOP strategy gives us one additional ancestor. We can see which one:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">set</span><span class="p">(</span><span class="n">hop_ancs</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">ent_ancs</span><span class="p">)</span>
+<span class="go">{&#39;PATO:0001735&#39;}</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id4">
+<img alt="guide/entailment-example-2-paths.png" class="with-border" src="guide/entailment-example-2-paths.png" />
+<figcaption>
+<p><span class="caption-text">Figure generated using <code class="docutils literal notranslate"><span class="pre">runoak</span>&#160;&#160; <span class="pre">--stacktrace</span>&#160; <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial-2.obo</span> <span class="pre">paths</span> <span class="pre">&quot;endomembrane</span> <span class="pre">system&quot;</span> <span class="pre">&#64;</span> <span class="pre">PATO:0001735</span>&#160; <span class="pre">--viz</span> <span class="pre">--directed</span> <span class="pre">--include-predicates</span></code></span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>On the one hand this increased recall can be seen as an advantage of HOPping over
+a graph. On the other, the relationship between endomembrane system and liquid is not
+particularly <em>meaningful</em>, and may even be misleading (the endomembrane system is not
+itself liquid). If we decided that there is a meaningful named relation we want to use,
+then we can name it and define it with a property chain, and add it. E.g.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">has_part_with_characteristic</span> <span class="pre">&lt;-</span> <span class="pre">has-part</span> <span class="pre">o</span> <span class="pre">has-characteristic</span></code></p></li>
+</ul>
+<p>But this would be a fairly odd predicate with many entailed edges (e.g. a human body
+would stand in this relationship type to just about every property imaginable, e.g
+charges of all chemicals, morphologies of all cells, …).</p>
+<p>On the other hand there are cases where the ontology developers have not anticipated
+all possible property chains, and in these cases the graph traversal strategy may yield
+potentially useful results.</p>
+</section>
+<section id="which-strategy-should-i-use">
+<h3>Which strategy should I use?<a class="headerlink" href="#which-strategy-should-i-use" title="Permalink to this heading"></a></h3>
+<p>The entailment strategy will give you more <em>precise</em>, <em>meaningful</em> results, but it
+may miss entailed edges you care about, especially if the ontology you are using
+does not make extensive use of property chains.</p>
+<p>The graph traversal strategy will give you more <em>complete</em> results, the resulting
+paths may be meaningless, especially if you don’t constrain the predicates.</p>
+</section>
+<section id="a-note-on-entailed-direct-edges">
+<h3>A note on entailed direct edges<a class="headerlink" href="#a-note-on-entailed-direct-edges" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is a fairly advanced topic that isn’t necessary for working with most
+ontologies.</p>
+</div>
+<p>Readers who are coming from an advanced OWL background may at this point be wondering
+why we don’t mention another category of entailed edges, specifically <span class="xref std std-term">Direct</span> edges
+that are entailed, but not <a class="reference internal" href="../glossary.html#term-Asserted"><span class="xref std std-term">Asserted</span></a>.</p>
+<p>For example, if we have an ontology with edges:</p>
+<ul class="simple">
+<li><p>MesentericVein drains SmallIntestine (or in OWL: MesentericVein SubClassOf drains some SmallIntestine)</p></li>
+<li><p>drains Domain Vein</p></li>
+</ul>
+<p>Then OWL entailment will yield an edge:</p>
+<ul class="simple">
+<li><p>MesentericVein rdfs:subClassOf Vein</p></li>
+</ul>
+<p>This <em>may</em> be a direct edge (if there is not a more specific vein classification),
+and in principle it <em>may</em> be the case that this is not asserted</p>
+<p>However, OAK is designed for working with <em>released</em> versions of ontologies,
+which should be <em>pre-classified</em>. This means that all edges that are both <span class="xref std std-term">Direct</span>
+and <a class="reference internal" href="../glossary.html#term-Entailed"><span class="xref std std-term">Entailed</span></a> should also be <a class="reference internal" href="../glossary.html#term-Asserted"><span class="xref std std-term">Asserted</span></a>.</p>
 </section>
 </section>
 </section>

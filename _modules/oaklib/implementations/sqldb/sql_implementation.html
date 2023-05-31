@@ -139,6 +139,7 @@
     <span class="n">RdfTypeStatement</span><span class="p">,</span>
     <span class="n">Statements</span><span class="p">,</span>
     <span class="n">TermAssociation</span><span class="p">,</span>
+    <span class="n">TransitivePropertyNode</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">and_</span><span class="p">,</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">distinct</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">insert</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">update</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">aliased</span><span class="p">,</span> <span class="n">sessionmaker</span>
@@ -184,6 +185,7 @@
     <span class="n">OWL_META_CLASSES</span><span class="p">,</span>
     <span class="n">OWL_NAMED_INDIVIDUAL</span><span class="p">,</span>
     <span class="n">OWL_NOTHING</span><span class="p">,</span>
+    <span class="n">OWL_PROPERTY_CHAIN_AXIOM</span><span class="p">,</span>
     <span class="n">OWL_THING</span><span class="p">,</span>
     <span class="n">OWL_VERSION_IRI</span><span class="p">,</span>
     <span class="n">PREFIX_PREDICATE</span><span class="p">,</span>
@@ -343,19 +345,22 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.</span>
 
-<span class="sd">    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).</span>
+<span class="sd">    Currently this must be a SQLite database. PostgreSQL support is planned.</span>
 
 <span class="sd">    To connect, either use SqlImplementation directly:</span>
 
-<span class="sd">    .. packages:: python</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib.implementations.sqldb.sql_implementation import SqlImplementation</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib.resource import OntologyResource</span>
+<span class="sd">    &gt;&gt;&gt; adapter = SqlImplementation(OntologyResource(&quot;tests/input/go-nucleus.db&quot;))</span>
 
-<span class="sd">        &gt;&gt;&gt; oi = SqlImplementation(OntologyResource(slug=f&quot;sqlite:///{path}&quot;))</span>
+<span class="sd">    or</span>
 
-<span class="sd">    Or use a selector:</span>
+<span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">    &gt;&gt;&gt; adapter = get_adapter(&quot;sqlite:tests/input/go-nucleus.db&quot;)</span>
 
-<span class="sd">    .. packages:: python</span>
+<span class="sd">    you can also load from the semantic-sql repository:</span>
 
-<span class="sd">        &gt;&gt;&gt; oi = get_implementation_from_shorthand(&#39;obojson:path/to/my/ontology.db&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:obi&quot;)</span>
 
 <span class="sd">    The schema is assumed to follow the `semantic-sql &lt;https://github.com/incatools/semantic-sql&gt;`_ schema.</span>
 
@@ -924,6 +929,7 @@
             <span class="c1"># materialize iterators</span>
             <span class="n">subjects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subjects</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">subjects</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">objects</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="p">:</span>
+            <span class="c1"># TODO: unify indexes with other implementations</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationships_by_subject_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[]):</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="p">:</span>
@@ -1687,12 +1693,16 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">by_subject_query</span> <span class="o">=</span> <span class="n">base_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">curies</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">by_subject_query</span><span class="p">:</span>
-            <span class="n">mpg</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">(</span>
-                <span class="n">subject_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
-                <span class="n">object_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
-                <span class="n">predicate_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
-                <span class="n">mapping_justification</span><span class="o">=</span><span class="n">justification</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">mpg</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">(</span>
+                    <span class="n">subject_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
+                    <span class="n">object_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
+                    <span class="n">predicate_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span>
+                    <span class="n">mapping_justification</span><span class="o">=</span><span class="n">justification</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">; ValueError: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
             <span class="n">inject_mapping_sources</span><span class="p">(</span><span class="n">mpg</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">!=</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">mpg</span><span class="o">.</span><span class="n">object_source</span> <span class="o">!=</span> <span class="n">source</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -2007,6 +2017,17 @@
         <span class="k">if</span> <span class="n">bidirectional</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_disjoint</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">transitive_object_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">TransitivePropertyNode</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">simple_subproperty_of_chains</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">OWL_PROPERTY_CHAIN_AXIOM</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">chain</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rdf_list</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">))</span>
+            <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">chain</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: SemSim</span>

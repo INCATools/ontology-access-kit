@@ -96,14 +96,13 @@
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchProperty</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.text_annotator</span> <span class="kn">import</span> <span class="n">TextAnnotation</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">SEMAPV</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.ols.constants</span> <span class="kn">import</span> <span class="n">SEARCH_CONFIG</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.ols.oxo_utils</span> <span class="kn">import</span> <span class="n">load_oxo_payload</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">PREFIX_MAP</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.text_annotator_interface</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
-
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">SEARCH_CONFIG</span>
-<span class="kn">from</span> <span class="nn">.oxo_utils</span> <span class="kn">import</span> <span class="n">load_oxo_payload</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># Abstract classes</span>

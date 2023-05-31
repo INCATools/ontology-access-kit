@@ -19,6 +19,10 @@ descendants of "neuron", and show them alongside their labels:
     >>> adapter = get_adapter("sqlite:obo:cl")
     >>> for d in adapter.descendants("CL:0000540", predicates=[IS_A]):
     ...     print(d, adapter.label(d))
+    <BLANKLINE>
+    ...
+    CL:0011103 sympathetic neuron
+    ...
 
 In this case, the developer does not need to know anything about the underlying implementation.
 It could be SQL or a flat file.
@@ -57,6 +61,7 @@ yields :term:`Mapping` objects conforming to the SSSOM data model. A mapping obj
     >>> adapter = get_adapter("tests/input/go-nucleus.obo")
     >>> for mapping in adapter.sssom_mappings(["GO:0005886"], source="Wikipedia"):
     ...     print(mapping.subject_id, mapping.object_id)
+    GO:0005886 Wikipedia:Cell_membrane
 
 OAK uses a mixture of native an external data models.
 

@@ -132,11 +132,15 @@
 <span class="sd">    Alternatively, use a selector:</span>
 
 <span class="sd">    &gt;&gt;&gt; from oaklib import get_adapter</span>
-<span class="sd">    &gt;&gt;&gt; from oaklib.datamodels.vocabulary import IS_A</span>
 <span class="sd">    &gt;&gt;&gt; oi = get_adapter(&quot;ontobee:&quot;)</span>
+
+<span class="sd">    Or to access a specific ontology, such as the Vaccine Ontology:</span>
+
+<span class="sd">    &gt;&gt;&gt; oi = get_adapter(&quot;ontobee:vo&quot;)</span>
 
 <span class="sd">    After that you can use any of the methods that OntoBee implements; e.g.</span>
 
+<span class="sd">    &gt;&gt;&gt; from oaklib.datamodels.vocabulary import IS_A</span>
 <span class="sd">    &gt;&gt;&gt; # uncomment to test</span>
 <span class="sd">    &gt;&gt;&gt; # for a in oi.ancestors(&quot;UBERON:0002398&quot;, predicates=[IS_A]):</span>
 <span class="sd">    &gt;&gt;&gt; #    print(a)</span>
