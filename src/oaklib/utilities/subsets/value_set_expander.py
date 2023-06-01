@@ -15,7 +15,7 @@ from linkml_runtime.linkml_model.meta import (
 from linkml_runtime.loaders import yaml_loader
 from ruamel.yaml import YAML
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.value_set_configuration import Resolver, ValueSetConfiguration
@@ -172,7 +172,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                 shorthand = resolver.shorthand
             else:
                 raise ValueError(f"Invalid resolver configuration: {resolver}")
-            return get_implementation_from_shorthand(shorthand)
+            return get_adapter(shorthand)
         else:
             raise ValueError(f"Don't know how to resolve: {ontology_id}")
 

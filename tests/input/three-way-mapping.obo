@@ -1,0 +1,62 @@
+[Term]
+id: CL:1
+xref: FBbt:1
+
+[Term]
+id: UBERON:2
+xref: FBbt:2
+xref: ZFA:2
+
+[Term]
+id: CARO:5
+name: caro5
+
+[Term]
+id: ZFA:1
+name: zfa1
+xref: CL:1
+
+[Term]
+id: ZFA:2
+name: zfa2
+
+[Term]
+id: ZFA:3
+name: zfa3
+
+[Term]
+id: ZFA:4
+name: zfa4
+xref: FBbt:4
+
+[Term]
+id: ZFA:5
+name: zfa5
+property_value: exactMatch CARO:5
+
+[Term]
+id: FBbt:1
+name: fbbt1
+
+[Term]
+id: FBbt:2
+name: fbbt2
+
+[Term]
+id: FBbt:3
+name: fbbt3
+xref: ZFA:3
+
+[Term]
+id: FBbt:4
+name: fbbt4
+
+[Term]
+id: FBbt:5
+name: fbbt5
+property_value: exactMatch CARO:5
+
+[Typedef]
+id: exactMatch
+xref: http://www.w3.org/2004/02/skos/core#exactMatch
+is_metadata_tag: true

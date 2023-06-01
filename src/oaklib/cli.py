@@ -4927,7 +4927,7 @@ def lexmatch(
 
     Full documentation:
 
-    - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.lexical.lexical_indexer.html#
+    - https://incatools.github.io/ontology-access-kit/packages/src/oaklib.utilities.lexical.lexical_indexer.html#
     module-oaklib.utilities.lexical.lexical_indexer
     """
     impl = settings.impl
