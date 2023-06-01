@@ -35,6 +35,7 @@ from oaklib.datamodels.mapping_rules_datamodel import (
     Synonymizer,
 )
 from oaklib.datamodels.vocabulary import (
+    IDENTIFIER_PREDICATE,
     SEMAPV,
     SKOS_BROAD_MATCH,
     SKOS_CLOSE_MATCH,
@@ -126,6 +127,7 @@ def create_lexical_index(
         for pred, object_id in pairs:
             mapping_pairs_by_curie[curie].append((pred, object_id))
             mapping_pairs_by_curie[object_id].append((_invert_mapping_pred(pred), curie))
+            mapping_pairs_by_curie[curie].append((IDENTIFIER_PREDICATE, curie))
     logging.info(f"Created mapping index; {len(mapping_pairs_by_curie)} mappings")
     for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
@@ -134,7 +136,6 @@ def create_lexical_index(
             continue
         alias_map = oi.entity_alias_map(curie)
         mapping_map = pairs_as_dict(mapping_pairs_by_curie.get(curie, []))
-        print(f"C={curie} // mapping_map={mapping_map}")
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
                 if not term:
@@ -296,8 +297,10 @@ def lexical_index_to_sssom(
                                 and ruleset.minimum_confidence is not None
                                 and mapping.confidence < ruleset.minimum_confidence
                             ):
-                                logging.debug("Skipping low confidence mapping:"
-                                              f"{mapping.confidence} < {ruleset.minimum_confidence}")
+                                logging.debug(
+                                    "Skipping low confidence mapping:"
+                                    f"{mapping.confidence} < {ruleset.minimum_confidence}"
+                                )
                                 continue
                             mappings.append(mapping)
 

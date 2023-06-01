@@ -41,6 +41,7 @@ from oaklib.datamodels.vocabulary import (
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
+    SKOS_MATCH_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,
 )
@@ -405,6 +406,10 @@ class ProntoImplementation(
         for x in rel_type.xrefs:
             if x.id.startswith("BFO:") or x.id.startswith("RO:"):
                 return x.id
+        for x in rel_type.xrefs:
+            if x.id.startswith("http"):
+                compacted = self.uri_to_curie(x.id)
+                return compacted
         return rel_type.id
 
     def relationships(
@@ -504,30 +509,23 @@ class ProntoImplementation(
         return m
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        m = defaultdict(list)
         t = self._entity(curie)
         if t is None:
-            return m
+            return
         for s in t.xrefs:
-            # m[HAS_DBXREF].append(s.id)
             yield HAS_DBXREF, s.id
         for s in t.annotations:
-            # TODO: less hacky
-            if s.property.startswith("skos"):
+            rel = self._entity(s.property)
+            if ":" in s.property:
+                pred = s.property
+            else:
+                pred = self._get_pronto_relationship_type_curie(rel)
+            if pred in SKOS_MATCH_PREDICATES:
                 if isinstance(s, LiteralPropertyValue):
                     v = s.literal
-                    # m[s.property].append(v)
-                    yield s.property, v
+                    yield pred, v
                 elif isinstance(s, ResourcePropertyValue):
-                    try:
-                        tail = self.uri_to_curie(s.resource)
-                    except ValueError:
-                        logging.warning(
-                            "%s could not compress URI %s", self.__class__.__name__, s.resource
-                        )
-                        continue
-                    else:
-                        yield s.property, tail
+                    yield pred, s.resource
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
@@ -621,21 +619,17 @@ class ProntoImplementation(
             curies = list(curies)
         # mappings where curie is the subject:
         for curie in curies:
-            t = self._entity(curie)
-            if t:
-                for x in t.xrefs:
-                    m = sssom.Mapping(
-                        subject_id=t.id,
-                        predicate_id=SKOS_CLOSE_MATCH,
-                        object_id=x.id,
-                        mapping_justification=sssom.EntityReference(
-                            SEMAPV.UnspecifiedMatching.value
-                        ),
-                    )
-                    inject_mapping_sources(m)
-                    if source and m.object_source != source and m.subject_source != source:
-                        continue
-                    yield m
+            for pred, obj in self.simple_mappings_by_curie(curie):
+                m = sssom.Mapping(
+                    subject_id=curie,
+                    predicate_id=pred,
+                    object_id=obj,
+                    mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
+                )
+                inject_mapping_sources(m)
+                if source and m.object_source != source and m.subject_source != source:
+                    continue
+                yield m
         # mappings where curie is the object:
         # TODO: use a cache to avoid re-calculating
         for e in self.entities():
