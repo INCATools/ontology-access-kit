@@ -3,7 +3,7 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass
-from typing import ClassVar, List, Optional, Iterable, Iterator
+from typing import ClassVar, Iterable, Iterator, List, Optional
 
 from semsimian import Semsimian
 
@@ -132,9 +132,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
 
-        all_results = self.semsimian.all_by_all_pairwise_similarity(set(subjects),
-                                                                    set(objects),
-                                                                    set(predicates))
+        all_results = self.semsimian.all_by_all_pairwise_similarity(
+            set(subjects), set(objects), set(predicates)
+        )
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
                 jaccard, resnik, phenodigm_score = result
