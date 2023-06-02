@@ -132,17 +132,18 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
 
-        for result in self.semsimian.all_by_all_pairwise_similarity(subjects,
-                                                                    objects,
-                                                                    set(predicates)):
-            sim = TermPairwiseSimilarity(
-                subject_id=result.subject_id,
-                object_id=result.object_id,
-                ancestor_id=result.ancestor_id,
-                ancestor_information_content=result.ancestor_information_content,
-            )
-            sim.jaccard_similarity = result.jaccard_similarity
-            sim.ancestor_information_content = result.ancestor_information_content
-            sim.phenodigm_score = math.sqrt(
-                sim.jaccard_similarity * sim.ancestor_information_content)
-            yield sim
+        all_results = self.semsimian.all_by_all_pairwise_similarity(set(subjects),
+                                                                    set(objects),
+                                                                    set(predicates))
+        for term1_key, values in all_results.items():
+            for term2_key, result in values.items():
+                jaccard, resnik = result
+                sim = TermPairwiseSimilarity(
+                    subject_id=term1_key,
+                    object_id=term2_key,
+                    ancestor_id="???",
+                )
+                sim.jaccard_similarity = jaccard
+                sim.ancestor_information_content = resnik
+                sim.phenodigm_score = math.sqrt(jaccard * resnik)
+                yield sim
