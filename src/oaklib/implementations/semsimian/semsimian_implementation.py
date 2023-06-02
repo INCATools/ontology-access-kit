@@ -137,7 +137,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                                                                     set(predicates))
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
-                jaccard, resnik = result
+                jaccard, resnik, phenodigm_score = result
                 sim = TermPairwiseSimilarity(
                     subject_id=term1_key,
                     object_id=term2_key,
@@ -145,5 +145,5 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                 )
                 sim.jaccard_similarity = jaccard
                 sim.ancestor_information_content = resnik
-                sim.phenodigm_score = math.sqrt(jaccard * resnik)
+                sim.phenodigm_score = phenodigm_score
                 yield sim
