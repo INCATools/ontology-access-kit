@@ -137,11 +137,11 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         )
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
-                jaccard, resnik, phenodigm_score = result
+                jaccard, resnik, phenodigm_score, ancestor_set = result
                 sim = TermPairwiseSimilarity(
                     subject_id=term1_key,
                     object_id=term2_key,
-                    ancestor_id="???",
+                    ancestor_id=ancestor_set[0],
                 )
                 sim.jaccard_similarity = jaccard
                 sim.ancestor_information_content = resnik
