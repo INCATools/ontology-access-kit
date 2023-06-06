@@ -89,7 +89,6 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
 ```yaml
 name: RollupGroup
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slots:
 - group_object
 - sub_groups
@@ -104,7 +103,6 @@ slots:
 ```yaml
 name: RollupGroup
 from_schema: https://w3id.org/oak/association
-rank: 1000
 attributes:
   group_object:
     name: group_object

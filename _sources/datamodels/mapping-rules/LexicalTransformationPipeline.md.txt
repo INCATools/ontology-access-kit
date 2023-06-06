@@ -98,7 +98,6 @@ name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 is_a: Activity
 attributes:
   name:
@@ -125,7 +124,6 @@ name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 is_a: Activity
 attributes:
   name:

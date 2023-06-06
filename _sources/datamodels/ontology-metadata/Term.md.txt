@@ -299,7 +299,6 @@ description: A NamedThing that includes classes, properties, but not ontologies
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 aliases:
 - term
-rank: 1000
 is_a: NamedObject
 abstract: true
 mixins:
@@ -323,7 +322,6 @@ description: A NamedThing that includes classes, properties, but not ontologies
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 aliases:
 - term
-rank: 1000
 is_a: NamedObject
 abstract: true
 mixins:

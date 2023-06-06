@@ -108,7 +108,6 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 name: SummaryStatisticsReport
 description: abstract base class for all summary statistics reports
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 abstract: true
 attributes:
   id:
@@ -161,7 +160,6 @@ attributes:
 name: SummaryStatisticsReport
 description: abstract base class for all summary statistics reports
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 abstract: true
 attributes:
   id:

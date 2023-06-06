@@ -110,7 +110,6 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 name: TermSetPairwiseSimilarity
 description: A simple pairwise similarity between two sets of concepts/terms
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 is_a: PairwiseSimilarity
 slots:
 - subject_termset
@@ -131,7 +130,6 @@ slots:
 name: TermSetPairwiseSimilarity
 description: A simple pairwise similarity between two sets of concepts/terms
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 is_a: PairwiseSimilarity
 attributes:
   subject_termset:

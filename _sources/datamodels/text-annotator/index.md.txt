@@ -3,6 +3,7 @@
 A datamodel for representing the results of textual named entity recognition annotation results. This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
 
 URI: https://w3id.org/oak/text_annotator
+
 Name: text-annotator
 
 
@@ -11,11 +12,12 @@ Name: text-annotator
 
 | Class | Description |
 | --- | --- |
-| [HasSpan](HasSpan.md) |  |
+| [HasSpan](HasSpan.md) | None |
 | [TextAnnotation](TextAnnotation.md) | An individual text annotation |
 | [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |
 | [TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results |
-| [TextualElement](TextualElement.md) |  |
+| [TextualElement](TextualElement.md) | None |
+
 
 
 ## Slots

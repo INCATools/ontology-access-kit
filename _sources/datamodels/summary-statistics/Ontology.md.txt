@@ -105,7 +105,6 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 name: Ontology
 description: An ontology
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   id:
     name: id
@@ -161,7 +160,6 @@ class_uri: owl:Ontology
 name: Ontology
 description: An ontology
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   id:
     name: id

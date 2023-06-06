@@ -320,7 +320,6 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
 ```yaml
 name: Property
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Term
 abstract: true
 slots:
@@ -374,7 +373,6 @@ class_uri: rdf:Property
 ```yaml
 name: Property
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Term
 abstract: true
 slot_usage:

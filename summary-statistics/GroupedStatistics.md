@@ -109,7 +109,6 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
 name: GroupedStatistics
 description: summary statistics for the entire resource
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 is_a: SummaryStatisticsReport
 attributes:
   partitions:
@@ -133,7 +132,6 @@ attributes:
 name: GroupedStatistics
 description: summary statistics for the entire resource
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 is_a: SummaryStatisticsReport
 attributes:
   partitions:

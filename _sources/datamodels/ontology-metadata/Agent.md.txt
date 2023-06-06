@@ -311,7 +311,6 @@ name: Agent
 id_prefixes:
 - orcid
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedIndividual
 slot_usage:
   id:
@@ -332,7 +331,6 @@ name: Agent
 id_prefixes:
 - orcid
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedIndividual
 slot_usage:
   id:

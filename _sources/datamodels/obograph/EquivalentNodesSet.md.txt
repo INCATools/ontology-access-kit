@@ -99,7 +99,6 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 name: EquivalentNodesSet
 description: A clique of nodes that are all mutually equivalent
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 slots:
 - representativeNodeId
@@ -116,7 +115,6 @@ class_uri: owl:equivalentClass
 name: EquivalentNodesSet
 description: A clique of nodes that are all mutually equivalent
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 attributes:
   representativeNodeId:

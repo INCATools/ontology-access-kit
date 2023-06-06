@@ -136,7 +136,6 @@ description: A collection of annotations on an entity or ontology or edge or axi
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation collection
-rank: 1000
 slots:
 - subsets
 - version
@@ -169,7 +168,6 @@ description: A collection of annotations on an entity or ontology or edge or axi
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation collection
-rank: 1000
 slot_usage:
   xrefs:
     name: xrefs

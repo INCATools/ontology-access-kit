@@ -94,7 +94,6 @@ URI: [schema:Thing](http://schema.org/Thing)
 ```yaml
 name: Thing
 from_schema: https://w3id.org/oak/item-list
-rank: 1000
 attributes:
   id:
     name: id
@@ -150,7 +149,6 @@ class_uri: schema:Thing
 ```yaml
 name: Thing
 from_schema: https://w3id.org/oak/item-list
-rank: 1000
 attributes:
   id:
     name: id

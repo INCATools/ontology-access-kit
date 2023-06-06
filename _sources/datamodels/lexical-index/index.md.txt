@@ -3,6 +3,7 @@
 A datamodel for representing a lexical index of an ontology. A lexical index is keyed by optionally normalized terms.
 
 URI: https://w3id.org/oak/lexical-index
+
 Name: lexical-index
 
 
@@ -12,12 +13,13 @@ Name: lexical-index
 | Class | Description |
 | --- | --- |
 | [Activity](Activity.md) | Generic grouping for any lexical operation |
-| [Any](Any.md) |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transformed string |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fashion |
+| [Any](Any.md) | None |
 | [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |
 | [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |
-| [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |
-| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |
 | [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |
+
 
 
 ## Slots

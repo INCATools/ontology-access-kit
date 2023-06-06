@@ -109,7 +109,6 @@ name: XrefPropertyValue
 description: A property value that represents an assertion about an external reference
   to an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:
@@ -130,7 +129,6 @@ name: XrefPropertyValue
 description: A property value that represents an assertion about an external reference
   to an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:

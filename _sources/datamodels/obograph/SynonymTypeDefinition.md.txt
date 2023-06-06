@@ -85,7 +85,6 @@ URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
 ```yaml
 name: SynonymTypeDefinition
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 slots:
 - id
 - lbl
@@ -101,7 +100,6 @@ class_uri: oio:SynonymType
 ```yaml
 name: SynonymTypeDefinition
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 attributes:
   id:
     name: id

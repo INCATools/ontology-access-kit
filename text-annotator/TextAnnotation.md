@@ -137,7 +137,6 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 name: TextAnnotation
 description: An individual text annotation
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 mixins:
 - HasSpan
 attributes:
@@ -210,7 +209,6 @@ class_uri: oa:Annotation
 name: TextAnnotation
 description: An individual text annotation
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 mixins:
 - HasSpan
 attributes:

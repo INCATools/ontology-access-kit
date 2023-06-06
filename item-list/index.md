@@ -3,6 +3,7 @@
 A data model for representing simple lists of entities such as genes. The data model is based on the schema.org ItemList class.
 
 URI: https://w3id.org/oak/item-list
+
 Name: itemList
 
 
@@ -14,7 +15,8 @@ Name: itemList
 | [ItemList](ItemList.md) | a list of entities plus metadata |
 | [ItemListCollection](ItemListCollection.md) | a set of item lists |
 | [ListItem](ListItem.md) | an item in an item list |
-| [Thing](Thing.md) |  |
+| [Thing](Thing.md) | None |
+
 
 
 ## Slots

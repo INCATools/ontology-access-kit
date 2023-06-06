@@ -143,7 +143,6 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 name: TaxonConstraint
 description: An individual taxon constraint
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 attributes:
   subject:
     name: subject
@@ -262,7 +261,6 @@ class_uri: rdf:Statement
 name: TaxonConstraint
 description: An individual taxon constraint
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 attributes:
   subject:
     name: subject

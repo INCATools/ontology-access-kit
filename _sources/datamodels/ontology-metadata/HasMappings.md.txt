@@ -109,7 +109,6 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 ```yaml
 name: HasMappings
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -128,7 +127,6 @@ slots:
 ```yaml
 name: HasMappings
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:

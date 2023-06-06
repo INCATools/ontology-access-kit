@@ -155,7 +155,6 @@ description: A logical or non-logical statement
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 exact_mappings:
 - rdf:Statement
-rank: 1000
 slots:
 - annotatedProperty
 - annotatedSource
@@ -204,7 +203,6 @@ description: A logical or non-logical statement
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 exact_mappings:
 - rdf:Statement
-rank: 1000
 slot_usage:
   database_cross_reference:
     name: database_cross_reference

@@ -133,7 +133,6 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 name: TermPairwiseSimilarity
 description: A simple pairwise similarity between two atomic concepts/terms
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 is_a: PairwiseSimilarity
 slots:
 - subject_id
@@ -162,7 +161,6 @@ slots:
 name: TermPairwiseSimilarity
 description: A simple pairwise similarity between two atomic concepts/terms
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 is_a: PairwiseSimilarity
 attributes:
   subject_id:

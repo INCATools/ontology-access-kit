@@ -88,7 +88,6 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 name: Annotation
 description: A reified property-object pair
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 attributes:
   predicate:
     name: predicate
@@ -110,7 +109,6 @@ represents_relationship: true
 name: Annotation
 description: A reified property-object pair
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 attributes:
   predicate:
     name: predicate

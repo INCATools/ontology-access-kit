@@ -90,7 +90,6 @@ URI: [mappingrules:LexicalGrouping](https://w3id.org/oak/mapping-rules-datamodel
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   term:
     name: term
@@ -118,7 +117,6 @@ attributes:
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   term:
     name: term

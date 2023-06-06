@@ -286,7 +286,6 @@ id_prefixes:
 - orcid
 description: An individual human being
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedIndividual
 slot_usage:
   id:
@@ -308,7 +307,6 @@ id_prefixes:
 - orcid
 description: An individual human being
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedIndividual
 slot_usage:
   id:

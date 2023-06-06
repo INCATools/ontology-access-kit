@@ -118,7 +118,6 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 name: Association
 description: A generic association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slots:
 - subject
 - predicate
@@ -150,7 +149,6 @@ class_uri: oa:Annotation
 name: Association
 description: A generic association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slot_usage:
   negated:
     name: negated

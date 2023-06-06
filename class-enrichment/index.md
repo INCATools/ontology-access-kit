@@ -3,6 +3,7 @@
 A datamodel for representing the results of class enrichment on gene sets
 
 URI: https://w3id.org/oak/class-enrichment
+
 Name: class-enrichment
 
 
@@ -14,6 +15,7 @@ Name: class-enrichment
 | [ClassEnrichmentConfiguration](ClassEnrichmentConfiguration.md) | configuration for search |
 | [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |
 | [ClassEnrichmentResultSet](ClassEnrichmentResultSet.md) | A collection of enrichemt results |
+
 
 
 ## Slots

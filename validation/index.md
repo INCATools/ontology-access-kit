@@ -3,6 +3,7 @@
 A datamodel for data validation results.
 
 URI: https://w3id.org/linkml/validation_results
+
 Name: validaton-results
 
 
@@ -11,19 +12,20 @@ Name: validaton-results
 
 | Class | Description |
 | --- | --- |
-| [ConstraintComponent](ConstraintComponent.md) |  |
-| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |
-| [NamedResource](NamedResource.md) |  |
-| [Node](Node.md) |  |
+| [NamedResource](NamedResource.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ConstraintComponent](ConstraintComponent.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Node](Node.md) | None |
 | [RepairConfiguration](RepairConfiguration.md) | Configuration parameters for execution of validation repairs |
-| [RepairOperation](RepairOperation.md) | The result of performing an individual repair |
-| [RepairReport](RepairReport.md) | A report that consists of repair operation results |
 | [Report](Report.md) | A report object that is a holder to multiple report results |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RepairReport](RepairReport.md) | A report that consists of repair operation results |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ValidationReport](ValidationReport.md) | A report that consists of validation results |
 | [Result](Result.md) | Abstract base class for any individual report result |
-| [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ... |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RepairOperation](RepairOperation.md) | The result of performing an individual repair |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid |
+| [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for overriding default severity |
 | [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |
-| [ValidationReport](ValidationReport.md) | A report that consists of validation results |
-| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |
+
 
 
 ## Slots

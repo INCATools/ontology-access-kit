@@ -103,7 +103,6 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 name: ListItem
 description: an item in an item list
 from_schema: https://w3id.org/oak/item-list
-rank: 1000
 attributes:
   elementId:
     name: elementId
@@ -161,7 +160,6 @@ class_uri: schema:ListItem
 name: ListItem
 description: an item in an item list
 from_schema: https://w3id.org/oak/item-list
-rank: 1000
 attributes:
   elementId:
     name: elementId

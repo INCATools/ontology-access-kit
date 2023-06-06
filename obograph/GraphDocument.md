@@ -98,7 +98,6 @@ comments:
 - A graph document frequently has a single graph but a multi-graph document can be
   used to represent multiple ontologies in an import closure in a single file.
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 slots:
 - meta
 - graphs
@@ -118,7 +117,6 @@ comments:
 - A graph document frequently has a single graph but a multi-graph document can be
   used to represent multiple ontologies in an import closure in a single file.
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 attributes:
   meta:
     name: meta

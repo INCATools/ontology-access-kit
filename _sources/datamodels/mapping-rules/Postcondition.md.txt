@@ -82,7 +82,6 @@ URI: [mappingrules:Postcondition](https://w3id.org/oak/mapping-rules-datamodel/P
 ```yaml
 name: Postcondition
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   predicate_id:
     name: predicate_id
@@ -111,7 +110,6 @@ attributes:
 ```yaml
 name: Postcondition
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   predicate_id:
     name: predicate_id

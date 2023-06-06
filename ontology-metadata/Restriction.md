@@ -126,7 +126,6 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 ```yaml
 name: Restriction
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnonymousClassExpression
 mixin: true
 mixins:
@@ -146,7 +145,6 @@ class_uri: owl:Restriction
 ```yaml
 name: Restriction
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnonymousClassExpression
 mixin: true
 mixins:

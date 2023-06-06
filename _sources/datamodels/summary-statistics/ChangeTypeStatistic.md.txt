@@ -88,7 +88,6 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 name: ChangeTypeStatistic
 description: statistics for a particular kind of diff
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   facet:
     name: facet
@@ -113,7 +112,6 @@ attributes:
 name: ChangeTypeStatistic
 description: statistics for a particular kind of diff
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   facet:
     name: facet

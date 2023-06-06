@@ -124,7 +124,6 @@ URI: [ontoenrich:ClassEnrichmentResult](https://w3id.org/oak/class-enrichment/Cl
 name: ClassEnrichmentResult
 description: A single enrichment result
 from_schema: https://w3id.org/oak/class-enrichment
-rank: 1000
 attributes:
   class_id:
     name: class_id
@@ -226,7 +225,6 @@ attributes:
 name: ClassEnrichmentResult
 description: A single enrichment result
 from_schema: https://w3id.org/oak/class-enrichment
-rank: 1000
 attributes:
   class_id:
     name: class_id

@@ -93,7 +93,6 @@ comments:
 from_schema: https://w3id.org/oak/item-list
 aliases:
 - item list catalog
-rank: 1000
 attributes:
   itemLists:
     name: itemLists
@@ -117,7 +116,6 @@ comments:
 from_schema: https://w3id.org/oak/item-list
 aliases:
 - item list catalog
-rank: 1000
 attributes:
   itemLists:
     name: itemLists

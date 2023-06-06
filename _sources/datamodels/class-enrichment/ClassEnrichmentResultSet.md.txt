@@ -80,7 +80,6 @@ URI: [ontoenrich:ClassEnrichmentResultSet](https://w3id.org/oak/class-enrichment
 name: ClassEnrichmentResultSet
 description: A collection of enrichemt results
 from_schema: https://w3id.org/oak/class-enrichment
-rank: 1000
 attributes:
   results:
     name: results
@@ -100,7 +99,6 @@ attributes:
 name: ClassEnrichmentResultSet
 description: A collection of enrichemt results
 from_schema: https://w3id.org/oak/class-enrichment
-rank: 1000
 attributes:
   results:
     name: results

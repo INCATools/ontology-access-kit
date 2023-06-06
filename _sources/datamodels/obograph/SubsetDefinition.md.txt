@@ -82,7 +82,6 @@ URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetPro
 ```yaml
 name: SubsetDefinition
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 slots:
 - id
 - lbl
@@ -97,7 +96,6 @@ class_uri: oio:SubsetProperty
 ```yaml
 name: SubsetDefinition
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 attributes:
   id:
     name: id

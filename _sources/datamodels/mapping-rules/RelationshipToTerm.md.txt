@@ -102,7 +102,6 @@ URI: [mappingrules:RelationshipToTerm](https://w3id.org/oak/mapping-rules-datamo
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   predicate:
     name: predicate
@@ -146,7 +145,6 @@ attributes:
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   predicate:
     name: predicate

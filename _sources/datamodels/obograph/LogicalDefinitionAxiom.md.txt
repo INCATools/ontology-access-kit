@@ -126,7 +126,6 @@ description: An axiom that defines a class in terms of a genus or set of genus c
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - genus differentia definition
-rank: 1000
 is_a: Axiom
 attributes:
   definedClassId:
@@ -180,7 +179,6 @@ description: An axiom that defines a class in terms of a genus or set of genus c
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - genus differentia definition
-rank: 1000
 is_a: Axiom
 attributes:
   definedClassId:

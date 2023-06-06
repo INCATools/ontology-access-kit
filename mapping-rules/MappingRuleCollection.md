@@ -83,7 +83,6 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
 name: MappingRuleCollection
 description: A collection of mapping rules
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   rules:
     name: rules
@@ -110,7 +109,6 @@ tree_root: true
 name: MappingRuleCollection
 description: A collection of mapping rules
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   rules:
     name: rules

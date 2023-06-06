@@ -122,7 +122,6 @@ name: SubjectTerm
 description: A term that is the subject of a taxon constraint. Typically comes from
   ontologies like GO, UBERON, CL, ...
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 is_a: Term
 attributes:
   description:
@@ -193,7 +192,6 @@ name: SubjectTerm
 description: A term that is the subject of a taxon constraint. Typically comes from
   ontologies like GO, UBERON, CL, ...
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 is_a: Term
 attributes:
   description:

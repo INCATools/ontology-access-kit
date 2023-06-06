@@ -85,7 +85,6 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 name: Activity
 description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 abstract: true
 class_uri: prov:Activity
 
@@ -99,7 +98,6 @@ class_uri: prov:Activity
 name: Activity
 description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 abstract: true
 class_uri: prov:Activity
 

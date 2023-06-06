@@ -319,7 +319,6 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
 name: TransitiveProperty
 description: An ObjectProperty with the property of transitivity
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: ObjectProperty
 
 ```
@@ -332,7 +331,6 @@ is_a: ObjectProperty
 name: TransitiveProperty
 description: An ObjectProperty with the property of transitivity
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: ObjectProperty
 attributes:
   temporal_interpretation:

@@ -86,7 +86,6 @@ URI: [xodiff:StructureDiffResultSet](https://w3id.org/oak/cross-ontology-diff/St
 name: StructureDiffResultSet
 description: A collection of relational diff results
 from_schema: https://w3id.org/oak/cross-ontology-diff
-rank: 1000
 attributes:
   results:
     name: results
@@ -119,7 +118,6 @@ attributes:
 name: StructureDiffResultSet
 description: A collection of relational diff results
 from_schema: https://w3id.org/oak/cross-ontology-diff
-rank: 1000
 attributes:
   results:
     name: results

@@ -99,7 +99,6 @@ description: 'A generic grouping for any OWL axiom or group of axioms that is no
 
   '
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 abstract: true
 slots:
 - meta
@@ -118,7 +117,6 @@ description: 'A generic grouping for any OWL axiom or group of axioms that is no
 
   '
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 abstract: true
 attributes:
   meta:

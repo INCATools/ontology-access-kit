@@ -100,7 +100,6 @@ name: PropertyChainAxiom
 description: An axiom that represents an OWL property chain, e.g. R <- R1 o ... o
   Rn
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 slots:
 - predicateId
@@ -117,7 +116,6 @@ name: PropertyChainAxiom
 description: An axiom that represents an OWL property chain, e.g. R <- R1 o ... o
   Rn
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 attributes:
   predicateId:

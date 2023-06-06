@@ -128,7 +128,6 @@ description: A user-specified configuration that determines how a particular sea
 todos:
 - rename this SearchConfiguration
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   search_terms:
     name: search_terms
@@ -218,7 +217,6 @@ description: A user-specified configuration that determines how a particular sea
 todos:
 - rename this SearchConfiguration
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   search_terms:
     name: search_terms

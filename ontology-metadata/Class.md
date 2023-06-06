@@ -355,7 +355,6 @@ aliases:
 - concept
 close_mappings:
 - skos:Concept
-rank: 1000
 is_a: Term
 mixins:
 - ClassExpression
@@ -416,7 +415,6 @@ aliases:
 - concept
 close_mappings:
 - skos:Concept
-rank: 1000
 is_a: Term
 mixins:
 - ClassExpression

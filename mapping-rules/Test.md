@@ -85,7 +85,6 @@ URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
 ```yaml
 name: Test
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   input:
     name: input
@@ -111,7 +110,6 @@ attributes:
 ```yaml
 name: Test
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   input:
     name: input

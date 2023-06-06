@@ -92,7 +92,6 @@ conforms_to: wikidata:Q4818718
 description: key-value pair that maps a validation result type to a severity setting,
   for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   type:
     name: type
@@ -117,7 +116,6 @@ conforms_to: wikidata:Q4818718
 description: key-value pair that maps a validation result type to a severity setting,
   for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   type:
     name: type

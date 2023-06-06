@@ -92,7 +92,6 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 ```yaml
 name: Node
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: NamedResource
 
 ```
@@ -104,7 +103,6 @@ is_a: NamedResource
 ```yaml
 name: Node
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: NamedResource
 attributes:
   id:

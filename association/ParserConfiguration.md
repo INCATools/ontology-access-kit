@@ -87,7 +87,6 @@ URI: [ontoassoc:ParserConfiguration](https://w3id.org/oak/association/ParserConf
 name: ParserConfiguration
 description: Settings that determine behavior when parsing associations.
 from_schema: https://w3id.org/oak/association
-rank: 1000
 attributes:
   preserve_negated_associations:
     name: preserve_negated_associations
@@ -133,7 +132,6 @@ attributes:
 name: ParserConfiguration
 description: Settings that determine behavior when parsing associations.
 from_schema: https://w3id.org/oak/association
-rank: 1000
 attributes:
   preserve_negated_associations:
     name: preserve_negated_associations

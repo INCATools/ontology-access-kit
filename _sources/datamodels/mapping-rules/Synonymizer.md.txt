@@ -99,7 +99,6 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 ```yaml
 name: Synonymizer
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   the_rule:
     name: the_rule
@@ -153,7 +152,6 @@ attributes:
 ```yaml
 name: Synonymizer
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   the_rule:
     name: the_rule

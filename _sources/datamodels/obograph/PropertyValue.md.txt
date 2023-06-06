@@ -126,7 +126,6 @@ comments:
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation
-rank: 1000
 abstract: true
 slots:
 - pred
@@ -154,7 +153,6 @@ comments:
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - annotation
-rank: 1000
 abstract: true
 attributes:
   pred:

@@ -78,7 +78,6 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 name: ContributorRole
 description: A role that a contributor can have
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   id:
     name: id
@@ -99,7 +98,6 @@ class_uri: sh:ContributorRole
 name: ContributorRole
 description: A role that a contributor can have
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   id:
     name: id

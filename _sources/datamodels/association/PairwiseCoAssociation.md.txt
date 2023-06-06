@@ -110,7 +110,6 @@ URI: [ontoassoc:PairwiseCoAssociation](https://w3id.org/oak/association/Pairwise
 name: PairwiseCoAssociation
 description: A collection of subjects co-associated with two objects
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slots:
 - object1
 - object2
@@ -132,7 +131,6 @@ slots:
 name: PairwiseCoAssociation
 description: A collection of subjects co-associated with two objects
 from_schema: https://w3id.org/oak/association
-rank: 1000
 attributes:
   object1:
     name: object1

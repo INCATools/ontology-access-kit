@@ -117,7 +117,6 @@ comments:
   to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations
   may merge these, but only when semantically valid.
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 slots:
 - predicateId
@@ -141,7 +140,6 @@ comments:
   to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations
   may merge these, but only when semantically valid.
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 attributes:
   predicateId:

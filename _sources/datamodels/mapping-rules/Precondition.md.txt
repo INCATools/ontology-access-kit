@@ -103,7 +103,6 @@ URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Pr
 name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
@@ -151,7 +150,6 @@ attributes:
 name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   subject_source_one_of:
     name: subject_source_one_of

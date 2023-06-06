@@ -133,7 +133,6 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
 ```yaml
 name: HasProvenance
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -160,7 +159,6 @@ slots:
 ```yaml
 name: HasProvenance
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:

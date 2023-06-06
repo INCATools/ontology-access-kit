@@ -92,7 +92,6 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 name: Agent
 description: An agent
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   id:
     name: id
@@ -120,7 +119,6 @@ class_uri: prov:Agent
 name: Agent
 description: An agent
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   id:
     name: id

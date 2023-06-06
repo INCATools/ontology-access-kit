@@ -80,7 +80,6 @@ URI: [vm:NamedResource](https://w3id.org/linkml/validation-model/NamedResource)
 ```yaml
 name: NamedResource
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   id:
     name: id
@@ -99,7 +98,6 @@ attributes:
 ```yaml
 name: NamedResource
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   id:
     name: id

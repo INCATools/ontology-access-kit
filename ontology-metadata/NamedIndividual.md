@@ -304,7 +304,6 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 name: NamedIndividual
 description: An instance that has a IRI
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Term
 class_uri: owl:NamedIndividual
 
@@ -318,7 +317,6 @@ class_uri: owl:NamedIndividual
 name: NamedIndividual
 description: An instance that has a IRI
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Term
 attributes:
   has_exact_synonym:

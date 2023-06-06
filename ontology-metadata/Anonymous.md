@@ -84,7 +84,6 @@ name: Anonymous
 description: Abstract root class for all anonymous (non-named; lacking an identifier)
   expressions
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 abstract: true
 
 ```
@@ -98,7 +97,6 @@ name: Anonymous
 description: Abstract root class for all anonymous (non-named; lacking an identifier)
   expressions
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 abstract: true
 
 ```

@@ -85,7 +85,6 @@ URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/Le
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   groupings:
     name: groupings
@@ -114,7 +113,6 @@ attributes:
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   groupings:
     name: groupings

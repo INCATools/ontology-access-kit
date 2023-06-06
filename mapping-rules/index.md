@@ -3,6 +3,7 @@
 A datamodel for specifying lexical mapping rules.
 
 URI: https://w3id.org/oak/mapping-rules-datamodel
+
 Name: mapping-rules-datamodel
 
 
@@ -12,18 +13,19 @@ Name: mapping-rules-datamodel
 | Class | Description |
 | --- | --- |
 | [Activity](Activity.md) | Generic grouping for any lexical operation |
-| [Any](Any.md) |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transformed string |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fashion |
+| [Any](Any.md) | None |
 | [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |
 | [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |
-| [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |
-| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |
-| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are applied |
 | [MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules |
-| [Postcondition](Postcondition.md) |  |
+| [Postcondition](Postcondition.md) | None |
 | [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |
 | [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |
-| [Synonymizer](Synonymizer.md) |  |
-| [Test](Test.md) |  |
+| [Synonymizer](Synonymizer.md) | None |
+| [Test](Test.md) | None |
+
 
 
 ## Slots

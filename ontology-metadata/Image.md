@@ -288,7 +288,6 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
 ```yaml
 name: Image
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedIndividual
 class_uri: IAO:0000101
 
@@ -301,7 +300,6 @@ class_uri: IAO:0000101
 ```yaml
 name: Image
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedIndividual
 attributes:
   has_exact_synonym:

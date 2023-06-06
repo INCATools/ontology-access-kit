@@ -86,7 +86,6 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 ```yaml
 name: ConstraintComponent
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: NamedResource
 
 ```
@@ -98,7 +97,6 @@ is_a: NamedResource
 ```yaml
 name: ConstraintComponent
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: NamedResource
 attributes:
   id:

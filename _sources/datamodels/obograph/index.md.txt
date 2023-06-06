@@ -5,6 +5,7 @@ The principle elements of a Graph are Node objects and Edge objects. A Node repr
 Not everything in an ontology can be represented as nodes and edges. More complex axioms have specialized structures such as DomainRangeAxiom objects and LogicalDefinitionAxiom.
 
 URI: https://github.com/geneontology/obographs
+
 Name: obographs_datamodel
 
 
@@ -13,25 +14,27 @@ Name: obographs_datamodel
 
 | Class | Description |
 | --- | --- |
-| [Axiom](Axiom.md) | A generic grouping for any OWL axiom or group of axioms that is not captured ... |
-| [BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a d... |
-| [DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of... |
-| [DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |
-| [Edge](Edge.md) | An edge is a simple typed relationship between two nodes |
-| [EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |
+| [Axiom](Axiom.md) | A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.
+ |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range. |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn |
+| [Edge](Edge.md) | An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o |
 | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression |
-| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |
-| [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th... |
-| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |
-| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a single ontology. |
+| [GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes that apply across all of them |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect the logical interpretation of the container but provides useful information to humans or machines. |
 | [Node](Node.md) | A node is a class, property, or other entity in an ontology |
-| [PrefixDeclaration](PrefixDeclaration.md) | A mapping between an individual prefix (e |
-| [PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e |
-| [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on objec... |
-| [SubsetDefinition](SubsetDefinition.md) |  |
-| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |
-| [SynonymTypeDefinition](SynonymTypeDefinition.md) |  |
-| [XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to ... |
+| [PrefixDeclaration](PrefixDeclaration.md) | A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_) |
+| [PropertyValue](PropertyValue.md) | A generic grouping for the different kinds of key-value associations on object. Minimally, a property value has a predicate and a value. It can also have a list of xrefs indicating provenance, as well as a metadata object. |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[BasicPropertyValue](BasicPropertyValue.md) | A property value that represents an assertion about an entity that is not a definition, synonym, or xref |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DefinitionPropertyValue](DefinitionPropertyValue.md) | A property value that represents an assertion about the textual definition of an entity |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[XrefPropertyValue](XrefPropertyValue.md) | A property value that represents an assertion about an external reference to an entity |
+| [SubsetDefinition](SubsetDefinition.md) | None |
+| [SynonymTypeDefinition](SynonymTypeDefinition.md) | None |
+
 
 
 ## Slots

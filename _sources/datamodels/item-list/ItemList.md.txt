@@ -128,7 +128,6 @@ aliases:
 - list
 close_mappings:
 - rdf:List
-rank: 1000
 attributes:
   id:
     name: id
@@ -242,7 +241,6 @@ aliases:
 - list
 close_mappings:
 - rdf:List
-rank: 1000
 attributes:
   id:
     name: id

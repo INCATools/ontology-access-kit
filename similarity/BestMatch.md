@@ -103,7 +103,6 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 ```yaml
 name: BestMatch
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 attributes:
   match_source:
     name: match_source
@@ -156,7 +155,6 @@ attributes:
 ```yaml
 name: BestMatch
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 attributes:
   match_source:
     name: match_source

@@ -85,7 +85,6 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
 ```yaml
 name: SearchResultSet
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   configuration:
     name: configuration
@@ -117,7 +116,6 @@ attributes:
 ```yaml
 name: SearchResultSet
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   configuration:
     name: configuration

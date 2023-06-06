@@ -14,6 +14,7 @@ A subject might be a biological entity such as gene, drug, disease, person, or c
 a class from an ontology such as a term from GO.
 
 URI: https://w3id.org/oak/association
+
 Name: association
 
 
@@ -22,13 +23,14 @@ Name: association
 
 | Class | Description |
 | --- | --- |
-| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |
-| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object). |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations. |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object). |
 | [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |
-| [ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |
-| [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |
-| [RollupGroup](RollupGroup.md) |  |
+| [ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations. |
+| [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association. |
+| [RollupGroup](RollupGroup.md) | None |
+
 
 
 ## Slots

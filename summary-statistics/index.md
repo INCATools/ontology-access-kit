@@ -3,6 +3,7 @@
 A datamodel for reports on data
 
 URI: https://w3id.org/oak/summary_statistics
+
 Name: summary-statistics
 
 
@@ -16,11 +17,12 @@ Name: summary-statistics
 | [ContributorRole](ContributorRole.md) | A role that a contributor can have |
 | [ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |
 | [FacetedCount](FacetedCount.md) | Counts broken down by a facet |
-| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |
 | [Ontology](Ontology.md) | An ontology |
 | [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology |
 | [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |
-| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |
+
 
 
 ## Slots

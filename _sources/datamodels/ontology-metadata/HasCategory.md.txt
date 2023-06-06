@@ -102,7 +102,6 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCatego
 ```yaml
 name: HasCategory
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -120,7 +119,6 @@ slots:
 ```yaml
 name: HasCategory
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:

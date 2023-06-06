@@ -99,7 +99,6 @@ name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 is_a: Activity
 attributes:
   type:
@@ -129,7 +128,6 @@ name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 is_a: Activity
 attributes:
   type:

@@ -85,7 +85,6 @@ URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 attributes:
   groupings:
     name: groupings
@@ -114,7 +113,6 @@ attributes:
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 attributes:
   groupings:
     name: groupings

@@ -92,7 +92,6 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 name: Result
 description: Abstract base class for any individual report result
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 abstract: true
 
 ```
@@ -105,7 +104,6 @@ abstract: true
 name: Result
 description: Abstract base class for any individual report result
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 abstract: true
 
 ```

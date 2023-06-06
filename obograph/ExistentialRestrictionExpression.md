@@ -113,7 +113,6 @@ comments:
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - some values from expression
-rank: 1000
 slots:
 - fillerId
 - propertyId
@@ -139,7 +138,6 @@ comments:
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - some values from expression
-rank: 1000
 attributes:
   fillerId:
     name: fillerId

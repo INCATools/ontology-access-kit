@@ -96,7 +96,6 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 ```yaml
 name: PropertyExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Expression
 mixin: true
 slots:
@@ -111,7 +110,6 @@ slots:
 ```yaml
 name: PropertyExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Expression
 mixin: true
 attributes:

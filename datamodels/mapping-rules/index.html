@@ -113,8 +113,8 @@
   <section id="mapping-rules-datamodel">
 <h1>Mapping Rules Datamodel<a class="headerlink" href="#mapping-rules-datamodel" title="Permalink to this heading"></a></h1>
 <p>A datamodel for specifying lexical mapping rules.</p>
-<p>URI: https://w3id.org/oak/mapping-rules-datamodel
-Name: mapping-rules-datamodel</p>
+<p>URI: https://w3id.org/oak/mapping-rules-datamodel</p>
+<p>Name: mapping-rules-datamodel</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
@@ -127,8 +127,14 @@ Name: mapping-rules-datamodel</p>
 <tr class="row-even"><td><p><a class="reference internal" href="Activity.html"><span class="std std-doc">Activity</span></a></p></td>
 <td><p>Generic grouping for any lexical operation</p></td>
 </tr>
+<tr class="row-odd"><td><p>        <a class="reference internal" href="LexicalTransformation.html"><span class="std std-doc">LexicalTransformation</span></a></p></td>
+<td><p>An atomic lexical transformation applied on a term (string) yielding a transformed string</p></td>
+</tr>
+<tr class="row-even"><td><p>        <a class="reference internal" href="LexicalTransformationPipeline.html"><span class="std std-doc">LexicalTransformationPipeline</span></a></p></td>
+<td><p>A collection of atomic lexical transformations that are applied in serial fashion</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Any.html"><span class="std std-doc">Any</span></a></p></td>
-<td><p></p></td>
+<td><p>None</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="LexicalGrouping.html"><span class="std std-doc">LexicalGrouping</span></a></p></td>
 <td><p>A grouping of ontology elements by a shared lexical term</p></td>
@@ -136,20 +142,14 @@ Name: mapping-rules-datamodel</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="LexicalIndex.html"><span class="std std-doc">LexicalIndex</span></a></p></td>
 <td><p>An index over an ontology keyed by lexical unit</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="LexicalTransformation.html"><span class="std std-doc">LexicalTransformation</span></a></p></td>
-<td><p>An atomic lexical transformation applied on a term (string) yielding a transf…</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="LexicalTransformationPipeline.html"><span class="std std-doc">LexicalTransformationPipeline</span></a></p></td>
-<td><p>A collection of atomic lexical transformations that are applied in serial fas…</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="MappingRule.html"><span class="std std-doc">MappingRule</span></a></p></td>
-<td><p>An individual mapping rule, if preconditions match the postconditions are app…</p></td>
+<td><p>An individual mapping rule, if preconditions match the postconditions are applied</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="MappingRuleCollection.html"><span class="std std-doc">MappingRuleCollection</span></a></p></td>
 <td><p>A collection of mapping rules</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Postcondition.html"><span class="std std-doc">Postcondition</span></a></p></td>
-<td><p></p></td>
+<td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Precondition.html"><span class="std std-doc">Precondition</span></a></p></td>
 <td><p>A pattern to be matched against an individual SSSOM mapping</p></td>
@@ -158,10 +158,10 @@ Name: mapping-rules-datamodel</p>
 <td><p>A relationship of an ontology element to a lexical term</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Synonymizer.html"><span class="std std-doc">Synonymizer</span></a></p></td>
-<td><p></p></td>
+<td><p>None</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Test.html"><span class="std std-doc">Test</span></a></p></td>
-<td><p></p></td>
+<td><p>None</p></td>
 </tr>
 </tbody>
 </table>

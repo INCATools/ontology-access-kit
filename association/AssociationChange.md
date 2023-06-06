@@ -145,7 +145,6 @@ comments:
 - the change may be between associations in the same set at different times, or associations
   from different sources.
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slots:
 - summary_group
 - old_date
@@ -182,7 +181,6 @@ comments:
 - the change may be between associations in the same set at different times, or associations
   from different sources.
 from_schema: https://w3id.org/oak/association
-rank: 1000
 attributes:
   summary_group:
     name: summary_group

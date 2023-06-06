@@ -116,7 +116,6 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
 ```yaml
 name: HasUserInformation
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -138,7 +137,6 @@ slots:
 ```yaml
 name: HasUserInformation
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:

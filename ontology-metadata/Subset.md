@@ -310,7 +310,6 @@ URI: [oio:Subset](http://www.geneontology.org/formats/oboInOwl#Subset)
 name: Subset
 description: A collection of terms grouped for some purpose
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationProperty
 class_uri: oio:Subset
 
@@ -324,7 +323,6 @@ class_uri: oio:Subset
 name: Subset
 description: A collection of terms grouped for some purpose
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationProperty
 attributes:
   shorthand:

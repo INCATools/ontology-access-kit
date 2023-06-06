@@ -89,7 +89,6 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 ```yaml
 name: TextualElement
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 attributes:
   id:
     name: id
@@ -123,7 +122,6 @@ attributes:
 ```yaml
 name: TextualElement
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 attributes:
   id:
     name: id

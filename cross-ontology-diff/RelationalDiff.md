@@ -211,7 +211,6 @@ description: "A relational diff expresses the difference between an edge in one 
   \ hows the basic structure. Classification of the edge is done from the perspective\n\
   of the left edge."
 from_schema: https://w3id.org/oak/cross-ontology-diff
-rank: 1000
 attributes:
   category:
     name: category
@@ -423,7 +422,6 @@ description: "A relational diff expresses the difference between an edge in one 
   \ hows the basic structure. Classification of the edge is done from the perspective\n\
   of the left edge."
 from_schema: https://w3id.org/oak/cross-ontology-diff
-rank: 1000
 attributes:
   category:
     name: category

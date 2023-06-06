@@ -137,7 +137,6 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 ```yaml
 name: ClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Expression
 mixin: true
 slots:
@@ -159,7 +158,6 @@ slots:
 ```yaml
 name: ClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Expression
 mixin: true
 attributes:

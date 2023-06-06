@@ -80,7 +80,6 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 ```yaml
 name: AnonymousClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Anonymous
 
 ```
@@ -92,7 +91,6 @@ is_a: Anonymous
 ```yaml
 name: AnonymousClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: Anonymous
 
 ```

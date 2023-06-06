@@ -83,7 +83,6 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 name: RepairConfiguration
 description: Configuration parameters for execution of validation repairs
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   validation_configuration:
     name: validation_configuration
@@ -107,7 +106,6 @@ attributes:
 name: RepairConfiguration
 description: Configuration parameters for execution of validation repairs
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   validation_configuration:
     name: validation_configuration

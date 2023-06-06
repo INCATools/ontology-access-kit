@@ -109,7 +109,6 @@ name: DefinitionPropertyValue
 description: A property value that represents an assertion about the textual definition
   of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:
@@ -141,7 +140,6 @@ name: DefinitionPropertyValue
 description: A property value that represents an assertion about the textual definition
   of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:

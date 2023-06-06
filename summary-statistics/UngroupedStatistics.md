@@ -245,7 +245,6 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
 name: UngroupedStatistics
 description: A summary statistics report object
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 is_a: SummaryStatisticsReport
 attributes:
   class_count:
@@ -725,7 +724,6 @@ attributes:
 name: UngroupedStatistics
 description: A summary statistics report object
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 is_a: SummaryStatisticsReport
 attributes:
   class_count:

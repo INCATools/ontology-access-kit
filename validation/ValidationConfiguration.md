@@ -93,7 +93,6 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
 name: ValidationConfiguration
 description: Configuration parameters for execution of a validation report
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   max_number_results_per_type:
     name: max_number_results_per_type
@@ -127,7 +126,6 @@ attributes:
 name: ValidationConfiguration
 description: Configuration parameters for execution of a validation report
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   max_number_results_per_type:
     name: max_number_results_per_type

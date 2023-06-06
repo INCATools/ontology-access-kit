@@ -95,7 +95,6 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 ```yaml
 name: HasSpan
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 mixin: true
 attributes:
   subject_start:
@@ -142,7 +141,6 @@ attributes:
 ```yaml
 name: HasSpan
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 mixin: true
 attributes:
   subject_start:

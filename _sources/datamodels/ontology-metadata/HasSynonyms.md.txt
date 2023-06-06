@@ -128,7 +128,6 @@ comments:
   axioms
 - the OBI synonym model is to use alternative_term, or potentially a subproperty
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -156,7 +155,6 @@ comments:
   axioms
 - the OBI synonym model is to use alternative_term, or potentially a subproperty
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:

@@ -96,7 +96,6 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 name: ContributorStatistics
 description: Statistics for a contributor
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   contributor_id:
     name: contributor_id
@@ -136,7 +135,6 @@ attributes:
 name: ContributorStatistics
 description: Statistics for a contributor
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   contributor_id:
     name: contributor_id

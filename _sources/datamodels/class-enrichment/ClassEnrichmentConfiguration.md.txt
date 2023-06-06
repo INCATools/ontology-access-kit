@@ -78,7 +78,6 @@ URI: [ontoenrich:ClassEnrichmentConfiguration](https://w3id.org/oak/class-enrich
 name: ClassEnrichmentConfiguration
 description: configuration for search
 from_schema: https://w3id.org/oak/class-enrichment
-rank: 1000
 attributes:
   p_value_cutoff:
     name: p_value_cutoff
@@ -98,7 +97,6 @@ attributes:
 name: ClassEnrichmentConfiguration
 description: configuration for search
 from_schema: https://w3id.org/oak/class-enrichment
-rank: 1000
 attributes:
   p_value_cutoff:
     name: p_value_cutoff

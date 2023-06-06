@@ -110,7 +110,6 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
 name: NegatedAssociation
 description: A negated association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slots:
 - subject
 - predicate
@@ -141,7 +140,6 @@ slot_usage:
 name: NegatedAssociation
 description: A negated association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slot_usage:
   negated:
     name: negated

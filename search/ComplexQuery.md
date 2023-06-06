@@ -101,7 +101,6 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
 ```yaml
 name: ComplexQuery
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   all_of:
     name: all_of
@@ -140,7 +139,6 @@ attributes:
 ```yaml
 name: ComplexQuery
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   all_of:
     name: all_of

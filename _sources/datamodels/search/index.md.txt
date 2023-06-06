@@ -11,6 +11,7 @@ The scope is any kind of service that provides search over *named entities*, inc
 search results, e.g. google search, although parts could be generalized for this purpose.
 
 URI: https://w3id.org/oak/search-datamodel
+
 Name: search-datamodel
 
 
@@ -19,11 +20,12 @@ Name: search-datamodel
 
 | Class | Description |
 | --- | --- |
-| [ComplexQuery](ComplexQuery.md) |  |
+| [ComplexQuery](ComplexQuery.md) | None |
 | [PathExpression](PathExpression.md) | A path query |
-| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works |
 | [SearchResult](SearchResult.md) | An individual search result |
-| [SearchResultSet](SearchResultSet.md) |  |
+| [SearchResultSet](SearchResultSet.md) | None |
+
 
 
 ## Slots

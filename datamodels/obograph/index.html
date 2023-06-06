@@ -115,8 +115,8 @@
 <p>A data model for graph-oriented representations of ontologies. Each ontology is represented as a Graph, and multiple ontologies can be connected together in a GraphDocument.
 The principle elements of a Graph are Node objects and Edge objects. A Node represents an arbitrary ontology element, including but not limited to the core terms in the ontology. Edges represent simple relationships between Nodes. Nodes and Edges can both have Meta objects attached, providing additional metedata.
 Not everything in an ontology can be represented as nodes and edges. More complex axioms have specialized structures such as DomainRangeAxiom objects and LogicalDefinitionAxiom.</p>
-<p>URI: https://github.com/geneontology/obographs
-Name: obographs_datamodel</p>
+<p>URI: https://github.com/geneontology/obographs</p>
+<p>Name: obographs_datamodel</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
@@ -127,61 +127,64 @@ Name: obographs_datamodel</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="Axiom.html"><span class="std std-doc">Axiom</span></a></p></td>
-<td><p>A generic grouping for any OWL axiom or group of axioms that is not captured …</p></td>
+<td><p>A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="std std-doc">BasicPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about the textual definition of…</p></td>
+<tr class="row-even"><td><p>        <a class="reference internal" href="DomainRangeAxiom.html"><span class="std std-doc">DomainRangeAxiom</span></a></p></td>
+<td><p>This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="std std-doc">DomainRangeAxiom</span></a></p></td>
-<td><p>This groups potentially multiple axioms that constrain the usage of a propert…</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
-<td><p>An edge is a simple typed relationship between two nodes</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="std std-doc">EquivalentNodesSet</span></a></p></td>
+<tr class="row-odd"><td><p>        <a class="reference internal" href="EquivalentNodesSet.html"><span class="std std-doc">EquivalentNodesSet</span></a></p></td>
 <td><p>A clique of nodes that are all mutually equivalent</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="std std-doc">ExistentialRestrictionExpression</span></a></p></td>
+<tr class="row-even"><td><p>        <a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="std std-doc">LogicalDefinitionAxiom</span></a></p></td>
+<td><p>An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia</p></td>
+</tr>
+<tr class="row-odd"><td><p>        <a class="reference internal" href="PropertyChainAxiom.html"><span class="std std-doc">PropertyChainAxiom</span></a></p></td>
+<td><p>An axiom that represents an OWL property chain, e.g. R &lt;- R1 o … o Rn</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
+<td><p>An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="std std-doc">ExistentialRestrictionExpression</span></a></p></td>
 <td><p>An existential restriction (OWL some values from) expression</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
-<td><p>A graph is a collection of nodes and edges and other axioms that represents a…</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
+<td><p>A graph is a collection of nodes and edges and other axioms that represents a single ontology.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="GraphDocument.html"><span class="std std-doc">GraphDocument</span></a></p></td>
-<td><p>A graph document is a collection of graphs together with a set of prefixes th…</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="std std-doc">LogicalDefinitionAxiom</span></a></p></td>
-<td><p>An axiom that defines a class in terms of a genus or set of genus classes and…</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="GraphDocument.html"><span class="std std-doc">GraphDocument</span></a></p></td>
+<td><p>A graph document is a collection of graphs together with a set of prefixes that apply across all of them</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Meta.html"><span class="std std-doc">Meta</span></a></p></td>
-<td><p>A collection of annotations on an entity or ontology or edge or axiom</p></td>
+<td><p>A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect the logical interpretation of the container but provides useful information to humans or machines.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
 <td><p>A node is a class, property, or other entity in an ontology</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="PrefixDeclaration.html"><span class="std std-doc">PrefixDeclaration</span></a></p></td>
-<td><p>A mapping between an individual prefix (e</p></td>
+<td><p>A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="std std-doc">PropertyChainAxiom</span></a></p></td>
-<td><p>An axiom that represents an OWL property chain, e</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on object. Minimally, a property value has a predicate and a value. It can also have a list of xrefs indicating provenance, as well as a metadata object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
-<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
+<tr class="row-even"><td><p>        <a class="reference internal" href="BasicPropertyValue.html"><span class="std std-doc">BasicPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about an entity that is not a definition, synonym, or xref</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SubsetDefinition.html"><span class="std std-doc">SubsetDefinition</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p>        <a class="reference internal" href="DefinitionPropertyValue.html"><span class="std std-doc">DefinitionPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about the textual definition of an entity</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="std std-doc">SynonymPropertyValue</span></a></p></td>
+<tr class="row-even"><td><p>        <a class="reference internal" href="SynonymPropertyValue.html"><span class="std std-doc">SynonymPropertyValue</span></a></p></td>
 <td><p>A property value that represents an assertion about a synonym of an entity</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SynonymTypeDefinition.html"><span class="std std-doc">SynonymTypeDefinition</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p>        <a class="reference internal" href="XrefPropertyValue.html"><span class="std std-doc">XrefPropertyValue</span></a></p></td>
+<td><p>A property value that represents an assertion about an external reference to an entity</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="std std-doc">XrefPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about an external reference to …</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="SubsetDefinition.html"><span class="std std-doc">SubsetDefinition</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="SynonymTypeDefinition.html"><span class="std std-doc">SynonymTypeDefinition</span></a></p></td>
+<td><p>None</p></td>
 </tr>
 </tbody>
 </table>

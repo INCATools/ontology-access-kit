@@ -105,7 +105,6 @@ id_prefixes:
 - RO
 description: A term that represents a relationship type
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 is_a: Term
 
 ```
@@ -120,7 +119,6 @@ id_prefixes:
 - RO
 description: A term that represents a relationship type
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 is_a: Term
 attributes:
   id:

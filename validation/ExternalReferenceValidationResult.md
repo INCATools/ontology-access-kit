@@ -134,7 +134,6 @@ name: ExternalReferenceValidationResult
 description: A validation result where the check is to determine if a link to an external
   resource is still valid
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: ValidationResult
 attributes:
   url:
@@ -167,7 +166,6 @@ name: ExternalReferenceValidationResult
 description: A validation result where the check is to determine if a link to an external
   resource is still valid
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: ValidationResult
 attributes:
   url:

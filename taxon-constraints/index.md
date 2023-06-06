@@ -3,6 +3,7 @@
 A datamodel for representing inferred and asserted taxon constraints.
 
 URI: https://w3id.org/oak/taxon_constraints
+
 Name: taxon-constraints
 
 
@@ -11,11 +12,12 @@ Name: taxon-constraints
 
 | Class | Description |
 | --- | --- |
-| [PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |
-| [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |
-| [Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |
 | [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |
-| [Term](Term.md) | An ontology term |
+| [Term](Term.md) | An ontology term. In this model this is either the SubjectTerm of a taxon constraint, or an actual taxon |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ... |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher level |
+
 
 
 ## Slots

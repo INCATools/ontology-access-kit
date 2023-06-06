@@ -88,7 +88,6 @@ URI: [ontosearch:PathExpression](https://w3id.org/oak/search-datamodel/PathExpre
 name: PathExpression
 description: A path query
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   traversal:
     name: traversal
@@ -117,7 +116,6 @@ attributes:
 name: PathExpression
 description: A path query
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   traversal:
     name: traversal

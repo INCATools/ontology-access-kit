@@ -113,8 +113,8 @@
   <section id="cross-ontology-diff">
 <h1>Cross-Ontology Diff<a class="headerlink" href="#cross-ontology-diff" title="Permalink to this heading"></a></h1>
 <p>A datamodel for representing the results of relational diffs across a pair of ontologies connected by mappings</p>
-<p>URI: https://w3id.org/oak/cross-ontology-diff
-Name: cross-ontology-diff</p>
+<p>URI: https://w3id.org/oak/cross-ontology-diff</p>
+<p>Name: cross-ontology-diff</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
@@ -125,13 +125,35 @@ Name: cross-ontology-diff</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="RelationalDiff.html"><span class="std std-doc">RelationalDiff</span></a></p></td>
-<td><p>A relational diff expresses the difference between an edge in one ontology, a…</p></td>
+<td><p>A relational diff expresses the difference between an edge in one ontology, and an edge (or lack of edge) in</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="StructureDiffResultSet.html"><span class="std std-doc">StructureDiffResultSet</span></a></p></td>
-<td><p>A collection of relational diff results</p></td>
+<tr class="row-odd"><td><p>another ontology (or a different version of the same ontology). The diff is from the perspective of one</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>ontology (the one on the “left” side).</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
+<p>For every edge in the left ontology, the subject and object are mapped to the right ontology.
+If mappings cannot be found then the diff is categorized as missing mappings.
+The predicate is also mapped, with the reflexivity assumption.</p>
+<p>for every mapped subject and object pair (the “right” subject and object), the entailed relationship
+is examined to determine if it consistent with the left predicate.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left_object</span>    <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_object</span>
+   <span class="o">^</span>                                  <span class="o">^</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+   <span class="o">|</span> <span class="n">left</span>                             <span class="o">|</span> <span class="n">right</span>
+   <span class="o">|</span> <span class="n">predicate</span>                        <span class="o">|</span> <span class="n">predicate</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+<span class="n">left_subject</span>   <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_subject</span>
+</pre></div>
+</div>
+<p>The above figure gives hows the basic structure. Classification of the edge is done from the perspective
+of the left edge. |
+| <a class="reference internal" href="StructureDiffResultSet.html"><span class="std std-doc">StructureDiffResultSet</span></a> | A collection of relational diff results |</p>
 </section>
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>

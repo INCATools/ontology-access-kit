@@ -100,7 +100,6 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
 name: SummaryStatisticsCalculationActivity
 description: An activity that calculates summary statistics for an ontology
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   started_at_time:
     name: started_at_time
@@ -141,7 +140,6 @@ attributes:
 name: SummaryStatisticsCalculationActivity
 description: An activity that calculates summary statistics for an ontology
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   started_at_time:
     name: started_at_time

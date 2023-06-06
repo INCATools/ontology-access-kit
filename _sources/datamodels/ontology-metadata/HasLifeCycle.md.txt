@@ -123,7 +123,6 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 ```yaml
 name: HasLifeCycle
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -193,7 +192,6 @@ rules:
 ```yaml
 name: HasLifeCycle
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:

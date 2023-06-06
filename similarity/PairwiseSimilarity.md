@@ -85,7 +85,6 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 name: PairwiseSimilarity
 description: Abstract grouping for representing individual pairwise similarities
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 abstract: true
 
 ```
@@ -98,7 +97,6 @@ abstract: true
 name: PairwiseSimilarity
 description: Abstract grouping for representing individual pairwise similarities
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 abstract: true
 
 ```

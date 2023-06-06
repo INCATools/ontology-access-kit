@@ -142,7 +142,6 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 name: Ontology
 description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedObject
 slots:
 - title
@@ -188,7 +187,6 @@ class_uri: owl:Ontology
 name: Ontology
 description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
 is_a: NamedObject
 slot_usage:
   title:

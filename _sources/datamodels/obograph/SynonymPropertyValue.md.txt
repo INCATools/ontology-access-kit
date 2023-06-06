@@ -116,7 +116,6 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
 name: SynonymPropertyValue
 description: A property value that represents an assertion about a synonym of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slots:
 - synonymType
@@ -148,7 +147,6 @@ slot_usage:
 name: SynonymPropertyValue
 description: A property value that represents an assertion about a synonym of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   pred:

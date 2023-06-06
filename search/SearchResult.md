@@ -106,7 +106,6 @@ URI: [ontosearch:SearchResult](https://w3id.org/oak/search-datamodel/SearchResul
 name: SearchResult
 description: An individual search result
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   rank:
     name: rank
@@ -169,7 +168,6 @@ attributes:
 name: SearchResult
 description: An individual search result
 from_schema: https://w3id.org/oak/search-datamodel
-rank: 1000
 attributes:
   rank:
     name: rank

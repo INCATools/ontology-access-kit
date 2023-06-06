@@ -94,7 +94,6 @@ name: Term
 description: An ontology term. In this model this is either the SubjectTerm of a taxon
   constraint, or an actual taxon
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 abstract: true
 attributes:
   id:
@@ -125,7 +124,6 @@ name: Term
 description: An ontology term. In this model this is either the SubjectTerm of a taxon
   constraint, or an actual taxon
 from_schema: https://w3id.org/oak/taxon_constraints
-rank: 1000
 abstract: true
 attributes:
   id:

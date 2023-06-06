@@ -111,7 +111,6 @@ description: A term that represents a taxonomic group, may be at species level o
 from_schema: https://w3id.org/oak/taxon_constraints
 exact_mappings:
 - NCBITaxon:1
-rank: 1000
 is_a: Term
 
 ```
@@ -130,7 +129,6 @@ description: A term that represents a taxonomic group, may be at species level o
 from_schema: https://w3id.org/oak/taxon_constraints
 exact_mappings:
 - NCBITaxon:1
-rank: 1000
 is_a: Term
 attributes:
   id:

@@ -80,7 +80,6 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 name: TextAnnotationResultSet
 description: A collection of annotation results
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 attributes:
   annotations:
     name: annotations
@@ -101,7 +100,6 @@ attributes:
 name: TextAnnotationResultSet
 description: A collection of annotation results
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 attributes:
   annotations:
     name: annotations

@@ -101,7 +101,6 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 name: Node
 description: A node is a class, property, or other entity in an ontology
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 slots:
 - id
 - lbl
@@ -120,7 +119,6 @@ class_uri: rdf:Resource
 name: Node
 description: A node is a class, property, or other entity in an ontology
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 attributes:
   id:
     name: id

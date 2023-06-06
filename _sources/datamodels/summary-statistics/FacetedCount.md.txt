@@ -102,7 +102,6 @@ description: Counts broken down by a facet
 comments:
 - For example, edge counts may be grouped by predicate (relationship type)
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   facet:
     name: facet
@@ -131,7 +130,6 @@ description: Counts broken down by a facet
 comments:
 - For example, edge counts may be grouped by predicate (relationship type)
 from_schema: https://w3id.org/oak/summary_statistics
-rank: 1000
 attributes:
   facet:
     name: facet

@@ -89,7 +89,6 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 name: PropertyValue
 description: A generic tag-value that can be associated with an association.
 from_schema: https://w3id.org/oak/association
-rank: 1000
 slots:
 - predicate
 - object
@@ -104,7 +103,6 @@ slots:
 name: PropertyValue
 description: A generic tag-value that can be associated with an association.
 from_schema: https://w3id.org/oak/association
-rank: 1000
 attributes:
   predicate:
     name: predicate

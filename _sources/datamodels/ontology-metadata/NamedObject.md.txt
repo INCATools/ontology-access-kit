@@ -112,7 +112,6 @@ aliases:
 - named entity
 - identified object
 - IRI
-rank: 1000
 is_a: Thing
 slots:
 - id
@@ -131,7 +130,6 @@ aliases:
 - named entity
 - identified object
 - IRI
-rank: 1000
 is_a: Thing
 attributes:
   id:

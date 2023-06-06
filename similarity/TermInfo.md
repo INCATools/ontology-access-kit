@@ -83,7 +83,6 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 ```yaml
 name: TermInfo
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 attributes:
   id:
     name: id
@@ -106,7 +105,6 @@ attributes:
 ```yaml
 name: TermInfo
 from_schema: https://w3id.org/oak/similarity
-rank: 1000
 attributes:
   id:
     name: id

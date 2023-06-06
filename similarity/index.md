@@ -3,6 +3,7 @@
 A datamodel for representing semantic similarity between terms or lists of terms.
 
 URI: https://w3id.org/oak/similarity
+
 Name: similarity
 
 
@@ -11,11 +12,12 @@ Name: similarity
 
 | Class | Description |
 | --- | --- |
-| [BestMatch](BestMatch.md) |  |
+| [BestMatch](BestMatch.md) | None |
 | [PairwiseSimilarity](PairwiseSimilarity.md) | Abstract grouping for representing individual pairwise similarities |
-| [TermInfo](TermInfo.md) |  |
-| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |
-| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |
+| [TermInfo](TermInfo.md) | None |
+
 
 
 ## Slots

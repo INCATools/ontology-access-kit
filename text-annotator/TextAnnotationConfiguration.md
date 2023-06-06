@@ -93,7 +93,6 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 name: TextAnnotationConfiguration
 description: configuration for search
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 attributes:
   matches_whole_text:
     name: matches_whole_text
@@ -136,7 +135,6 @@ attributes:
 name: TextAnnotationConfiguration
 description: configuration for search
 from_schema: https://w3id.org/oak/text_annotator
-rank: 1000
 attributes:
   matches_whole_text:
     name: matches_whole_text

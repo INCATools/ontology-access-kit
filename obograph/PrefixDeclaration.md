@@ -90,7 +90,6 @@ name: PrefixDeclaration
 description: A mapping between an individual prefix (e.g. GO) and a namespace (e.g.
   http://purl.obolibrary.org/obo/GO_)
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 attributes:
   prefix:
     name: prefix
@@ -123,7 +122,6 @@ name: PrefixDeclaration
 description: A mapping between an individual prefix (e.g. GO) and a namespace (e.g.
   http://purl.obolibrary.org/obo/GO_)
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 attributes:
   prefix:
     name: prefix

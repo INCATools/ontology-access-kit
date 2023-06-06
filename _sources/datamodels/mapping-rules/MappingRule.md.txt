@@ -104,7 +104,6 @@ name: MappingRule
 description: An individual mapping rule, if preconditions match the postconditions
   are applied
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   description:
     name: description
@@ -148,7 +147,6 @@ name: MappingRule
 description: An individual mapping rule, if preconditions match the postconditions
   are applied
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   description:
     name: description

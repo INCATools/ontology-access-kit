@@ -134,7 +134,6 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: Result
 slots:
 - type
@@ -159,7 +158,6 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 is_a: Result
 attributes:
   type:
