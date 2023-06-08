@@ -131,19 +131,20 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :return:
         """
         objects = list(objects)
-
         all_results = self.semsimian.all_by_all_pairwise_similarity(
             set(subjects), set(objects), set(predicates)
         )
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
                 jaccard, resnik, phenodigm_score, ancestor_set = result
-                sim = TermPairwiseSimilarity(
-                    subject_id=term1_key,
-                    object_id=term2_key,
-                    ancestor_id=ancestor_set[0],
-                )
-                sim.jaccard_similarity = jaccard
-                sim.ancestor_information_content = resnik
-                sim.phenodigm_score = phenodigm_score
-                yield sim
+                # TODO: Confirm if this 'if' condition is necessary.
+                if len(ancestor_set) > 0:
+                    sim = TermPairwiseSimilarity(
+                        subject_id=term1_key,
+                        object_id=term2_key,
+                        ancestor_id=next(iter(ancestor_set)),  # TODO: Change this: gets first element of the set
+                    )
+                    sim.jaccard_similarity = jaccard
+                    sim.ancestor_information_content = resnik
+                    sim.phenodigm_score = phenodigm_score
+                    yield sim
