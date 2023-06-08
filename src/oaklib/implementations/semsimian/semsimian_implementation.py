@@ -142,7 +142,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key,
                         object_id=term2_key,
-                        ancestor_id=next(iter(ancestor_set)),  # TODO: Change this: gets first element of the set
+                        ancestor_id=next(
+                            iter(ancestor_set)
+                        ),  # TODO: Change this: gets first element of the set
                     )
                     sim.jaccard_similarity = jaccard
                     sim.ancestor_information_content = resnik
