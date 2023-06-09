@@ -4,11 +4,11 @@ import logging
 import math
 from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional
-from oaklib.datamodels.vocabulary import OWL_THING
 
 from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -152,12 +152,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim.phenodigm_score = phenodigm_score
                 else:
                     sim = TermPairwiseSimilarity(
-                        subject_id=term1_key,
-                        object_id=term2_key,
-                        ancestor_id=OWL_THING
-
+                        subject_id=term1_key, object_id=term2_key, ancestor_id=OWL_THING
                     )
                     sim.jaccard_similarity = 0
                     sim.ancestor_information_content = 0
                 yield sim
-

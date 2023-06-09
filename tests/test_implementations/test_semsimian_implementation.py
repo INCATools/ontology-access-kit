@@ -38,7 +38,7 @@ class TestSemSimianImplementation(unittest.TestCase):
             _, db = os.path.splitdrive(db)
 
         oi = get_adapter(f"semsimian:sqlite:///{db}")
-        comparison_oi =  get_adapter(f"sqlite:///{self.db}")
+        comparison_oi = get_adapter(f"sqlite:///{self.db}")
 
         self.oi = oi
         self.other_oi = comparison_oi
@@ -67,9 +67,7 @@ class TestSemSimianImplementation(unittest.TestCase):
                 for preds in [[IS_A, PART_OF]]:
                     sim = adapter.pairwise_similarity(s, o, predicates=preds)
 
-                    original_sim = self.other_oi.pairwise_similarity(
-                        s, o, predicates=preds
-                    )
+                    original_sim = self.other_oi.pairwise_similarity(s, o, predicates=preds)
                     if sim is None:
                         if (
                             original_sim is not None
