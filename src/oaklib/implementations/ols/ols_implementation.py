@@ -11,14 +11,13 @@ from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.datamodels.vocabulary import IS_A, SEMAPV
+from oaklib.implementations.ols.constants import SEARCH_CONFIG
+from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, PRED_CURIE
-
-from .constants import SEARCH_CONFIG
-from .oxo_utils import load_oxo_payload
 
 __all__ = [
     # Abstract classes

@@ -12,7 +12,7 @@ from linkml_runtime import SchemaView
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from sqlalchemy import Column, MetaData, String, Table, create_engine
-from sqlalchemy.orm import declarative_base, mapper
+from sqlalchemy.orm import declarative_base, registry
 
 import oaklib.datamodels.ontology_metadata as om
 from oaklib.datamodels import obograph, ontology_metadata
@@ -252,8 +252,9 @@ class KGXImplementation(
     def _add_orm_mappings(self):
         # https://stackoverflow.com/questions/2574105/sqlalchemy-dynamic-mapping/2575016#2575016
         engine = self.engine
-        metadata = MetaData(bind=engine)
+        metadata = MetaData()
         colmap = self._introspect()
+        mapper_registry = registry()
         # metadata.reflect(bind=engine)
         for (cls, table_name), cols in colmap.items():
             t = Table(
@@ -262,7 +263,7 @@ class KGXImplementation(
                 Column("id", String, primary_key=True),
                 *(Column(col, String) for col in cols),
             )
-            mapper(cls, t)
+            mapper_registry.map_imperatively(cls, t)
         self._session = sqlalchemy.orm.create_session(bind=engine, autocommit=False, autoflush=True)
         self._add_missing_tables()
 
@@ -287,7 +288,7 @@ class KGXImplementation(
 
     def _add_missing_tables(self):
         engine = self.engine
-        metadata = MetaData(bind=engine)
+        metadata = MetaData()
         metadata.reflect(bind=engine)
         for cls in [NodeProperty]:
             tables = [table for table in metadata.sorted_tables if table.name == cls.__tablename__]
@@ -360,7 +361,7 @@ class KGXImplementation(
         for row in self.session.query(Edge):
             yield row.subject, row.predicate, row.object
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def label(self, curie: CURIE, **kwargs) -> Optional[str]:
         q = self.session.query(Node.name).filter(Node.id == curie)
         logging.debug(f"Label query: {q} // {curie}")
         for row in q:

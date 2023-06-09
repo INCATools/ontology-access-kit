@@ -26,11 +26,6 @@ class EmbeddingProviderInterface(BasicOntologyInterface, ABC):
         """
         Generate embeddings.
 
-        >>> from oaklib import get_adapter
-        >>> adapter = get_adapter("go.db")
-        >>> for entity, _text, embedding in adapter.entities_vectors():
-        >>>     print(entity)
-
         :param entities: A collection of entities to generate embeddings for.
         :yield: A generator function that yields embedding vectors.
         """

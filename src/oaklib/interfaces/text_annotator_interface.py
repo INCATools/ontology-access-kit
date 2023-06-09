@@ -58,11 +58,18 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     the need for a local indexing step. For example, the :ref:`bioportal_implementation` will use
     the OntoPortal annotate endpoint which is pre-indexed over all >1000 ontologies in bioportal.
 
-
-
     All return payloads conform to the `TextAnnotation` data model:
 
      - `<https://w3id.org/oak/text-annotator>`_
+
+    Additional plugins may be available to provide more advanced functionality:
+
+    - `OAK SciSpacy plugin <https://pypi.org/project/oakx-spacy/>`_ - provides a Spacy pipeline component
+    - `OAK OGER plugin <https://pypi.org/project/oakx-oger/>`_ - provides a OGER pipeline component
+
+    For more advanced extraction use cases, see:
+
+    - `OntoGPT <https://github.com/monarch-initiative/ontogpt>`_ - LLM-based NER and schema extraction
     """
 
     lexical_index: Optional[LexicalIndex] = None
@@ -86,9 +93,12 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         Annotate a piece of text.
 
         >>> from oaklib import get_adapter
-        >>> adapter = get_adapter("go.db")
-        >>> for annotation in adapter.annotate_text("The mitochondrion is a membrane-bound organelle"):
-        >>>     print(annotation)
+        >>> adapter = get_adapter("tests/input/go-nucleus.obo")
+        >>> for annotation in adapter.annotate_text("The nucleus is a organelle with a membrane"):
+        ...     print(annotation.object_id, annotation.object_label, annotation.subject_start, annotation.subject_end)
+        GO:0005634 nucleus 5 11
+        GO:0016020 membrane 35 42
+        GO:0043226 organelle 18 26
 
         :param text: Text to be annotated.
         :param configuration: Text annotation configuration.

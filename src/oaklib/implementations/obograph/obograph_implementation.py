@@ -1,6 +1,7 @@
 import logging
 import re
 from collections import defaultdict
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
@@ -210,6 +211,8 @@ class OboGraphImplementation(
                     else:
                         node = n
         if node:
+            node = deepcopy(node)
+            node.id = self.uri_to_curie(node.id)
             return node
         else:
             if strict:
@@ -304,16 +307,14 @@ class OboGraphImplementation(
         include_entailed: bool = False,
         exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
-        for s in self._relationship_index.keys():
-            if subjects is not None and s not in subjects:
-                continue
-            for s2, p, o in self._relationship_index[s]:
-                if s2 == s:
-                    if predicates is not None and p not in predicates:
-                        continue
-                    if objects is not None and o not in objects:
-                        continue
-                    yield s, p, o
+        ei = self.edge_index
+        if include_entailed:
+            raise NotImplementedError("Entailment not supported for pronto")
+        yield from ei.edges(
+            subjects=subjects,
+            predicates=predicates,
+            objects=objects,
+        )
 
     # TODO: DRY
     def outgoing_relationships(
@@ -461,3 +462,18 @@ class OboGraphImplementation(
         configuration: kgcl.Configuration = None,
     ) -> kgcl.Change:
         raise NotImplementedError
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OwlInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def transitive_object_properties(self) -> Iterable[CURIE]:
+        # TODO: obographs datamodel needs to be expanded to support this
+        pass
+
+    def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
+        for g in self.obograph_document.graphs:
+            for pca in g.propertyChainAxioms:
+                yield self.uri_to_curie(pca.predicateId), [
+                    self.uri_to_curie(p) for p in pca.chainPredicateIds
+                ]

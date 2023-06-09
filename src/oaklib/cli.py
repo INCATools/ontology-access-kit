@@ -387,7 +387,7 @@ graph_traversal_method_option = click.option(
     "-M",
     "--graph-traversal-method",
     type=click.Choice([v.value for v in GraphTraversalMethod]),
-    help="Desired output type",
+    help="Whether formal entailment or graph walking should be used.",
 )
 display_option = click.option(
     "-D",
@@ -711,6 +711,8 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
             chain_results(impl.obsoletes())
         elif term.startswith(".non_obsolete"):
             chain_results(impl.entities(filter_obsoletes=True))
+        elif term.startswith(".dangling"):
+            chain_results(impl.dangling())
         elif term.startswith(".filter"):
             # arbitrary python expression
             expr = query_terms[0]
@@ -2249,7 +2251,7 @@ def paths(
     if not node_ids:
         logging.warning("No paths found")
     if viz:
-        for node_id in node_ids:
+        for node_id in node_ids.union({e.pred for e in graph.edges}):
             [n] = [n for n in graph.nodes if n.id == node_id]
             path_graph.nodes.append(n)
         # TODO: abstract this out
@@ -3606,7 +3608,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
     else:
         logging.info(f"Fetching mappings for {terms}")
         for curie_it in chunk(query_terms_iterator(terms, impl)):
-            for mapping in impl.sssom_mappings(curie_it):
+            for mapping in list(impl.sssom_mappings(curie_it)):
                 if maps_to_source and not mapping.object_id.startswith(f"{maps_to_source}:"):
                     continue
                 if autolabel:
@@ -4925,7 +4927,7 @@ def lexmatch(
 
     Full documentation:
 
-    - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.lexical.lexical_indexer.html#
+    - https://incatools.github.io/ontology-access-kit/packages/src/oaklib.utilities.lexical.lexical_indexer.html#
     module-oaklib.utilities.lexical.lexical_indexer
     """
     impl = settings.impl

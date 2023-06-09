@@ -62,11 +62,15 @@ class WikidataImplementation(
 
     An wikidataImplementation can be initialed by:
 
-        .. packages:: python
+    >>> from oaklib.implementations.wikidata.wikidata_implementation import WikidataImplementation
+    >>> adapter = WikidataImplementation()
 
-           >>>  oi = WikidataImplementation.create()
+    or
 
-        The default wikidata endpoint will be assumed
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("wikidata:")
+
+    The default wikidata endpoint will be assumed
 
     """
 

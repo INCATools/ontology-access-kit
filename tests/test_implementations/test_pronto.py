@@ -97,6 +97,10 @@ class TestProntoImplementation(unittest.TestCase):
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi)
 
+    @unittest.skip("TODO: fix")
+    def test_rbox_relationships(self):
+        self.compliance_tester.test_rbox_relationships(self.oi)
+
     def test_equiv_relationships(self):
         self.compliance_tester.test_equiv_relationships(self.oi)
 
@@ -319,6 +323,15 @@ class TestProntoImplementation(unittest.TestCase):
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)  # TODO
 
+    def test_ancestors_descendants(self):
+        self.compliance_tester.test_ancestors_descendants(self.oi)
+
+    @unittest.skip("TODO: relies on relation graph")
+    def test_entailed_edges(self):
+        oi = self.oi
+        with self.assertRaises(NotImplementedError):
+            list(oi.relationships([NUCLEUS], include_entailed=True))
+
     @unittest.skip("TODO: ensure that all test files used by compliance tests are the same")
     def test_subgraph_from_traversal(self):
         self.compliance_tester.test_subgraph_from_traversal(self.oi)
@@ -492,3 +505,12 @@ class TestProntoImplementation(unittest.TestCase):
     @unittest.skip("TODO: OP labels")
     def test_annotate_text(self):
         self.compliance_tester.test_annotate_text(self.oi)
+
+    # OwlInterface tests
+
+    def test_transitive_object_properties(self):
+        self.compliance_tester.test_transitive_object_properties(self.oi)
+
+    @unittest.skip("TODO: pronto throws KeyError on test ontology")
+    def test_simple_subproperty_of_chains(self):
+        self.compliance_tester.test_simple_subproperty_of_chains(self.oi)

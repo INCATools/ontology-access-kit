@@ -348,6 +348,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)
 
+    def test_ancestors_descendants(self):
+        self.compliance_tester.test_ancestors_descendants(self.oi)
+
     # QC
 
     def test_rule_runner(self):
@@ -846,9 +849,17 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_pairwise_similarity(self):
         self.compliance_tester.test_pairwise_similarity(self.oi)
 
-    def test_disjoint_with(self):
-        self.compliance_tester.test_disjoint_with(self.oi)
-
     # TextAnnotatorInterface tests
     def test_annotate_text(self):
         self.compliance_tester.test_annotate_text(self.oi)
+
+    # OwlInterface tests
+
+    def test_disjoint_with(self):
+        self.compliance_tester.test_disjoint_with(self.oi)
+
+    def test_transitive_object_properties(self):
+        self.compliance_tester.test_transitive_object_properties(self.oi)
+
+    def test_simple_subproperty_of_chains(self):
+        self.compliance_tester.test_simple_subproperty_of_chains(self.oi)

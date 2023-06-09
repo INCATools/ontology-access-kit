@@ -45,6 +45,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     HAS_OBO_NAMESPACE,
     HAS_OBSOLESCENCE_REASON,
+    INVERSE_OF,
     IS_A,
     LABEL_PREDICATE,
     OIO_CREATED_BY,
@@ -54,8 +55,11 @@ from oaklib.datamodels.vocabulary import (
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     OWL_VERSION_IRI,
+    RDFS_DOMAIN,
+    RDFS_RANGE,
     SEMAPV,
     SKOS_CLOSE_MATCH,
+    SUBPROPERTY_OF,
     TERM_REPLACED_BY,
     TERMS_MERGED,
 )
@@ -67,14 +71,19 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_CREATION_DATE,
     TAG_DATA_VERSION,
     TAG_DEFINITION,
+    TAG_DOMAIN,
     TAG_EQUIVALENT_TO,
+    TAG_HOLDS_OVER_CHAIN,
     TAG_ID_SPACE,
+    TAG_INVERSE_OF,
     TAG_IS_A,
     TAG_IS_OBSOLETE,
+    TAG_IS_TRANSITIVE,
     TAG_NAME,
     TAG_NAMESPACE,
     TAG_ONTOLOGY,
     TAG_PROPERTY_VALUE,
+    TAG_RANGE,
     TAG_RELATIONSHIP,
     TAG_REPLACED_BY,
     TAG_SUBSET,
@@ -87,6 +96,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     _synonym_scope_pred,
     parse_obo_document,
 )
+from oaklib.inference.relation_graph_reasoner import RelationGraphReasoner
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
@@ -101,6 +111,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.obolegacy_interface import PRED_CODE, OboLegacyInterface
+from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -132,6 +143,7 @@ class SimpleOboImplementation(
     TextAnnotatorInterface,
     DumperInterface,
     MergeInterface,
+    OwlInterface,
 ):
     """
     Simple OBO-file backed implementation
@@ -197,9 +209,21 @@ class SimpleOboImplementation(
             if t is None:
                 # alt_ids
                 continue
+            is_relation = t.type == "Typedef"
             for v in t.simple_values(TAG_IS_A):
                 n += 1
-                yield s, IS_A, v
+                if is_relation:
+                    yield s, SUBPROPERTY_OF, self.map_shorthand_to_curie(v)
+                else:
+                    yield s, IS_A, v
+            for tag, prop in [
+                (TAG_INVERSE_OF, INVERSE_OF),
+                (TAG_DOMAIN, RDFS_DOMAIN),
+                (TAG_RANGE, RDFS_RANGE),
+            ]:
+                for v in t.simple_values(tag):
+                    n += 1
+                    yield s, prop, self.map_shorthand_to_curie(v)
             for v in t.simple_values(TAG_EQUIVALENT_TO):
                 n += 1
                 yield s, EQUIVALENT_CLASS, v
@@ -221,6 +245,10 @@ class SimpleOboImplementation(
                     yield ldef.definedClassId, r.propertyId, r.fillerId
                     n += 1
             logging.info(f"Relaxed {n} relationships")
+
+    def _all_entailed_relationships(self):
+        reasoner = RelationGraphReasoner(self)
+        yield from reasoner.entailed_edges()
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         od = self.obo_document
@@ -481,16 +509,14 @@ class SimpleOboImplementation(
         include_entailed: bool = False,
         exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
-        for s in self._relationship_index.keys():
-            if subjects is not None and s not in subjects:
-                continue
-            for s2, p, o in self._relationship_index[s]:
-                if s2 == s:
-                    if predicates is not None and p not in predicates:
-                        continue
-                    if objects is not None and o not in objects:
-                        continue
-                    yield s, p, o
+        ei = self.edge_index
+        if include_entailed:
+            ei = self.entailed_edge_index
+        yield from ei.edges(
+            subjects=subjects,
+            predicates=predicates,
+            objects=objects,
+        )
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
         # TODO: move up, avoid repeating packages
@@ -870,3 +896,22 @@ class SimpleOboImplementation(
             stanza = self._stanza(e, strict=True)
             stanza.normalize_order()
         return patch
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OwlInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def transitive_object_properties(self) -> Iterable[CURIE]:
+        od = self.obo_document
+        for s_id, s in od.stanzas.items():
+            if s.type == "Typedef":
+                if s.get_boolean_value(TAG_IS_TRANSITIVE, False):
+                    yield self.map_shorthand_to_curie(s_id)
+
+    def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
+        od = self.obo_document
+        for s_id, s in od.stanzas.items():
+            if s.type == "Typedef":
+                for p1, p2 in s.pair_values(TAG_HOLDS_OVER_CHAIN):
+                    curie = self.map_shorthand_to_curie(s_id)
+                    yield curie, [self.map_shorthand_to_curie(p1), self.map_shorthand_to_curie(p2)]

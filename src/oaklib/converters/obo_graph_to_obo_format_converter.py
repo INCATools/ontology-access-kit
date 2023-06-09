@@ -49,6 +49,8 @@ def _escape(s: str) -> str:
 class OboGraphToOboFormatConverter(DataModelConverter):
     """Converts from OboGraph to OBO Format."""
 
+    use_shorthand: bool = True
+
     def dump(self, source: GraphDocument, target: str = None, **kwargs) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem
@@ -100,20 +102,28 @@ class OboGraphToOboFormatConverter(DataModelConverter):
             self._convert_graph(g, target=target)
         return target
 
-    def _id(self, uri: CURIE) -> CURIE:
+    def _id(self, uri_or_curie: CURIE) -> CURIE:
         if not self.curie_converter:
-            return uri
-        curie = self.curie_converter.compress(uri)
+            return uri_or_curie
+        curie = self.curie_converter.compress(uri_or_curie)
         if curie is None:
-            return uri
+            return uri_or_curie
         else:
             return curie
+
+    def _predicate_id(self, uri_or_curie: CURIE, target: OboDocument) -> CURIE:
+        curie = self._id(uri_or_curie)
+        return target.curie_to_shorthand_map.get(curie, curie)
 
     def _convert_graph(self, source: Graph, target: OboDocument) -> OboDocument:
         edges_by_subject = index_graph_edges_by_subject(source)
         for n in source.nodes:
+            if n.type == "PROPERTY" and n.lbl:
+                shorthand = n.lbl.replace(" ", "_")
+                target.curie_to_shorthand_map[self._id(n.id)] = shorthand
+        for n in source.nodes:
             logging.debug(f"Converting node {n.id}")
-            self._convert_node(n, index=edges_by_subject, target=target)
+            self._convert_node(n, index=edges_by_subject, target=target, graph=source)
         for lda in source.logicalDefinitionAxioms:
             defined_class_id = self._id(lda.definedClassId)
             if defined_class_id not in target.stanzas:
@@ -129,9 +139,17 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         return target
 
     def _convert_node(
-        self, source: Node, index: Dict[CURIE, List[Edge]], target: OboDocument
+        self,
+        source: Node,
+        index: Dict[CURIE, List[Edge]],
+        target: OboDocument,
+        graph: Graph = None,
     ) -> None:
         id = self._id(source.id)
+        shorthand_xref = None
+        if id in target.curie_to_shorthand_map:
+            shorthand_xref = id
+            id = target.curie_to_shorthand_map[id]
         logging.debug(f"Converting node {id} from {source}")
         t = source.type
         # if not t:
@@ -148,13 +166,24 @@ class OboGraphToOboFormatConverter(DataModelConverter):
             stanza.add_tag_value(TAG_NAME, source.lbl)
         if source.meta:
             self._convert_meta(source, target=stanza)
+        if shorthand_xref:
+            stanza.add_tag_value(TAG_XREF, shorthand_xref)
         for e in index.get(source.id, []):
             obj = self._id(e.obj)
-            pred = self._id(e.pred)
-            if e.pred in DIRECT_PREDICATE_MAP:
-                stanza.add_tag_value(DIRECT_PREDICATE_MAP[e.pred], obj)
+            obj_lbl = None
+            if graph:
+                nodes = [n for n in graph.nodes if n.id == e.obj]
+                if nodes:
+                    obj_lbl = nodes[0].lbl
+            if obj_lbl:
+                cmt = f" ! {obj_lbl}"
             else:
-                stanza.add_tag_value(TAG_RELATIONSHIP, f"{pred} {obj}")
+                cmt = ""
+            pred = self._predicate_id(e.pred, target)
+            if e.pred in DIRECT_PREDICATE_MAP:
+                stanza.add_tag_value(DIRECT_PREDICATE_MAP[e.pred], f"{obj}{cmt}")
+            else:
+                stanza.add_tag_value(TAG_RELATIONSHIP, f"{pred} {obj}{cmt}")
         return
 
     def _convert_meta(self, source: Node, target: Stanza):

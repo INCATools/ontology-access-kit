@@ -89,7 +89,7 @@ In python this can be done by accessing the prefixmap directly:
 
 .. code-block:: python
 
-    >>> from oaklib import adapter
+    >>> from oaklib import get_adapter
     >>> soil_oi = get_adapter("tests/input/soil-profile.skos.nt")
     >>> soil_oi.prefix_map()["soilprofile"] = "http://anzsoil.org/def/au/asls/soil-profile/"
     >>>
