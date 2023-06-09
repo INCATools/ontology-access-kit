@@ -74,7 +74,6 @@ def walk_down(
         next_curies = [start_curies]
     else:
         next_curies = copy(start_curies)  # do not mutate
-    rels = []
     visited = copy(next_curies)
     while len(next_curies) > 0:
         next_curie = next_curies.pop()
@@ -84,6 +83,4 @@ def walk_down(
                     if subject not in visited:
                         next_curies.append(subject)
                         visited.append(subject)
-                    rels.append((subject, pred, next_curie))
-    for rel in rels:
-        yield rel
+                    yield subject, pred, next_curie

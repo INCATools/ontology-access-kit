@@ -7,6 +7,9 @@ test:
 doctest:
 	find src docs -type f \( -name "*.rst" -o -name "*.md" -o -name "*.py" \) -print0 | xargs -0 $(RUN) python -m doctest --option ELLIPSIS --option NORMALIZE_WHITESPACE
 
+%-doctest: %
+	$(RUN) python -m doctest --option ELLIPSIS --option NORMALIZE_WHITESPACE $<
+
 ## Compiled
 
 MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff association class_enrichment value_set_configuration fhir mapping_cluster_datamodel cx item_list input_specification
@@ -96,7 +99,7 @@ PROFILER_SCRIPT= "src/oaklib/implementations/semsimian/profiler.py"
 run_benchmark: benchmarks profiles
 
 benchmarks:
-	time python -m cProfile -o $(SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i rustsim:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
+	time python -m cProfile -o $(SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
 	time python -m cProfile -o $(NON_SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
 
 profiles:
@@ -112,3 +115,4 @@ phenio-benchmarks:
 phenio-profiles:
 	python $(PROFILER_SCRIPT) $(SEMSIMIAN_PHENIO_PROFILE)
 	python $(PROFILER_SCRIPT) $(NON_SEMSIMIAN_PHENIO_PROFILE)
+

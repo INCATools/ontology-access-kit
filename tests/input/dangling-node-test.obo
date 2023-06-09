@@ -1,0 +1,5 @@
+[Term]
+id: GO:0012505
+name: endomembrane system
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: has_part GO:0005773 ! vacuole

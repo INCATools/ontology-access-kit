@@ -40,9 +40,11 @@ from oaklib.datamodels.vocabulary import (
     OIO_SUBSET_PROPERTY,
     OIO_SYNONYM_TYPE_PROPERTY,
     ONLY_IN_TAXON,
+    OVERLAPS,
     OWL_CLASS,
     OWL_THING,
     PART_OF,
+    PRECEDED_BY,
     RDFS_DOMAIN,
     RDFS_RANGE,
     SUBPROPERTY_OF,
@@ -113,6 +115,7 @@ from tests import (
     NUCLEAR_MEMBRANE,
     NUCLEUS,
     OPISTHOKONTA,
+    ORGANELLE,
     PHENOTYPIC_ABNORMALITY,
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
@@ -540,6 +543,8 @@ class ComplianceTester:
         :return:
         """
         test = self.test
+        all_relations = list(oi.relationships())
+        test.assertGreater(len(all_relations), 0)
         cases = [
             (NUCLEUS, False, [(NUCLEUS, IS_A, IMBO), (NUCLEUS, ONLY_IN_TAXON, EUKARYOTA)]),
             (VACUOLE, True, [(VACUOLE, IS_A, IMBO), (VACUOLE, PART_OF, CYTOPLASM)]),
@@ -550,6 +555,8 @@ class ComplianceTester:
         ]
         for curie, complete, expected_rels in cases:
             logging.info(f"TESTS FOR {curie}")
+            for rel in expected_rels:
+                test.assertIn(rel, all_relations)
             if ignore_annotation_edges:
                 expected_rels = [r for r in expected_rels if r[1] != NEVER_IN_TAXON]
             rels = list(oi.relationships([curie]))
@@ -661,6 +668,27 @@ class ComplianceTester:
         nodes = list(oi.nodes())
         test.assertGreater(len(nodes), 10)
         test.assertIn(NUCLEUS, [n.id for n in nodes])
+
+    def test_ancestors_descendants(self, oi: OboGraphInterface):
+        test = self.test
+        cases = [
+            (NUCLEUS, [IS_A], True, [NUCLEUS, ORGANELLE], [CELL]),
+            (NUCLEUS, [IS_A], False, [ORGANELLE], [CELL, NUCLEUS]),
+            (NUCLEUS, [IS_A, PART_OF], True, [NUCLEUS, ORGANELLE, CELL], [EUKARYOTA]),
+        ]
+        for case in cases:
+            subject, predicates, reflexive, sample_ancestors, non_ancestors = case
+            ancestors = list(oi.ancestors(subject, predicates=predicates, reflexive=reflexive))
+            for anc in sample_ancestors:
+                test.assertIn(anc, ancestors, f"{anc} not in ancestors of {subject}")
+            for anc in non_ancestors:
+                test.assertNotIn(anc, ancestors, f"{anc} in ancestors of {subject}")
+            for anc in sample_ancestors:
+                descendants = list(oi.descendants(anc, predicates=predicates, reflexive=reflexive))
+                test.assertIn(subject, descendants, f"{subject} not in descendants of {anc}")
+            for anc in non_ancestors:
+                descendants = list(oi.descendants(anc, predicates=predicates, reflexive=reflexive))
+                test.assertNotIn(subject, descendants, f"{subject} in descendants of {anc}")
 
     def test_synonym_types(self, oi: OboGraphInterface):
         """
@@ -816,6 +844,23 @@ class ComplianceTester:
                 cds = list(oi.common_descendants(c, c, predicates=[IS_A]))
                 test.assertTrue(cds, f"Expected common descendants: {c}, {c}")
                 test.assertIn(c, cds, f"ExpectedIn: {c}, {cds}")
+
+    def test_transitive_object_properties(self, oi: OwlInterface):
+        test = self.test
+        expected = [PART_OF, HAS_PART]
+        props = list(oi.transitive_object_properties())
+        for prop in expected:
+            test.assertIn(prop, props, f"Unexpected transitive object property: {prop}")
+
+    def test_simple_subproperty_of_chains(self, oi: OwlInterface):
+        test = self.test
+        expected = [
+            (PRECEDED_BY, [PART_OF, PRECEDED_BY]),
+            (OVERLAPS, [HAS_PART, PART_OF]),
+        ]
+        chain_pairs = list(oi.simple_subproperty_of_chains())
+        for prop, chain in expected:
+            test.assertIn((prop, chain), chain_pairs, f"Not found: {prop}, {chain}")
 
     def test_merge(self, target: MergeInterface, source: BasicOntologyInterface):
         """
@@ -995,15 +1040,23 @@ class ComplianceTester:
         test = self.test
         # TODO: add tests when test dataset is unified
         cases = [
-            ([NUCLEUS], False, 1, 0, []),
-            ([NUCLEUS, NUCLEAR_ENVELOPE], False, 2, 1, []),
-            # ([NUCLEUS, NUCLEAR_ENVELOPE], True, 2, 6, []),
-            ([NUCLEUS, IMBO, NUCLEAR_ENVELOPE], False, 3, 2, []),
+            ([NUCLEUS], False, 1, 0, [], []),
+            ([NUCLEUS, NUCLEAR_ENVELOPE], False, 2, 1, [], []),
+            # ([NUCLEUS, NUCLEAR_ENVELOPE], True, 2, 6, [], []),
+            ([NUCLEUS, IMBO, NUCLEAR_ENVELOPE], False, 3, 2, [], []),
         ]
-        for nodes, dangling, num_nodes, num_edges, expected in cases:
+        for case in cases:
+            nodes, dangling, num_nodes, num_edges, expected_nodes, expected = case
             g = oi.extract_graph(nodes, dangling=dangling)
-            test.assertEqual(num_nodes, len(g.nodes))
-            test.assertEqual(num_edges, len(g.edges))
+            retrieved_class_nodes = [n.id for n in g.nodes if n.type == "CLASS"]
+            test.assertEqual(
+                num_nodes,
+                len(retrieved_class_nodes),
+                f"failed for case: {case}, got nodes: {retrieved_class_nodes}",
+            )
+            test.assertEqual(
+                num_edges, len(g.edges), f"failed for case: {case}, got edges: {g.edges}"
+            )
             node_ids = [n.id for n in g.nodes]
             for node_id in nodes:
                 node_uri = oi.curie_to_uri(node_id)

@@ -23,6 +23,7 @@ import networkx as nx
 import yaml
 from curies import Converter
 from linkml_runtime.dumpers import json_dumper
+from linkml_runtime.loaders import json_loader
 
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package
@@ -43,6 +44,16 @@ PREDICATE_MAP = {"is_a": IS_A}
 class TreeFormatEnum(Enum):
     markdown = "md"
     text = "text"
+
+
+def load_obograph_document(path: str) -> GraphDocument:
+    """
+    Load an OBOGraph document from a file
+
+    :param path:
+    :return:
+    """
+    return json_loader.load(str(path), target_class=GraphDocument)
 
 
 def default_stylemap_path():

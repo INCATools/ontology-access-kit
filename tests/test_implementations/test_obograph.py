@@ -88,6 +88,8 @@ class TestOboGraphImplementation(unittest.TestCase):
         self.assertIn(NUCLEUS, entities)
         self.assertIn(CELLULAR_COMPONENT, entities)
         self.assertIn(PART_OF, entities)
+        node = self.oi.node(NUCLEUS)
+        self.assertEqual(node.id, NUCLEUS)
 
     @unittest.skip("TODO")
     def test_relations(self):
@@ -398,3 +400,7 @@ class TestOboGraphImplementation(unittest.TestCase):
         )
         # query with UNrewired preds should be incomplete
         self.assertNotIn(NUCLEAR_MEMBRANE, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+
+    # OwlInterface compliance tests
+    def test_simple_subproperty_of_chains(self):
+        self.compliance_tester.test_simple_subproperty_of_chains(self.oi)

@@ -114,6 +114,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi)
 
+    def test_rbox_relationships(self):
+        self.compliance_tester.test_rbox_relationships(self.oi)
+
     def test_equiv_relationships(self):
         self.compliance_tester.test_equiv_relationships(self.oi)
 
@@ -300,6 +303,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
 
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi, test_metadata=False)  # TODO
+
+    def test_ancestors_descendants(self):
+        self.compliance_tester.test_ancestors_descendants(self.oi)
 
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
@@ -532,3 +538,15 @@ class TestSimpleOboImplementation(unittest.TestCase):
     # TextAnnotatorInterface tests
     def test_annotate_text(self):
         self.compliance_tester.test_annotate_text(self.oi)
+
+    # OwlInterface tests
+
+    @unittest.skip("Not implemented")
+    def test_disjoint_with(self):
+        self.compliance_tester.test_disjoint_with(self.oi)
+
+    def test_transitive_object_properties(self):
+        self.compliance_tester.test_transitive_object_properties(self.oi)
+
+    def test_simple_subproperty_of_chains(self):
+        self.compliance_tester.test_simple_subproperty_of_chains(self.oi)

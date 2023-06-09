@@ -536,14 +536,14 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         pred = self.curie_to_sparql(pred)
         query = SparqlQuery(select=["?v"], where=[f"{uri} {pred} ?v"])
         if self.multilingual:
-            query.where.append(f'FILTER (LANG(?v) = "{self.preferred_language}")')
+            query.where.append(f'FILTER (LANG(?v) = "{self.default_language}")')
         bindings = self._sparql_query(query)
         return list(set([row[VAL_VAR]["value"] for row in bindings]))
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None):
         if lang:
             raise NotImplementedError("Language selection not implemented yet")
-        labels = list(self.labels([curie]))
+        labels = list(self.labels([curie], lang=lang))
         if labels:
             if len(labels) > 1:
                 logging.warning(f"Multiple labels for {curie} = {labels}")
@@ -554,15 +554,16 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     def labels(
         self, curies: Iterable[CURIE], allow_none=True, lang: Optional[LANGUAGE_TAG] = None
     ) -> Iterable[Tuple[CURIE, str]]:
-        if lang:
-            raise NotImplementedError("Language selection not implemented yet")
         label_uri = self._label_uri()
         uris = [self.curie_to_sparql(x) for x in curies]
         query = SparqlQuery(
             select=["?s ?label"], where=[f"?s <{label_uri}> ?label", _sparql_values("s", uris)]
         )
         if self.multilingual:
-            query.where.append(f'FILTER (LANG(?label) = "{self.preferred_language}")')
+            if not lang:
+                lang = self.default_language
+        if lang:
+            query.where.append(f'FILTER (LANG(?label) = "{lang}")')
         bindings = self._sparql_query(query)
         label_map = {}
         for row in bindings:
@@ -577,6 +578,24 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             for curie in curies:
                 if curie not in label_map:
                     yield curie, None
+
+    def multilingual_labels(
+        self, curies: Iterable[CURIE], allow_none=True, langs: Optional[List[LANGUAGE_TAG]] = None
+    ) -> Iterable[Tuple[CURIE, str, LANGUAGE_TAG]]:
+        label_uri = self._label_uri()
+        uris = [self.curie_to_sparql(x) for x in curies]
+        query = SparqlQuery(
+            select=["?s" "?label", "(LANG(?label) AS ?lang)"],
+            where=[
+                f"?s <{label_uri}> ?label",
+                _sparql_values("LANG(?label)", langs),
+                _sparql_values("s", uris),
+            ],
+        )
+        bindings = self._sparql_query(query)
+        for row in bindings:
+            curie, label = self.uri_to_curie(row["s"]["value"]), row["label"]["value"]
+            yield curie, label, row["lang"]["value"]
 
     def defined_bys(self, entities: Iterable[CURIE]) -> Iterable[str]:
         entities = list(entities)

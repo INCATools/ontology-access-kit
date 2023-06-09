@@ -145,6 +145,7 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
    Relation Graph
     Relation Graph is both a tool and a :term:`Ontology Graph Projection`.
     Relation Graph is used behind the scenes in both :term:`Ubergraph` and in :term:`Semantic SQL`.
+    For the tool, see `INCATools/relation-graph <https://github.com/INCATools/relation-graph>`_.
 
    Ontology Format
     A syntax for serializing an :term:`Ontology` as text. Examples include :term:`OWL Functional Syntax`,
@@ -237,9 +238,36 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     An ontology tool that will perform inference over an ontology to yield new *axioms* (e.g. new :term:`Edges<Edge>`) or
     to determine if an ontology is logically :term:`Coherent`.
 
+   Reasoning
+    See :term:`Reasoner` and :term:`Entailed`
+
    Bioportal
     An :term:`Ontology Repository` that is a comprehensive collection of multiple biologically relevant ontologies.
-    Bioportal exposes an :term:`API` endpoint, that is utilized by the OAK :ref:`bioportal_implementation`. 
+    Bioportal exposes an :term:`API` endpoint, that is utilized by the OAK :ref:`bioportal_implementation`.
+
+   Asserted
+    An :term:`Axiom` or :term:`Edge` that is directly asserted in an ontology,
+    as opposed to being :term:`Entailed`. Note that asserted edges or axioms usually
+    correspond to :term:`Direct` (one-hop) edges, but this isn't always the case.
+
+   Entailed
+    An :term:`Axiom` or :term:`Edge` that is is inferred by a :term:`Reasoner`.
+    Note that all asserted edges or axioms are also entailed. Note also that sometimes
+    entailed axioms can include trivial :term:`Tautologies<Tautology>`.
+
+   Graph Traversal
+    A strategy for walking :term:`graphs<Graph>`, such as from a start node to all
+    ancestors or descendants. In some cases, graph traversal can be used in place of
+    :term:`Reasoning`. See the section on :ref:`relationships_and_graphs` in the OAK guide.
+
+   Reflexive
+    A :term:`Edge` or :term:`Axiom` that connects an :term:`Ontology Element` to itself.
+    These are trivially true (:term:`Tautology`), but in general these are included by
+    default in operations involving :term:`Reasoning` and :term:`Graph Traversal`.
+    See also the `RO guide to reflexivity<https://oborel.github.io/obo-relations/reflexivity/>`_.
+
+   Tautology
+    A :term:`Axiom` or :term:`Edge` that is trivially true.
 
    OLS
     Ontology Lookup Service. An :term:`Ontology Repository` that is a curated collection of multiple biologically relevant ontologies,

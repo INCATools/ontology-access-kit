@@ -47,11 +47,15 @@ class OntobeeImplementation(
     Alternatively, use a selector:
 
     >>> from oaklib import get_adapter
-    >>> from oaklib.datamodels.vocabulary import IS_A
     >>> oi = get_adapter("ontobee:")
+
+    Or to access a specific ontology, such as the Vaccine Ontology:
+
+    >>> oi = get_adapter("ontobee:vo")
 
     After that you can use any of the methods that OntoBee implements; e.g.
 
+    >>> from oaklib.datamodels.vocabulary import IS_A
     >>> # uncomment to test
     >>> # for a in oi.ancestors("UBERON:0002398", predicates=[IS_A]):
     >>> #    print(a)

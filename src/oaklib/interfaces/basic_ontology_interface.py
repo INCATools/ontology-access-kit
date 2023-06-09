@@ -1,3 +1,4 @@
+import itertools
 import logging
 from abc import ABC
 from collections import defaultdict
@@ -24,10 +25,12 @@ from oaklib.datamodels.vocabulary import (
     PREFIX_PREDICATE,
     URL_PREDICATE,
 )
+from oaklib.indexes.edge_index import EdgeIndex
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
+from oaklib.utilities.iterator_utils import chunk
 
 LANGUAGE_TAG = str
 NC_NAME = str
@@ -155,6 +158,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     cache_lookups: bool = False
     """If True, the implementation may choose to cache lookup operations"""
 
+    _edge_index: Optional[EdgeIndex] = None
+    _entailed_edge_index: Optional[EdgeIndex] = None
+
     def prefix_map(self) -> PREFIX_MAP:
         """
         Return a dictionary mapping all prefixes known to the resource to their URI expansion.
@@ -274,10 +280,51 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         return rv
 
     @property
+    def edge_index(self) -> EdgeIndex:
+        """
+        An index of all asserted edges in the ontology.
+
+        .. note::
+
+            not all adapters populate this index.
+
+        :return: index of edges
+        """
+        if self._edge_index is None:
+            self._edge_index = EdgeIndex(lambda: self._all_relationships())
+        return self._edge_index
+
+    @property
+    def entailed_edge_index(self) -> EdgeIndex:
+        """
+        An index of all entailed edges in the ontology.
+
+        .. note::
+
+            not all adapters populate this index.
+
+        :return: index of entailed edges
+        """
+        if self._entailed_edge_index is None:
+            self._entailed_edge_index = EdgeIndex(lambda: self._all_entailed_relationships())
+        return self._entailed_edge_index
+
+    def _all_entailed_relationships(self):
+        raise NotImplementedError("This adapter does not support entailed relationships")
+
+    @property
     def _relationship_index(self) -> Dict[CURIE, List[RELATIONSHIP]]:
+        """
+        An index of relationships keyed by either subject or object.
+
+        The first time this is called, it will build the index.
+        Subsequent calls will return the cached index.
+
+        :return: dictionary mapping subject or object to list of relationships
+        """
         if self._relationship_index_cache:
             return self._relationship_index_cache
-        logging.info("Building relationship")
+        logging.info("Building relationship index")
         ix = defaultdict(list)
         for rel in self._all_relationships():
             s, p, o = rel
@@ -288,9 +335,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def _rebuild_relationship_index(self):
         self._relationship_index_cache = None
+        self._edge_index = None
         _ = self._relationship_index  # force re-index
 
     def _clear_relationship_index(self):
+        self._edge_index = None
         self._relationship_index_cache = None
 
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
@@ -481,6 +530,49 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     @deprecated("Replaced by obsoletes()")
     def all_obsolete_curies(self) -> Iterable[CURIE]:
         return self.obsoletes()
+
+    def dangling(self, curies: Optional[Iterable[CURIE]] = None) -> Iterable[CURIE]:
+        """
+        Yields all known entities in provided set that are dangling.
+
+        Example:
+
+        This example is over an OBO file with one stanza:
+
+        .. code-block:: obo
+
+            [Term]
+            id: GO:0012505
+            name: endomembrane system
+            is_a: GO:0110165 ! cellular anatomical entity
+            relationship: has_part GO:0005773 ! vacuole
+
+        The two edges point to entities that do not exist in the file.
+
+        The following code will show these:
+
+        >>> from oaklib import get_adapter
+        >>> # Note: pronto adapter refuses to parse ontology files with dangling
+        >>> adapter = get_adapter("simpleobo:tests/input/dangling-node-test.obo")
+        >>> for entity in sorted(adapter.dangling()):
+        ...     print(entity)
+        GO:0005773
+        GO:0110165
+
+        :param curies: CURIEs to check for dangling; if empty will check all
+        :return: iterator over CURIEs
+        """
+        if curies is None:
+            curies = self.entities(filter_obsoletes=False)
+            curies = itertools.chain(curies, {rel[2] for rel in self.relationships()})
+        for curie_it in chunk(curies):
+            chunked_curies = list(curie_it)
+            logging.debug(f"Checking {len(chunked_curies)} curies for dangling")
+            curie_labels = self.labels(chunked_curies, allow_none=True)
+            candidates = [curie for curie, label in curie_labels if label is None]
+            exclude = {rel[0] for rel in self.relationships(candidates)}
+            logging.debug(f"Candidates {len(candidates)} exclude: {len(exclude)}")
+            yield from [curie for curie in candidates if curie not in exclude]
 
     def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
         """

@@ -41,9 +41,11 @@ from oaklib.datamodels.vocabulary import (
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
+    SKOS_MATCH_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,
 )
+from oaklib.inference.relation_graph_reasoner import RelationGraphReasoner
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
@@ -62,6 +64,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.obolegacy_interface import OboLegacyInterface
+from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -103,6 +106,7 @@ class ProntoImplementation(
     TaxonConstraintInterface,
     DumperInterface,
     MergeInterface,
+    OwlInterface,
 ):
     """
     An adapter that standardizes access to OBO Format files by wrapping the Pronto library.
@@ -123,21 +127,21 @@ class ProntoImplementation(
     --------
 
     >>> from oaklib.implementations import ProntoImplementation
-    >>> resource = OntologyResource(slug='go-nucleus.obo', directory='test/inputinput', local=True)
-    >>> oi = ProntoImplementation(resource)
+    >>> resource = OntologyResource(slug='go-nucleus.obo', directory='tests/input', local=True)
+    >>> adapter = ProntoImplementation(resource)
 
     Or use a selector:
 
     >>> from oaklib import get_adapter
-    >>> oi = get_adapter("pronto:tests/input/go-nucleus.obo")
+    >>> adapter = get_adapter("pronto:tests/input/go-nucleus.obo")
 
     Then you can use any of the methods implemented by pronto
 
-    >>> rels = oi.outgoing_relationships('GO:0005773')
-    >>> for rel, parents in rels.items():
-    >>>    print(f'  {rel} ! {oi.label(rel)}')
-    >>>        for parent in parents:
-    >>>            print(f'    {parent} ! {oi.label(parent)}')
+    >>> rels = adapter.relationships(['GO:0005773'])
+    >>> for _s, p, o in rels:
+    ...    print(f'  {p} {o} ! {adapter.label(o)}')
+    rdfs:subClassOf GO:0043231 ! intracellular membrane-bounded organelle
+    BFO:0000050 GO:0005737 ! cytoplasm
 
     .. warning::
 
@@ -202,6 +206,10 @@ class ProntoImplementation(
                         # symmetric
                         yield s, EQUIVALENT_CLASS, o
                         yield o, EQUIVALENT_CLASS, s
+
+    def _all_entailed_relationships(self):
+        reasoner = RelationGraphReasoner(self)
+        yield from reasoner.entailed_edges()
 
     def store(self, resource: OntologyResource = None) -> None:
         if resource is None:
@@ -398,6 +406,10 @@ class ProntoImplementation(
         for x in rel_type.xrefs:
             if x.id.startswith("BFO:") or x.id.startswith("RO:"):
                 return x.id
+        for x in rel_type.xrefs:
+            if x.id.startswith("http"):
+                compacted = self.uri_to_curie(x.id)
+                return compacted
         return rel_type.id
 
     def relationships(
@@ -410,23 +422,20 @@ class ProntoImplementation(
         include_entailed: bool = False,
         exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
-        for s in self._relationship_index.keys():
-            if subjects is not None and s not in subjects:
-                continue
-            for s2, p, o in self._relationship_index[s]:
-                if s2 == s:
-                    if predicates is not None and p not in predicates:
-                        continue
-                    if objects is not None and o not in objects:
-                        continue
-                    yield s, p, o
+        ei = self.edge_index
+        if include_entailed:
+            ei = self.entailed_edge_index
+        yield from ei.edges(
+            subjects=subjects,
+            predicates=predicates,
+            objects=objects,
+        )
 
     def outgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        for s, p, o in self.relationships([curie], predicates, include_entailed=entailed):
-            if s == curie:
-                yield p, o
+        for _s, p, o in self.relationships([curie], predicates, include_entailed=entailed):
+            yield p, o
 
     def create_entity(
         self,
@@ -500,30 +509,23 @@ class ProntoImplementation(
         return m
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        m = defaultdict(list)
         t = self._entity(curie)
         if t is None:
-            return m
+            return
         for s in t.xrefs:
-            # m[HAS_DBXREF].append(s.id)
             yield HAS_DBXREF, s.id
         for s in t.annotations:
-            # TODO: less hacky
-            if s.property.startswith("skos"):
+            rel = self._entity(s.property)
+            if ":" in s.property:
+                pred = s.property
+            else:
+                pred = self._get_pronto_relationship_type_curie(rel)
+            if pred in SKOS_MATCH_PREDICATES:
                 if isinstance(s, LiteralPropertyValue):
                     v = s.literal
-                    # m[s.property].append(v)
-                    yield s.property, v
+                    yield pred, v
                 elif isinstance(s, ResourcePropertyValue):
-                    try:
-                        tail = self.uri_to_curie(s.resource)
-                    except ValueError:
-                        logging.warning(
-                            "%s could not compress URI %s", self.__class__.__name__, s.resource
-                        )
-                        continue
-                    else:
-                        yield s.property, tail
+                    yield pred, s.resource
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
@@ -617,21 +619,17 @@ class ProntoImplementation(
             curies = list(curies)
         # mappings where curie is the subject:
         for curie in curies:
-            t = self._entity(curie)
-            if t:
-                for x in t.xrefs:
-                    m = sssom.Mapping(
-                        subject_id=t.id,
-                        predicate_id=SKOS_CLOSE_MATCH,
-                        object_id=x.id,
-                        mapping_justification=sssom.EntityReference(
-                            SEMAPV.UnspecifiedMatching.value
-                        ),
-                    )
-                    inject_mapping_sources(m)
-                    if source and m.object_source != source and m.subject_source != source:
-                        continue
-                    yield m
+            for pred, obj in self.simple_mappings_by_curie(curie):
+                m = sssom.Mapping(
+                    subject_id=curie,
+                    predicate_id=pred,
+                    object_id=obj,
+                    mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
+                )
+                inject_mapping_sources(m)
+                if source and m.object_source != source and m.subject_source != source:
+                    continue
+                yield m
         # mappings where curie is the object:
         # TODO: use a cache to avoid re-calculating
         for e in self.entities():
@@ -879,3 +877,24 @@ class ProntoImplementation(
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
         return patch
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OwlInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def transitive_object_properties(self) -> Iterable[CURIE]:
+        for t in self.wrapped_ontology.relationships():
+            if t.transitive:
+                yield self._get_pronto_relationship_type_curie(t)
+
+    def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
+        for t in self.wrapped_ontology.relationships():
+            try:
+                if t.holds_over_chain:
+                    subp = self._get_pronto_relationship_type_curie(t)
+                    r1, r2 = t.holds_over_chain
+                    p1 = self._get_pronto_relationship_type_curie(r1)
+                    p2 = self._get_pronto_relationship_type_curie(r2)
+                    yield subp, [p1, p2]
+            except KeyError as e:
+                logging.warning(f"could not find chain relationships for {t}: {e}")

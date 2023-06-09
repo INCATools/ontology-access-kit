@@ -23,8 +23,8 @@ the OboGraphs data model and other models.
 
 .. code-block:: python
 
-        >>> from oaklib.utilities.obograph_utils import load_obograph
-        >>> graph = load_obograph("hp.obo.json")
+    >>> from oaklib.utilities.obograph_utils import load_obograph_document
+    >>> graph_doc = load_obograph_document("tests/input/go-nucleus.json")
 
 .. toctree::
    :maxdepth: 3
