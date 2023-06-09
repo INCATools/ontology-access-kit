@@ -2024,13 +2024,17 @@ class SqlImplementation(
         for s, s_ancs in subjects_ancs.items():
             for o, o_ancs in objects_ancs.items():
                 logging.info(f"s={s} o={o}")
-                yield self.pairwise_similarity(
+                sim = self.pairwise_similarity(
                     s,
                     o,
                     predicates=predicates,
                     subject_ancestors=list(s_ancs),
                     object_ancestors=list(o_ancs),
+                    min_jaccard_similarity=min_jaccard_similarity,
+                    min_ancestor_information_content=min_ancestor_information_content,
                 )
+                if sim:
+                    yield sim
 
     def common_descendants(
         self,
