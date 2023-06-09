@@ -4,6 +4,7 @@ import logging
 import math
 from dataclasses import dataclass
 from typing import ClassVar, Iterable, Iterator, List, Optional
+from oaklib.datamodels.vocabulary import OWL_THING
 
 from semsimian import Semsimian
 
@@ -153,8 +154,10 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key,
                         object_id=term2_key,
-                        ancestor_id=None
+                        ancestor_id=OWL_THING
+
                     )
                     sim.jaccard_similarity = 0
+                    sim.ancestor_information_content = 0
                 yield sim
 
