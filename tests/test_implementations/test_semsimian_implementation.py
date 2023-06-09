@@ -3,6 +3,7 @@ import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
 
+from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.selector import get_adapter
@@ -38,7 +39,7 @@ class TestSemSimianImplementation(unittest.TestCase):
             _, db = os.path.splitdrive(db)
 
         oi = get_adapter(f"semsimian:sqlite:///{db}")
-        comparison_oi = get_adapter(f"sqlite:///{self.db}")
+        comparison_oi = get_adapter(f"sqlite:///{db}")
 
         self.oi = oi
         self.other_oi = comparison_oi
@@ -94,3 +95,36 @@ class TestSemSimianImplementation(unittest.TestCase):
                         print(yaml_dumper.dumps(sim))
                         print("Wrapped:")
                         print(yaml_dumper.dumps(original_sim))
+
+    def test_all_by_all_pairwise_similarity(self):
+        subject_terms = {VACUOLE, NUCLEUS, NUCLEAR_MEMBRANE}
+        object_terms = {ENDOMEMBRANE_SYSTEM, HUMAN, FUNGI}
+        predicates = {IS_A, PART_OF}
+        result = self.oi.all_by_all_pairwise_similarity(subject_terms, object_terms, predicates)
+        sem_similarity_object: TermPairwiseSimilarity = [
+            x for x in result if x.subject_id == "GO:0031965" and x.object_id == "GO:0012505"
+        ][0]
+        self.assertEqual(sem_similarity_object.ancestor_id, "GO:0012505")
+        self.assertEqual(sem_similarity_object.jaccard_similarity, 0.4782608695652174)
+        self.assertEqual(sem_similarity_object.ancestor_information_content, 5.8496657269155685)
+        self.assertEqual(sem_similarity_object.phenodigm_score, 1.672622556711612)
+
+        result2 = self.other_oi.all_by_all_pairwise_similarity(
+            subject_terms, object_terms, predicates
+        )
+
+        sql_similarity_object: TermPairwiseSimilarity = [
+            x for x in result2 if x.subject_id == "GO:0031965" and x.object_id == "GO:0012505"
+        ][0]
+        self.assertEqual(sem_similarity_object.ancestor_id, sql_similarity_object.ancestor_id)
+        self.assertAlmostEqual(
+            sem_similarity_object.jaccard_similarity, sql_similarity_object.jaccard_similarity
+        )
+        self.assertAlmostEqual(
+            sem_similarity_object.ancestor_information_content,
+            sql_similarity_object.ancestor_information_content,
+            places=1,
+        )
+        self.assertAlmostEqual(
+            sem_similarity_object.phenodigm_score, sql_similarity_object.phenodigm_score, places=2
+        )
