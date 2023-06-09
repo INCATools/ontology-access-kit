@@ -88,7 +88,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         if math.isnan(jaccard_val):
             return None
 
-        ancestor_information_content_val = self.semsimian.resnik_similarity(
+        _, ancestor_information_content_val = self.semsimian.resnik_similarity(
             subject, object, set(predicates)
         )
 
