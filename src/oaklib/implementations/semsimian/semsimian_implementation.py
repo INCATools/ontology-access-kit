@@ -13,7 +13,6 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
-import numpy as np
 
 wrapped_adapter: BasicOntologyInterface = None
 
@@ -157,7 +156,5 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                         ancestor_id=None
                     )
                     sim.jaccard_similarity = 0
-                    sim.ancestor_information_content = np.nan
-                    sim.phenodigm_score = np.nan
                 yield sim
 
