@@ -13,6 +13,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
+import numpy as np
 
 wrapped_adapter: BasicOntologyInterface = None
 
@@ -138,7 +139,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             for term2_key, result in values.items():
                 jaccard, resnik, phenodigm_score, ancestor_set = result
 
-                # TODO: Confirm if this 'if' condition is necessary.
                 if len(ancestor_set) > 0:
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key,
@@ -150,5 +150,14 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim.jaccard_similarity = jaccard
                     sim.ancestor_information_content = resnik
                     sim.phenodigm_score = phenodigm_score
-                    yield sim
+                else:
+                    sim = TermPairwiseSimilarity(
+                        subject_id=term1_key,
+                        object_id=term2_key,
+                        ancestor_id=None
+                    )
+                    sim.jaccard_similarity = 0
+                    sim.ancestor_information_content = np.nan
+                    sim.phenodigm_score = np.nan
+                yield sim
 
