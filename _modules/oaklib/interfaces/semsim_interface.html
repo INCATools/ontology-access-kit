@@ -307,7 +307,7 @@
         <span class="n">object_ancestors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">min_jaccard_similarity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">min_ancestor_information_content</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermPairwiseSimilarity</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TermPairwiseSimilarity</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pairwise similarity between a pair of ontology terms</span>
 
@@ -320,7 +320,15 @@
 <span class="sd">        :param min_ancestor_information_content: minimum IC for a common ancestor to be considered</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating pairwise similarity for </span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="nb">object</span><span class="si">}</span><span class="s2"> over </span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating pairwise similarity for </span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="nb">object</span><span class="si">}</span><span class="s2"> over </span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">subject_ancestors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+            <span class="n">subject_ancestors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">object_ancestors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+            <span class="n">object_ancestors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">subject_ancestors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">object_ancestors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">jaccard_similarity</span> <span class="o">=</span> <span class="n">setwise_jaccard_similarity</span><span class="p">(</span><span class="n">subject_ancestors</span><span class="p">,</span> <span class="n">object_ancestors</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">min_jaccard_similarity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">jaccard_similarity</span> <span class="o">&lt;</span> <span class="n">min_jaccard_similarity</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="n">cas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">common_ancestors</span><span class="p">(</span>
                 <span class="n">subject</span><span class="p">,</span>
@@ -344,20 +352,19 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">max_ic</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="n">anc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">min_ancestor_information_content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">max_ic</span> <span class="o">&lt;</span> <span class="n">min_ancestor_information_content</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MRCA = </span><span class="si">{</span><span class="n">anc</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">max_ic</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">sim</span> <span class="o">=</span> <span class="n">TermPairwiseSimilarity</span><span class="p">(</span>
             <span class="n">subject_id</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
             <span class="n">object_id</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span>
             <span class="n">ancestor_id</span><span class="o">=</span><span class="n">anc</span><span class="p">,</span>
             <span class="n">ancestor_information_content</span><span class="o">=</span><span class="n">max_ic</span><span class="p">,</span>
+            <span class="n">jaccard_similarity</span><span class="o">=</span><span class="n">jaccard_similarity</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">sim</span><span class="o">.</span><span class="n">ancestor_information_content</span> <span class="o">=</span> <span class="n">max_ic</span>
-        <span class="k">if</span> <span class="n">subject_ancestors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
-            <span class="n">subject_ancestors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">object_ancestors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
-            <span class="n">object_ancestors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">subject_ancestors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">object_ancestors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">sim</span><span class="o">.</span><span class="n">jaccard_similarity</span> <span class="o">=</span> <span class="n">setwise_jaccard_similarity</span><span class="p">(</span><span class="n">subject_ancestors</span><span class="p">,</span> <span class="n">object_ancestors</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">sim</span><span class="o">.</span><span class="n">ancestor_information_content</span> <span class="ow">and</span> <span class="n">sim</span><span class="o">.</span><span class="n">jaccard_similarity</span><span class="p">:</span>
             <span class="n">sim</span><span class="o">.</span><span class="n">phenodigm_score</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
                 <span class="n">sim</span><span class="o">.</span><span class="n">jaccard_similarity</span> <span class="o">*</span> <span class="n">sim</span><span class="o">.</span><span class="n">ancestor_information_content</span>
@@ -447,6 +454,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">objects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Computing pairwise similarity for </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span><span class="si">}</span><span class="s2"> objects&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
                 <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairwise_similarity</span><span class="p">(</span>
                     <span class="n">s</span><span class="p">,</span>

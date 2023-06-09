@@ -2109,13 +2109,17 @@
         <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">s_ancs</span> <span class="ow">in</span> <span class="n">subjects_ancs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">o_ancs</span> <span class="ow">in</span> <span class="n">objects_ancs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;s=</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> o=</span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairwise_similarity</span><span class="p">(</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairwise_similarity</span><span class="p">(</span>
                     <span class="n">s</span><span class="p">,</span>
                     <span class="n">o</span><span class="p">,</span>
                     <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span>
                     <span class="n">subject_ancestors</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">s_ancs</span><span class="p">),</span>
                     <span class="n">object_ancestors</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">o_ancs</span><span class="p">),</span>
+                    <span class="n">min_jaccard_similarity</span><span class="o">=</span><span class="n">min_jaccard_similarity</span><span class="p">,</span>
+                    <span class="n">min_ancestor_information_content</span><span class="o">=</span><span class="n">min_ancestor_information_content</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="k">if</span> <span class="n">sim</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">sim</span>
 
     <span class="k">def</span> <span class="nf">common_descendants</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
