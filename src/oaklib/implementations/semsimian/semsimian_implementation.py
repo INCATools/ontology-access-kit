@@ -141,7 +141,13 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
                 jaccard, resnik, phenodigm_score, ancestor_set = result
-
+                if min_jaccard_similarity is not None and jaccard < min_jaccard_similarity:
+                    continue
+                if (
+                    min_ancestor_information_content is not None
+                    and resnik < min_ancestor_information_content
+                ):
+                    continue
                 if len(ancestor_set) > 0:
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key,
