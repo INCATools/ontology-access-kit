@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 GENE_REQUESTS_CACHE = ".gene_requests_cache"
 
 
-BASE_URL = "http://api-dev.monarchinitiative.org/v3/api"
+BASE_URL = "http://api-v3.monarchinitiative.org/v3/api"
 
 
 @dataclass
@@ -56,12 +56,12 @@ class MonarchImplementation(
         if subjects and objects:
             if len(subjects) != 1 and len(objects) != 1:
                 raise ValueError("Monarch API only supports one subject and one object")
-            url = f"{BASE_URL}/association/between/{subjects[0]}/{objects[0]}"
+            url = f"{BASE_URL}/association/all?subject={subjects[0]}&object={objects[0]}"
         elif subjects:
             # TODO: check to vs from
-            url = f"{BASE_URL}/association/to/{subjects[0]}"
+            url = f"{BASE_URL}/association/all?subject={subjects[0]}"
         elif objects:
-            url = f"{BASE_URL}/association/from/{objects[0]}"
+            url = f"{BASE_URL}/association/all?object={objects[0]}"
         else:
             raise ValueError("Must specify subjects or objects")
         yield from self._associations_from_url(url)
