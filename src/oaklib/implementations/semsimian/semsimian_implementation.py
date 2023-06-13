@@ -137,11 +137,11 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
         all_results = self.semsimian.all_by_all_pairwise_similarity(
-            set(subjects),
-            set(objects),
-            min_jaccard_similarity,
-            min_ancestor_information_content,
-            set(predicates) if predicates else None,
+            subject_terms=set(subjects),
+            object_terms=set(objects),
+            minimum_jaccard_threshold=min_jaccard_similarity,
+            minimum_resnik_threshold=min_ancestor_information_content,
+            predicates=set(predicates) if predicates else None,
         )
         logging.info("Post-processing results from semsimian")
         for term1_key, values in all_results.items():
