@@ -1779,12 +1779,19 @@ def viz(
     if not graph.nodes:
         raise ValueError(f"No nodes in graph for {curies}")
     # TODO: abstract this out
-    if output_type:
-        write_graph(graph, format=output_type, output=output)
-    else:
+    if not output_type or output_type in ["png", "svg", "dot"]:
         graph_to_image(
-            graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output, view=view
+            graph,
+            seeds=curies,
+            stylemap=stylemap,
+            configure=configure,
+            imgfile=output,
+            view=view,
+            format=output_type,
         )
+    else:
+        # non-visual format
+        write_graph(graph, format=output_type, output=output)
 
 
 @main.command()
@@ -3563,8 +3570,12 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
     "-M",
     help="Return only mappings with subject or object source equal to this",
 )
+@click.option(
+    "--mapper",
+    help="A selector for an adapter that is to be used for the main lookup operation",
+)
 @click.argument("terms", nargs=-1)
-def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
+def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper):
     """
     List all mappings encoded in the ontology
 
@@ -3599,17 +3610,24 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
     writer.autolabel = autolabel
     if not isinstance(impl, MappingProviderInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    mapper_impl = impl
+    if mapper:
+        mapper_impl = get_adapter(mapper)
     if len(terms) == 0:
         logging.info(f"No terms provided: fetching all mappings for {maps_to_source}")
-        for mapping in impl.sssom_mappings_by_source(subject_or_object_source=maps_to_source):
+        for mapping in mapper_impl.sssom_mappings_by_source(
+            subject_or_object_source=maps_to_source
+        ):
             if autolabel:
                 impl.inject_mapping_labels([mapping])
             writer.emit(mapping)
     else:
         logging.info(f"Fetching mappings for {terms}")
         for curie_it in chunk(query_terms_iterator(terms, impl)):
-            for mapping in list(impl.sssom_mappings(curie_it)):
-                if maps_to_source and not mapping.object_id.startswith(f"{maps_to_source}:"):
+            for mapping in list(mapper_impl.sssom_mappings(curie_it)):
+                if maps_to_source and not mapping.object_id.lower().startswith(
+                    f"{maps_to_source.lower()}:"
+                ):
                     continue
                 if autolabel:
                     impl.inject_mapping_labels([mapping])

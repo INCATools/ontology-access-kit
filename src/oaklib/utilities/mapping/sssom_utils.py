@@ -77,7 +77,10 @@ class StreamingSssomWriter(StreamingWriter):
         mset = MappingSet(
             mapping_set_id="temp", mappings=self.mappings, license=UNSPECIFIED_MAPPING_SET_ID
         )
-        prefix_map = self.ontology_interface.prefix_map()
+        if self.ontology_interface:
+            prefix_map = self.ontology_interface.prefix_map()
+        else:
+            prefix_map = {}
         doc = MappingSetDocument(prefix_map=prefix_map, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
         msdf.clean_prefix_map(strict=False)

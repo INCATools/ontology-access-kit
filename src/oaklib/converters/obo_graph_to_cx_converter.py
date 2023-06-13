@@ -1,12 +1,12 @@
 import json
 import sys
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Union
 
 from ndex2 import NiceCXNetwork
 
 from oaklib.converters.data_model_converter import DataModelConverter
-from oaklib.datamodels.obograph import GraphDocument
+from oaklib.datamodels.obograph import Graph, GraphDocument
 from oaklib.types import CURIE
 
 
@@ -14,7 +14,7 @@ from oaklib.types import CURIE
 class OboGraphToCXConverter(DataModelConverter):
     """Converts from OboGraph to OBO Format."""
 
-    def dump(self, source: GraphDocument, target: str = None, **kwargs) -> None:
+    def dump(self, source: Union[GraphDocument, Graph], target: str = None, **kwargs) -> None:
         """
         Dump an OBO Graph Document to CX
 
@@ -29,7 +29,7 @@ class OboGraphToCXConverter(DataModelConverter):
             file = open(target, "w", encoding="UTF-8")
         json.dump(obj, file, indent=2, sort_keys=False)
 
-    def convert(self, source: GraphDocument, target: Dict = None, **kwargs) -> Dict:
+    def convert(self, source: Union[GraphDocument, Graph], target: Dict = None, **kwargs) -> Dict:
         """
         Convert an OBO Graph Document to a CX Dictionary.
 
@@ -38,14 +38,18 @@ class OboGraphToCXConverter(DataModelConverter):
         :return:
         """
         cxn = NiceCXNetwork()
-        cxn.set_name(source.graphs[0].id)
+        if isinstance(source, GraphDocument):
+            graphs = source.graphs
+        else:
+            graphs = [source]
+        cxn.set_name(graphs[0].id)
         pm = {}
-        for g in source.graphs:
+        for g in graphs:
             for pe in g.prefixes.values():
                 pm[pe.prefix] = pe.expansion
         cxn.set_context(pm)
         node_id_map = {}
-        for g in source.graphs:
+        for g in graphs:
             for n in g.nodes:
                 n_iid = cxn.create_node(n.lbl, node_represents=self._id(n.id))
                 node_id_map[n.id] = n_iid

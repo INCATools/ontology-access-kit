@@ -249,7 +249,6 @@ class ProntoImplementation(
         gd = GraphDocument(graphs=[graph])
         json_dumper.dump(gd, to_file=tf_name)
         tf.flush()
-        print(f"{tf_name}")
         ont = Ontology(tf_name)
         if replace:
             self.wrapped_ontology = ont
