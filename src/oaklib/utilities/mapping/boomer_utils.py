@@ -261,12 +261,6 @@ def main(verbose: int, quiet: bool, prefix_map):
 @main.command()
 @min_confidence_option
 @max_confidence_option
-@click.option(
-    "--maximum-confidence",
-    "-H",
-    type=click.FLOAT,
-    help="Do not show mappings with higher confidence",
-)
 @click.argument("input_report")
 def mappings(input_report, **kwargs):
     """
@@ -285,6 +279,7 @@ def mappings(input_report, **kwargs):
     writer = StreamingSssomWriter()
     for m in ben.mappings(**kwargs):
         writer.emit(m)
+    writer.finish()
 
 
 @main.command()

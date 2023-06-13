@@ -113,6 +113,8 @@ def graph_to_image(
     :param format: defaults to png
     :return:
     """
+    if format is None:
+        format = "png"
     g = {"graphs": [graph_as_dict(graph)]}
     logging.debug(f"graph = {g}")
     exec = "og2dot"
@@ -134,11 +136,6 @@ def graph_to_image(
             configure_obj = yaml.safe_load(configure)
             for k, v in configure_obj.items():
                 style[k] = v
-        # style['styles'] = ['filled', 'rounded']
-        # style['prefixProperties'] = {
-        #    "CL": {"fillcolor": "yellow"},
-        #    "GO": {"fillcolor": "#ff7f00"}
-        # }
         temp_file_name = tmpfile.name
         logging.info(f"Writing to {temp_file_name}")
         json_dump = json.dumps(g)
@@ -164,7 +161,7 @@ def graph_to_image(
         logging.debug(f"Run: {cmdtoks}")
         subprocess.run(cmdtoks)
 
-        if view:
+        if view and format != "dot":
             logging.debug(f"Run: {opencmd}")
             subprocess.run(opencmd)
 
