@@ -319,4 +319,8 @@ class OntoPortalImplementationBase(
         else:
             ontology = id.split(":", 1)[0]
             uri = self.curie_to_uri(id)
+            if ontology.lower() == "fbbt":
+                ontology = "FB-BT"
+            elif ontology.lower() == "wbbt":
+                ontology = "WB-BT"
         return ontology, uri
