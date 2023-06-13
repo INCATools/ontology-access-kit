@@ -334,7 +334,6 @@
         <span class="n">gd</span> <span class="o">=</span> <span class="n">GraphDocument</span><span class="p">(</span><span class="n">graphs</span><span class="o">=</span><span class="p">[</span><span class="n">graph</span><span class="p">])</span>
         <span class="n">json_dumper</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="n">to_file</span><span class="o">=</span><span class="n">tf_name</span><span class="p">)</span>
         <span class="n">tf</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tf_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">ont</span> <span class="o">=</span> <span class="n">Ontology</span><span class="p">(</span><span class="n">tf_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span> <span class="o">=</span> <span class="n">ont</span>

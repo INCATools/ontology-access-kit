@@ -86,12 +86,12 @@
 <span></span><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">ndex2</span> <span class="kn">import</span> <span class="n">NiceCXNetwork</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.converters.data_model_converter</span> <span class="kn">import</span> <span class="n">DataModelConverter</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">GraphDocument</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphDocument</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 
 
@@ -99,7 +99,7 @@
 <span class="k">class</span> <span class="nc">OboGraphToCXConverter</span><span class="p">(</span><span class="n">DataModelConverter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from OboGraph to OBO Format.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="OboGraphToCXConverter.dump"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToCXConverter.dump"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">GraphDocument</span><span class="p">,</span> <span class="n">Graph</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump an OBO Graph Document to CX</span>
 
@@ -114,7 +114,7 @@
             <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span>
         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OboGraphToCXConverter.convert"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToCXConverter.convert"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-cx.html#oaklib.converters.obo_graph_to_cx_converter.OboGraphToCXConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">GraphDocument</span><span class="p">,</span> <span class="n">Graph</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an OBO Graph Document to a CX Dictionary.</span>
 
@@ -123,14 +123,18 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cxn</span> <span class="o">=</span> <span class="n">NiceCXNetwork</span><span class="p">()</span>
-        <span class="n">cxn</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">graphs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">GraphDocument</span><span class="p">):</span>
+            <span class="n">graphs</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">graphs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">graphs</span> <span class="o">=</span> <span class="p">[</span><span class="n">source</span><span class="p">]</span>
+        <span class="n">cxn</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">graphs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="n">pm</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">pe</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">prefixes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="n">pm</span><span class="p">[</span><span class="n">pe</span><span class="o">.</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">expansion</span>
         <span class="n">cxn</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
         <span class="n">node_id_map</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
                 <span class="n">n_iid</span> <span class="o">=</span> <span class="n">cxn</span><span class="o">.</span><span class="n">create_node</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">lbl</span><span class="p">,</span> <span class="n">node_represents</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
                 <span class="n">node_id_map</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_iid</span>
