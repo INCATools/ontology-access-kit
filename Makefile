@@ -96,19 +96,28 @@ HP_TERMS = "HPO_terms.txt"
 MP_TERMS = "MP_terms.txt"
 PROFILER_SCRIPT= "src/oaklib/implementations/semsimian/profiler.py"
 
-run_benchmark: benchmarks profiles
+run_benchmark: hp-benchmarks hp-profiles
 
-benchmarks:
+hp-benchmarks:
 	time python -m cProfile -o $(SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
 	time python -m cProfile -o $(NON_SEMSIMIAN_HP_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:hp similarity -p i,p HP:0002205 @ HP:0000166 HP:0012461 HP:0002167 HP:0012390 HP:0002840 HP:0002840 HP:0012432 > /dev/null
 
-profiles:
+hp-profiles:
 	python $(PROFILER_SCRIPT) $(SEMSIMIAN_HP_PROFILE)
 	python $(PROFILER_SCRIPT) $(NON_SEMSIMIAN_HP_PROFILE)
 
+# HP vs MP, all phenotypes
 phenio-benchmarks:
 	$(RUNOAK) -i sqlite:obo:hp descendants -p i HP:0000118 > $(HP_TERMS)
 	$(RUNOAK) -i sqlite:obo:mp descendants -p i MP:0000001 > $(MP_TERMS)
+	time python -m cProfile -o $(SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv
+	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv
+
+
+# HP vs MP skeletal system terms only
+small-phenio-benchmarks:
+	$(RUNOAK) -i sqlite:obo:hp descendants -p i HP:0000924 > $(HP_TERMS) 
+	$(RUNOAK) -i sqlite:obo:mp descendants -p i MP:0005390 > $(MP_TERMS)
 	time python -m cProfile -o $(SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv
 	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv
 
