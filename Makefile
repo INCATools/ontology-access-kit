@@ -114,14 +114,14 @@ phenio-benchmarks:
 	$(RUNOAK) -i sqlite:obo:hp descendants -p i HP:0000118 > $(HP_TERMS)
 	$(RUNOAK) -i sqlite:obo:mp descendants -p i MP:0000001 > $(MP_TERMS)
 	time python -m cProfile -o $(SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv > /dev/null
-	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv > /dev/null
+	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_non_semsimian.tsv > /dev/null
 
 # HP vs MP skeletal system terms only
 small-phenio-benchmarks:
 	$(RUNOAK) -i sqlite:obo:hp descendants -p i HP:0000924 > $(HP_TERMS) 
 	$(RUNOAK) -i sqlite:obo:mp descendants -p i MP:0005390 > $(MP_TERMS)
 	time python -m cProfile -o $(SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv > /dev/null
-	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv > /dev/null
+	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_non_semsimian.tsv > /dev/null
 
 phenio-profiles:
 	python $(PROFILER_SCRIPT) $(SEMSIMIAN_PHENIO_PROFILE)
@@ -131,7 +131,7 @@ phenio-profiles:
 ecto-benchmarks:
 	$(RUNOAK) -i sqlite:obo:ecto descendants -p i RO:0002310 > $(ECTO_TERMS) 
 	time python -m cProfile -o $(SEMSIMIAN_ECTO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(ECTO_TERMS) --set2-file $(ECTO_TERMS) -O csv -o HP_vs_MP_semsimian.tsv > /dev/null
-	time python -m cProfile -o $(NON_SEMSIMIAN_ECTO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(ECTO_TERMS) --set2-file $(ECTO_TERMS) -O csv -o HP_vs_MP_semsimian.tsv > /dev/null
+	time python -m cProfile -o $(NON_SEMSIMIAN_ECTO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(ECTO_TERMS) --set2-file $(ECTO_TERMS) -O csv -o HP_vs_MP_non_semsimian.tsv > /dev/null
 
 ecto-profiles:
 	python $(PROFILER_SCRIPT) $(SEMSIMIAN_ECTO_PROFILE)
