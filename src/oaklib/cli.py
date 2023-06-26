@@ -4889,7 +4889,7 @@ def cache_clear(days_old: int):
 )
 @click.option(
     "--ensure-strict-prefixes/--no-ensure-strict-prefixes",
-    default=True,
+    default=False,
     show_default=True,
     help="Clean prefix map and mappings before generating an output.",
 )
