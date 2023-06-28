@@ -4,7 +4,8 @@ import os
 import tempfile
 import unittest
 
-from gilda import Grounder, Term
+from gilda.grounder import Grounder
+from gilda.term import Term
 
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations.gilda import GildaImplementation
