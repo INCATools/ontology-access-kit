@@ -48,8 +48,11 @@ class GildaImplementation(TextAnnotatorInterface):
             # when parsed from a descriptor like ``gilda:<path>` via
             # :func:`get_resource_from_shorthand`. If no <path> was
             # given, then this will default to the default Gilda index
-            self.grounder = Grounder(terms=self.resource.slug)
-
+            try:
+                self.grounder = Grounder(terms=self.resource.slug)
+            except AttributeError: # i.e., there's no slug
+                self.grounder = Grounder()
+                
     def annotate_text(
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
