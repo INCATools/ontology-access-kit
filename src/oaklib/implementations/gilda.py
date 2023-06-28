@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass, field
-from typing import Iterator, TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterator
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import TextAnnotatorInterface

@@ -1,15 +1,17 @@
+import csv
+import gzip
 import os
-import unittest
 import tempfile
+import unittest
 
-from gilda.term import Term, dump_terms
+from gilda.term import Term
 
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
+from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -70,8 +72,13 @@ class TestResource(unittest.TestCase):
 
         terms = [
             Term(
-                norm_text="nucleus", text="Nucleus",
-                db="GO", id="0005634", entry_name="Nucleus", status="name", source="GO"
+                norm_text="nucleus",
+                text="Nucleus",
+                db="GO",
+                id="0005634",
+                entry_name="Nucleus",
+                status="name",
+                source="GO",
             )
         ]
 
@@ -87,3 +94,25 @@ class TestResource(unittest.TestCase):
 
             results = list(adapter_custom.annotate_text("nope", configuration=config))
             self.assertEqual(0, len(results))
+
+
+TERMS_HEADER = [
+    "norm_text",
+    "text",
+    "db",
+    "id",
+    "entry_name",
+    "status",
+    "source",
+    "organism",
+    "source_db",
+    "source_id",
+]
+
+
+def dump_terms(terms, fname) -> None:
+    """Dump a list of Gilda terms to a tsv.gz file."""
+    with gzip.open(fname, "wt", encoding="utf-8") as fh:
+        writer = csv.writer(fh, delimiter="\t")
+        writer.writerow(TERMS_HEADER)
+        writer.writerows(t.to_list() for t in terms)
