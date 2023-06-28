@@ -42,7 +42,7 @@ class GildaImplementation(TextAnnotatorInterface):
 
     def __post_init__(self):
         if self.grounder is None:
-            from gilda import Grounder
+            from gilda.grounder import Grounder
 
             # The slug corresponds to the path to a gzipped terms TSV
             # when parsed from a descriptor like ``gilda:<path>` via
