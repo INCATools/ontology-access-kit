@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING, Iterator, Optional
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import TextAnnotatorInterface
@@ -27,17 +27,28 @@ class GildaImplementation(TextAnnotatorInterface):
         *Bioinformatics Advances*, Volume 2, Issue 1, 2022, vbac034,
     """
 
-    grounder: "gilda.Grounder" = field(init=False)
-    """A grounder used by Gilda."""
+    grounder: "gilda.Grounder" = None
+    """A grounder used by Gilda. 
+
+    This is instantiated in one of the following ways:
+
+    1. It can be passed directly during instantiation of the
+       :class:`GildaImplementation` class.
+    2. If not passed and this implementation's ``slug`` attribute is set
+       to a path to a gzipped term TSV file, it gets instantiated with the
+       custom index
+    3. Otherwise, it gets instantiated with the default Gilda term index
+    """
 
     def __post_init__(self):
-        from gilda import Grounder
+        if self.grounder is None:
+            from gilda import Grounder
 
-        # The slug corresponds to the path to a gzipped terms TSV
-        # when parsed from a descriptor like ``gilda:<path>` via
-        # :func:`get_resource_from_shorthand`. If no <path> was
-        # given, then this will default to the default Gilda index
-        self.grounder = Grounder(terms=self.resource.slug)
+            # The slug corresponds to the path to a gzipped terms TSV
+            # when parsed from a descriptor like ``gilda:<path>` via
+            # :func:`get_resource_from_shorthand`. If no <path> was
+            # given, then this will default to the default Gilda index
+            self.grounder = Grounder(terms=self.resource.slug)
 
     def annotate_text(
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
