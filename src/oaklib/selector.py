@@ -64,7 +64,7 @@ ASSOCIATION_REGISTRY = {
 
 
 def get_adapter(
-    descriptor: Union[str, Path, InputSpecification], format: str = None
+    descriptor: Union[str, Path, InputSpecification], format: str = None, **kwargs
 ) -> BasicOntologyInterface:
     """
     Gets an adapter (implementation) for a given descriptor.
@@ -112,9 +112,23 @@ def get_adapter(
         >>> print(adapter.label("GO:0005634"))
         nucleus
 
+    If you want to pass extra information through to the implementation
+    class, you can do so with keyword arguments:
+
+    .. packages :: python
+
+        >>> from oaklib import get_adapter
+        >>> from gilda import get_grounder
+        >>> grounder = get_grounder("~/.data/gilda/0.11.1/grounding_terms.tsv.gz")
+        >>> adapter = get_adapter("gilda:", grounder=grounder)
+        >>> annotations = adapter.annotate_text("nucleus")
+
     :param descriptor:
-    :param format:
-    :return:
+        The input specification, path to a YAML describing an input specification,
+        or a shorthand string for instantiating an ontology interface
+    :param format: file format/syntax, e.g obo, turtle
+    :param kwargs: Keyword arguments to pass through to the implementation class
+    :return: An instantiated interface
     """
     if isinstance(descriptor, InputSpecification):
         return _get_adapter_from_specification(descriptor)
@@ -124,7 +138,7 @@ def get_adapter(
         input_specification = yaml_loader.load(open(descriptor), InputSpecification)
         return get_adapter(input_specification)
     res = get_resource_from_shorthand(descriptor, format)
-    return res.implementation_class(res)
+    return res.implementation_class(res, **kwargs)
 
 
 def _get_adapter_from_specification(

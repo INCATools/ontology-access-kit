@@ -1,8 +1,8 @@
 """A text annotator based on Gilda."""
 
 import logging
-from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Iterator, Optional
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Iterator
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import TextAnnotatorInterface
@@ -28,7 +28,7 @@ class GildaImplementation(TextAnnotatorInterface):
     """
 
     grounder: "gilda.Grounder" = None
-    """A grounder used by Gilda. 
+    """A grounder used by Gilda.
 
     This is instantiated in one of the following ways:
 
