@@ -12,6 +12,7 @@ from linkml_runtime.loaders import yaml_loader
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
 from oaklib.datamodels.input_specification import InputSpecification, Normalizer
+from oaklib.implementations import GildaImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces import OntologyInterface
 from oaklib.interfaces.association_provider_interface import (

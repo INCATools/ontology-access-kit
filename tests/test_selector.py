@@ -2,6 +2,8 @@ import os
 import unittest
 import tempfile
 
+from gilda.term import Term, dump_terms
+
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -12,7 +14,6 @@ from oaklib.implementations.ubergraph import UbergraphImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
-from gilda.resources import GROUNDING_TERMS_BASE_NAME
 from oaklib.selector import get_adapter, get_resource_from_shorthand
 from tests import INPUT_DIR
 
@@ -59,8 +60,6 @@ class TestResource(unittest.TestCase):
         self.assertCountEqual(expected, assocs)
 
     def test_gilda_from_descriptor(self):
-        from gilda.term import Term, dump_terms
-
         config = TextAnnotationConfiguration(matches_whole_text=True)
 
         descriptor = "gilda:"
