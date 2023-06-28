@@ -62,12 +62,15 @@ class TestResource(unittest.TestCase):
         self.assertCountEqual(expected, assocs)
 
     def test_gilda_from_descriptor(self):
+        """Test the Gilda implementation."""
         config = TextAnnotationConfiguration(matches_whole_text=True)
 
         descriptor = "gilda:"
         adapter = get_adapter(descriptor)
         self.assertIsInstance(adapter, GildaImplementation)
         results = list(adapter.annotate_text("nucleus", configuration=config))
+        self.assertLessEqual(1, len(results))
+        results = list(adapter.annotate_text("mek", configuration=config))
         self.assertLessEqual(1, len(results))
 
         terms = [
@@ -92,7 +95,7 @@ class TestResource(unittest.TestCase):
             results = list(adapter_custom.annotate_text("nucleus", configuration=config))
             self.assertEqual(1, len(results))
 
-            results = list(adapter_custom.annotate_text("nope", configuration=config))
+            results = list(adapter_custom.annotate_text("mek", configuration=config))
             self.assertEqual(0, len(results))
 
 
