@@ -38,7 +38,7 @@ eutils = ">=0.6.0"
 requests-cache = "^1.0.1"
 click = "*"
 semsimian = "^0.1.16"
-urllib3 = {version = "<2", optional = true}
+urllib3 = {version = "< 2", optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
