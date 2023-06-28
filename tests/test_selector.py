@@ -4,7 +4,7 @@ import os
 import tempfile
 import unittest
 
-from gilda.term import Term
+from gilda import Grounder, Term
 
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations.gilda import GildaImplementation
@@ -66,11 +66,11 @@ class TestResource(unittest.TestCase):
         config = TextAnnotationConfiguration(matches_whole_text=True)
 
         descriptor = "gilda:"
-        adapter = get_adapter(descriptor)
-        self.assertIsInstance(adapter, GildaImplementation)
-        results = list(adapter.annotate_text("nucleus", configuration=config))
+        adapter_1 = get_adapter(descriptor)
+        self.assertIsInstance(adapter_1, GildaImplementation)
+        results = list(adapter_1.annotate_text("nucleus", configuration=config))
         self.assertLessEqual(1, len(results))
-        results = list(adapter.annotate_text("mek", configuration=config))
+        results = list(adapter_1.annotate_text("mek", configuration=config))
         self.assertLessEqual(1, len(results))
 
         terms = [
@@ -90,13 +90,22 @@ class TestResource(unittest.TestCase):
             dump_terms(terms, path)
 
             descriptor = f"gilda:{path}"
-            adapter_custom = get_adapter(descriptor)
-            self.assertIsInstance(adapter, GildaImplementation)
-            results = list(adapter_custom.annotate_text("nucleus", configuration=config))
+            adapter_2 = get_adapter(descriptor)
+            self.assertIsInstance(adapter_1, GildaImplementation)
+            results = list(adapter_2.annotate_text("nucleus", configuration=config))
             self.assertEqual(1, len(results))
 
-            results = list(adapter_custom.annotate_text("mek", configuration=config))
+            results = list(adapter_2.annotate_text("mek", configuration=config))
             self.assertEqual(0, len(results))
+
+        grounder = Grounder(terms)
+        adapter_3 = get_adapter("gilda:", grounder=grounder)
+        self.assertIsInstance(adapter_1, GildaImplementation)
+        results = list(adapter_3.annotate_text("nucleus", configuration=config))
+        self.assertEqual(1, len(results))
+
+        results = list(adapter_3.annotate_text("mek", configuration=config))
+        self.assertEqual(0, len(results))
 
 
 TERMS_HEADER = [
