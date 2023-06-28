@@ -50,9 +50,9 @@ class GildaImplementation(TextAnnotatorInterface):
             # given, then this will default to the default Gilda index
             try:
                 self.grounder = Grounder(terms=self.resource.slug)
-            except AttributeError: # i.e., there's no slug
+            except AttributeError:  # i.e., there's no slug
                 self.grounder = Grounder()
-                
+
     def annotate_text(
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
