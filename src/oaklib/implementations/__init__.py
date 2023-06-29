@@ -37,6 +37,7 @@ from oaklib.implementations.ontoportal.matportal_implementation import (
 from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
+from oaklib.implementations.poi.poi_implementation import PoiImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.semsimian.semsimian_implementation import (
     SemSimianImplementation,
@@ -90,6 +91,7 @@ __all__ = [
     "KGXImplementation",
     "UniprotImplementation",
     "TranslatorImplementation",
+    "PoiImplementation",
     "OakMetaModelImplementation",
     "SemSimianImplementation",
 ]
