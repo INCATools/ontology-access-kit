@@ -90,9 +90,15 @@ class TestResource(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             path = Path(d).resolve().joinpath("test_terms.tsv.gz")
             dump_terms(terms, path)
+            self.assertTrue(path.is_file())
 
             descriptor = f"gilda:{path.as_posix()}"
-            adapter_2 = get_adapter(descriptor)
+            try:
+                adapter_2 = get_adapter(descriptor)
+            except TypeError as e:
+                with gzip.open(path, "rt") as file:
+                    content = file.read()
+                self.fail(msg=f"Got error {e}\n\nFile content:\n\n{content}")
             self.assertIsInstance(adapter_1, GildaImplementation)
             results = list(adapter_2.annotate_text("nucleus", configuration=config))
             self.assertEqual(1, len(results))
