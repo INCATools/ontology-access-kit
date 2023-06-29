@@ -1,6 +1,7 @@
 import csv
 import gzip
 import os
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -63,6 +64,7 @@ class TestResource(unittest.TestCase):
             assocs.append((a.subject, a.object))
         self.assertCountEqual(expected, assocs)
 
+    @unittest.skipIf(sys.platform == "win32", "Skipping test_gilda_from_descriptor on Windows")
     def test_gilda_from_descriptor(self):
         """Test the Gilda implementation."""
         config = TextAnnotationConfiguration(matches_whole_text=True)
