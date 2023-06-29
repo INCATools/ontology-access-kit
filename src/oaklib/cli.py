@@ -5153,11 +5153,16 @@ def diff(
         else:
             writer.emit(summary)
     else:
+        if isinstance(writer, StreamingMarkdownWriter):
+            change_tally: dict = defaultdict(int)
         for change in impl.diff(other_impl, configuration=config):
             if isinstance(writer, StreamingYamlWriter):
                 # TODO: when a complete type designator is added to KGCL
                 # we can remove this
                 change.type = change.__class__.__name__
+            elif isinstance(writer, StreamingMarkdownWriter):
+                change_tally[change.class_name] += 1
+
             writer.emit(change)
     writer.finish()
 

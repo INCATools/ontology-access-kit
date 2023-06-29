@@ -7,6 +7,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.utilities.obograph_utils import DEFAULT_PREDICATE_CODE_MAP
+from kgcl_schema.datamodel.kgcl import ChangeLanguageElement, NodeChange, EdgeChange, NodeMove
 
 predicate_code_map = DEFAULT_PREDICATE_CODE_MAP
 
@@ -30,6 +31,23 @@ class StreamingMarkdownWriter(StreamingWriter):
 
     def emit(self, curie, label=None, **kwargs):
         oi = self.ontology_interface
+        if isinstance(curie, ChangeLanguageElement):
+            if isinstance(curie, NodeChange):
+                change = curie
+                curie = change.about_node
+
+            elif isinstance(curie, EdgeChange):
+                change = curie
+                # !Here we only have only SPO e.g.: subject='PATO:0045073', predicate='RO:0015010', object='PATO:0000461'
+                # !It needs to have old and new values to show in the release notes.
+                if isinstance(change, NodeMove):
+                    # ! Here we have old_value but no new_value e.g. old_value='rdfs:subPropertyOf', new_value=None
+                    curie = change.old_value
+                    
+                else:
+                    curie = change.predicate
+                # import pdb; pdb.set_trace()
+
         if label is None:
             label = oi.label(curie)
         self.file.write(f"## {curie} {label}\n\n")
@@ -52,7 +70,7 @@ class StreamingMarkdownWriter(StreamingWriter):
                 self.file.write(f"* {p}\n")
                 for v in vs:
                     self.file.write(f'    * {v} "{oi.label(curie)}"\n')
-        if "t" in self.display_options and isinstance(oi, TaxonConstraintInterface):
+        if self.display_options and "t" in self.display_options and isinstance(oi, TaxonConstraintInterface):
             self.file.write("### Taxon Constraints\n\n")
             tc_subj = oi.get_term_with_taxon_constraints(curie)
             for tc in tc_subj.never_in:
