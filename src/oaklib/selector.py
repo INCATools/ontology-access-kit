@@ -409,7 +409,7 @@ def get_resource_from_shorthand(
 
             resource.slug = rest
         elif impl_class == GildaImplementation:
-            resource.slug = rest
+            resource.slug = Path(rest).resolve()
         elif not impl_class:
             raise ValueError(f"Scheme {scheme} not known")
     else:

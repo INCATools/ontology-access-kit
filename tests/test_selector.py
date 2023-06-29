@@ -3,6 +3,7 @@ import gzip
 import os
 import tempfile
 import unittest
+from pathlib import Path
 
 from gilda.grounder import Grounder
 from gilda.term import Term
@@ -87,10 +88,10 @@ class TestResource(unittest.TestCase):
         ]
 
         with tempfile.TemporaryDirectory() as d:
-            path = os.path.join(d, "test_terms.tsv.gz")
+            path = Path(d).resolve().joinpath("test_terms.tsv.gz")
             dump_terms(terms, path)
 
-            descriptor = f"gilda:{path}"
+            descriptor = f"gilda:{path.as_posix()}"
             adapter_2 = get_adapter(descriptor)
             self.assertIsInstance(adapter_1, GildaImplementation)
             results = list(adapter_2.annotate_text("nucleus", configuration=config))
