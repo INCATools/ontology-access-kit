@@ -11,7 +11,6 @@ from oaklib.interfaces.text_annotator_interface import TEXT, nen_annotation
 if TYPE_CHECKING:
     import gilda
 
-
 __all__ = [
     "GildaImplementation",
 ]
@@ -67,24 +66,28 @@ class GildaImplementation(TextAnnotatorInterface):
         """
         if not configuration:
             raise NotImplementedError("Missing text annotation configuration")
-        if not configuration.matches_whole_text:
-            raise NotImplementedError("Gilda annotator can't be used to match partial text")
+        if configuration.matches_whole_text:
+            yield from self._ground(text)
+        else:
+            yield from self._gilda_annotate(text)
 
+    def _gilda_annotate(self, text: str) -> Iterator[TextAnnotation]:
+        from gilda.ner import annotate
+
+        for text, match, start, end in annotate(text, grounder=self.grounder):
+            yield TextAnnotation(
+                subject_start=start,
+                subject_end=end,
+                subject_label=text,
+                object_id=match.term.get_curie(),
+                object_label=match.term.entry_name,
+                matches_whole_text=start == 0 and end == len(text),
+            )
+
+    def _ground(self, text: str) -> Iterator[TextAnnotation]:
         for match in self.grounder.ground(text):
-            term_id_split = match.term.id.split(":")
-            if len(term_id_split) == 1:
-                curie = f"{match.term.db}:{match.term.id}"
-            elif len(term_id_split) == 2:
-                curie = match.term.id
-                if str(match.term.db) != str(term_id_split[0]):
-                    logging.warning(
-                        f"Match term db {match.term.db} does not match prefix of {match.term.id}."
-                    )
-            else:
-                raise ValueError(f"Invalid term id: {match.term.id}")
-
             yield nen_annotation(
                 text=text,
-                object_id=curie,
+                object_id=match.term.get_curie(),
                 object_label=match.term.entry_name,
             )
