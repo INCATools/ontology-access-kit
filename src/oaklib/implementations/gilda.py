@@ -74,11 +74,11 @@ class GildaImplementation(TextAnnotatorInterface):
     def _gilda_annotate(self, text: str) -> Iterator[TextAnnotation]:
         from gilda.ner import annotate
 
-        for text, match, start, end in annotate(text, grounder=self.grounder):
+        for match_text, match, start, end in annotate(text, grounder=self.grounder):
             yield TextAnnotation(
                 subject_start=start,
                 subject_end=end,
-                subject_label=text,
+                subject_label=match_text,
                 object_id=match.term.get_curie(),
                 object_label=match.term.entry_name,
                 matches_whole_text=start == 0 and end == len(text),
