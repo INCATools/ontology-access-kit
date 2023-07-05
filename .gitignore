@@ -29,4 +29,3 @@ tests/input/fhirjson_conf.json
 
 oak_hp.profile
 oak_semsimian_hp.profile
-pato-base.db
