@@ -388,6 +388,19 @@ class SqlImplementation(
     def prefix_map(self) -> PREFIX_MAP:
         if self._prefix_map is None:
             self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
+            prefixes = self._prefix_map.keys()
+
+            # Check for duplicates, or they may raise an error in curies package
+            # see https://github.com/INCATools/ontology-access-kit/issues/606
+            duplicate_prefixes = {
+                k: v
+                for k, v in self._prefix_map.items()
+                if (k.upper() in prefixes and k.lower() in prefixes)
+            }
+            if bool(duplicate_prefixes):
+                for prefix in duplicate_prefixes:
+                    if prefix.islower():
+                        self._prefix_map.pop(prefix)
         return self._prefix_map
 
     def languages(self) -> Iterable[LANGUAGE_TAG]:
