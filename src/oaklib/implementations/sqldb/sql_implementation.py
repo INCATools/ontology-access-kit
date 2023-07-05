@@ -398,6 +398,7 @@ class SqlImplementation(
                 if (k.upper() in prefixes and k.lower() in prefixes)
             }
             if bool(duplicate_prefixes):
+                logging.warning(f"Found duplicate prefixes in SqlImplementation's prefix map: {duplicate_prefixes}")
                 for prefix in duplicate_prefixes:
                     if prefix.islower():
                         self._prefix_map.pop(prefix)
