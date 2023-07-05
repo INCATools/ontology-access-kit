@@ -386,11 +386,17 @@ class SqlImplementation(
         return has_view
 
     def prefix_map(self) -> PREFIX_MAP:
+
+        def entity_prefix(curie: CURIE):
+            if ":" in curie:
+                return curie.split(":")[0]
+        
         if self._prefix_map is None:
             self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
             prefixes = self._prefix_map.keys()
 
             # Check for duplicates, or they may raise an error in curies package
+            # If they are not present in the input then remove them from the prefixmap
             # see https://github.com/INCATools/ontology-access-kit/issues/606
             duplicate_prefixes = {
                 k: v
@@ -399,8 +405,10 @@ class SqlImplementation(
             }
             if bool(duplicate_prefixes):
                 logging.warning(f"Found duplicate prefixes in SqlImplementation's prefix map: {duplicate_prefixes}")
+                used_terms = list(set([entity_prefix(e) for e in self.entities() if e]))
                 for prefix in duplicate_prefixes:
-                    if prefix.islower():
+                    if prefix.islower() and not prefix in used_terms:
+                        logging.warning(f"Will remove prefix '{prefix}' as it is not used in the input.")
                         self._prefix_map.pop(prefix)
         return self._prefix_map
 
