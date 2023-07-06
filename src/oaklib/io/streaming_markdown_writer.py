@@ -43,7 +43,7 @@ class StreamingMarkdownWriter(StreamingWriter):
 
             elif isinstance(curie, EdgeChange):
                 change = curie
-                # !Here we only have only SPO e.g.: 
+                # !Here we only have only SPO e.g.:
                 # ! subject='PATO:0045073', predicate='RO:0015010', object='PATO:0000461'
                 # !It needs to have old and new values to show in the release notes.
                 if isinstance(change, NodeMove):
