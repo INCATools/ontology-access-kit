@@ -165,30 +165,3 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim.jaccard_similarity = 0
                     sim.ancestor_information_content = 0
                 yield sim
-
-    def all_by_all_pairwise_similarity_quick(
-        self,
-        subjects: Iterable[CURIE],
-        objects: Iterable[CURIE],
-        predicates: List[PRED_CURIE] = None,
-        min_jaccard_similarity: Optional[float] = None,
-        min_ancestor_information_content: Optional[float] = None,
-    ) -> None:
-        """
-        Compute similarity for all combinations of terms in subsets vs all terms in objects
-
-        :param subjects:
-        :param objects:
-        :param predicates:
-        :return:
-        """
-        objects = list(objects)
-        logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
-        self.semsimian.all_by_all_pairwise_similarity_quick(
-            subject_terms=set(subjects),
-            object_terms=set(objects),
-            minimum_jaccard_threshold=min_jaccard_similarity,
-            minimum_resnik_threshold=min_ancestor_information_content,
-            predicates=set(predicates) if predicates else None,
-            outfile="rust_output.tsv",
-        )
