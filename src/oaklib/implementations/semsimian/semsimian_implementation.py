@@ -190,5 +190,5 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
             predicates=set(predicates) if predicates else None,
-            outfile="rust_output.tsv"
+            outfile="rust_output.tsv",
         )
