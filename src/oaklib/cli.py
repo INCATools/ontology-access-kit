@@ -2767,6 +2767,7 @@ def similarity(
                 min_jaccard_similarity=min_jaccard_similarity,
                 min_ancestor_information_content=min_ancestor_information_content,
             )
+            # TODO: Grab the outfile, add columns needed and run `fill-table`.
         else:
             for sim in impl.all_by_all_pairwise_similarity(
                 set1it,
