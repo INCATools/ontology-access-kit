@@ -173,6 +173,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         min_jaccard_similarity: Optional[float] = None,
         min_ancestor_information_content: Optional[float] = None,
+        outfile: str = None,
     ) -> None:
         """
         Compute similarity for all combinations of terms in subsets vs all terms in objects
@@ -190,5 +191,5 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
             predicates=set(predicates) if predicates else None,
-            outfile="rust_output.tsv",
+            outfile=outfile,
         )
