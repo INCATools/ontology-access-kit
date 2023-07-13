@@ -44,7 +44,6 @@ from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
-from oaklib.datamodels.similarity import TermPairwiseSimilarity
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
@@ -62,6 +61,7 @@ from oaklib.datamodels.obograph import (
 )
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.settings import Settings
+from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.summary_statistics_datamodel import (
     GroupedStatistics,
     UngroupedStatistics,
@@ -2761,23 +2761,29 @@ def similarity(
                 set2it = query_terms_iterator(terms, impl)
         actual_predicates = _process_predicates_arg(predicates)
         if low_memory:
-            term_pairwise_similarity_attributes = [attr for attr in vars(TermPairwiseSimilarity) if not attr.startswith("class_")]
+            term_pairwise_similarity_attributes = [
+                attr for attr in vars(TermPairwiseSimilarity) if not attr.startswith("class_")
+            ]
             impl.all_by_all_pairwise_similarity_quick(
                 set1it,
                 set2it,
                 predicates=actual_predicates,
                 min_jaccard_similarity=min_jaccard_similarity,
                 min_ancestor_information_content=min_ancestor_information_content,
-                outfile=output
+                outfile=output,
             )
-            
+
             # Read the output file line by line and store the contents in a list
             with open(output, "r") as f:
                 lines = f.readlines()
 
             # Add the column names to the first line of the list
             columns_already_present = lines[0].split("\t")
-            columns_missing = [col for col in term_pairwise_similarity_attributes if col not in columns_already_present]
+            columns_missing = [
+                col
+                for col in term_pairwise_similarity_attributes
+                if col not in columns_already_present
+            ]
             columns_missing_as_str = "\t".join(columns_missing) + "\n"
             header = lines[0].strip() + columns_missing_as_str
             lines[0] = header
