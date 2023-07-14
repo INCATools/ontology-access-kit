@@ -2799,11 +2799,12 @@ def similarity(
                 new_output = output.replace(".tsv", "_filled.tsv")
                 command = f"runoak -i {impl.resource.slug} fill-table {output} -o {new_output} --allow-missing"
                 try:
-                    subprocess.run(command, shell=True, check=True)
-                    print(f"{output} filled successfully by oaklib and results are in {new_output}.")
+                    subprocess.run(command, shell=True, check=True)  # noqa
+                    print(
+                        f"{output} filled successfully by oaklib and results are in {new_output}."
+                    )
                 except subprocess.CalledProcessError as e:
                     print(f"Command execution failed with error code {e.returncode}.")
-
         else:
             for sim in impl.all_by_all_pairwise_similarity(
                 set1it,
