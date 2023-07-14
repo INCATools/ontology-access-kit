@@ -123,7 +123,7 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
             v = row[col]
             if v == "":
                 row[col] = None
-            m = LIST_PATTERN.match(v)
+            m = LIST_PATTERN.match(str(v))
             if m:
                 row[col] = m.group(1).split("|")
     return rows
