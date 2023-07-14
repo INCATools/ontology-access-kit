@@ -2762,7 +2762,9 @@ def similarity(
         actual_predicates = _process_predicates_arg(predicates)
         if low_memory:
             term_pairwise_similarity_attributes = [
-                attr for attr in vars(TermPairwiseSimilarity) if not attr.startswith("class_")
+                attr
+                for attr in vars(TermPairwiseSimilarity)
+                if not any(attr.startswith(s) for s in ["class_", "__"])
             ]
             impl.all_by_all_pairwise_similarity_quick(
                 set1it,
@@ -2778,14 +2780,14 @@ def similarity(
                 lines = f.readlines()
 
             # Add the column names to the first line of the list
-            columns_already_present = lines[0].split("\t")
+            columns_already_present = lines[0].strip().split("\t")
             columns_missing = [
                 col
                 for col in term_pairwise_similarity_attributes
                 if col not in columns_already_present
             ]
             columns_missing_as_str = "\t".join(columns_missing) + "\n"
-            header = lines[0].strip() + columns_missing_as_str
+            header = lines[0].strip() + "\t" + columns_missing_as_str
             lines[0] = header
 
             # Write the updated contents back to the output file
@@ -2794,8 +2796,6 @@ def similarity(
 
             if autolabel:
                 pass
-                # TODO: Run `fill-table`.
-                # fill_table()
 
         else:
             for sim in impl.all_by_all_pairwise_similarity(
