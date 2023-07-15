@@ -54,3 +54,7 @@ class OntologyMetadataMapper(Mapper):
     def use_skos_profile(self):
         """Sets the profile to SKOS."""
         self.add_mappings(load_default_sssom("omo-to-skos"))
+
+    def skos_encodings(self):
+        """Maps SKOS encodings."""
+        self.add_mappings(load_default_sssom("skos-encodings"))

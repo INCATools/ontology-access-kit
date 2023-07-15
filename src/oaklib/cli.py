@@ -43,6 +43,7 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
+from pydantic import BaseModel
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -141,12 +142,14 @@ from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.associations.association_differ import AssociationDiffer
+from oaklib.utilities.axioms import logical_definition_analyzer
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
     parse_kgcl_files,
     write_kgcl,
 )
+from oaklib.utilities.lexical import patternizer
 from oaklib.utilities.lexical.lexical_indexer import (
     DEFAULT_QUALIFIER,
     add_labels_from_uris,
@@ -571,9 +574,14 @@ def curies_from_file(file: IO) -> Iterator[CURIE]:
     :param file:
     :return:
     """
+    line_no = 0
     for line in file.readlines():
+        line_no += 1
         m = re.match(r"^(\S+)", line)
-        yield m.group(1)
+        curie = m.group(1)
+        if curie == "id" and line_no == 1:
+            continue
+        yield curie
 
 
 def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
@@ -5286,9 +5294,15 @@ def apply(
     show_default=True,
     help="if true, expand complex changes to atomic changes",
 )
+@click.option(
+    "--ignore-invalid-changes/--no-ignore-invalid-changes",
+    default=False,
+    show_default=True,
+    help="if true, ignore invalid changes, e.g. obsoletions of dependent entities",
+)
 @output_type_option
 @click.argument("terms", nargs=-1)
-def apply_obsolete(output, output_type, expand: bool, terms):
+def apply_obsolete(output, output_type, expand: bool, terms, **kwargs):
     """
     Sets an ontology element to be obsolete
 
@@ -5308,25 +5322,25 @@ def apply_obsolete(output, output_type, expand: bool, terms):
     This command is partially redundant with the more general "apply" command
     """
     impl = settings.impl
-    if isinstance(impl, PatcherInterface):
-        impl.autosave = settings.autosave
-        for term in query_terms_iterator(terms, impl):
-            change = kgcl.NodeObsoletion(id=generate_change_id(), about_node=term)
-            if expand:
-                changes = impl.expand_change(change)
-            else:
-                changes = [change]
-            for change in changes:
-                impl.apply_patch(change)
-        if not settings.autosave and not output:
-            logging.warning("--autosave not passed, changes are NOT saved")
-        if output:
-            if output == "-":
-                output = sys.stdout
-            impl.dump(output, output_type)
-        # impl.save()
-    else:
+    if not isinstance(impl, PatcherInterface):
         raise NotImplementedError
+    impl.autosave = settings.autosave
+    for k, v in kwargs.items():
+        setattr(impl, k, v)
+    for term in query_terms_iterator(terms, impl):
+        change = kgcl.NodeObsoletion(id=generate_change_id(), about_node=term)
+        if expand:
+            changes = impl.expand_change(change)
+        else:
+            changes = [change]
+        for change in changes:
+            impl.apply_patch(change)
+    if not settings.autosave and not output:
+        logging.warning("--autosave not passed, changes are NOT saved")
+    if output:
+        if output == "-":
+            output = sys.stdout
+        impl.dump(output, output_type)
 
 
 @main.command()
@@ -5794,6 +5808,80 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
         if output:
             impl.resource.slug = output
         _apply_changes(impl, change_list)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--patterns-file",
+    "-P",
+    required=True,
+    help="path to patterns file",
+)
+@click.option(
+    "--show-extract/--no-show-extract",
+    default=False,
+    show_default=True,
+    help="Show the original extracted object.",
+)
+@click.option(
+    "--unmelt/--no-unmelt",
+    default=False,
+    show_default=True,
+    help="Use a wide table for display.",
+)
+@autolabel_option
+@output_option
+@output_type_option
+def generate_logical_definitions(
+    terms, patterns_file, show_extract, unmelt, autolabel, output, output_type
+):
+    """
+    Generate logical definitions based on patterns file.
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, kgcl)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError
+    curies = list(query_terms_iterator(terms, impl))
+    pattern_collection = patternizer.load_pattern_collection(patterns_file)
+    results = patternizer.lexical_pattern_instances(impl, pattern_collection.patterns, curies)
+    if show_extract:
+        label_fields = []
+        if unmelt:
+            results = patternizer.as_matrix(results, pattern_collection)
+            label_fields = [p.name for p in pattern_collection.patterns]
+        for result in results:
+            if isinstance(result, BaseModel):
+                result = result.dict()
+            writer.emit(result)
+    else:
+        label_fields = [
+            "definedClassId",
+            "genusIds",
+            "restrictionFillerIds",
+            "restrictionsPropertyIds",
+            "restrictionsFillerIds",
+        ]
+        results = list(patternizer.as_logical_definitions(results))
+        reports = logical_definition_analyzer.analyze_logical_definitions(impl, results)
+        for report in reports:
+            print(report)
+        if unmelt:
+            ldef_flattener = LogicalDefinitionFlattener(
+                labeler=lambda x: impl.label(x), curie_converter=impl.converter
+            )
+            writer.heterogeneous_keys = True
+            for ldef in results:
+                flat_obj = ldef_flattener.convert(ldef)
+                writer.emit(flat_obj, label_fields=list(flat_obj.keys()))
+        else:
+            for result in results:
+                writer.emit(result, label_fields=label_fields)
+    writer.finish()
+    writer.file.close()
 
 
 if __name__ == "__main__":

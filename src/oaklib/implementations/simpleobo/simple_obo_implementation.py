@@ -412,13 +412,13 @@ class SimpleOboImplementation(
                 for filler in fillers:
                     self.add_relationship(curie, pred, filler)
 
-    def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
+    def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE, **kwargs):
         t = self._stanza(curie)
         if predicate == IS_A:
-            t.add_tag_value(TAG_IS_A, filler)
+            t.add_tag_value(TAG_IS_A, filler, **kwargs)
         else:
             predicate_code = self.map_curie_to_shorthand(predicate)
-            t.add_tag_value_pair(TAG_RELATIONSHIP, predicate_code, filler)
+            t.add_tag_value_pair(TAG_RELATIONSHIP, predicate_code, filler, **kwargs)
         self._clear_relationship_index()
 
     def remove_relationship(self, curie: CURIE, predicate: Optional[PRED_CURIE], filler: CURIE):
@@ -865,7 +865,10 @@ class SimpleOboImplementation(
             )  # Handling a bug where quotes are accidentally introduced.
             t.remove_tag_quoted_value(TAG_SYNONYM, v)
         elif isinstance(patch, kgcl.EdgeCreation):
-            self.add_relationship(patch.subject, patch.predicate, patch.object)
+            description = patch.change_description
+            self.add_relationship(
+                patch.subject, patch.predicate, patch.object, description=description
+            )
             modified_entities.append(patch.subject)
         elif isinstance(patch, kgcl.EdgeDeletion):
             self.remove_relationship(patch.subject, patch.predicate, patch.object)
