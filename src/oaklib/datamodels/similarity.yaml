@@ -60,6 +60,7 @@ classes:
       - subject_information_content
       - ancestor_information_content
       - jaccard_similarity
+      - cosine_similarity
       - dice_similarity
       - phenodigm_score
 

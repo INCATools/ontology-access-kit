@@ -1,5 +1,5 @@
 # Auto generated from similarity.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-07-14T19:42:43
+# Generation date: 2023-07-14T19:44:47
 # Schema: similarity
 #
 # id: https://w3id.org/oak/similarity
@@ -133,6 +133,7 @@ class TermPairwiseSimilarity(PairwiseSimilarity):
     subject_information_content: Optional[Union[float, NegativeLogValue]] = None
     ancestor_information_content: Optional[Union[float, NegativeLogValue]] = None
     jaccard_similarity: Optional[Union[float, ZeroToOne]] = None
+    cosine_similarity: Optional[float] = None
     dice_similarity: Optional[Union[float, ZeroToOne]] = None
     phenodigm_score: Optional[Union[float, NonNegativeFloat]] = None
 
@@ -185,6 +186,9 @@ class TermPairwiseSimilarity(PairwiseSimilarity):
             self.jaccard_similarity, ZeroToOne
         ):
             self.jaccard_similarity = ZeroToOne(self.jaccard_similarity)
+
+        if self.cosine_similarity is not None and not isinstance(self.cosine_similarity, float):
+            self.cosine_similarity = float(self.cosine_similarity)
 
         if self.dice_similarity is not None and not isinstance(self.dice_similarity, ZeroToOne):
             self.dice_similarity = ZeroToOne(self.dice_similarity)
