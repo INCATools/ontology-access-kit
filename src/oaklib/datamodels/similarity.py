@@ -1,5 +1,5 @@
 # Auto generated from similarity.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-10T09:38:53
+# Generation date: 2023-07-14T19:42:43
 # Schema: similarity
 #
 # id: https://w3id.org/oak/similarity
@@ -8,7 +8,6 @@
 
 import dataclasses
 import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -503,6 +502,15 @@ slots.phenodigm_score = Slot(
     model_uri=SIM.phenodigm_score,
     domain=None,
     range=Optional[Union[float, NonNegativeFloat]],
+)
+
+slots.cosine_similarity = Slot(
+    uri=SIM.cosine_similarity,
+    name="cosine_similarity",
+    curie=SIM.curie("cosine_similarity"),
+    model_uri=SIM.cosine_similarity,
+    domain=None,
+    range=Optional[float],
 )
 
 slots.overlap_coefficient = Slot(

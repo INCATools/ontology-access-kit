@@ -1,5 +1,4 @@
 @prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix linkml: <https://w3id.org/linkml/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -8,47 +7,40 @@
 @prefix sssom: <http://w3id.org/sssom/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-linkml:similarity.owl.ttl a owl:Ontology ;
-    rdfs:label "similarity" ;
-    IAO:0000700 sim:BestMatch,
-        sim:PairwiseSimilarity,
-        sim:TermInfo ;
-    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    dcterms:title "Semantic Similarity" ;
-    linkml:generation_date "2022-12-18T15:11:17" ;
-    linkml:metamodel_version "1.7.0" ;
-    linkml:source_file "similarity.yaml" ;
-    linkml:source_file_date "2022-10-26T21:40:09" ;
-    linkml:source_file_size 5512 .
-
 sim:TermSetPairwiseSimilarity a owl:Class ;
     rdfs:label "TermSetPairwiseSimilarity" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sim:average_score ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom sim:BestMatch ;
-            owl:onProperty sim:object_best_matches ],
-        [ a owl:Restriction ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sim:best_score ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom sim:TermInfo ;
-            owl:onProperty sim:object_termset ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:anyURI ;
             owl:onProperty sim:metric ],
         [ a owl:Restriction ;
+            owl:allValuesFrom sim:BestMatch ;
+            owl:onProperty sim:object_best_matches ],
+        [ a owl:Restriction ;
             owl:allValuesFrom sim:TermInfo ;
             owl:onProperty sim:subject_termset ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:average_score ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:best_score ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom sim:TermInfo ;
+            owl:onProperty sim:object_termset ],
         [ a owl:Restriction ;
             owl:allValuesFrom sim:BestMatch ;
             owl:onProperty sim:subject_best_matches ],
         sim:PairwiseSimilarity ;
     skos:definition "A simple pairwise similarity between two sets of concepts/terms" .
+
+sim:cosine_similarity a owl:DatatypeProperty ;
+    rdfs:label "cosine_similarity" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score ;
+    skos:definition "the dot product of two node embeddings divided by the product of their lengths" .
 
 sim:intersection_count a owl:DatatypeProperty ;
     rdfs:label "intersection_count" ;
@@ -74,6 +66,14 @@ sim:union_count a owl:DatatypeProperty ;
     rdfs:label "union_count" ;
     rdfs:range xsd:integer ;
     rdfs:subPropertyOf sim:score .
+
+<https://w3id.org/oak/similarity.owl.ttl> a owl:Ontology ;
+    rdfs:label "similarity" ;
+    IAO:0000700 sim:BestMatch,
+        sim:PairwiseSimilarity,
+        sim:TermInfo ;
+    linkml:id "https://w3id.org/oak/similarity" ;
+    linkml:imports "linkml:types" .
 
 sim:ancestor_id a owl:DatatypeProperty ;
     rdfs:label "ancestor_id" ;
@@ -120,8 +120,7 @@ sim:jaccard_similarity a owl:DatatypeProperty ;
 
 sim:match_source a owl:DatatypeProperty ;
     rdfs:label "match_source" ;
-    rdfs:range xsd:string ;
-    skos:note "note that the match_source is either the subject or the object" .
+    rdfs:range xsd:string .
 
 sim:match_source_label a owl:DatatypeProperty ;
     rdfs:label "match_source_label" ;
@@ -232,39 +231,15 @@ sim:TermPairwiseSimilarity a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty sssom:subject_source ],
+            owl:onProperty sssom:subject_label ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sim:dice_similarity ],
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_label ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty sssom:object_source ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty sssom:subject_label ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sim:phenodigm_score ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sim:jaccard_similarity ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sim:object_information_content ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sim:ancestor_information_content ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:anyURI ;
-            owl:onProperty sim:ancestor_id ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
@@ -276,7 +251,19 @@ sim:TermPairwiseSimilarity a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty sssom:object_label ],
+            owl:onProperty sssom:subject_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sim:ancestor_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:jaccard_similarity ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:dice_similarity ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:anyURI ;
@@ -286,9 +273,21 @@ sim:TermPairwiseSimilarity a owl:Class ;
             owl:onDataRange xsd:float ;
             owl:onProperty sim:subject_information_content ],
         [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:ancestor_information_content ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:object_information_content ],
+        [ a owl:Restriction ;
             owl:onDataRange xsd:anyURI ;
             owl:onProperty sssom:subject_id ;
             owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:phenodigm_score ],
         sim:PairwiseSimilarity ;
     skos:definition "A simple pairwise similarity between two atomic concepts/terms" .
 
@@ -306,13 +305,17 @@ sim:information_content a owl:DatatypeProperty ;
 sim:BestMatch a owl:Class ;
     rdfs:label "BestMatch" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sim:match_source_label ],
+        [ a owl:Restriction ;
             owl:onDataRange xsd:string ;
             owl:onProperty sim:match_source ;
             owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty sim:match_source_label ],
+            owl:onProperty sim:match_target_label ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
@@ -322,21 +325,17 @@ sim:BestMatch a owl:Class ;
             owl:onProperty sim:score ;
             owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
-            owl:onClass sim:TermPairwiseSimilarity ;
-            owl:onProperty sim:similarity ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty sim:match_target ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty sim:match_target_label ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:anyURI ;
-            owl:onProperty sim:match_subsumer ] .
+            owl:onProperty sim:match_subsumer ],
+        [ a owl:Restriction ;
+            owl:onClass sim:TermPairwiseSimilarity ;
+            owl:onProperty sim:similarity ;
+            owl:qualifiedCardinality 1 ] .
 
 sim:TermInfo a owl:Class ;
     rdfs:label "TermInfo" ;

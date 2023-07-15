@@ -181,6 +181,10 @@ slots:
     range: NonNegativeFloat
     description: the geometric mean of the jaccard similarity and the information content
     equals_expression: sqrt({jaccard_similarity} * {information_content})
+  cosine_similarity:
+    is_a: score
+    range: float
+    description: the dot product of two node embeddings divided by the product of their lengths
   overlap_coefficient:
     is_a: score
     range: ZeroToOne
