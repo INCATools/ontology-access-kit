@@ -161,6 +161,8 @@ ALL_CONTRIBUTOR_PREDICATES = [OIO_CREATED_BY, CONTRIBUTOR, CREATOR, IAO_TERM_EDI
 OWL_VERSION_INFO = "owl:versionInfo"
 OWL_VERSION_IRI = "owl:versionIRI"
 
+DEFAULT_SIMILARITY_MAP_FILE_BY_SEMSIMIAN = "similarity_map.tsv"
+
 
 class SEMAPV(Enum):
     """SEMAPV Enum containing different mapping_justification."""

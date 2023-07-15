@@ -173,6 +173,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         min_jaccard_similarity: Optional[float] = None,
         min_ancestor_information_content: Optional[float] = None,
+        embeddings_file: str = None,
         outfile: str = None,
     ) -> None:
         """
@@ -185,11 +186,13 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
+
         self.semsimian.all_by_all_pairwise_similarity_quick(
             subject_terms=set(subjects),
             object_terms=set(objects),
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
             predicates=set(predicates) if predicates else None,
+            embeddings_file=embeddings_file.name,
             outfile=outfile,
         )

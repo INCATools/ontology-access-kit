@@ -70,6 +70,7 @@ from oaklib.datamodels.summary_statistics_datamodel import (
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.datamodels.vocabulary import (
+    DEFAULT_SIMILARITY_MAP_FILE_BY_SEMSIMIAN,
     DEVELOPS_FROM,
     EQUIVALENT_CLASS,
     HAS_OBO_NAMESPACE,
@@ -2649,6 +2650,11 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     type=float,
     help="Minimum value for information content",
 )
+@click.option(
+    "--embeddings-file",
+    type=click.File(mode="r"),
+    help="file containing embeddings of all necessary nodes.",
+)
 @click.option("-o", "--output", help="path to output")
 @click.option(
     "--main-score-field",
@@ -2674,6 +2680,7 @@ def similarity(
     low_memory: bool,
     min_jaccard_similarity: Optional[float],
     min_ancestor_information_content: Optional[float],
+    embeddings_file: TextIO,
     main_score_field,
     output_type,
     output,
@@ -2773,10 +2780,13 @@ def similarity(
                 predicates=actual_predicates,
                 min_jaccard_similarity=min_jaccard_similarity,
                 min_ancestor_information_content=min_ancestor_information_content,
+                embeddings_file=embeddings_file,
                 outfile=output,
             )
 
             # Read the output file line by line and store the contents in a list
+            if output is None:
+                output = DEFAULT_SIMILARITY_MAP_FILE_BY_SEMSIMIAN
             with open(output, "r") as f:
                 lines = f.readlines()
 
