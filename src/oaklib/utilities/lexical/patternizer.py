@@ -14,27 +14,38 @@ from oaklib.types import CURIE
 
 
 class LexicalPattern(BaseModel):
+    """
+    A lexical pattern is a string that is used to detect a logical definition.
+
+    The data model here is similar to DOSDPs, but is geared towards parsing of lexical elements
+    in ontologies.
+    """
+
     name: str
     """Name of lexical pattern. Typically corresponds to pattern."""
 
     pattern: Optional[str] = None
-    """Pattern to match. If None, defaults to name."""
+    """String pattern to match. If None, defaults to name."""
 
     is_regex: Optional[bool] = False
     """If True, pattern is a regular expression.
     If False, pattern is a string. Defaults to False. NOT IMPLEMENTED YET."""
 
     pattern_position: Optional[int] = None
+    """If 0, then pattern must be at the beginning of the label.
+    If -1, then pattern must be at the end of the label.
+    If None, then pattern can be anywhere in the label.
+    No other options are supported. Defaults to None."""
 
     description: Optional[str] = None
     """Description of pattern."""
 
     curie: Optional[CURIE] = None
     """If the pattern maps to a logical definition, then this is the curie
-    of the term that is a fixed element of the definition."""
+    of the term that is a fixed element of the definition (genus or differentia filler)."""
 
     curie_is_genus: Optional[bool] = True
-    """If True, then the curie is the genus and the extracted term is the differentia."""
+    """If True, then the curie is the genus and the extracted term is the differentia filler."""
 
     differentia_predicate: Optional[CURIE] = None
     """If the pattern maps to a logical definition, then this is the predicate
@@ -42,11 +53,15 @@ class LexicalPattern(BaseModel):
 
 
 class Differentia(BaseModel):
+    """Discriminating relationship in a logical definition."""
+
     predicate: CURIE
     filler: CURIE
 
 
 class LogicalDefinition(BaseModel):
+    """Logical definition of a term, following genus-differentia format."""
+
     genus: CURIE
     differentia: List[Differentia]
 
@@ -61,6 +76,12 @@ class Term(BaseModel):
 
 
 class ExtractedConcept(BaseModel):
+    """
+    A concept extracted from a lexical pattern.
+
+    For example, in a pattern like "nuclear X", the concept is "X".
+    """
+
     label: str
     curies: List[CURIE]
     in_ontology: Optional[bool] = None
@@ -68,12 +89,19 @@ class ExtractedConcept(BaseModel):
 
 
 class LexicalPatternCollection(BaseModel):
+    """Collection of lexical patterns"""
+
     patterns: List[LexicalPattern]
 
 
 def match_and_extract(pattern: LexicalPattern, label: str) -> Optional[str]:
     """
     Given a lexical pattern and a label, return the label with the pattern removed.
+
+    >>> from oaklib.utilities.lexical.patternizer import LexicalPattern, match_and_extract
+    >>> pattern = LexicalPattern(name="nuclear X", pattern="nuclear")
+    >>> print(match_and_extract(pattern, "nuclear membrane"))
+    membrane
 
     :param pattern:
     :param label:

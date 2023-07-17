@@ -18,7 +18,7 @@ from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP, RELATIONSHIP_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.rdf_interface import TRIPLE
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -282,8 +282,14 @@ class UbergraphImplementation(
         return obograph.Graph(id="query", nodes=list(nodes.values()), edges=edges)
 
     def ancestors(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
+        if method and method == GraphTraversalMethod.HOP:
+            raise NotImplementedError("HOP not implemented for ubergraph")
         # TODO: DRY
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
@@ -303,8 +309,14 @@ class UbergraphImplementation(
             yield self.uri_to_curie(row["o"]["value"])
 
     def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
+        if method and method == GraphTraversalMethod.HOP:
+            raise NotImplementedError("HOP not implemented for ubergraph")
         # TODO: DRY
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s ?p ?o", "?s a owl:Class", f'VALUES ?o {{ {" ".join(query_uris)} }}']

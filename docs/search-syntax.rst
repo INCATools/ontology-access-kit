@@ -3,7 +3,7 @@
 Search Syntax
 =================
 
-The search syntax is used by the :ref:`search` interface
+The search syntax is mapped to the :ref:`search` interface
 
 .. warning::
 

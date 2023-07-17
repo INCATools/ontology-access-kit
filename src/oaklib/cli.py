@@ -142,7 +142,10 @@ from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.associations.association_differ import AssociationDiffer
-from oaklib.utilities.axioms import logical_definition_analyzer
+from oaklib.utilities.axioms import (
+    logical_definition_analyzer,
+    logical_definition_summarizer,
+)
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
@@ -1133,6 +1136,10 @@ def obsoletes(
     Example:
 
         runoak -i obolibrary:go.obo obsoletes --show-migration-relationships GO:0000187 GO:0000188
+
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TaxonConstraints.ipynb
 
     Python API:
 
@@ -2156,7 +2163,11 @@ def paths(
         go paths  -p i,p 'nuclear membrane' --target cytoplasm --narrow | go viz --fill-gaps -
 
     This visualizes the path by first exporting the path as a flat list, then passing the
-    results to viz, using the fill-gaps option
+    results to viz, using the fill-gaps option.
+
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Paths.ipynb
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3166,6 +3177,10 @@ def relationships(
 
         runoak -i uberon.db relationships -p RO:0002178 .desc//p=i "artery" .and .desc//p=i,p "limb"
 
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Relationships.ipynb
+
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
@@ -3240,6 +3255,10 @@ def relationships(
 @click.option(
     "--unmelt/--no-unmelt", default=False, show_default=True, help="Flatten to a wide table"
 )
+@click.option(
+    "--matrix-axes",
+    help="If specified, transform results to matrix using these row and column axes. Examples: d,p; f,g",
+)
 @predicates_option
 @autolabel_option
 @output_type_option
@@ -3254,6 +3273,7 @@ def logical_definitions(
     output: str,
     if_absent: bool,
     unmelt: bool,
+    matrix_axes: str,
     set_value: str,
 ):
     """
@@ -3293,14 +3313,21 @@ def logical_definitions(
 
         pato logical-definitions .all --output-type csv
 
-    You can optionally choose to "unmelt" or flatten this, such that:
+    You can optionally choose to "--matrix-axes" to transform the output to a matrix form.
+    This is a comma-separated pair of axes, where each element is a logical definition element
+    type: "f" for filler, "p" for predicate, "g" for genus, "d" for defined class.
+
+    Example:
 
     - Each property/predicate is a column
     - For repeated properties, columns of the form prop_1, prop_2, ... are generated
 
     Example:
 
-        pato logical-definitions .all  --unmelt --output-type csv
+        pato logical-definitions .all  --matrix-axes d,p --output-type csv
+
+    This will generate a row for each defined class with a logical definition, with columns
+    for each predicate ("genus" is treated as a predicate here).
 
     Limitations:
 
@@ -3308,6 +3335,10 @@ def logical_definitions(
     which is what is currently represented in the OboGraph datamodel.
 
     Consider using the "axioms" command for inspection of complex nested OWL axioms.
+
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/LogicalDefinitions.ipynb
 
     Python API:
 
@@ -3331,39 +3362,54 @@ def logical_definitions(
         "restrictionsPropertyIds",
         "restrictionsFillerIds",
     ]
-    if isinstance(impl, OboGraphInterface):
-        # curies = list(query_terms_iterator(terms, impl))
-        has_relationships = defaultdict(bool)
-        curies = []
-        if unmelt:
-            ldef_flattener = LogicalDefinitionFlattener(
-                labeler=lambda x: impl.label(x), curie_converter=impl.converter
-            )
-            writer.heterogeneous_keys = True
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {type(impl)}")
+    # curies = list(query_terms_iterator(terms, impl))
+    has_relationships = defaultdict(bool)
+    curies = []
+    if matrix_axes:
+        config = logical_definition_summarizer.parse_axes_to_config(matrix_axes)
+        ldefs = []
         for curie_it in chunk(query_terms_iterator(terms, impl)):
-            curie_chunk = list(curie_it)
-            curies += curie_chunk
-            for ldef in impl.logical_definitions(curie_chunk):
-                if actual_predicates:
-                    if not any(r for r in ldef.restrictions if r.propertyId in actual_predicates):
-                        continue
-                if ldef.definedClassId:
-                    has_relationships[ldef.definedClassId] = True
-                    if if_absent and if_absent == IfAbsent.absent_only.value:
-                        continue
-                    if unmelt:
-                        flat_obj = ldef_flattener.convert(ldef)
-                        writer.emit(flat_obj, label_fields=list(flat_obj.keys()))
-                    else:
-                        writer.emit(ldef, label_fields=label_fields)
-        if if_absent and if_absent == IfAbsent.absent_only.value:
-            for curie in curies:
-                if not has_relationships.get(curie, False):
-                    writer.emit({"noLogicalDefinition": curie})
+            ldefs.extend(list(impl.logical_definitions(curie_it)))
+        objs = logical_definition_summarizer.logical_definitions_to_matrix(impl, ldefs, config)
+        writer.heterogeneous_keys = True
+        label_fields = None
+        for obj in objs:
+            if label_fields is None:
+                label_fields = list(obj.keys())
+            writer.emit(obj, label_fields=label_fields)
         writer.finish()
         writer.file.close()
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        return
+    if unmelt:
+        logging.warning("Deprecated: use --matrix-type d,p instead")
+        ldef_flattener = LogicalDefinitionFlattener(
+            labeler=lambda x: impl.label(x), curie_converter=impl.converter
+        )
+        writer.heterogeneous_keys = True
+    for curie_it in chunk(query_terms_iterator(terms, impl)):
+        curie_chunk = list(curie_it)
+        curies += curie_chunk
+        for ldef in impl.logical_definitions(curie_chunk):
+            if actual_predicates:
+                if not any(r for r in ldef.restrictions if r.propertyId in actual_predicates):
+                    continue
+            if ldef.definedClassId:
+                has_relationships[ldef.definedClassId] = True
+                if if_absent and if_absent == IfAbsent.absent_only.value:
+                    continue
+                if unmelt:
+                    flat_obj = ldef_flattener.convert(ldef)
+                    writer.emit(flat_obj, label_fields=list(flat_obj.keys()))
+                else:
+                    writer.emit(ldef, label_fields=label_fields)
+    if if_absent and if_absent == IfAbsent.absent_only.value:
+        for curie in curies:
+            if not has_relationships.get(curie, False):
+                writer.emit({"noLogicalDefinition": curie})
+    writer.finish()
+    writer.file.close()
 
 
 @main.command()
@@ -3928,6 +3974,10 @@ def taxon_constraints(
 
         runoak -i sqlite:obo:uberon taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p
 
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TaxonConstraints.ipynb
+
     This command is a wrapper onto taxon_constraints_utils:
 
     - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils
@@ -3996,6 +4046,10 @@ def apply_taxon_constraints(
     Example:
 
         runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv
+
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Apply.ipynb
 
     """
     actual_predicates = _process_predicates_arg(predicates)
@@ -4109,6 +4163,9 @@ def associations(
 
         runoak --i src/oaklib/conf/go-dictybase-input-spec.yaml associations -p i,p GO:0008104
 
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Associations.ipynb
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4572,7 +4629,9 @@ def diff_associations(
 )
 @output_option
 @output_type_option
+@click.argument("terms", nargs=-1)
 def validate(
+    terms: List[str],
     output: str,
     cutoff: int,
     skip_structural_validation: bool,
@@ -4611,32 +4670,41 @@ def validate(
     writer.output = output
     if rule:
         skip_ontology_rules = False
-    if isinstance(impl, ValidatorInterface):
-        if not skip_structural_validation:
-            counts = defaultdict(int)
-            for result in impl.validate():
-                key = (result.type, result.predicate)
-                n = counts[key]
-                n += 1
-                counts[key] = n
-                if n % 1000 == 0:
-                    logging.info(f"Reached {n} results with {key}")
-                if n == cutoff:
-                    print(f"**TRUNCATING RESULTS FOR {key} at {cutoff}")
-                elif n < cutoff:
-                    writer.emit(result)
-                    # print(yaml_dumper.dumps(result))
-            for k, v in counts.items():
-                print(f"{k}:: {v}")
-        if not skip_ontology_rules:
-            rr = RuleRunner()
-            if rule:
-                rr.set_rules(rule)
-            for result in rr.run(impl):
-                writer.emit(result)
-        writer.finish()
-    else:
+    if not isinstance(impl, ValidatorInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if terms:
+        # note: currently the validate interface doesn't supported filtered lists,
+        # so we post-hoc filter. This is potentially inefficient.
+        entities = list(query_terms_iterator(terms, impl))
+    else:
+        entities = None
+    if not skip_structural_validation:
+        counts = defaultdict(int)
+        for result in impl.validate():
+            if entities and result.subject not in entities:
+                continue
+            key = (result.type, result.predicate)
+            n = counts[key]
+            n += 1
+            counts[key] = n
+            if n % 1000 == 0:
+                logging.info(f"Reached {n} results with {key}")
+            if n == cutoff:
+                print(f"**TRUNCATING RESULTS FOR {key} at {cutoff}")
+            elif n < cutoff:
+                writer.emit(result)
+                # print(yaml_dumper.dumps(result))
+        for k, v in counts.items():
+            print(f"{k}:: {v}")
+    if not skip_ontology_rules:
+        rr = RuleRunner()
+        if rule:
+            rr.set_rules(rule)
+        for result in rr.run(impl):
+            if entities and result.subject not in entities:
+                continue
+            writer.emit(result)
+    writer.finish()
 
 
 @main.command()
@@ -5815,7 +5883,7 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 @click.option(
     "--patterns-file",
     "-P",
-    required=True,
+    multiple=True,
     help="path to patterns file",
 )
 @click.option(
@@ -5823,6 +5891,24 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
     default=False,
     show_default=True,
     help="Show the original extracted object.",
+)
+@click.option(
+    "--parse/--no-parse",
+    default=True,
+    show_default=True,
+    help="Parse the input terms according to the patterns.",
+)
+@click.option(
+    "--fill/--no-fill",
+    default=False,
+    show_default=True,
+    help="If true, fill in descendant logical definitions.",
+)
+@click.option(
+    "--analyze/--no-analyze",
+    default=False,
+    show_default=True,
+    help="Analyze consistency of logical definitions (in progress).",
 )
 @click.option(
     "--unmelt/--no-unmelt",
@@ -5834,7 +5920,7 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 @output_option
 @output_type_option
 def generate_logical_definitions(
-    terms, patterns_file, show_extract, unmelt, autolabel, output, output_type
+    terms, patterns_file, show_extract, unmelt, autolabel, parse, fill, analyze, output, output_type
 ):
     """
     Generate logical definitions based on patterns file.
@@ -5846,13 +5932,18 @@ def generate_logical_definitions(
     if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError
     curies = list(query_terms_iterator(terms, impl))
-    pattern_collection = patternizer.load_pattern_collection(patterns_file)
-    results = patternizer.lexical_pattern_instances(impl, pattern_collection.patterns, curies)
+    pattern_collection = None
+    for pf in patterns_file:
+        if pattern_collection is None:
+            pattern_collection = patternizer.load_pattern_collection(pf)
+        else:
+            pattern_collection.patterns.extend(patternizer.load_pattern_collection(pf).patterns)
     if show_extract:
-        label_fields = []
+        results = patternizer.lexical_pattern_instances(impl, pattern_collection.patterns, curies)
+        # label_fields = []
         if unmelt:
             results = patternizer.as_matrix(results, pattern_collection)
-            label_fields = [p.name for p in pattern_collection.patterns]
+            # label_fields = [p.name for p in pattern_collection.patterns]
         for result in results:
             if isinstance(result, BaseModel):
                 result = result.dict()
@@ -5865,21 +5956,39 @@ def generate_logical_definitions(
             "restrictionsPropertyIds",
             "restrictionsFillerIds",
         ]
-        results = list(patternizer.as_logical_definitions(results))
-        reports = logical_definition_analyzer.analyze_logical_definitions(impl, results)
-        for report in reports:
-            print(report)
+        if parse:
+            if not pattern_collection:
+                raise ValueError("Must specify -P if --parse is set")
+            results = patternizer.lexical_pattern_instances(
+                impl, pattern_collection.patterns, curies
+            )
+            ldefs = list(patternizer.as_logical_definitions(results))
+        else:
+            ldefs = list(impl.logical_definitions(curies))
+        if fill:
+            for ldef in ldefs:
+                for (
+                    filled_ldef
+                ) in logical_definition_analyzer.generate_descendant_logical_definitions(
+                    impl, ldef
+                ):
+                    writer.emit(filled_ldef, label_fields=label_fields)
+        if analyze:
+            logging.warning("Analyzing logical definitions is incomplete")
+            reports = logical_definition_analyzer.analyze_logical_definitions(impl, ldefs)
+            for report in reports:
+                print(report)
         if unmelt:
             ldef_flattener = LogicalDefinitionFlattener(
                 labeler=lambda x: impl.label(x), curie_converter=impl.converter
             )
             writer.heterogeneous_keys = True
-            for ldef in results:
+            for ldef in ldefs:
                 flat_obj = ldef_flattener.convert(ldef)
                 writer.emit(flat_obj, label_fields=list(flat_obj.keys()))
         else:
-            for result in results:
-                writer.emit(result, label_fields=label_fields)
+            for ldef in ldefs:
+                writer.emit(ldef, label_fields=label_fields)
     writer.finish()
     writer.file.close()
 
