@@ -1,6 +1,6 @@
 from collections import defaultdict
 from enum import Enum
-from typing import Any, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -50,16 +50,22 @@ def parse_config_element(config: str) -> [LogicalDefinitionElementRole]:
 
 
 def logical_definitions_to_matrix(
-    adapter: OboGraphInterface, ldefs: List[LogicalDefinitionAxiom], config: Config = None
-) -> List[List[Any]]:
+    adapter: OboGraphInterface,
+    ldefs: List[LogicalDefinitionAxiom],
+    config: Config = None,
+    sort_values: bool = True,
+) -> List[Dict[str, List[Any]]]:
     """
-    Converts a list of logical definition axioms to a table
+    Converts a list of logical definition axioms to a table.
 
-    :param adapter:
-    :param ldefs:
-    :param row_represents:
-    :param column_represents:
-    :return:
+    The axes are determined by the configuration object. The user can control both
+    what each row corresponds to and what each column corresponds to.
+
+    :param adapter: OAK adapter for performing lookups
+    :param ldefs: list of logical definition axioms to summarize
+    :param config: axis configuration
+    :param sort_values: sort values in each cell
+    :return: list of row objects
     """
     if not config:
         config = Config()
@@ -178,4 +184,6 @@ def logical_definitions_to_matrix(
         for col in cols:
             if col not in row:
                 row[col] = [""]
+            if sort_values:
+                row[col] = sorted(row[col])
     return rows

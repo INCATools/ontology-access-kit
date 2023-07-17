@@ -94,14 +94,11 @@ class TestLogicalDefinitionSummarizer(unittest.TestCase):
     def test_summarizer(self):
         ldefs = self.ldefs
         for case in CASES:
-            print(f"\n** CASE: {case} **")
             (cfg_str, expected) = case
             cfg = parse_axes_to_config(cfg_str)
-            print(cfg)
             rows = logical_definitions_to_matrix(self.oi, ldefs, cfg)
             for row in rows:
                 slim_row = {k: v for k, v in row.items() if v and v != [""]}
                 if slim_row in expected:
                     expected.remove(slim_row)
-                print(slim_row)
             self.assertEqual([], expected, f"Expected rows not found in output in {case}")
