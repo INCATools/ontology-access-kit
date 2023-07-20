@@ -120,6 +120,9 @@ from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterfac
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
+from oaklib.utilities.axioms.logical_definition_utilities import (
+    logical_definition_matches,
+)
 from oaklib.utilities.kgcl_utilities import tidy_change_object
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
@@ -703,13 +706,29 @@ class SimpleOboImplementation(
                     meta.synonyms.append(syn)
             return obograph.Node(id=curie, lbl=self.label(curie), type=typ, meta=meta)
 
-    def as_obograph(self) -> Graph:
-        nodes = [self.node(curie) for curie in self.entities()]
-        edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.relationships()]
-        return Graph(id="TODO", nodes=nodes, edges=edges)
+    def as_obograph(self, expand_curies=False) -> Graph:
+        def expand(curie: CURIE) -> CURIE:
+            if expand_curies:
+                uri = self.curie_to_uri(curie, strict=False)
+                return uri if uri is not None else curie
+            else:
+                return curie
+
+        entities = list(self.entities())
+        nodes = [self.node(expand(curie)) for curie in entities]
+        edges = [
+            Edge(sub=expand(r[0]), pred=expand(r[1]), obj=expand(r[2]))
+            for r in self.relationships()
+        ]
+        ldefs = list(self.logical_definitions(entities))
+        return Graph(id="TODO", nodes=nodes, edges=edges, logicalDefinitionAxioms=ldefs)
 
     def logical_definitions(
-        self, subjects: Optional[Iterable[CURIE]] = None
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
     ) -> Iterable[LogicalDefinitionAxiom]:
         for s in subjects:
             t = self._stanza(s, strict=False)
@@ -727,7 +746,8 @@ class SimpleOboImplementation(
                         )
                     else:
                         ldef.genusIds.append(m1)
-                yield ldef
+                if logical_definition_matches(ldef, predicates=predicates, objects=objects):
+                    yield ldef
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface

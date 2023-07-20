@@ -78,7 +78,7 @@ class AggregatorImplementation(
 
     implementations: List[BasicOntologyInterface] = None
 
-    def _delegate_iterator(self, func: Callable) -> Iterable:
+    def _delegate_iterator(self, func: Callable) -> Iterator:
         for i in self.implementations:
             for v in func(i):
                 yield v
@@ -113,16 +113,17 @@ class AggregatorImplementation(
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         return self._delegate_iterator(lambda i: i.get_sssom_mappings_by_curie(curie))
 
-    def label(self, curie: CURIE) -> str:
-        return self._delegate_first(lambda i: i.label(curie))
+    def label(self, curie: CURIE, **kwargs) -> str:
+        return self._delegate_first(lambda i: i.label(curie, **kwargs))
 
-    def definition(self, curie: CURIE) -> str:
-        return self._delegate_first(lambda i: i.definition(curie))
+    def curies_by_label(self, label: str) -> List[CURIE]:
+        return list(self._delegate_iterator(lambda i: i.curies_by_label(label)))
 
-    def definitions(
-        self, curies: Iterable[CURIE], include_metadata=False, include_missing=False
-    ) -> Iterator[DEFINITION]:
-        return self._delegate_iterator(lambda i: i.definitions(curies))
+    def definition(self, curie: CURIE, **kwargs) -> str:
+        return self._delegate_first(lambda i: i.definition(curie, **kwargs))
+
+    def definitions(self, curies: Iterable[CURIE], **kwargs) -> Iterator[DEFINITION]:
+        return self._delegate_iterator(lambda i: i.definitions(curies, **kwargs))
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.entity_alias_map(curie))

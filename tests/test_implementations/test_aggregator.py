@@ -19,6 +19,7 @@ from tests import (
     TISSUE,
     VACUOLE,
 )
+from tests.test_implementations import ComplianceTester
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_ONT2 = INPUT_DIR / "interneuron.obo"
@@ -35,6 +36,7 @@ class TestAggregator(unittest.TestCase):
         oi1 = ProntoImplementation(resource1)
         oi2 = ProntoImplementation(resource2)
         self.oi = AggregatorImplementation(implementations=[oi1, oi2])
+        self.compliance_tester = ComplianceTester(self)
 
     def test_relationships(self):
         oi = self.oi
@@ -71,6 +73,9 @@ class TestAggregator(unittest.TestCase):
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
 
     def test_labels(self):
+        self.compliance_tester.test_labels(self.oi)
+
+    def test_labels_extra(self):
         """
         Tests labels can be retrieved, and no label is retrieved when a term does not exist
         :return:
@@ -104,6 +109,13 @@ class TestAggregator(unittest.TestCase):
             self.oi.entity_aliases(TISSUE),
             ["tissue", "simple tissue", "tissue portion", "portion of tissue"],
         )
+
+    def test_definitions(self):
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
+
+    @unittest.skip("TODO")
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi, skip_oio=True)
 
     def test_subsets(self):
         oi = self.oi
