@@ -8,8 +8,10 @@ from oaklib.datamodels.obograph import (
     ExistentialRestrictionExpression,
     LogicalDefinitionAxiom,
 )
+from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces import OboGraphInterface
-from oaklib.types import CURIE
+from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.obograph_utils import depth_first_ordering
 
 
 class LogicalDefinitionElementRole(Enum):
@@ -49,10 +51,21 @@ def parse_config_element(config: str) -> [LogicalDefinitionElementRole]:
             return [x]
 
 
+def sort_entities(
+    adapter: OboGraphInterface,
+    entities: List[CURIE],
+    traversal_order_predicates: Optional[List[PRED_CURIE]] = None,
+) -> List[CURIE]:
+    graph = adapter.ancestor_graph(entities, predicates=traversal_order_predicates)
+    sorted_entities = [x for x in depth_first_ordering(graph) if x in entities]
+    return sorted_entities + [x for x in entities if x not in sorted_entities]
+
+
 def logical_definitions_to_matrix(
     adapter: OboGraphInterface,
     ldefs: List[LogicalDefinitionAxiom],
     config: Config = None,
+    traversal_order_predicates: Optional[List[PRED_CURIE]] = None,
     sort_values: bool = True,
 ) -> List[Dict[str, List[Any]]]:
     """
@@ -84,16 +97,21 @@ def logical_definitions_to_matrix(
             #    return ldef.definedClassId
             return ldef.definedClassId
 
+    curie_to_col_name = {}
+
     def _col_name(curie: CURIE) -> str:
         lbl = adapter.label(curie)
         if lbl:
-            return lbl.replace(" ", "_")
+            cn = lbl.replace(" ", "_")
         else:
-            return curie
+            cn = curie
+        curie_to_col_name[curie] = cn
+        return cn
 
     if not row_represents:
         row_represents = [LogicalDefinitionElementRole.DEFINED_CLASS]
 
+    pk = None
     if LogicalDefinitionElementRole.DEFINED_CLASS in row_represents:
         if len(row_represents) > 1:
             raise ValueError(
@@ -101,7 +119,8 @@ def logical_definitions_to_matrix(
             )
         for ldef in ldefs:
             row = defaultdict(list)
-            row["defined_class"] = [ldef.definedClassId]
+            pk = "defined_class"
+            row[pk] = [ldef.definedClassId]
             ok = False
             if LogicalDefinitionElementRole.PREDICATE in column_represents:
                 for x in ldef.genusIds:
@@ -151,7 +170,8 @@ def logical_definitions_to_matrix(
                     row = defaultdict(list)
                     row_ix[pk_val] = row
                 row = row_ix[pk_val]
-                row[row_represents[0].value] = [pk_val]
+                pk = row_represents[0].value
+                row[pk] = [pk_val]
                 ok = False
                 if LogicalDefinitionElementRole.GENUS in column_represents:
                     genus_ids = ldef.genusIds if ldef.genusIds else ["NO_GENUS"]
@@ -177,13 +197,28 @@ def logical_definitions_to_matrix(
                         f"Invalid column_represents: {column_represents} for row: {row_represents}"
                     )
         rows = list(row_ix.values())
-    cols = set()
+    cols = []
     for row in rows:
-        cols.update(row.keys())
+        for k in row.keys():
+            if k not in cols:
+                cols.append(k)
     for row in rows:
         for col in cols:
             if col not in row:
                 row[col] = [""]
             if sort_values:
                 row[col] = sorted(row[col])
+    if traversal_order_predicates is None:
+        traversal_order_predicates = [IS_A]
+    if traversal_order_predicates:
+        sorted_row_ids = sort_entities(
+            adapter, [row[pk][0] for row in rows], traversal_order_predicates
+        )
+        rows = sorted(rows, key=lambda row: sorted_row_ids.index(row[pk][0]))
+        sorted_col_ids = sort_entities(
+            adapter, list(curie_to_col_name.keys()), traversal_order_predicates
+        )
+        fixed_cols = [col for col in cols if col not in curie_to_col_name.values()]
+        ordered_cols = fixed_cols + [curie_to_col_name[col] for col in sorted_col_ids]
+        rows = [{col: row[col] for col in ordered_cols} for row in rows]
     return rows

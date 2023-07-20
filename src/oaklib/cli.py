@@ -57,6 +57,7 @@ from oaklib.datamodels.obograph import (
     Edge,
     Graph,
     GraphDocument,
+    LogicalDefinitionAxiom,
     Meta,
     PrefixDeclaration,
 )
@@ -1861,9 +1862,9 @@ def tree(
     output: TextIO,
 ):
     """
-    Display an ancestor graph as an ascii/markdown tree
+    Display an ancestor graph as an ascii/markdown tree.
 
-    For general instructions, see the viz command, which this is analogous too
+    For general instructions, see the viz command, which this is analogous too.
 
     Example:
 
@@ -1951,7 +1952,7 @@ def tree(
                 if isinstance(impl, OboGraphInterface):
                     graph = impl.relationships_to_graph(rels)
                 else:
-                    raise AssertionError(f"{impl} needs to of type OboGraphInterface")
+                    raise AssertionError(f"{impl} needs to be of type OboGraphInterface")
             else:
                 raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:
@@ -3353,6 +3354,13 @@ def logical_definitions(
     writer.output = output
     writer.autolabel = autolabel
     actual_predicates = _process_predicates_arg(predicates)
+
+    def _exclude_ldef(ldef: LogicalDefinitionAxiom) -> bool:
+        if actual_predicates:
+            if not any(r for r in ldef.restrictions if r.propertyId in actual_predicates):
+                return True
+        return False
+
     if set_value:
         raise NotImplementedError
     label_fields = [
@@ -3372,6 +3380,7 @@ def logical_definitions(
         ldefs = []
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             ldefs.extend(list(impl.logical_definitions(curie_it)))
+        ldefs = [ldef for ldef in ldefs if not _exclude_ldef(ldef)]
         objs = logical_definition_summarizer.logical_definitions_to_matrix(impl, ldefs, config)
         writer.heterogeneous_keys = True
         label_fields = None
@@ -3392,9 +3401,8 @@ def logical_definitions(
         curie_chunk = list(curie_it)
         curies += curie_chunk
         for ldef in impl.logical_definitions(curie_chunk):
-            if actual_predicates:
-                if not any(r for r in ldef.restrictions if r.propertyId in actual_predicates):
-                    continue
+            if _exclude_ldef(ldef):
+                continue
             if ldef.definedClassId:
                 has_relationships[ldef.definedClassId] = True
                 if if_absent and if_absent == IfAbsent.absent_only.value:
