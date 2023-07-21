@@ -233,6 +233,9 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.taxon_constraint_interface</span> <span class="kn">import</span> <span class="n">TaxonConstraintInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CATEGORY_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.axioms.logical_definition_utilities</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">logical_definition_matches</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.graph.relationship_walker</span> <span class="kn">import</span> <span class="n">walk_down</span><span class="p">,</span> <span class="n">walk_up</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.identifier_utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">string_as_base64_curie</span><span class="p">,</span>
@@ -291,6 +294,11 @@
 <span class="k">def</span> <span class="nf">regex_to_sql_like</span><span class="p">(</span><span class="n">regex</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    convert a regex to a LIKE</span>
+
+<span class="sd">    * ``.*`` =&gt; ``%``</span>
+<span class="sd">    * ``.`` =&gt; ``_``</span>
+<span class="sd">    * ``^`` =&gt; ``%`` (at start of string)</span>
+<span class="sd">    * ``$`` =&gt; ``%`` (at end of string)</span>
 
 <span class="sd">    TODO: implement various different DBMS flavors</span>
 <span class="sd">    https://stackoverflow.com/questions/20794860/regex-in-sql-to-detect-one-or-more-digit</span>
@@ -1600,21 +1608,34 @@
             <span class="k">return</span> <span class="n">ldef</span>
 
     <span class="k">def</span> <span class="nf">logical_definitions</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">objects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Getting logical definitions&quot;</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">OwlEquivalentClassStatement</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">predicates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">predicates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">predicates</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">objects</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">objects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">subjects</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">ldef</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ldef</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">ldef</span>
             <span class="k">return</span>
         <span class="k">for</span> <span class="n">curie_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_items_for_in_clause</span><span class="p">):</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting logical definitions for </span><span class="si">{</span><span class="n">curie_it</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">subjects</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">OwlEquivalentClassStatement</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">curie_it</span><span class="p">)))</span>
-            <span class="k">for</span> <span class="n">ldef</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ldef</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">ldef</span>
 
-    <span class="k">def</span> <span class="nf">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_logical_definitions_from_eq_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">objects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">eq_row</span> <span class="ow">in</span> <span class="n">query</span><span class="p">:</span>
             <span class="n">ixn_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
                 <span class="n">and_</span><span class="p">(</span>
@@ -1625,6 +1646,8 @@
             <span class="k">for</span> <span class="n">ixn</span> <span class="ow">in</span> <span class="n">ixn_q</span><span class="p">:</span>
                 <span class="n">ldef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ixn_definition</span><span class="p">(</span><span class="n">ixn</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">eq_row</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">ldef</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">logical_definition_matches</span><span class="p">(</span><span class="n">ldef</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="o">=</span><span class="n">objects</span><span class="p">):</span>
+                        <span class="k">continue</span>
                     <span class="k">yield</span> <span class="n">ldef</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logical Definitions &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Logical Definitions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/logical-definitions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="logical-definitions">
+<span id="id1"></span><h1>Logical Definitions<a class="headerlink" href="#logical-definitions" title="Permalink to this heading"></a></h1>
+<p><span class="xref std std-term">Logical Definitions</span> are special kinds of <span class="xref std std-term">Axioms</span> that
+define a term in terms of other terms, in a way that is <em>computable</em>. OAK provides ways of
+operating structurally on logical definitions. Logical definitions may also be used by
+<a class="reference internal" href="../glossary.html#term-Reasoner"><span class="xref std std-term">Reasoners</span></a> to infer <a class="reference internal" href="../glossary.html#term-Entailed"><span class="xref std std-term">Entailed</span></a> axioms.</p>
+<p>Typically, logical definitions are not directly used by consumers of ontologies, so
+this section can be skipped by many OAK users. However, if you are interested in
+generating, analyzing, summarizing, or other kinds of operations on logical definitions,
+this section is intended to provide an overview of the basic concepts.</p>
+<section id="logical-definitions-in-owl">
+<h2>Logical Definitions in OWL<a class="headerlink" href="#logical-definitions-in-owl" title="Permalink to this heading"></a></h2>
+<p>In OWL, logical definitions are represented using the
+<a class="reference external" href="https://www.w3.org/TR/owl2-syntax/#EquivalentClasses">EquivalentClasses axiom</a>.
+But note that not every equivalence axioms is a logical definition, according to how
+we use the term in OAK. For example, an equivalence axiom connects two <em>named classes</em>
+doesn’t really function to define either class, as this would be circular.</p>
+<p>For purposes here, we consider any equivalence axiom between a <em>named class</em> on the left
+hand side and an <em>anonymous class expression</em> on the right hand side to be a logical definition.</p>
+<p>These equivalence axioms can be viewed in ontology browsers such as OLS. For example,
+the Uberon [fingernail](<a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0009565">http://purl.obolibrary.org/obo/UBERON_0009565</a>) class, has an
+equivalence axiom to the expression:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Equivalent</span> <span class="n">to</span>
+    <span class="p">(</span><span class="n">nail</span> <span class="ow">and</span> <span class="n">part</span> <span class="n">of</span> <span class="p">(</span><span class="n">RO</span><span class="p">)</span> <span class="n">some</span> <span class="n">manual</span> <span class="n">digit</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="genus-differentia-form-logical-definitions">
+<h2>Genus-differentia form logical definitions<a class="headerlink" href="#genus-differentia-form-logical-definitions" title="Permalink to this heading"></a></h2>
+<p>OAK includes dedicated functionality for logical definitions that follow <em>genus-differentia</em>
+form. These are sometimes known as <em>Aristotelian definitions</em>. A genus-differentia definition
+takes the form:</p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">C</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">G</span> <span class="pre">that</span> <span class="pre">D</span></code></p>
+<p>where <code class="docutils literal notranslate"><span class="pre">C</span></code> is the defined class, <code class="docutils literal notranslate"><span class="pre">G</span></code> is the genus, and <code class="docutils literal notranslate"><span class="pre">D</span></code> is the differentia or <em>differentiating
+characteristics</em>. The differentiating characteristics are typically a list of <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicate</span></a> and “Filler”
+class pairs.</p>
+<p>For example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">fingernail</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">nail</span> <span class="pre">that</span> <span class="pre">is</span> <span class="pre">part</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">finger</span></code></p>
+<p>Here we are defining a fingernail (defined class) in terms of a specialization of a parent class (nail, the genus)
+based on a differentiating characteristics (differentia) based on parthood (the predicate) and
+a specific “filler” (finger).</p>
+<p>This seems trivial but in fact these kinds of definitions – when provided in computable
+form – can be used to automate a large amount of ontology development. And they can
+be useful for queries over an ontology too.</p>
+<p>It is generally considered good practice for textual definitions to be consistent with
+the computable genus-differentia form.</p>
+</section>
+<section id="the-obo-graphs-model">
+<h2>The Obo Graphs Model<a class="headerlink" href="#the-obo-graphs-model" title="Permalink to this heading"></a></h2>
+<p>The <a class="reference internal" href="../glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> data model includes a data structure / class for representing
+logical definitions in genus-differentia form. It limits the differentiae to be a set
+of existential restrictions, with no nesting.</p>
+<p>Currently most operations in OAK that deal with logical definitions expect them to be
+in this form. This can sometimes be limiting if you wish to operate over more complicated
+OWL axioms. We may provide support for this in the future, but for now the simple form
+provided in the OBO Graphs data model works for a large number of ontologies. The simple
+form is often recommended because mistakes are far more common when more complicated
+structures are used.</p>
+</section>
+<section id="querying-for-logical-definitions-in-oak">
+<h2>Querying for logical definitions in OAK<a class="headerlink" href="#querying-for-logical-definitions-in-oak" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>logical-definitions<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span>nail
+</pre></div>
+</div>
+<p>By default, results are returned in YAML:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">definedClassId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UBERON:0009565</span>
+<span class="nt">genusIds</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UBERON:0001705</span>
+<span class="nt">restrictions</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fillerId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UBERON:0002389</span>
+<span class="w">  </span><span class="nt">propertyId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BFO:0000050</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+<p>You can specify <cite>-O csv</cite> to get it in tabular form:</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">uberon nail logical definitions</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>definedClassId</p></th>
+<th class="head"><p>definedClassId_label</p></th>
+<th class="head"><p>genusIds</p></th>
+<th class="head"><p>genusIds_label</p></th>
+<th class="head"><p>restrictions</p></th>
+<th class="head"><p>restrictionsPropertyIds</p></th>
+<th class="head"><p>restrictionsPropertyIds_label</p></th>
+<th class="head"><p>restrictionsFillerIds</p></th>
+<th class="head"><p>restrictionsFillerIds_label</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>UBERON:0009565</p></td>
+<td><p>nail of manual digit</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0002389</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0002389</p></td>
+<td><p>manual digit</p></td>
+</tr>
+<tr class="row-odd"><td><p>UBERON:0009567</p></td>
+<td><p>nail of pedal digit</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0001466</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0001466</p></td>
+<td><p>pedal digit</p></td>
+</tr>
+<tr class="row-even"><td><p>UBERON:0011273</p></td>
+<td><p>nail of manual digit 1</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0001463</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0001463</p></td>
+<td><p>manual digit 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>UBERON:0011274</p></td>
+<td><p>nail of manual digit 2</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003622</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003622</p></td>
+<td><p>manual digit 2</p></td>
+</tr>
+<tr class="row-even"><td><p>UBERON:0011275</p></td>
+<td><p>nail of manual digit 3</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003623</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003623</p></td>
+<td><p>manual digit 3</p></td>
+</tr>
+<tr class="row-odd"><td><p>UBERON:0011276</p></td>
+<td><p>nail of manual digit 4</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003624</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003624</p></td>
+<td><p>manual digit 4</p></td>
+</tr>
+<tr class="row-even"><td><p>UBERON:0011277</p></td>
+<td><p>nail of manual digit 5</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003625</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003625</p></td>
+<td><p>manual digit 5</p></td>
+</tr>
+<tr class="row-odd"><td><p>UBERON:0011278</p></td>
+<td><p>nail of pedal digit 1</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003631</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003631</p></td>
+<td><p>pedal digit 1</p></td>
+</tr>
+<tr class="row-even"><td><p>UBERON:0011279</p></td>
+<td><p>nail of pedal digit 2</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003632</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003632</p></td>
+<td><p>pedal digit 2</p></td>
+</tr>
+<tr class="row-odd"><td><p>UBERON:0011280</p></td>
+<td><p>nail of pedal digit 3</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003633</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003633</p></td>
+<td><p>pedal digit 3</p></td>
+</tr>
+<tr class="row-even"><td><p>UBERON:0011281</p></td>
+<td><p>nail of pedal digit 4</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003634</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003634</p></td>
+<td><p>pedal digit 4</p></td>
+</tr>
+<tr class="row-odd"><td><p>UBERON:0011282</p></td>
+<td><p>nail of pedal digit 5</p></td>
+<td><p>UBERON:0001705</p></td>
+<td><p>nail</p></td>
+<td><p>BFO:0000050=UBERON:0003635</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>part of</p></td>
+<td><p>UBERON:0003635</p></td>
+<td><p>pedal digit 5</p></td>
+</tr>
+</tbody>
+</table>
+<p>The command has a number of options for transforming this to a matrix, customizing
+where rows, columns, and values with be defined classes, genus terms, predicates, or fillers.</p>
+<p><a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> also provides a compact way of showing logical definitions, these can be
+seen in OAK using the <code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">obo</span></code> option:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>logical-definitions<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span>nail<span class="w"> </span>-O<span class="w"> </span>obo
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[Term]
+id: UBERON:0009565 ! nail of manual digit
+intersection_of: UBERON:0001705 ! nail
+intersection_of: BFO:0000050 UBERON:0002389 ! manual digit
+
+[Term]
+id: UBERON:0009567 ! nail of pedal digit
+intersection_of: UBERON:0001705 ! nail
+intersection_of: BFO:0000050 UBERON:0001466 ! pedal digit
+</pre></div>
+</div>
+</section>
+<section id="reasoning-using-logical-definitions">
+<h2>Reasoning using logical definitions<a class="headerlink" href="#reasoning-using-logical-definitions" title="Permalink to this heading"></a></h2>
+<p>Currently OAK does not support classification-style reasoning. If you need this,
+we recommend doing this ahead of time using a tool like ROBOT.</p>
+</section>
+<section id="logical-definitions-and-design-patterns">
+<h2>Logical definitions and design patterns<a class="headerlink" href="#logical-definitions-and-design-patterns" title="Permalink to this heading"></a></h2>
+<p>Creating logical definitions by hand can be time consuming and error prone. Many groups
+choose to do this via a templating system such as:</p>
+<ul class="simple">
+<li><p>ROBOT templates</p></li>
+<li><p>DOSDPs</p></li>
+<li><p>OTTR templates</p></li>
+<li><p>LinkML-OWL</p></li>
+</ul>
+<p>Currently OAK does not support generating logical definition axioms or any other OWL
+axioms from templates, but it might in the future</p>
+</section>
+<section id="generating-logical-definitions">
+<h2>Generating logical definitions<a class="headerlink" href="#generating-logical-definitions" title="Permalink to this heading"></a></h2>
+<p>Sometimes it can be useful to generate logical definitions using heuristic methods such
+as lexical pattern matching. In general these generated definitions should be reviewed
+by experienced ontology developers before being added, but they can be useful to both
+get a sense of missing definitions or as an aid to manual definition creation.</p>
+<p>Some OAK commands have a <code class="docutils literal notranslate"><span class="pre">generate</span></code> counterpart; above we saw the <code class="docutils literal notranslate"><span class="pre">logical-definitions</span></code>
+command which is for looking up existing logical definitions. The <code class="docutils literal notranslate"><span class="pre">generate-logical-definitions</span></code>
+counterpart can be used for generating logical definitions based on specified lexical patterns.</p>
+<p>At this time, this command is experimental, and the flags may change.</p>
+</section>
+<section id="analyzing-logical-definitions">
+<h2>Analyzing logical definitions<a class="headerlink" href="#analyzing-logical-definitions" title="Permalink to this heading"></a></h2>
+<p>OAK will soon provide commands for analyzing logical definitions, in particular to determine
+consistency of lattice population.</p>
+</section>
+<section id="validating-logical-definitions">
+<h2>Validating logical definitions<a class="headerlink" href="#validating-logical-definitions" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">validate-definitions</span></code> command is used for validating text definitions - one aspect
+of this is checking for consistency between text and logical definitions.</p>
+</section>
+<section id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.biorxiv.org/content/10.1101/010090v1">Use of OWL within the Gene Ontology</a></p></li>
+<li><p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2910209/">Cross-Product Extensions of the Gene Ontology</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

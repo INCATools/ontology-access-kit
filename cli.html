@@ -84,6 +84,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-expand-subsets">expand-subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract">extract</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-fill-table">fill-table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-generate-logical-definitions">generate-logical-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-generate-synonyms">generate-synonyms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-labels">labels</a></li>
@@ -202,7 +203,7 @@ multiple implementations. For example, you can multiplex queries over different 
 <p>Many commands take a <em>term</em> or a <em>list of terms</em> as their primary argument. These are typically one of:</p>
 <ul>
 <li><p>a <span class="xref std std-ref">CURIE</span> such as <code class="code docutils literal notranslate"><span class="pre">UBERON:0000955</span></code></p></li>
-<li><p>a <span class="xref std std-ref">search-syntax</span> term, which is either:</p>
+<li><p>a <a class="reference internal" href="search-syntax.html#search-syntax"><span class="std std-ref">Search Syntax</span></a> term, which is either:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>an exact match to a label; for example “limb” or “plasma membrane”</p></li>
@@ -785,6 +786,17 @@ obsolete them all:</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-obsolete-ignore-invalid-changes">
+<span id="cmdoption-runoak-apply-obsolete-no-ignore-invalid-changes"></span><span class="sig-name descname"><span class="pre">--ignore-invalid-changes</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-ignore-invalid-changes</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-obsolete-ignore-invalid-changes" title="Permalink to this definition"></a></dt>
+<dd><p>if true, ignore invalid changes, e.g. obsoletions of dependent entities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-apply-obsolete-O">
 <span id="cmdoption-runoak-apply-obsolete-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-obsolete-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
@@ -817,6 +829,10 @@ This should follow the format used in <a class="reference external" href="https:
 <p>Example:</p>
 <blockquote>
 <div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv</p>
+</div></blockquote>
+<p>More examples:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Apply.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Apply.ipynb</a></p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>apply-taxon-constraints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
 </pre></div>
@@ -882,6 +898,10 @@ can use input specifications to bundle common combinations of inputs together.</
 <p>Example:</p>
 <blockquote>
 <div><p>runoak –i src/oaklib/conf/go-dictybase-input-spec.yaml associations -p i,p <a class="reference external" href="GO:0008104">GO:0008104</a></p>
+</div></blockquote>
+<p>More examples:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Associations.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Associations.ipynb</a></p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2131,6 +2151,105 @@ for now please file an issue on github with any questions</p>
 </dd></dl>
 
 </section>
+<section id="runoak-generate-logical-definitions">
+<h4>generate-logical-definitions<a class="headerlink" href="#runoak-generate-logical-definitions" title="Permalink to this heading"></a></h4>
+<p>Generate logical definitions based on patterns file.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-logical-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-P">
+<span id="cmdoption-runoak-generate-logical-definitions-p"></span><span id="cmdoption-runoak-generate-logical-definitions-patterns-file"></span><span class="sig-name descname"><span class="pre">-P</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--patterns-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;patterns_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-P" title="Permalink to this definition"></a></dt>
+<dd><p>path to patterns file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-show-extract">
+<span id="cmdoption-runoak-generate-logical-definitions-no-show-extract"></span><span class="sig-name descname"><span class="pre">--show-extract</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-show-extract</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-show-extract" title="Permalink to this definition"></a></dt>
+<dd><p>Show the original extracted object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-parse">
+<span id="cmdoption-runoak-generate-logical-definitions-no-parse"></span><span class="sig-name descname"><span class="pre">--parse</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-parse</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-parse" title="Permalink to this definition"></a></dt>
+<dd><p>Parse the input terms according to the patterns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-fill">
+<span id="cmdoption-runoak-generate-logical-definitions-no-fill"></span><span class="sig-name descname"><span class="pre">--fill</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-fill</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-fill" title="Permalink to this definition"></a></dt>
+<dd><p>If true, fill in descendant logical definitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-analyze">
+<span id="cmdoption-runoak-generate-logical-definitions-no-analyze"></span><span class="sig-name descname"><span class="pre">--analyze</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-analyze</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-analyze" title="Permalink to this definition"></a></dt>
+<dd><p>Analyze consistency of logical definitions (in progress).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-unmelt">
+<span id="cmdoption-runoak-generate-logical-definitions-no-unmelt"></span><span class="sig-name descname"><span class="pre">--unmelt</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-unmelt</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-unmelt" title="Permalink to this definition"></a></dt>
+<dd><p>Use a wide table for display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-autolabel">
+<span id="cmdoption-runoak-generate-logical-definitions-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-o">
+<span id="cmdoption-runoak-generate-logical-definitions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-O">
+<span id="cmdoption-runoak-generate-logical-definitions-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-logical-definitions-arg-TERMS">
+<span id="cmdoption-runoak-generate-logical-definitions-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-logical-definitions-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-generate-synonyms">
 <h4>generate-synonyms<a class="headerlink" href="#runoak-generate-synonyms" title="Permalink to this heading"></a></h4>
 <p>Generate synonyms based on a set of synonymizer rules.</p>
@@ -2621,19 +2740,28 @@ restrictions:
 <blockquote>
 <div><p>pato logical-definitions .all –output-type csv</p>
 </div></blockquote>
-<p>You can optionally choose to “unmelt” or flatten this, such that:</p>
+<p>You can optionally choose to “–matrix-axes” to transform the output to a matrix form.
+This is a comma-separated pair of axes, where each element is a logical definition element
+type: “f” for filler, “p” for predicate, “g” for genus, “d” for defined class.</p>
+<p>Example:</p>
 <ul class="simple">
 <li><p>Each property/predicate is a column</p></li>
 <li><p>For repeated properties, columns of the form prop_1, prop_2, … are generated</p></li>
 </ul>
 <p>Example:</p>
 <blockquote>
-<div><p>pato logical-definitions .all  –unmelt –output-type csv</p>
+<div><p>pato logical-definitions .all  –matrix-axes d,p –output-type csv</p>
 </div></blockquote>
+<p>This will generate a row for each defined class with a logical definition, with columns
+for each predicate (“genus” is treated as a predicate here).</p>
 <p>Limitations:</p>
 <p>Currently this only works for definitions that follow a basic genus-differentia pattern,
 which is what is currently represented in the OboGraph datamodel.</p>
 <p>Consider using the “axioms” command for inspection of complex nested OWL axioms.</p>
+<p>More examples:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/LogicalDefinitions.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/LogicalDefinitions.ipynb</a></p>
+</div></blockquote>
 <p>Python API:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph">https://incatools.github.io/ontology-access-kit/interfaces/obograph</a></p>
@@ -2655,6 +2783,12 @@ which is what is currently represented in the OboGraph datamodel.</p>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-matrix-axes">
+<span class="sig-name descname"><span class="pre">--matrix-axes</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;matrix_axes&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-matrix-axes" title="Permalink to this definition"></a></dt>
+<dd><p>If specified, transform results to matrix using these row and column axes. Examples: d,p; f,g</p>
 </dd></dl>
 
 <dl class="std option">
@@ -2914,6 +3048,10 @@ source and the target</p>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes –show-migration-relationships GO:0000187 GO:0000188</p>
 </div></blockquote>
+<p>More examples:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TaxonConstraints.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TaxonConstraints.ipynb</a></p>
+</div></blockquote>
 <p>Python API:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
@@ -3137,7 +3275,11 @@ then you can do this:</p>
 go paths  -p i,p ‘nuclear membrane’ –target cytoplasm –narrow | go viz –fill-gaps -</p>
 </div></blockquote>
 <p>This visualizes the path by first exporting the path as a flat list, then passing the
-results to viz, using the fill-gaps option</p>
+results to viz, using the fill-gaps option.</p>
+<p>More examples:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Paths.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Paths.ipynb</a></p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>paths<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -3409,6 +3551,10 @@ prefixes for entities in that ontology</p>
 <p>Query:</p>
 <blockquote>
 <div><p>runoak -i uberon.db relationships -p RO:0002178 .desc//p=i “artery” .and .desc//p=i,p “limb”</p>
+</div></blockquote>
+<p>More examples:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Relationships.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Relationships.ipynb</a></p>
 </div></blockquote>
 <p>Python API:</p>
 <blockquote>
@@ -4245,6 +4391,10 @@ of NCBI Taxonomy</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p</p>
 </div></blockquote>
+<p>More examples:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TaxonConstraints.ipynb">https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TaxonConstraints.ipynb</a></p>
+</div></blockquote>
 <p>This command is a wrapper onto taxon_constraints_utils:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils">https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils</a></p></li>
@@ -4565,8 +4715,8 @@ when there is typically one value (e.g. rdfs:label)</p>
 </section>
 <section id="runoak-tree">
 <h4>tree<a class="headerlink" href="#runoak-tree" title="Permalink to this heading"></a></h4>
-<p>Display an ancestor graph as an ascii/markdown tree</p>
-<p>For general instructions, see the viz command, which this is analogous too</p>
+<p>Display an ancestor graph as an ascii/markdown tree.</p>
+<p>For general instructions, see the viz command, which this is analogous too.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i envo.db tree ENVO:00000372 -p i,p</p>
@@ -4746,7 +4896,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html</a></p></li>
 </ul>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -4799,6 +4949,13 @@ such as aligning text and logical definitions. These are off by default.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-validate-O">
 <span id="cmdoption-runoak-validate-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-arg-TERMS">
+<span id="cmdoption-runoak-validate-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-validate-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>

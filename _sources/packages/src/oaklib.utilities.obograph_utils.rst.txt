@@ -19,6 +19,7 @@
       as_multi_digraph
       compress_all_graph_ids
       default_stylemap_path
+      depth_first_ordering
       draw_graph
       expand_all_graph_ids
       filter_by_predicates

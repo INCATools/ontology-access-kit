@@ -119,6 +119,7 @@
 <span class="sd">       If this is set then the recommended value is dct:contributor&quot;&quot;&quot;</span>
 
     <span class="n">ignore_invalid_changes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If True, then invalid changes are ignored. If False, then invalid changes raise an exception&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="PatcherInterface.apply_patch"><a class="viewcode-back" href="../../../packages/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">[docs]</a>    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -257,8 +258,13 @@
                                 <span class="c1"># edge previously existed</span>
                                 <span class="k">continue</span>
                             <span class="n">new_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                            <span class="n">desc</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Rewired from link to </span><span class="si">{</span><span class="n">about_node</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">about_node</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
                             <span class="n">ch</span> <span class="o">=</span> <span class="n">EdgeCreation</span><span class="p">(</span>
-                                <span class="n">generate_change_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">o</span>
+                                <span class="n">generate_change_id</span><span class="p">(),</span>
+                                <span class="n">subject</span><span class="o">=</span><span class="n">s</span><span class="p">,</span>
+                                <span class="n">predicate</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span>
+                                <span class="nb">object</span><span class="o">=</span><span class="n">o</span><span class="p">,</span>
+                                <span class="n">change_description</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span>
                             <span class="p">)</span>
                             <span class="n">changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
                             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rewiring </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">p1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">about_node</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">pred</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

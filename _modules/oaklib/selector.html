@@ -88,7 +88,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
@@ -147,10 +147,15 @@
     <span class="p">),</span>
 <span class="p">}</span>
 
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">BasicOntologyInterface</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="get_adapter"><a class="viewcode-back" href="../../packages/selectors.html#oaklib.selector.get_adapter">[docs]</a><span class="k">def</span> <span class="nf">get_adapter</span><span class="p">(</span>
-    <span class="n">descriptor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">InputSpecification</span><span class="p">],</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
+    <span class="n">descriptor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">InputSpecification</span><span class="p">],</span>
+    <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">implements</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets an adapter (implementation) for a given descriptor.</span>
 
@@ -204,7 +209,7 @@
 
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt; from gilda import get_grounder</span>
-<span class="sd">        &gt;&gt;&gt; grounder = get_grounder(&quot;~/.data/gilda/0.11.1/grounding_terms.tsv.gz&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; grounder = get_grounder()</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;gilda:&quot;, grounder=grounder)</span>
 <span class="sd">        &gt;&gt;&gt; annotations = adapter.annotate_text(&quot;nucleus&quot;)</span>
 
