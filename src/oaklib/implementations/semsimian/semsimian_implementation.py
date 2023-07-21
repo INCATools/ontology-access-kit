@@ -63,7 +63,16 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         ]
 
     def create_semsimian_object(self, predicates: List[PRED_CURIE] = None):
-        spo = [r for r in self.wrapped_adapter.relationships(include_entailed=True, predicates=predicates)]
+        """Create a new Semsimian object (rust) with desired predicates only.
+
+        :param predicates: List of desired predicates, defaults to None.
+        """
+        spo = [
+            r
+            for r in self.wrapped_adapter.relationships(
+                include_entailed=True, predicates=predicates
+            )
+        ]
         self.semsimian = Semsimian(spo, self.term_pairwise_similarity_attributes)
 
     def pairwise_similarity(
