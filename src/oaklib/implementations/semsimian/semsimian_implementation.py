@@ -56,13 +56,15 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             mn = m if isinstance(m, str) else m.__name__
             setattr(SemSimianImplementation, mn, methods[mn])
 
-        term_pairwise_similarity_attributes = [
+        self.term_pairwise_similarity_attributes = [
             attr
             for attr in vars(TermPairwiseSimilarity)
-            if not any(attr.startswith(s) for s in ["class_", "__"])
+            if not any(attr.startswith(s) for s in ["class_", "_"])
         ]
-        spo = [r for r in self.wrapped_adapter.relationships(include_entailed=True)]
-        self.semsimian = Semsimian(spo, term_pairwise_similarity_attributes)
+
+    def create_semsimian_object(self, predicates: List[PRED_CURIE] = None):
+        spo = [r for r in self.wrapped_adapter.relationships(include_entailed=True, predicates=predicates)]
+        self.semsimian = Semsimian(spo, self.term_pairwise_similarity_attributes)
 
     def pairwise_similarity(
         self,
@@ -88,6 +90,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
 
+        self.create_semsimian_object(predicates=predicates)
         jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
 
         if math.isnan(jaccard_val):
@@ -139,6 +142,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates:
         :return:
         """
+        self.create_semsimian_object(predicates=predicates)
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
         all_results = self.semsimian.all_by_all_pairwise_similarity(
@@ -189,6 +193,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates:
         :return:
         """
+        self.create_semsimian_object(predicates=predicates)
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
 
@@ -198,6 +203,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
             predicates=set(predicates) if predicates else None,
-            embeddings_file=embeddings_file.name,
+            embeddings_file=embeddings_file.name if embeddings_file else None,
             outfile=outfile,
         )
