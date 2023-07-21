@@ -251,7 +251,7 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_definitions(self):
-        self.compliance_tester.test_definitions(self.oi)
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
 
     def test_store_associations(self):
         self.compliance_tester.test_store_associations(self.oi)
@@ -335,6 +335,9 @@ class TestProntoImplementation(unittest.TestCase):
     @unittest.skip("TODO: ensure that all test files used by compliance tests are the same")
     def test_subgraph_from_traversal(self):
         self.compliance_tester.test_subgraph_from_traversal(self.oi)
+
+    def test_as_obograph(self):
+        self.compliance_tester.test_as_obograph(self.oi)
 
     def test_save_extract(self):
         g = self.oi.ancestor_graph(VACUOLE)

@@ -12,6 +12,7 @@ from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import (
     as_multi_digraph,
     compress_all_graph_ids,
+    depth_first_ordering,
     expand_all_graph_ids,
     filter_by_predicates,
     graph_as_dict,
@@ -23,6 +24,7 @@ from oaklib.utilities.obograph_utils import (
 )
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
+    CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
     HUMAN,
@@ -31,6 +33,7 @@ from tests import (
     INTRACELLULAR,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
+    ORGANELLE,
     OUTPUT_DIR,
     VACUOLE,
 )
@@ -183,3 +186,19 @@ class TestOboGraphUtils(unittest.TestCase):
                         self.assertIn(x, path)
                     for x in excludes:
                         self.assertNotIn(x, path)
+
+    def test_depth_first_ordering(self):
+        oi = self.oi
+        graph = oi.descendant_graph([CELLULAR_COMPONENT], predicates=[IS_A, PART_OF])
+        ordered = depth_first_ordering(graph)
+        self.assertEqual(ordered[0], CELLULAR_COMPONENT)
+        expected_order = [
+            (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
+            (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
+            (ORGANELLE, NUCLEUS),
+            # (CYTOPLASM, NUCLEUS),
+            (IMBO, NUCLEUS),
+            (NUCLEUS, NUCLEAR_MEMBRANE),
+        ]
+        for parent, child in expected_order:
+            self.assertLess(ordered.index(parent), ordered.index(child), f"{parent} -> {child}")

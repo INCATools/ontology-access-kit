@@ -521,7 +521,20 @@ class Structure:
             logging.warning(f"No values to remove for {tag} = {val1} {val2} // {self}")
         self.tag_values = tvs
 
-    def add_tag_value(self, tag: TAG, val: str) -> None:
+    def _kwargs_to_qualifiers_string(self, **kwargs) -> str:
+        """
+        Converts a set of kwargs to a qualifier string
+
+        :param kwargs:
+        :return:
+        """
+        if not kwargs:
+            return ""
+        quals = [f'{k}="{v}"' for k, v in kwargs.items()]
+        quals_str = ", ".join(quals)
+        return f" {{{quals_str}}}"
+
+    def add_tag_value(self, tag: TAG, val: str, **kwargs) -> None:
         """
         Adds a tag-value pair
 
@@ -529,6 +542,8 @@ class Structure:
         :param val:
         :return:
         """
+        if kwargs:
+            val += " " + self._kwargs_to_qualifiers_string(**kwargs)
         self.tag_values.append(TagValue(tag, val))
 
     def add_quoted_tag_value(self, tag: TAG, val: str, xrefs: List[str]) -> None:
@@ -541,7 +556,7 @@ class Structure:
         """
         self.tag_values.append(TagValue(tag, f"\"{val}\" [{','.join(xrefs)}]"))
 
-    def add_tag_value_pair(self, tag: TAG, val1: str, val2: str) -> None:
+    def add_tag_value_pair(self, tag: TAG, val1: str, val2: str, **kwargs) -> None:
         """
         Adds a tag-value pair where the value is a pair
 
@@ -550,7 +565,10 @@ class Structure:
         :param val2:
         :return:
         """
-        self.tag_values.append(TagValue(tag, f"{val1} {val2}"))
+        v = f"{val1} {val2}"
+        if kwargs:
+            v += " " + self._kwargs_to_qualifiers_string(**kwargs)
+        self.tag_values.append(TagValue(tag, v))
 
     def get_boolean_value(self, tag: TAG, strict=False) -> bool:
         """

@@ -7,7 +7,7 @@ from sssom.constants import OWL_EQUIVALENT_CLASS
 from oaklib.converters.obo_graph_to_obo_format_converter import (
     OboGraphToOboFormatConverter,
 )
-from oaklib.datamodels.obograph import GraphDocument
+from oaklib.datamodels.obograph import GraphDocument, LogicalDefinitionAxiom
 from oaklib.datamodels.vocabulary import IS_A, RDF_TYPE, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -84,3 +84,16 @@ class StreamingOboWriter(StreamingWriter):
             obodoc.dump(self.file)
         else:
             super().emit_multiple(entities, **kwargs)
+
+    def emit_obj(self, obj: Any, **kwargs):
+        oi = self.ontology_interface
+        if isinstance(obj, CURIE):
+            self.emit_curie(obj)
+        elif isinstance(obj, LogicalDefinitionAxiom):
+            self.line("[Term]")
+            self.line(f"id: {obj.definedClassId} ! {oi.label(obj.definedClassId)}")
+            for genus in obj.genusIds:
+                self.line(f"intersection_of: {genus} ! {oi.label(genus)}")
+            for r in obj.restrictions:
+                self.line(f"intersection_of: {r.propertyId} {r.fillerId} ! {oi.label(r.fillerId)}")
+            self.line("\n")

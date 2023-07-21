@@ -230,6 +230,10 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     map to *multiple* triples when following the OWL RDF serialization. An example is the relationship "finger part-of hand",
     which in OWL is represented using a :term:`Existential Restriction` that maps to 4 triples.
 
+   Logical Definition
+    A :term:`Logical Definition` is a particular kind of :term:`Axiom` that is used to provide a
+    definition of a term that is *computable*. See :ref:`logical_definitions`.
+
    Subset
     An :term:`Ontology Element` that represents a named collection of elements, typically grouped for some purpose.
     Subsets are commonly used in ontologies like the :term:`Gene Ontology`.

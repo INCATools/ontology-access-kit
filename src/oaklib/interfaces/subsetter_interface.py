@@ -57,7 +57,7 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None
     ) -> Iterator[RELATIONSHIP]:
         """
-        Given a term subset as a list of curies, find all non-redundant relationships connecting them
+        Given a term subset as a list of curies, find all non-redundant relationships connecting them.
 
         This assumes relation-graph entailed edges, so currently only implemented for ubergraph and sqlite
 
