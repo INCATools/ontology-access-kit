@@ -13,7 +13,7 @@ Python lib for common ontology operations over a variety of backends.
 
 OAK provides a collection of [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for various ontology operations, including:
 
- - [look up basic features](https://incatools.github.io/ontology-access-kit/interfaces/basic.html) of an ontology element, such as its label, definition, relationships, or aliases
+ - [look up basic features](https://incatools.github.io/ontology-access-kit/guide/basics.html) of an ontology element, such as its label, definition, relationships, or aliases
  - search an ontology for a term
  - validate an ontology
  - modify or delete terms
