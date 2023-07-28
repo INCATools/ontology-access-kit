@@ -63,7 +63,10 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         ]
 
     def create_term_pairwise_similarity_output_object(self, predicates: List[PRED_CURIE] = None):
-        """Create a new Semsimian object (rust) with desired predicates only.
+        """Create a new Semsimian object (in rust) with desired predicates only.
+
+        This basically creates an object with attributes from TermPairwiseSimilarity class.
+        These are used as columns for the output file generated via `similarity`.
 
         :param predicates: List of desired predicates, defaults to None.
         """
