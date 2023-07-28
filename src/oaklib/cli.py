@@ -2729,6 +2729,15 @@ def similarity(
 
         runoak -i hp.db similarity -p i .desc//p=i HP:0000118 @ .desc//p=i HP:0000118
 
+    Term vectors:
+    Term vector files (or embedding files) can be provided via the --term-vectors parameter.
+    Example:
+
+        runoak -i semsimian:sqlite:obo:bfo similarity -p i .all @ .all --low-memory --term-vectors bfo.tsv
+    
+    where `bfo.tsv` is an embeddings file with the first column being CURIEs of all terms
+    and n columns consisting of unsigned float values representing a n-dimensional matrix.
+
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity
