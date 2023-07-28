@@ -2821,8 +2821,7 @@ def similarity(
 
             if autolabel:
                 logging.warning(
-                    "SemsimianImplementation does not support labelling yet.\
-                    Please use oak's `fill-table` command on the output file."
+                    "SemsimianImplementation does not support labelling yet. Please use oak's `fill-table` command on the output file."  # noqa
                 )
                 # new_output = output.replace(".tsv", "_filled.tsv")
                 # command = f"runoak -i {impl.resource.slug} fill-table {output} -o {new_output} --allow-missing"
