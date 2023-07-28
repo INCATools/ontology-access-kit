@@ -62,7 +62,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             if not any(attr.startswith(s) for s in ["class_", "_"])
         ]
 
-    def create_semsimian_object(self, predicates: List[PRED_CURIE] = None):
+    def create_term_pairwise_similarity_output_object(self, predicates: List[PRED_CURIE] = None):
         """Create a new Semsimian object (rust) with desired predicates only.
 
         :param predicates: List of desired predicates, defaults to None.
@@ -99,7 +99,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
 
-        self.create_semsimian_object(predicates=predicates)
+        self.create_term_pairwise_similarity_output_object(predicates=predicates)
         jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
 
         if math.isnan(jaccard_val):
@@ -151,7 +151,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates:
         :return:
         """
-        self.create_semsimian_object(predicates=predicates)
+        self.create_term_pairwise_similarity_output_object(predicates=predicates)
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
         all_results = self.semsimian.all_by_all_pairwise_similarity(
@@ -202,7 +202,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates:
         :return:
         """
-        self.create_semsimian_object(predicates=predicates)
+        self.create_term_pairwise_similarity_output_object(predicates=predicates)
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
 

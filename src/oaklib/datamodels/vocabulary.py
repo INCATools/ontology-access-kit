@@ -162,6 +162,7 @@ OWL_VERSION_INFO = "owl:versionInfo"
 OWL_VERSION_IRI = "owl:versionIRI"
 
 DEFAULT_SIMILARITY_MAP_FILE_BY_SEMSIMIAN = "similarity_map.tsv"
+LOW_MEMORY_FLAG = "low_memory"
 
 
 class SEMAPV(Enum):
