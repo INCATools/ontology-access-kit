@@ -2756,7 +2756,7 @@ def similarity(
     if isinstance(impl, SemanticSimilarityInterface):
         set1it = None
         set2it = None
-        low_memory = True
+        low_memory = False
         if config_file:
             with open(config_file) as file:
                 config_options = yaml.safe_load(file)
