@@ -2650,9 +2650,9 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     help="Minimum value for information content",
 )
 @click.option(
-    "--embeddings-file",
+    "--term-vectors",
     type=click.File(mode="r"),
-    help="file containing embeddings of all necessary nodes.",
+    help="file (tsv or parquet) containing embeddings (or other vectors) of all necessary nodes.",
 )
 @click.option("-o", "--output", help="path to output")
 @click.option(
@@ -2679,7 +2679,7 @@ def similarity(
     low_memory: bool,
     min_jaccard_similarity: Optional[float],
     min_ancestor_information_content: Optional[float],
-    embeddings_file: TextIO,
+    term_vectors: TextIO,
     main_score_field,
     output_type,
     output,
@@ -2779,7 +2779,7 @@ def similarity(
                 predicates=actual_predicates,
                 min_jaccard_similarity=min_jaccard_similarity,
                 min_ancestor_information_content=min_ancestor_information_content,
-                embeddings_file=embeddings_file,
+                embeddings_file=term_vectors,
                 outfile=output,
             )
 
