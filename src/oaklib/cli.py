@@ -2736,6 +2736,7 @@ def similarity(
 
     where `bfo.tsv` is an embeddings file with the first column being CURIEs of all terms
     and n columns consisting of unsigned float values representing a n-dimensional matrix.
+    This helps calculate the `cosine_similarity` column in the output.
 
     Python API:
 
