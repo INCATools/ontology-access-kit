@@ -77,12 +77,14 @@ class TestSparqlImplementation(unittest.TestCase):
                 "http://example.org/b",
                 "http://example.org/c",
                 "http://example.org/i1",
+                "http://example.org/i2",
                 "http://example.org/j",
             ],
             entities,
         )
         expected = [
             ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
+            ("http://example.org/i2", "http://example.org/p", "http://example.org/a"),
             ("http://example.org/i1", RDF_TYPE, "http://example.org/c"),
             ("http://example.org/b", IS_A, "http://example.org/a"),
         ]
@@ -94,13 +96,14 @@ class TestSparqlImplementation(unittest.TestCase):
                     expected.remove(t)
         self.assertEqual([], expected)
         rels = list(oi.relationships())
-        self.assertEqual(
+        self.assertCountEqual(
             [
                 ("http://example.org/b", "rdfs:subClassOf", "http://example.org/a"),
                 ("http://example.org/b", "http://example.org/p", "http://example.org/a"),
                 ("http://example.org/c", "rdfs:subClassOf", "http://example.org/b"),
                 ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
                 ("http://example.org/i1", "rdf:type", "http://example.org/c"),
+                ("http://example.org/i2", "http://example.org/p", "http://example.org/a"),
             ],
             rels,
         )
