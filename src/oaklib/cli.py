@@ -5637,6 +5637,12 @@ def diff_via_mappings(
     type=click.File(mode="r"),
     help="Path to YAML file corresponding to a list of normalized relation between two columns",
 )
+@click.option(
+    "--autolabel/--no-autolabel",
+    default=False,
+    show_default=True,
+    help="Autolabel columns",
+)
 @output_option
 @click.argument("table_file")
 def fill_table(
@@ -5648,6 +5654,7 @@ def fill_table(
     allow_missing: bool,
     relation: tuple,
     relation_file: str,
+    autolabel: bool,
     schema: str,
 ):
     """
@@ -5740,6 +5747,11 @@ def fill_table(
 
     with open(table_file) as input_file:
         input_table = table_filler.parse_table(input_file, delimiter=delimiter)
+        if autolabel:
+            hdr = input_table[0]
+            for col in list(hdr.keys()):
+                if col.endswith("_id"):
+                    hdr[col.replace("_id", "_label")] = None
         if schema:
             metadata = tf.extract_metadata_from_linkml(schema)
         elif relation or relation_file:
