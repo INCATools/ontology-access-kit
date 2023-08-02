@@ -438,7 +438,7 @@ class OboGraphImplementation(
 
     def logical_definitions(
         self,
-        subjects: Iterable[CURIE],
+        subjects: Iterable[CURIE] = None,
         predicates: Iterable[PRED_CURIE] = None,
         objects: Iterable[CURIE] = None,
         **kwargs,
