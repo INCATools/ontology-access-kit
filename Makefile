@@ -110,7 +110,7 @@ phenio-benchmarks:
 	$(RUNOAK) -i sqlite:obo:hp descendants -p i HP:0000118 > $(HP_TERMS)
 	$(RUNOAK) -i sqlite:obo:mp descendants -p i MP:0000001 > $(MP_TERMS)
 	time python -m cProfile -o $(SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i semsimian:sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv
-	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_semsimian.tsv
+	time python -m cProfile -o $(NON_SEMSIMIAN_PHENIO_PROFILE) -s tottime $(RUNOAK) -i sqlite:obo:phenio similarity -p i --set1-file $(HP_TERMS) --set2-file $(MP_TERMS) -O csv -o HP_vs_MP_oak.tsv
 
 phenio-profiles:
 	python $(PROFILER_SCRIPT) $(SEMSIMIAN_PHENIO_PROFILE)
