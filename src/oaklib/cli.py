@@ -2788,11 +2788,6 @@ def similarity(
                 set2it = query_terms_iterator(terms, impl)
         actual_predicates = _process_predicates_arg(predicates)
         if low_memory:
-            term_pairwise_similarity_attributes = [
-                attr
-                for attr in vars(TermPairwiseSimilarity)
-                if not any(attr.startswith(s) for s in ["class_", "__"])
-            ]
             impl.all_by_all_pairwise_similarity_quick(
                 set1it,
                 set2it,
