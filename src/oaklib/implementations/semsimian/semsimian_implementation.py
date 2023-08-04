@@ -9,6 +9,7 @@ from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -62,6 +63,11 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             if not any(attr.startswith(s) for s in ["class_", "_"])
         ]
 
+        if isinstance(self.wrapped_adapter, SqlImplementation):
+            self.resource_path = str(self.wrapped_adapter.engine.url).lstrip("sqlite:")
+        else:
+            self.resource_path = str(self.wrapped_adapter.engine.url)
+
     def create_term_pairwise_similarity_output_object(self, predicates: List[PRED_CURIE] = None):
         """Create a new Semsimian object (in rust) with desired predicates only.
 
@@ -70,13 +76,19 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
 
         :param predicates: List of desired predicates, defaults to None.
         """
-        spo = [
-            r
-            for r in self.wrapped_adapter.relationships(
-                include_entailed=True, predicates=predicates
-            )
-        ]
-        self.semsimian = Semsimian(spo, self.term_pairwise_similarity_attributes)
+        # spo = [
+        #     r
+        #     for r in self.wrapped_adapter.relationships(
+        #         include_entailed=True, predicates=predicates
+        #     )
+        # ]
+        # self.semsimian = Semsimian(spo, self.term_pairwise_similarity_attributes)
+
+        self.semsimian: Semsimian = Semsimian(
+            resource_path=self.resource_path,
+            predicates=predicates,
+            term_pairwise_similarity_attributes=self.term_pairwise_similarity_attributes,
+        )
 
     def pairwise_similarity(
         self,
@@ -103,7 +115,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
 
         self.create_term_pairwise_similarity_output_object(predicates=predicates)
-        jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
+        jaccard_val = self.semsimian.jaccard_similarity(subject, object)
 
         if math.isnan(jaccard_val):
             return None
@@ -112,7 +124,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             return None
 
         _, ancestor_information_content_val = self.semsimian.resnik_similarity(
-            subject, object, set(predicates)
+            subject, object
         )
 
         if math.isnan(ancestor_information_content_val):
@@ -162,7 +174,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             object_terms=set(objects),
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
-            predicates=set(predicates) if predicates else None,
         )
         logging.info("Post-processing results from semsimian")
         for term1_key, values in all_results.items():
@@ -214,7 +225,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             object_terms=set(objects),
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
-            predicates=set(predicates) if predicates else None,
             embeddings_file=embeddings_file.name if embeddings_file else None,
             outfile=outfile,
         )
