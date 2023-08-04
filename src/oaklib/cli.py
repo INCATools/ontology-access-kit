@@ -2803,29 +2803,6 @@ def similarity(
                 outfile=output,
             )
 
-            # TODO: Check if this block is needed #################################
-            # # Read the output file line by line and store the contents in a list
-            # if output is None:
-            #     output = DEFAULT_SIMILARITY_MAP_FILE_BY_SEMSIMIAN
-            # with open(output, "r") as f:
-            #     lines = f.readlines()
-
-            # # Add the column names to the first line of the list
-            # columns_already_present = lines[0].strip().split("\t")
-            # columns_missing = [
-            #     col
-            #     for col in term_pairwise_similarity_attributes
-            #     if col not in columns_already_present
-            # ]
-            # columns_missing_as_str = "\t".join(columns_missing) + "\n"
-            # header = lines[0].strip() + "\t" + columns_missing_as_str
-            # lines[0] = header
-
-            # # Write the updated contents back to the output file
-            # with open(output, "w") as file:
-            #     file.writelines(lines)
-            # TODO: ##########################################################################
-
             if autolabel:
                 logging.warning(
                     "SemsimianImplementation does not support labelling yet. Please use oak's `fill-table` command on the output file."  # noqa
