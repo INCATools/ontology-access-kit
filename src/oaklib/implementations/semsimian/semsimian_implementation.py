@@ -123,9 +123,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         if min_jaccard_similarity is not None and jaccard_val < min_jaccard_similarity:
             return None
 
-        _, ancestor_information_content_val = self.semsimian.resnik_similarity(
-            subject, object
-        )
+        _, ancestor_information_content_val = self.semsimian.resnik_similarity(subject, object)
 
         if math.isnan(ancestor_information_content_val):
             return None
