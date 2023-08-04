@@ -28,7 +28,6 @@ kgcl-rdflib = "0.5.0"
 pystow = ">=0.5.0"
 class-resolver = ">=0.4.2"
 ontoportal-client = ">=0.0.3"
-bioregistry = ">=0.6.35"
 prefixmaps = ">=0.1.2"
 ols-client = ">=0.1.1"
 airium = ">=0.2.5"
@@ -39,6 +38,7 @@ requests-cache = "^1.0.1"
 click = "*"
 semsimian = "^0.1.16"
 urllib3 = {version = "< 2", optional = true}
+pydantic = ">2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
