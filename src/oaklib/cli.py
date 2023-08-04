@@ -2732,11 +2732,16 @@ def similarity(
     Term vector files (or embedding files) can be provided via the --term-vectors parameter.
     Example:
 
-        runoak -i semsimian:sqlite:obo:bfo similarity -p i .all @ .all --low-memory --term-vectors bfo.tsv
+        runoak -i semsimian:sqlite:obo:bfo similarity -p i .all @ .all --term-vectors bfo.tsv
 
     where `bfo.tsv` is an embeddings file with the first column being CURIEs of all terms
     and n columns consisting of unsigned float values representing a n-dimensional matrix.
     This helps calculate the `cosine_similarity` column in the output.
+
+    Semsimian Config file:
+    If the `semsimian` implementation is used, a YAML file can be passed via --config.
+    For now the only param used is `low_memory:true` and an example YAML file is located
+    at conf/semsimian_config.yaml.
 
     Python API:
 
