@@ -101,7 +101,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :return:
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
-        if not hasattr(self, "semsimian") or getattr(self, "semsimian", None) is None:
+        if getattr(self, "semsimian", None) is None:
             self.create_pairwise_similarity_output_object(predicates=predicates)
 
         jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
