@@ -56,6 +56,12 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             mn = m if isinstance(m, str) else m.__name__
             setattr(SemSimianImplementation, mn, methods[mn])
 
+        self.term_pairwise_similarity_attributes = [
+            attr
+            for attr in vars(TermPairwiseSimilarity)
+            if not any(attr.startswith(s) for s in ["class_", "_"])
+        ]
+
     def create_pairwise_similarity_output_object(
         self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None
     ):
