@@ -5402,14 +5402,14 @@ url = ["furl (>=0.4.1)"]
 
 [[package]]
 name = "sssom"
-version = "0.3.37rc1"
+version = "0.3.37"
 description = "Operations on SSSOM mapping tables"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "sssom-0.3.37rc1-py3-none-any.whl", hash = "sha256:b7ee6fda35685696b2ca927e064d3ed0eea9839d3c6f64363024b54fcdd24e69"},
-    {file = "sssom-0.3.37rc1.tar.gz", hash = "sha256:cea0459e436620c10175e4d79d9ba17e0ca2ed6e2d4cab0f95895e03da5d1903"},
+    {file = "sssom-0.3.37-py3-none-any.whl", hash = "sha256:9b247845554dca1ffb75042dcdcea6e39fe2ac6254b3ddb93522a7e32e8a9309"},
+    {file = "sssom-0.3.37.tar.gz", hash = "sha256:a01c6822f007eebe332825adea61ff0e1433e06cb9654535613e139010a37ed9"},
 ]
 
 [package.dependencies]
@@ -5948,4 +5948,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "130d5bc8d83fee34df9370ae64d73f642740593a1efd9b4b14ab053c87cc881e"
+content-hash = "4dcdf4880cf8609408bdd54196e33b54089a16d16eaebd5e15983538939f0689"
