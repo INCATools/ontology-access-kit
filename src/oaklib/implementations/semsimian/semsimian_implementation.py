@@ -157,7 +157,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
-        if not hasattr(self, "semsimian") or getattr(self, "semsimian", None) is None:
+        if getattr(self, "semsimian", None) is None:
             self.create_pairwise_similarity_output_object(predicates=predicates)
         all_results = self.semsimian.all_by_all_pairwise_similarity(
             subject_terms=set(subjects),
