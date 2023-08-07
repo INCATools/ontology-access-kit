@@ -2,12 +2,11 @@
 import inspect
 import logging
 import math
-import pickle
+import pickle  # noqa
 from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar, Iterable, Iterator, List, Optional
 
-import pystow
 from semsimian import Semsimian
 
 from oaklib.constants import OAKLIB_MODULE
@@ -74,13 +73,13 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         These are used as columns for the output file generated via `similarity`.
         :param predicates: List of desired predicates, defaults to None.
         """
-        predicates.sort()
+        predicates.sort() if isinstance(predicates, List) else [predicates].sort()
         predicate_key = "+".join(predicates) + ".pickle"
-        cache_dir_path = Path(OAKLIB_MODULE.join(self.resource.slug.split(":")[-1]))
+        cache_dir_path = Path(OAKLIB_MODULE.join(self.resource.slug.replace("/", ":").split(":")[-1]))
         cache_file_path = cache_dir_path / predicate_key
         if cache_file_path.is_file():
             with open(cache_file_path, "rb") as file:
-                spo = pickle.load(file)
+                spo = pickle.load(file)  # noqa
         else:
             spo = [
                 r
