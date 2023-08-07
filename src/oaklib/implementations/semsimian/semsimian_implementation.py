@@ -3,11 +3,14 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass
-from typing import ClassVar, Iterable, Iterator, List, Optional
+from typing import ClassVar, Iterable, Iterator, List, Optional, TextIO
 
 from semsimian import Semsimian
 
-from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.similarity import (
+    TermPairwiseSimilarity,
+    TermSetPairwiseSimilarity,
+)
 from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
@@ -63,12 +66,20 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             if not any(attr.startswith(s) for s in ["class_", "_"])
         ]
 
+        self.termset_pairwise_similarity_attributes = [
+            attr
+            for attr in vars(TermSetPairwiseSimilarity)
+            if not any(attr.startswith(s) for s in ["class_", "_"])
+        ]
+
         if isinstance(self.wrapped_adapter, SqlImplementation):
             self.resource_path = str(self.wrapped_adapter.engine.url).lstrip("sqlite:")
         else:
             self.resource_path = str(self.wrapped_adapter.engine.url)
 
-    def create_term_pairwise_similarity_output_object(self, predicates: List[PRED_CURIE] = None):
+    def create_pairwise_similarity_output_object(
+        self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None
+    ):
         """Create a new Semsimian object (in rust) with desired predicates only.
 
         This basically creates an object with attributes from TermPairwiseSimilarity class.
@@ -87,7 +98,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         self.semsimian: Semsimian = Semsimian(
             resource_path=self.resource_path,
             predicates=predicates,
-            term_pairwise_similarity_attributes=self.term_pairwise_similarity_attributes,
+            pairwise_similarity_attributes=attributes,
         )
 
     def pairwise_similarity(
@@ -114,7 +125,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
 
-        self.create_term_pairwise_similarity_output_object(predicates=predicates)
+        self.create_pairwise_similarity_output_object(predicates=predicates)
         jaccard_val = self.semsimian.jaccard_similarity(subject, object)
 
         if math.isnan(jaccard_val):
@@ -164,7 +175,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates:
         :return:
         """
-        self.create_term_pairwise_similarity_output_object(predicates=predicates)
+        self.create_pairwise_similarity_output_object(
+            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+        )
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
         all_results = self.semsimian.all_by_all_pairwise_similarity(
@@ -214,7 +227,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates:
         :return:
         """
-        self.create_term_pairwise_similarity_output_object(predicates=predicates)
+        self.create_pairwise_similarity_output_object(
+            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+        )
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
 
@@ -225,4 +240,34 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             minimum_resnik_threshold=min_ancestor_information_content,
             embeddings_file=embeddings_file.name if embeddings_file else None,
             outfile=outfile,
+        )
+
+    def termset_pairwise_similarity(
+        self,
+        subjects: List[CURIE],
+        objects: List[CURIE],
+        outfile: TextIO,
+        predicates: List[PRED_CURIE] = None,
+        labels=False,
+    ) -> TermSetPairwiseSimilarity:
+        self.create_pairwise_similarity_output_object(
+            predicates=predicates, attributes=self.termset_pairwise_similarity_attributes
+        )
+        objects = list(objects)
+        logging.info(f"Calculating termset pairwise similarity for {len(objects)} objects")
+        semsimian_termset_pairwise_similarity_dict = self.semsimian.termset_pairwise_similarity(
+            subject_terms=subjects, object_terms=objects, outfile=outfile
+        )
+        return TermSetPairwiseSimilarity(
+            subject_termset=semsimian_termset_pairwise_similarity_dict.get("subject_termset"),
+            object_termset=semsimian_termset_pairwise_similarity_dict.get("object_termset"),
+            subject_best_matches=semsimian_termset_pairwise_similarity_dict.get(
+                "subject_best_matches"
+            ),
+            object_best_matches=semsimian_termset_pairwise_similarity_dict.get(
+                "object_best_matches"
+            ),
+            average_score=semsimian_termset_pairwise_similarity_dict.get("average_score"),
+            best_score=semsimian_termset_pairwise_similarity_dict.get("best_score"),
+            metric=semsimian_termset_pairwise_similarity_dict.get("metric"),
         )
