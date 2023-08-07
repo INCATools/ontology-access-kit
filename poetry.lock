@@ -5640,4 +5640,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "793f34cb448adea43615dbb57ee7ac0df496cb57f5ae735a8241a2092ab9ca32"
+content-hash = "d6a6f34128a5e893031aac322b1abfed7d940f9b196cbb1648610e467f19843a"
