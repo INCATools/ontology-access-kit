@@ -1231,20 +1231,21 @@ files = [
 
 [[package]]
 name = "funowl"
-version = "0.1.12"
+version = "0.2.0"
 description = "Python rendering of the OWL Functional syntax"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "funowl-0.1.12-py3-none-any.whl", hash = "sha256:44f2337d47d21ab6532f8f0e51173c506a0d9dae9efa959cb105b0311e352082"},
-    {file = "funowl-0.1.12.tar.gz", hash = "sha256:3316c37ecde08cdfa96ebcbcc02ed53c355dc56845d654a8f37aa7a913ca6f71"},
+    {file = "funowl-0.2.0-py3-none-any.whl", hash = "sha256:657aa2445b870c014bd97071841921551277658cd22d05436b6f5ac589c4d542"},
+    {file = "funowl-0.2.0.tar.gz", hash = "sha256:8b7fa094ac15b80263dadfded721ea0805e4a78e4b040648425bc8b459a6cdbc"},
 ]
 
 [package.dependencies]
 bcp47 = "*"
+jsonasobj = "*"
 pyjsg = ">=0.11.6"
-rdflib = ">=5.0.0"
+rdflib = ">=6.2.0,<7"
 rdflib-shim = "*"
 rfc3987 = "*"
 
@@ -4302,14 +4303,14 @@ files = [
 
 [[package]]
 name = "rdflib"
-version = "7.0.0"
+version = "6.3.2"
 description = "RDFLib is a Python library for working with RDF, a simple yet powerful language for representing information."
 category = "main"
 optional = false
-python-versions = ">=3.8.1,<4.0.0"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "rdflib-7.0.0-py3-none-any.whl", hash = "sha256:0438920912a642c866a513de6fe8a0001bd86ef975057d6962c79ce4771687cd"},
-    {file = "rdflib-7.0.0.tar.gz", hash = "sha256:9995eb8569428059b8c1affd26b25eac510d64f5043d9ce8c84e0d0036e995ae"},
+    {file = "rdflib-6.3.2-py3-none-any.whl", hash = "sha256:36b4e74a32aa1e4fa7b8719876fb192f19ecd45ff932ea5ebbd2e417a0247e63"},
+    {file = "rdflib-6.3.2.tar.gz", hash = "sha256:72af591ff704f4caacea7ecc0c5a9056b8553e0489dd4f35a9bc52dbd41522e0"},
 ]
 
 [package.dependencies]
@@ -5948,4 +5949,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "6f9ed81883942779371112c0a709147cf7767b312e8b9ac6361ec483106fd133"
+content-hash = "704106052cdf4ea9572ad962d8ce03c90c25eb5f7394a01121dca51a86166fdb"
