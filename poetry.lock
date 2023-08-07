@@ -2401,23 +2401,21 @@ linkml-runtime = ">=1.1.6"
 
 [[package]]
 name = "linkml-renderer"
-version = "0.2.0"
+version = "0.3.0"
 description = "linkml-renderer"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "linkml_renderer-0.2.0-py3-none-any.whl", hash = "sha256:c9a5b45c0c8de05b54e65330bb933ee53a50f6d08e59dd7354291bcd1a0a1325"},
-    {file = "linkml_renderer-0.2.0.tar.gz", hash = "sha256:729d95569e4f8ac69b10ab089279bd9abb335144d39dd1271667229a2de6e24c"},
+    {file = "linkml_renderer-0.3.0-py3-none-any.whl", hash = "sha256:9b2c0207751c8b5abb814b67fa1ae0f2a4dce80637d56ed770f74a40d4fee614"},
+    {file = "linkml_renderer-0.3.0.tar.gz", hash = "sha256:59441022182d1386ef761ad4d055a23cef5707e0070400e2f6860893751c05f8"},
 ]
 
 [package.dependencies]
 airium = ">=0.2.5,<0.3.0"
 click = ">=8.1.3,<9.0.0"
 linkml-runtime = ">=1.4.1"
-
-[package.extras]
-docs = ["myst-parser[docs] (>=0.18.1,<0.19.0)", "sphinx-autodoc-typehints[docs] (>=1.19.4,<2.0.0)", "sphinx-click[docs] (>=4.3.0,<5.0.0)", "sphinx-rtd-theme[docs] (>=1.0.0,<2.0.0)", "sphinx[docs] (>=5.3.0,<6.0.0)"]
+pydantic = "*"
 
 [[package]]
 name = "linkml-runtime"
@@ -5950,4 +5948,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "8d828571d2b6d1cec480057d3c30e68304617150b27b6919bddb64f6a94c8bc1"
+content-hash = "130d5bc8d83fee34df9370ae64d73f642740593a1efd9b4b14ab053c87cc881e"
