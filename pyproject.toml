@@ -37,8 +37,9 @@ pysolr = "^3.9.0"
 eutils = ">=0.6.0"
 requests-cache = "^1.0.1"
 click = "*"
-semsimian = "^0.1.16"
+semsimian = "^0.1.20"
 urllib3 = {version = "< 2", optional = true}
+pydantic = "<2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
