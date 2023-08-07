@@ -2,13 +2,14 @@
 import inspect
 import logging
 import math
-from pathlib import Path
 import pickle
-import pystow
 from dataclasses import dataclass
+from pathlib import Path
 from typing import ClassVar, Iterable, Iterator, List, Optional
 
+import pystow
 from semsimian import Semsimian
+
 from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import OWL_THING
