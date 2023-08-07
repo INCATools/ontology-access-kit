@@ -56,8 +56,21 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             mn = m if isinstance(m, str) else m.__name__
             setattr(SemSimianImplementation, mn, methods[mn])
 
-        spo = [r for r in self.wrapped_adapter.relationships(include_entailed=True)]
-        self.semsimian = Semsimian(spo)
+    def create_pairwise_similarity_output_object(
+        self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None
+    ):
+        """Create a new Semsimian object (in rust) with desired predicates only.
+        This basically creates an object with attributes from TermPairwiseSimilarity class.
+        These are used as columns for the output file generated via `similarity`.
+        :param predicates: List of desired predicates, defaults to None.
+        """
+        spo = [
+            r
+            for r in self.wrapped_adapter.relationships(
+                include_entailed=True, predicates=predicates
+            )
+        ]
+        self.semsimian = Semsimian(spo, self.term_pairwise_similarity_attributes)
 
     def pairwise_similarity(
         self,
@@ -82,6 +95,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :return:
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+        if not hasattr(self, "semsimian") or getattr(self, "semsimian") is None:
+            self.create_pairwise_similarity_output_object(predicates=predicates)
 
         jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
 
@@ -136,6 +151,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
+        if not hasattr(self, "semsimian") or getattr(self, "semsimian") is None:
+            self.create_pairwise_similarity_output_object(predicates=predicates)
         all_results = self.semsimian.all_by_all_pairwise_similarity(
             subject_terms=set(subjects),
             object_terms=set(objects),
