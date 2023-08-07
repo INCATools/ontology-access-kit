@@ -74,7 +74,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates: List of desired predicates, defaults to None.
         """
         predicates.sort() if isinstance(predicates, List) else [predicates].sort()
-        predicate_key = "+".join(predicates) + ".pickle"
+        predicate_key = "+".join(predicates).replace(":", "_") + ".pickle"
         cache_dir_path = Path(
             OAKLIB_MODULE.join(self.resource.slug.replace("/", ":").split(":")[-1])
         )
