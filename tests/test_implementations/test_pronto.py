@@ -197,6 +197,7 @@ class TestProntoImplementation(unittest.TestCase):
                 slug="go-nucleus.saved.obo", directory=OUTPUT_DIR, local=True, format="obo"
             )
         )
+
     @unittest.skip("Avoid network dependencies.")
     def test_from_obo_library(self):
         oi = ProntoImplementation(OntologyResource(local=False, slug="pato.obo"))
