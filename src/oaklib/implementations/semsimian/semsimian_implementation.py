@@ -7,7 +7,7 @@ from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from semsimian import Semsimian
 
-from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.similarity import TermPairwiseSimilarity, TermSetPairwiseSimilarity
 from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -63,9 +63,14 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             for attr in vars(TermPairwiseSimilarity)
             if not any(attr.startswith(s) for s in ["class_", "_"])
         ]
+        self.termset_pairwise_similarity_attributes = [
+            attr
+            for attr in vars(TermSetPairwiseSimilarity)
+            if not any(attr.startswith(s) for s in ["class_", "_"])
+        ]
 
     def _get_semsimian_object(
-        self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None
+        self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None, resource_path: str = None
     ) -> Semsimian:
         """
         Get Semsimian object from "semsimian_object_cache" or add a new one.
@@ -81,7 +86,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     include_entailed=True, predicates=predicates
                 )
             ]
-            self.semsimian_object_cache[predicates] = Semsimian(spo, attributes)
+            self.semsimian_object_cache[predicates] = Semsimian(spo, predicates, attributes, resource_path)
 
         return self.semsimian_object_cache[predicates]
 
@@ -112,7 +117,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             predicates=predicates, attributes=self.term_pairwise_similarity_attributes
         )
 
-        jaccard_val = semsimian.jaccard_similarity(subject, object, set(predicates))
+        jaccard_val = semsimian.jaccard_similarity(subject, object)
 
         if math.isnan(jaccard_val):
             return None
@@ -121,7 +126,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             return None
 
         _, ancestor_information_content_val = semsimian.resnik_similarity(
-            subject, object, set(predicates)
+            subject, object
         )
 
         if math.isnan(ancestor_information_content_val):
@@ -173,12 +178,13 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             object_terms=set(objects),
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
-            predicates=set(predicates) if predicates else None,
+            # predicates=set(predicates) if predicates else None,
         )
         logging.info("Post-processing results from semsimian")
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
-                jaccard, resnik, phenodigm_score, ancestor_set = result
+                # Remember the _ here is cosine_similarity which we do not use at the moment.
+                jaccard, resnik, phenodigm_score, _, ancestor_set = result
                 if len(ancestor_set) > 0:
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key,
@@ -197,3 +203,36 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim.jaccard_similarity = 0
                     sim.ancestor_information_content = 0
                 yield sim
+
+    def termset_pairwise_similarity_temp(
+        self,
+        subjects: List[CURIE],
+        objects: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        labels=False,
+    ) -> TermSetPairwiseSimilarity:
+        """Return TermSetPairwiseSimilarity object.
+
+        :param subjects: List of subject nodes.
+        :param objects: List of object nodes.
+        :param predicates: List of predicates, defaults to None
+        :param labels: Boolean to get labels for all nodes from resource, defaults to False
+        :param score_only: Boolean to return just the average score [TEMPORARY], defaults to False
+        :return: TermSetPairwiseSimilarity object
+        """
+        semsimian = self._get_semsimian_object(
+            predicates=predicates, attributes=self.termset_pairwise_similarity_attributes
+        )
+        sim = TermSetPairwiseSimilarity()
+        # average_score = semsimian.termset_comparison(
+        #     subject_terms=set(subjects),
+        #     object_terms=set(objects),
+        # )
+        average_score = semsimian.termset_comparison(
+            set(subjects),
+            set(objects),
+        )
+
+        sim.average_score = average_score
+
+        return sim
