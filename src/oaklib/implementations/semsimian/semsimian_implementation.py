@@ -64,7 +64,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             if not any(attr.startswith(s) for s in ["class_", "_"])
         ]
 
-    def _get_semsimian_object(self, predicates: List[PRED_CURIE] = None) -> Semsimian:
+    def _get_semsimian_object(
+        self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None
+    ) -> Semsimian:
         """
         Get Semsimian object from "semsimian_object_cache" or add a new one.
 
@@ -79,9 +81,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     include_entailed=True, predicates=predicates
                 )
             ]
-            self.semsimian_object_cache[predicates] = Semsimian(
-                spo, self.term_pairwise_similarity_attributes
-            )
+            self.semsimian_object_cache[predicates] = Semsimian(spo, attributes)
 
         return self.semsimian_object_cache[predicates]
 
@@ -108,7 +108,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :return:
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
-        semsimian = self._get_semsimian_object(predicates=predicates)
+        semsimian = self._get_semsimian_object(
+            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+        )
 
         jaccard_val = semsimian.jaccard_similarity(subject, object, set(predicates))
 
@@ -163,7 +165,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
-        semsimian = self._get_semsimian_object(predicates=predicates)
+        semsimian = self._get_semsimian_object(
+            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+        )
         all_results = semsimian.all_by_all_pairwise_similarity(
             subject_terms=set(subjects),
             object_terms=set(objects),

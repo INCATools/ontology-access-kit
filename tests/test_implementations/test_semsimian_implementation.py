@@ -1,4 +1,5 @@
 import os
+import timeit
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -45,6 +46,14 @@ class TestSemSimianImplementation(unittest.TestCase):
         self.other_oi = comparison_oi
         self.db = db
         self.compliance_tester = ComplianceTester(self)
+        self.subject_terms = {VACUOLE, NUCLEUS, NUCLEAR_MEMBRANE}
+        self.object_terms = {ENDOMEMBRANE_SYSTEM, HUMAN, FUNGI}
+        self.predicates = {IS_A, PART_OF}
+        self.term_pairwise_similarity_attributes = [
+            attr
+            for attr in vars(TermPairwiseSimilarity)
+            if not any(attr.startswith(s) for s in ["class_", "_"])
+        ]
 
     def test_definitions(self):
         """Definitions should be delegated to the wrapped adapter."""
@@ -65,7 +74,7 @@ class TestSemSimianImplementation(unittest.TestCase):
         debug = False
         for s in entities:
             for o in entities:
-                for preds in [[IS_A, PART_OF]]:
+                for preds in [self.predicates]:
                     sim = adapter.pairwise_similarity(s, o, predicates=preds)
 
                     original_sim = self.other_oi.pairwise_similarity(s, o, predicates=preds)
@@ -97,10 +106,9 @@ class TestSemSimianImplementation(unittest.TestCase):
                         print(yaml_dumper.dumps(original_sim))
 
     def test_all_by_all_pairwise_similarity(self):
-        subject_terms = {VACUOLE, NUCLEUS, NUCLEAR_MEMBRANE}
-        object_terms = {ENDOMEMBRANE_SYSTEM, HUMAN, FUNGI}
-        predicates = {IS_A, PART_OF}
-        result = self.oi.all_by_all_pairwise_similarity(subject_terms, object_terms, predicates)
+        result = self.oi.all_by_all_pairwise_similarity(
+            self.subject_terms, self.object_terms, self.predicates
+        )
         sem_similarity_object: TermPairwiseSimilarity = [
             x for x in result if x.subject_id == "GO:0031965" and x.object_id == "GO:0012505"
         ][0]
@@ -110,7 +118,7 @@ class TestSemSimianImplementation(unittest.TestCase):
         self.assertEqual(sem_similarity_object.phenodigm_score, 1.672622556711612)
 
         result2 = self.other_oi.all_by_all_pairwise_similarity(
-            subject_terms, object_terms, predicates
+            self.subject_terms, self.object_terms, self.predicates
         )
 
         sql_similarity_object: TermPairwiseSimilarity = [
@@ -128,3 +136,26 @@ class TestSemSimianImplementation(unittest.TestCase):
         self.assertAlmostEqual(
             sem_similarity_object.phenodigm_score, sql_similarity_object.phenodigm_score, places=2
         )
+
+    def test_semsimian_object_cache(self):
+        start_time = timeit.default_timer()
+        _ = list(
+            self.oi.all_by_all_pairwise_similarity(
+                self.subject_terms, self.object_terms, self.predicates
+            )
+        )
+        end_time = timeit.default_timer()
+        time_taken_1 = end_time - start_time
+
+        shuffled_predicate = set(reversed(list(self.predicates)))
+        start_time = timeit.default_timer()
+        _ = list(
+            self.oi.all_by_all_pairwise_similarity(
+                self.subject_terms, self.object_terms, shuffled_predicate
+            )
+        )
+        end_time = timeit.default_timer()
+        time_taken_2 = end_time - start_time
+
+        self.assertEqual(len(self.oi.semsimian_object_cache), 1)
+        self.assertTrue(time_taken_1 > time_taken_2)
