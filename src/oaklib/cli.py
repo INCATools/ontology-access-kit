@@ -2841,7 +2841,7 @@ def termset_similarity(
     logging.info(f"Set2={set2}")
     actual_predicates = _process_predicates_arg(predicates)
     if score_only:
-        sim = impl.termset_pairwise_similarity_temp(
+        sim = impl.termset_pairwise_similarity_score_only(
             set1, set2, predicates=actual_predicates, labels=autolabel
         )
     else:

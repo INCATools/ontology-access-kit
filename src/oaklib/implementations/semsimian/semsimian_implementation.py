@@ -210,7 +210,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim.ancestor_information_content = 0
                 yield sim
 
-    def termset_pairwise_similarity_temp(
+    def termset_pairwise_similarity_score_only(
         self,
         subjects: List[CURIE],
         objects: List[CURIE],
