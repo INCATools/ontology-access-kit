@@ -2800,7 +2800,7 @@ def similarity(
     "--score-only/--no-score-only",
     default=False,
     show_default=True,
-    help="If set, results will automatically have labels assigned [THIS IS TEMPORARY]",
+    help="If set, result will only have average score [THIS IS TEMPORARY]",
 )
 @click.argument("terms", nargs=-1)
 def termset_similarity(
