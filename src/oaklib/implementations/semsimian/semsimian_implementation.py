@@ -7,7 +7,10 @@ from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from semsimian import Semsimian
 
-from oaklib.datamodels.similarity import TermPairwiseSimilarity, TermSetPairwiseSimilarity
+from oaklib.datamodels.similarity import (
+    TermPairwiseSimilarity,
+    TermSetPairwiseSimilarity,
+)
 from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -70,7 +73,10 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         ]
 
     def _get_semsimian_object(
-        self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None, resource_path: str = None
+        self,
+        predicates: List[PRED_CURIE] = None,
+        attributes: List[str] = None,
+        resource_path: str = None,
     ) -> Semsimian:
         """
         Get Semsimian object from "semsimian_object_cache" or add a new one.
@@ -86,7 +92,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     include_entailed=True, predicates=predicates
                 )
             ]
-            self.semsimian_object_cache[predicates] = Semsimian(spo, predicates, attributes, resource_path)
+            self.semsimian_object_cache[predicates] = Semsimian(
+                spo, predicates, attributes, resource_path
+            )
 
         return self.semsimian_object_cache[predicates]
 
@@ -125,9 +133,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         if min_jaccard_similarity is not None and jaccard_val < min_jaccard_similarity:
             return None
 
-        _, ancestor_information_content_val = semsimian.resnik_similarity(
-            subject, object
-        )
+        _, ancestor_information_content_val = semsimian.resnik_similarity(subject, object)
 
         if math.isnan(ancestor_information_content_val):
             return None
