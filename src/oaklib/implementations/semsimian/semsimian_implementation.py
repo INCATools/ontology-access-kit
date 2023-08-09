@@ -2,14 +2,11 @@
 import inspect
 import logging
 import math
-import pickle  # noqa
-from dataclasses import dataclass
-from pathlib import Path
-from typing import ClassVar, Iterable, Iterator, List, Optional
+from dataclasses import dataclass, field
+from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from semsimian import Semsimian
 
-from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
@@ -47,6 +44,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         SemanticSimilarityInterface.information_content_scores,
     ]
 
+    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Semsimian] = field(default_factory=dict)
+
     def __post_init__(self):
         slug = self.resource.slug
         from oaklib.selector import get_adapter
@@ -65,34 +64,26 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             if not any(attr.startswith(s) for s in ["class_", "_"])
         ]
 
-    def _ensure_semsimian_object_is_set(
-        self, predicates: List[PRED_CURIE] = None, attributes: List[str] = None
-    ):
-        """Create a new Semsimian object (in rust) with desired predicates only.
-        This basically creates an object with attributes from TermPairwiseSimilarity class.
-        These are used as columns for the output file generated via `similarity`.
-        :param predicates: List of desired predicates, defaults to None.
+    def _get_semsimian_object(self, predicates: List[PRED_CURIE] = None) -> Semsimian:
         """
-        predicates.sort() if isinstance(predicates, List) else [predicates].sort()
-        predicate_key = "+".join(predicates).replace(":", "_") + ".pickle"
-        cache_dir_path = Path(
-            OAKLIB_MODULE.join(self.resource.slug.replace("/", ":").split(":")[-1])
-        )
-        cache_file_path = cache_dir_path / predicate_key
-        if cache_file_path.is_file():
-            with open(cache_file_path, "rb") as file:
-                spo = pickle.load(file)  # noqa
-        else:
+        Get Semsimian object from "semsimian_object_cache" or add a new one.
+
+        :param predicates: collection of predicates, defaults to None
+        :return: A Semsimian object.
+        """
+        predicates = tuple(sorted(predicates))
+        if predicates not in self.semsimian_object_cache:
             spo = [
                 r
                 for r in self.wrapped_adapter.relationships(
                     include_entailed=True, predicates=predicates
                 )
             ]
-            with open(cache_file_path, "wb") as file:
-                pickle.dump(spo, file)
+            self.semsimian_object_cache[predicates] = Semsimian(
+                spo, self.term_pairwise_similarity_attributes
+            )
 
-        self.semsimian = Semsimian(spo, self.term_pairwise_similarity_attributes)
+        return self.semsimian_object_cache[predicates]
 
     def pairwise_similarity(
         self,
@@ -117,9 +108,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :return:
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
-        self._ensure_semsimian_object_is_set(predicates=predicates)
+        semsimian = self._get_semsimian_object(predicates=predicates)
 
-        jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
+        jaccard_val = semsimian.jaccard_similarity(subject, object, set(predicates))
 
         if math.isnan(jaccard_val):
             return None
@@ -127,7 +118,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         if min_jaccard_similarity is not None and jaccard_val < min_jaccard_similarity:
             return None
 
-        _, ancestor_information_content_val = self.semsimian.resnik_similarity(
+        _, ancestor_information_content_val = semsimian.resnik_similarity(
             subject, object, set(predicates)
         )
 
@@ -172,8 +163,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
-        self._ensure_semsimian_object_is_set(predicates=predicates)
-        all_results = self.semsimian.all_by_all_pairwise_similarity(
+        semsimian = self._get_semsimian_object(predicates=predicates)
+        all_results = semsimian.all_by_all_pairwise_similarity(
             subject_terms=set(subjects),
             object_terms=set(objects),
             minimum_jaccard_threshold=min_jaccard_similarity,
