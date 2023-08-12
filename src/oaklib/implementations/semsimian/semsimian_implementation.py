@@ -2,6 +2,7 @@
 import inspect
 import logging
 import math
+import os
 from dataclasses import dataclass, field
 from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple
 
@@ -97,6 +98,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                 self.resource_path = str(self.wrapped_adapter.engine.url).lstrip("sqlite:")
             else:
                 self.resource_path = str(self.wrapped_adapter.engine.url)
+
+            if os.name == "nt":
+                _, self.resource_path = os.path.splitdrive(self.resource_path)
 
             self.semsimian_object_cache[predicates] = Semsimian(
                 spo=None,
