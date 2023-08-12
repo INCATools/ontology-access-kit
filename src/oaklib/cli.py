@@ -2796,18 +2796,11 @@ def similarity(
 @output_option
 @output_type_option
 @autolabel_option
-@click.option(
-    "--score-only/--no-score-only",
-    default=False,
-    show_default=True,
-    help="If set, result will only have average score [THIS IS TEMPORARY]",
-)
 @click.argument("terms", nargs=-1)
 def termset_similarity(
     terms,
     predicates,
     autolabel,
-    score_only,  # TEMPORARY
     output_type,
     output: TextIO,
 ):
@@ -2840,14 +2833,9 @@ def termset_similarity(
     logging.info(f"Set1={set1}")
     logging.info(f"Set2={set2}")
     actual_predicates = _process_predicates_arg(predicates)
-    if score_only:
-        sim = impl.termset_pairwise_similarity_score_only(
-            set1, set2, predicates=actual_predicates, labels=autolabel
-        )
-    else:
-        sim = impl.termset_pairwise_similarity(
-            set1, set2, predicates=actual_predicates, labels=autolabel
-        )
+    sim = impl.termset_pairwise_similarity(
+        set1, set2, predicates=actual_predicates, labels=autolabel
+    )
     writer.emit(sim)
     writer.finish()
 

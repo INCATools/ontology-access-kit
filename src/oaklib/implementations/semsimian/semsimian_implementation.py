@@ -219,7 +219,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim.ancestor_information_content = 0
                 yield sim
 
-    def termset_pairwise_similarity_score_only(
+    def termset_pairwise_similarity(
         self,
         subjects: List[CURIE],
         objects: List[CURIE],
@@ -232,7 +232,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param objects: List of object nodes.
         :param predicates: List of predicates, defaults to None
         :param labels: Boolean to get labels for all nodes from resource, defaults to False
-        :param score_only: Boolean to return just the average score [TEMPORARY], defaults to False
         :return: TermSetPairwiseSimilarity object
         """
         semsimian = self._get_semsimian_object(
