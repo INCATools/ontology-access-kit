@@ -12,6 +12,7 @@ from oaklib.datamodels.similarity import (
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -86,14 +87,22 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         predicates = tuple(sorted(predicates))
         if predicates not in self.semsimian_object_cache:
-            spo = [
-                r
-                for r in self.wrapped_adapter.relationships(
-                    include_entailed=True, predicates=predicates
-                )
-            ]
+            # spo = [
+            #     r
+            #     for r in self.wrapped_adapter.relationships(
+            #         include_entailed=True, predicates=predicates
+            #     )
+            # ]
+            if isinstance(self.wrapped_adapter, SqlImplementation):
+                self.resource_path = str(self.wrapped_adapter.engine.url).lstrip("sqlite:")
+            else:
+                self.resource_path = str(self.wrapped_adapter.engine.url)
+
             self.semsimian_object_cache[predicates] = Semsimian(
-                spo, predicates, attributes, resource_path
+                spo=None,
+                predicates=predicates,
+                pairwise_similarity_attributes=attributes,
+                resource_path=self.resource_path,
             )
 
         return self.semsimian_object_cache[predicates]
@@ -230,15 +239,18 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             predicates=predicates, attributes=self.termset_pairwise_similarity_attributes
         )
         sim = TermSetPairwiseSimilarity()
-        # average_score = semsimian.termset_comparison(
-        #     subject_terms=set(subjects),
-        #     object_terms=set(objects),
-        # )
-        average_score = semsimian.termset_comparison(
-            set(subjects),
-            set(objects),
-        )
+        semsimian_tsps = semsimian.termset_pairwise_similarity(set(subjects), set(objects))
 
-        sim.average_score = average_score
+        # Assuming all keys for the dict semsimian_tsps are attributes for the class TermSetPairwiseSimilarity,
+        # populate the object `sim`
+        for attribute, value in semsimian_tsps.items():
+            setattr(sim, attribute, value)
+
+        # average_score = semsimian.termset_comparison(
+        #     set(subjects),
+        #     set(objects),
+        # )
+
+        # sim.average_score = average_score
 
         return sim
