@@ -36,8 +36,8 @@ class TestSemSimianImplementation(unittest.TestCase):
         db = DB.as_posix()
         # this is to drop the drive name from the database path.
         # The main reason for this is use of 2 descriptors [semsimian and sqlite].
-        if os.name == "nt" or os.environ.get("RUNNER_OS") == "Windows":
-            _, db = os.path.splitdrive(db)
+        # if os.name == "nt":
+        #     _, db = os.path.splitdrive(db)
 
         oi = get_adapter(f"semsimian:sqlite:///{db}")
         comparison_oi = get_adapter(f"sqlite:///{db}")
