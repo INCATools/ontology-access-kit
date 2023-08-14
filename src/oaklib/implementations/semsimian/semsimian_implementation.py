@@ -99,9 +99,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             else:
                 self.resource_path = str(self.wrapped_adapter.engine.url)
 
-            if os.name == "nt":
-                _, self.resource_path = os.path.splitdrive(self.resource_path)
-
             self.semsimian_object_cache[predicates] = Semsimian(
                 spo=None,
                 predicates=predicates,
