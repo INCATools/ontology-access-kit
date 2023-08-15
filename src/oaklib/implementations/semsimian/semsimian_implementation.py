@@ -245,11 +245,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         for attribute, value in semsimian_tsps.items():
             setattr(sim, attribute, value)
 
-        # average_score = semsimian.termset_comparison(
-        #     set(subjects),
-        #     set(objects),
-        # )
-
-        # sim.average_score = average_score
+        if labels:
+            logging.warning("Adding labels not yet implemented in SemsimianImplementation.")
 
         return sim
