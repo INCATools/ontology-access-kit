@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: predicate_label &mdash; oaklib  documentation</title>
+  <title>Slot: subject_closure_label &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: predicate_label</li>
+      <li class="breadcrumb-item active">Slot: subject_closure_label</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/association/predicate_label.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/association/subject_closure_label.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,16 +83,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-predicate-label">
-<h1>Slot: predicate_label<a class="headerlink" href="#slot-predicate-label" title="Permalink to this heading"></a></h1>
-<p><em>The label of the type of relationship between the subject and object.</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/sssom/predicate_label">sssom:predicate_label</a></p>
-<section id="inheritance">
-<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this heading"></a></h2>
-<ul class="simple">
-<li><p><strong>predicate_label</strong> [ <a class="reference internal" href="denormalized_slot.html"><span class="std std-doc">denormalized_slot</span></a>]</p></li>
-</ul>
-</section>
+  <section id="slot-subject-closure-label">
+<h1>Slot: subject_closure_label<a class="headerlink" href="#slot-subject-closure-label" title="Permalink to this heading"></a></h1>
+<p><em>The set of subjects that are related to the subject of the association via the closure predicates</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/association/subject_closure_label">ontoassoc:subject_closure_label</a></p>
+<!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
@@ -122,6 +117,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -137,14 +133,13 @@
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
 <details>
 ```yaml
-name: predicate_label
-description: The label of the type of relationship between the subject and object.
+name: subject_closure_label
+description: The set of subjects that are related to the subject of the association
+  via the closure predicates
 from_schema: https://w3id.org/oak/association
 rank: 1000
-mixins:
-- denormalized_slot
-slot_uri: sssom:predicate_label
-alias: predicate_label
+multivalued: true
+alias: subject_closure_label
 domain_of:
 - PositiveOrNegativeAssociation
 range: string

@@ -223,6 +223,8 @@
         <span class="n">predicate_closure_predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">object_closure_predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_modified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">add_closure_fields</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Association</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yield all matching associations.</span>
@@ -262,6 +264,7 @@
 <span class="sd">        :param subject_closure_predicates: subjects is treated as descendant via these predicates</span>
 <span class="sd">        :param predicate_closure_predicates: predicates is treated as descendant via these predicates</span>
 <span class="sd">        :param object_closure_predicates: object is treated as descendant via these predicates</span>
+<span class="sd">        :param add_closure_fields: add subject and object closure fields to the association</span>
 <span class="sd">        :param include_modified:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -355,6 +358,7 @@
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
         <span class="n">curies1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies1</span><span class="p">)</span>
         <span class="n">curies2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">curies2</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finding co-associations between </span><span class="si">{</span><span class="n">curies1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">curies2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">assocmap1</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies1</span><span class="p">}</span>
         <span class="n">assocmap2</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies2</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">curies1</span><span class="p">:</span>

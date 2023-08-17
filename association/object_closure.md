@@ -1,19 +1,15 @@
-# Slot: predicate_label
+# Slot: object_closure
 
 
-_The label of the type of relationship between the subject and object._
-
-
-
-URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
+_The set of objects that are related to the object of the association via the closure predicates_
 
 
 
+URI: [ontoassoc:object_closure](https://w3id.org/oak/association/object_closure)
 
-## Inheritance
 
-* **predicate_label** [ [denormalized_slot](denormalized_slot.md)]
 
+<!-- no inheritance hierarchy -->
 
 
 
@@ -34,7 +30,9 @@ URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
 
 ## Properties
 
-* Range: [String](String.md)
+* Range: [Uriorcurie](Uriorcurie.md)
+
+* Multivalued: True
 
 
 
@@ -60,17 +58,16 @@ URI: [sssom:predicate_label](https://w3id.org/sssom/predicate_label)
 
 <details>
 ```yaml
-name: predicate_label
-description: The label of the type of relationship between the subject and object.
+name: object_closure
+description: The set of objects that are related to the object of the association
+  via the closure predicates
 from_schema: https://w3id.org/oak/association
 rank: 1000
-mixins:
-- denormalized_slot
-slot_uri: sssom:predicate_label
-alias: predicate_label
+multivalued: true
+alias: object_closure
 domain_of:
 - PositiveOrNegativeAssociation
-range: string
+range: uriorcurie
 
 ```
 </details>

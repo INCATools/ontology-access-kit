@@ -18,6 +18,7 @@ URI: [ontoassoc:property_values](https://w3id.org/oak/association/property_value
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+[PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
 [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 
@@ -64,8 +65,7 @@ rank: 1000
 multivalued: true
 alias: property_values
 domain_of:
-- Association
-- NegatedAssociation
+- PositiveOrNegativeAssociation
 range: PropertyValue
 inlined: true
 

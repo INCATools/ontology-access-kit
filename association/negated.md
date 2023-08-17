@@ -18,6 +18,7 @@ URI: [ontoassoc:negated](https://w3id.org/oak/association/negated)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+[PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  yes  |
 [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  yes  |
 
@@ -61,8 +62,7 @@ from_schema: https://w3id.org/oak/association
 rank: 1000
 alias: negated
 domain_of:
-- Association
-- NegatedAssociation
+- PositiveOrNegativeAssociation
 range: boolean
 
 ```

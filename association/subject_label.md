@@ -22,6 +22,7 @@ URI: [sssom:subject_label](https://w3id.org/sssom/subject_label)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+[PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
 [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 
@@ -68,8 +69,7 @@ mixins:
 slot_uri: sssom:subject_label
 alias: subject_label
 domain_of:
-- Association
-- NegatedAssociation
+- PositiveOrNegativeAssociation
 range: string
 
 ```

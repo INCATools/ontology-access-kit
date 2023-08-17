@@ -1,52 +1,50 @@
-# Class: Association
+# Class: PositiveOrNegativeAssociation
 
 
-_A generic association between a thing (subject) and another thing (object)._
+* __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
-
-
-URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
+URI: [ontoassoc:PositiveOrNegativeAssociation](https://w3id.org/oak/association/PositiveOrNegativeAssociation)
 
 
 
 ```{mermaid}
  classDiagram
-    class Association
+    class PositiveOrNegativeAssociation
       PositiveOrNegativeAssociation <|-- Association
+      PositiveOrNegativeAssociation <|-- NegatedAssociation
       
-      Association : aggregator_knowledge_source
+      PositiveOrNegativeAssociation : aggregator_knowledge_source
         
-      Association : negated
+      PositiveOrNegativeAssociation : negated
         
-      Association : object
+      PositiveOrNegativeAssociation : object
         
-      Association : object_closure
+      PositiveOrNegativeAssociation : object_closure
         
-      Association : object_closure_label
+      PositiveOrNegativeAssociation : object_closure_label
         
-      Association : object_label
+      PositiveOrNegativeAssociation : object_label
         
-      Association : predicate
+      PositiveOrNegativeAssociation : predicate
         
-      Association : predicate_label
+      PositiveOrNegativeAssociation : predicate_label
         
-      Association : primary_knowledge_source
+      PositiveOrNegativeAssociation : primary_knowledge_source
         
-      Association : property_values
+      PositiveOrNegativeAssociation : property_values
         
-          Association --|> PropertyValue : property_values
+          PositiveOrNegativeAssociation --|> PropertyValue : property_values
         
-      Association : publications
+      PositiveOrNegativeAssociation : publications
         
-      Association : subject
+      PositiveOrNegativeAssociation : subject
         
-      Association : subject_closure
+      PositiveOrNegativeAssociation : subject_closure
         
-      Association : subject_closure_label
+      PositiveOrNegativeAssociation : subject_closure_label
         
-      Association : subject_label
+      PositiveOrNegativeAssociation : subject_label
         
       
 ```
@@ -56,8 +54,9 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 ## Inheritance
-* [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md)
-    * **Association**
+* **PositiveOrNegativeAssociation**
+    * [Association](Association.md)
+    * [NegatedAssociation](NegatedAssociation.md)
 
 
 
@@ -65,32 +64,24 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject](subject.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The thing which the association is about | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) | Arbitrary key-value pairs with additional information about the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The label of the thing which the association is about | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [predicate_label](predicate_label.md) | 0..1 <br/> [String](String.md) | The label of the type of relationship between the subject and object | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [negated](negated.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the association is negated - i | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [subject_closure](subject_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [subject_closure_label](subject_closure_label.md) | 0..* <br/> [String](String.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [object_closure](object_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
-| [object_closure_label](object_closure_label.md) | 0..* <br/> [String](String.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [subject](subject.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The thing which the association is about | direct |
+| [predicate](predicate.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of relationship between the subject and object | direct |
+| [object](object.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | An ontology entity that is associated with the subject | direct |
+| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) | Arbitrary key-value pairs with additional information about the association | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> [String](String.md) | The label of the thing which the association is about | direct |
+| [predicate_label](predicate_label.md) | 0..1 <br/> [String](String.md) | The label of the type of relationship between the subject and object | direct |
+| [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | direct |
+| [negated](negated.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the association is negated - i | direct |
+| [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | direct |
+| [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | direct |
+| [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | direct |
+| [subject_closure](subject_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of subjects that are related to the subject of the association via th... | direct |
+| [subject_closure_label](subject_closure_label.md) | 0..* <br/> [String](String.md) | The set of subjects that are related to the subject of the association via th... | direct |
+| [object_closure](object_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of objects that are related to the object of the association via the ... | direct |
+| [object_closure_label](object_closure_label.md) | 0..* <br/> [String](String.md) | The set of objects that are related to the object of the association via the ... | direct |
 
 
 
-
-
-## Usages
-
-| used by | used in | type | used |
-| ---  | --- | --- | --- |
-| [RollupGroup](RollupGroup.md) | [associations](associations.md) | range | [Association](Association.md) |
-| [PairwiseCoAssociation](PairwiseCoAssociation.md) | [associations_for_subjects_in_common](associations_for_subjects_in_common.md) | range | [Association](Association.md) |
 
 
 
@@ -118,8 +109,8 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | oa:Annotation |
-| native | ontoassoc:Association |
+| self | ontoassoc:PositiveOrNegativeAssociation |
+| native | ontoassoc:PositiveOrNegativeAssociation |
 
 
 
@@ -133,17 +124,25 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 <details>
 ```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
+name: PositiveOrNegativeAssociation
 from_schema: https://w3id.org/oak/association
-is_a: PositiveOrNegativeAssociation
-slot_usage:
-  negated:
-    name: negated
-    domain_of:
-    - PositiveOrNegativeAssociation
-    equals_expression: 'False'
-class_uri: oa:Annotation
+abstract: true
+slots:
+- subject
+- predicate
+- object
+- property_values
+- subject_label
+- predicate_label
+- object_label
+- negated
+- publications
+- primary_knowledge_source
+- aggregator_knowledge_source
+- subject_closure
+- subject_closure_label
+- object_closure
+- object_closure_label
 
 ```
 </details>
@@ -152,16 +151,9 @@ class_uri: oa:Annotation
 
 <details>
 ```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
+name: PositiveOrNegativeAssociation
 from_schema: https://w3id.org/oak/association
-is_a: PositiveOrNegativeAssociation
-slot_usage:
-  negated:
-    name: negated
-    domain_of:
-    - PositiveOrNegativeAssociation
-    equals_expression: 'False'
+abstract: true
 attributes:
   subject:
     name: subject
@@ -175,7 +167,7 @@ attributes:
     rank: 1000
     slot_uri: rdf:subject
     alias: subject
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - AssociationChange
@@ -188,7 +180,7 @@ attributes:
     rank: 1000
     slot_uri: rdf:predicate
     alias: predicate
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - PropertyValue
@@ -206,7 +198,7 @@ attributes:
     rank: 1000
     slot_uri: rdf:object
     alias: object
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - PropertyValue
@@ -219,7 +211,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: property_values
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: PropertyValue
@@ -233,7 +225,7 @@ attributes:
     - denormalized_slot
     slot_uri: sssom:subject_label
     alias: subject_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -246,7 +238,7 @@ attributes:
     - denormalized_slot
     slot_uri: sssom:predicate_label
     alias: predicate_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -259,7 +251,7 @@ attributes:
     - denormalized_slot
     slot_uri: sssom:object_label
     alias: object_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -269,11 +261,10 @@ attributes:
     from_schema: https://w3id.org/oak/association
     rank: 1000
     alias: negated
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: boolean
-    equals_expression: 'False'
   publications:
     name: publications
     description: The publications that support the association
@@ -282,7 +273,7 @@ attributes:
     slot_uri: biolink:publications
     multivalued: true
     alias: publications
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - AssociationChange
@@ -294,7 +285,7 @@ attributes:
     rank: 1000
     slot_uri: biolink:primary_knowledge_source
     alias: primary_knowledge_source
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - ParserConfiguration
@@ -307,7 +298,7 @@ attributes:
     rank: 1000
     slot_uri: biolink:aggregator_knowledge_source
     alias: aggregator_knowledge_source
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - ParserConfiguration
@@ -321,7 +312,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: subject_closure
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: uriorcurie
@@ -333,7 +324,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: subject_closure_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -345,7 +336,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: object_closure
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: uriorcurie
@@ -357,11 +348,10 @@ attributes:
     rank: 1000
     multivalued: true
     alias: object_closure_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
-class_uri: oa:Annotation
 
 ```
 </details>

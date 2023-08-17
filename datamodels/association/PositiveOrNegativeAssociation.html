@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: Association &mdash; oaklib  documentation</title>
+  <title>Class: PositiveOrNegativeAssociation &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: Association</li>
+      <li class="breadcrumb-item active">Class: PositiveOrNegativeAssociation</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/association/Association.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/association/PositiveOrNegativeAssociation.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,54 +83,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-association">
-<h1>Class: Association<a class="headerlink" href="#class-association" title="Permalink to this heading"></a></h1>
-<p><em>A generic association between a thing (subject) and another thing (object).</em></p>
-<p>URI: <a class="reference external" href="http://www.w3.org/ns/oa#Annotation">oa:Annotation</a></p>
+  <section id="class-positiveornegativeassociation">
+<h1>Class: PositiveOrNegativeAssociation<a class="headerlink" href="#class-positiveornegativeassociation" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</p></li>
+</ul>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/association/PositiveOrNegativeAssociation">ontoassoc:PositiveOrNegativeAssociation</a></p>
 <div class="mermaid">
              classDiagram
-    class Association
+    class PositiveOrNegativeAssociation
       PositiveOrNegativeAssociation &lt;|-- Association
+      PositiveOrNegativeAssociation &lt;|-- NegatedAssociation
       
-      Association : aggregator_knowledge_source
+      PositiveOrNegativeAssociation : aggregator_knowledge_source
         
-      Association : negated
+      PositiveOrNegativeAssociation : negated
         
-      Association : object
+      PositiveOrNegativeAssociation : object
         
-      Association : object_closure
+      PositiveOrNegativeAssociation : object_closure
         
-      Association : object_closure_label
+      PositiveOrNegativeAssociation : object_closure_label
         
-      Association : object_label
+      PositiveOrNegativeAssociation : object_label
         
-      Association : predicate
+      PositiveOrNegativeAssociation : predicate
         
-      Association : predicate_label
+      PositiveOrNegativeAssociation : predicate_label
         
-      Association : primary_knowledge_source
+      PositiveOrNegativeAssociation : primary_knowledge_source
         
-      Association : property_values
+      PositiveOrNegativeAssociation : property_values
         
-          Association --|&gt; PropertyValue : property_values
+          PositiveOrNegativeAssociation --|&gt; PropertyValue : property_values
         
-      Association : publications
+      PositiveOrNegativeAssociation : publications
         
-      Association : subject
+      PositiveOrNegativeAssociation : subject
         
-      Association : subject_closure
+      PositiveOrNegativeAssociation : subject_closure
         
-      Association : subject_closure_label
+      PositiveOrNegativeAssociation : subject_closure_label
         
-      Association : subject_label
+      PositiveOrNegativeAssociation : subject_label
         
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p>
+<li><p><strong>PositiveOrNegativeAssociation</strong></p>
 <ul>
-<li><p><strong>Association</strong></p></li>
+<li><p><a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></li>
+<li><p><a class="reference internal" href="NegatedAssociation.html"><span class="std std-doc">NegatedAssociation</span></a></p></li>
 </ul>
 </li>
 </ul>
@@ -149,101 +153,77 @@
 <tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The thing which the association is about</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="std std-doc">predicate</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The type of relationship between the subject and object</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="std std-doc">object</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>An ontology entity that is associated with the subject</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 <td><p>Arbitrary key-value pairs with additional information about the association</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The label of the thing which the association is about</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="predicate_label.html"><span class="std std-doc">predicate_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The label of the type of relationship between the subject and object</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="std std-doc">object_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The label of the ontology entity that is associated with the subject</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="negated.html"><span class="std std-doc">negated</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
 <td><p>True if the association is negated - i</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="publications.html"><span class="std std-doc">publications</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The publications that support the association</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The primary knowledge source for the association</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="aggregator_knowledge_source.html"><span class="std std-doc">aggregator_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The knowledge source that aggregated the association</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subject_closure.html"><span class="std std-doc">subject_closure</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The set of subjects that are related to the subject of the association via th…</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_closure_label.html"><span class="std std-doc">subject_closure_label</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The set of subjects that are related to the subject of the association via th…</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_closure.html"><span class="std std-doc">object_closure</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The set of objects that are related to the object of the association via the …</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_closure_label.html"><span class="std std-doc">object_closure_label</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The set of objects that are related to the object of the association via the …</p></td>
-<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="usages">
-<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this heading"></a></h2>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>used by</p></th>
-<th class="head"><p>used in</p></th>
-<th class="head"><p>type</p></th>
-<th class="head"><p>used</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="RollupGroup.html"><span class="std std-doc">RollupGroup</span></a></p></td>
-<td><p><a class="reference internal" href="associations.html"><span class="std std-doc">associations</span></a></p></td>
-<td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="std std-doc">Association</span></a></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="PairwiseCoAssociation.html"><span class="std std-doc">PairwiseCoAssociation</span></a></p></td>
-<td><p><a class="reference internal" href="associations_for_subjects_in_common.html"><span class="std std-doc">associations_for_subjects_in_common</span></a></p></td>
-<td><p>range</p></td>
-<td><p><a class="reference internal" href="#"><span class="std std-doc">Association</span></a></p></td>
+<td><p>direct</p></td>
 </tr>
 </tbody>
 </table>
@@ -267,10 +247,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>oa:Annotation</p></td>
+<td><p>ontoassoc:PositiveOrNegativeAssociation</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>ontoassoc:Association</p></td>
+<td><p>ontoassoc:PositiveOrNegativeAssociation</p></td>
 </tr>
 </tbody>
 </table>
@@ -282,33 +262,34 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this heading"></a></h3>
 <details>
 ```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
+name: PositiveOrNegativeAssociation
 from_schema: https://w3id.org/oak/association
-is_a: PositiveOrNegativeAssociation
-slot_usage:
-  negated:
-    name: negated
-    domain_of:
-    - PositiveOrNegativeAssociation
-    equals_expression: 'False'
-class_uri: oa:Annotation
+abstract: true
+slots:
+- subject
+- predicate
+- object
+- property_values
+- subject_label
+- predicate_label
+- object_label
+- negated
+- publications
+- primary_knowledge_source
+- aggregator_knowledge_source
+- subject_closure
+- subject_closure_label
+- object_closure
+- object_closure_label
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: Association
-description: A generic association between a thing (subject) and another thing (object).
+name: PositiveOrNegativeAssociation
 from_schema: https://w3id.org/oak/association
-is_a: PositiveOrNegativeAssociation
-slot_usage:
-  negated:
-    name: negated
-    domain_of:
-    - PositiveOrNegativeAssociation
-    equals_expression: &#39;False&#39;
+abstract: true
 attributes:
   subject:
     name: subject
@@ -322,7 +303,7 @@ attributes:
     rank: 1000
     slot_uri: rdf:subject
     alias: subject
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - AssociationChange
@@ -335,7 +316,7 @@ attributes:
     rank: 1000
     slot_uri: rdf:predicate
     alias: predicate
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - PropertyValue
@@ -353,7 +334,7 @@ attributes:
     rank: 1000
     slot_uri: rdf:object
     alias: object
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - PropertyValue
@@ -366,7 +347,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: property_values
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: PropertyValue
@@ -380,7 +361,7 @@ attributes:
     - denormalized_slot
     slot_uri: sssom:subject_label
     alias: subject_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -393,7 +374,7 @@ attributes:
     - denormalized_slot
     slot_uri: sssom:predicate_label
     alias: predicate_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -406,7 +387,7 @@ attributes:
     - denormalized_slot
     slot_uri: sssom:object_label
     alias: object_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -416,11 +397,10 @@ attributes:
     from_schema: https://w3id.org/oak/association
     rank: 1000
     alias: negated
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: boolean
-    equals_expression: &#39;False&#39;
   publications:
     name: publications
     description: The publications that support the association
@@ -429,7 +409,7 @@ attributes:
     slot_uri: biolink:publications
     multivalued: true
     alias: publications
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - AssociationChange
@@ -441,7 +421,7 @@ attributes:
     rank: 1000
     slot_uri: biolink:primary_knowledge_source
     alias: primary_knowledge_source
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - ParserConfiguration
@@ -454,7 +434,7 @@ attributes:
     rank: 1000
     slot_uri: biolink:aggregator_knowledge_source
     alias: aggregator_knowledge_source
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     - ParserConfiguration
@@ -468,7 +448,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: subject_closure
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: uriorcurie
@@ -480,7 +460,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: subject_closure_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
@@ -492,7 +472,7 @@ attributes:
     rank: 1000
     multivalued: true
     alias: object_closure
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: uriorcurie
@@ -504,11 +484,10 @@ attributes:
     rank: 1000
     multivalued: true
     alias: object_closure_label
-    owner: Association
+    owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation
     range: string
-class_uri: oa:Annotation
 
 </pre></div>
 </div>

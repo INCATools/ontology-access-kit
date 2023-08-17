@@ -131,12 +131,17 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 <td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="std std-doc">PropertyValue</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="NegatedAssociation.html"><span class="std std-doc">NegatedAssociation</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Association.html"><span class="std std-doc">Association</span></a></p></td>
+<td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="std std-doc">PropertyValue</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="NegatedAssociation.html"><span class="std std-doc">NegatedAssociation</span></a></p></td>
 <td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="std std-doc">PropertyValue</span></a></p></td>
@@ -203,8 +208,7 @@ attributes:
     alias: predicate
     owner: PropertyValue
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - PropertyValue
     slot_group: core_triple
     range: uriorcurie
@@ -222,8 +226,7 @@ attributes:
     alias: object
     owner: PropertyValue
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - PropertyValue
     slot_group: core_triple
     range: uriorcurie

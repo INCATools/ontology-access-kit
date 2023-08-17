@@ -960,6 +960,17 @@ can use input specifications to bundle common combinations of inputs together.</
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-add-closure-fields">
+<span id="cmdoption-runoak-associations-no-add-closure-fields"></span><span class="sig-name descname"><span class="pre">--add-closure-fields</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-add-closure-fields</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-add-closure-fields" title="Permalink to this definition"></a></dt>
+<dd><p>Add closure fields to the output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-associations-association-predicates">
 <span class="sig-name descname"><span class="pre">--association-predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;association_predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-association-predicates" title="Permalink to this definition"></a></dt>
 <dd><p>A comma-separated list of predicates for the association relation</p>
@@ -990,7 +1001,16 @@ can use input specifications to bundle common combinations of inputs together.</
 <section id="runoak-associations-matrix">
 <h4>associations-matrix<a class="headerlink" href="#runoak-associations-matrix" title="Permalink to this heading"></a></h4>
 <p>Co-annotation matrix query.</p>
+<p>This queries for co-annotations between pairs of terms.</p>
+<p>See: Wood V., Carbon S., et al, <a class="reference external" href="https://royalsocietypublishing.org/doi/10.1098/rsob.200149">https://royalsocietypublishing.org/doi/10.1098/rsob.200149</a></p>
 <p>Example:</p>
+<blockquote>
+<div><p>runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046</p>
+</div></blockquote>
+<p>As a heatmap:</p>
+<blockquote>
+<div><p>runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -o heatmap &gt; /tmp/heatmap.png</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations-matrix<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -1028,23 +1048,6 @@ can use input specifications to bundle common combinations of inputs together.</
 <dt class="sig sig-object std" id="cmdoption-runoak-associations-matrix-0">
 <span id="cmdoption-runoak-associations-matrix-1"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-matrix-0" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-associations-matrix-if-absent">
-<span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-matrix-if-absent" title="Permalink to this definition"></a></dt>
-<dd><p>determines behavior when the value is not present or is empty.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Options<span class="colon">:</span></dt>
-<dd class="field-odd"><p>absent-only | present-only</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-associations-matrix-S">
-<span id="cmdoption-runoak-associations-matrix-s"></span><span id="cmdoption-runoak-associations-matrix-set-value"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--set-value</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set_value&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-matrix-S" title="Permalink to this definition"></a></dt>
-<dd><p>the value to set for all terms for the given property.</p>
 </dd></dl>
 
 <dl class="std option">

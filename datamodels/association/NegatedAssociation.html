@@ -90,11 +90,17 @@
 <div class="mermaid">
              classDiagram
     class NegatedAssociation
+      PositiveOrNegativeAssociation &lt;|-- NegatedAssociation
+      
       NegatedAssociation : aggregator_knowledge_source
         
       NegatedAssociation : negated
         
       NegatedAssociation : object
+        
+      NegatedAssociation : object_closure
+        
+      NegatedAssociation : object_closure_label
         
       NegatedAssociation : object_label
         
@@ -112,10 +118,23 @@
         
       NegatedAssociation : subject
         
+      NegatedAssociation : subject_closure
+        
+      NegatedAssociation : subject_closure_label
+        
       NegatedAssociation : subject_label
         
       
-        </div><!-- no inheritance hierarchy -->
+        </div><section id="inheritance">
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p>
+<ul>
+<li><p><strong>NegatedAssociation</strong></p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
@@ -130,57 +149,77 @@
 <tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The thing which the association is about</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="std std-doc">predicate</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The type of relationship between the subject and object</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="std std-doc">object</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>An ontology entity that is associated with the subject</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="property_values.html"><span class="std std-doc">property_values</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
 <td><p>Arbitrary key-value pairs with additional information about the association</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The label of the thing which the association is about</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="predicate_label.html"><span class="std std-doc">predicate_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The label of the type of relationship between the subject and object</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="std std-doc">object_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The label of the ontology entity that is associated with the subject</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="negated.html"><span class="std std-doc">negated</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
 <td><p>True if the association is negated - i</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="publications.html"><span class="std std-doc">publications</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The publications that support the association</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The primary knowledge source for the association</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="aggregator_knowledge_source.html"><span class="std std-doc">aggregator_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The knowledge source that aggregated the association</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_closure.html"><span class="std std-doc">subject_closure</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The set of subjects that are related to the subject of the association via th…</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_closure_label.html"><span class="std std-doc">subject_closure_label</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The set of subjects that are related to the subject of the association via th…</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_closure.html"><span class="std std-doc">object_closure</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The set of objects that are related to the object of the association via the …</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_closure_label.html"><span class="std std-doc">object_closure_label</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The set of objects that are related to the object of the association via the …</p></td>
+<td><p><a class="reference internal" href="PositiveOrNegativeAssociation.html"><span class="std std-doc">PositiveOrNegativeAssociation</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -222,24 +261,12 @@
 name: NegatedAssociation
 description: A negated association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
-slots:
-- subject
-- predicate
-- object
-- property_values
-- subject_label
-- predicate_label
-- object_label
-- negated
-- publications
-- primary_knowledge_source
-- aggregator_knowledge_source
+is_a: PositiveOrNegativeAssociation
 slot_usage:
   negated:
     name: negated
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     equals_expression: 'True'
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -250,12 +277,12 @@ slot_usage:
 name: NegatedAssociation
 description: A negated association between a thing (subject) and another thing (object).
 from_schema: https://w3id.org/oak/association
+is_a: PositiveOrNegativeAssociation
 slot_usage:
   negated:
     name: negated
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     equals_expression: &#39;True&#39;
 attributes:
   subject:
@@ -272,8 +299,7 @@ attributes:
     alias: subject
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - AssociationChange
     slot_group: core_triple
     range: uriorcurie
@@ -286,8 +312,7 @@ attributes:
     alias: predicate
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - PropertyValue
     slot_group: core_triple
     range: uriorcurie
@@ -305,8 +330,7 @@ attributes:
     alias: object
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - PropertyValue
     slot_group: core_triple
     range: uriorcurie
@@ -319,8 +343,7 @@ attributes:
     alias: property_values
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     range: PropertyValue
     inlined: true
   subject_label:
@@ -334,8 +357,7 @@ attributes:
     alias: subject_label
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     range: string
   predicate_label:
     name: predicate_label
@@ -348,8 +370,7 @@ attributes:
     alias: predicate_label
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     range: string
   object_label:
     name: object_label
@@ -362,8 +383,7 @@ attributes:
     alias: object_label
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     range: string
   negated:
     name: negated
@@ -373,8 +393,7 @@ attributes:
     alias: negated
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     range: boolean
     equals_expression: &#39;True&#39;
   publications:
@@ -387,8 +406,7 @@ attributes:
     alias: publications
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - AssociationChange
     range: uriorcurie
   primary_knowledge_source:
@@ -400,8 +418,7 @@ attributes:
     alias: primary_knowledge_source
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - ParserConfiguration
     - AssociationChange
     range: uriorcurie
@@ -414,11 +431,58 @@ attributes:
     alias: aggregator_knowledge_source
     owner: NegatedAssociation
     domain_of:
-    - Association
-    - NegatedAssociation
+    - PositiveOrNegativeAssociation
     - ParserConfiguration
     - AssociationChange
     range: uriorcurie
+  subject_closure:
+    name: subject_closure
+    description: The set of subjects that are related to the subject of the association
+      via the closure predicates
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: subject_closure
+    owner: NegatedAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: uriorcurie
+  subject_closure_label:
+    name: subject_closure_label
+    description: The set of subjects that are related to the subject of the association
+      via the closure predicates
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: subject_closure_label
+    owner: NegatedAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: string
+  object_closure:
+    name: object_closure
+    description: The set of objects that are related to the object of the association
+      via the closure predicates
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: object_closure
+    owner: NegatedAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: uriorcurie
+  object_closure_label:
+    name: object_closure_label
+    description: The set of objects that are related to the object of the association
+      via the closure predicates
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: object_closure_label
+    owner: NegatedAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: string
 
 </pre></div>
 </div>

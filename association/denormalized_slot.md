@@ -20,9 +20,9 @@ URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized
 
 | mixed into | description | range | domain |
 | --- | --- | --- | --- |
-| [subject_label](subject_label.md) | The label of the thing which the association is about | string | Association, NegatedAssociation |
-| [predicate_label](predicate_label.md) | The label of the type of relationship between the subject and object | string | Association, NegatedAssociation |
-| [object_label](object_label.md) | The label of the ontology entity that is associated with the subject | string | Association, NegatedAssociation |
+| [subject_label](subject_label.md) | The label of the thing which the association is about | string | PositiveOrNegativeAssociation |
+| [predicate_label](predicate_label.md) | The label of the type of relationship between the subject and object | string | PositiveOrNegativeAssociation |
+| [object_label](object_label.md) | The label of the ontology entity that is associated with the subject | string | PositiveOrNegativeAssociation |
 
 
 

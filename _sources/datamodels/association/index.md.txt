@@ -23,11 +23,12 @@ Name: association
 
 | Class | Description |
 | --- | --- |
-| [Association](Association.md) | A generic association between a thing (subject) and another thing (object). |
 | [AssociationChange](AssociationChange.md) | A change object describing a change between two associations. |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object). |
 | [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |
 | [ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations. |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) | None |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Association](Association.md) | A generic association between a thing (subject) and another thing (object). |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object). |
 | [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association. |
 | [RollupGroup](RollupGroup.md) | None |
 
@@ -68,6 +69,8 @@ Name: association
 | [object1_label](object1_label.md) |  |
 | [object2](object2.md) |  |
 | [object2_label](object2_label.md) |  |
+| [object_closure](object_closure.md) | The set of objects that are related to the object of the association via the ... |
+| [object_closure_label](object_closure_label.md) | The set of objects that are related to the object of the association via the ... |
 | [object_label](object_label.md) | The label of the ontology entity that is associated with the subject |
 | [old_date](old_date.md) | The date of the old association |
 | [old_object](old_object.md) | The object (e |
@@ -86,6 +89,8 @@ Name: association
 | [publications](publications.md) | The publications that support the association |
 | [sub_groups](sub_groups.md) | Container for groups within a rollup group |
 | [subject](subject.md) | The thing which the association is about |
+| [subject_closure](subject_closure.md) | The set of subjects that are related to the subject of the association via th... |
+| [subject_closure_label](subject_closure_label.md) | The set of subjects that are related to the subject of the association via th... |
 | [subject_label](subject_label.md) | The label of the thing which the association is about |
 | [subjects_in_common](subjects_in_common.md) |  |
 | [summary_group](summary_group.md) | The field used to group an association diff summary |
