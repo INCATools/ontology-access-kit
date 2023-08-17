@@ -115,6 +115,7 @@ from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
@@ -142,6 +143,7 @@ class SimpleOboImplementation(
     MappingProviderInterface,
     PatcherInterface,
     SummaryStatisticsInterface,
+    SemanticSimilarityInterface,
     TaxonConstraintInterface,
     TextAnnotatorInterface,
     DumperInterface,

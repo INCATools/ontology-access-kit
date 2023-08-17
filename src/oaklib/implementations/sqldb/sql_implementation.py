@@ -1183,6 +1183,8 @@ class SqlImplementation(
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
         query: sqlalchemy.orm.Query = None,
+        add_closure_fields: bool = False,
+        **kwargs,
     ) -> Any:
         if query:
             q = query

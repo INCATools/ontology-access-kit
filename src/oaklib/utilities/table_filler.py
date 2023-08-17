@@ -97,7 +97,7 @@ def apply_dict(
             from_val = row[from_col]
             new_to_val = mapping.get(from_val)
             if not new_to_val:
-                msg = f"No corresponding value in {from_col} for: {from_val}"
+                msg = f"No corresponding value in {from_col} for: {from_val}, dep={dependency}"
                 if not dependency.allow_missing_values:
                     raise ValueError(msg)
                 else:
@@ -228,12 +228,13 @@ class TableFiller:
         We can use this for other properties too:
 
         >>> cd1 = ColumnDependency("term", "IAO:0100001", "replacement")
-        >>> metadata = TableMetadata(dependencies=[cd1, cd2])
-        >>> rows = [{"term": "GO:0000108", "info": "foo"}]
+        >>> metadata = TableMetadata(dependencies=[cd1])
+        >>> rows = [{"term": "GO:0000108", "info": "foo"}, {"term": "GO:0005634"}]
         >>> filler.fill_table(rows, metadata)
         >>> for row in rows:
         ...     print(row)
         {'term': 'GO:0000108', 'info': 'foo', 'replacement': ['GO:0000109']}
+        {'term': 'GO:0005634'}
 
         :param rows: list of rows, which each row is a dict. Edited in place.
         :param table_metadata:

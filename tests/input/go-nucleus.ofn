@@ -4,7 +4,6 @@ Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
 Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
 Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
-Prefix(obo1:=<http://www.geneontology.org/formats/oboInOwl#http://purl.obolibrary.org/obo/>)
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 Prefix(oboInOwl:=<http://www.geneontology.org/formats/oboInOwl#>)
 
@@ -333,7 +332,7 @@ Declaration(AnnotationProperty(oboInOwl:inSubset))
 Declaration(AnnotationProperty(oboInOwl:is_class_level))
 Declaration(AnnotationProperty(oboInOwl:is_metadata_tag))
 Declaration(AnnotationProperty(oboInOwl:shorthand))
-Declaration(AnnotationProperty(obo1:IAO_0000233))
+Declaration(AnnotationProperty(obo:IAO_0000233))
 Declaration(AnnotationProperty(rdfs:comment))
 Declaration(AnnotationProperty(rdfs:label))
 ############################
@@ -2516,7 +2515,7 @@ SubClassOf(obo:GO_0033673 obo:GO_0042326)
 SubClassOf(obo:GO_0033673 obo:GO_0043549)
 SubClassOf(obo:GO_0033673 obo:GO_0051348)
 SubClassOf(obo:GO_0033673 ObjectSomeValuesFrom(obo:RO_0002212 obo:GO_0016301))
-SubClassOf(Annotation(obo1:IAO_0000233 "https://github.com/geneontology/go-ontology/issues/13926"^^xsd:string) obo:GO_0033673 ObjectSomeValuesFrom(obo:RO_0002212 obo:GO_0016310))
+SubClassOf(Annotation(obo:IAO_0000233 "https://github.com/geneontology/go-ontology/issues/13926"^^xsd:string) obo:GO_0033673 ObjectSomeValuesFrom(obo:RO_0002212 obo:GO_0016310))
 
 # Class: obo:GO_0033674 (positive regulation of kinase activity)
 
@@ -2534,7 +2533,7 @@ SubClassOf(obo:GO_0033674 obo:GO_0042327)
 SubClassOf(obo:GO_0033674 obo:GO_0043549)
 SubClassOf(obo:GO_0033674 obo:GO_0051347)
 SubClassOf(obo:GO_0033674 ObjectSomeValuesFrom(obo:RO_0002213 obo:GO_0016301))
-SubClassOf(Annotation(obo1:IAO_0000233 "https://github.com/geneontology/go-ontology/issues/13926"^^xsd:string) obo:GO_0033674 ObjectSomeValuesFrom(obo:RO_0002213 obo:GO_0016310))
+SubClassOf(Annotation(obo:IAO_0000233 "https://github.com/geneontology/go-ontology/issues/13926"^^xsd:string) obo:GO_0033674 ObjectSomeValuesFrom(obo:RO_0002213 obo:GO_0016310))
 
 # Class: obo:GO_0034357 (photosynthetic membrane)
 
@@ -2707,7 +2706,7 @@ EquivalentClasses(obo:GO_0043549 ObjectIntersectionOf(obo:GO_0065007 ObjectSomeV
 SubClassOf(obo:GO_0043549 obo:GO_0042325)
 SubClassOf(obo:GO_0043549 obo:GO_0051338)
 SubClassOf(obo:GO_0043549 ObjectSomeValuesFrom(obo:RO_0002211 obo:GO_0016301))
-SubClassOf(Annotation(obo1:IAO_0000233 "https://github.com/geneontology/go-ontology/issues/13926"^^xsd:string) obo:GO_0043549 ObjectSomeValuesFrom(obo:RO_0002211 obo:GO_0016310))
+SubClassOf(Annotation(obo:IAO_0000233 "https://github.com/geneontology/go-ontology/issues/13926"^^xsd:string) obo:GO_0043549 ObjectSomeValuesFrom(obo:RO_0002211 obo:GO_0016310))
 
 # Class: obo:GO_0044092 (negative regulation of molecular function)
 

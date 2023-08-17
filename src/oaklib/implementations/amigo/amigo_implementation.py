@@ -1,6 +1,7 @@
 """Adapter for AmiGO solr index."""
 import logging
 from dataclasses import dataclass
+from time import sleep
 from typing import Any, Dict, Iterable, Iterator, List, Optional
 
 import pysolr
@@ -30,6 +31,7 @@ BIOENTITY_LABEL = "bioentity_label"
 ANNOTATION_CLASS = "annotation_class"
 ANNOTATION_CLASS_LABEL = "annotation_class_label"
 ISA_PARTOF_CLOSURE = "isa_partof_closure"
+ISA_PARTOF_CLOSURE_LABEL = "isa_partof_closure_label"
 TAXON_CLOSURE = "taxon_closure"
 ASSIGNED_BY = "assigned_by"
 REFERENCE = "reference"
@@ -38,7 +40,7 @@ REFERENCE = "reference"
 ENTITY = "entity"
 ENTITY_LABEL = "entity_label"
 
-SELECT_FIELDS = [
+DEFAULT_SELECT_FIELDS = [
     BIOENTITY,
     BIOENTITY_LABEL,
     ANNOTATION_CLASS,
@@ -55,14 +57,22 @@ def _fq_element(k, vs):
     return f"{k}:({v})"
 
 
-def _query(solr, fq, fields):
+def _query(solr, fq, fields, start: int = None, limit: int = None) -> Iterator[Dict]:
+    if start is None:
+        start = 0
+    if limit is None:
+        limit = LIMIT
     fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
     params = {"fq": fq_list, "fl": ",".join(fields)}
-    results = solr.search("*:*", rows=LIMIT, **params)
-    if len(results) > LIMIT:
-        # TODO:
-        raise ValueError(f"Too many results, increase LIMIT: {len(results)} > {LIMIT}")
-    return results
+    while True:
+        results = solr.search("*:*", rows=limit, start=start, **params)
+        yield from results
+        logging.debug(f"CHECKING: {start} + {len(results)} >= {results.hits}")
+        if start + len(results) >= results.hits:
+            break
+        else:
+            start += limit
+            sleep(0.1)
 
 
 def _unnnormalize(curie: CURIE) -> CURIE:
@@ -130,6 +140,8 @@ class AmiGOImplementation(
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        add_closure_fields: bool = False,
+        **kwargs,
     ) -> Iterator[Association]:
         solr = self._solr
         fq = {DOCUMENT_CATEGORY: ["annotation"]}
@@ -142,13 +154,18 @@ class AmiGOImplementation(
         if self._source:
             fq[TAXON_CLOSURE] = [self._source]
 
-        results = _query(solr, fq, SELECT_FIELDS)
+        select_fields = DEFAULT_SELECT_FIELDS
+        if add_closure_fields:
+            select_fields.append(ISA_PARTOF_CLOSURE)
+            select_fields.append(ISA_PARTOF_CLOSURE_LABEL)
+
+        results = _query(solr, fq, select_fields)
 
         # fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
         # params = {"fq": fq_list, "fl": ",".join(SELECT_FIELDS)}
         # results = solr.search("*:*", rows=1000, **params)
         for doc in results:
-            yield Association(
+            assoc = Association(
                 subject=_normalize(doc[BIOENTITY]),
                 subject_label=doc[BIOENTITY_LABEL],
                 # predicate="",
@@ -158,3 +175,7 @@ class AmiGOImplementation(
                 primary_knowledge_source=doc[ASSIGNED_BY],
                 aggregator_knowledge_source="infores:go",
             )
+            if add_closure_fields:
+                assoc.subject_closure = doc[ISA_PARTOF_CLOSURE]
+                assoc.subject_closure_label = doc[ISA_PARTOF_CLOSURE_LABEL]
+            yield assoc

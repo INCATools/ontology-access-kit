@@ -1,0 +1,24 @@
+ontology_resources:
+  mondo:
+    selector: sqlite:obo:mondo
+association_resources:
+  hpoa_g2d:
+    selector: "hpoa_g2d:"
+    normalizers:
+      - selector: "sqlite:obo:mondo"
+        source_prefixes:
+          - OMIM
+        target_prefixes:
+          - MONDO
+        slots:
+          - object
+      - selector: "sqlite:obo:hgnc"
+        source_prefixes:
+          - ncbigene
+        target_prefixes:
+          - HGNC
+        slots:
+          - subject
+        prefix_alias_map:
+          hgnc: HGNC
+          ncbigene: NCBIGene

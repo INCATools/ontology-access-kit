@@ -4118,6 +4118,12 @@ def apply_taxon_constraints(
 @if_absent_option
 @set_value_option
 @click.option(
+    "--add-closure-fields/--no-add-closure-fields",
+    default=False,
+    show_default=True,
+    help="Add closure fields to the output",
+)
+@click.option(
     "--association-predicates",
     help="A comma-separated list of predicates for the association relation",
 )
@@ -4140,6 +4146,7 @@ def associations(
     output: str,
     if_absent: bool,
     set_value: str,
+    **kwargs,
 ):
     """
     Lookup associations from or to entities.
@@ -4188,11 +4195,13 @@ def associations(
         curies,
         predicates=actual_association_predicates,
         subject_closure_predicates=actual_predicates,
+        **kwargs,
     )
     qo_it = impl.associations(
         objects=curies,
         predicates=actual_association_predicates,
         object_closure_predicates=actual_predicates,
+        **kwargs,
     )
     if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
         it = qs_it
@@ -4241,8 +4250,6 @@ def associations(
 @autolabel_option
 @output_type_option
 @output_option
-@if_absent_option
-@set_value_option
 @click.option(
     "--association-predicates",
     help="A comma-separated list of predicates for the association relation",
@@ -4264,13 +4271,21 @@ def associations_matrix(
     autolabel: bool,
     output_type: str,
     output: str,
-    if_absent: bool,
-    set_value: str,
 ):
     """
     Co-annotation matrix query.
 
+    This queries for co-annotations between pairs of terms.
+
+    See: Wood V., Carbon S., et al, https://royalsocietypublishing.org/doi/10.1098/rsob.200149
+
     Example:
+
+        runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046
+
+    As a heatmap:
+
+        runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -o heatmap > /tmp/heatmap.png
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
