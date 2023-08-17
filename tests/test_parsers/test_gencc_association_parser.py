@@ -41,6 +41,6 @@ class GenCCAssociationParserTest(unittest.TestCase):
         adapter = get_adapter(CONF_DIR_PATH / "mondo-gencc-input-spec.yaml")
         n = 0
         for association in adapter.associations():
-            # print(association)
+            print(association)
             n += 1
         assert n > 0

@@ -3,7 +3,7 @@ import unittest
 
 from oaklib import get_adapter
 from oaklib.conf import CONF_DIR_PATH
-from oaklib.parsers import GENCC, HPOA_G2D
+from oaklib.parsers import HPOA_G2D
 from oaklib.parsers.association_parser_factory import get_association_parser
 from tests import INPUT_DIR
 
@@ -36,6 +36,6 @@ class HpoaG2DAssociationParserTest(unittest.TestCase):
         adapter = get_adapter(CONF_DIR_PATH / "mondo-hpoa-g2d-input-spec.yaml")
         n = 0
         for association in adapter.associations():
-            # print(association)
+            print(association)
             n += 1
         assert n > 0

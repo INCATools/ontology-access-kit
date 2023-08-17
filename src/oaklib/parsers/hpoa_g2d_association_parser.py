@@ -1,16 +1,29 @@
 """Parser for GAF association formats"""
 import csv
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Iterator, Optional, TextIO
 
 from oaklib.datamodels.association import Association, ParserConfiguration
-from oaklib.parsers.parser_base import ColumnReference
 from oaklib.parsers.xaf_association_parser import XafAssociationParser
 
 
 @dataclass
 class HpoaG2DAssociationParser(XafAssociationParser):
-    """Parsers for Hpoa G2D format."""
+    """Parsers for Hpoa G2D format.
+
+    Usage:
+
+    >>> from oaklib.parsers.hpoa_g2d_association_parser import HpoaG2DAssociationParser
+    >>> parser = HpoaG2DAssociationParser()
+    >>> for assoc in parser.parse(open("tests/input/example-hpoa-g2d.csv")):
+    ...     print(assoc.subject, assoc.subject_label, assoc.object, assoc.object_label)
+    <BLANKLINE>
+    ...
+    HGNC:18806 CAMTA1 MONDO:0013886 nonprogressive cerebellar atxia with intellectual disability
+    HGNC:16369 PARK7 MONDO:0011658 autosomal recessive early-onset Parkinson disease 7
+    ...
+
+    """
 
     def parse(
         self,
