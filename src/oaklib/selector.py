@@ -41,6 +41,12 @@ ASSOCIATION_REGISTRY = {
         "http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt",
         False,
     ),
+    "hpoa_g2d": (
+        [],
+        "hpoa_g2d",
+        "http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt",
+        False,
+    ),
     "gaf": (["group"], "gaf", "http://current.geneontology.org/annotations/{group}.gaf.gz", True),
     "gaf_archive": (
         ["date", "group"],

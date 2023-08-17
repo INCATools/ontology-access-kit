@@ -29,9 +29,8 @@ default_prefix: ontoassoc
 
 classes:
 
-  Association:
-    class_uri: oa:Annotation
-    description: A generic association between a thing (subject) and another thing (object).
+  PositiveOrNegativeAssociation:
+    abstract: true
     slots:
       - subject
       - predicate
@@ -44,24 +43,22 @@ classes:
       - publications
       - primary_knowledge_source
       - aggregator_knowledge_source
+      - subject_closure
+      - subject_closure_label
+      - object_closure
+      - object_closure_label
+
+  Association:
+    is_a: PositiveOrNegativeAssociation
+    class_uri: oa:Annotation
+    description: A generic association between a thing (subject) and another thing (object).
     slot_usage:
       negated:
         equals_expression: "False"
 
   NegatedAssociation:
+    is_a: PositiveOrNegativeAssociation
     description: A negated association between a thing (subject) and another thing (object).
-    slots:
-      - subject
-      - predicate
-      - object
-      - property_values
-      - subject_label
-      - predicate_label
-      - object_label
-      - negated
-      - publications
-      - primary_knowledge_source
-      - aggregator_knowledge_source
     slot_usage:
       negated:
         equals_expression: "True"
@@ -350,6 +347,26 @@ slots:
     range: integer
   closure_information_content_delta:
     range: float
+  subject_closure:
+    description: >-
+      The set of subjects that are related to the subject of the association via the closure predicates
+    range: uriorcurie
+    multivalued: true
+  object_closure:
+    description: >-
+      The set of objects that are related to the object of the association via the closure predicates
+    range: uriorcurie
+    multivalued: true
+  subject_closure_label:
+    description: >-
+      The set of subjects that are related to the subject of the association via the closure predicates
+    range: string
+    multivalued: true
+  object_closure_label:
+    description: >-
+      The set of objects that are related to the object of the association via the closure predicates
+    range: string
+    multivalued: true
 
   object1:
     is_a: object
