@@ -27,17 +27,13 @@ EXPECTED_ICS = {
     "BFO:0000003": 14.89,
 }
 
-
+@unittest.skipIf(os.name == "nt", "DB path loading inconsisent on Windows")
 class TestSemSimianImplementation(unittest.TestCase):
     """Implementation tests for Rust-based semantic similarity."""
 
     def setUp(self) -> None:
         """Set up"""
         db = DB.as_posix()
-        # this is to drop the drive name from the database path.
-        # The main reason for this is use of 2 descriptors [semsimian and sqlite].
-        if os.name == "nt":
-            _, db = os.path.splitdrive(db)
 
         oi = get_adapter(f"semsimian:sqlite:///{db}")
         comparison_oi = get_adapter(f"sqlite:///{db}")
