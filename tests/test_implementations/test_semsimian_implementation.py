@@ -27,6 +27,7 @@ EXPECTED_ICS = {
     "BFO:0000003": 14.89,
 }
 
+
 @unittest.skipIf(os.name == "nt", "DB path loading inconsisent on Windows")
 class TestSemSimianImplementation(unittest.TestCase):
     """Implementation tests for Rust-based semantic similarity."""
