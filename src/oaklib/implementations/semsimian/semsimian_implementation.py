@@ -2,13 +2,17 @@
 import inspect
 import logging
 import math
-from dataclasses import dataclass
-from typing import ClassVar, Iterable, Iterator, List, Optional
+from dataclasses import dataclass, field
+from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from semsimian import Semsimian
 
-from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.similarity import (
+    TermPairwiseSimilarity,
+    TermSetPairwiseSimilarity,
+)
 from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -44,6 +48,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         SemanticSimilarityInterface.information_content_scores,
     ]
 
+    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Semsimian] = field(default_factory=dict)
+
     def __post_init__(self):
         slug = self.resource.slug
         from oaklib.selector import get_adapter
@@ -56,8 +62,50 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             mn = m if isinstance(m, str) else m.__name__
             setattr(SemSimianImplementation, mn, methods[mn])
 
-        spo = [r for r in self.wrapped_adapter.relationships(include_entailed=True)]
-        self.semsimian = Semsimian(spo)
+        self.term_pairwise_similarity_attributes = [
+            attr
+            for attr in vars(TermPairwiseSimilarity)
+            if not any(attr.startswith(s) for s in ["class_", "_"])
+        ]
+        self.termset_pairwise_similarity_attributes = [
+            attr
+            for attr in vars(TermSetPairwiseSimilarity)
+            if not any(attr.startswith(s) for s in ["class_", "_"])
+        ]
+
+    def _get_semsimian_object(
+        self,
+        predicates: List[PRED_CURIE] = None,
+        attributes: List[str] = None,
+        resource_path: str = None,
+    ) -> Semsimian:
+        """
+        Get Semsimian object from "semsimian_object_cache" or add a new one.
+
+        :param predicates: collection of predicates, defaults to None
+        :return: A Semsimian object.
+        """
+        predicates = tuple(sorted(predicates))
+        if predicates not in self.semsimian_object_cache:
+            # spo = [
+            #     r
+            #     for r in self.wrapped_adapter.relationships(
+            #         include_entailed=True, predicates=predicates
+            #     )
+            # ]
+            if isinstance(self.wrapped_adapter, SqlImplementation):
+                self.resource_path = str(self.wrapped_adapter.engine.url).lstrip("sqlite:")
+            else:
+                self.resource_path = str(self.wrapped_adapter.engine.url)
+
+            self.semsimian_object_cache[predicates] = Semsimian(
+                spo=None,
+                predicates=predicates,
+                pairwise_similarity_attributes=attributes,
+                resource_path=self.resource_path,
+            )
+
+        return self.semsimian_object_cache[predicates]
 
     def pairwise_similarity(
         self,
@@ -82,8 +130,11 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :return:
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+        semsimian = self._get_semsimian_object(
+            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+        )
 
-        jaccard_val = self.semsimian.jaccard_similarity(subject, object, set(predicates))
+        jaccard_val = semsimian.jaccard_similarity(subject, object)
 
         if math.isnan(jaccard_val):
             return None
@@ -91,9 +142,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         if min_jaccard_similarity is not None and jaccard_val < min_jaccard_similarity:
             return None
 
-        _, ancestor_information_content_val = self.semsimian.resnik_similarity(
-            subject, object, set(predicates)
-        )
+        _, ancestor_information_content_val = semsimian.resnik_similarity(subject, object)
 
         if math.isnan(ancestor_information_content_val):
             return None
@@ -136,17 +185,21 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
-        all_results = self.semsimian.all_by_all_pairwise_similarity(
+        semsimian = self._get_semsimian_object(
+            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+        )
+        all_results = semsimian.all_by_all_pairwise_similarity(
             subject_terms=set(subjects),
             object_terms=set(objects),
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
-            predicates=set(predicates) if predicates else None,
+            # predicates=set(predicates) if predicates else None,
         )
         logging.info("Post-processing results from semsimian")
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
-                jaccard, resnik, phenodigm_score, ancestor_set = result
+                # Remember the _ here is cosine_similarity which we do not use at the moment.
+                jaccard, resnik, phenodigm_score, _, ancestor_set = result
                 if len(ancestor_set) > 0:
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key,
@@ -165,3 +218,34 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                     sim.jaccard_similarity = 0
                     sim.ancestor_information_content = 0
                 yield sim
+
+    def termset_pairwise_similarity(
+        self,
+        subjects: List[CURIE],
+        objects: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        labels=False,
+    ) -> TermSetPairwiseSimilarity:
+        """Return TermSetPairwiseSimilarity object.
+
+        :param subjects: List of subject nodes.
+        :param objects: List of object nodes.
+        :param predicates: List of predicates, defaults to None
+        :param labels: Boolean to get labels for all nodes from resource, defaults to False
+        :return: TermSetPairwiseSimilarity object
+        """
+        semsimian = self._get_semsimian_object(
+            predicates=predicates, attributes=self.termset_pairwise_similarity_attributes
+        )
+        sim = TermSetPairwiseSimilarity()
+        semsimian_tsps = semsimian.termset_pairwise_similarity(set(subjects), set(objects))
+
+        # Assuming all keys for the dict semsimian_tsps are attributes for the class TermSetPairwiseSimilarity,
+        # populate the object `sim`
+        for attribute, value in semsimian_tsps.items():
+            setattr(sim, attribute, value)
+
+        if labels:
+            logging.warning("Adding labels not yet implemented in SemsimianImplementation.")
+
+        return sim
