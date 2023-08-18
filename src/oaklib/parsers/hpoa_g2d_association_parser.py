@@ -37,10 +37,18 @@ class HpoaG2DAssociationParser(XafAssociationParser):
             typ = row["association_type"]
             if mendelian_only and typ != "MENDELIAN":
                 continue
+            if typ == "MENDELIAN":
+                predicate = "biolink:causes"
+            elif typ == "POLYGENIC":
+                predicate = "biolink:contributes_to"
+            else:
+                predicate = "biolink:gene_associated_with_condition"
+
             assoc = Association(
                 object=row["disease_id"].replace("ORPHA:", "Orphanet:"),
                 subject=row["ncbi_gene_id"],
                 subject_label=row["gene_symbol"],
+                predicate=predicate,
                 primary_knowledge_source=row["source"],
                 aggregator_knowledge_source="infores:hpoa",
             )
