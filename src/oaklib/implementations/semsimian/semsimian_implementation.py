@@ -3,7 +3,7 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass, field
-from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from semsimian import Semsimian
 
@@ -243,9 +243,32 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         # Assuming all keys for the dict semsimian_tsps are attributes for the class TermSetPairwiseSimilarity,
         # populate the object `sim`
         for attribute, value in semsimian_tsps.items():
+            if isinstance(value, list):
+                continue
+            else:
+                value = self._regain_element_formats(value)
+
             setattr(sim, attribute, value)
 
         if labels:
             logging.warning("Adding labels not yet implemented in SemsimianImplementation.")
 
         return sim
+
+    def _regain_element_formats(self, value: str) -> Union[str, float]:
+        """Check if value is a float/str/NaN and format them accordingly."""
+        if isinstance(value, dict):
+            for key in value:
+                value[key] = self._regain_element_formats(value[key])
+        else:
+            try:
+                if value == "NaN":
+                    value = None
+                else:
+                    value = float(value)
+            except ValueError:
+                try:
+                    value = int(value)
+                except ValueError:
+                    pass
+        return value
