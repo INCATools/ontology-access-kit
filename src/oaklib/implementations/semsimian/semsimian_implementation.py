@@ -8,6 +8,7 @@ from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Un
 from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import (
+    BestMatch,
     TermInfo,
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
@@ -254,10 +255,19 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                         for k, v in term_dict.items()
                     },
                 )
+            elif isinstance(value, dict) and str(attribute).endswith("best_matches"):
+                best_match_dict = {}
+                for k, v in value.items():
+                    if k != "similarity":
+                        v["similarity"] = value["similarity"][k]
+                        v = self._regain_element_formats(v)
+                        best_match_object: BestMatch = BestMatch(**v)
+                        best_match_dict[k] = best_match_object
+
+                setattr(sim, attribute, best_match_dict)
             else:
                 value = self._regain_element_formats(value)
-
-            setattr(sim, attribute, value)
+                setattr(sim, attribute, value)
 
         if labels:
             logging.warning("Adding labels not yet implemented in SemsimianImplementation.")
