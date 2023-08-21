@@ -8,6 +8,7 @@ from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Un
 from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import (
+    TermInfo,
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
@@ -244,7 +245,15 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         # populate the object `sim`
         for attribute, value in semsimian_tsps.items():
             if isinstance(value, list):
-                continue
+                setattr(
+                    sim,
+                    attribute,
+                    {
+                        k: TermInfo(id=v["id"], label=v["label"])
+                        for term_dict in value
+                        for k, v in term_dict.items()
+                    },
+                )
             else:
                 value = self._regain_element_formats(value)
 
