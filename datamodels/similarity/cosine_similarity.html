@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: score &mdash; oaklib  documentation</title>
+  <title>Slot: cosine_similarity &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: score</li>
+      <li class="breadcrumb-item active">Slot: cosine_similarity</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/similarity/score.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/similarity/cosine_similarity.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,25 +83,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-score">
-<h1>Slot: score<a class="headerlink" href="#slot-score" title="Permalink to this heading"></a></h1>
-<p><em>Abstract base slot for different kinds of scores</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/similarity/score">sim:score</a></p>
+  <section id="slot-cosine-similarity">
+<h1>Slot: cosine_similarity<a class="headerlink" href="#slot-cosine-similarity" title="Permalink to this heading"></a></h1>
+<p><em>the dot product of two node embeddings divided by the product of their lengths</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/similarity/cosine_similarity">sim:cosine_similarity</a></p>
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>score</strong></p>
+<li><p><a class="reference internal" href="score.html"><span class="std std-doc">score</span></a></p>
 <ul>
-<li><p><a class="reference internal" href="information_content.html"><span class="std std-doc">information_content</span></a></p></li>
-<li><p><a class="reference internal" href="jaccard_similarity.html"><span class="std std-doc">jaccard_similarity</span></a></p></li>
-<li><p><a class="reference internal" href="cosine_similarity.html"><span class="std std-doc">cosine_similarity</span></a></p></li>
-<li><p><a class="reference internal" href="dice_similarity.html"><span class="std std-doc">dice_similarity</span></a></p></li>
-<li><p><a class="reference internal" href="phenodigm_score.html"><span class="std std-doc">phenodigm_score</span></a></p></li>
-<li><p><a class="reference internal" href="overlap_coefficient.html"><span class="std std-doc">overlap_coefficient</span></a></p></li>
-<li><p><a class="reference internal" href="subsumes_score.html"><span class="std std-doc">subsumes_score</span></a></p></li>
-<li><p><a class="reference internal" href="subsumed_by_score.html"><span class="std std-doc">subsumed_by_score</span></a></p></li>
-<li><p><a class="reference internal" href="intersection_count.html"><span class="std std-doc">intersection_count</span></a></p></li>
-<li><p><a class="reference internal" href="union_count.html"><span class="std std-doc">union_count</span></a></p></li>
+<li><p><strong>cosine_similarity</strong></p></li>
 </ul>
 </li>
 </ul>
@@ -116,8 +107,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="BestMatch.html"><span class="std std-doc">BestMatch</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="TermPairwiseSimilarity.html"><span class="std std-doc">TermPairwiseSimilarity</span></a></p></td>
+<td><p>A simple pairwise similarity between two atomic concepts/terms</p></td>
 <td><p>no</p></td>
 </tr>
 </tbody>
@@ -126,7 +117,7 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></li>
+<li><p>Range: <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -142,15 +133,16 @@
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
 <details>
 ```yaml
-name: score
-description: Abstract base slot for different kinds of scores
+name: cosine_similarity
+description: the dot product of two node embeddings divided by the product of their
+  lengths
 from_schema: https://w3id.org/oak/similarity
 rank: 1000
-abstract: true
-alias: score
+is_a: score
+alias: cosine_similarity
 domain_of:
-- BestMatch
-range: string
+- TermPairwiseSimilarity
+range: float
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

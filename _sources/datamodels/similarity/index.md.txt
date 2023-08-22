@@ -30,6 +30,7 @@ Name: similarity
 | [ancestor_source](ancestor_source.md) |  |
 | [average_score](average_score.md) |  |
 | [best_score](best_score.md) |  |
+| [cosine_similarity](cosine_similarity.md) | the dot product of two node embeddings divided by the product of their length... |
 | [dice_similarity](dice_similarity.md) |  |
 | [id](id.md) |  |
 | [information_content](information_content.md) | The IC is the negative log of the probability of the concept |

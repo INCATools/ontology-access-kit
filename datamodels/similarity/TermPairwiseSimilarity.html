@@ -100,6 +100,8 @@
         
       TermPairwiseSimilarity : ancestor_source
         
+      TermPairwiseSimilarity : cosine_similarity
+        
       TermPairwiseSimilarity : dice_similarity
         
       TermPairwiseSimilarity : jaccard_similarity
@@ -209,12 +211,17 @@
 <td><p>The number of concepts in the intersection divided by the number in the union</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="dice_similarity.html"><span class="std std-doc">dice_similarity</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="cosine_similarity.html"><span class="std std-doc">cosine_similarity</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p>the dot product of two node embeddings divided by the product of their length…</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="dice_similarity.html"><span class="std std-doc">dice_similarity</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="ZeroToOne.html"><span class="std std-doc">ZeroToOne</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="phenodigm_score.html"><span class="std std-doc">phenodigm_score</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="phenodigm_score.html"><span class="std std-doc">phenodigm_score</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="NonNegativeFloat.html"><span class="std std-doc">NonNegativeFloat</span></a></p></td>
 <td><p>the geometric mean of the jaccard similarity and the information content</p></td>
 <td><p>direct</p></td>
@@ -293,6 +300,7 @@ slots:
 - subject_information_content
 - ancestor_information_content
 - jaccard_similarity
+- cosine_similarity
 - dice_similarity
 - phenodigm_score
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -450,6 +458,18 @@ attributes:
     domain_of:
     - TermPairwiseSimilarity
     range: ZeroToOne
+  cosine_similarity:
+    name: cosine_similarity
+    description: the dot product of two node embeddings divided by the product of
+      their lengths
+    from_schema: https://w3id.org/oak/similarity
+    rank: 1000
+    is_a: score
+    alias: cosine_similarity
+    owner: TermPairwiseSimilarity
+    domain_of:
+    - TermPairwiseSimilarity
+    range: float
   dice_similarity:
     name: dice_similarity
     from_schema: https://w3id.org/oak/similarity

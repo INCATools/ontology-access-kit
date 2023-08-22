@@ -15,6 +15,7 @@ URI: [sim:score](https://w3id.org/linkml/similarity/score)
 * **score**
     * [information_content](information_content.md)
     * [jaccard_similarity](jaccard_similarity.md)
+    * [cosine_similarity](cosine_similarity.md)
     * [dice_similarity](dice_similarity.md)
     * [phenodigm_score](phenodigm_score.md)
     * [overlap_coefficient](overlap_coefficient.md)
