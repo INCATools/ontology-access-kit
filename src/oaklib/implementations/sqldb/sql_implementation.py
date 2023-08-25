@@ -148,6 +148,9 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
+from oaklib.utilities.axioms.logical_definition_utilities import (
+    logical_definition_matches,
+)
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
 from oaklib.utilities.identifier_utils import (
     string_as_base64_curie,
@@ -206,6 +209,11 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 def regex_to_sql_like(regex: str) -> str:
     """
     convert a regex to a LIKE
+
+    * ``.*`` => ``%``
+    * ``.`` => ``_``
+    * ``^`` => ``%`` (at start of string)
+    * ``$`` => ``%`` (at end of string)
 
     TODO: implement various different DBMS flavors
     https://stackoverflow.com/questions/20794860/regex-in-sql-to-detect-one-or-more-digit
@@ -1175,6 +1183,8 @@ class SqlImplementation(
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
         query: sqlalchemy.orm.Query = None,
+        add_closure_fields: bool = False,
+        **kwargs,
     ) -> Any:
         if query:
             q = query
@@ -1515,21 +1525,34 @@ class SqlImplementation(
             return ldef
 
     def logical_definitions(
-        self, subjects: Optional[Iterable[CURIE]] = None
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
     ) -> Iterable[LogicalDefinitionAxiom]:
         logging.info("Getting logical definitions")
         q = self.session.query(OwlEquivalentClassStatement)
+        if predicates is not None:
+            predicates = list(predicates)
+        if objects is not None:
+            objects = list(objects)
         if subjects is None:
-            for ldef in self._logical_definitions_from_eq_query(q):
+            for ldef in self._logical_definitions_from_eq_query(q, predicates, objects):
                 yield ldef
             return
         for curie_it in chunk(subjects, self.max_items_for_in_clause):
             logging.info(f"Getting logical definitions for {curie_it} from {subjects}")
             q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(curie_it)))
-            for ldef in self._logical_definitions_from_eq_query(q):
+            for ldef in self._logical_definitions_from_eq_query(q, predicates, objects):
                 yield ldef
 
-    def _logical_definitions_from_eq_query(self, query) -> Iterable[LogicalDefinitionAxiom]:
+    def _logical_definitions_from_eq_query(
+        self,
+        query,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+    ) -> Iterable[LogicalDefinitionAxiom]:
         for eq_row in query:
             ixn_q = self.session.query(Statements).filter(
                 and_(
@@ -1540,6 +1563,8 @@ class SqlImplementation(
             for ixn in ixn_q:
                 ldef = self._ixn_definition(ixn.object, eq_row.subject)
                 if ldef:
+                    if not logical_definition_matches(ldef, predicates=predicates, objects=objects):
+                        continue
                     yield ldef
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

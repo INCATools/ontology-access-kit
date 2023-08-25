@@ -2,7 +2,7 @@
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, Iterable, Iterator, List, Tuple
+from typing import Any, Dict, Iterable, Iterator, List, Tuple
 
 from curies import Converter
 from sssom_schema import SEMAPV, Mapping
@@ -26,6 +26,12 @@ class Mapper(ABC):
     """Converter to go between CURIEs and URIs."""
 
     _mappings_by_source: Dict[CURIE, List[CURIE]] = None
+
+    axiom_annotations_to_mapping_predicates: Dict[Tuple[CURIE, Any], CURIE] = None
+    """
+    Maps axiom annotations to predicates.
+    GO, Mondo and other ontologies may use axiom annotations to encode mapping predicates.
+    """
 
     def __post_init__(self):
         self._mappings_by_source = defaultdict(list)

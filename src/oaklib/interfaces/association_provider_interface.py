@@ -138,6 +138,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        add_closure_fields: bool = False,
+        **kwargs,
     ) -> Iterator[Association]:
         """
         Yield all matching associations.
@@ -177,6 +179,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         :param subject_closure_predicates: subjects is treated as descendant via these predicates
         :param predicate_closure_predicates: predicates is treated as descendant via these predicates
         :param object_closure_predicates: object is treated as descendant via these predicates
+        :param add_closure_fields: add subject and object closure fields to the association
         :param include_modified:
         :return:
         """
@@ -270,6 +273,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             raise NotImplementedError
         curies1 = list(curies1)
         curies2 = list(curies2)
+        logging.info(f"Finding co-associations between {curies1} and {curies2}")
         assocmap1 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies1}
         assocmap2 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies2}
         for c1 in curies1:

@@ -211,7 +211,22 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param object_closure_predicates:
         :return:
         """
-        raise NotImplementedError
+        curies = list(curies)
+        if use_associations:
+            raise NotImplementedError
+        all_entities = list(self.entities())
+        num_entities = len(all_entities)
+        if not isinstance(self, OboGraphInterface):
+            raise NotImplementedError
+        yielded_owl_thing = False
+        for curie in curies:
+            descendants = list(self.descendants([curie], object_closure_predicates))
+            yield curie, -math.log(len(descendants) / num_entities)
+            if curie == OWL_THING:
+                yielded_owl_thing = True
+        # inject owl:Thing, which always has zero information
+        if (OWL_THING in curies or not curies) and not yielded_owl_thing:
+            yield OWL_THING, 0.0
 
     def pairwise_similarity(
         self,
@@ -237,9 +252,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
         if subject_ancestors is None and isinstance(self, OboGraphInterface):
-            subject_ancestors = self.ancestors(subject, predicates=predicates)
+            subject_ancestors = list(self.ancestors(subject, predicates=predicates))
         if object_ancestors is None and isinstance(self, OboGraphInterface):
-            object_ancestors = self.ancestors(object, predicates=predicates)
+            object_ancestors = list(self.ancestors(object, predicates=predicates))
         if subject_ancestors is not None and object_ancestors is not None:
             jaccard_similarity = setwise_jaccard_similarity(subject_ancestors, object_ancestors)
         if min_jaccard_similarity is not None and jaccard_similarity < min_jaccard_similarity:

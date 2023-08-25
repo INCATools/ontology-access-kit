@@ -232,6 +232,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded
         :return:
         """
+        if ":" not in curie:
+            if strict:
+                raise ValueError(f"Invalid CURIE: {curie}")
+            return None
         rv = self.converter.expand(curie)
         if rv is None and strict:
             prefix_map_text = "\n".join(

@@ -64,6 +64,7 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import (
@@ -735,7 +736,7 @@ class ComplianceTester:
         syns = list(oi.synonym_property_values(NUCLEUS))
         _check([syn[1] for syn in syns])
 
-    def test_dump_obograph(self, oi: BasicOntologyInterface):
+    def test_dump_obograph(self, oi: DumperInterface):
         """
         Tests conformance of dump method with obograph json syntax.
 
@@ -972,6 +973,20 @@ class ComplianceTester:
         for typ, expected in cases:
             test.assertEqual(expected, residual[typ])
 
+    def test_as_obograph(self, oi: OboGraphInterface):
+        """
+        Tests as_obograph in OboGraphInterface
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        for expand in [False, True]:
+            g = oi.as_obograph(expand_curies=expand)
+            test.assertGreater(len(g.nodes), 0)
+            test.assertGreater(len(g.edges), 0)
+            test.assertGreater(len(g.logicalDefinitionAxioms), 0)
+
     def test_subgraph_from_traversal(self, oi: OboGraphInterface):
         """
         Tests subgraph_from_traversal in OboGraphInterface
@@ -1027,8 +1042,8 @@ class ComplianceTester:
             ) = case
             traversal = TraversalConfiguration(up_distance=up_dist, down_distance=down_dist)
             graph = oi.subgraph_from_traversal(seeds, predicates=predicates, traversal=traversal)
-            test.assertEqual(expected_num_nodes, len(graph.nodes))
-            test.assertEqual(expected_num_edges, len(graph.edges))
+            test.assertEqual(expected_num_nodes, len(graph.nodes), f"Failed for case: {case}")
+            test.assertEqual(expected_num_edges, len(graph.edges), f"Failed for case: {case}")
             node_ids = [n.id for n in graph.nodes]
             for node_id in expected_nodes_subset:
                 test.assertIn(node_id, node_ids, f"Failed for case: {case}")

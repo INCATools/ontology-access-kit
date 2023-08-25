@@ -3,7 +3,7 @@ import io
 import logging
 import os
 from pathlib import Path
-from typing import List, Optional, Type, Union
+from typing import List, Optional, Type, TypeVar, Union
 
 import requests
 from deprecation import deprecated
@@ -41,6 +41,12 @@ ASSOCIATION_REGISTRY = {
         "http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt",
         False,
     ),
+    "hpoa_g2d": (
+        [],
+        "hpoa_g2d",
+        "http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt",
+        False,
+    ),
     "gaf": (["group"], "gaf", "http://current.geneontology.org/annotations/{group}.gaf.gz", True),
     "gaf_archive": (
         ["date", "group"],
@@ -62,10 +68,15 @@ ASSOCIATION_REGISTRY = {
     ),
 }
 
+T = TypeVar("T", bound=BasicOntologyInterface)
+
 
 def get_adapter(
-    descriptor: Union[str, Path, InputSpecification], format: str = None, **kwargs
-) -> BasicOntologyInterface:
+    descriptor: Union[str, Path, InputSpecification],
+    format: str = None,
+    implements: Optional[Type[T]] = None,
+    **kwargs,
+) -> T:
     """
     Gets an adapter (implementation) for a given descriptor.
 
@@ -119,7 +130,7 @@ def get_adapter(
 
         >>> from oaklib import get_adapter
         >>> from gilda import get_grounder
-        >>> grounder = get_grounder("~/.data/gilda/0.11.1/grounding_terms.tsv.gz")
+        >>> grounder = get_grounder()
         >>> adapter = get_adapter("gilda:", grounder=grounder)
         >>> annotations = adapter.annotate_text("nucleus")
 

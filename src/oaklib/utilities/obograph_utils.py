@@ -204,7 +204,10 @@ def as_multi_digraph(
 
 
 def as_digraph(
-    graph: Graph, reverse: bool = True, filter_reflexive: bool = True
+    graph: Graph,
+    reverse: bool = True,
+    filter_reflexive: bool = True,
+    predicates: Optional[List[PRED_CURIE]] = None,
 ) -> nx.MultiDiGraph:
     """
     Convert to a networkx :class:`.DiGraph`
@@ -213,8 +216,10 @@ def as_digraph(
     :param reverse:
     :return:
     """
-    dg = nx.DiGraph()
+    dg = nx.MultiDiGraph()
     for edge in graph.edges:
+        if predicates is not None and edge.pred not in predicates:
+            continue
         if filter_reflexive and reflexive(edge):
             continue
         edge_attrs = {"predicate": edge.pred}
@@ -231,7 +236,7 @@ def as_graph(
     filter_reflexive: bool = True,
     predicate_weights: PREDICATE_WEIGHT_MAP = None,
     default_weight=1.0,
-) -> nx.MultiDiGraph:
+) -> nx.Graph:
     """
     Convert to a networkx :class:`.DiGraph`
 
@@ -336,6 +341,26 @@ def shortest_paths(
                     yield start_curie, end_curie, path
             except nx.NetworkXNoPath:
                 logging.info(f"No path between {start_curie} and {end_curie}")
+
+
+def depth_first_ordering(graph: Graph) -> List[CURIE]:
+    """
+    Return a depth-first ordering of the nodes in the graph.
+
+    :param graph:
+    :return:
+    """
+    six = index_graph_edges_by_subject(graph)
+    oix = index_graph_edges_by_object(graph)
+    stack = list(set(oix.keys()) - set(six.keys()))
+    visited = []
+    while stack:
+        node = stack.pop()
+        visited.append(node)
+        for edge in oix[node]:
+            if edge.sub not in visited and edge.sub not in stack:
+                stack.append(edge.sub)
+    return visited
 
 
 def remove_nodes_from_graph(graph: Graph, node_ids: List[CURIE]):

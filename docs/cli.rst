@@ -52,7 +52,7 @@ Term Lists
 Many commands take a *term* or a *list of terms* as their primary argument. These are typically one of:
 
 - a :ref:`CURIE` such as :code:`UBERON:0000955`
-- a :ref:`search-syntax` term, which is either:
+- a :ref:`search_syntax` term, which is either:
 
     - an exact match to a label; for example "limb" or "plasma membrane"
     - a compound search term such as :code:`t~limb` which finds terms with partial matches to limb

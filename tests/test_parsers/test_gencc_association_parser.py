@@ -1,6 +1,8 @@
 import logging
 import unittest
 
+from oaklib import get_adapter
+from oaklib.conf import CONF_DIR_PATH
 from oaklib.parsers import GENCC
 from oaklib.parsers.association_parser_factory import get_association_parser
 from tests import INPUT_DIR
@@ -9,7 +11,7 @@ G2D_INPUT = INPUT_DIR / "example-g2d.gencc.csv"
 
 
 class GenCCAssociationParserTest(unittest.TestCase):
-    """Tests parsing of hpoa g2p format."""
+    """Tests parsing of gencc format."""
 
     def test_parser(self):
         """Tests parsing g2p associations."""
@@ -33,3 +35,12 @@ class GenCCAssociationParserTest(unittest.TestCase):
                         found[frozenset(e.items())] = True
             for e in expected:
                 self.assertIn(frozenset(e.items()), found, f"Expected {e} not found in {found}")
+
+    @unittest.skip("Remote test")
+    def test_gencc_remote(self):
+        adapter = get_adapter(CONF_DIR_PATH / "mondo-gencc-input-spec.yaml")
+        n = 0
+        for association in adapter.associations():
+            print(association)
+            n += 1
+        assert n > 0

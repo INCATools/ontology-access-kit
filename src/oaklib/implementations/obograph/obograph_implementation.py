@@ -48,6 +48,9 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
+from oaklib.utilities.axioms.logical_definition_utilities import (
+    logical_definition_matches,
+)
 from oaklib.utilities.basic_utils import pairs_as_dict
 
 RDFLIB_FORMAT_MAP = {
@@ -433,12 +436,21 @@ class OboGraphImplementation(
     def as_obograph(self) -> Graph:
         return self._entire_graph()
 
-    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
-        subjects = list(subjects)
+    def logical_definitions(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
+    ) -> Iterable[LogicalDefinitionAxiom]:
+        if subjects:
+            subjects = list(subjects)
         for g in self.obograph_document.graphs:
-            for lda in g.logicalDefinitionAxioms:
-                if lda.definedClassId in subjects:
-                    yield lda
+            for ldef in g.logicalDefinitionAxioms:
+                if logical_definition_matches(
+                    ldef, subjects=subjects, predicates=predicates, objects=objects
+                ):
+                    yield ldef
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface

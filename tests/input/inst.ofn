@@ -39,5 +39,8 @@ SubClassOf(example:c example:b)
 ClassAssertion(example:c example:i1)
 ObjectPropertyAssertion(example:p example:i1 example:j)
 
+# Individual: example:i2 (example:i2)
+ClassAssertion(ObjectSomeValuesFrom(example:p example:a) example:i2)
+
 
 )

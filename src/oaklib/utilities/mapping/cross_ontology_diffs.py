@@ -200,6 +200,8 @@ def calculate_pairwise_relational_diff(
         left_oi_entities = entities
     else:
         left_oi_entities = left_oi.entities()
+    # main diff calculation loop:
+    # iterate through all entities in left/subject ontology, treat as subject/child
     for subject_child in left_oi_entities:
         logging.info(f"Subject child: {subject_child}")
         if not curie_has_prefix(subject_child, sources):
@@ -207,6 +209,7 @@ def calculate_pairwise_relational_diff(
         for pred, subject_parent in relation_dict_as_tuples(
             left_oi.outgoing_relationship_map(subject_child)
         ):
+            logging.debug(f"left edge: {subject_child} {pred} {subject_parent}")
             if entities is not None:
                 if subject_child not in entities and subject_parent not in entities:
                     continue
