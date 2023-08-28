@@ -5152,6 +5152,11 @@ def diff_terms(output, other_ontology, terms):
     show_default=True,
     help="show summary statistics only",
 )
+@click.option(
+    "--change-type",
+    multiple=True,
+    help="filter by KGCL change type (e.g. 'ClassCreation', 'EdgeDeletion')",
+)
 @group_by_property_option
 @group_by_obo_namespace_option
 @group_by_defined_by_option
@@ -5166,6 +5171,7 @@ def diff(
     group_by_obo_namespace: bool,
     group_by_prefix: bool,
     group_by_defined_by: bool,
+    change_type,
     output_type,
     other_ontology,
 ):
@@ -5253,10 +5259,14 @@ def diff(
             writer.emit(summary)
     else:
         for change in impl.diff(other_impl, configuration=config):
-            if isinstance(writer, StreamingYamlWriter):
+            # TODO: when a complete type designator is added to KGCL
+            this_change_type = change.__class__.__name__
+            if change_type and this_change_type not in change_type:
+                continue
+            if isinstance(writer, (StreamingYamlWriter, StreamingCsvWriter)):
                 # TODO: when a complete type designator is added to KGCL
                 # we can remove this
-                change.type = change.__class__.__name__
+                change.type = this_change_type
             writer.emit(change)
     writer.finish()
 
