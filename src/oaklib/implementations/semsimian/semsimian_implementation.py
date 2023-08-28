@@ -15,6 +15,9 @@ from oaklib.datamodels.similarity import (
 )
 from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+)
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -29,7 +32,9 @@ __all__ = [
 
 
 @dataclass
-class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
+class SemSimianImplementation(
+    SearchInterface, SemanticSimilarityInterface, OboGraphInterface, AssociationProviderInterface
+):
     """Rust implementation of semantic similarity measures."""
 
     delegated_methods: ClassVar[List[str]] = [
@@ -291,3 +296,16 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                 except ValueError:
                     pass
         return value
+
+    #  TODO : Search feature for monarch app
+    # def association_subject_counts(
+    #     self,
+    #     subjects: Iterable[CURIE] = None,
+    #     predicates: Iterable[PRED_CURIE] = None,
+    #     property_filter: Dict[PRED_CURIE, Any] = None,
+    #     subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+    #     predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+    #     object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+    #     include_modified: bool = False,
+    # ) -> Iterator[Tuple[CURIE, int]]:
+    #     pass
