@@ -298,14 +298,20 @@ class SemSimianImplementation(
         return value
 
     #  TODO : Search feature for monarch app
-    # def association_subject_counts(
-    #     self,
-    #     subjects: Iterable[CURIE] = None,
-    #     predicates: Iterable[PRED_CURIE] = None,
-    #     property_filter: Dict[PRED_CURIE, Any] = None,
-    #     subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
-    #     predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
-    #     object_closure_predicates: Optional[List[PRED_CURIE]] = None,
-    #     include_modified: bool = False,
-    # ) -> Iterator[Tuple[CURIE, int]]:
+    # def associations_subject_search(
+    #      self,
+    #      subjects: Iterable[CURIE] = None,
+    #      predicates: Iterable[PRED_CURIE] = None,
+    #      objects: Iterable[CURIE] = None,
+    #      property_filter: Dict[PRED_CURIE, Any] = None,
+    #      subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+    #      predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+    #      object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+    #      subject_prefixes: Optional[List[str]] = None,
+    #      include_similarity_object: bool = False,
+    #      method: Optional[str] = None,
+    #      limit: Optional[int] = 10,
+    #      sort_by_similarity: bool = True,
+    #      **kwargs,
+    #  ) -> Iterator[Tuple[float, Optional[TermSetPairwiseSimilarity], CURIE]]:
     #     pass
