@@ -607,6 +607,41 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi.autosave = True
         self.compliance_tester.test_store_associations(oi)
 
+    def test_associations(self):
+        spec = InputSpecification(
+            ontology_resources={"go": {"selector": str(DB)}},
+            association_resources={"gaf": {"selector": str(INPUT_GAF)}},
+        )
+        adapter = get_adapter(spec)
+        assocs = list(adapter.associations())
+        genes = list({a.subject for a in assocs})
+        self.assertGreater(len(assocs), 10)
+        self.assertGreater(len(genes), 10)
+        assoc0 = assocs[0]
+        gene = assoc0.subject
+        term = assoc0.object
+        assocs2 = list(adapter.associations(subjects=[gene]))
+        self.assertCountEqual([a for a in assocs if a.subject == gene], assocs2)
+        assocs2 = list(adapter.associations(objects=[term]))
+        self.assertCountEqual([a for a in assocs if a.object == term], assocs2)
+        # semsim
+        for gene in genes[0:5]:
+            terms = list({a.object for a in adapter.associations(subjects=[gene])})
+            results = list(
+                adapter.associations_subject_search(
+                    objects=terms, object_closure_predicates=[IS_A, PART_OF], limit=100
+                )
+            )
+            best_score = None
+            found = False
+            for score, _, match in results:
+                if best_score is None:
+                    best_score = score
+                if match == gene:
+                    found = True
+                    self.assertAlmostEquals(best_score, score)
+            self.assertTrue(found)
+
     def test_class_enrichment(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
