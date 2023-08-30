@@ -164,7 +164,6 @@ def subsumed_by(
         if equivalent(dxa, other_dxa):
             yield other_dxa
             continue
-        anc_map = {}
         for c in dxa.classIds:
             ancs = list(adapter.ancestors(c, [IS_A]))
             this_class_ids = this_class_ids.difference(ancs)
@@ -195,7 +194,7 @@ def generate_disjoint_class_expressions_axioms(
         existing = list(adapter.disjoint_class_expressions_axioms())
     else:
         existing = []
-    for predicates, c1, c2, s1, s2 in generate_underlaps(adapter, roots, predicate_sets, config):
+    for predicates, c1, c2, _s1, _s2 in generate_underlaps(adapter, roots, predicate_sets, config):
         non_is_a = [p for p in predicates if p != IS_A]
         if not non_is_a:
             yield DisjointClassExpressionsAxiom(

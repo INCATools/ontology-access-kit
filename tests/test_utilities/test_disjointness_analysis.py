@@ -8,7 +8,6 @@ from oaklib.datamodels.obograph import (
 from oaklib.datamodels.vocabulary import PART_OF
 from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
     generate_disjoint_class_expressions_axioms,
-    generate_underlaps,
     subsumed_by,
 )
 from tests import (
