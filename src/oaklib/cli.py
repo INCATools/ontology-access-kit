@@ -147,6 +147,10 @@ from oaklib.utilities.axioms import (
     logical_definition_analyzer,
     logical_definition_summarizer,
 )
+from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
+    DisjointnessInducerConfig,
+    generate_disjoint_class_expressions_axioms,
+)
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
@@ -3421,6 +3425,82 @@ def logical_definitions(
 
 
 @main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@autolabel_option
+@output_type_option
+@click.option(
+    "--named-classes-only/--no-named-classes-only",
+    default=False,
+    show_default=True,
+    help="Only show disjointness axioms between two named classes.",
+)
+@output_option
+def disjoints(
+    terms,
+    predicates: str,
+    autolabel: bool,
+    output_type: str,
+    named_classes_only: bool,
+    output: str,
+):
+    """
+    Show all disjoints for a set of terms, or whole ontology.
+
+    Leave off all arguments for defaults - all terms, YAML OboGraph model
+    serialization:
+
+    Example:
+
+        runoak -i sqlite:obo:uberon disjoints
+
+    Note that this will include pairwise disjoints, setwise disjoints,
+    disjoint unions, and disjoints involving simple class expressions.
+
+    A tabular format can be easier to browse, and includes labels by default:
+
+    Example:
+
+        runoak -i sqlite:obo:uberon disjoints --autolabel -O csv
+
+    To perform this on a subset:
+
+     Example:
+
+        runoak -i sqlite:obo:cl disjoints --autolabel -O csv  .desc//p=i "immune cell"
+
+    Data model:
+
+       https://w3id.org/oak/obograph
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    actual_predicates = _process_predicates_arg(predicates)
+
+    label_fields = [
+        "classIds",
+        "classExpressionPropertyIds",
+        "classExpressionFillerIds",
+        "unionEquivalentToFillerId",
+        "unionEquivalentToPropertyId",
+    ]
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {type(impl)}")
+    if terms == ".all":
+        terms = None
+    term_it = query_terms_iterator(terms, impl) if terms else None
+    dxas = impl.disjoint_class_expressions_axioms(term_it, predicates=actual_predicates)
+    for dxa in dxas:
+        if named_classes_only and dxa.classExpressions:
+            continue
+        writer.emit(dxa, label_fields=label_fields)
+    writer.finish()
+    writer.file.close()
+
+
+@main.command()
 @output_option
 @output_type_option
 @autolabel_option
@@ -6034,6 +6114,70 @@ def generate_logical_definitions(
         else:
             for ldef in ldefs:
                 writer.emit(ldef, label_fields=label_fields)
+    writer.finish()
+    writer.file.close()
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@autolabel_option
+@output_option
+@predicates_option
+@output_type_option
+@click.option(
+    "--min-descendants",
+    "-M",
+    default=3,
+    show_default=True,
+    help="Minimum number of descendants for a class to have to be considered a candidate.",
+)
+@click.option(
+    "--exclude-existing/--no-exclude-existing",
+    default=True,
+    show_default=True,
+    help="Do not report duplicates with existing disjointness axioms.",
+)
+def generate_disjoints(
+    terms,
+    predicates,
+    autolabel,
+    output,
+    output_type,
+    exclude_existing,
+    min_descendants,
+):
+    """
+    Generate candidate disjointness axioms.
+
+    Example:
+
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, kgcl)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError
+    curies = list(query_terms_iterator(terms, impl))
+    actual_predicates = _process_predicates_arg(predicates)
+    if not actual_predicates:
+        actual_predicates = [IS_A]
+    config = DisjointnessInducerConfig(
+        min_descendants=min_descendants, exclude_existing=exclude_existing
+    )
+    dxas = generate_disjoint_class_expressions_axioms(
+        impl, curies, [actual_predicates], config=config
+    )
+    label_fields = [
+        "classIds",
+        "classExpressionPropertyIds",
+        "classExpressionFillerIds",
+        "unionEquivalentToFillerId",
+        "unionEquivalentToPropertyId",
+    ]
+    for dxa in dxas:
+        writer.emit(dxa, label_fields=label_fields)
     writer.finish()
     writer.file.close()
 

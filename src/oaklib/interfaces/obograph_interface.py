@@ -8,6 +8,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 from sssom.constants import RDFS_SUBCLASS_OF, RDFS_SUBPROPERTY_OF
 
 from oaklib.datamodels.obograph import (
+    DisjointClassExpressionsAxiom,
     Edge,
     Graph,
     LogicalDefinitionAxiom,
@@ -526,6 +527,24 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param predicates: If specified, only yields logical definitions with these predicates
         :param objects: If specified, only yields logical definitions with genus or filler in this list
 
+        :return:
+        """
+        return iter(())
+
+    def disjoint_class_expressions_axioms(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        group=False,
+        **kwargs,
+    ) -> Iterable[DisjointClassExpressionsAxiom]:
+        """
+        Yields all disjoint class expressions.
+
+        :param subjects: if present, filter to only those that reference these subjects
+        :param predicates: if present, filter to only those that reference these predicates
+        :param group: if True, group into cliques
+        :param kwargs:
         :return:
         """
         return iter(())
