@@ -44,6 +44,7 @@ from semsql.sqla.semsql import (  # HasMappingStatement,
     ObjectPropertyNode,
     OntologyNode,
     OwlAxiomAnnotation,
+    OwlDisjointClassStatement,
     OwlEquivalentClassStatement,
     OwlSomeValuesFrom,
     Prefix,
@@ -66,6 +67,7 @@ from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.obograph import (
+    DisjointClassExpressionsAxiom,
     ExistentialRestrictionExpression,
     LogicalDefinitionAxiom,
 )
@@ -964,7 +966,7 @@ class SqlImplementation(
         if not include_dangling:
             subq = self.session.query(Statements.subject)
             q = q.filter(tbl.object.in_(subq))
-        logging.info(f"Tbox query: {q}")
+        logging.debug(f"Tbox query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
@@ -989,7 +991,7 @@ class SqlImplementation(
             q = q.filter(Statements.predicate.in_(op_subq))
         if objects:
             q = q.filter(Statements.object.in_(tuple(objects)))
-        logging.info(f"Abox query: {q}")
+        logging.debug(f"Abox query: {q}")
         for row in q:
             if not row.object:
                 # edge case: see https://github.com/monarch-initiative/phenio/issues/36
@@ -1056,7 +1058,7 @@ class SqlImplementation(
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if objects:
             q = q.filter(Statements.object.in_(tuple(objects)))
-        logging.info(f"RBOX query: {q}")
+        logging.debug(f"RBOX query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
@@ -1566,6 +1568,81 @@ class SqlImplementation(
                     if not logical_definition_matches(ldef, predicates=predicates, objects=objects):
                         continue
                     yield ldef
+
+    def _node_to_class_expression(
+        self, node: str
+    ) -> Optional[Union[CURIE, ExistentialRestrictionExpression]]:
+        if not _is_blank(node):
+            return node
+
+        svfq = self.session.query(OwlSomeValuesFrom).filter(OwlSomeValuesFrom.id == node)
+        svfq = list(svfq)
+        if svfq:
+            if len(svfq) > 1:
+                raise ValueError(f"Incorrect rdf structure for equiv axioms for {node}")
+            svf = svfq[0]
+            return ExistentialRestrictionExpression(propertyId=svf.on_property, fillerId=svf.filler)
+        else:
+            return None
+
+    def disjoint_class_expressions_axioms(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        group=False,
+        **kwargs,
+    ) -> Iterable[DisjointClassExpressionsAxiom]:
+        logging.info("Getting disjoint class expression axioms")
+        q = self.session.query(OwlDisjointClassStatement)
+        if predicates is not None:
+            predicates = list(predicates)
+        if subjects:
+            subjects = list(subjects)
+        axs = []
+        for da in q:
+            # blank
+            sx = self._node_to_class_expression(da.subject)
+            ox = self._node_to_class_expression(da.object)
+            allx = [sx, ox]
+            allx_named = [x for x in allx if isinstance(x, str)]
+            allx_exprs = [x for x in allx if isinstance(x, ExistentialRestrictionExpression)]
+            allx_fillers = [x.fillerId for x in allx_exprs]
+            if subjects:
+                if not any(x for x in allx_named if x in subjects) and not any(
+                    x for x in allx_fillers if x in subjects
+                ):
+                    continue
+            if predicates:
+                if not any(x for x in allx_exprs if x.propertyId in predicates):
+                    continue
+            ax = DisjointClassExpressionsAxiom(
+                classIds=allx_named,
+                classExpressions=allx_exprs,
+            )
+            axs.append(ax)
+        q = self.session.query(RdfTypeStatement.subject).filter(
+            RdfTypeStatement.object == "owl:AllDisjointClasses"
+        )
+        for adc in q:
+            class_ids = []
+            class_exprs = []
+            for (m,) in self.session.query(Statements.object).filter(
+                and_(
+                    Statements.subject == adc.subject,
+                    Statements.predicate == "owl:members",
+                )
+            ):
+                if isinstance(m, str):
+                    class_ids.append(m)
+                else:
+                    class_exprs.append(self._node_to_class_expression(m))
+            axs.append(
+                DisjointClassExpressionsAxiom(
+                    classIds=class_ids,
+                    classExpressions=class_exprs,
+                )
+            )
+        yield from axs
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface
