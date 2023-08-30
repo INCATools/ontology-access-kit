@@ -6151,7 +6151,11 @@ def generate_disjoints(
 
     Example:
 
+        runoak -i sqlite:obo:iao generate-disjoints -O obo
 
+    To generate spatial disjointness axioms:
+
+        runoak -i sqlite:obo:zfa generate-disjoints -O obo p i,p
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, kgcl)
