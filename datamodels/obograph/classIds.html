@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: meta &mdash; oaklib  documentation</title>
+  <title>Slot: classIds &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: meta</li>
+      <li class="breadcrumb-item active">Slot: classIds</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/obograph/meta.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/obograph/classIds.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,10 +83,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-meta">
-<h1>Slot: meta<a class="headerlink" href="#slot-meta" title="Permalink to this heading"></a></h1>
-<p><em>A collection of metadata about either an ontology (graph), an entity, or an axiom</em></p>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/meta">obographs:meta</a></p>
+  <section id="slot-classids">
+<h1>Slot: classIds<a class="headerlink" href="#slot-classids" title="Permalink to this heading"></a></h1>
+<p><em>The set of named classes that are mutually disjoint.</em></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/classIds">obographs:classIds</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this heading"></a></h2>
@@ -98,64 +98,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="GraphDocument.html"><span class="std std-doc">GraphDocument</span></a></p></td>
-<td><p>A graph document is a collection of graphs together with a set of prefixes th…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Graph.html"><span class="std std-doc">Graph</span></a></p></td>
-<td><p>A graph is a collection of nodes and edges and other axioms that represents a…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
-<td><p>A node is a class, property, or other entity in an ontology</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Edge.html"><span class="std std-doc">Edge</span></a></p></td>
-<td><p>An edge is a simple typed relationship between two nodes</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="std std-doc">PropertyValue</span></a></p></td>
-<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Axiom.html"><span class="std std-doc">Axiom</span></a></p></td>
-<td><p>A generic grouping for any OWL axiom or group of axioms that is not captured …</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about the textual definition of…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="std std-doc">BasicPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="std std-doc">XrefPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about an external reference to …</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="std std-doc">DomainRangeAxiom</span></a></p></td>
-<td><p>This groups potentially multiple axioms that constrain the usage of a propert…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="std std-doc">EquivalentNodesSet</span></a></p></td>
-<td><p>A clique of nodes that are all mutually equivalent</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="std std-doc">LogicalDefinitionAxiom</span></a></p></td>
-<td><p>An axiom that defines a class in terms of a genus or set of genus classes and…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="DisjointClassExpressionsAxiom.html"><span class="std std-doc">DisjointClassExpressionsAxiom</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="DisjointClassExpressionsAxiom.html"><span class="std std-doc">DisjointClassExpressionsAxiom</span></a></p></td>
 <td><p>An axiom that defines a set of classes or class expressions as being mutually…</p></td>
-<td><p>no</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="std std-doc">PropertyChainAxiom</span></a></p></td>
-<td><p>An axiom that represents an OWL property chain, e</p></td>
 <td><p>no</p></td>
 </tr>
 </tbody>
@@ -164,13 +108,8 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="Meta.html"><span class="std std-doc">Meta</span></a></p></li>
-</ul>
-</section>
-<section id="aliases">
-<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this heading"></a></h2>
-<ul class="simple">
-<li><p>annotations</p></li>
+<li><p>Range: NONE</p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -186,22 +125,15 @@
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this heading"></a></h2>
 <details>
 ```yaml
-name: meta
-description: A collection of metadata about either an ontology (graph), an entity,
-  or an axiom
+name: classIds
+description: The set of named classes that are mutually disjoint.
 from_schema: https://github.com/geneontology/obographs
-aliases:
-- annotations
 rank: 1000
-alias: meta
+multivalued: true
+alias: classIds
+owner: DisjointClassExpressionsAxiom
 domain_of:
-- GraphDocument
-- Graph
-- Node
-- Edge
-- PropertyValue
-- Axiom
-range: Meta
+- DisjointClassExpressionsAxiom
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

@@ -81,6 +81,7 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
 | [DomainRangeAxiom](DomainRangeAxiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [EquivalentNodesSet](EquivalentNodesSet.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [PropertyChainAxiom](PropertyChainAxiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 
 

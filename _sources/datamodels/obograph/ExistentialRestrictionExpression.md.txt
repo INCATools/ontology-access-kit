@@ -43,6 +43,8 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [restrictions](restrictions.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
+| [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | [classExpressions](classExpressions.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
+| [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | [unionEquivalentToExpression](unionEquivalentToExpression.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
 
 
 

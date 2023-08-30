@@ -93,6 +93,7 @@
 <span class="kn">from</span> <span class="nn">sssom.constants</span> <span class="kn">import</span> <span class="n">RDFS_SUBCLASS_OF</span><span class="p">,</span> <span class="n">RDFS_SUBPROPERTY_OF</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DisjointClassExpressionsAxiom</span><span class="p">,</span>
     <span class="n">Edge</span><span class="p">,</span>
     <span class="n">Graph</span><span class="p">,</span>
     <span class="n">LogicalDefinitionAxiom</span><span class="p">,</span>
@@ -611,6 +612,24 @@
 <span class="sd">        :param predicates: If specified, only yields logical definitions with these predicates</span>
 <span class="sd">        :param objects: If specified, only yields logical definitions with genus or filler in this list</span>
 
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(())</span></div>
+
+<div class="viewcode-block" id="OboGraphInterface.disjoint_class_expressions_axioms"><a class="viewcode-back" href="../../../packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disjoint_class_expressions_axioms">[docs]</a>    <span class="k">def</span> <span class="nf">disjoint_class_expressions_axioms</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">DisjointClassExpressionsAxiom</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields all disjoint class expressions.</span>
+
+<span class="sd">        :param subjects: if present, filter to only those that reference these subjects</span>
+<span class="sd">        :param predicates: if present, filter to only those that reference these predicates</span>
+<span class="sd">        :param group: if True, group into cliques</span>
+<span class="sd">        :param kwargs:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(())</span></div>

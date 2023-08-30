@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: Axiom &mdash; oaklib  documentation</title>
+  <title>Class: DisjointClassExpressionsAxiom &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: Axiom</li>
+      <li class="breadcrumb-item active">Class: DisjointClassExpressionsAxiom</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/obograph/Axiom.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/obograph/DisjointClassExpressionsAxiom.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,38 +83,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-axiom">
-<h1>Class: Axiom<a class="headerlink" href="#class-axiom" title="Permalink to this heading"></a></h1>
-<p><em>A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.</em></p>
-<p>__</p>
-<ul class="simple">
-<li><p><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</p></li>
-</ul>
-<p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#Axiom">owl:Axiom</a></p>
+  <section id="class-disjointclassexpressionsaxiom">
+<h1>Class: DisjointClassExpressionsAxiom<a class="headerlink" href="#class-disjointclassexpressionsaxiom" title="Permalink to this heading"></a></h1>
+<p><em>An axiom that defines a set of classes or class expressions as being mutually disjoint. Formally, there exists no instance that instantiates more that one of the union of classIds and classExpressions.</em></p>
+<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/DisjointClassExpressionsAxiom">obographs:DisjointClassExpressionsAxiom</a></p>
 <div class="mermaid">
              classDiagram
-    class Axiom
-      Axiom &lt;|-- DomainRangeAxiom
-      Axiom &lt;|-- EquivalentNodesSet
-      Axiom &lt;|-- LogicalDefinitionAxiom
+    class DisjointClassExpressionsAxiom
       Axiom &lt;|-- DisjointClassExpressionsAxiom
-      Axiom &lt;|-- PropertyChainAxiom
       
-      Axiom : meta
+      DisjointClassExpressionsAxiom : classExpressions
         
-          Axiom --|&gt; Meta : meta
+          DisjointClassExpressionsAxiom --|&gt; ExistentialRestrictionExpression : classExpressions
+        
+      DisjointClassExpressionsAxiom : classIds
+        
+          DisjointClassExpressionsAxiom --|&gt; None : classIds
+        
+      DisjointClassExpressionsAxiom : meta
+        
+          DisjointClassExpressionsAxiom --|&gt; Meta : meta
+        
+      DisjointClassExpressionsAxiom : unionEquivalentTo
+        
+          DisjointClassExpressionsAxiom --|&gt; None : unionEquivalentTo
+        
+      DisjointClassExpressionsAxiom : unionEquivalentToExpression
+        
+          DisjointClassExpressionsAxiom --|&gt; ExistentialRestrictionExpression : unionEquivalentToExpression
         
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Axiom</strong></p>
+<li><p><a class="reference internal" href="Axiom.html"><span class="std std-doc">Axiom</span></a></p>
 <ul>
-<li><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="std std-doc">DomainRangeAxiom</span></a></p></li>
-<li><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="std std-doc">EquivalentNodesSet</span></a></p></li>
-<li><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="std std-doc">LogicalDefinitionAxiom</span></a></p></li>
-<li><p><a class="reference internal" href="DisjointClassExpressionsAxiom.html"><span class="std std-doc">DisjointClassExpressionsAxiom</span></a></p></li>
-<li><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="std std-doc">PropertyChainAxiom</span></a></p></li>
+<li><p><strong>DisjointClassExpressionsAxiom</strong></p></li>
 </ul>
 </li>
 </ul>
@@ -130,13 +134,39 @@
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="classIds.html"><span class="std std-doc">classIds</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The set of named classes that are mutually disjoint</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="classExpressions.html"><span class="std std-doc">classExpressions</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="std std-doc">ExistentialRestrictionExpression</span></a></p></td>
+<td><p>The set of class expressions that are mutually disjoint</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="unionEquivalentTo.html"><span class="std std-doc">unionEquivalentTo</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>If present, this equates to an OWL DisjointUnion expression</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="unionEquivalentToExpression.html"><span class="std std-doc">unionEquivalentToExpression</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="std std-doc">ExistentialRestrictionExpression</span></a></p></td>
+<td><p>if present, this class expression is equivalent ot the (disjoint) union of th…</p></td>
+<td><p>direct</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="std std-doc">Meta</span></a></p></td>
 <td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
-<td><p>direct</p></td>
+<td><p><a class="reference internal" href="Axiom.html"><span class="std std-doc">Axiom</span></a></p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="aliases">
+<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>disjoint classes</p></li>
+</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this heading"></a></h2>
@@ -157,10 +187,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>owl:Axiom</p></td>
+<td><p>obographs:DisjointClassExpressionsAxiom</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>obographs:Axiom</p></td>
+<td><p>obographs:DisjointClassExpressionsAxiom</p></td>
 </tr>
 </tbody>
 </table>
@@ -172,31 +202,100 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this heading"></a></h3>
 <details>
 ```yaml
-name: Axiom
-description: 'A generic grouping for any OWL axiom or group of axioms that is not
-  captured by existing constructs in this standard.
-<p>‘
+name: DisjointClassExpressionsAxiom
+description: An axiom that defines a set of classes or class expressions as being
+  mutually disjoint. Formally, there exists no instance that instantiates more that
+  one of the union of classIds and classExpressions.
 from_schema: https://github.com/geneontology/obographs
-abstract: true
-slots:</p>
-<ul class="simple">
-<li><p>meta
-class_uri: owl:Axiom</p></li>
-</ul>
+aliases:
+- disjoint classes
+is_a: Axiom
+attributes:
+  classIds:
+    name: classIds
+    description: The set of named classes that are mutually disjoint.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+  classExpressions:
+    name: classExpressions
+    description: The set of class expressions that are mutually disjoint.
+    comments:
+    - currently restricted to existential restrictions (some values from)
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    range: ExistentialRestrictionExpression
+  unionEquivalentTo:
+    name: unionEquivalentTo
+    description: If present, this equates to an OWL DisjointUnion expression.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+  unionEquivalentToExpression:
+    name: unionEquivalentToExpression
+    description: if present, this class expression is equivalent ot the (disjoint)
+      union of the classIds and classExpressions.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    range: ExistentialRestrictionExpression
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: Axiom
-description: &#39;A generic grouping for any OWL axiom or group of axioms that is not
-  captured by existing constructs in this standard.
-
-  &#39;
+name: DisjointClassExpressionsAxiom
+description: An axiom that defines a set of classes or class expressions as being
+  mutually disjoint. Formally, there exists no instance that instantiates more that
+  one of the union of classIds and classExpressions.
 from_schema: https://github.com/geneontology/obographs
-abstract: true
+aliases:
+- disjoint classes
+is_a: Axiom
 attributes:
+  classIds:
+    name: classIds
+    description: The set of named classes that are mutually disjoint.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: classIds
+    owner: DisjointClassExpressionsAxiom
+    domain_of:
+    - DisjointClassExpressionsAxiom
+  classExpressions:
+    name: classExpressions
+    description: The set of class expressions that are mutually disjoint.
+    comments:
+    - currently restricted to existential restrictions (some values from)
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: classExpressions
+    owner: DisjointClassExpressionsAxiom
+    domain_of:
+    - DisjointClassExpressionsAxiom
+    range: ExistentialRestrictionExpression
+  unionEquivalentTo:
+    name: unionEquivalentTo
+    description: If present, this equates to an OWL DisjointUnion expression.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: unionEquivalentTo
+    owner: DisjointClassExpressionsAxiom
+    domain_of:
+    - DisjointClassExpressionsAxiom
+  unionEquivalentToExpression:
+    name: unionEquivalentToExpression
+    description: if present, this class expression is equivalent ot the (disjoint)
+      union of the classIds and classExpressions.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: unionEquivalentToExpression
+    owner: DisjointClassExpressionsAxiom
+    domain_of:
+    - DisjointClassExpressionsAxiom
+    range: ExistentialRestrictionExpression
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,
@@ -206,7 +305,7 @@ attributes:
     - annotations
     rank: 1000
     alias: meta
-    owner: Axiom
+    owner: DisjointClassExpressionsAxiom
     domain_of:
     - GraphDocument
     - Graph
@@ -215,7 +314,6 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
-class_uri: owl:Axiom
 
 </pre></div>
 </div>

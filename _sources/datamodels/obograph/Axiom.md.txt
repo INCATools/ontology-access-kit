@@ -21,6 +21,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
       Axiom <|-- DomainRangeAxiom
       Axiom <|-- EquivalentNodesSet
       Axiom <|-- LogicalDefinitionAxiom
+      Axiom <|-- DisjointClassExpressionsAxiom
       Axiom <|-- PropertyChainAxiom
       
       Axiom : meta
@@ -39,6 +40,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
     * [DomainRangeAxiom](DomainRangeAxiom.md)
     * [EquivalentNodesSet](EquivalentNodesSet.md)
     * [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md)
+    * [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md)
     * [PropertyChainAxiom](PropertyChainAxiom.md)
 
 

@@ -16,6 +16,7 @@ Name: obographs_datamodel
 | --- | --- |
 | [Axiom](Axiom.md) | A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.
  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | An axiom that defines a set of classes or class expressions as being mutually disjoint. Formally, there exists no instance that instantiates more that one of the union of classIds and classExpressions. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia |
@@ -44,10 +45,13 @@ Name: obographs_datamodel
 | [allValuesFromEdges](allValuesFromEdges.md) | A list of edges that represent subclasses of universal restrictions |
 | [basicPropertyValues](basicPropertyValues.md) | A list of open-ended property values that does not correspond to those predef... |
 | [chainPredicateIds](chainPredicateIds.md) | A list of identifiers of predicates that form the precedent clause of a prope... |
+| [classExpressions](classExpressions.md) | The set of class expressions that are mutually disjoint |
+| [classIds](classIds.md) | The set of named classes that are mutually disjoint |
 | [comments](comments.md) | A list of comments about the entity |
 | [definedClassId](definedClassId.md) | The class that is defined by this axiom |
 | [definition](definition.md) | A definition of an entity |
 | [deprecated](deprecated.md) |  |
+| [disjointClassExpressionsAxioms](disjointClassExpressionsAxioms.md) | A list of logical disjointness axioms that specify that a class or class expr... |
 | [domainClassIds](domainClassIds.md) |  |
 | [domainRangeAxioms](domainRangeAxioms.md) | A list of axioms that define the domain and range of a property |
 | [edges](edges.md) | All edges present in a graph |
@@ -82,6 +86,8 @@ Name: obographs_datamodel
 | [synonymType](synonymType.md) | This standard follows oboInOwl in allowing an open ended list of synonym type... |
 | [synonymTypeDefinitions](synonymTypeDefinitions.md) |  |
 | [type](type.md) |  |
+| [unionEquivalentTo](unionEquivalentTo.md) | If present, this equates to an OWL DisjointUnion expression |
+| [unionEquivalentToExpression](unionEquivalentToExpression.md) | if present, this class expression is equivalent ot the (disjoint) union of th... |
 | [val](val.md) | the value of a property |
 | [valType](valType.md) | the datatype of a property value |
 | [version](version.md) |  |
