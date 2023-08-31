@@ -3,7 +3,7 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass, field
-from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from semsimian import Semsimian
 
@@ -298,20 +298,47 @@ class SemSimianImplementation(
         return value
 
     #  TODO : Search feature for monarch app
-    # def associations_subject_search(
-    #      self,
-    #      subjects: Iterable[CURIE] = None,
-    #      predicates: Iterable[PRED_CURIE] = None,
-    #      objects: Iterable[CURIE] = None,
-    #      property_filter: Dict[PRED_CURIE, Any] = None,
-    #      subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
-    #      predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
-    #      object_closure_predicates: Optional[List[PRED_CURIE]] = None,
-    #      subject_prefixes: Optional[List[str]] = None,
-    #      include_similarity_object: bool = False,
-    #      method: Optional[str] = None,
-    #      limit: Optional[int] = 10,
-    #      sort_by_similarity: bool = True,
-    #      **kwargs,
-    #  ) -> Iterator[Tuple[float, Optional[TermSetPairwiseSimilarity], CURIE]]:
-    #     pass
+    def associations_subject_search(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        subject_prefixes: Optional[List[str]] = None,
+        include_similarity_object: bool = False,
+        method: Optional[str] = None,
+        limit: Optional[int] = 10,
+        sort_by_similarity: bool = True,
+        **kwargs,
+    ) -> Iterator[Tuple[float, Optional[TermSetPairwiseSimilarity], CURIE]]:
+        """Search over all subjects in the association index.
+
+        :param subjects: Collection of subject CURIEs, defaults to None
+        :param predicates: Collection of predicate CURIEs, defaults to None
+        :param objects: Collection of object CURIEs, defaults to None
+        :param property_filter: _description_, defaults to None
+        :param subject_closure_predicates: _description_, defaults to None
+        :param predicate_closure_predicates: _description_, defaults to None
+        :param object_closure_predicates: closure to use over the ontology, defaults to None
+        :param subject_prefixes:  only consider subjects with these prefixes, defaults to None
+        :param include_similarity_object: include the similarity object in the result, defaults to False
+        :param method: similarity method to use, defaults to None
+        :param limit: max number of results to return, defaults to 10
+        :param sort_by_similarity: Boolean determining sorting of results or no, defaults to True
+        :yield: iterator over ordered pairs of (score, sim, subject)
+        """
+        semsimian = self._get_semsimian_object(
+            predicates=object_closure_predicates, attributes=self.termset_pairwise_similarity_attributes
+        )
+        return semsimian.associations_subject_search(
+            predicates,
+            set(objects),
+            include_similarity_object,
+            property_filter,
+            set(subjects),
+            subject_prefixes,
+            limit,
+        )
