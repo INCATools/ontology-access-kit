@@ -156,3 +156,21 @@ class TestSemSimianImplementation(unittest.TestCase):
 
         self.assertEqual(len(self.oi.semsimian_object_cache), 1)
         self.assertTrue(time_taken_1 > time_taken_2)
+
+    def test_associations_search(self):
+        assoc_predicate = {"biolink:has_nucleus"}
+        object_terms = {"GO:0019222"}
+        subject_prefixes = ["GO:"]
+        limit = 10
+
+        result = self.oi.associations_subject_search(
+            object_closure_predicates=self.predicates,
+            predicates=assoc_predicate,
+            objects=object_terms,
+            include_similarity_object=True,
+            subject_prefixes=subject_prefixes,
+            limit=limit,
+        )
+
+        self.assertEqual(len(result), limit)
+        self.assertEqual(result[0][0], 3.186700714193139)

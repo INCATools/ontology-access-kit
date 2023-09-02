@@ -331,14 +331,17 @@ class SemSimianImplementation(
         :yield: iterator over ordered pairs of (score, sim, subject)
         """
         semsimian = self._get_semsimian_object(
-            predicates=object_closure_predicates, attributes=self.termset_pairwise_similarity_attributes
+            predicates=object_closure_predicates,
+            attributes=self.termset_pairwise_similarity_attributes,
         )
-        return semsimian.associations_subject_search(
+        
+        subjects = set(subjects) if subjects is not None else None
+
+        return semsimian.associations_search(
             predicates,
             set(objects),
             include_similarity_object,
-            property_filter,
-            set(subjects),
+            subjects,
             subject_prefixes,
             limit,
         )
