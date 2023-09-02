@@ -334,7 +334,7 @@ class SemSimianImplementation(
             predicates=object_closure_predicates,
             attributes=self.termset_pairwise_similarity_attributes,
         )
-        
+
         subjects = set(subjects) if subjects is not None else None
 
         return semsimian.associations_search(
