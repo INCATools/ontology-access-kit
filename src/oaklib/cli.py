@@ -4944,6 +4944,61 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
 
 
 @main.command()
+@autolabel_option
+@output_type_option
+@click.option(
+    "--adapter-mapping",
+    multiple=True,
+    help="Multiple prefix=selector pairs, e.g. --adapter-mapping uberon=db/uberon.db",
+)
+@output_option
+@click.argument("terms", nargs=-1)
+def validate_mappings(terms, autolabel, adapter_mapping, output: str, output_type: str):
+    """
+    Validates mappings in ontology using additional ontologies.
+
+    To run:
+
+        runoak validate-mappings -i db/uberon.db
+
+    For sssom:
+
+        runoak validate-mappings -i db/uberon.db -o bad-mappings.sssom.tsv
+
+    By default this will attempt to download and connect to
+    sqlite versions of different ontologies.
+
+    You can customize this:
+
+        runoak validate-mappings -i db/uberon.db --adapter-mapping uberon=db/uberon.db \
+            --adapter-mapping zfa=db/zfa.db
+
+    You can use "*" as a wildcard, in the case where you have an application ontology
+    with many mapped entities merged in:
+
+        runoak validate-mappings -i db/uberon.db --adapter-mapping "*"=db/merged.db"
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, MappingProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    mappings = list(impl.sssom_mappings())
+    logging.info(f"Loaded {len(mappings)} mappings")
+    import oaklib.utilities.mapping.mapping_validation as mapping_validation
+
+    adapters = {}
+    for am in adapter_mapping:
+        prefix, selector = am.split("=")
+        adapters[prefix] = get_adapter(selector)
+        logging.info(f"Loaded adapter for {prefix} => {selector}")
+    for _, mapping in mapping_validation.validate_mappings(mappings, adapters=adapters):
+        writer.emit(mapping)
+    writer.finish()
+
+
+@main.command()
 @click.argument("curie_pairs", nargs=-1)
 @click.option(
     "--replace/--no-replace", default=False, show_default=True, help="If true, will update in place"
@@ -5137,49 +5192,48 @@ def lexmatch(
     # if exclude_tokens:
     #     token_exclusion_list = get_exclusion_token_list(exclude_tokens)
 
-    if isinstance(impl, BasicOntologyInterface):
-        if terms:
-            if "@" in terms:
-                ix = terms.index("@")
-                logging.info(f"Splitting terms into two, position = {ix}")
-                subjects = list(query_terms_iterator(terms[0:ix], impl))
-                objects = list(query_terms_iterator(terms[ix + 1 :], impl))
-            else:
-                subjects = list(query_terms_iterator(terms, impl))
-                objects = subjects
-        else:
-            subjects = None
-            objects = None
-        if add_labels:
-            add_labels_from_uris(impl)
-        if not recreate and Path(lexical_index_file).exists():
-            logging.info("Reusing previous index")
-            ix = load_lexical_index(lexical_index_file)
-        else:
-            logging.info("Creating index")
-            if ruleset:
-                syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
-            else:
-                syn_rules = []
-            ix = create_lexical_index(impl, synonym_rules=syn_rules)
-        if lexical_index_file:
-            if recreate:
-                logging.info("Saving index")
-                save_lexical_index(ix, lexical_index_file)
-        logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
-        # TODO: abstract this way from serialization format
-        msdf = lexical_index_to_sssom(
-            impl,
-            ix,
-            ruleset=ruleset,
-            subjects=subjects,
-            objects=objects,
-            prefix_map=prefix_map,
-            ensure_strict_prefixes=ensure_strict_prefixes,
-        )
-        sssom_writers.write_table(msdf, output)
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if terms:
+        if "@" in terms:
+            ix = terms.index("@")
+            logging.info(f"Splitting terms into two, position = {ix}")
+            subjects = list(query_terms_iterator(terms[0:ix], impl))
+            objects = list(query_terms_iterator(terms[ix + 1 :], impl))
+        else:
+            subjects = list(query_terms_iterator(terms, impl))
+            objects = subjects
+    else:
+        subjects = None
+        objects = None
+    if add_labels:
+        add_labels_from_uris(impl)
+    if not recreate and Path(lexical_index_file).exists():
+        logging.info("Reusing previous index")
+        ix = load_lexical_index(lexical_index_file)
+    else:
+        logging.info("Creating index")
+        if ruleset:
+            syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
+        else:
+            syn_rules = []
+        ix = create_lexical_index(impl, synonym_rules=syn_rules)
+    if lexical_index_file:
+        if recreate:
+            logging.info("Saving index")
+            save_lexical_index(ix, lexical_index_file)
+    logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
+    # TODO: abstract this way from serialization format
+    msdf = lexical_index_to_sssom(
+        impl,
+        ix,
+        ruleset=ruleset,
+        subjects=subjects,
+        objects=objects,
+        prefix_map=prefix_map,
+        ensure_strict_prefixes=ensure_strict_prefixes,
+    )
+    sssom_writers.write_table(msdf, output)
 
 
 @main.command()

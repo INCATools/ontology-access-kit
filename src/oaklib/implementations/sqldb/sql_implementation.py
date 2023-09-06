@@ -2590,11 +2590,14 @@ class SqlImplementation(
         if branch_subq:
             match_query = match_query.filter(Statements.subject.in_(branch_subq))
         subject_ids_by_object_source = defaultdict(list)
+        bad_ids = set()
         for row in match_query:
             subject_id = row.subject
             object_id = row.value if row.value else row.object
             if ":" not in object_id:
-                logging.warning(f"bad mapping: {object_id}")
+                if object_id not in bad_ids:
+                    logging.warning(f"bad mapping: {object_id}")
+                    bad_ids.add(object_id)
             object_source = object_id.split(":")[0]
             subject_ids_by_object_source[object_source].append(subject_id)
         for object_source, subject_ids in subject_ids_by_object_source.items():
