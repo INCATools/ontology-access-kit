@@ -11,6 +11,7 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 
 
+
 ```{mermaid}
  classDiagram
     class PrefixDeclaration

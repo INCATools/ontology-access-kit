@@ -6,6 +6,7 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCatego
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasCategory

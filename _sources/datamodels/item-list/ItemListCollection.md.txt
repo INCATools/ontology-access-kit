@@ -11,6 +11,7 @@ URI: [itemList:ItemListCollection](https://w3id.org/linkml/item-list/ItemListCol
 
 
 
+
 ```{mermaid}
  classDiagram
     class ItemListCollection

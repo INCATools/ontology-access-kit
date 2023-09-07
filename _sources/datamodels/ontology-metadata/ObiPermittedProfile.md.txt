@@ -5,7 +5,6 @@ URI: [ObiPermittedProfile](ObiPermittedProfile)
 
 
 
-
 ## Identifier and Mapping Information
 
 
@@ -22,10 +21,184 @@ URI: [ObiPermittedProfile](ObiPermittedProfile)
 
 
 
-## Classes in subset
 
-| Class | Description |
-| --- | --- |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+        
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -40,8 +213,4 @@ URI: [ObiPermittedProfile](ObiPermittedProfile)
 | [term_replaced_by](term_replaced_by.md) |  |
 
 
-## Enumerations in subset
-
-| Enumeration | Description |
-| --- | --- |
 

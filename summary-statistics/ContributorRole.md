@@ -11,6 +11,7 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 
 
+
 ```{mermaid}
  classDiagram
     class ContributorRole

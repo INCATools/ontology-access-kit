@@ -11,6 +11,7 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
 
 
 
+
 ```{mermaid}
  classDiagram
     class SynonymPropertyValue

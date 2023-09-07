@@ -11,6 +11,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
 
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalGrouping

@@ -11,6 +11,7 @@ URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/Pr
 
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyChainAxiom

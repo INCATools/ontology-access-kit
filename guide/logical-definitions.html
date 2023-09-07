@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -84,7 +84,7 @@
            <div itemprop="articleBody">
              
   <section id="logical-definitions">
-<span id="id1"></span><h1>Logical Definitions<a class="headerlink" href="#logical-definitions" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Logical Definitions<a class="headerlink" href="#logical-definitions" title="Link to this heading"></a></h1>
 <p><span class="xref std std-term">Logical Definitions</span> are special kinds of <span class="xref std std-term">Axioms</span> that
 define a term in terms of other terms, in a way that is <em>computable</em>. OAK provides ways of
 operating structurally on logical definitions. Logical definitions may also be used by
@@ -94,7 +94,7 @@ this section can be skipped by many OAK users. However, if you are interested in
 generating, analyzing, summarizing, or other kinds of operations on logical definitions,
 this section is intended to provide an overview of the basic concepts.</p>
 <section id="logical-definitions-in-owl">
-<h2>Logical Definitions in OWL<a class="headerlink" href="#logical-definitions-in-owl" title="Permalink to this heading"></a></h2>
+<h2>Logical Definitions in OWL<a class="headerlink" href="#logical-definitions-in-owl" title="Link to this heading"></a></h2>
 <p>In OWL, logical definitions are represented using the
 <a class="reference external" href="https://www.w3.org/TR/owl2-syntax/#EquivalentClasses">EquivalentClasses axiom</a>.
 But note that not every equivalence axioms is a logical definition, according to how
@@ -111,7 +111,7 @@ equivalence axiom to the expression:</p>
 </div>
 </section>
 <section id="genus-differentia-form-logical-definitions">
-<h2>Genus-differentia form logical definitions<a class="headerlink" href="#genus-differentia-form-logical-definitions" title="Permalink to this heading"></a></h2>
+<h2>Genus-differentia form logical definitions<a class="headerlink" href="#genus-differentia-form-logical-definitions" title="Link to this heading"></a></h2>
 <p>OAK includes dedicated functionality for logical definitions that follow <em>genus-differentia</em>
 form. These are sometimes known as <em>Aristotelian definitions</em>. A genus-differentia definition
 takes the form:</p>
@@ -131,7 +131,7 @@ be useful for queries over an ontology too.</p>
 the computable genus-differentia form.</p>
 </section>
 <section id="the-obo-graphs-model">
-<h2>The Obo Graphs Model<a class="headerlink" href="#the-obo-graphs-model" title="Permalink to this heading"></a></h2>
+<h2>The Obo Graphs Model<a class="headerlink" href="#the-obo-graphs-model" title="Link to this heading"></a></h2>
 <p>The <a class="reference internal" href="../glossary.html#term-OBO-Graphs"><span class="xref std std-term">OBO Graphs</span></a> data model includes a data structure / class for representing
 logical definitions in genus-differentia form. It limits the differentiae to be a set
 of existential restrictions, with no nesting.</p>
@@ -143,7 +143,7 @@ form is often recommended because mistakes are far more common when more complic
 structures are used.</p>
 </section>
 <section id="querying-for-logical-definitions-in-oak">
-<h2>Querying for logical definitions in OAK<a class="headerlink" href="#querying-for-logical-definitions-in-oak" title="Permalink to this heading"></a></h2>
+<h2>Querying for logical definitions in OAK<a class="headerlink" href="#querying-for-logical-definitions-in-oak" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>logical-definitions<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span>nail
 </pre></div>
 </div>
@@ -159,7 +159,7 @@ structures are used.</p>
 </div>
 <p>You can specify <cite>-O csv</cite> to get it in tabular form:</p>
 <table class="docutils align-default" id="id2">
-<caption><span class="caption-text">uberon nail logical definitions</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">uberon nail logical definitions</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>definedClassId</p></th>
 <th class="head"><p>definedClassId_label</p></th>
@@ -315,12 +315,12 @@ intersection_of: BFO:0000050 UBERON:0001466 ! pedal digit
 </div>
 </section>
 <section id="reasoning-using-logical-definitions">
-<h2>Reasoning using logical definitions<a class="headerlink" href="#reasoning-using-logical-definitions" title="Permalink to this heading"></a></h2>
+<h2>Reasoning using logical definitions<a class="headerlink" href="#reasoning-using-logical-definitions" title="Link to this heading"></a></h2>
 <p>Currently OAK does not support classification-style reasoning. If you need this,
 we recommend doing this ahead of time using a tool like ROBOT.</p>
 </section>
 <section id="logical-definitions-and-design-patterns">
-<h2>Logical definitions and design patterns<a class="headerlink" href="#logical-definitions-and-design-patterns" title="Permalink to this heading"></a></h2>
+<h2>Logical definitions and design patterns<a class="headerlink" href="#logical-definitions-and-design-patterns" title="Link to this heading"></a></h2>
 <p>Creating logical definitions by hand can be time consuming and error prone. Many groups
 choose to do this via a templating system such as:</p>
 <ul class="simple">
@@ -333,7 +333,7 @@ choose to do this via a templating system such as:</p>
 axioms from templates, but it might in the future</p>
 </section>
 <section id="generating-logical-definitions">
-<h2>Generating logical definitions<a class="headerlink" href="#generating-logical-definitions" title="Permalink to this heading"></a></h2>
+<h2>Generating logical definitions<a class="headerlink" href="#generating-logical-definitions" title="Link to this heading"></a></h2>
 <p>Sometimes it can be useful to generate logical definitions using heuristic methods such
 as lexical pattern matching. In general these generated definitions should be reviewed
 by experienced ontology developers before being added, but they can be useful to both
@@ -344,17 +344,17 @@ counterpart can be used for generating logical definitions based on specified le
 <p>At this time, this command is experimental, and the flags may change.</p>
 </section>
 <section id="analyzing-logical-definitions">
-<h2>Analyzing logical definitions<a class="headerlink" href="#analyzing-logical-definitions" title="Permalink to this heading"></a></h2>
+<h2>Analyzing logical definitions<a class="headerlink" href="#analyzing-logical-definitions" title="Link to this heading"></a></h2>
 <p>OAK will soon provide commands for analyzing logical definitions, in particular to determine
 consistency of lattice population.</p>
 </section>
 <section id="validating-logical-definitions">
-<h2>Validating logical definitions<a class="headerlink" href="#validating-logical-definitions" title="Permalink to this heading"></a></h2>
+<h2>Validating logical definitions<a class="headerlink" href="#validating-logical-definitions" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">validate-definitions</span></code> command is used for validating text definitions - one aspect
 of this is checking for consistency between text and logical definitions.</p>
 </section>
 <section id="further-reading">
-<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this heading"></a></h2>
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.biorxiv.org/content/10.1101/010090v1">Use of OWL within the Gene Ontology</a></p></li>
 <li><p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2910209/">Cross-Product Extensions of the Gene Ontology</a></p></li>

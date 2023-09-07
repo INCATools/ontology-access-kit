@@ -8,6 +8,7 @@ URI: [ontoassoc:PositiveOrNegativeAssociation](https://w3id.org/oak/association/
 
 
 
+
 ```{mermaid}
  classDiagram
     class PositiveOrNegativeAssociation

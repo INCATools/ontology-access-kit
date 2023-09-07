@@ -6,6 +6,7 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
 
 
 
+
 ```{mermaid}
  classDiagram
     class RollupGroup

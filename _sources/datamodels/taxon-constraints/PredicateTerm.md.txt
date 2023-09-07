@@ -11,6 +11,7 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 
 
 
+
 ```{mermaid}
  classDiagram
     class PredicateTerm

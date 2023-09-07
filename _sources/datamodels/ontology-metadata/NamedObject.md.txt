@@ -11,6 +11,7 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 
 
 
+
 ```{mermaid}
  classDiagram
     class NamedObject

@@ -11,6 +11,7 @@ URI: [mappingrules:LexicalGrouping](https://w3id.org/oak/mapping-rules-datamodel
 
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalGrouping

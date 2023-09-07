@@ -11,6 +11,7 @@ URI: [ontoenrich:ClassEnrichmentResultSet](https://w3id.org/oak/class-enrichment
 
 
 
+
 ```{mermaid}
  classDiagram
     class ClassEnrichmentResultSet

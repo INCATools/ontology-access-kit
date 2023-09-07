@@ -11,6 +11,7 @@ URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
 
 
 
+
 ```{mermaid}
  classDiagram
     class HomoSapiens

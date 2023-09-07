@@ -11,6 +11,7 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
 
 
 
+
 ```{mermaid}
  classDiagram
     class MappingRule

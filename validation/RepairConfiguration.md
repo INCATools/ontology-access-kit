@@ -11,6 +11,7 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 
 
 
+
 ```{mermaid}
  classDiagram
     class RepairConfiguration

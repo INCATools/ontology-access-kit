@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -103,7 +103,7 @@
            <div itemprop="articleBody">
              
   <section id="part-4-obographs">
-<h1>Part 4: OboGraphs<a class="headerlink" href="#part-4-obographs" title="Permalink to this heading"></a></h1>
+<h1>Part 4: OboGraphs<a class="headerlink" href="#part-4-obographs" title="Link to this heading"></a></h1>
 <p>So far we have been using the <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> which provides basic lookup operations. All methods in this interface
 return ‘simple’ python objects, such as strings, lists of strings, or dictionaries or <a class="reference internal" href="../packages/best-practice.html#iterators"><span class="std std-ref">Iterators</span></a> composing these elements.</p>
 <p>Sometimes more powerful abstractions are required. For example, many bioinformatics applications work with a <a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> level abstraction
@@ -116,7 +116,7 @@ applications require an OWL <span class="xref std std-term">Axiom</span> oriente
 </ul>
 <p>To illustrate this we will first introduce the <span class="xref std std-ref">OboGraphInterface</span> which uses the <span class="xref std std-ref">OboGraph</span> datamodel</p>
 <section id="obographs">
-<h2>OboGraphs<a class="headerlink" href="#obographs" title="Permalink to this heading"></a></h2>
+<h2>OboGraphs<a class="headerlink" href="#obographs" title="Link to this heading"></a></h2>
 <p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/obograph/index.html">OboGraph Datamodel</a></p>
 <p>In this datamodel, an ontology is conceived of as a Graph, with a graph consisting of</p>
 <ul class="simple">
@@ -129,13 +129,13 @@ applications require an OWL <span class="xref std std-term">Axiom</span> oriente
 <img alt="../_images/wing-vein.png" src="../_images/wing-vein.png" />
 </section>
 <section id="obograph-interface">
-<h2>OboGraph Interface<a class="headerlink" href="#obograph-interface" title="Permalink to this heading"></a></h2>
+<h2>OboGraph Interface<a class="headerlink" href="#obograph-interface" title="Link to this heading"></a></h2>
 <p>Like most datamodels in OAK, the OboGraph datamodel follows a Data Access Object (DAO) pattern - the objects are intentionally limited
 in their behavior. For example, you cannot ask a node what edges come out or go in; these are stored at the top level graph object.</p>
 <p>“Smarter” operations are provided by the interface</p>
 </section>
 <section id="commands">
-<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this heading"></a></h2>
+<h2>Commands<a class="headerlink" href="#commands" title="Link to this heading"></a></h2>
 <p>There are a number of commands that work with OBOGraph abstractions:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../cli.html#runoak-viz"><span class="std std-ref">viz</span></a></p></li>
@@ -146,7 +146,7 @@ in their behavior. For example, you cannot ask a node what edges come out or go 
 </ul>
 </section>
 <section id="code-examples">
-<h2>Code examples<a class="headerlink" href="#code-examples" title="Permalink to this heading"></a></h2>
+<h2>Code examples<a class="headerlink" href="#code-examples" title="Link to this heading"></a></h2>
 <p>TODO: see tests for examples for now</p>
 </section>
 </section>

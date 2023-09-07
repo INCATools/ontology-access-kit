@@ -11,6 +11,7 @@ URI: [mappingrules:LexicalTransformationPipeline](https://w3id.org/oak/mapping-r
 
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalTransformationPipeline

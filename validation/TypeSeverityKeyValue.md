@@ -11,6 +11,7 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
+
 ```{mermaid}
  classDiagram
     class TypeSeverityKeyValue

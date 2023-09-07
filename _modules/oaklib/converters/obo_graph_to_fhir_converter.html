@@ -11,13 +11,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
@@ -136,7 +136,9 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="OboGraphToFHIRConverter"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="OboGraphToFHIRConverter">
+<a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">OboGraphToFHIRConverter</span><span class="p">(</span><span class="n">DataModelConverter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from OboGraph to FHIR.</span>
 
@@ -161,7 +163,9 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="OboGraphToFHIRConverter.dump"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span>
+<div class="viewcode-block" id="OboGraphToFHIRConverter.dump">
+<a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">[docs]</a>
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -185,8 +189,11 @@
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span></div>
 
+
     <span class="c1"># todo: id/url: any way to try to ascertain ID or URL if not passed? and warn if not determined?</span>
-<div class="viewcode-block" id="OboGraphToFHIRConverter.convert"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
+<div class="viewcode-block" id="OboGraphToFHIRConverter.convert">
+<a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">[docs]</a>
+    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -267,7 +274,10 @@
             <span class="n">target</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">code_system_url</span>
         <span class="k">return</span> <span class="n">target</span></div>
 
-<div class="viewcode-block" id="OboGraphToFHIRConverter.code"><a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">[docs]</a>    <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="OboGraphToFHIRConverter.code">
+<a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">[docs]</a>
+    <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a packages.</span>
 
 <span class="sd">        This is a wrapper onto curie_converter.compress</span>
@@ -282,6 +292,7 @@
             <span class="k">return</span> <span class="n">uri</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">curie</span></div>
+
 
     <span class="k">def</span> <span class="nf">_convert_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -375,6 +386,7 @@
                     <span class="n">value</span><span class="o">=</span><span class="n">synonym</span><span class="o">.</span><span class="n">val</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span></div>
+
 </pre></div>
 
            </div>

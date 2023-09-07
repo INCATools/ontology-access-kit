@@ -6,6 +6,7 @@ URI: [vm:NamedResource](https://w3id.org/linkml/validation-model/NamedResource)
 
 
 
+
 ```{mermaid}
  classDiagram
     class NamedResource

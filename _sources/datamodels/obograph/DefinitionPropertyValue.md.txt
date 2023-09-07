@@ -11,6 +11,7 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
 
 
 
+
 ```{mermaid}
  classDiagram
     class DefinitionPropertyValue

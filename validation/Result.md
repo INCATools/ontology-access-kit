@@ -13,6 +13,7 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Result

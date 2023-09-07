@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -105,9 +105,9 @@
            <div itemprop="articleBody">
              
   <section id="primary-labels">
-<span id="id1"></span><h1>Primary Labels<a class="headerlink" href="#primary-labels" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Primary Labels<a class="headerlink" href="#primary-labels" title="Link to this heading"></a></h1>
 <section id="looking-up-labels">
-<h2>Looking up labels<a class="headerlink" href="#looking-up-labels" title="Permalink to this heading"></a></h2>
+<h2>Looking up labels<a class="headerlink" href="#looking-up-labels" title="Link to this heading"></a></h2>
 <p>The <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> provides a way to look up the primary <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">Label</span></a> for an
 entity or set of entities. For example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
@@ -125,7 +125,7 @@ many semantic web ontologies to use <span class="xref std std-term">Semantic Ide
 <p>Additionally, some ontologies may have multiple primary labels, one per language.</p>
 </section>
 <section id="custom-label-annotation-properties">
-<h2>Custom label annotation properties<a class="headerlink" href="#custom-label-annotation-properties" title="Permalink to this heading"></a></h2>
+<h2>Custom label annotation properties<a class="headerlink" href="#custom-label-annotation-properties" title="Link to this heading"></a></h2>
 <p>By default, OAK will use the <code class="docutils literal notranslate"><span class="pre">rdfs:label</span></code> property to find the primary label.
 While this should work with an OBO ontology, it is not guaranteed to work with
 other ontologies. Some ontologies may use a different property like:</p>
@@ -160,7 +160,7 @@ provide a set of mappings in SSSOM form.</p>
 </div>
 </section>
 <section id="multilingual-ontologies">
-<h2>Multilingual ontologies<a class="headerlink" href="#multilingual-ontologies" title="Permalink to this heading"></a></h2>
+<h2>Multilingual ontologies<a class="headerlink" href="#multilingual-ontologies" title="Link to this heading"></a></h2>
 <p>Many ontologies assume English as a default, and only provide a single
 primary label (whether this is via rdfs:label, or via another <span class="xref std std-term">Annotation Property</span>).</p>
 <p>Others may provide multiple primary labels, with a maximum of one per language.</p>
@@ -171,7 +171,7 @@ set the language as a property of the adapter. For example:</p>
 </div>
 </section>
 <section id="other-edge-cases">
-<h2>Other edge cases<a class="headerlink" href="#other-edge-cases" title="Permalink to this heading"></a></h2>
+<h2>Other edge cases<a class="headerlink" href="#other-edge-cases" title="Link to this heading"></a></h2>
 <p>Even for OBO ontologies, there are some edge cases, such as cases
 where we may find multiple labels for a single entity. This can
 happen when two or more ontologies are merged, and these ontologies
@@ -186,7 +186,7 @@ and to provide a <em>common interface</em> such that intererable code can be
 written that will work with a wide variety of ontologies and vocabularies.</p>
 </section>
 <section id="further-reading">
-<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this heading"></a></h2>
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://obofoundry.org/principles/fp-012-naming-conventions.html">OBO Foundry: Naming Conventions</a></p></li>
 </ul>

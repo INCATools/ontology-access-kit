@@ -6,6 +6,7 @@ URI: [schema:Thing](http://schema.org/Thing)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Thing

@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -104,20 +104,20 @@
            <div itemprop="articleBody">
              
   <section id="part-5-graph-visualization">
-<h1>Part 5: Graph Visualization<a class="headerlink" href="#part-5-graph-visualization" title="Permalink to this heading"></a></h1>
+<h1>Part 5: Graph Visualization<a class="headerlink" href="#part-5-graph-visualization" title="Link to this heading"></a></h1>
 <p>This section of the tutorial requires two dependencies that are outside OAK.</p>
 <ul class="simple">
 <li><p>Graphviz</p></li>
 <li><p>OBOGraphViz</p></li>
 </ul>
 <section id="install-graphviz">
-<h2>Install Graphviz<a class="headerlink" href="#install-graphviz" title="Permalink to this heading"></a></h2>
+<h2>Install Graphviz<a class="headerlink" href="#install-graphviz" title="Link to this heading"></a></h2>
 <p>Graphviz is an open-source graph visualization software that provides a way to
 represent information about graphs and networks.</p>
 <p>For installation refer to <a class="reference external" href="https://graphviz.org/download/">Graphviz.org/download/</a>.</p>
 </section>
 <section id="install-obographviz">
-<h2>Install OBOGraphViz<a class="headerlink" href="#install-obographviz" title="Permalink to this heading"></a></h2>
+<h2>Install OBOGraphViz<a class="headerlink" href="#install-obographviz" title="Link to this heading"></a></h2>
 <p>OBOGraphViz is a Javascript package that allows you to visualize OBOGraphs using Graphviz.</p>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">npm</span></code> or <code class="docutils literal notranslate"><span class="pre">yarn</span></code> to install the OBOGraphViz package.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="n">obographviz</span>
@@ -125,7 +125,7 @@ represent information about graphs and networks.</p>
 </div>
 </section>
 <section id="command-line-usage">
-<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this heading"></a></h2>
+<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Link to this heading"></a></h2>
 <p>Using OAK, you can generate graph visualizations directly from the command line as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">viz</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">-</span><span class="n">o</span> <span class="n">wing</span><span class="o">-</span><span class="n">vein</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
@@ -137,7 +137,7 @@ represent information about graphs and networks.</p>
 </div>
 </section>
 <section id="how-this-works">
-<h2>How this works<a class="headerlink" href="#how-this-works" title="Permalink to this heading"></a></h2>
+<h2>How this works<a class="headerlink" href="#how-this-works" title="Link to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>First, the <span class="xref std std-ref">OboGraphInterface</span> is invoked to query all ancestors of the term</p></li>
@@ -147,7 +147,7 @@ represent information about graphs and networks.</p>
 </div></blockquote>
 </section>
 <section id="programmatic-usage">
-<h2>Programmatic usage<a class="headerlink" href="#programmatic-usage" title="Permalink to this heading"></a></h2>
+<h2>Programmatic usage<a class="headerlink" href="#programmatic-usage" title="Link to this heading"></a></h2>
 <p>TODO: use test_obograph_utils for example</p>
 </section>
 </section>

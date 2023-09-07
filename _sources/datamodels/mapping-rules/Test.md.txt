@@ -6,6 +6,7 @@ URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Test

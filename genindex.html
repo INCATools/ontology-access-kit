@@ -11,13 +11,13 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
@@ -118,6 +118,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-axioms-about">runoak-axioms command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --adapter-mapping
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-adapter-mapping">runoak-validate-mappings command line option</a>
 </li>
       </ul></li>
       <li>
@@ -277,6 +284,8 @@
         <li><a href="cli.html#cmdoption-runoak-similarity-pair-autolabel">runoak-similarity-pair command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-termset-similarity-autolabel">runoak-termset-similarity command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-autolabel">runoak-validate-mappings command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1039,6 +1048,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-termset-similarity-autolabel">runoak-termset-similarity command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-autolabel">runoak-validate-mappings command line option</a>
+</li>
       </ul></li>
       <li>
     --no-autosave
@@ -1532,9 +1543,9 @@
     --output
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-aliases-0">runoak-aliases command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-0">runoak-ancestors command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-o">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">runoak-annotate command line option</a>
 </li>
@@ -1552,7 +1563,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-definitions-o">runoak-definitions command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-descendants-0">runoak-descendants command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-descendants-o">runoak-descendants command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-diff-o">runoak-diff command line option</a>
 </li>
@@ -1562,7 +1573,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-diff-via-mappings-o">runoak-diff-via-mappings command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-disjoints-0">runoak-disjoints command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-disjoints-o">runoak-disjoints command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-dump-o">runoak-dump command line option</a>
 </li>
@@ -1590,15 +1601,15 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-lint-o">runoak-lint command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-logical-definitions-0">runoak-logical-definitions command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-logical-definitions-o">runoak-logical-definitions command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-mappings-o">runoak-mappings command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">runoak-migrate-curies command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-o">runoak-migrate-curies command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-normalize-o">runoak-normalize command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-obsoletes-0">runoak-obsoletes command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-o">runoak-obsoletes command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ontologies-o">runoak-ontologies command line option</a>
 </li>
@@ -1606,19 +1617,19 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-ontology-versions-o">runoak-ontology-versions command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-paths-0">runoak-paths command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-paths-o">runoak-paths command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-prefixes-o">runoak-prefixes command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-query-o">runoak-query command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-relationships-0">runoak-relationships command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-rollup-o">runoak-rollup command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-roots-o">runoak-roots command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-search-0">runoak-search command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-siblings-o">runoak-siblings command line option</a>
 </li>
@@ -1628,7 +1639,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-singletons-o">runoak-singletons command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-statistics-0">runoak-statistics command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-statistics-o">runoak-statistics command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
 </li>
@@ -1646,15 +1657,17 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-termset-similarity-o">runoak-termset-similarity command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-tree-0">runoak-tree command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-tree-o">runoak-tree command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-o">runoak-validate command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-validate-definitions-0">runoak-validate-definitions command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-validate-definitions-o">runoak-validate-definitions command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-o">runoak-validate-mappings command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-multiple-o">runoak-validate-multiple command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-0">runoak-viz command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-viz-o">runoak-viz command line option</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1758,6 +1771,8 @@
         <li><a href="cli.html#cmdoption-runoak-validate-O">runoak-validate command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-definitions-O">runoak-validate-definitions command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-O">runoak-validate-mappings command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-O">runoak-viz command line option</a>
 </li>
@@ -2429,6 +2444,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-definitions-O">runoak-validate-definitions command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-O">runoak-validate-mappings command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-viz-O">runoak-viz command line option</a>
 </li>
       </ul></li>
@@ -2436,9 +2453,9 @@
     -o
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-aliases-0">runoak-aliases command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-0">runoak-ancestors command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-o">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">runoak-annotate command line option</a>
 </li>
@@ -2456,7 +2473,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-definitions-o">runoak-definitions command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-descendants-0">runoak-descendants command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-descendants-o">runoak-descendants command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-diff-o">runoak-diff command line option</a>
 </li>
@@ -2466,7 +2483,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-diff-via-mappings-o">runoak-diff-via-mappings command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-disjoints-0">runoak-disjoints command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-disjoints-o">runoak-disjoints command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-dump-o">runoak-dump command line option</a>
 </li>
@@ -2494,15 +2511,15 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-lint-o">runoak-lint command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-logical-definitions-0">runoak-logical-definitions command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-logical-definitions-o">runoak-logical-definitions command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-mappings-o">runoak-mappings command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">runoak-migrate-curies command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-o">runoak-migrate-curies command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-normalize-o">runoak-normalize command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-obsoletes-0">runoak-obsoletes command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-o">runoak-obsoletes command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ontologies-o">runoak-ontologies command line option</a>
 </li>
@@ -2510,19 +2527,19 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-ontology-versions-o">runoak-ontology-versions command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-paths-0">runoak-paths command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-paths-o">runoak-paths command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-prefixes-o">runoak-prefixes command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-query-o">runoak-query command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-relationships-0">runoak-relationships command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-rollup-o">runoak-rollup command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-roots-o">runoak-roots command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-search-0">runoak-search command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-siblings-o">runoak-siblings command line option</a>
 </li>
@@ -2532,7 +2549,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-singletons-o">runoak-singletons command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-statistics-0">runoak-statistics command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-statistics-o">runoak-statistics command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
 </li>
@@ -2550,15 +2567,17 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-termset-similarity-o">runoak-termset-similarity command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-tree-0">runoak-tree command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-tree-o">runoak-tree command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-o">runoak-validate command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-validate-definitions-0">runoak-validate-definitions command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-validate-definitions-o">runoak-validate-definitions command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-o">runoak-validate-mappings command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-multiple-o">runoak-validate-multiple command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-0">runoak-viz command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-viz-o">runoak-viz command line option</a>
 </li>
       </ul></li>
       <li>
@@ -3622,13 +3641,13 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-aliases-obo-model">--obo-model</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-aliases-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-aliases-O">--output-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-aliases-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-aliases-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-aliases-arg-TERMS">TERMS</a>
 </li>
@@ -3641,7 +3660,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-statistics">--no-statistics</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-O">--output-type</a>
 </li>
@@ -3653,7 +3672,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-p">-p</a>
 </li>
@@ -3927,7 +3946,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-M">--graph-traversal-method</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-descendants-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-descendants-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-O">--output-type</a>
 </li>
@@ -3939,7 +3958,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-descendants-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-descendants-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-p">-p</a>
 </li>
@@ -4098,7 +4117,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-disjoints-named-classes-only">--no-named-classes-only</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-disjoints-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-disjoints-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-disjoints-O">--output-type</a>
 </li>
@@ -4106,7 +4125,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-disjoints-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-disjoints-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-disjoints-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-disjoints-p">-p</a>
 </li>
@@ -4405,8 +4424,6 @@
         <li><a href="cli.html#cmdoption-runoak-labels-arg-TERMS">TERMS</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     runoak-leafs command line option
 
@@ -4424,6 +4441,8 @@
         <li><a href="cli.html#cmdoption-runoak-leafs-p">-p</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     runoak-lexmatch command line option
 
@@ -4488,7 +4507,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-logical-definitions-unmelt">--no-unmelt</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-logical-definitions-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-logical-definitions-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-logical-definitions-O">--output-type</a>
 </li>
@@ -4500,7 +4519,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-logical-definitions-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-logical-definitions-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-logical-definitions-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-logical-definitions-p">-p</a>
 </li>
@@ -4540,7 +4559,7 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-migrate-curies-replace">--no-replace</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-migrate-curies-O">--output-type</a>
 </li>
@@ -4548,7 +4567,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-migrate-curies-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-migrate-curies-arg-CURIE_PAIRS">CURIE_PAIRS</a>
 </li>
@@ -4586,7 +4605,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-show-migration-relationships">--no-show-migration-relationships</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-obsoletes-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-O">--output-type</a>
 </li>
@@ -4594,7 +4613,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-obsoletes-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-arg-TERMS">TERMS</a>
 </li>
@@ -4668,7 +4687,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-paths-viz">--no-viz</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-paths-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-paths-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-paths-O">--output-type</a>
 </li>
@@ -4686,7 +4705,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-paths-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-paths-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-paths-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-paths-p">-p</a>
 </li>
@@ -4767,7 +4786,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-include-tbox">--no-include-tbox</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-relationships-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-relationships-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-O">--output-type</a>
 </li>
@@ -4777,7 +4796,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-relationships-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-relationships-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-p">-p</a>
 </li>
@@ -4844,13 +4863,13 @@
     runoak-search command line option
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-search-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-search-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-O">--output-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-search-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-search-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-arg-TERMS">TERMS</a>
 </li>
@@ -4984,13 +5003,13 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-statistics-include-residuals">--no-include-residuals</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-statistics-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-statistics-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-statistics-O">--output-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-statistics-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-statistics-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-statistics-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-statistics-P">-P</a>
 </li>
@@ -5183,7 +5202,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-gap-fill">--no-gap-fill</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-tree-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-tree-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-O">--output-type</a>
 </li>
@@ -5201,7 +5220,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-tree-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-tree-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-p">-p</a>
 </li>
@@ -5245,7 +5264,7 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-validate-definitions-skip-text-annotation">--no-skip-text-annotation</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-validate-definitions-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-validate-definitions-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-definitions-O">--output-type</a>
 </li>
@@ -5253,9 +5272,30 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-definitions-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-validate-definitions-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-validate-definitions-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-definitions-arg-TERMS">TERMS</a>
+</li>
+      </ul></li>
+      <li>
+    runoak-validate-mappings command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-adapter-mapping">--adapter-mapping</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-autolabel">--autolabel</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-autolabel">--no-autolabel</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-O">--output-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-arg-TERMS">TERMS</a>
 </li>
       </ul></li>
       <li>
@@ -5301,7 +5341,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-view">--no-view</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-0">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-viz-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-O">--output-type</a>
 </li>
@@ -5315,7 +5355,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-O">-O</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-0">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-viz-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-p">-p</a>
 </li>
@@ -5517,6 +5557,8 @@
         <li><a href="cli.html#cmdoption-runoak-validate-arg-TERMS">runoak-validate command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-definitions-arg-TERMS">runoak-validate-definitions command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-mappings-arg-TERMS">runoak-validate-mappings command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-arg-TERMS">runoak-viz command line option</a>
 </li>

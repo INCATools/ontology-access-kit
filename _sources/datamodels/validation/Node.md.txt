@@ -6,6 +6,7 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Node

@@ -13,6 +13,7 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
 
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyValue

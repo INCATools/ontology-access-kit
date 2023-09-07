@@ -6,6 +6,7 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
 
 
 
+
 ```{mermaid}
  classDiagram
     class ComplexQuery

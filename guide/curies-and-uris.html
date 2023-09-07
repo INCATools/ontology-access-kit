@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -105,9 +105,9 @@
            <div itemprop="articleBody">
              
   <section id="curies-and-uris">
-<span id="identifying-entities-curies-and-uris"></span><h1>Identifying entities: CURIEs and URIs<a class="headerlink" href="#curies-and-uris" title="Permalink to this heading"></a></h1>
+<span id="identifying-entities-curies-and-uris"></span><h1>Identifying entities: CURIEs and URIs<a class="headerlink" href="#curies-and-uris" title="Link to this heading"></a></h1>
 <section id="prefix-maps">
-<h2>Prefix maps<a class="headerlink" href="#prefix-maps" title="Permalink to this heading"></a></h2>
+<h2>Prefix maps<a class="headerlink" href="#prefix-maps" title="Link to this heading"></a></h2>
 <p>Every <span class="xref std std-term">Entity</span> in OAK has a unique <a class="reference internal" href="../glossary.html#term-Identifier"><span class="xref std std-term">Identifier</span></a>. OAK is consistent with semantic
 web formalisms where everything is identified by an <span class="xref std std-term">IRI</span>, but in OAK these are
 typically compressed into a <a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>, using a <span class="xref std std-term">Prefix Map</span>.</p>
@@ -138,7 +138,7 @@ as well as a linked data prefix map, which provides a set of standard prefixes f
 resources such as schema.org.</p>
 </section>
 <section id="querying-prefixmaps">
-<h2>Querying prefixmaps<a class="headerlink" href="#querying-prefixmaps" title="Permalink to this heading"></a></h2>
+<h2>Querying prefixmaps<a class="headerlink" href="#querying-prefixmaps" title="Link to this heading"></a></h2>
 <p>You can get a list of all prefixes known to OAK using the <code class="docutils literal notranslate"><span class="pre">prefixes</span></code> command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>prefixes
 ...
@@ -156,7 +156,7 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 </div>
 <p>This will return a table:</p>
 <table class="docutils align-default" id="id1">
-<caption><span class="caption-text">Example prefixes</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Example prefixes</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>prefix</p></th>
 <th class="head"><p>uri</p></th>
@@ -183,7 +183,7 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 <p>See the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-prefixes">prefixes</a> command for more details.</p>
 </section>
 <section id="non-default-prefixmaps">
-<h2>Non-default prefixmaps<a class="headerlink" href="#non-default-prefixmaps" title="Permalink to this heading"></a></h2>
+<h2>Non-default prefixmaps<a class="headerlink" href="#non-default-prefixmaps" title="Link to this heading"></a></h2>
 <p>For most purposes, the default prefixmap should suffice.</p>
 <p>You can also choose to override the default prefixmap with your own, using the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> or <code class="docutils literal notranslate"><span class="pre">--named-prefix-map</span></code> options.</p>
 <p>In python this can be done by accessing the prefixmap directly:</p>
@@ -198,7 +198,7 @@ skos<span class="w">        </span>http://www.w3.org/2004/02/skos/core#
 </div>
 </section>
 <section id="structure-of-identifiers">
-<h2>Structure of identifiers<a class="headerlink" href="#structure-of-identifiers" title="Permalink to this heading"></a></h2>
+<h2>Structure of identifiers<a class="headerlink" href="#structure-of-identifiers" title="Link to this heading"></a></h2>
 <p>OAK doesn’t impose any expectations on the structure of identifiers.</p>
 <p>For OBO ontologies, all identifiers should conform to the OBO identifier pattern,
 which is the prefix (typically all uppercase) followed by a local identifier which is
@@ -213,7 +213,7 @@ schema:Person<span class="w">       </span>Person<span class="w">  </span>rdfs:s
 </div>
 </section>
 <section id="futher-reading">
-<h2>Futher reading<a class="headerlink" href="#futher-reading" title="Permalink to this heading"></a></h2>
+<h2>Futher reading<a class="headerlink" href="#futher-reading" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://obofoundry.org/id-policy">OBO Foundry Identifiers</a></p></li>
 </ul>

@@ -6,6 +6,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression
 
 
 
+
 ```{mermaid}
  classDiagram
     class Expression

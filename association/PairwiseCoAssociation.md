@@ -11,6 +11,7 @@ URI: [ontoassoc:PairwiseCoAssociation](https://w3id.org/oak/association/Pairwise
 
 
 
+
 ```{mermaid}
  classDiagram
     class PairwiseCoAssociation

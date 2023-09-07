@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -105,11 +105,11 @@
            <div itemprop="articleBody">
              
   <section id="how-to-validate-an-obo-ontology-using-obo-metadata-ontology-schema">
-<h1>How to Validate an OBO ontology using Obo Metadata Ontology schema<a class="headerlink" href="#how-to-validate-an-obo-ontology-using-obo-metadata-ontology-schema" title="Permalink to this heading"></a></h1>
+<h1>How to Validate an OBO ontology using Obo Metadata Ontology schema<a class="headerlink" href="#how-to-validate-an-obo-ontology-using-obo-metadata-ontology-schema" title="Link to this heading"></a></h1>
 <section id="steps">
-<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this heading"></a></h2>
+<h2>Steps<a class="headerlink" href="#steps" title="Link to this heading"></a></h2>
 <section id="step-1-obtain-the-sqlite-version-of-the-ontology">
-<h3>Step 1: Obtain the sqlite version of the ontology<a class="headerlink" href="#step-1-obtain-the-sqlite-version-of-the-ontology" title="Permalink to this heading"></a></h3>
+<h3>Step 1: Obtain the sqlite version of the ontology<a class="headerlink" href="#step-1-obtain-the-sqlite-version-of-the-ontology" title="Link to this heading"></a></h3>
 <p>Currently the sqlite version of ontologies are not distributed alongside them in OBO</p>
 <p>You can either</p>
 <ul class="simple">
@@ -123,7 +123,7 @@
 </div>
 </section>
 <section id="step-2-install-oaklib">
-<h3>Step 2: Install oaklib<a class="headerlink" href="#step-2-install-oaklib" title="Permalink to this heading"></a></h3>
+<h3>Step 2: Install oaklib<a class="headerlink" href="#step-2-install-oaklib" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>oaklib
 </pre></div>
 </div>
@@ -133,7 +133,7 @@
 </div>
 </section>
 <section id="step-3-validate-an-individual-ontology">
-<h3>Step 3: Validate an individual ontology<a class="headerlink" href="#step-3-validate-an-individual-ontology" title="Permalink to this heading"></a></h3>
+<h3>Step 3: Validate an individual ontology<a class="headerlink" href="#step-3-validate-an-individual-ontology" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:uberon.db<span class="w"> </span>validate
 </pre></div>
 </div>
@@ -153,14 +153,14 @@
 </div>
 </section>
 <section id="step-3-alternative-validate-multiple-ontologies">
-<h3>Step 3 (alternative): Validate multiple ontologies<a class="headerlink" href="#step-3-alternative-validate-multiple-ontologies" title="Permalink to this heading"></a></h3>
+<h3>Step 3 (alternative): Validate multiple ontologies<a class="headerlink" href="#step-3-alternative-validate-multiple-ontologies" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-multiple<span class="w"> </span>db/*.db<span class="w"> </span>-o<span class="w"> </span>obo-validation.tsv
 </pre></div>
 </div>
 </section>
 </section>
 <section id="caveats">
-<h2>Caveats<a class="headerlink" href="#caveats" title="Permalink to this heading"></a></h2>
+<h2>Caveats<a class="headerlink" href="#caveats" title="Link to this heading"></a></h2>
 <p>Currently only the following are implemented:</p>
 <ul class="simple">
 <li><p>MinCountConstraintComponent checks (required or recommended)</p></li>
@@ -171,11 +171,11 @@
 </ul>
 </section>
 <section id="using-your-own-schema">
-<h2>Using your own schema<a class="headerlink" href="#using-your-own-schema" title="Permalink to this heading"></a></h2>
+<h2>Using your own schema<a class="headerlink" href="#using-your-own-schema" title="Link to this heading"></a></h2>
 <p>TODO: add an option to pass in your own yaml file</p>
 </section>
 <section id="how-this-works">
-<h2>How this works<a class="headerlink" href="#how-this-works" title="Permalink to this heading"></a></h2>
+<h2>How this works<a class="headerlink" href="#how-this-works" title="Link to this heading"></a></h2>
 <p>The Python API is described here:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/validator.html">ValidatorInterface</a></p></li>
@@ -192,7 +192,7 @@
 <p>Validation results use the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/validation">Validator Datamodel</a>, which reuses many URIs from SHACL</p>
 </section>
 <section id="analysis">
-<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this heading"></a></h2>
+<h2>Analysis<a class="headerlink" href="#analysis" title="Link to this heading"></a></h2>
 <p>See notebooks folder in <a class="reference external" href="https://github.com/cmungall/obo-metadata">https://github.com/cmungall/obo-metadata</a></p>
 </section>
 </section>

@@ -5,7 +5,6 @@ URI: [GoPermittedProfile](GoPermittedProfile)
 
 
 
-
 ## Identifier and Mapping Information
 
 
@@ -22,10 +21,184 @@ URI: [GoPermittedProfile](GoPermittedProfile)
 
 
 
-## Classes in subset
 
-| Class | Description |
-| --- | --- |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -40,8 +213,4 @@ URI: [GoPermittedProfile](GoPermittedProfile)
 | [term_replaced_by](term_replaced_by.md) |  |
 
 
-## Enumerations in subset
-
-| Enumeration | Description |
-| --- | --- |
 

@@ -11,6 +11,7 @@ URI: [ontoassoc:ParserConfiguration](https://w3id.org/oak/association/ParserConf
 
 
 
+
 ```{mermaid}
  classDiagram
     class ParserConfiguration

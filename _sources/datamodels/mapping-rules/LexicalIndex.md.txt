@@ -11,6 +11,7 @@ URI: [mappingrules:LexicalIndex](https://w3id.org/oak/mapping-rules-datamodel/Le
 
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalIndex

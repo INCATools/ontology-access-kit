@@ -11,13 +11,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
@@ -93,7 +93,9 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SearchConfiguration&quot;</span><span class="p">,</span> <span class="s2">&quot;SearchInterface&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="SearchInterface"><a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">[docs]</a><span class="k">class</span> <span class="nc">SearchInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="SearchInterface">
+<a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">[docs]</a>
+<span class="k">class</span> <span class="nc">SearchInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An Ontology Interface that supports text-based search.</span>
 
@@ -141,7 +143,9 @@
 <span class="sd">     see :ref:`datamodels`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SearchInterface.basic_search"><a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">[docs]</a>    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span>
+<div class="viewcode-block" id="SearchInterface.basic_search">
+<a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">[docs]</a>
+    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SearchConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -181,7 +185,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="SearchInterface.multiterm_search"><a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search">[docs]</a>    <span class="k">def</span> <span class="nf">multiterm_search</span><span class="p">(</span>
+
+<div class="viewcode-block" id="SearchInterface.multiterm_search">
+<a class="viewcode-back" href="../../../packages/interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search">[docs]</a>
+    <span class="k">def</span> <span class="nf">multiterm_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">search_terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SearchConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -200,7 +207,9 @@
                     <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
                         <span class="k">continue</span>
                     <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
-                    <span class="k">yield</span> <span class="n">curie</span></div></div>
+                    <span class="k">yield</span> <span class="n">curie</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -12,13 +12,13 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
@@ -85,11 +85,11 @@
              
   <p id="concepts"><strong>NOTE</strong> this is largely replaced by the <a class="reference internal" href="guide/index.html#guide"><span class="std std-ref">The OAK Guide</span></a></p>
 <section id="ontology-concepts">
-<h1>Ontology Concepts<a class="headerlink" href="#ontology-concepts" title="Permalink to this heading"></a></h1>
+<h1>Ontology Concepts<a class="headerlink" href="#ontology-concepts" title="Link to this heading"></a></h1>
 <p>Here we describe some of the over-arching concepts in this library. Note that distinct <a class="reference internal" href="packages/interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a> may impose
 their own specific views of the world, but the concepts here are intended as a kind of lingua-franca.</p>
 <section id="ontology">
-<h2>Ontology<a class="headerlink" href="#ontology" title="Permalink to this heading"></a></h2>
+<h2>Ontology<a class="headerlink" href="#ontology" title="Link to this heading"></a></h2>
 <p>This library has a very broad concept of what an Ontology is, in keeping with the broad range of use cases addressed.</p>
 <p>For many users the concept of an ontology is quite straightforward - it’s something like what is described in the GO
 paper from 2000, a collection of thousands of inter-related terms. However, the concept of “ontology” turns out to be
@@ -107,7 +107,7 @@ the appropriate abstractions. However, the main community served is “classic�
 as those found in the OBO library or those encoded in OWL.</p>
 </section>
 <section id="ontology-element">
-<h2>Ontology Element<a class="headerlink" href="#ontology-element" title="Permalink to this heading"></a></h2>
+<h2>Ontology Element<a class="headerlink" href="#ontology-element" title="Link to this heading"></a></h2>
 <p>Ontologies can be conceived of as collection of different kinds of <em>elements</em>, which can loosely be thought of as something
 with a persistent identifier, and optionally having various kinds of metadata associated with it.</p>
 <p>The different kinds of elements are:</p>
@@ -137,7 +137,7 @@ if you ask for all elements thinking you might get back only the “terms” but
 relationship types, subsets, etc.</p>
 </section>
 <section id="imports-and-ontologies-within-ontologies">
-<h2>Imports and Ontologies within Ontologies<a class="headerlink" href="#imports-and-ontologies-within-ontologies" title="Permalink to this heading"></a></h2>
+<h2>Imports and Ontologies within Ontologies<a class="headerlink" href="#imports-and-ontologies-within-ontologies" title="Link to this heading"></a></h2>
 <p>Many users are accustomed to ontologies being simple stand-alone monolithic entities, and a lot of tooling makes that assumption.</p>
 <p>In fact, many ontologies are organized as modular components that are <em>imported</em> by other ontologies, much the same way that
 software has evolved from monolithic programs to modular systems. Sometimes for ontologies releases, the imports are <em>merged</em> such that
@@ -147,7 +147,7 @@ you just get a view where everything appears as if it were in a single ontologie
 ontologies). Other interfaces let you explore the compositional structure in more detail.</p>
 </section>
 <section id="uris-and-curies-and-identifiers">
-<h2>URIs and CURIEs and identifiers<a class="headerlink" href="#uris-and-curies-and-identifiers" title="Permalink to this heading"></a></h2>
+<h2>URIs and CURIEs and identifiers<a class="headerlink" href="#uris-and-curies-and-identifiers" title="Link to this heading"></a></h2>
 <p>Some communities prefer to use prefixed identifiers like <a class="reference external" href="GO:0008152">GO:0008152</a>, others prefer to use URIs as identifiers. This is driven
 largely by the tools and infrastructure used, with “semantic web” stacks using URIs and data science/bioinformatics tools
 using identifiers.</p>
@@ -155,11 +155,11 @@ using identifiers.</p>
 <p>Most methods in the interfaces in this library accept CURIEs, but these can always be expanded and contracted.</p>
 </section>
 <section id="prefix-maps">
-<h2>Prefix Maps<a class="headerlink" href="#prefix-maps" title="Permalink to this heading"></a></h2>
+<h2>Prefix Maps<a class="headerlink" href="#prefix-maps" title="Link to this heading"></a></h2>
 <p>A prefix map maps between prefixes and their URI base expansions.</p>
 </section>
 <section id="relationships-edges">
-<h2>Relationships / Edges<a class="headerlink" href="#relationships-edges" title="Permalink to this heading"></a></h2>
+<h2>Relationships / Edges<a class="headerlink" href="#relationships-edges" title="Link to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>It may seem surprising but the OWL standard has no construct that directly corresponds to what we call
@@ -167,23 +167,23 @@ a relationship here.</p>
 </div>
 </section>
 <section id="mappings">
-<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this heading"></a></h2>
+<h2>Mappings<a class="headerlink" href="#mappings" title="Link to this heading"></a></h2>
 </section>
 <section id="ontology-format">
-<h2>Ontology Format<a class="headerlink" href="#ontology-format" title="Permalink to this heading"></a></h2>
+<h2>Ontology Format<a class="headerlink" href="#ontology-format" title="Link to this heading"></a></h2>
 </section>
 <section id="statements-and-axioms">
-<h2>Statements and Axioms<a class="headerlink" href="#statements-and-axioms" title="Permalink to this heading"></a></h2>
+<h2>Statements and Axioms<a class="headerlink" href="#statements-and-axioms" title="Link to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You only need to understand this if you are working with the OwlInterface or the RdfInterface.</p>
 </div>
 </section>
 <section id="subsets">
-<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this heading"></a></h2>
+<h2>Subsets<a class="headerlink" href="#subsets" title="Link to this heading"></a></h2>
 </section>
 <section id="labels-names">
-<h2>Labels/Names<a class="headerlink" href="#labels-names" title="Permalink to this heading"></a></h2>
+<h2>Labels/Names<a class="headerlink" href="#labels-names" title="Link to this heading"></a></h2>
 <p>It is common for biological ontologies to use an opaque identifier for each element, and include exactly one “name” or “label”
 which serves as a unique string for humans to identify the element. In OWL representations, the name is typically represented
 using rdfs:label.</p>

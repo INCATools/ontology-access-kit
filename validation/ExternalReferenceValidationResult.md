@@ -11,6 +11,7 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 
 
+
 ```{mermaid}
  classDiagram
     class ExternalReferenceValidationResult

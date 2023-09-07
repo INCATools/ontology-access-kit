@@ -6,6 +6,7 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasLifeCycle

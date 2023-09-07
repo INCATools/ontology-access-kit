@@ -6,6 +6,7 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 
 
 
+
 ```{mermaid}
  classDiagram
     class Synonymizer

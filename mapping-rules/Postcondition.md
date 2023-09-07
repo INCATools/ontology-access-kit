@@ -6,6 +6,7 @@ URI: [mappingrules:Postcondition](https://w3id.org/oak/mapping-rules-datamodel/P
 
 
 
+
 ```{mermaid}
  classDiagram
     class Postcondition

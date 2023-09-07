@@ -11,6 +11,7 @@ URI: [ontoassoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyValue

@@ -11,6 +11,7 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
 
 
 
+
 ```{mermaid}
  classDiagram
     class GroupedStatistics

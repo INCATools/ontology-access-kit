@@ -12,13 +12,13 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
@@ -115,7 +115,7 @@
            <div itemprop="articleBody">
              
   <section id="bioportal-adapter">
-<span id="bioportal-implementation"></span><h1>Bioportal Adapter<a class="headerlink" href="#bioportal-adapter" title="Permalink to this heading"></a></h1>
+<span id="bioportal-implementation"></span><h1>Bioportal Adapter<a class="headerlink" href="#bioportal-adapter" title="Link to this heading"></a></h1>
 <p>The Bioportal adapter uses <a class="reference external" href="https://github.com/cthoyt/ontoportal-client">ontoportal-client</a> to connect to
 any OntoPortal endpoint.</p>
 <div class="admonition warning">
@@ -129,7 +129,7 @@ any OntoPortal endpoint.</p>
 <li><p><a class="reference internal" href="../interfaces/mapping-provider.html#mapping-provider-interface"><span class="std std-ref">Mapping Provider Interface</span></a></p></li>
 </ul>
 <section id="api-keys">
-<h2>API Keys<a class="headerlink" href="#api-keys" title="Permalink to this heading"></a></h2>
+<h2>API Keys<a class="headerlink" href="#api-keys" title="Link to this heading"></a></h2>
 <p>First you will need to go to <a class="reference external" href="https://bioportal.bioontology.org/">BioPortal</a> and get an API key, if you don’t already have one.</p>
 <p>You will then need to set it:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="nb">set</span><span class="o">-</span><span class="n">apikey</span> <span class="n">bioportal</span> <span class="n">YOUR</span><span class="o">-</span><span class="n">API</span><span class="o">-</span><span class="n">KEY</span>
@@ -138,14 +138,14 @@ any OntoPortal endpoint.</p>
 <p>This stores it in an OS-dependent folder</p>
 </section>
 <section id="command-line-examples">
-<h2>Command Line Examples<a class="headerlink" href="#command-line-examples" title="Permalink to this heading"></a></h2>
+<h2>Command Line Examples<a class="headerlink" href="#command-line-examples" title="Link to this heading"></a></h2>
 <p>Use the <code class="code docutils literal notranslate"><span class="pre">bioportal</span></code> selector:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">COMMAND</span><span class="o">-</span><span class="n">ARGUMENTS</span><span class="o">-</span><span class="n">AND</span><span class="o">-</span><span class="n">OPTIONS</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Currently ontology sub-selectors are not supported</p>
 <section id="search">
-<h3>Search<a class="headerlink" href="#search" title="Permalink to this heading"></a></h3>
+<h3>Search<a class="headerlink" href="#search" title="Link to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">search</span> <span class="n">tentacle</span>
 </pre></div>
 </div>
@@ -153,7 +153,7 @@ any OntoPortal endpoint.</p>
 after first returning any exact matches it will return matches to “octopus” and “brain”.</p>
 </section>
 <section id="mappings">
-<h3>Mappings<a class="headerlink" href="#mappings" title="Permalink to this heading"></a></h3>
+<h3>Mappings<a class="headerlink" href="#mappings" title="Link to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">term</span><span class="o">-</span><span class="n">mappings</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0002101</span>  <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span> <span class="o">-</span><span class="n">o</span> <span class="n">my</span><span class="o">-</span><span class="n">mappings</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
@@ -161,7 +161,7 @@ after first returning any exact matches it will return matches to “octopus” 
 </section>
 </section>
 <section id="code">
-<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
+<h2>Code<a class="headerlink" href="#code" title="Link to this heading"></a></h2>
 </section>
 </section>
 

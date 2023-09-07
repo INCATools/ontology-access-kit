@@ -11,6 +11,7 @@ URI: [xodiff:StructureDiffResultSet](https://w3id.org/oak/cross-ontology-diff/St
 
 
 
+
 ```{mermaid}
  classDiagram
     class StructureDiffResultSet

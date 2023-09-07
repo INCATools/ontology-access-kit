@@ -11,6 +11,7 @@ URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Pr
 
 
 
+
 ```{mermaid}
  classDiagram
     class Precondition

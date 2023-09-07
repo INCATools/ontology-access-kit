@@ -11,6 +11,7 @@ URI: [oio:Subset](http://www.geneontology.org/formats/oboInOwl#Subset)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Subset

@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -107,7 +107,7 @@
            <div itemprop="articleBody">
              
   <section id="mappings-and-cross-references">
-<span id="mappings"></span><h1>Mappings and Cross-References<a class="headerlink" href="#mappings-and-cross-references" title="Permalink to this heading"></a></h1>
+<span id="mappings"></span><h1>Mappings and Cross-References<a class="headerlink" href="#mappings-and-cross-references" title="Link to this heading"></a></h1>
 <p><a class="reference internal" href="../glossary.html#term-Mapping"><span class="xref std std-term">Mappings</span></a> are a way of connecting the same or similar concepts in different ontologies.
 Historically, mappings have been handled very differently depending on the ontology or community:</p>
 <ul class="simple">
@@ -119,14 +119,14 @@ Historically, mappings have been handled very differently depending on the ontol
 </ul>
 <p>In addition to the basic vocabulary used, the <a class="reference internal" href="../glossary.html#term-Datamodel"><span class="xref std std-term">Data Models</span></a> for mappings differs a lot.</p>
 <section id="sssom">
-<h2>SSSOM<a class="headerlink" href="#sssom" title="Permalink to this heading"></a></h2>
+<h2>SSSOM<a class="headerlink" href="#sssom" title="Link to this heading"></a></h2>
 <p>The <cite>Simple Standard for Sharing Ontological Mappings &lt;https://w3id.org/sssom&gt;</cite> (SSSOM) is a standard
 for ontology mappings. It provides both a standard TSV/CSV format, and a standard way of encoding mappings in ontologies.</p>
 <p>OAK uses SSSOM as its primary data model for mappings, except in the <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> where
 mappings are represented as simple lists of mapped CURIEs, without any metadata.</p>
 </section>
 <section id="mappings-in-oak">
-<h2>Mappings in OAK<a class="headerlink" href="#mappings-in-oak" title="Permalink to this heading"></a></h2>
+<h2>Mappings in OAK<a class="headerlink" href="#mappings-in-oak" title="Link to this heading"></a></h2>
 <p>To see all mappings for a concept or concept, you can use the mappings command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>brain
 ...
@@ -149,7 +149,7 @@ commands, this also allows for other output formats.</p>
 </pre></div>
 </div>
 <table class="docutils align-default" id="id1">
-<caption><span class="caption-text">uberon sssom mappings</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">uberon sssom mappings</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>subject_id</p></th>
 <th class="head"><p>subject_label</p></th>
@@ -195,7 +195,7 @@ those from <span class="xref std std-term">SKOS</span> and <span class="xref std
 <li><p>The <a class="reference internal" href="../packages/interfaces/mapping-provider.html#mapping-provider-interface"><span class="std std-ref">Mapping Provider Interface</span></a> provides access to the full SSSOM model</p></li>
 </ul>
 <section id="in-python">
-<h3>In Python<a class="headerlink" href="#in-python" title="Permalink to this heading"></a></h3>
+<h3>In Python<a class="headerlink" href="#in-python" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:uberon&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="s2">&quot;UBERON:0000955&quot;</span><span class="p">):</span>
@@ -211,11 +211,11 @@ those from <span class="xref std std-term">SKOS</span> and <span class="xref std
 </section>
 </section>
 <section id="generating-mappings">
-<h2>Generating Mappings<a class="headerlink" href="#generating-mappings" title="Permalink to this heading"></a></h2>
+<h2>Generating Mappings<a class="headerlink" href="#generating-mappings" title="Link to this heading"></a></h2>
 <p>OAK also includes a functionality for <em>generating</em> mappings, via the <cite>lexmatch</cite> command.</p>
 </section>
 <section id="further-reading">
-<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this heading"></a></h2>
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://oboacademy.github.io/obook/tutorial/sssom-manual/">Mappings in SSSOM</a></p></li>
 </ul>

@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -109,7 +109,7 @@
            <div itemprop="articleBody">
              
   <section id="relationships-and-graphs">
-<span id="id1"></span><h1>Relationships and Graphs<a class="headerlink" href="#relationships-and-graphs" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Relationships and Graphs<a class="headerlink" href="#relationships-and-graphs" title="Link to this heading"></a></h1>
 <p>One of the main uses of an ontology is to precisely state the <a class="reference internal" href="../glossary.html#term-Relationship"><span class="xref std std-term">Relationships</span></a> between different entities or concepts.</p>
 <p>In OAK, classes in ontologies can be related to one another via different <em>relationship types</em>, also known as <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a>. These
 may come from a relationship type ontology such as <span class="xref std std-term">RO</span>, or they may be a “builtin” construct in <a class="reference internal" href="../glossary.html#term-RDF"><span class="xref std std-term">RDF</span></a> or <a class="reference internal" href="../glossary.html#term-OWL"><span class="xref std std-term">OWL</span></a>
@@ -121,7 +121,7 @@ feature heavily in Description Logic formalisms of ontologies like <a class="ref
 project from OWL to a graph. The fact there is no one standard method can lead to confusion.</p>
 <p>But let’s start with a standard bio-ontology example - the <span class="xref std std-term">UBERON</span> ontology.</p>
 <section id="exploring-relationships">
-<h2>Exploring relationships<a class="headerlink" href="#exploring-relationships" title="Permalink to this heading"></a></h2>
+<h2>Exploring relationships<a class="headerlink" href="#exploring-relationships" title="Link to this heading"></a></h2>
 <p>Let’s explore Uberon, looking at the relationships for <em>hand</em> (“manus”) and <em>foot</em> (“pes”),
 which have respective CURIEs <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0002398">UBERON:0002398</a>
 and <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0002387">UBERON:0002387</a>.</p>
@@ -168,7 +168,7 @@ constructs like existential restriction. We will return to this later.</p>
 </div>
 </section>
 <section id="graph-traversal-and-relation-graph-reasoning">
-<h2>Graph Traversal and Relation Graph Reasoning<a class="headerlink" href="#graph-traversal-and-relation-graph-reasoning" title="Permalink to this heading"></a></h2>
+<h2>Graph Traversal and Relation Graph Reasoning<a class="headerlink" href="#graph-traversal-and-relation-graph-reasoning" title="Link to this heading"></a></h2>
 <p>The above examples show <a class="reference internal" href="../glossary.html#term-Asserted"><span class="xref std std-term">Asserted</span></a> Relationships between concepts. A common
 use case for ontologies is exploring <em>indirect</em> or <a class="reference internal" href="../glossary.html#term-Entailed"><span class="xref std std-term">Entailed</span></a> Relationships,
 which roughly corresponds to the concept of <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestor</span></a> in a graph.</p>
@@ -195,7 +195,7 @@ which roughly corresponds to the concept of <a class="reference internal" href="
 </pre></div>
 </div>
 <section id="graph-traversal-strategies">
-<h3>Graph Traversal Strategies<a class="headerlink" href="#graph-traversal-strategies" title="Permalink to this heading"></a></h3>
+<h3>Graph Traversal Strategies<a class="headerlink" href="#graph-traversal-strategies" title="Link to this heading"></a></h3>
 <p>There are actually <em>two</em> strategies for getting indirect relationships in OAK:</p>
 <ul class="simple">
 <li><p>HOP, aka <a class="reference internal" href="../glossary.html#term-Graph-Traversal"><span class="xref std std-term">Graph Traversal</span></a></p></li>
@@ -224,7 +224,7 @@ having <code class="docutils literal notranslate"><span class="pre">relation-gra
 </div>
 </section>
 <section id="examples-of-where-entailment-yields-more">
-<h3>Examples of where entailment yields more<a class="headerlink" href="#examples-of-where-entailment-yields-more" title="Permalink to this heading"></a></h3>
+<h3>Examples of where entailment yields more<a class="headerlink" href="#examples-of-where-entailment-yields-more" title="Link to this heading"></a></h3>
 <p>Assuming we have edges:</p>
 <ul class="simple">
 <li><p>A has-part B (in OWL: A SubClassOf has-part some B)</p></li>
@@ -316,7 +316,7 @@ OWL. Note the <code class="docutils literal notranslate"><span class="pre">holds
 <figcaption>
 <p><span class="caption-text">Example sub-ontology focused on the endomembrane system (<a class="reference external" href="GO:0012505">GO:0012505</a>).
 This is a simplified subset of GO for demo purposes. Figure generated using
-<code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">viz</span> <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial.obo</span> <span class="pre">&quot;endomembrane</span> <span class="pre">system&quot;</span></code></span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+<code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">viz</span> <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial.obo</span> <span class="pre">&quot;endomembrane</span> <span class="pre">system&quot;</span></code></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Let’s load up the ontology:</p>
@@ -428,7 +428,7 @@ get everything that overlaps with the endomembrane system:</p>
 </div>
 </section>
 <section id="examples-of-where-graph-traversal-yields-more-ancestors-than-entailment">
-<h3>Examples of where graph traversal yields more ancestors than entailment<a class="headerlink" href="#examples-of-where-graph-traversal-yields-more-ancestors-than-entailment" title="Permalink to this heading"></a></h3>
+<h3>Examples of where graph traversal yields more ancestors than entailment<a class="headerlink" href="#examples-of-where-graph-traversal-yields-more-ancestors-than-entailment" title="Link to this heading"></a></h3>
 <p>Let’s extend our ontology by adding an additional edge:</p>
 <ul class="simple">
 <li><p>cytoplasm has-characteristic liquid (PATO:0001735)</p></li>
@@ -439,7 +439,7 @@ get everything that overlaps with the endomembrane system:</p>
 <figcaption>
 <p><span class="caption-text">This extends the previous figure by the addition of a new edge
 with a new predicate (has-characteristic).
-Figure generated using <code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">viz</span> <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial-2.obo</span></code></span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+Figure generated using <code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">viz</span> <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial-2.obo</span></code></span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Let’s load up the 2nd ontology:</p>
@@ -463,7 +463,7 @@ Figure generated using <code class="docutils literal notranslate"><span class="p
 <figure class="align-default" id="id4">
 <img alt="guide/entailment-example-2-paths.png" class="with-border" src="guide/entailment-example-2-paths.png" />
 <figcaption>
-<p><span class="caption-text">Figure generated using <code class="docutils literal notranslate"><span class="pre">runoak</span>&#160;&#160; <span class="pre">--stacktrace</span>&#160; <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial-2.obo</span> <span class="pre">paths</span> <span class="pre">&quot;endomembrane</span> <span class="pre">system&quot;</span> <span class="pre">&#64;</span> <span class="pre">PATO:0001735</span>&#160; <span class="pre">--viz</span> <span class="pre">--directed</span> <span class="pre">--include-predicates</span></code></span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+<p><span class="caption-text">Figure generated using <code class="docutils literal notranslate"><span class="pre">runoak</span>&#160;&#160; <span class="pre">--stacktrace</span>&#160; <span class="pre">-i</span> <span class="pre">tests/input/entailment-tutorial-2.obo</span> <span class="pre">paths</span> <span class="pre">&quot;endomembrane</span> <span class="pre">system&quot;</span> <span class="pre">&#64;</span> <span class="pre">PATO:0001735</span>&#160; <span class="pre">--viz</span> <span class="pre">--directed</span> <span class="pre">--include-predicates</span></code></span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>On the one hand this increased recall can be seen as an advantage of HOPping over
@@ -482,7 +482,7 @@ all possible property chains, and in these cases the graph traversal strategy ma
 potentially useful results.</p>
 </section>
 <section id="which-strategy-should-i-use">
-<h3>Which strategy should I use?<a class="headerlink" href="#which-strategy-should-i-use" title="Permalink to this heading"></a></h3>
+<h3>Which strategy should I use?<a class="headerlink" href="#which-strategy-should-i-use" title="Link to this heading"></a></h3>
 <p>The entailment strategy will give you more <em>precise</em>, <em>meaningful</em> results, but it
 may miss entailed edges you care about, especially if the ontology you are using
 does not make extensive use of property chains.</p>
@@ -490,7 +490,7 @@ does not make extensive use of property chains.</p>
 paths may be meaningless, especially if you don’t constrain the predicates.</p>
 </section>
 <section id="a-note-on-entailed-direct-edges">
-<h3>A note on entailed direct edges<a class="headerlink" href="#a-note-on-entailed-direct-edges" title="Permalink to this heading"></a></h3>
+<h3>A note on entailed direct edges<a class="headerlink" href="#a-note-on-entailed-direct-edges" title="Link to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is a fairly advanced topic that isn’t necessary for working with most

@@ -13,6 +13,7 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Report

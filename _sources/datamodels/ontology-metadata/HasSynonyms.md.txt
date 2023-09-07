@@ -11,6 +11,7 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynony
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasSynonyms

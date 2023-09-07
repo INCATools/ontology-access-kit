@@ -6,6 +6,7 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasProvenance

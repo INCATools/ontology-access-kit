@@ -11,6 +11,7 @@ URI: [schema:ListItem](http://schema.org/ListItem)
 
 
 
+
 ```{mermaid}
  classDiagram
     class ListItem

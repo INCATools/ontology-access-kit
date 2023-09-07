@@ -6,6 +6,7 @@ URI: [oio:SynonymType](http://www.geneontology.org/formats/oboInOwl#SynonymType)
 
 
 
+
 ```{mermaid}
  classDiagram
     class SynonymTypeDefinition

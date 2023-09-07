@@ -11,6 +11,7 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 
 
+
 ```{mermaid}
  classDiagram
     class RepairReport

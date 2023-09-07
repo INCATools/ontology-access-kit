@@ -11,6 +11,7 @@ URI: [ontoassoc:AssociationChange](https://w3id.org/oak/association/AssociationC
 
 
 
+
 ```{mermaid}
  classDiagram
     class AssociationChange

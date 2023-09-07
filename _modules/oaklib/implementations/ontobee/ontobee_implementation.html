@@ -11,13 +11,13 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-        <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../../_static/clipboard.min.js"></script>
-        <script src="../../../../_static/copybutton.js"></script>
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -96,7 +96,9 @@
 <span class="n">ONTOBEE_MERGED_GRAPH_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;http://purl.obolibrary.org/obo/merged/&quot;</span>
 
 
-<div class="viewcode-block" id="OntobeeImplementation"><a class="viewcode-back" href="../../../../packages/implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="OntobeeImplementation">
+<a class="viewcode-back" href="../../../../packages/implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">OntobeeImplementation</span><span class="p">(</span>
     <span class="n">AbstractSparqlImplementation</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span>
 <span class="p">):</span>
@@ -170,6 +172,7 @@
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ONTOBEE_MERGED_GRAPH_PREFIX</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
 </pre></div>
 
            </div>

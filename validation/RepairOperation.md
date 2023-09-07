@@ -11,6 +11,7 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 
 
 
+
 ```{mermaid}
  classDiagram
     class RepairOperation

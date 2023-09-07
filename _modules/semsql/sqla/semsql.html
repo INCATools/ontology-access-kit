@@ -11,13 +11,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
@@ -140,7 +140,9 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;prefix(prefix=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="si">}</span><span class="s2">,base=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="si">}</span><span class="s2">,)&quot;</span>
 
 
-<div class="viewcode-block" id="Statements"><a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.Statements">[docs]</a><span class="k">class</span> <span class="nc">Statements</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<div class="viewcode-block" id="Statements">
+<a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.Statements">[docs]</a>
+<span class="k">class</span> <span class="nc">Statements</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an RDF triple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -156,6 +158,7 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;statements(subject=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="s2">,predicate=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">predicate</span><span class="si">}</span><span class="s2">,object=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="si">}</span><span class="s2">,value=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">,datatype=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datatype</span><span class="si">}</span><span class="s2">,language=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="si">}</span><span class="s2">,)&quot;</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -583,7 +586,9 @@
     <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;concrete&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="Edge"><a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.Edge">[docs]</a><span class="k">class</span> <span class="nc">Edge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
+<div class="viewcode-block" id="Edge">
+<a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.Edge">[docs]</a>
+<span class="k">class</span> <span class="nc">Edge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A relation graph edge that connects two entities by a predicate. Note an edge is distinct from a statement, in that an axiom such as A SubClassOf R some B is represented as multiple statements, but is a single relation graph edge</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -599,6 +604,7 @@
 
     <span class="c1"># Using concrete inheritance: see https://docs.sqlalchemy.org/en/14/orm/inheritance.html</span>
     <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;concrete&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">SubgraphQuery</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
@@ -621,7 +627,9 @@
     <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;concrete&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="EntailedEdge"><a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">[docs]</a><span class="k">class</span> <span class="nc">EntailedEdge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
+<div class="viewcode-block" id="EntailedEdge">
+<a class="viewcode-back" href="../../../packages/implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">[docs]</a>
+<span class="k">class</span> <span class="nc">EntailedEdge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A relation graph edge that is inferred</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -637,6 +645,7 @@
 
     <span class="c1"># Using concrete inheritance: see https://docs.sqlalchemy.org/en/14/orm/inheritance.html</span>
     <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;concrete&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">EntailedEdgeCycle</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>

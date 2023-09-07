@@ -6,6 +6,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasUserInformation

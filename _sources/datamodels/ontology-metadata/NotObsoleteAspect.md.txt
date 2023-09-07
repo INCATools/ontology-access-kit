@@ -11,6 +11,7 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Not
 
 
 
+
 ```{mermaid}
  classDiagram
     class NotObsoleteAspect

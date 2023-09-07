@@ -11,6 +11,7 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
 
 
 
+
 ```{mermaid}
  classDiagram
     class SearchBaseConfiguration

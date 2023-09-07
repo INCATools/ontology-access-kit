@@ -6,6 +6,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyExpression

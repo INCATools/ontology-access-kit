@@ -11,6 +11,7 @@ URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Taxon

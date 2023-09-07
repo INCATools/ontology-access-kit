@@ -11,6 +11,7 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
 
 
 
+
 ```{mermaid}
  classDiagram
     class DomainRangeAxiom

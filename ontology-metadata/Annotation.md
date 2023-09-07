@@ -11,6 +11,7 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 
 
 
+
 ```{mermaid}
  classDiagram
     class Annotation

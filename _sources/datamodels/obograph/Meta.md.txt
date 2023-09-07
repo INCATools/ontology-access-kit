@@ -11,6 +11,7 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Meta

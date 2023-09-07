@@ -11,13 +11,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
@@ -108,7 +108,9 @@
 <span class="n">SUMMARY_STATISTICS_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="SummaryStatisticsInterface"><a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface">[docs]</a><span class="k">class</span> <span class="nc">SummaryStatisticsInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="SummaryStatisticsInterface">
+<a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface">[docs]</a>
+<span class="k">class</span> <span class="nc">SummaryStatisticsInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    generates summary statistics</span>
 
@@ -118,7 +120,9 @@
     <span class="n">include_residuals</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">_metadata_property_summary_statistics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="SummaryStatisticsInterface.global_summary_statistics"><a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">global_summary_statistics</span><span class="p">(</span>
+<div class="viewcode-block" id="SummaryStatisticsInterface.global_summary_statistics">
+<a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">[docs]</a>
+    <span class="k">def</span> <span class="nf">global_summary_statistics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">branches</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">group_by</span><span class="p">:</span> <span class="n">PRED_CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -182,7 +186,10 @@
             <span class="n">stats</span><span class="o">.</span><span class="n">partitions</span><span class="p">[</span><span class="n">branch_statistics</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_statistics</span>
         <span class="k">return</span> <span class="n">stats</span></div>
 
-<div class="viewcode-block" id="SummaryStatisticsInterface.branch_summary_statistics"><a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.branch_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">branch_summary_statistics</span><span class="p">(</span>
+
+<div class="viewcode-block" id="SummaryStatisticsInterface.branch_summary_statistics">
+<a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.branch_summary_statistics">[docs]</a>
+    <span class="k">def</span> <span class="nf">branch_summary_statistics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">branch_roots</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -251,6 +258,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_derived_statistics</span><span class="p">(</span><span class="n">ssc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ssc</span></div>
 
+
     <span class="k">def</span> <span class="nf">_add_statistics_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="n">SummaryStatisticsReport</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds metadata to a report</span>
@@ -286,7 +294,9 @@
                     <span class="n">params</span><span class="p">[</span><span class="n">slot</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">pred</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">yield</span> <span class="n">Ontology</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ontology</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SummaryStatisticsInterface.metadata_property_summary_statistics"><a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">metadata_property_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="SummaryStatisticsInterface.metadata_property_summary_statistics">
+<a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">[docs]</a>
+    <span class="k">def</span> <span class="nf">metadata_property_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed</span>
 <span class="sd">        by ontology CURIE</span>
@@ -303,6 +313,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">metadata_property</span><span class="p">]</span></div>
 
+
     <span class="k">def</span> <span class="nf">_add_derived_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssc</span><span class="p">:</span> <span class="n">UngroupedStatistics</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds derived statistics to the summary statistics collection</span>
@@ -316,7 +327,9 @@
             <span class="n">ssc</span><span class="o">.</span><span class="n">class_count</span> <span class="o">-</span> <span class="n">ssc</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="SummaryStatisticsInterface.summary_statistic_description"><a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">[docs]</a>    <span class="k">def</span> <span class="nf">summary_statistic_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="SummaryStatisticsInterface.summary_statistic_description">
+<a class="viewcode-back" href="../../../packages/interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">[docs]</a>
+    <span class="k">def</span> <span class="nf">summary_statistic_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Examines the data dictionary to retrieve the definition of a metric</span>
 
@@ -325,7 +338,9 @@
 <span class="sd">        :param metric:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</div>
+
 </pre></div>
 
            </div>

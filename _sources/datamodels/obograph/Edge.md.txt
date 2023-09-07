@@ -11,6 +11,7 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Edge

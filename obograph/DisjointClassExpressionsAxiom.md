@@ -11,6 +11,7 @@ URI: [obographs:DisjointClassExpressionsAxiom](https://github.com/geneontology/o
 
 
 
+
 ```{mermaid}
  classDiagram
     class DisjointClassExpressionsAxiom

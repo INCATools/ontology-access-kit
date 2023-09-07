@@ -11,13 +11,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
@@ -314,7 +314,9 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="TextAnnotation"><a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.datamodels.text_annotator.TextAnnotation">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="TextAnnotation">
+<a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.datamodels.text_annotator.TextAnnotation">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">TextAnnotation</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An individual text annotation</span>
@@ -397,6 +399,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span> <span class="o">=</span> <span class="n">TextualElementId</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
 
 <span class="c1"># Enumerations</span>

@@ -11,6 +11,7 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
 
 
 
+
 ```{mermaid}
  classDiagram
     class SummaryStatisticsCalculationActivity

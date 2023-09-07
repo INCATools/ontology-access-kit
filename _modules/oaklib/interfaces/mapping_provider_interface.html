@@ -11,13 +11,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
@@ -95,7 +95,9 @@
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 
 
-<div class="viewcode-block" id="MappingProviderInterface"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">[docs]</a><span class="k">class</span> <span class="nc">MappingProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="MappingProviderInterface">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">[docs]</a>
+<span class="k">class</span> <span class="nc">MappingProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An ontology interface that provides SSSOM mappings.</span>
 
@@ -127,7 +129,9 @@
 <span class="sd">       runoak -i bioportal: term-mappings UBERON:0002101  -O sssom -o limb-mappings.sssom.tsv</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MappingProviderInterface.sssom_mappings"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">[docs]</a>    <span class="k">def</span> <span class="nf">sssom_mappings</span><span class="p">(</span>
+<div class="viewcode-block" id="MappingProviderInterface.sssom_mappings">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">[docs]</a>
+    <span class="k">def</span> <span class="nf">sssom_mappings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -181,6 +185,7 @@
                         <span class="k">continue</span>
                 <span class="k">yield</span> <span class="n">m</span></div>
 
+
     <span class="c1"># TODO: move packages from mapping-walker</span>
 
     <span class="k">def</span> <span class="nf">inject_mapping_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -190,7 +195,9 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">mapping</span><span class="o">.</span><span class="n">object_label</span><span class="p">:</span>
                 <span class="n">mapping</span><span class="o">.</span><span class="n">object_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MappingProviderInterface.sssom_mappings_by_source"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">[docs]</a>    <span class="k">def</span> <span class="nf">sssom_mappings_by_source</span><span class="p">(</span>
+<div class="viewcode-block" id="MappingProviderInterface.sssom_mappings_by_source">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">[docs]</a>
+    <span class="k">def</span> <span class="nf">sssom_mappings_by_source</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject_or_object_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -213,13 +220,19 @@
                         <span class="k">continue</span>
                 <span class="k">yield</span> <span class="n">m</span></div>
 
-<div class="viewcode-block" id="MappingProviderInterface.all_sssom_mappings"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by sssom_mappings()&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MappingProviderInterface.all_sssom_mappings">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by sssom_mappings()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">all_sssom_mappings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject_or_object_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sssom_mappings_by_source</span><span class="p">(</span><span class="n">subject_or_object_source</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MappingProviderInterface.get_sssom_mappings_by_curie"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use sssom_mappings()&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MappingProviderInterface.get_sssom_mappings_by_curie">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use sssom_mappings()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        All SSSOM mappings about a curie</span>
@@ -231,7 +244,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MappingProviderInterface.get_transitive_mappings_by_curie"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">[docs]</a>    <span class="k">def</span> <span class="nf">get_transitive_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="MappingProviderInterface.get_transitive_mappings_by_curie">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_transitive_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param curie:</span>
@@ -239,10 +255,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
+
     <span class="k">def</span> <span class="nf">get_mapping_clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">MappingCluster</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="MappingProviderInterface.normalize"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span>
+<div class="viewcode-block" id="MappingProviderInterface.normalize">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize">[docs]</a>
+    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
         <span class="n">target_prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -299,7 +318,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">curie_lc</span><span class="p">,</span> <span class="n">target_prefixes</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">curie</span></div>
 
-<div class="viewcode-block" id="MappingProviderInterface.normalize_prefix"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize_prefix">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_prefix</span><span class="p">(</span>
+
+<div class="viewcode-block" id="MappingProviderInterface.normalize_prefix">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.normalize_prefix">[docs]</a>
+    <span class="k">def</span> <span class="nf">normalize_prefix</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
         <span class="n">prefixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Collection</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -347,7 +369,10 @@
         <span class="c1"># normalize case</span>
         <span class="k">return</span> <span class="n">curie</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">prefixes_lc</span><span class="p">[</span><span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()])</span></div>
 
-<div class="viewcode-block" id="MappingProviderInterface.create_normalization_map"><a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.create_normalization_map">[docs]</a>    <span class="k">def</span> <span class="nf">create_normalization_map</span><span class="p">(</span>
+
+<div class="viewcode-block" id="MappingProviderInterface.create_normalization_map">
+<a class="viewcode-back" href="../../../packages/interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.create_normalization_map">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_normalization_map</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">source_prefixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Collection</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -433,7 +458,9 @@
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">normalization_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">normalization_map</span></div></div>
+        <span class="k">return</span> <span class="n">normalization_map</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -11,6 +11,7 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
 
 
 
+
 ```{mermaid}
  classDiagram
     class NegatedAssociation

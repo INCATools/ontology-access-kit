@@ -11,6 +11,7 @@ URI: [mappingrules:RelationshipToTerm](https://w3id.org/oak/mapping-rules-datamo
 
 
 
+
 ```{mermaid}
  classDiagram
     class RelationshipToTerm

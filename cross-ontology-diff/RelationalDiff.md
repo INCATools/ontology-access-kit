@@ -59,6 +59,7 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
 
 
 
+
 ```{mermaid}
  classDiagram
     class RelationalDiff

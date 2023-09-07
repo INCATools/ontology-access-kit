@@ -11,6 +11,7 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
 
 
 
+
 ```{mermaid}
  classDiagram
     class ValidationConfiguration

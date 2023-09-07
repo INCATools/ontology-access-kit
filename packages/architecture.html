@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -104,9 +104,9 @@
            <div itemprop="articleBody">
              
   <section id="architecture">
-<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h1>
+<h1>Architecture<a class="headerlink" href="#architecture" title="Link to this heading"></a></h1>
 <section id="ontology-interfaces">
-<h2>Ontology Interfaces<a class="headerlink" href="#ontology-interfaces" title="Permalink to this heading"></a></h2>
+<h2>Ontology Interfaces<a class="headerlink" href="#ontology-interfaces" title="Link to this heading"></a></h2>
 <p>This library provides a collection of ontology <a class="reference internal" href="interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a> that describe a set of operations
 that can be performed on an ontology</p>
 <p>The core interface is <span class="xref std std-ref">BasicOntologyInterface</span> which provides some of the most common operations
@@ -127,7 +127,7 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
    OntologyInterface &lt;|-- BasicOntologyInterface
         </div></section>
 <section id="implementations">
-<h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this heading"></a></h2>
+<h2>Implementations<a class="headerlink" href="#implementations" title="Link to this heading"></a></h2>
 <p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
 <p>Here is an example of code that uses an Ubergraph implementation to do a simple lookup:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
@@ -152,7 +152,7 @@ network latency. Local files work great, but they require downloads, and have a 
 ontologies are small, but there is a long tail of very large ontologies like PRO, CHEBI, NCBITaxon, DRON, …).</p>
 </section>
 <section id="other-interfaces">
-<h2>Other Interfaces<a class="headerlink" href="#other-interfaces" title="Permalink to this heading"></a></h2>
+<h2>Other Interfaces<a class="headerlink" href="#other-interfaces" title="Link to this heading"></a></h2>
 <p>The basic interface is only intended for, well, basic operations. These typically serve 80% of use cases. But
 there are many many uses for ontologies. Some of these demand particular <em>abstractions</em> over an ontology; e.g
 as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lexical artefact.</p>
@@ -202,7 +202,7 @@ as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lex
     BasicOntologyInterface &lt;|-- SubsetterInterface
         </div><p>It’s highly unlikely you will care about all of these - in fact most applications will only need one!</p>
 <section id="example-owl-ontology-interface">
-<h3>Example: OWL Ontology Interface<a class="headerlink" href="#example-owl-ontology-interface" title="Permalink to this heading"></a></h3>
+<h3>Example: OWL Ontology Interface<a class="headerlink" href="#example-owl-ontology-interface" title="Link to this heading"></a></h3>
 <p>Some interfaces may require
 a particular <em>object model</em> (note that the BasicOntologyInterface avoids an object model, with operations
 accepting and returning simple scalars, dicts, and lists). See <a class="reference internal" href="interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a> for a description of data models used.</p>
@@ -254,7 +254,7 @@ for this level of abstraction!</p>
 </section>
 </section>
 <section id="partial-and-complete-implementation">
-<h2>Partial and Complete Implementation<a class="headerlink" href="#partial-and-complete-implementation" title="Permalink to this heading"></a></h2>
+<h2>Partial and Complete Implementation<a class="headerlink" href="#partial-and-complete-implementation" title="Link to this heading"></a></h2>
 <p>Not all implementations work with all interfaces. Even if an implementation implements an
 interface, it may not implement all operations.</p>
 <p>See <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> for full documentation on each implementation (more coming soon), but

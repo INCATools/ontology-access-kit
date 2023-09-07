@@ -6,6 +6,7 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 
 
+
 ```{mermaid}
  classDiagram
     class BestMatch

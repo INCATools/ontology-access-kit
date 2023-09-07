@@ -11,13 +11,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../_static/js/theme.js"></script>
@@ -121,7 +121,9 @@
     <span class="p">)</span>
 
 
-<div class="viewcode-block" id="TextAnnotatorInterface"><a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">[docs]</a><span class="k">class</span> <span class="nc">TextAnnotatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="TextAnnotatorInterface">
+<a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">[docs]</a>
+<span class="k">class</span> <span class="nc">TextAnnotatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Finds occurrences of ontology terms in text.</span>
 
@@ -169,7 +171,9 @@
 <span class="sd">    Mapping rules to apply to the results of the annotation, including synonymizer rules.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TextAnnotatorInterface.annotate_text"><a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">[docs]</a>    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
+<div class="viewcode-block" id="TextAnnotatorInterface.annotate_text">
+<a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">[docs]</a>
+    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TextAnnotationConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -260,7 +264,10 @@
                         <span class="p">)</span>
                         <span class="k">yield</span> <span class="n">ann</span></div>
 
-<div class="viewcode-block" id="TextAnnotatorInterface.annotate_file"><a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file">[docs]</a>    <span class="k">def</span> <span class="nf">annotate_file</span><span class="p">(</span>
+
+<div class="viewcode-block" id="TextAnnotatorInterface.annotate_file">
+<a class="viewcode-back" href="../../../packages/interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">annotate_file</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">text_file</span><span class="p">:</span> <span class="n">TextIOWrapper</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">TextAnnotationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -274,7 +281,9 @@
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">annotation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotate_text</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">configuration</span><span class="p">)</span>
-            <span class="k">yield from</span> <span class="n">annotation</span></div></div>
+            <span class="k">yield from</span> <span class="n">annotation</span></div>
+</div>
+
 </pre></div>
 
            </div>

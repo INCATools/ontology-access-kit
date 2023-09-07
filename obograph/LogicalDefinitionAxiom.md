@@ -11,6 +11,7 @@ URI: [obographs:LogicalDefinitionAxiom](https://github.com/geneontology/obograph
 
 
 
+
 ```{mermaid}
  classDiagram
     class LogicalDefinitionAxiom

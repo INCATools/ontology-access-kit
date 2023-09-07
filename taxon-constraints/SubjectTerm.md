@@ -11,6 +11,7 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
 
 
 
+
 ```{mermaid}
  classDiagram
     class SubjectTerm

@@ -6,6 +6,7 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasMappings

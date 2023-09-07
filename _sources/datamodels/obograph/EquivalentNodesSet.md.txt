@@ -11,6 +11,7 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 
+
 ```{mermaid}
  classDiagram
     class EquivalentNodesSet

@@ -11,6 +11,7 @@ URI: [ontosearch:PathExpression](https://w3id.org/oak/search-datamodel/PathExpre
 
 
 
+
 ```{mermaid}
  classDiagram
     class PathExpression

@@ -6,6 +6,7 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
 
+
 ```{mermaid}
  classDiagram
     class TextualElement

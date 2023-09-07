@@ -11,6 +11,7 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
+
 ```{mermaid}
  classDiagram
     class TextAnnotationResultSet

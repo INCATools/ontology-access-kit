@@ -11,6 +11,7 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 
 
 
+
 ```{mermaid}
  classDiagram
     class TermSetPairwiseSimilarity

@@ -13,6 +13,7 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 
 
 
+
 ```{mermaid}
  classDiagram
     class SummaryStatisticsReport

@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -104,7 +104,7 @@
            <div itemprop="articleBody">
              
   <section id="part-2-basic-python">
-<h1>Part 2: Basic Python<a class="headerlink" href="#part-2-basic-python" title="Permalink to this heading"></a></h1>
+<h1>Part 2: Basic Python<a class="headerlink" href="#part-2-basic-python" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This part of the tutorial will walk through how to use basic OAK functionality within a Python program. We will
@@ -117,13 +117,13 @@ formats and remote endpoints.</p>
 is also useful.</p>
 </div>
 <section id="install-poetry">
-<h2>Install Poetry<a class="headerlink" href="#install-poetry" title="Permalink to this heading"></a></h2>
+<h2>Install Poetry<a class="headerlink" href="#install-poetry" title="Link to this heading"></a></h2>
 <p>For this section we are going to use <a class="reference external" href="https://python-poetry.org/">Poetry</a> to set up a project. If you are an experienced
 developer feel free to adapt these instructions to your favored package manager, otherwise we advise sticking closely to
 the instructions.</p>
 </section>
 <section id="create-a-new-project">
-<h2>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this heading"></a></h2>
+<h2>Create a new project<a class="headerlink" href="#create-a-new-project" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">new</span> <span class="o">--</span><span class="n">src</span> <span class="o">-</span><span class="n">n</span> <span class="n">my</span><span class="o">-</span><span class="n">oak</span><span class="o">-</span><span class="n">demo</span>
 <span class="n">cd</span> <span class="n">my</span><span class="o">-</span><span class="n">oak</span><span class="o">-</span><span class="n">demo</span>
 <span class="n">poetry</span> <span class="n">add</span> <span class="n">oaklib</span>
@@ -131,7 +131,7 @@ the instructions.</p>
 </div>
 </section>
 <section id="basic-concepts">
-<h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this heading"></a></h2>
+<h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Link to this heading"></a></h2>
 <p>The two basic concepts you will learn here are:</p>
 <ul class="simple">
 <li><p>Adaptors (Implementations): How to create a connector object that can talk to a backend or work with a particular file format</p></li>
@@ -139,7 +139,7 @@ the instructions.</p>
 </ul>
 </section>
 <section id="code-the-first-example">
-<h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this heading"></a></h2>
+<h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Link to this heading"></a></h2>
 <p>We are going to use an example from the <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>, using the Cell Ontology (CL).</p>
 <p>Then create a python program: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.py</span></code> and add the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
@@ -163,7 +163,7 @@ the instructions.</p>
 </div>
 </section>
 <section id="extending-the-example">
-<h2>Extending the example<a class="headerlink" href="#extending-the-example" title="Permalink to this heading"></a></h2>
+<h2>Extending the example<a class="headerlink" href="#extending-the-example" title="Link to this heading"></a></h2>
 <p>Next we will write a function that takes as input</p>
 <ul class="simple">
 <li><p>an ontology <span class="xref std std-term">adapter</span></p></li>

@@ -12,13 +12,13 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
@@ -84,7 +84,7 @@
            <div itemprop="articleBody">
              
   <section id="search-syntax">
-<span id="id1"></span><h1>Search Syntax<a class="headerlink" href="#search-syntax" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Search Syntax<a class="headerlink" href="#search-syntax" title="Link to this heading"></a></h1>
 <p>The search syntax is mapped to the <a class="reference internal" href="packages/implementations/ubergraph.html#search"><span class="std std-ref">Search</span></a> interface</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -92,7 +92,7 @@
 See the tutorial for current documentation.</p>
 </div>
 <section id="boolean-combinations">
-<h2>Boolean Combinations<a class="headerlink" href="#boolean-combinations" title="Permalink to this heading"></a></h2>
+<h2>Boolean Combinations<a class="headerlink" href="#boolean-combinations" title="Link to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>this feature is experimental and will be documented after acceptance</p>
@@ -104,10 +104,10 @@ See the tutorial for current documentation.</p>
 <p>The implicit combinator is OR. This will take the union of search1 and search2 and subtract search3 results</p>
 </section>
 <section id="search-datamodel">
-<h2>Search Datamodel<a class="headerlink" href="#search-datamodel" title="Permalink to this heading"></a></h2>
-<span class="target" id="module-oaklib.datamodels.search"></span><dl class="py function">
+<h2>Search Datamodel<a class="headerlink" href="#search-datamodel" title="Link to this heading"></a></h2>
+<dl class="py function" id="module-oaklib.datamodels.search">
 <dt class="sig sig-object py" id="oaklib.datamodels.search.create_search_configuration">
-<span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.search.</span></span><span class="sig-name descname"><span class="pre">create_search_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oaklib.datamodels.search.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">SearchConfiguration</span></a></span></span><a class="reference internal" href="_modules/oaklib/datamodels/search.html#create_search_configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.search.create_search_configuration" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.search.</span></span><span class="sig-name descname"><span class="pre">create_search_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oaklib.datamodels.search.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">SearchConfiguration</span></a></span></span><a class="reference internal" href="_modules/oaklib/datamodels/search.html#create_search_configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.search.create_search_configuration" title="Link to this definition"></a></dt>
 <dd><p>Generates a search configuration based on search syntax</p>
 <p>term is either a plaintext search term, or a search term prefixed by</p>
 <ul class="simple">
@@ -133,7 +133,7 @@ See the tutorial for current documentation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.datamodels.search.SearchConfiguration">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.search.</span></span><span class="sig-name descname"><span class="pre">SearchConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_if_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">JsonObj</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oaklib/datamodels/search.html#SearchConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.search.SearchConfiguration" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.search.</span></span><span class="sig-name descname"><span class="pre">SearchConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_if_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">JsonObj</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oaklib/datamodels/search.html#SearchConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.search.SearchConfiguration" title="Link to this definition"></a></dt>
 <dd><p>Parameters for altering behavior of search</p>
 <p>Examples:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchTermSyntax</span>

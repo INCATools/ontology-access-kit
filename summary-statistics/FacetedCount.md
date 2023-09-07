@@ -11,6 +11,7 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
 
 
 
+
 ```{mermaid}
  classDiagram
     class FacetedCount

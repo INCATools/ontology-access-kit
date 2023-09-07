@@ -11,6 +11,7 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 
 
+
 ```{mermaid}
  classDiagram
     class NamedIndividual

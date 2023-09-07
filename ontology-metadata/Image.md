@@ -6,6 +6,7 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Image

@@ -11,6 +11,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasMinimalMetadata

@@ -6,6 +6,7 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
 
 
 
+
 ```{mermaid}
  classDiagram
     class SearchResultSet

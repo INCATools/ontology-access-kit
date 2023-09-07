@@ -11,6 +11,7 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
 
 
 
+
 ```{mermaid}
  classDiagram
     class XrefPropertyValue

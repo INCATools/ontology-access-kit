@@ -11,6 +11,7 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 
 
 
+
 ```{mermaid}
  classDiagram
     class ContributorStatistics

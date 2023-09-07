@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -112,7 +112,7 @@
            <div itemprop="articleBody">
              
   <section id="part-7-sqlite-files">
-<span id="tutorial07"></span><h1>Part 7: SQLite files<a class="headerlink" href="#part-7-sqlite-files" title="Permalink to this heading"></a></h1>
+<span id="tutorial07"></span><h1>Part 7: SQLite files<a class="headerlink" href="#part-7-sqlite-files" title="Link to this heading"></a></h1>
 <p>The most efficient way to work with OAK is through SQLite files. OAK accepts SQLite files that follow the <a class="reference external" href="https://github.com/INCATools/semantic-sql">Semantic SQL</a> schema.</p>
 <p>The <a class="reference internal" href="../packages/implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Adapter</span></a> wraps SQLite or any relational database.</p>
 <div class="admonition hint">
@@ -120,11 +120,11 @@
 <p>You may also want to try the <a class="reference external" href="https://github.com/INCATools/semantic-sql/blob/main/notebooks/SemanticSQL-Tutorial.ipynb">Semantic-SQL tutorial</a></p>
 </div>
 <section id="download-a-sqlite-file">
-<h2>Download a SQLite file<a class="headerlink" href="#download-a-sqlite-file" title="Permalink to this heading"></a></h2>
+<h2>Download a SQLite file<a class="headerlink" href="#download-a-sqlite-file" title="Link to this heading"></a></h2>
 <p>You can download ready made SQLite files for any <span class="xref std std-term">OBO</span> Libray ontology</p>
 <p>For example: the Cell Ontology (CL) is available from <a class="reference external" href="https://s3.amazonaws.com/bbop-sqlite/cl.db.gz">https://s3.amazonaws.com/bbop-sqlite/cl.db.gz</a></p>
 <section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h3>
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">bbop</span><span class="o">-</span><span class="n">sqlite</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">gzip</span> <span class="o">-</span><span class="n">d</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">relationships</span> <span class="s2">&quot;enteric neuron&quot;</span>
@@ -132,7 +132,7 @@
 </div>
 <p>This will show all relationships centered around the subject of CL:0007011:</p>
 <table class="docutils align-default" id="id1">
-<caption><span class="caption-text">Ancestor statistics</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Ancestor statistics</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>id</p></th>
 <th class="head"><p>label</p></th>
@@ -199,7 +199,7 @@
 </div>
 </section>
 <section id="fetching-ready-made-sqlite-files">
-<h3>Fetching ready-made SQLite files<a class="headerlink" href="#fetching-ready-made-sqlite-files" title="Permalink to this heading"></a></h3>
+<h3>Fetching ready-made SQLite files<a class="headerlink" href="#fetching-ready-made-sqlite-files" title="Link to this heading"></a></h3>
 <p>You can also specify that the sqlite file should be loaded from the repository:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">pato</span> <span class="n">search</span> <span class="n">t</span><span class="o">~</span><span class="n">shape</span>
 </pre></div>
@@ -209,7 +209,7 @@
 </section>
 </section>
 <section id="building-your-own-sqlite-files">
-<h2>Building your own SQLite files<a class="headerlink" href="#building-your-own-sqlite-files" title="Permalink to this heading"></a></h2>
+<h2>Building your own SQLite files<a class="headerlink" href="#building-your-own-sqlite-files" title="Link to this heading"></a></h2>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">semsql</span></code> command that should be pre-installed with OAK</p>
 <p>There are two paths</p>
 <ul class="simple">
@@ -217,7 +217,7 @@
 <li><p>without docker, with dependencies pre-installed</p></li>
 </ul>
 <section id="with-docker">
-<h3>With docker<a class="headerlink" href="#with-docker" title="Permalink to this heading"></a></h3>
+<h3>With docker<a class="headerlink" href="#with-docker" title="Link to this heading"></a></h3>
 <p>If you have an OWL file in <code class="docutils literal notranslate"><span class="pre">./path/to/obi.owl</span></code></p>
 <p>Then you can do this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -w /work  -v `pwd`:/work --rm -ti obolibrary/odkfull:dev semsql make path/to/obi.db
@@ -241,7 +241,7 @@ option from <code class="docutils literal notranslate"><span class="pre">-v</spa
 </div>
 </section>
 <section id="without-docker">
-<h3>Without docker<a class="headerlink" href="#without-docker" title="Permalink to this heading"></a></h3>
+<h3>Without docker<a class="headerlink" href="#without-docker" title="Link to this heading"></a></h3>
 <p><strong>Prerequisites</strong></p>
 <p>For this to work you will need to install the following dependencies and ensure they’re loaded in your <cite>PATH</cite>.</p>
 <ol class="arabic simple">
@@ -258,19 +258,19 @@ option from <code class="docutils literal notranslate"><span class="pre">-v</spa
 </section>
 </section>
 <section id="validating-an-ontology">
-<h2>Validating an ontology<a class="headerlink" href="#validating-an-ontology" title="Permalink to this heading"></a></h2>
+<h2>Validating an ontology<a class="headerlink" href="#validating-an-ontology" title="Link to this heading"></a></h2>
 <p>the SQLite implementation is the most efficient way to validate an ontology</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">cl</span> <span class="n">validate</span>
 </pre></div>
 </div>
 </section>
 <section id="other-rdbmss">
-<h2>Other RDBMSs<a class="headerlink" href="#other-rdbmss" title="Permalink to this heading"></a></h2>
+<h2>Other RDBMSs<a class="headerlink" href="#other-rdbmss" title="Link to this heading"></a></h2>
 <p>We avoid SQLite specific features so in theory OAK should work with any RDBMS that follows the semantic-sql schema,
 but currently SQLite is the focus of development and testing</p>
 </section>
 <section id="python-orm">
-<h2>Python ORM<a class="headerlink" href="#python-orm" title="Permalink to this heading"></a></h2>
+<h2>Python ORM<a class="headerlink" href="#python-orm" title="Link to this heading"></a></h2>
 <p>OAK abstracts away the details of the underlying database and ways of accessing it, but for some purposes you
 may wish to write direct SQL or use the ORM layer. Consult SemSQL docs for details.</p>
 </section>

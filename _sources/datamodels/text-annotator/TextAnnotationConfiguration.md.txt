@@ -11,6 +11,7 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 
 
+
 ```{mermaid}
  classDiagram
     class TextAnnotationConfiguration

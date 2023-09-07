@@ -11,6 +11,7 @@ URI: [ontoenrich:ClassEnrichmentConfiguration](https://w3id.org/oak/class-enrich
 
 
 
+
 ```{mermaid}
  classDiagram
     class ClassEnrichmentConfiguration

@@ -11,6 +11,7 @@ URI: [ontolexindex:LexicalTransformation](https://w3id.org/oak/lexical-index/Lex
 
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalTransformation

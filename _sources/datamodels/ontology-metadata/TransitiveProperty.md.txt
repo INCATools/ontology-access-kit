@@ -11,6 +11,7 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
 
 
 
+
 ```{mermaid}
  classDiagram
     class TransitiveProperty

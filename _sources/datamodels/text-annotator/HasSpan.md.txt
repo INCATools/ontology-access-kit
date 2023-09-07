@@ -6,6 +6,7 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 
 
+
 ```{mermaid}
  classDiagram
     class HasSpan

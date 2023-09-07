@@ -11,6 +11,7 @@ URI: [mappingrules:LexicalTransformation](https://w3id.org/oak/mapping-rules-dat
 
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalTransformation

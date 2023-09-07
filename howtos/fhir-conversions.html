@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -96,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="fhir-conversions">
-<h1>FHIR Conversions<a class="headerlink" href="#fhir-conversions" title="Permalink to this heading"></a></h1>
+<h1>FHIR Conversions<a class="headerlink" href="#fhir-conversions" title="Link to this heading"></a></h1>
 <p><span class="xref std std-term">FHIR</span> (Fast Healthcare Interoperability Resources) is a standard for exchanging healthcare data.</p>
 <p>OAK includes methods for converting ontologies or ontology fragments to FHIR CodeSystems.
 However, there is no agreed-upon standard way of converting ontologies to FHIR, because
@@ -106,7 +106,7 @@ the same code system.</p>
 <p>For this reason we make FHIR conversion highly configurable to suit the needs
 of a particular project or FHIR server.</p>
 <section id="cli">
-<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading"></a></h2>
+<h2>CLI<a class="headerlink" href="#cli" title="Link to this heading"></a></h2>
 <p>Here we will use the OAK <code class="docutils literal notranslate"><span class="pre">dump</span></code> command to export an entire ontology to FHIR.</p>
 <p>The general pattern for the <code class="docutils literal notranslate"><span class="pre">dump</span></code> command is from the CLI is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>INPUT<span class="w"> </span>dump<span class="w"> </span>-O<span class="w"> </span>FORMAT<span class="w"> </span>-o<span class="w"> </span>OUTPUT-FILE
@@ -123,7 +123,7 @@ of a particular project or FHIR server.</p>
 </div>
 </section>
 <section id="config-file">
-<h2>Config file<a class="headerlink" href="#config-file" title="Permalink to this heading"></a></h2>
+<h2>Config file<a class="headerlink" href="#config-file" title="Link to this heading"></a></h2>
 <p>See <a class="reference internal" href="../packages/converters/obo-graph-to-fhir.html#obo-graph-to-fhir-converter"><span class="std std-ref">OBO Graph to FHIR Converter</span></a> for the full list of options.</p>
 <p>Options:</p>
 <p>code_system_id: _The code system ID to use for identification on the server uploaded to.

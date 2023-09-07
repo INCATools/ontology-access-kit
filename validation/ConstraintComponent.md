@@ -6,6 +6,7 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 
 
 
+
 ```{mermaid}
  classDiagram
     class ConstraintComponent

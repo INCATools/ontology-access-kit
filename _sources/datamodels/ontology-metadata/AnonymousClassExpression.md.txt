@@ -6,6 +6,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 
 
 
+
 ```{mermaid}
  classDiagram
     class AnonymousClassExpression

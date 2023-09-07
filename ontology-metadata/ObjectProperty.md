@@ -11,6 +11,7 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
 
 
 
+
 ```{mermaid}
  classDiagram
     class ObjectProperty

@@ -6,6 +6,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Class

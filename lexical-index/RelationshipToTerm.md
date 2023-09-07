@@ -11,6 +11,7 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 
 
 
+
 ```{mermaid}
  classDiagram
     class RelationshipToTerm

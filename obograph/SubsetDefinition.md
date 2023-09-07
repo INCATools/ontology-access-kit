@@ -6,6 +6,7 @@ URI: [oio:SubsetProperty](http://www.geneontology.org/formats/oboInOwl#SubsetPro
 
 
 
+
 ```{mermaid}
  classDiagram
     class SubsetDefinition

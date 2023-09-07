@@ -6,6 +6,7 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 
 
+
 ```{mermaid}
  classDiagram
     class TermInfo

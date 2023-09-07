@@ -11,6 +11,7 @@ URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-i
 
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalTransformationPipeline

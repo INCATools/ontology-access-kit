@@ -13,6 +13,7 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
 
 
 
+
 ```{mermaid}
  classDiagram
     class Term

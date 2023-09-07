@@ -12,13 +12,13 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
         <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
@@ -106,12 +106,12 @@
            <div itemprop="articleBody">
              
   <section id="part-3-triplestore-backends">
-<h1>Part 3: Triplestore Backends<a class="headerlink" href="#part-3-triplestore-backends" title="Permalink to this heading"></a></h1>
+<h1>Part 3: Triplestore Backends<a class="headerlink" href="#part-3-triplestore-backends" title="Link to this heading"></a></h1>
 <p>Previously we have been working with <em>local</em> ontology files in sqlite format, following the <a class="reference internal" href="../glossary.html#term-Semantic-SQL"><span class="xref std std-term">Semantic SQL</span></a> schema.
 We will now show how OAK can be used to access information in a remote <a class="reference internal" href="../glossary.html#term-Triplestore"><span class="xref std std-term">Triplestore</span></a>. The same approach can be used to
 query local files in any <a class="reference internal" href="../glossary.html#term-RDF"><span class="xref std std-term">RDF</span></a> format such as <span class="xref std std-term">Turtle</span>.</p>
 <section id="triplestore-concepts">
-<h2>Triplestore Concepts<a class="headerlink" href="#triplestore-concepts" title="Permalink to this heading"></a></h2>
+<h2>Triplestore Concepts<a class="headerlink" href="#triplestore-concepts" title="Link to this heading"></a></h2>
 <p>There are a number of triplestores that include ontology content queryable using <a class="reference internal" href="../glossary.html#term-SPARQL"><span class="xref std std-term">SPARQL</span></a>.</p>
 <p>OAK includes built in support for a number of triplestores, including:</p>
 <ul class="simple">
@@ -127,10 +127,10 @@ writing code with uniform behavior across different triplestores. OAK attempts t
 OAK interfaces specify the logical operation, and behind the scenes, OAK will emit the most appropriate SPARQL query.</p>
 </section>
 <section id="ubergraph">
-<h2>Ubergraph<a class="headerlink" href="#ubergraph" title="Permalink to this heading"></a></h2>
+<h2>Ubergraph<a class="headerlink" href="#ubergraph" title="Link to this heading"></a></h2>
 <p>For full documentation, see <a class="reference internal" href="../packages/implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Adapter</span></a></p>
 <section id="connecting">
-<h3>Connecting<a class="headerlink" href="#connecting" title="Permalink to this heading"></a></h3>
+<h3>Connecting<a class="headerlink" href="#connecting" title="Link to this heading"></a></h3>
 <p>In this example we will use the <code class="docutils literal notranslate"><span class="pre">ontologies()</span></code> method for <a class="reference internal" href="../packages/interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> to list
 all ontologies the adapter knows about.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
@@ -146,7 +146,7 @@ all ontologies the adapter knows about.</p>
 </div>
 </section>
 <section id="basic-operations">
-<h3>Basic Operations<a class="headerlink" href="#basic-operations" title="Permalink to this heading"></a></h3>
+<h3>Basic Operations<a class="headerlink" href="#basic-operations" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">term_id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0002544&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
 <span class="go">digit</span>
@@ -156,7 +156,7 @@ all ontologies the adapter knows about.</p>
 </div>
 </section>
 <section id="relationships">
-<h3>Relationships<a class="headerlink" href="#relationships" title="Permalink to this heading"></a></h3>
+<h3>Relationships<a class="headerlink" href="#relationships" title="Link to this heading"></a></h3>
 <p>We can query for <span class="xref std std-term">Asserted Relationships</span>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="n">term_id</span><span class="p">]):</span>
 <span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
