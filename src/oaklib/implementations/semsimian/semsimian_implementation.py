@@ -334,7 +334,9 @@ class SemSimianImplementation(
             predicates=object_closure_predicates,
             attributes=self.termset_pairwise_similarity_attributes,
         )
-        quick_search = False  # ! This needs to be a param for this function. For now using hardcoded value.
+        quick_search = (
+            False  # ! This needs to be a param for this function. For now using hardcoded value.
+        )
 
         subjects = set(subjects) if subjects is not None else None
 
