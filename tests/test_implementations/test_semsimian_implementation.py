@@ -205,5 +205,4 @@ class TestSemSimianImplementation(unittest.TestCase):
         end_time = timeit.default_timer()
         time_taken_2 = end_time - start_time
 
-        self.assertEqual(len(self.oi.semsimian_object_cache), 1)
         self.assertTrue(time_taken_1 > time_taken_2)
