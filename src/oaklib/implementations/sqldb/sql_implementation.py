@@ -1062,7 +1062,9 @@ class SqlImplementation(
         for row in q:
             yield row.subject, row.predicate, row.object
 
-    def relationships_metadata(self, relationships: Iterable[RELATIONSHIP], **kwargs) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
+    def relationships_metadata(
+        self, relationships: Iterable[RELATIONSHIP], **kwargs
+    ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
         for rel in relationships:
             anns = [(ann.predicate, ann.object) for ann in self._axiom_annotations(*rel)]
             yield rel, anns

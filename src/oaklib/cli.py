@@ -3251,7 +3251,7 @@ def relationships(
         if if_absent and if_absent == IfAbsent.absent_only.value:
             continue
         label_fields = ["subject", "predicate", "object"]
-        obj = {k: rel[i] for i, k in enumerate(label_fields) }
+        obj = {k: rel[i] for i, k in enumerate(label_fields)}
         if include_metadata:
             metadata_tuples = list(impl.relationships_metadata([rel]))[0][1]
             obj["metadata"] = dict(pairs_as_dict(metadata_tuples))

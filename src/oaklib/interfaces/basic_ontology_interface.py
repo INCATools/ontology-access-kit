@@ -1178,7 +1178,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                         continue
                     yield subject, this_predicate, this_object
 
-    def relationships_metadata(self, relationships: Iterable[RELATIONSHIP], **kwargs) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
+    def relationships_metadata(
+        self, relationships: Iterable[RELATIONSHIP], **kwargs
+    ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
         """
         given collection of relationships, yield relationships with metadata attached.
 
