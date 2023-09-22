@@ -15,6 +15,7 @@ from oaklib.implementations.eutils.pubmed_implementation import PubMedImplementa
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
+from oaklib.implementations.llm_implementation import LLMImplementation
 from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
 from oaklib.implementations.ols import (
     BaseOlsImplementation,
@@ -87,6 +88,7 @@ __all__ = [
     "PubMedImplementation",
     "FunOwlImplementation",
     "GildaImplementation",
+    "LLMImplementation",
     "KGXImplementation",
     "UniprotImplementation",
     "TranslatorImplementation",

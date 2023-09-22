@@ -25,6 +25,7 @@ kgcl-schema = "0.6.0"
 funowl = ">=0.2.0"
 gilda = {version = ">=1.0.0", optional = true}
 kgcl-rdflib = "0.5.0"
+llm = {version = "*", optional = true}
 pystow = ">=0.5.0"
 class-resolver = ">=0.4.2"
 ontoportal-client = ">=0.0.3"
@@ -68,6 +69,7 @@ boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid", "sphinx-copybutton"]
 gilda = ["scipy", "gilda", "urllib3"]
+llm = ["llm"]
 seaborn = ["seaborn"]
 
 [tool.black]
