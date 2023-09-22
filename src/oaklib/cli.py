@@ -41,6 +41,7 @@ import sssom_schema
 import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from pydantic import BaseModel
@@ -151,6 +152,7 @@ from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
     DisjointnessInducerConfig,
     generate_disjoint_class_expressions_axioms,
 )
+from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
@@ -876,6 +878,11 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
     "--requests-cache-db",
     help="If specified, all http requests will be cached to this sqlite file",
 )
+@click.option(
+    "--wrap-adapter",
+    "-W",
+    help="Wrap the input adapter using another adapter (e.g. llm or semsimian).",
+)
 @input_option
 @input_type_option
 @add_option
@@ -890,6 +897,7 @@ def main(
     quiet: bool,
     stacktrace: bool,
     input: str,
+    wrap_adapter: str,
     input_type: str,
     add: List,
     merge: bool,
@@ -940,11 +948,8 @@ def main(
             setattr(settings, k, v)
     logging.info(f"Settings = {settings}")
     if input:
-        # impl_class: Type[OntologyInterface]
-        # resource = get_resource_from_shorthand(input, format=input_type, import_depth=import_depth)
-        # impl_class = resource.implementation_class
-        # logging.info(f"RESOURCE={resource}")
-        # settings.impl = impl_class(resource)
+        if wrap_adapter:
+            input = wrap_adapter + ":" + input
         settings.impl = get_adapter(input)
         settings.impl.autosave = autosave
     if merge and not add:
@@ -1557,6 +1562,11 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     "-R",
     help="path to rules file. Conforms to https://w3id.org/oak/mapping-rules-datamodel",
 )
+@click.option(
+    "--configuration-file",
+    "-C",
+    help="path to config file. Conforms to https://w3id.org/oak/test-annotation",
+)
 @output_option
 @output_type_option
 def annotate(
@@ -1567,6 +1577,7 @@ def annotate(
     include_aliases: bool,
     exclude_tokens: str,
     rules_file: str,
+    configuration_file: str,
     text_file: TextIO,
     model: str,
     output_type: str,
@@ -1577,8 +1588,6 @@ def annotate(
     Example:
 
         runoak -i bioportal: annotate "enlarged nucleus in T-cells from peripheral blood"
-
-    Currently most implementations do not yet support annotation.
 
     See the ontorunner framework for plugins for SciSpacy and OGER - these will
     later become plugins.
@@ -1633,7 +1642,10 @@ def annotate(
             save_lexical_index(impl.lexical_index, lexical_index_file)
         else:
             impl.lexical_index = load_lexical_index(lexical_index_file)
-    configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
+    if configuration_file:
+        configuration = yaml_loader.load(configuration_file, TextAnnotationConfiguration)
+    else:
+        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
     if exclude_tokens:
         token_exclusion_list = get_exclusion_token_list(exclude_tokens)
         configuration.token_exclusion_list = token_exclusion_list
@@ -3134,6 +3146,12 @@ def definitions(
     show_default=True,
     help="Include instance relationships (class and object property assertions)",
 )
+@click.option(
+    "--include-metadata/--no-include-metadata",
+    default=False,
+    show_default=True,
+    help="Include metadata (axiom annotations)",
+)
 def relationships(
     terms,
     predicates: str,
@@ -3146,6 +3164,7 @@ def relationships(
     include_entailed: bool,
     include_tbox: bool,
     include_abox: bool,
+    include_metadata: bool,
 ):
     """
     Show all relationships for a term or terms
@@ -3231,9 +3250,14 @@ def relationships(
             has_relationships[rel[2]] = True
         if if_absent and if_absent == IfAbsent.absent_only.value:
             continue
+        label_fields = ["subject", "predicate", "object"]
+        obj = {k: rel[i] for i, k in enumerate(label_fields)}
+        if include_metadata:
+            metadata_tuples = list(impl.relationships_metadata([rel]))[0][1]
+            obj["metadata"] = dict(pairs_as_dict(metadata_tuples))
         writer.emit(
-            dict(subject=rel[0], predicate=rel[1], object=rel[2]),
-            label_fields=["subject", "predicate", "object"],
+            obj,
+            label_fields=label_fields,
         )
     if if_absent and if_absent == IfAbsent.absent_only.value:
         for curie in curies:

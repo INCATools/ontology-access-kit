@@ -1178,6 +1178,29 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                         continue
                     yield subject, this_predicate, this_object
 
+    def relationships_metadata(
+        self, relationships: Iterable[RELATIONSHIP], **kwargs
+    ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
+        """
+        given collection of relationships, yield relationships with metadata attached.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:mondo")
+        >>> rels = list(adapter.relationships(["MONDO:0009831"]))
+        >>> for rel, metadatas in adapter.relationships_metadata(rels):
+        ...     for p, v in metadatas:
+        ...         print(rel, p, v)
+        <BLANKLINE>
+        ...
+        ('MONDO:0009831', 'rdfs:subClassOf', 'MONDO:0002516') oio:source NCIT:C9005
+        ...
+
+        :param relationships: collection of subject-predicate-object tuples
+        :param kwargs:
+        :return: yields relationships with property-value metadata
+        """
+        raise NotImplementedError
+
     def hierarchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
         Returns all hierarchical parents.
