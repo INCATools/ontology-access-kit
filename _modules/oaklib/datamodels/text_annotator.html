@@ -83,18 +83,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.datamodels.text_annotator</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0</span>
-<span class="c1"># Generation date: 2023-04-09T15:53:59</span>
+<span></span><span class="c1"># Auto generated from text_annotator.yaml by pythongen.py version: 0.0.1</span>
+<span class="c1"># Generation date: 2023-09-16T18:49:46</span>
 <span class="c1"># Schema: text-annotator</span>
 <span class="c1">#</span>
 <span class="c1"># id: https://w3id.org/oak/text_annotator</span>
-<span class="c1"># description: A datamodel for representing the results of textual named entity recognition annotation results.</span>
-<span class="c1">#              This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/</span>
+<span class="c1"># description: A datamodel for representing the results of textual named entity recognition annotation results. This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/</span>
 <span class="c1"># license: https://creativecommons.org/publicdomain/zero/1.0/</span>
 
 <span class="kn">import</span> <span class="nn">dataclasses</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
@@ -187,6 +185,7 @@
     <span class="n">sources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
     <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">token_exclusion_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
+    <span class="n">categories</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">include_aliases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -208,6 +207,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span>
         <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
@@ -332,6 +335,7 @@
     <span class="n">predicate_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">object_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">object_categories</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
     <span class="n">object_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">confidence</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">match_string</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -355,6 +359,14 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_label</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">object_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_label</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_categories</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">object_categories</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object_categories</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_categories</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_categories</span>
+        <span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">object_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_source</span><span class="p">)</span>
@@ -479,6 +491,15 @@
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__token_exclusion_list&quot;</span><span class="p">,</span>
     <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;token_exclusion_list&quot;</span><span class="p">),</span>
     <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__token_exclusion_list</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__categories</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">categories</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__categories&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__categories</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span>
 <span class="p">)</span>
@@ -616,6 +637,15 @@
     <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_label</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_categories</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">object_categories</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__object_categories&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;object_categories&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_categories</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span>
 <span class="p">)</span>
 
 <span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_source</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>

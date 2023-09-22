@@ -25,17 +25,19 @@ Name: text-annotator
 | Slot | Description |
 | --- | --- |
 | [annotations](annotations.md) | all annotations |
+| [categories](categories.md) | A list of named entity categories to include |
 | [confidence](confidence.md) |  |
 | [id](id.md) |  |
-| [include_aliases](include_aliases.md) |  |
+| [include_aliases](include_aliases.md) | If true, then the aliases (synonyms) of the matched entity are included in th... |
 | [info](info.md) |  |
 | [is_longest_match](is_longest_match.md) |  |
-| [limit](limit.md) |  |
+| [limit](limit.md) | The maximum number of annotations to return |
 | [match_string](match_string.md) |  |
 | [match_type](match_type.md) |  |
-| [matches_whole_text](matches_whole_text.md) |  |
-| [model](model.md) |  |
+| [matches_whole_text](matches_whole_text.md) | If true, then only grounding is performed, and the entire text is used as the... |
+| [model](model.md) | The name of the model to use for annotation |
 | [object_aliases](object_aliases.md) |  |
+| [object_categories](object_categories.md) |  |
 | [object_id](object_id.md) |  |
 | [object_label](object_label.md) |  |
 | [object_source](object_source.md) |  |
@@ -49,7 +51,7 @@ Name: text-annotator
 | [subject_start](subject_start.md) |  |
 | [subject_text_id](subject_text_id.md) |  |
 | [text](text.md) |  |
-| [token_exclusion_list](token_exclusion_list.md) |  |
+| [token_exclusion_list](token_exclusion_list.md) | A list of tokens to exclude from the annotation process |
 
 
 ## Enumerations

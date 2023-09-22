@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: limit &mdash; oaklib  documentation</title>
+  <title>Slot: object_categories &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Slot: limit</li>
+      <li class="breadcrumb-item active">Slot: object_categories</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/text-annotator/limit.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/text-annotator/object_categories.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,10 +83,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-limit">
-<h1>Slot: limit<a class="headerlink" href="#slot-limit" title="Link to this heading"></a></h1>
-<p><em>The maximum number of annotations to return</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/limit">ann:limit</a></p>
+  <section id="slot-object-categories">
+<h1>Slot: object_categories<a class="headerlink" href="#slot-object-categories" title="Link to this heading"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/object_categories">ann:object_categories</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Link to this heading"></a></h2>
@@ -98,8 +97,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="TextAnnotationConfiguration.html"><span class="std std-doc">TextAnnotationConfiguration</span></a></p></td>
-<td><p>configuration for search</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="TextAnnotation.html"><span class="std std-doc">TextAnnotation</span></a></p></td>
+<td><p>An individual text annotation</p></td>
 <td><p>no</p></td>
 </tr>
 </tbody>
@@ -108,7 +107,8 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></li>
+<li><p>Range: <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -124,15 +124,15 @@
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Link to this heading"></a></h2>
 <details>
 ```yaml
-name: limit
-description: The maximum number of annotations to return
+name: object_categories
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
-alias: limit
-owner: TextAnnotationConfiguration
+multivalued: true
+alias: object_categories
+owner: TextAnnotation
 domain_of:
-- TextAnnotationConfiguration
-range: integer
+- TextAnnotation
+range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

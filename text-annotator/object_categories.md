@@ -1,11 +1,6 @@
-# Slot: token_exclusion_list
+# Slot: object_categories
 
-
-_A list of tokens to exclude from the annotation process_
-
-
-
-URI: [ann:token_exclusion_list](https://w3id.org/linkml/text_annotator/token_exclusion_list)
+URI: [ann:object_categories](https://w3id.org/linkml/text_annotator/object_categories)
 
 
 
@@ -18,7 +13,7 @@ URI: [ann:token_exclusion_list](https://w3id.org/linkml/text_annotator/token_exc
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 
@@ -56,15 +51,14 @@ URI: [ann:token_exclusion_list](https://w3id.org/linkml/text_annotator/token_exc
 
 <details>
 ```yaml
-name: token_exclusion_list
-description: A list of tokens to exclude from the annotation process
+name: object_categories
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 multivalued: true
-alias: token_exclusion_list
-owner: TextAnnotationConfiguration
+alias: object_categories
+owner: TextAnnotation
 domain_of:
-- TextAnnotationConfiguration
+- TextAnnotation
 range: string
 
 ```

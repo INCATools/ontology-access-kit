@@ -106,6 +106,8 @@
         
       TextAnnotation : object_aliases
         
+      TextAnnotation : object_categories
+        
       TextAnnotation : object_id
         
       TextAnnotation : object_label
@@ -159,67 +161,72 @@
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="std std-doc">object_source</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="confidence.html"><span class="std std-doc">confidence</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="match_string.html"><span class="std std-doc">match_string</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="is_longest_match.html"><span class="std std-doc">is_longest_match</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="matches_whole_text.html"><span class="std std-doc">matches_whole_text</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="match_type.html"><span class="std std-doc">match_type</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="std std-doc">info</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
-<td><p>direct</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_aliases.html"><span class="std std-doc">object_aliases</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_categories.html"><span class="std std-doc">object_categories</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_start.html"><span class="std std-doc">subject_start</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object_source.html"><span class="std std-doc">object_source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="confidence.html"><span class="std std-doc">confidence</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="match_string.html"><span class="std std-doc">match_string</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="is_longest_match.html"><span class="std std-doc">is_longest_match</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="matches_whole_text.html"><span class="std std-doc">matches_whole_text</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="match_type.html"><span class="std std-doc">match_type</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="info.html"><span class="std std-doc">info</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_aliases.html"><span class="std std-doc">object_aliases</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_start.html"><span class="std std-doc">subject_start</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Position.html"><span class="std std-doc">Position</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="std std-doc">HasSpan</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_end.html"><span class="std std-doc">subject_end</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_end.html"><span class="std std-doc">subject_end</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Position.html"><span class="std std-doc">Position</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="std std-doc">HasSpan</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="std std-doc">subject_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The portion of the subject text that is matched, ranging from subject_start t…</p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="std std-doc">HasSpan</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="std std-doc">subject_source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_source.html"><span class="std std-doc">subject_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="std std-doc">HasSpan</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_text_id.html"><span class="std std-doc">subject_text_id</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_text_id.html"><span class="std std-doc">subject_text_id</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="TextualElement.html"><span class="std std-doc">TextualElement</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="std std-doc">HasSpan</span></a></p></td>
@@ -305,6 +312,11 @@ attributes:
     - bpa:annotatedClass.prefLabel
     rank: 1000
     slot_uri: sssom:object_label
+  object_categories:
+    name: object_categories
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
   object_source:
     name: object_source
     from_schema: https://w3id.org/oak/text_annotator
@@ -386,6 +398,16 @@ attributes:
     rank: 1000
     slot_uri: sssom:object_label
     alias: object_label
+    owner: TextAnnotation
+    domain_of:
+    - TextAnnotation
+    range: string
+  object_categories:
+    name: object_categories
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
+    alias: object_categories
     owner: TextAnnotation
     domain_of:
     - TextAnnotation

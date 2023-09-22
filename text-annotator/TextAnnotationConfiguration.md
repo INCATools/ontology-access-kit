@@ -15,6 +15,8 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 ```{mermaid}
  classDiagram
     class TextAnnotationConfiguration
+      TextAnnotationConfiguration : categories
+        
       TextAnnotationConfiguration : include_aliases
         
       TextAnnotationConfiguration : limit
@@ -40,12 +42,13 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [Boolean](Boolean.md) | If true, then only grounding is performed, and the entire text is used as the... | direct |
 | [sources](sources.md) | 0..* <br/> [String](String.md) |  | direct |
-| [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
-| [token_exclusion_list](token_exclusion_list.md) | 0..* <br/> [String](String.md) |  | direct |
-| [model](model.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [include_aliases](include_aliases.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
+| [limit](limit.md) | 0..1 <br/> [Integer](Integer.md) | The maximum number of annotations to return | direct |
+| [token_exclusion_list](token_exclusion_list.md) | 0..* <br/> [String](String.md) | A list of tokens to exclude from the annotation process | direct |
+| [categories](categories.md) | 0..* <br/> [String](String.md) | A list of named entity categories to include | direct |
+| [model](model.md) | 0..1 <br/> [String](String.md) | The name of the model to use for annotation | direct |
+| [include_aliases](include_aliases.md) | 0..1 <br/> [Boolean](Boolean.md) | If true, then the aliases (synonyms) of the matched entity are included in th... | direct |
 
 
 
@@ -97,7 +100,11 @@ from_schema: https://w3id.org/oak/text_annotator
 attributes:
   matches_whole_text:
     name: matches_whole_text
+    description: If true, then only grounding is performed, and the entire text is
+      used as the match string.
     from_schema: https://w3id.org/oak/text_annotator
+    aliases:
+    - grounding_mode
     rank: 1000
     range: boolean
   sources:
@@ -107,21 +114,33 @@ attributes:
     multivalued: true
   limit:
     name: limit
+    description: The maximum number of annotations to return
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: integer
   token_exclusion_list:
     name: token_exclusion_list
+    description: A list of tokens to exclude from the annotation process
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
+  categories:
+    name: categories
+    description: A list of named entity categories to include.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
   model:
     name: model
+    description: The name of the model to use for annotation. The specifics of this
+      are implementation-dependent.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: string
   include_aliases:
     name: include_aliases
+    description: If true, then the aliases (synonyms) of the matched entity are included
+      in the annotation results.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: boolean
@@ -139,7 +158,11 @@ from_schema: https://w3id.org/oak/text_annotator
 attributes:
   matches_whole_text:
     name: matches_whole_text
+    description: If true, then only grounding is performed, and the entire text is
+      used as the match string.
     from_schema: https://w3id.org/oak/text_annotator
+    aliases:
+    - grounding_mode
     rank: 1000
     alias: matches_whole_text
     owner: TextAnnotationConfiguration
@@ -159,6 +182,7 @@ attributes:
     range: string
   limit:
     name: limit
+    description: The maximum number of annotations to return
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: limit
@@ -168,6 +192,7 @@ attributes:
     range: integer
   token_exclusion_list:
     name: token_exclusion_list
+    description: A list of tokens to exclude from the annotation process
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
@@ -176,8 +201,21 @@ attributes:
     domain_of:
     - TextAnnotationConfiguration
     range: string
+  categories:
+    name: categories
+    description: A list of named entity categories to include.
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
+    alias: categories
+    owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
+    range: string
   model:
     name: model
+    description: The name of the model to use for annotation. The specifics of this
+      are implementation-dependent.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: model
@@ -187,6 +225,8 @@ attributes:
     range: string
   include_aliases:
     name: include_aliases
+    description: If true, then the aliases (synonyms) of the matched entity are included
+      in the annotation results.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: include_aliases

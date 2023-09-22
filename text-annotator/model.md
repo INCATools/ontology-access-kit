@@ -1,5 +1,10 @@
 # Slot: model
 
+
+_The name of the model to use for annotation. The specifics of this are implementation-dependent._
+
+
+
 URI: [ann:model](https://w3id.org/linkml/text_annotator/model)
 
 
@@ -50,6 +55,8 @@ URI: [ann:model](https://w3id.org/linkml/text_annotator/model)
 <details>
 ```yaml
 name: model
+description: The name of the model to use for annotation. The specifics of this are
+  implementation-dependent.
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 alias: model

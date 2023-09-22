@@ -1,5 +1,10 @@
 # Slot: include_aliases
 
+
+_If true, then the aliases (synonyms) of the matched entity are included in the annotation results._
+
+
+
 URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliases)
 
 
@@ -50,6 +55,8 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 <details>
 ```yaml
 name: include_aliases
+description: If true, then the aliases (synonyms) of the matched entity are included
+  in the annotation results.
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
 alias: include_aliases

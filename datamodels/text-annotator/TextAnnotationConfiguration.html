@@ -90,6 +90,8 @@
 <div class="mermaid">
              classDiagram
     class TextAnnotationConfiguration
+      TextAnnotationConfiguration : categories
+        
       TextAnnotationConfiguration : include_aliases
         
       TextAnnotationConfiguration : limit
@@ -117,7 +119,7 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="matches_whole_text.html"><span class="std std-doc">matches_whole_text</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>If true, then only grounding is performed, and the entire text is used as the…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sources.html"><span class="std std-doc">sources</span></a></p></td>
@@ -127,22 +129,27 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="limit.html"><span class="std std-doc">limit</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
-<td><p></p></td>
+<td><p>The maximum number of annotations to return</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="token_exclusion_list.html"><span class="std std-doc">token_exclusion_list</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>A list of tokens to exclude from the annotation process</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="model.html"><span class="std std-doc">model</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="categories.html"><span class="std std-doc">categories</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>A list of named entity categories to include</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model.html"><span class="std std-doc">model</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The name of the model to use for annotation</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="include_aliases.html"><span class="std std-doc">include_aliases</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="include_aliases.html"><span class="std std-doc">include_aliases</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
-<td><p></p></td>
+<td><p>If true, then the aliases (synonyms) of the matched entity are included in th…</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -188,7 +195,11 @@ from_schema: https://w3id.org/oak/text_annotator
 attributes:
   matches_whole_text:
     name: matches_whole_text
+    description: If true, then only grounding is performed, and the entire text is
+      used as the match string.
     from_schema: https://w3id.org/oak/text_annotator
+    aliases:
+    - grounding_mode
     rank: 1000
     range: boolean
   sources:
@@ -198,21 +209,33 @@ attributes:
     multivalued: true
   limit:
     name: limit
+    description: The maximum number of annotations to return
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: integer
   token_exclusion_list:
     name: token_exclusion_list
+    description: A list of tokens to exclude from the annotation process
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
+  categories:
+    name: categories
+    description: A list of named entity categories to include.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
   model:
     name: model
+    description: The name of the model to use for annotation. The specifics of this
+      are implementation-dependent.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: string
   include_aliases:
     name: include_aliases
+    description: If true, then the aliases (synonyms) of the matched entity are included
+      in the annotation results.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     range: boolean
@@ -228,7 +251,11 @@ from_schema: https://w3id.org/oak/text_annotator
 attributes:
   matches_whole_text:
     name: matches_whole_text
+    description: If true, then only grounding is performed, and the entire text is
+      used as the match string.
     from_schema: https://w3id.org/oak/text_annotator
+    aliases:
+    - grounding_mode
     rank: 1000
     alias: matches_whole_text
     owner: TextAnnotationConfiguration
@@ -248,6 +275,7 @@ attributes:
     range: string
   limit:
     name: limit
+    description: The maximum number of annotations to return
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: limit
@@ -257,6 +285,7 @@ attributes:
     range: integer
   token_exclusion_list:
     name: token_exclusion_list
+    description: A list of tokens to exclude from the annotation process
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
@@ -265,8 +294,21 @@ attributes:
     domain_of:
     - TextAnnotationConfiguration
     range: string
+  categories:
+    name: categories
+    description: A list of named entity categories to include.
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
+    multivalued: true
+    alias: categories
+    owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
+    range: string
   model:
     name: model
+    description: The name of the model to use for annotation. The specifics of this
+      are implementation-dependent.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: model
@@ -276,6 +318,8 @@ attributes:
     range: string
   include_aliases:
     name: include_aliases
+    description: If true, then the aliases (synonyms) of the matched entity are included
+      in the annotation results.
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     alias: include_aliases

@@ -1,11 +1,11 @@
-# Slot: include_aliases
+# Slot: categories
 
 
-_If true, then the aliases (synonyms) of the matched entity are included in the annotation results._
+_A list of named entity categories to include._
 
 
 
-URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliases)
+URI: [ann:categories](https://w3id.org/linkml/text_annotator/categories)
 
 
 
@@ -28,7 +28,9 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 
 ## Properties
 
-* Range: [Boolean](Boolean.md)
+* Range: [String](String.md)
+
+* Multivalued: True
 
 
 
@@ -54,16 +56,16 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 
 <details>
 ```yaml
-name: include_aliases
-description: If true, then the aliases (synonyms) of the matched entity are included
-  in the annotation results.
+name: categories
+description: A list of named entity categories to include.
 from_schema: https://w3id.org/oak/text_annotator
 rank: 1000
-alias: include_aliases
+multivalued: true
+alias: categories
 owner: TextAnnotationConfiguration
 domain_of:
 - TextAnnotationConfiguration
-range: boolean
+range: string
 
 ```
 </details>
