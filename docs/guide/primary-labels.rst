@@ -1,4 +1,4 @@
-.. _primary-labels:
+.. _primary_labels:
 
 Primary Labels
 ==============
