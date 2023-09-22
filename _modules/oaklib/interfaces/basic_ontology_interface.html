@@ -1388,6 +1388,32 @@
                     <span class="k">yield</span> <span class="n">subject</span><span class="p">,</span> <span class="n">this_predicate</span><span class="p">,</span> <span class="n">this_object</span></div>
 
 
+<div class="viewcode-block" id="BasicOntologyInterface.relationships_metadata">
+<a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships_metadata">[docs]</a>
+    <span class="k">def</span> <span class="nf">relationships_metadata</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        given collection of relationships, yield relationships with metadata attached.</span>
+
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:mondo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; rels = list(adapter.relationships([&quot;MONDO:0009831&quot;]))</span>
+<span class="sd">        &gt;&gt;&gt; for rel, metadatas in adapter.relationships_metadata(rels):</span>
+<span class="sd">        ...     for p, v in metadatas:</span>
+<span class="sd">        ...         print(rel, p, v)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        (&#39;MONDO:0009831&#39;, &#39;rdfs:subClassOf&#39;, &#39;MONDO:0002516&#39;) oio:source NCIT:C9005</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        :param relationships: collection of subject-predicate-object tuples</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">        :return: yields relationships with property-value metadata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
 <div class="viewcode-block" id="BasicOntologyInterface.hierarchical_parents">
 <a class="viewcode-back" href="../../../packages/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierarchical_parents">[docs]</a>
     <span class="k">def</span> <span class="nf">hierarchical_parents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>

@@ -363,6 +363,12 @@ You should get the same results by running:</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-W">
+<span id="cmdoption-runoak-wrap-adapter"></span><span class="sig-name descname"><span class="pre">-W</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--wrap-adapter</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;wrap_adapter&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-W" title="Link to this definition"></a></dt>
+<dd><p>Wrap the input adapter using another adapter (e.g. llm or semsimian).</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-i">
 <span id="cmdoption-runoak-input"></span><span class="sig-name descname"><span class="pre">-i</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--input</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;input&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-i" title="Link to this definition"></a></dt>
 <dd><p>input implementation specification. This is either a path to a file, or an ontology selector</p>
@@ -530,7 +536,6 @@ For exampple, constrained to is-a and part-of:</p>
 <blockquote>
 <div><p>runoak -i bioportal: annotate “enlarged nucleus in T-cells from peripheral blood”</p>
 </div></blockquote>
-<p>Currently most implementations do not yet support annotation.</p>
 <p>See the ontorunner framework for plugins for SciSpacy and OGER - these will
 later become plugins.</p>
 <p>If gilda is installed as an extra, it can be used,
@@ -621,6 +626,12 @@ subject_start: 0</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-annotate-R">
 <span id="cmdoption-runoak-annotate-rules-file"></span><span class="sig-name descname"><span class="pre">-R</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--rules-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;rules_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-annotate-R" title="Link to this definition"></a></dt>
 <dd><p>path to rules file. Conforms to <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel">https://w3id.org/oak/mapping-rules-datamodel</a></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-annotate-C">
+<span id="cmdoption-runoak-annotate-configuration-file"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configuration-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configuration_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-annotate-C" title="Link to this definition"></a></dt>
+<dd><p>path to config file. Conforms to <a class="reference external" href="https://w3id.org/oak/test-annotation">https://w3id.org/oak/test-annotation</a></p>
 </dd></dl>
 
 <dl class="std option">
@@ -3826,6 +3837,17 @@ prefixes for entities in that ontology</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-relationships-include-metadata">
+<span id="cmdoption-runoak-relationships-no-include-metadata"></span><span class="sig-name descname"><span class="pre">--include-metadata</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-metadata</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-metadata" title="Link to this definition"></a></dt>
+<dd><p>Include metadata (axiom annotations)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 </dl>
 </dd></dl>
