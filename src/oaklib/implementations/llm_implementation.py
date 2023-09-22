@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Iterator, List
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import TextAnnotatorInterface
-from oaklib.interfaces.text_annotator_interface import TEXT, nen_annotation
+from oaklib.interfaces.text_annotator_interface import TEXT
 
 if TYPE_CHECKING:
     import llm
@@ -65,7 +65,10 @@ class LLMImplementation(TextAnnotatorInterface):
             yield from self._llm_annotate(text, configuration)
 
     def _llm_annotate(
-        self, text: str, configuration: TextAnnotationConfiguration = None, depth=0,
+        self,
+        text: str,
+        configuration: TextAnnotationConfiguration = None,
+        depth=0,
     ) -> Iterator[TextAnnotation]:
         system_prompt = self._system_prompt(configuration)
         model = self.model
@@ -88,7 +91,9 @@ class LLMImplementation(TextAnnotatorInterface):
             ann = TextAnnotation(subject_label=term, object_categories=[category])
             matches = list(self.grounder.annotate_text(term, grounder_configuration))
             if not matches:
-                aliases = self._suggest_aliases(term, model, configuration.categories, configuration)
+                aliases = self._suggest_aliases(
+                    term, model, configuration.categories, configuration
+                )
                 for alias in aliases:
                     matches = list(self.grounder.annotate_text(alias, grounder_configuration))
                     if matches:
@@ -120,16 +125,26 @@ class LLMImplementation(TextAnnotatorInterface):
         categories = configuration.categories
         prompt = "Perform named entity recognition on the text, returning a list of terms. "
         prompt += "Terms can be compound containing multiple words. "
-        prompt += "Use noun phrases or terms representing entire concepts rather than multiple words. "
+        prompt += (
+            "Use noun phrases or terms representing entire concepts rather than multiple words. "
+        )
         if configuration.sources:
-            prompt += f"Include terms that might be found in the following: {configuration.sources}. "
+            prompt += (
+                f"Include terms that might be found in the following: {configuration.sources}. "
+            )
         if categories:
             prompt += f"Include only terms that are of type {categories}. "
-        prompt += """Return results as a JSON list: 
+        prompt += """Return results as a JSON list:
                      [{"term:" "term1", "category": "category1"}, ... ]"""
         return prompt
 
-    def _suggest_aliases(self, term: str, model: "llm.Model" = None, categories: List=None, configuration: TextAnnotationConfiguration = None) -> List[str]:
+    def _suggest_aliases(
+        self,
+        term: str,
+        model: "llm.Model" = None,
+        categories: List = None,
+        configuration: TextAnnotationConfiguration = None,
+    ) -> List[str]:
         logging.info(f"LLM aliasing term: {term}")
         prompt = "List exact synonyms for this term. "
         prompt += "Normalize the string to a form found in an ontology. "
@@ -142,4 +157,3 @@ class LLMImplementation(TextAnnotatorInterface):
         response = model.prompt(term, system=prompt).text()
         logging.info(f"LLM aliases[{term}] => {response}")
         return [x.strip() for x in response.split(";")]
-
