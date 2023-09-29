@@ -24,7 +24,7 @@ __all__ = [
 
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
-NODE_NORMALIZER_ENDPOINT = "https://nodenormalization-sri.renci.org/1.3/get_normalized_nodes"
+NODE_NORMALIZER_ENDPOINT = "https://nodenormalization-sri.renci.org/1.4/get_normalized_nodes"
 
 
 @dataclass
