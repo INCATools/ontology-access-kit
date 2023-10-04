@@ -2,10 +2,9 @@ from dataclasses import dataclass, field
 from typing import Iterable, List, Optional, Tuple
 
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from sssom.sssom_document import MappingSetDocument
-from sssom.util import to_mapping_set_dataframe
+from sssom.util import MappingSetDataFrame
 from sssom.writers import write_table
-from sssom_schema import Mapping, MappingSet
+from sssom_schema import Mapping
 
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
@@ -74,14 +73,7 @@ class StreamingSssomWriter(StreamingWriter):
         self.mappings.append(obj)
 
     def finish(self):
-        mset = MappingSet(
-            mapping_set_id="temp", mappings=self.mappings, license=UNSPECIFIED_MAPPING_SET_ID
-        )
-        if self.ontology_interface:
-            prefix_map = self.ontology_interface.prefix_map()
-        else:
-            prefix_map = {}
-        doc = MappingSetDocument(prefix_map=prefix_map, mapping_set=mset)
-        msdf = to_mapping_set_dataframe(doc)
+        converter = self.ontology_interface.converter if self.ontology_interface else None
+        msdf = MappingSetDataFrame.from_mappings(self.mappings, converter=converter)
         msdf.clean_prefix_map(strict=False)
         write_table(msdf, self.file)
