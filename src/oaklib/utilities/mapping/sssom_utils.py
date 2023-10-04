@@ -72,6 +72,8 @@ class StreamingSssomWriter(StreamingWriter):
 
     def finish(self):
         converter = self.ontology_interface.converter if self.ontology_interface else None
+        # default metadata, including an auto-generated mapping set URI and
+        # a license, are automatically added with this function
         msdf = MappingSetDataFrame.from_mappings(self.mappings, converter=converter)
         msdf.clean_prefix_map(strict=False)
         write_table(msdf, self.file)
