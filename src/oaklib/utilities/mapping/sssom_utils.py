@@ -10,8 +10,6 @@ from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix
 
-UNSPECIFIED_MAPPING_SET_ID = "https://w3id.org/sssom/license/unspecified"
-
 
 def create_sssom_mapping(
     subject_id: CURIE, object_id: CURIE, strict=False, **kwargs
