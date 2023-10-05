@@ -17,8 +17,8 @@ from curies import Converter
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import json_loader, yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+from sssom.constants import CURIE_MAP
 from sssom.context import ensure_converter
-from sssom.typehints import Metadata
 from sssom.util import MappingSetDataFrame
 from sssom_schema import Mapping
 
@@ -245,7 +245,7 @@ def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
-    meta: Metadata = None,
+    meta: Optional[Dict[str, t.Any]] = None,
     prefix_map: Union[None, Converter, t.Mapping[str, str]] = None,
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
@@ -315,13 +315,13 @@ def lexical_index_to_sssom(
     #  different streams of prefix maps?
     converter = curies.chain(
         [
-            Converter.from_prefix_map(meta.prefix_map) if meta is not None else Converter([]),
+            Converter.from_prefix_map(meta.pop(CURIE_MAP, {})) if meta is not None else Converter([]),
             oi.converter,
             ensure_converter(prefix_map, use_defaults=False),
         ]
     )
     msdf = MappingSetDataFrame.from_mappings(
-        mappings=mappings, metadata=meta and meta.metadata, converter=converter
+        mappings=mappings, metadata=meta, converter=converter
     )
     msdf.clean_prefix_map(strict=ensure_strict_prefixes)
     return msdf
