@@ -315,14 +315,12 @@ def lexical_index_to_sssom(
     #  different streams of prefix maps?
     converter = curies.chain(
         [
-            Converter.from_prefix_map(meta.pop(CURIE_MAP, {})) if meta is not None else Converter([]),
+            Converter.from_prefix_map((meta or {}).pop(CURIE_MAP, {})),
             oi.converter,
             ensure_converter(prefix_map, use_defaults=False),
         ]
     )
-    msdf = MappingSetDataFrame.from_mappings(
-        mappings=mappings, metadata=meta, converter=converter
-    )
+    msdf = MappingSetDataFrame.from_mappings(mappings=mappings, metadata=meta, converter=converter)
     msdf.clean_prefix_map(strict=ensure_strict_prefixes)
     return msdf
 
