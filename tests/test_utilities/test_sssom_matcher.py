@@ -172,11 +172,7 @@ class TestLexicalIndex(unittest.TestCase):
         ruleset = load_mapping_rules(str(RULES))
 
         meta = yaml.safe_load(MATCHER_META_YML.read_text())
-        prefix_map = meta.pop(CURIE_MAP)
-
-        msdf = lexical_index_to_sssom(
-            self.oi, lexical_index, ruleset=ruleset, meta=meta, prefix_map=prefix_map
-        )
+        msdf = lexical_index_to_sssom(self.oi, lexical_index, ruleset=ruleset, meta=meta)
         with open(MATCHER_TEST_SSSOM_OUT, "w", encoding="utf-8") as file:
             write_table(msdf, file)
         msdoc = to_mapping_set_document(msdf)
