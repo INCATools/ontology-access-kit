@@ -2,7 +2,6 @@ import unittest
 from pathlib import Path
 
 import yaml
-from sssom.constants import CURIE_MAP
 from sssom.parsers import to_mapping_set_document
 from sssom.writers import write_table
 from sssom_schema import Mapping
