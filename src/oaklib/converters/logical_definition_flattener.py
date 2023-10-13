@@ -61,8 +61,7 @@ class LogicalDefinitionFlattener(DataModelConverter):
         return obj
 
     def _curie(self, iri: str) -> CURIE:
-        curie = self.curie_converter.compress(iri)
-        return curie if curie else iri
+        return self.curie_converter.compress(iri, passthrough=True)
 
     @lru_cache
     def _property_label(self, predicate: CURIE) -> str:

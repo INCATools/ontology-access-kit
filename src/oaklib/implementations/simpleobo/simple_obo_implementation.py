@@ -711,8 +711,7 @@ class SimpleOboImplementation(
     def as_obograph(self, expand_curies=False) -> Graph:
         def expand(curie: CURIE) -> CURIE:
             if expand_curies:
-                uri = self.curie_to_uri(curie, strict=False)
-                return uri if uri is not None else curie
+                return self.curie_to_uri(curie, strict=False, passthrough=True)
             else:
                 return curie
 
