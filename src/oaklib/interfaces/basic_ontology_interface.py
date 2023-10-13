@@ -267,9 +267,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]
         :return: contracted URI, or original URI if no contraction possible
         """
-        rv = self.converter.compress(uri)
-        if use_uri_fallback:
-            strict = False
+        rv = self.converter.compress(uri, passthrough=use_uri_fallback)
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
@@ -279,8 +277,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
                 f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
             )
-        if rv is None and use_uri_fallback:
-            return uri
         return rv
 
     @property
