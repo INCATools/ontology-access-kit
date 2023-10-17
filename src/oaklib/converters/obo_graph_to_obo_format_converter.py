@@ -105,11 +105,7 @@ class OboGraphToOboFormatConverter(DataModelConverter):
     def _id(self, uri_or_curie: CURIE) -> CURIE:
         if not self.curie_converter:
             return uri_or_curie
-        curie = self.curie_converter.compress(uri_or_curie)
-        if curie is None:
-            return uri_or_curie
-        else:
-            return curie
+        return self.curie_converter.compress(uri_or_curie, passthrough=True)
 
     def _predicate_id(self, uri_or_curie: CURIE, target: OboDocument) -> CURIE:
         curie = self._id(uri_or_curie)
