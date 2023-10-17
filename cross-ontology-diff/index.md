@@ -100,11 +100,14 @@ of the left edge. |
 | [EntityReference](EntityReference.md) | A reference to a mapped entity |
 | [Float](Float.md) | A real number that conforms to the xsd:float specification |
 | [Integer](Integer.md) | An integer |
+| [Jsonpath](Jsonpath.md) | A string encoding a JSON Path |
+| [Jsonpointer](Jsonpointer.md) | A string encoding a JSON Pointer |
 | [Label](Label.md) | A string that is used as a human-readable label |
 | [Ncname](Ncname.md) | Prefix part of CURIE |
 | [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
 | [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
 | [Source](Source.md) | The name of an ontology that acts as a source |
+| [Sparqlpath](Sparqlpath.md) | A string encoding a SPARQL Property Path |
 | [String](String.md) | A character string |
 | [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
 | [Uri](Uri.md) | a complete URI |

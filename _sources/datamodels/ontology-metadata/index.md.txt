@@ -205,11 +205,14 @@ Name: Ontology-Metadata
 | [Float](Float.md) | A real number that conforms to the xsd:float specification |
 | [Integer](Integer.md) | An integer |
 | [IriType](IriType.md) | An IRI |
+| [Jsonpath](Jsonpath.md) | A string encoding a JSON Path |
+| [Jsonpointer](Jsonpointer.md) | A string encoding a JSON Pointer |
 | [LabelType](LabelType.md) | A string that provides a human-readable name for an entity |
 | [NarrativeText](NarrativeText.md) | A string that provides a human-readable description of something |
 | [Ncname](Ncname.md) | Prefix part of CURIE |
 | [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
 | [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [Sparqlpath](Sparqlpath.md) | A string encoding a SPARQL Property Path |
 | [String](String.md) | A character string |
 | [TidyString](TidyString.md) |  |
 | [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |

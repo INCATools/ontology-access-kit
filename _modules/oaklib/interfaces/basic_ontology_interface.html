@@ -368,9 +368,7 @@
 <span class="sd">        :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]</span>
 <span class="sd">        :return: contracted URI, or original URI if no contraction possible</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">use_uri_fallback</span><span class="p">:</span>
-            <span class="n">strict</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">passthrough</span><span class="o">=</span><span class="n">use_uri_fallback</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">strict</span><span class="p">:</span>
             <span class="n">prefix_map_text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">uri_prefix</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -380,8 +378,6 @@
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.prefix_map() does not support compressing </span><span class="si">{</span><span class="n">uri</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;This ontology interface contains </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">())</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> prefixes:</span><span class="se">\n</span><span class="si">{</span><span class="n">prefix_map_text</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_uri_fallback</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">uri</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 
 

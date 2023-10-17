@@ -116,9 +116,12 @@ Name: summary-statistics
 | [Double](Double.md) | A real number that conforms to the xsd:double specification |
 | [Float](Float.md) | A real number that conforms to the xsd:float specification |
 | [Integer](Integer.md) | An integer |
+| [Jsonpath](Jsonpath.md) | A string encoding a JSON Path |
+| [Jsonpointer](Jsonpointer.md) | A string encoding a JSON Pointer |
 | [Ncname](Ncname.md) | Prefix part of CURIE |
 | [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
 | [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [Sparqlpath](Sparqlpath.md) | A string encoding a SPARQL Property Path |
 | [String](String.md) | A character string |
 | [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
 | [Uri](Uri.md) | a complete URI |
