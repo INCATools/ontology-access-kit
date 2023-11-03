@@ -189,6 +189,11 @@ Default Implementation
 Currently the default implementation in OAK is in pure python, and may be slow for
 large ontologies or association databases.
 
+Ubergraph
+^^^^^^^^^
+
+Ubergraph has ICs pre-computed, using multiple ontologies as a corpus.
+
 Semsimian
 ^^^^^^^^^
 
