@@ -155,6 +155,31 @@ Note that in the above, the IC scores are calculated using only the ontology as 
 You can pass in a pre-generated IC table (e.g. if you computed this using a particular association database)
 using the ``--information-content-file`` option.
 
+Vector-based approaches
+^^^^^^^^^^^^^^^^^^^^^^
+
+The methods above are formulated in terms of *sets* of ontology terms.
+
+A term can also be conceived of as a *vector*. The simplest representation is a one-hot vector for each term,
+with a bit set for every ancestor of that term. Entities can also be conceived of as vectors of their profile
+and all ancestors of that profile.
+
+With a vector representation, vector-based methods such as cosine similarity can be used, including
+cosine-similarity. These are typically faster to compute, and libraries such as numpy can be used to
+efficiently compute all-by-all similarities.
+
+Typically one-hot encodings are long, if the ontology is large (one element per term). More recent
+methods make use of *reduced dimensionality vectors*. These might be computed from the graph
+(either pure ontology graph, or the KG formed by combining associations and ontology graph), or from
+textual descriptions of the terms using text embedding models.
+
+Currently OAK does not support these reduced dimensionality vectors, for now you can use libraries
+such as
+
+- `GRAPE <https://github.com/AnacletoLAB/grape>`_ for KG embedding and ML
+- `CurateGPT <https://github.com/monarch-initiative/curate-gpt>`_ for operations using text embeddings
+  over ontologies.
+
 Implementations
 ---------------
 
@@ -185,6 +210,7 @@ Data Model
 ~~~~~~~~~~
 
 See the `Similarity data model <https://w3id.org/oak/similarity/>`_ for details of the data model.
+
 
 Further reading
 ---------------
