@@ -88,7 +88,7 @@ class AssociationIndex:
             q = q.filter(TermAssociation.predicate.in_(tuple(predicates)))
         if objects:
             q = q.filter(TermAssociation.object.in_(tuple(objects)))
-        logging.info(f"Association query: {q}")
+        logging.info(f"Association index lookup: {q}")
         for row in q:
             tup = (row.subject, row.predicate, row.object)
             yield from self._associations_by_spo[tup]

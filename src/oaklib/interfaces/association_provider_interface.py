@@ -211,7 +211,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                     association.subject_label = label_map[association.subject]
             yield from associations
 
-    def associations_subjects(self, **kwargs) -> Iterator[CURIE]:
+    def associations_subjects(self, *args, **kwargs) -> Iterator[CURIE]:
         """
         Yields all distinct subjects.
 
@@ -231,7 +231,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         """
         # individual implementations should override this to be more efficient
         yielded = set()
-        for a in self.associations(**kwargs):
+        for a in self.associations(*args, **kwargs):
             s = a.subject
             if s in yielded:
                 continue

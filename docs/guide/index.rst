@@ -21,5 +21,6 @@ For a quick introduction, see the :ref:`tutorial`
    obsoletion
    relationships-and-graphs
    associations
+   similarity
    learning-more
 

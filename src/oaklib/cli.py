@@ -111,6 +111,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
+from oaklib.interfaces.ontology_generator_interface import OntologyGenerationInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -183,6 +184,7 @@ from oaklib.utilities.obograph_utils import (
     shortest_paths,
     trim_graph,
 )
+from oaklib.utilities.semsim.similarity_utils import load_information_content_map
 from oaklib.utilities.subsets.slimmer_utils import (
     filter_redundant,
     roll_up_to_named_subset,
@@ -2690,6 +2692,10 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     show_default=True,
     help="Score used for summarization",
 )
+@click.option(
+    "--information-content-file",
+    help="File containing information content for each term",
+)
 @autolabel_option
 @output_type_option
 @click.argument("terms", nargs=-1)
@@ -2702,6 +2708,7 @@ def similarity(
     min_jaccard_similarity: Optional[float],
     min_ancestor_information_content: Optional[float],
     main_score_field,
+    information_content_file,
     output_type,
     output,
 ):
@@ -2765,46 +2772,47 @@ def similarity(
     logging.info(f"file={writer.file} {type(writer.output)}")
     if main_score_field and isinstance(writer, HeatmapWriter):
         writer.value_field = main_score_field
-    if isinstance(impl, SemanticSimilarityInterface):
-        set1it = None
-        set2it = None
-        if not (set1_file or set2_file):
-            terms = list(terms)
-            ix = terms.index("@")
-            logging.info(f"Splitting terms {terms} on {ix}")
-            set1it = query_terms_iterator(terms[0:ix], impl)
-            set2it = query_terms_iterator(terms[ix + 1 :], impl)
-        else:
-            if set1_file:
-                logging.info(f"Getting set1 from {set1_file}")
-                with open(set1_file) as file:
-                    set1it = list(curies_from_file(file))
-            else:
-                set1it = query_terms_iterator(terms, impl)
-            if set2_file:
-                logging.info(f"Getting set2 from {set2_file}")
-                with open(set2_file) as file:
-                    set2it = list(curies_from_file(file))
-            else:
-                set2it = query_terms_iterator(terms, impl)
-        actual_predicates = _process_predicates_arg(predicates)
-        for sim in impl.all_by_all_pairwise_similarity(
-            set1it,
-            set2it,
-            predicates=actual_predicates,
-            min_jaccard_similarity=min_jaccard_similarity,
-            min_ancestor_information_content=min_ancestor_information_content,
-        ):
-            if autolabel:
-                # TODO: this can be made more efficient
-                sim.subject_label = impl.label(sim.subject_id)
-                sim.object_label = impl.label(sim.object_id)
-                sim.ancestor_label = impl.label(sim.ancestor_id)
-            writer.emit(sim)
-        writer.finish()
-        writer.file.close()
-    else:
+    if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if information_content_file:
+        impl.cached_information_content_map = load_information_content_map(information_content_file)
+    set1it = None
+    set2it = None
+    if not (set1_file or set2_file):
+        terms = list(terms)
+        ix = terms.index("@")
+        logging.info(f"Splitting terms {terms} on {ix}")
+        set1it = query_terms_iterator(terms[0:ix], impl)
+        set2it = query_terms_iterator(terms[ix + 1 :], impl)
+    else:
+        if set1_file:
+            logging.info(f"Getting set1 from {set1_file}")
+            with open(set1_file) as file:
+                set1it = list(curies_from_file(file))
+        else:
+            set1it = query_terms_iterator(terms, impl)
+        if set2_file:
+            logging.info(f"Getting set2 from {set2_file}")
+            with open(set2_file) as file:
+                set2it = list(curies_from_file(file))
+        else:
+            set2it = query_terms_iterator(terms, impl)
+    actual_predicates = _process_predicates_arg(predicates)
+    for sim in impl.all_by_all_pairwise_similarity(
+        set1it,
+        set2it,
+        predicates=actual_predicates,
+        min_jaccard_similarity=min_jaccard_similarity,
+        min_ancestor_information_content=min_ancestor_information_content,
+    ):
+        if autolabel:
+            # TODO: this can be made more efficient
+            sim.subject_label = impl.label(sim.subject_id)
+            sim.object_label = impl.label(sim.object_id)
+            sim.ancestor_label = impl.label(sim.ancestor_id)
+        writer.emit(sim)
+    writer.finish()
+    writer.file.close()
 
 
 @main.command()
@@ -2812,12 +2820,17 @@ def similarity(
 @output_option
 @output_type_option
 @autolabel_option
+@click.option(
+    "--information-content-file",
+    help="File containing information content for each term",
+)
 @click.argument("terms", nargs=-1)
 def termset_similarity(
     terms,
     predicates,
     autolabel,
     output_type,
+    information_content_file,
     output: TextIO,
 ):
     """
@@ -2842,6 +2855,8 @@ def termset_similarity(
     writer.output = output
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if information_content_file:
+        impl.cached_information_content_map = load_information_content_map(information_content_file)
     terms = list(terms)
     ix = terms.index("@")
     set1 = list(query_terms_iterator(terms[0:ix], impl))
@@ -2853,6 +2868,66 @@ def termset_similarity(
         set1, set2, predicates=actual_predicates, labels=autolabel
     )
     writer.emit(sim)
+    writer.finish()
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@output_option
+@output_type_option
+@predicates_option
+@click.option(
+    "--use-associations/--no-use-associations",
+    default=False,
+    show_default=True,
+    help="Use associations to calculate IC",
+)
+def information_content(
+    terms,
+    predicates,
+    output: TextIO,
+    output_type: str,
+    use_associations: bool,
+):
+    """
+    Show information content for term or list of terms
+
+    Example:
+
+        runoak -i cl.db information-content -p i .all
+
+    Like all OAK commands that operate over graphs, the graph traversal is controlled
+    by the `--predicates` option. In the above case, the frequency of each term is equal to
+    the number of reflexive is-a descendants of the term divided by total number of terms
+
+    By default, the ontology is used as the corpus for computing term frequency.
+
+    You can use an association file as the corpus:
+
+        runoak -g hpoa.tsv -G hpoa -i hp.db information-content -p i --use-associations .all
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.file = output
+    if not isinstance(impl, SemanticSimilarityInterface):
+        raise NotImplementedError(f"Cannot execute this with {type(impl)}")
+    if len(terms) == 0:
+        raise ValueError("You must specify a list of terms. Use '.all' for all terms")
+    actual_predicates = _process_predicates_arg(predicates)
+    n = 0
+    logging.info("Fetching ICs...")
+    for curie_it in chunk(query_terms_iterator(terms, impl)):
+        logging.info("** Next chunk:")
+        n += 1
+        for curie, ic in impl.information_content_scores(
+            curie_it,
+            object_closure_predicates=actual_predicates,
+            use_associations=use_associations,
+        ):
+            obj = dict(id=curie, information_content=ic)
+            writer.emit(obj)
+    if n == 0:
+        raise ValueError(f"No results for input: {terms}")
     writer.finish()
 
 
@@ -6074,6 +6149,80 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
                 )
                 change_list.append(change)
                 writer.emit(change)
+    writer.finish()
+    if apply_patch and len(change_list) > 0:
+        if output:
+            impl.resource.slug = output
+        _apply_changes(impl, change_list)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--style-hints",
+    help="Description of style for definitions",
+)
+@click.option(
+    "--apply-patch/--no-apply-patch",
+    default=False,
+    show_default=True,
+    help="Apply KGCL syntax.",
+)
+@click.option(
+    "--patch",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="Path to where patch file will be written.",
+)
+@click.option(
+    "--patch-format",
+    help="Output syntax for patches.",
+)
+@output_option
+@output_type_option
+def generate_definitions(terms, apply_patch, patch, patch_format, output, output_type, **kwargs):
+    """
+    Generate definitions for a term or terms.
+
+    Currently this only works with the llm extension.
+
+    Example:
+
+        runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258
+
+    The --style-hints option can be used to provide hints to the definition generator.
+
+    Example:
+
+        runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258 \
+          --style-hints "Write the definition in the style of a pretentious food critic"
+
+    Generates:
+
+        "The pancake, a humble delight in the realm of breakfast fare,
+        presents itself as a delectable disc of gastronomic delight..."
+
+    """
+    impl = settings.impl
+    if apply_patch:
+        writer = _get_writer(patch_format, impl, StreamingKGCLWriter, kgcl)
+        writer.output = patch
+    else:
+        writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
+        writer.output = output
+    if not isinstance(impl, OntologyGenerationInterface):
+        raise NotImplementedError
+    all_terms = query_terms_iterator(terms, impl)
+    curie_defns = impl.generate_definitions(list(all_terms), **kwargs)
+    change_list = []
+    for curie, defn in curie_defns:
+        change = kgcl.NewTextDefinition(
+            id="kgcl_change_id_" + str(curie),
+            about_node=curie,
+            new_value=defn.val,
+        )
+        change_list.append(change)
+        writer.emit(change)
     writer.finish()
     if apply_patch and len(change_list) > 0:
         if output:

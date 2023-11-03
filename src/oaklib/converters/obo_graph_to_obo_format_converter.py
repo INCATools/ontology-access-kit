@@ -99,7 +99,9 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         if target is None:
             target = OboDocument()
         for g in source.graphs:
+            logging.info(f"Converting graph {g.id}, nodes: {len(g.nodes)}, edges: {len(g.edges)}")
             self._convert_graph(g, target=target)
+        logging.info(f"Converted {len(target.stanzas)} stanzas")
         return target
 
     def _id(self, uri_or_curie: CURIE) -> CURIE:

@@ -1593,11 +1593,6 @@ class ComplianceTester:
         test.assertEqual(1, count_map[NUCLEAR_MEMBRANE])
         test.assertEqual(2, count_map[NUCLEUS])
         test.assertEqual(2, count_map[IMBO])
-        if isinstance(oi, SemanticSimilarityInterface):
-            try:
-                self.test_information_content_scores(oi, use_associations=True)
-            except NotImplementedError:
-                logging.info(f"Not yet implemented for {type(oi)}")
 
     def test_class_enrichment(self, oi: ClassEnrichmentCalculationInterface):
         """
@@ -1738,12 +1733,43 @@ class ComplianceTester:
             (NUCLEUS, IMBO),
             (IMBO, CELLULAR_COMPONENT),
         ]
+        if use_associations:
+            if not isinstance(oi, AssociationProviderInterface):
+                raise ValueError("Semantic similarity interface does not support associations")
+            assoc_pairs = [
+                (GENE1, VACUOLE),
+                (GENE2, NUCLEAR_ENVELOPE),
+                (GENE3, NUCLEAR_ENVELOPE),
+            ]
+            oi.add_associations(
+                Association(subject=subject, object=object) for subject, object in assoc_pairs
+            )
         m = {}
         for curie, score in oi.information_content_scores(
             terms, object_closure_predicates=[IS_A, PART_OF], use_associations=use_associations
         ):
             m[curie] = score
-        # universal root node always has zero information
+        test.assertGreater(len(m), 0)
+        if use_associations:
+            test.assertCountEqual(
+                [
+                    OWL_THING,
+                    VACUOLE,
+                    IMBO,
+                    NUCLEAR_ENVELOPE,
+                    NUCLEUS,
+                    CELLULAR_COMPONENT,
+                    PHOTORECEPTOR_OUTER_SEGMENT,
+                ],
+                m.keys(),
+            )
+            test.assertEqual(m[CELLULAR_COMPONENT], 0.0, "all genes are under cell component")
+            test.assertEqual(m[PHOTORECEPTOR_OUTER_SEGMENT], 0.0, "not in graph")
+            test.assertGreater(m[VACUOLE], 1.0)
+            test.assertLess(m[NUCLEAR_ENVELOPE], 1.0)
+        # universal root node always has zero information content
+        for k, v in m.items():
+            print(f"{k} IC= {v}")
         test.assertEqual(m[OWL_THING], 0.0)
         for child, parent in posets:
             if use_associations:

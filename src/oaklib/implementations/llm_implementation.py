@@ -2,11 +2,14 @@
 import json
 import logging
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Iterator, List
+from typing import TYPE_CHECKING, Iterator, List, Tuple
 
+from oaklib.datamodels.obograph import DefinitionPropertyValue
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
-from oaklib.interfaces import TextAnnotatorInterface
+from oaklib.interfaces import OboGraphInterface, TextAnnotatorInterface
+from oaklib.interfaces.ontology_generator_interface import OntologyGenerationInterface
 from oaklib.interfaces.text_annotator_interface import TEXT
+from oaklib.types import CURIE
 
 if TYPE_CHECKING:
     import llm
@@ -17,10 +20,10 @@ __all__ = [
 
 
 @dataclass
-class LLMImplementation(TextAnnotatorInterface):
+class LLMImplementation(TextAnnotatorInterface, OntologyGenerationInterface):
     """Perform named entity normalization on LLM."""
 
-    grounder: TextAnnotatorInterface = None
+    wrapped_adapter: TextAnnotatorInterface = None
     """A wrapped annotator used to ground NEs.
     """
 
@@ -46,9 +49,13 @@ class LLMImplementation(TextAnnotatorInterface):
             logging.info(f"LLM implementation will use grounder: {slug}")
             from oaklib import get_adapter
 
-            self.grounder = get_adapter(slug)
+            self.wrapped_adapter = get_adapter(slug)
         if self.model_id is not None:
             self.model = llm.get_model(self.model_id)
+
+    def entities(self, **kwargs) -> Iterator[CURIE]:
+        """Return all entities in the ontology."""
+        yield from self.wrapped_adapter.entities(**kwargs)
 
     def annotate_text(
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
@@ -60,9 +67,21 @@ class LLMImplementation(TextAnnotatorInterface):
                 raise NotImplementedError("LLM does not support whole-text matching")
             else:
                 logging.info("Delegating directly to grounder, bypassing LLM")
-                yield from self.grounder.annotate_text(text, configuration)
+                yield from self.wrapped_adapter.annotate_text(text, configuration)
         else:
             yield from self._llm_annotate(text, configuration)
+
+    def get_model(self):
+        model = self.model
+        if not self.model:
+            # model_id = self.configuration.model or self.model_id
+            model_id = self.model_id
+            if not model_id:
+                model_id = self.default_model_id
+            import llm
+
+            model = llm.get_model(model_id)
+        return model
 
     def _llm_annotate(
         self,
@@ -89,13 +108,15 @@ class LLMImplementation(TextAnnotatorInterface):
             term = term_obj["term"]
             category = term_obj["category"]
             ann = TextAnnotation(subject_label=term, object_categories=[category])
-            matches = list(self.grounder.annotate_text(term, grounder_configuration))
+            matches = list(self.wrapped_adapter.annotate_text(term, grounder_configuration))
             if not matches:
                 aliases = self._suggest_aliases(
                     term, model, configuration.categories, configuration
                 )
                 for alias in aliases:
-                    matches = list(self.grounder.annotate_text(alias, grounder_configuration))
+                    matches = list(
+                        self.wrapped_adapter.annotate_text(alias, grounder_configuration)
+                    )
                     if matches:
                         break
                 logging.info(f"Aliases={aliases}; matches={matches}")
@@ -157,3 +178,22 @@ class LLMImplementation(TextAnnotatorInterface):
         response = model.prompt(term, system=prompt).text()
         logging.info(f"LLM aliases[{term}] => {response}")
         return [x.strip() for x in response.split(";")]
+
+    def generate_definitions(
+        self, curies: List[CURIE], style_hints="", **kwargs
+    ) -> Iterator[Tuple[CURIE, DefinitionPropertyValue]]:
+        """Suggest definitions for the given curies."""
+        wrapped_adapter = self.wrapped_adapter
+        model = self.get_model()
+        if not isinstance(wrapped_adapter, OboGraphInterface):
+            raise NotImplementedError("LLM can only suggest definitions for OBO graphs")
+        if style_hints is None:
+            style_hints = ""
+        for curie in curies:
+            node = wrapped_adapter.node(curie)
+            info = f"id: {curie}\n"
+            info += f"label: {node.lbl}\n"
+            system_prompt = "Provide a textual definition for the given term."
+            system_prompt += style_hints
+            response = model.prompt(info, system=system_prompt).text()
+            yield curie, DefinitionPropertyValue(val=response)

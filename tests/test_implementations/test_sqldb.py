@@ -877,6 +877,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_information_content_scores(self):
         self.compliance_tester.test_information_content_scores(self.oi, False)
+        self.compliance_tester.test_information_content_scores(self.oi, True)
 
     def test_common_ancestors(self):
         self.compliance_tester.test_common_ancestors(self.oi)
