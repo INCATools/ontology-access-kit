@@ -3,7 +3,7 @@ import math
 import statistics
 from abc import ABC
 from collections import defaultdict
-from typing import Iterable, Iterator, List, Optional, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 import networkx as nx
 
@@ -26,6 +26,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     An interface for calculating similarity measures between pairs of terms or
     collections of terms
     """
+
+    cached_information_content_map: Dict[CURIE, float] = None
+    """Mapping from term to information content"""
 
     def most_recent_common_ancestors(
         self,
@@ -194,6 +197,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         object_closure_predicates: List[PRED_CURIE] = None,
         use_associations: bool = None,
+        term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
         """
         Yields entity-score pairs for a given collection of entities.
@@ -208,12 +213,44 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
             Pr(t) = freq(t)/|items|
 
         :param curies:
+        :param predicates:
         :param object_closure_predicates:
+        :param use_associations:
+        :param term_to_entities_map:
+        :param kwargs:
         :return:
         """
         curies = list(curies)
+        if self.cached_information_content_map is not None:
+            for curie in curies:
+                if curie in self.cached_information_content_map:
+                    yield curie, self.cached_information_content_map[curie]
+            return
         if use_associations:
-            raise NotImplementedError
+            from oaklib.interfaces.association_provider_interface import (
+                AssociationProviderInterface,
+            )
+
+            if not isinstance(self, AssociationProviderInterface):
+                raise ValueError(
+                    f"unable to retrieve associations from this interface, type {type(self)}"
+                )
+            all_entities = set()
+            for a in self.associations():
+                all_entities.add(a.subject)
+            num_entities = len(all_entities)
+            logging.info(f"num_entities={num_entities}")
+            for curie in curies:
+                entities = list(
+                    self.associations_subjects(
+                        objects=[curie],
+                        predicates=predicates,
+                        object_closure_predicates=object_closure_predicates,
+                    )
+                )
+                if entities:
+                    yield curie, -math.log(len(entities) / num_entities)
+            return
         all_entities = list(self.entities())
         num_entities = len(all_entities)
         if not isinstance(self, OboGraphInterface):
