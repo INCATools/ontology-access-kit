@@ -85,10 +85,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-expand-subsets">expand-subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract">extract</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-fill-table">fill-table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-generate-definitions">generate-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-generate-disjoints">generate-disjoints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-generate-logical-definitions">generate-logical-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-generate-synonyms">generate-synonyms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-information-content">information-content</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-labels">labels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-languages">languages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-leafs">leafs</a></li>
@@ -2264,6 +2266,77 @@ for now please file an issue on github with any questions</p>
 </dd></dl>
 
 </section>
+<section id="runoak-generate-definitions">
+<h4>generate-definitions<a class="headerlink" href="#runoak-generate-definitions" title="Link to this heading"></a></h4>
+<p>Generate definitions for a term or terms.</p>
+<p>Currently this only works with the llm extension.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258</p>
+</div></blockquote>
+<p>The –style-hints option can be used to provide hints to the definition generator.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258           –style-hints “Write the definition in the style of a pretentious food critic”</p>
+</div></blockquote>
+<p>Generates:</p>
+<blockquote>
+<div><p>“The pancake, a humble delight in the realm of breakfast fare,
+presents itself as a delectable disc of gastronomic delight…”</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>generate-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-definitions-style-hints">
+<span class="sig-name descname"><span class="pre">--style-hints</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;style_hints&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-definitions-style-hints" title="Link to this definition"></a></dt>
+<dd><p>Description of style for definitions</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-definitions-apply-patch">
+<span id="cmdoption-runoak-generate-definitions-no-apply-patch"></span><span class="sig-name descname"><span class="pre">--apply-patch</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-apply-patch</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-definitions-apply-patch" title="Link to this definition"></a></dt>
+<dd><p>Apply KGCL syntax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-definitions-patch">
+<span class="sig-name descname"><span class="pre">--patch</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;patch&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-definitions-patch" title="Link to this definition"></a></dt>
+<dd><p>Path to where patch file will be written.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-definitions-patch-format">
+<span class="sig-name descname"><span class="pre">--patch-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;patch_format&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-definitions-patch-format" title="Link to this definition"></a></dt>
+<dd><p>Output syntax for patches.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-definitions-o">
+<span id="cmdoption-runoak-generate-definitions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-definitions-o" title="Link to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-definitions-O">
+<span id="cmdoption-runoak-generate-definitions-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-generate-definitions-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-generate-definitions-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-generate-definitions-arg-TERMS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-generate-disjoints">
 <h4>generate-disjoints<a class="headerlink" href="#runoak-generate-disjoints" title="Link to this heading"></a></h4>
 <p>Generate candidate disjointness axioms.</p>
@@ -2572,6 +2645,62 @@ as queries that can be combined using boolean logic</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-info-arg-TERMS">
 <span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-info-arg-TERMS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-information-content">
+<h4>information-content<a class="headerlink" href="#runoak-information-content" title="Link to this heading"></a></h4>
+<p>Show information content for term or list of terms</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i cl.db information-content -p i .all</p>
+</div></blockquote>
+<p>Like all OAK commands that operate over graphs, the graph traversal is controlled
+by the <cite>–predicates</cite> option. In the above case, the frequency of each term is equal to
+the number of reflexive is-a descendants of the term divided by total number of terms</p>
+<p>By default, the ontology is used as the corpus for computing term frequency.</p>
+<p>You can use an association file as the corpus:</p>
+<blockquote>
+<div><p>runoak -g hpoa.tsv -G hpoa -i hp.db information-content -p i –use-associations .all</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>information-content<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-information-content-o">
+<span id="cmdoption-runoak-information-content-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-information-content-o" title="Link to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-information-content-O">
+<span id="cmdoption-runoak-information-content-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-information-content-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-information-content-p">
+<span id="cmdoption-runoak-information-content-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-information-content-p" title="Link to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates. This may be a shorthand (i, p) or CURIE</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-information-content-use-associations">
+<span id="cmdoption-runoak-information-content-no-use-associations"></span><span class="sig-name descname"><span class="pre">--use-associations</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-use-associations</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-information-content-use-associations" title="Link to this definition"></a></dt>
+<dd><p>Use associations to calculate IC</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-information-content-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-information-content-arg-TERMS" title="Link to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
@@ -4215,6 +4344,12 @@ vs all terms in CL:</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-information-content-file">
+<span class="sig-name descname"><span class="pre">--information-content-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;information_content_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-information-content-file" title="Link to this definition"></a></dt>
+<dd><p>File containing information content for each term</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-similarity-autolabel">
 <span id="cmdoption-runoak-similarity-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-autolabel" title="Link to this definition"></a></dt>
 <dd><p>If set, results will automatically have labels assigned</p>
@@ -4901,6 +5036,12 @@ when there is typically one value (e.g. rdfs:label)</p>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-termset-similarity-information-content-file">
+<span class="sig-name descname"><span class="pre">--information-content-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;information_content_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-information-content-file" title="Link to this definition"></a></dt>
+<dd><p>File containing information content for each term</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>

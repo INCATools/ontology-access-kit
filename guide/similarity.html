@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computing Similarity between Entities &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Learning More" href="learning-more.html" />
+    <link rel="prev" title="Associations and Curated Annotations" href="associations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The OAK Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">OAK Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relationships-and-graphs.html">Relationships and Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="associations.html">Associations and Curated Annotations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Computing Similarity between Entities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jaccard-similarity">Jaccard Similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#information-content">Information Content</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aggregate-measures-for-comparing-entities">Aggregate measures for comparing entities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vector-based-approaches">Vector-based approaches</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#implementations">Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#default-implementation">Default Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ubergraph">Ubergraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#semsimian">Semsimian</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further reading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="learning-more.html">Learning More</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">The OAK Guide</a></li>
+      <li class="breadcrumb-item active">Computing Similarity between Entities</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/similarity.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="computing-similarity-between-entities">
+<span id="similarity"></span><h1>Computing Similarity between Entities<a class="headerlink" href="#computing-similarity-between-entities" title="Link to this heading"></a></h1>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>A common use case for ontologies is to compute <span class="xref std std-term">Similarity</span> between <span class="xref std std-term">Entities</span>,
+or between <a class="reference internal" href="../glossary.html#term-Term"><span class="xref std std-term">Terms</span></a>, based on properties of the ontology. For example,
+when comparing two terms, we may want to score terms that are closer together in the ontology
+<a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> as more similar. Other measures of similarity may be on frequency of usage of terms,
+or on vector <span class="xref std std-term">Embeddings</span> of terms.</p>
+<p>If <span class="xref std std-term">Entities</span> are annotated/associated with terms, we can also compute similarity
+between these based on the aggregate set of terms they are annotated with. The canonical use
+case for OAK here is <span class="xref std std-term">Gene</span> associations (e.g. to phenotypes, GO terms, anatomy or cell
+types for expression, etc), although any entities can be compared if ontology associations exist
+(e.g. comparing two people basic on shared music genres or favorite foods).</p>
+<p>OAK provides various methods for computing similarity of terms and entities. These are currently
+focused on “classic” semantic similarity measures, such as Jaccard similarity and information-content
+based measures, but this may be extended in the future to support newer embedding-based methods.</p>
+<p>Like all aspects of OAK, there is a separation between <a class="reference internal" href="../glossary.html#term-Interface"><span class="xref std std-term">Interface</span></a> and <a class="reference internal" href="../glossary.html#term-Implementation"><span class="xref std std-term">Implementation</span></a>.
+The <a class="reference internal" href="../packages/interfaces/semantic-similarity.html#semantic-similarity-interface"><span class="std std-ref">semantic similarity interface</span></a> defines the API for computing similarity
+and related metrics. In theory there can be many implementations of this interface, in practice there
+is a default implementation and the semsimian implementation. See later in this document on for details.</p>
+</section>
+<section id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Link to this heading"></a></h2>
+<section id="jaccard-similarity">
+<h3>Jaccard Similarity<a class="headerlink" href="#jaccard-similarity" title="Link to this heading"></a></h3>
+<p>Jaccard similarity (<a class="reference external" href="https://en.wikipedia.org/wiki/Jaccard_index">Wikipedia</a>) is a measure of similarity
+between two sets:</p>
+<div class="math notranslate nohighlight">
+\[J(A,B) = \frac{|A \cap B|}{|A \cup B|}\]</div>
+<p>where <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are sets.</p>
+<p>When applied to pairs of ontology terms, the sets are typically the <a class="reference internal" href="../glossary.html#term-Reflexive"><span class="xref std std-term">Reflexive</span></a> <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestors</span></a>
+of the terms of interest. Like all OAK graph operations, the choice of <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a> used is
+important.</p>
+<ul class="simple">
+<li><p>Phenotype ontologies typically compute this using <span class="xref std std-term">SubClassOf</span> links only</p></li>
+<li><p>Ontologies such as GO, Uberon, and ENVO typically use <span class="xref std std-term">SubClassOf</span> and <span class="xref std std-term">PartOf</span> links</p></li>
+</ul>
+</section>
+<section id="information-content">
+<h3>Information Content<a class="headerlink" href="#information-content" title="Link to this heading"></a></h3>
+<p>Information Content (IC) is a measure of the specificity of a term. It is typically computed as the log of
+the inverse of the frequency of the term in a corpus:</p>
+<div class="math notranslate nohighlight">
+\[IC(t) = -log(P(t))\]</div>
+<p>where <span class="math notranslate nohighlight">\(P(t)\)</span> is the probability of the term in the corpus. There are two ways to compute this:</p>
+<ul class="simple">
+<li><p>Using the ontology as the corpus</p></li>
+<li><p>Using <a class="reference internal" href="../glossary.html#term-Association"><span class="xref std std-term">Associations</span></a> between entities and terms as the corpus</p></li>
+</ul>
+<p>In both cases the ontology graph is used.</p>
+<p>When the ontology is used as the corpus, the probability of a term is computed as the number of
+descendants of a term (reflexive) divided by the total number of terms in the ontology:</p>
+<div class="math notranslate nohighlight">
+\[P(t) = \frac{|Desc*(t)|}{|T|}\]</div>
+<p>When associations are used, the probability of a term is computed as the number of entities
+associated with a term (directly or indirectly) divided by the total number of entities:</p>
+<div class="math notranslate nohighlight">
+\[P(t) = \frac{|E(t)|}{|E|}\]</div>
+<p>where <span class="math notranslate nohighlight">\(E(t)\)</span> is the set of entities associated with <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(E\)</span> is the set of all entities.</p>
+<p>To build a table of IC for all terms in HPO, using the ontology as the corpus:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>information-content<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>i^HP:
+</pre></div>
+</div>
+<p>To include associations, use the <code class="docutils literal notranslate"><span class="pre">--use-associations</span></code> flag, in addition to
+specifying the associations themselves:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w">  </span>-g<span class="w"> </span>phenotype.hpoa<span class="w"> </span>-G<span class="w"> </span>hpoa<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>information-content<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>--use-associations<span class="w"> </span>i^HP:
+</pre></div>
+</div>
+<p>IC can be used to score the <span class="xref std std-term">Most Recent Common Ancestor</span> (MRCAs) of two terms; also known
+as Resnik similarity.</p>
+</section>
+<section id="aggregate-measures-for-comparing-entities">
+<h3>Aggregate measures for comparing entities<a class="headerlink" href="#aggregate-measures-for-comparing-entities" title="Link to this heading"></a></h3>
+<p>Computing similarity between terms (classes) is relatively easy. But in general users want to compare
+<em>entities</em> such as genes. Here we broadly have two approaches:</p>
+<ul class="simple">
+<li><p>Knowledge Graph (KG): treat the entities as nodes in the graph and use the standard ontology methods above</p></li>
+<li><p>Aggregate Statistics</p></li>
+</ul>
+<p>With the KG approach the entities typically become leaf nodes in the graph, and we compare using standard
+graph methods where both association predicates (e.g. has-phenotype) and ontology predicates (e.g. is-a and part-of)
+are used.</p>
+<p>The more common approach is to use aggregate statistics, which better accounts for incomplete annotation and
+annotation bias. Here we have two entities to compare e1 and e2, where each entity is the subject
+of association edges pointing to terms (sometimes called a <em>profile</em>). The goal is to compare the profiles
+using aggregate statistics. The aggregate statistics can be performed over any individual pairwise term
+statistics.</p>
+<p>The simplest approach is to take the maximum pairwise similarity between terms in the two profiles;
+for the IC of the MRCA this would be:</p>
+<div class="math notranslate nohighlight">
+\[max_{t1 \in e1, t2 \in e2} IC(MRCA(t1,t2))\]</div>
+<p>However, this doesn’t take into account all the other associations for each entity.</p>
+<p>A more common aggregate statistic is Best Match Average (BMA), which is the average of the maximum
+pairwise similarity between each term in the first profile and the second profile:</p>
+<div class="math notranslate nohighlight">
+\[BMA(e1,e2) = \frac{1}{|e1|} \sum_{t1 \in e1} max_{t2 \in e2} IC(MRCA(t1,t2))\]</div>
+<p>Currently this is the default used in OAK.</p>
+<p>To compare two profiles in OAK you can use the <code class="docutils literal notranslate"><span class="pre">termset-similarity</span></code> command, passing in each
+profile, separated by <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:mp<span class="w"> </span>termset-similarity<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>MP:0010771<span class="w"> </span>MP:0002169<span class="w"> </span>MP:0005391<span class="w"> </span>MP:0005389<span class="w"> </span>MP:0005367<span class="w"> </span>@<span class="se">\</span>
+<span class="w">   </span>MP:0010771<span class="w"> </span>MP:0002169<span class="w"> </span>MP:0005391<span class="w"> </span>MP:0005389<span class="w"> </span>MP:0005367
+</pre></div>
+</div>
+<p>(note that like all OAK commands, any expression can be substituted as arguments, e.g. <code class="docutils literal notranslate"><span class="pre">.idfile</span></code> to
+load the IDs from a file)</p>
+<p>The result conforms to <a class="reference external" href="https://w3id.org/linkml/similarity/TermSetPairwiseSimilarity">TermSetPairwiseSimilarity</a></p>
+<p>This assumes that you have already done the lookup using an association table.</p>
+<p>Note that in the above, the IC scores are calculated using only the ontology as corpus.
+You can pass in a pre-generated IC table (e.g. if you computed this using a particular association database)
+using the <code class="docutils literal notranslate"><span class="pre">--information-content-file</span></code> option.</p>
+</section>
+<section id="vector-based-approaches">
+<h3>Vector-based approaches<a class="headerlink" href="#vector-based-approaches" title="Link to this heading"></a></h3>
+<p>The methods above are formulated in terms of <em>sets</em> of ontology terms.</p>
+<p>A term can also be conceived of as a <em>vector</em>. The simplest representation is a one-hot vector for each term,
+with a bit set for every ancestor of that term. Entities can also be conceived of as vectors of their profile
+and all ancestors of that profile.</p>
+<p>With a vector representation, vector-based methods such as cosine similarity can be used, including
+cosine-similarity. These are typically faster to compute, and libraries such as numpy can be used to
+efficiently compute all-by-all similarities.</p>
+<p>Typically one-hot encodings are long, if the ontology is large (one element per term). More recent
+methods make use of <em>reduced dimensionality vectors</em>. These might be computed from the graph
+(either pure ontology graph, or the KG formed by combining associations and ontology graph), or from
+textual descriptions of the terms using text embedding models.</p>
+<p>Currently OAK does not support these reduced dimensionality vectors, for now you can use libraries
+such as</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/AnacletoLAB/grape">GRAPE</a> for KG embedding and ML</p></li>
+<li><p><a class="reference external" href="https://github.com/monarch-initiative/curate-gpt">CurateGPT</a> for operations using text embeddings
+over ontologies.</p></li>
+</ul>
+</section>
+</section>
+<section id="implementations">
+<h2>Implementations<a class="headerlink" href="#implementations" title="Link to this heading"></a></h2>
+<section id="default-implementation">
+<h3>Default Implementation<a class="headerlink" href="#default-implementation" title="Link to this heading"></a></h3>
+<p>Currently the default implementation in OAK is in pure python, and may be slow for
+large ontologies or association databases.</p>
+</section>
+<section id="ubergraph">
+<h3>Ubergraph<a class="headerlink" href="#ubergraph" title="Link to this heading"></a></h3>
+<p>Ubergraph has ICs pre-computed, using multiple ontologies as a corpus.</p>
+</section>
+<section id="semsimian">
+<h3>Semsimian<a class="headerlink" href="#semsimian" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/monarch-initiative/semsimian">Semsimian</a> is a Rust implementation of
+semantic similarity. OAK is able to use this as an implementation, <em>wrapping</em> an existing
+implementation.</p>
+<p>To wrap an existing adapter using semsimian, prefix the selector with <code class="docutils literal notranslate"><span class="pre">semsimian:</span></code></p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>semsimian:sqlite:obo:hp<span class="w"> </span>similarity<span class="w"> </span>.all<span class="w"> </span>@<span class="w"> </span>.all<span class="w"> </span>-O<span class="w"> </span>csv
+</pre></div>
+</div>
+<p>Note that semsimian is under active development and performance characteristics may change.</p>
+<section id="data-model">
+<h4>Data Model<a class="headerlink" href="#data-model" title="Link to this heading"></a></h4>
+<p>See the <a class="reference external" href="https://w3id.org/oak/similarity/">Similarity data model</a> for details of the data model.</p>
+</section>
+</section>
+</section>
+<section id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Lord et al, Semantic similarity measures as tools for exploring the gene ontology <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/12603061/">https://pubmed.ncbi.nlm.nih.gov/12603061/</a></p></li>
+<li><p>Koehler et al, Clinical diagnostics in human genetics with semantic similarity searches in ontologies, <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/19800049/">https://pubmed.ncbi.nlm.nih.gov/19800049/</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="associations.html" class="btn btn-neutral float-left" title="Associations and Curated Annotations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="learning-more.html" class="btn btn-neutral float-right" title="Learning More" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
