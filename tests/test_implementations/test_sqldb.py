@@ -19,7 +19,6 @@ from oaklib.datamodels.vocabulary import (
     HAS_PART,
     IS_A,
     LABEL_PREDICATE,
-    OIO_CREATION_DATE,
     PART_OF,
     RDF_TYPE,
 )
@@ -40,7 +39,6 @@ from tests import (
     HUMAN,
     IMBO,
     INPUT_DIR,
-    MEMBRANE,
     NUCLEAR_ENVELOPE,
     NUCLEUS,
     OUTPUT_DIR,
@@ -903,9 +901,4 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.compliance_tester.test_simple_subproperty_of_chains(self.oi)
 
     def test_entities_metadata_statements(self):
-        curies = [MEMBRANE]
-        predicates = [OIO_CREATION_DATE]
-        oi = self.oi
-        result = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
-        self.assertEqual(len(result), 1)
-        self.assertEqual(len(result[0]), 5)
+        self.compliance_tester.test_entities_metadata_statements(self.oi)

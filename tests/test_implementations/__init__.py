@@ -112,6 +112,7 @@ from tests import (
     INTRACELLULAR,
     INTRACELLULAR_ORGANELLE,
     MAMMALIA,
+    MEMBRANE,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
@@ -1880,3 +1881,11 @@ class ComplianceTester:
                 test.assertEqual(object_label, ann.object_label)
                 test.assertEqual(subject_start, ann.subject_start)
                 test.assertEqual(subject_end, ann.subject_end)
+
+    def test_entities_metadata_statements(self):
+        curies = [MEMBRANE]
+        predicates = [OIO_CREATION_DATE]
+        oi = self.oi
+        result = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
+        self.assertEqual(len(result), 1)
+        self.assertEqual(len(result[0]), 5)
