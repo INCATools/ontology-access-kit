@@ -673,16 +673,19 @@ class SqlImplementation(
         return dict(m)
 
     def entities_metadata_statements(
-        self, curies: Iterable[CURIE], predicates: Optional[List[PRED_CURIE]] = None
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_all_triples=False,
     ) -> Iterator[METADATA_STATEMENT]:
         q = self.session.query(Statements)
-        # if not include_all_triples:
-        #     subquery = self.session.query(RdfTypeStatement.subject).filter(
-        #         RdfTypeStatement.object == "owl:AnnotationProperty"
-        #     )
-        #     annotation_properties = {row.subject for row in subquery}
-        #     annotation_properties = annotation_properties.union(STANDARD_ANNOTATION_PROPERTIES)
-        #     q = q.filter(Statements.predicate.in_(tuple(annotation_properties)))
+        if not include_all_triples:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == "owl:AnnotationProperty"
+            )
+            annotation_properties = {row.subject for row in subquery}
+            annotation_properties = annotation_properties.union(STANDARD_ANNOTATION_PROPERTIES)
+            q = q.filter(Statements.predicate.in_(tuple(annotation_properties)))
         q = q.filter(Statements.subject.in_(curies))
         if predicates is not None:
             q = q.filter(Statements.predicate.in_(predicates))
