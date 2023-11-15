@@ -1890,11 +1890,119 @@ class ComplianceTester:
                 [MEMBRANE],
                 [OIO_CREATION_DATE],
                 [("GO:0016020", "oio:creation_date", "2014-03-06T11:37:54Z", "xsd:string", {})],
-            )
+            ),
+            (
+                [MEMBRANE],
+                None,
+                [
+                    (
+                        "GO:0016020",
+                        "IAO:0000115",
+                        "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it.",
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0016020", "oio:creation_date", "2014-03-06T11:37:54Z", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasAlternativeId", "GO:0098589", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasAlternativeId", "GO:0098805", "xsd:string", {}),
+                    (
+                        "GO:0016020",
+                        "oio:hasDbXref",
+                        "Wikipedia:Biological_membrane",
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0016020", "oio:hasNarrowSynonym", "membrane region", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasNarrowSynonym", "region of membrane", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasNarrowSynonym", "whole membrane", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasOBONamespace", "cellular_component", "xsd:string", {}),
+                    ("GO:0016020", "oio:id", "GO:0016020", "xsd:string", {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                    ("GO:0016020", "rdfs:label", "membrane", "xsd:string", {}),
+                ],
+            ),
+            (
+                [MEMBRANE],
+                ["oio:inSubset"],
+                [
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                ],
+            ),
+            (
+                [NUCLEUS],
+                None,
+                [
+                    (
+                        "GO:0005634",
+                        "IAO:0000115",
+                        "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:hasDbXref",
+                        "NIF_Subcellular:sao1702920020",
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0005634", "oio:hasDbXref", "Wikipedia:Cell_nucleus", "xsd:string", {}),
+                    ("GO:0005634", "oio:hasExactSynonym", "cell nucleus", "xsd:string", {}),
+                    ("GO:0005634", "oio:hasNarrowSynonym", "horsetail nucleus", "xsd:string", {}),
+                    ("GO:0005634", "oio:hasOBONamespace", "cellular_component", "xsd:string", {}),
+                    ("GO:0005634", "oio:id", "GO:0005634", "xsd:string", {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_mouse", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_generic", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_drosophila", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_agr", None, {}),
+                    ("GO:0005634", "rdfs:label", "nucleus", "xsd:string", {}),
+                ],
+            ),
+            (
+                [NUCLEUS],
+                ["oio:inSubset"],
+                [
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_mouse", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_generic", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_drosophila", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_agr", None, {}),
+                ],
+            ),
         ]
         for case in cases:
             curies, predicates, expected_result = case
-            result = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
-            test.assertEqual(len(result), len(expected_result))
-            test.assertEqual(len(result[0]), len(expected_result[0]))
-            test.assertEqual(result[0], expected_result[0])
+            results = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
+            test.assertCountEqual(results, expected_result)
+            test.assertCountEqual(results[0], expected_result[0])
+            for idx, result in enumerate(results):
+                test.assertEqual(result, expected_result[idx])
