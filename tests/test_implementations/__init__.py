@@ -1885,11 +1885,16 @@ class ComplianceTester:
     def test_entities_metadata_statements(self, oi: BasicOntologyInterface):
         test = self.test
 
-        cases = [([MEMBRANE], [OIO_CREATION_DATE], [('GO:0016020', 'oio:creation_date', '2014-03-06T11:37:54Z', 'xsd:string', {})])]
+        cases = [
+            (
+                [MEMBRANE],
+                [OIO_CREATION_DATE],
+                [("GO:0016020", "oio:creation_date", "2014-03-06T11:37:54Z", "xsd:string", {})],
+            )
+        ]
         for case in cases:
             curies, predicates, expected_result = case
             result = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
             test.assertEqual(len(result), len(expected_result))
             test.assertEqual(len(result[0]), len(expected_result[0]))
             test.assertEqual(result[0], expected_result[0])
-            
