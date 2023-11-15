@@ -1882,10 +1882,14 @@ class ComplianceTester:
                 test.assertEqual(subject_start, ann.subject_start)
                 test.assertEqual(subject_end, ann.subject_end)
 
-    def test_entities_metadata_statements(self):
-        curies = [MEMBRANE]
-        predicates = [OIO_CREATION_DATE]
-        oi = self.oi
-        result = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
-        self.assertEqual(len(result), 1)
-        self.assertEqual(len(result[0]), 5)
+    def test_entities_metadata_statements(self, oi:BasicOntologyInterface):
+        test = self.test
+
+        cases = [
+            ([MEMBRANE], [OIO_CREATION_DATE])
+        ]
+        for case in cases:
+            curies,predicates = case
+            result = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
+            test.assertEqual(len(result), 1)
+            test.assertEqual(len(result[0]), 5)
