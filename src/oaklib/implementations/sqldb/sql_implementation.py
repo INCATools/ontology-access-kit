@@ -677,6 +677,7 @@ class SqlImplementation(
         curies: Iterable[CURIE],
         predicates: Optional[List[PRED_CURIE]] = None,
         include_nested_metadata=False,
+        **kwargs,
     ) -> Iterator[METADATA_STATEMENT]:
         q = self.session.query(Statements)
         if not include_nested_metadata:
