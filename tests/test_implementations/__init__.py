@@ -1898,7 +1898,7 @@ class ComplianceTester:
                     (
                         "GO:0016020",
                         "IAO:0000115",
-                        "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it.",
+                        "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it.",  # noqa:E501
                         "xsd:string",
                         {},
                     ),
@@ -1949,7 +1949,7 @@ class ComplianceTester:
                     (
                         "GO:0005634",
                         "IAO:0000115",
-                        "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.",
+                        "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.",  # noqa:E501
                         "xsd:string",
                         {},
                     ),
