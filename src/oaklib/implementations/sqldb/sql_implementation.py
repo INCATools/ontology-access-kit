@@ -127,6 +127,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     DEFINITION,
     LANGUAGE_TAG,
     METADATA_MAP,
+    METADATA_STATEMENT,
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP,
@@ -670,6 +671,33 @@ class SqlImplementation(
             m[row.predicate].append(v)
         self.add_missing_property_values(curie, m)
         return dict(m)
+
+    def entities_metadata_statements(
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
+        **kwargs,
+    ) -> Iterator[METADATA_STATEMENT]:
+        q = self.session.query(Statements)
+        if not include_nested_metadata:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == "owl:AnnotationProperty"
+            )
+            annotation_properties = {row.subject for row in subquery}
+            annotation_properties = annotation_properties.union(STANDARD_ANNOTATION_PROPERTIES)
+            q = q.filter(Statements.predicate.in_(tuple(annotation_properties)))
+        q = q.filter(Statements.subject.in_(curies))
+        if predicates is not None:
+            q = q.filter(Statements.predicate.in_(predicates))
+        for row in q:
+            if row.value is not None:
+                v = _python_value(row.value, row.datatype)
+            elif row.object is not None:
+                v = row.object
+            else:
+                v = None
+            yield row.subject, row.predicate, v, row.datatype, {}
 
     def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):

@@ -899,3 +899,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_simple_subproperty_of_chains(self):
         self.compliance_tester.test_simple_subproperty_of_chains(self.oi)
+
+    def test_entities_metadata_statements(self):
+        self.compliance_tester.test_entities_metadata_statements(self.oi)
