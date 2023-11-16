@@ -13,7 +13,7 @@ from oaklib.datamodels.similarity import (
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
-from oaklib.datamodels.vocabulary import OWL_THING
+from oaklib.datamodels.vocabulary import OWL_THING, SearchType
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -310,6 +310,7 @@ class SemSimianImplementation(
         subject_prefixes: Optional[List[str]] = None,
         include_similarity_object: bool = False,
         method: Optional[str] = None,
+        search_type: Optional[str] = SearchType.HYBRID,
         limit: Optional[int] = 10,
         sort_by_similarity: bool = True,
         **kwargs,
@@ -326,6 +327,7 @@ class SemSimianImplementation(
         :param subject_prefixes:  only consider subjects with these prefixes, defaults to None
         :param include_similarity_object: include the similarity object in the result, defaults to False
         :param method: similarity method to use, defaults to None
+        :param search_type: Type of semsimian search to perform, defaults to HYBRID [Other choices: FULL, FLAT]
         :param limit: max number of results to return, defaults to 10
         :param sort_by_similarity: Boolean determining sorting of results or no, defaults to True
         :yield: iterator over ordered pairs of (score, sim, subject)
@@ -334,17 +336,13 @@ class SemSimianImplementation(
             predicates=object_closure_predicates,
             attributes=self.termset_pairwise_similarity_attributes,
         )
-        quick_search = (
-            False  # ! This needs to be a param for this function. For now using hardcoded value.
-        )
-
         subjects = set(subjects) if subjects is not None else None
 
         return semsimian.associations_search(
             predicates,
             set(objects),
             include_similarity_object,
-            quick_search,
+            search_type,
             subjects,
             subject_prefixes,
             limit,

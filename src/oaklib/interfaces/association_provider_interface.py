@@ -250,6 +250,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         subject_prefixes: Optional[List[str]] = None,
         include_similarity_object: bool = False,
         method: Optional[str] = None,
+        search_type: Optional[str] = None,
         limit: Optional[int] = 10,
         sort_by_similarity: bool = True,
         **kwargs,

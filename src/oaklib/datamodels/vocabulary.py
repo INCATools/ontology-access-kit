@@ -178,3 +178,9 @@ class SEMAPV(Enum):
     MappingReview = "semapv:MappingReview"
     ManualMappingCuration = "semapv:ManualMappingCuration"
     RegularExpressionReplacement = "semapv:RegularExpressionReplacement"
+
+class SearchType(Enum):
+    """Search type for semsimian's association search."""
+    FLAT = "flat"
+    HYBRID = "hybrid"
+    FULL = "full"
