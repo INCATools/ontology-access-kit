@@ -1423,6 +1423,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         curies: Iterable[CURIE],
         predicates: Optional[List[PRED_CURIE]] = None,
         include_nested_metadata=False,
+        **kwargs,
     ) -> Iterator[METADATA_STATEMENT]:
         """
         Retrieve metadata statements (entity annotations) for a collection of entities.
