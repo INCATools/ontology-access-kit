@@ -39,6 +39,7 @@ click = "*"
 semsimian = ">=0.2.9"
 urllib3 = {version = "< 2", optional = true}
 pydantic = "*"
+scipy = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
