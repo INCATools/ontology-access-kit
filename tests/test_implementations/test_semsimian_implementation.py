@@ -5,7 +5,7 @@ import unittest
 from linkml_runtime.dumpers import yaml_dumper
 
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, SearchType
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.selector import get_adapter
 from tests import (
@@ -162,6 +162,7 @@ class TestSemSimianImplementation(unittest.TestCase):
         object_terms = {"GO:0019222"}
         subject_prefixes = ["GO:"]
         limit = 10
+        search_type = SearchType.FULL.value
 
         result = self.oi.associations_subject_search(
             object_closure_predicates=self.predicates,
@@ -169,11 +170,12 @@ class TestSemSimianImplementation(unittest.TestCase):
             objects=object_terms,
             include_similarity_object=True,
             subject_prefixes=subject_prefixes,
+            search_type=search_type,
             limit=limit,
         )
 
         self.assertEqual(len(result), limit)
-        self.assertEqual(result[0][0], 3.186700714193139)
+        self.assertEqual(result[0][0], 2.9817189317909856)
 
     def test_associations_cache(self):
         assoc_predicate = {"biolink:has_nucleus"}
