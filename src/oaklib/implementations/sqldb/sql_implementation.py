@@ -676,10 +676,10 @@ class SqlImplementation(
         self,
         curies: Iterable[CURIE],
         predicates: Optional[List[PRED_CURIE]] = None,
-        include_all_triples=False,
+        include_nested_metadata=False,
     ) -> Iterator[METADATA_STATEMENT]:
         q = self.session.query(Statements)
-        if not include_all_triples:
+        if not include_nested_metadata:
             subquery = self.session.query(RdfTypeStatement.subject).filter(
                 RdfTypeStatement.object == "owl:AnnotationProperty"
             )

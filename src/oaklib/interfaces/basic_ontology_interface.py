@@ -1419,7 +1419,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         raise NotImplementedError
 
     def entities_metadata_statements(
-        self, curies: Iterable[CURIE], predicates: Optional[List[PRED_CURIE]] = None
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
     ) -> Iterator[METADATA_STATEMENT]:
         """
         Retrieve metadata statements (entity annotations) for a collection of entities.
