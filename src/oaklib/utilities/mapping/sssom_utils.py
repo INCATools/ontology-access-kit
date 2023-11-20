@@ -79,10 +79,7 @@ class StreamingSssomWriter(StreamingWriter):
         mset = MappingSet(
             mapping_set_id="temp", mappings=self.mappings, license=UNSPECIFIED_MAPPING_SET_ID
         )
-        # if self.ontology_interface:
-        #     prefix_map = self.ontology_interface.prefix_map()
-        # else:
-        #     prefix_map = {}
+
         converter = (
             curies.chain(
                 [ensure_converter(self.ontology_interface.prefix_map(), use_defaults=False)]
