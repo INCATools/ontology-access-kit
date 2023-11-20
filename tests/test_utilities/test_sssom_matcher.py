@@ -169,8 +169,14 @@ class TestLexicalIndex(unittest.TestCase):
         lexical_index = create_lexical_index(oi)
         add_labels_from_uris(oi)
         ruleset = load_mapping_rules(str(RULES))
-        metadata = get_metadata_and_prefix_map(MATCHER_META_YML)
-        msdf = lexical_index_to_sssom(self.oi, lexical_index, ruleset=ruleset, meta=metadata)
+        converter, metadata = get_metadata_and_prefix_map(MATCHER_META_YML)
+        msdf = lexical_index_to_sssom(
+            self.oi,
+            lexical_index,
+            ruleset=ruleset,
+            metadata=metadata,
+            prefix_map=converter.prefix_map,
+        )
         with open(MATCHER_TEST_SSSOM_OUT, "w", encoding="utf-8") as file:
             write_table(msdf, file)
         msdoc = to_mapping_set_document(msdf)

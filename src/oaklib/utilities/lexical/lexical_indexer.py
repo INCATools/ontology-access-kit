@@ -11,13 +11,14 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Collection, Dict, List, Optional, Tuple, Union
 
+import curies
+from curies import Converter
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import json_loader, yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from sssom.constants import LICENSE, MAPPING_SET_ID
-from sssom.context import get_default_metadata
+from sssom.constants import LICENSE, MAPPING_SET_ID, MetadataType, get_default_metadata
+from sssom.context import ensure_converter
 from sssom.sssom_document import MappingSetDocument
-from sssom.typehints import Metadata
 from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
 from sssom_schema import Mapping, MappingSet
 
@@ -35,6 +36,7 @@ from oaklib.datamodels.mapping_rules_datamodel import (
     Synonymizer,
 )
 from oaklib.datamodels.vocabulary import (
+    CURIE_MAP_KEY,
     IDENTIFIER_PREDICATE,
     SEMAPV,
     SKOS_BROAD_MATCH,
@@ -244,7 +246,7 @@ def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
-    meta: Metadata = None,
+    metadata: MetadataType = None,
     prefix_map: dict = None,
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
@@ -310,18 +312,24 @@ def lexical_index_to_sssom(
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
 
-    if meta is None:
-        meta = get_default_metadata()
-    if prefix_map:
-        meta.prefix_map.update(
-            {k: v for k, v in prefix_map.items() if k not in meta.prefix_map.keys()}
-        )
-    mapping_set_id = meta.metadata[MAPPING_SET_ID]
-    license = meta.metadata[LICENSE]
+    if metadata is None:
+        metadata = get_default_metadata()
+
+    converter = curies.chain(
+        [
+            Converter.from_prefix_map(metadata.pop(CURIE_MAP_KEY, {})),
+            ensure_converter(prefix_map, use_defaults=False),
+        ]
+    )
+    metadata.setdefault(CURIE_MAP_KEY, {}).update(converter.prefix_map)
+
+    mapping_set_id = metadata[MAPPING_SET_ID]
+    license = metadata[LICENSE]
 
     mset = MappingSet(mapping_set_id=mapping_set_id, mappings=mappings, license=license)
     # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
-    doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
+
+    doc = MappingSetDocument(converter=converter, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
     num_mappings = len(msdf.df.index)
     if ensure_strict_prefixes:

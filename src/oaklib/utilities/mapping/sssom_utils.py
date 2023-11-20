@@ -1,7 +1,9 @@
 from dataclasses import dataclass, field
 from typing import Iterable, List, Optional, Tuple
 
+import curies
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+from sssom.context import ensure_converter
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import to_mapping_set_dataframe
 from sssom.writers import write_table
@@ -77,11 +79,19 @@ class StreamingSssomWriter(StreamingWriter):
         mset = MappingSet(
             mapping_set_id="temp", mappings=self.mappings, license=UNSPECIFIED_MAPPING_SET_ID
         )
-        if self.ontology_interface:
-            prefix_map = self.ontology_interface.prefix_map()
-        else:
-            prefix_map = {}
-        doc = MappingSetDocument(prefix_map=prefix_map, mapping_set=mset)
+        # if self.ontology_interface:
+        #     prefix_map = self.ontology_interface.prefix_map()
+        # else:
+        #     prefix_map = {}
+        converter = (
+            curies.chain(
+                [ensure_converter(self.ontology_interface.prefix_map(), use_defaults=False)]
+            )
+            if self.ontology_interface
+            else None
+        )
+
+        doc = MappingSetDocument(converter=converter, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
         msdf.clean_prefix_map(strict=False)
         write_table(msdf, self.file)

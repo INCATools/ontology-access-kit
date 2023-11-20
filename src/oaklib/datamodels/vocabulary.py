@@ -16,6 +16,8 @@ IDENTIFIER_PREDICATE = "rdf:ID"
 URL_PREDICATE = "schema:url"
 PREFIX_PREDICATE = "sh:prefix"
 
+CURIE_MAP_KEY = "curie_map"
+
 # TODO: replace with oio vocab
 LABEL_PREDICATE = omd.slots.label.curie
 HAS_EXACT_SYNONYM = omd.slots.has_exact_synonym.curie
