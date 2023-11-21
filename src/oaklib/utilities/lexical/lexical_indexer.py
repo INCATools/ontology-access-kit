@@ -311,13 +311,11 @@ def lexical_index_to_sssom(
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
 
-    # TODO what's the business logic for combining these three
-    #  different streams of prefix maps?
     converter = curies.chain(
         [
             Converter.from_prefix_map((meta or {}).pop(CURIE_MAP, {})),
-            oi.converter,
             ensure_converter(prefix_map, use_defaults=False),
+            oi.converter,
         ]
     )
     msdf = MappingSetDataFrame.from_mappings(mappings=mappings, metadata=meta, converter=converter)
