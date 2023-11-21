@@ -732,6 +732,8 @@ class SimpleOboImplementation(
         objects: Iterable[CURIE] = None,
         **kwargs,
     ) -> Iterable[LogicalDefinitionAxiom]:
+        if subjects is None:
+            subjects = self.entities()
         for s in subjects:
             t = self._stanza(s, strict=False)
             if not t:

@@ -127,6 +127,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     DEFINITION,
     LANGUAGE_TAG,
     METADATA_MAP,
+    METADATA_STATEMENT,
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP,
@@ -312,6 +313,7 @@ class SqlImplementation(
     max_items_for_in_clause: int = field(default_factory=lambda: 1000)
 
     can_store_associations: bool = False
+    """True if the underlying sqlite database has term_association populated."""
 
     def __post_init__(self):
         if self.engine is None:
@@ -669,6 +671,33 @@ class SqlImplementation(
             m[row.predicate].append(v)
         self.add_missing_property_values(curie, m)
         return dict(m)
+
+    def entities_metadata_statements(
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
+        **kwargs,
+    ) -> Iterator[METADATA_STATEMENT]:
+        q = self.session.query(Statements)
+        if not include_nested_metadata:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == "owl:AnnotationProperty"
+            )
+            annotation_properties = {row.subject for row in subquery}
+            annotation_properties = annotation_properties.union(STANDARD_ANNOTATION_PROPERTIES)
+            q = q.filter(Statements.predicate.in_(tuple(annotation_properties)))
+        q = q.filter(Statements.subject.in_(curies))
+        if predicates is not None:
+            q = q.filter(Statements.predicate.in_(predicates))
+        for row in q:
+            if row.value is not None:
+                v = _python_value(row.value, row.datatype)
+            elif row.object is not None:
+                v = row.object
+            else:
+                v = None
+            yield row.subject, row.predicate, v, row.datatype, {}
 
     def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):
@@ -1166,6 +1195,7 @@ class SqlImplementation(
             logging.info("Using base method")
             yield from super().associations(*args, **kwargs)
             return
+        logging.info("Using SQL queries")
         q = self._associations_query(*args, **kwargs)
         for row_it in chunk(q):
             assocs = []
@@ -1226,7 +1256,7 @@ class SqlImplementation(
                 q = q.filter(TermAssociation.object.in_(subquery))
             else:
                 q = q.filter(TermAssociation.object.in_(tuple(objects)))
-        logging.info(f"Association query: {q}")
+        logging.info(f"_associations_query: {q}")
         return q
 
     def add_associations(
@@ -1236,6 +1266,7 @@ class SqlImplementation(
         **kwargs,
     ) -> bool:
         if not self.can_store_associations:
+            logging.info("Using base method to store associations")
             return super().add_associations(associations, normalizers=normalizers)
         for a in associations:
             if normalizers:
@@ -2063,9 +2094,24 @@ class SqlImplementation(
         predicates: List[PRED_CURIE] = None,
         object_closure_predicates: List[PRED_CURIE] = None,
         use_associations: bool = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
         curies = list(curies)
+        if self.cached_information_content_map:
+            yield from super().information_content_scores(curies)
+            return
         if use_associations:
+            logging.info("Using associations to calculate IC")
+            if not self.can_store_associations:
+                yield from super().information_content_scores(
+                    curies,
+                    predicates=predicates,
+                    object_closure_predicates=object_closure_predicates,
+                    use_associations=use_associations,
+                    **kwargs,
+                )
+                return
+                # raise ValueError("Cannot use associations, not stored")
             q = self.session.query(EntailedEdge.object, func.count(TermAssociation.subject))
             q = q.filter(EntailedEdge.subject == TermAssociation.object)
             if curies is not None:
@@ -2075,6 +2121,7 @@ class SqlImplementation(
             if object_closure_predicates:
                 q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
             q = q.group_by(EntailedEdge.object)
+            logging.info(f"QUERY: {q}")
             num_nodes = (
                 self.session.query(TermAssociation).distinct(TermAssociation.subject).count()
             )

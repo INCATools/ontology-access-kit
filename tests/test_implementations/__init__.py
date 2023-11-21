@@ -112,6 +112,7 @@ from tests import (
     INTRACELLULAR,
     INTRACELLULAR_ORGANELLE,
     MAMMALIA,
+    MEMBRANE,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
@@ -1593,11 +1594,6 @@ class ComplianceTester:
         test.assertEqual(1, count_map[NUCLEAR_MEMBRANE])
         test.assertEqual(2, count_map[NUCLEUS])
         test.assertEqual(2, count_map[IMBO])
-        if isinstance(oi, SemanticSimilarityInterface):
-            try:
-                self.test_information_content_scores(oi, use_associations=True)
-            except NotImplementedError:
-                logging.info(f"Not yet implemented for {type(oi)}")
 
     def test_class_enrichment(self, oi: ClassEnrichmentCalculationInterface):
         """
@@ -1738,12 +1734,43 @@ class ComplianceTester:
             (NUCLEUS, IMBO),
             (IMBO, CELLULAR_COMPONENT),
         ]
+        if use_associations:
+            if not isinstance(oi, AssociationProviderInterface):
+                raise ValueError("Semantic similarity interface does not support associations")
+            assoc_pairs = [
+                (GENE1, VACUOLE),
+                (GENE2, NUCLEAR_ENVELOPE),
+                (GENE3, NUCLEAR_ENVELOPE),
+            ]
+            oi.add_associations(
+                Association(subject=subject, object=object) for subject, object in assoc_pairs
+            )
         m = {}
         for curie, score in oi.information_content_scores(
             terms, object_closure_predicates=[IS_A, PART_OF], use_associations=use_associations
         ):
             m[curie] = score
-        # universal root node always has zero information
+        test.assertGreater(len(m), 0)
+        if use_associations:
+            test.assertCountEqual(
+                [
+                    OWL_THING,
+                    VACUOLE,
+                    IMBO,
+                    NUCLEAR_ENVELOPE,
+                    NUCLEUS,
+                    CELLULAR_COMPONENT,
+                    PHOTORECEPTOR_OUTER_SEGMENT,
+                ],
+                m.keys(),
+            )
+            test.assertEqual(m[CELLULAR_COMPONENT], 0.0, "all genes are under cell component")
+            test.assertEqual(m[PHOTORECEPTOR_OUTER_SEGMENT], 0.0, "not in graph")
+            test.assertGreater(m[VACUOLE], 1.0)
+            test.assertLess(m[NUCLEAR_ENVELOPE], 1.0)
+        # universal root node always has zero information content
+        for k, v in m.items():
+            print(f"{k} IC= {v}")
         test.assertEqual(m[OWL_THING], 0.0)
         for child, parent in posets:
             if use_associations:
@@ -1854,3 +1881,128 @@ class ComplianceTester:
                 test.assertEqual(object_label, ann.object_label)
                 test.assertEqual(subject_start, ann.subject_start)
                 test.assertEqual(subject_end, ann.subject_end)
+
+    def test_entities_metadata_statements(self, oi: BasicOntologyInterface):
+        test = self.test
+
+        cases = [
+            (
+                [MEMBRANE],
+                [OIO_CREATION_DATE],
+                [("GO:0016020", "oio:creation_date", "2014-03-06T11:37:54Z", "xsd:string", {})],
+            ),
+            (
+                [MEMBRANE],
+                None,
+                [
+                    (
+                        "GO:0016020",
+                        "IAO:0000115",
+                        "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it.",  # noqa:E501
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0016020", "oio:creation_date", "2014-03-06T11:37:54Z", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasAlternativeId", "GO:0098589", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasAlternativeId", "GO:0098805", "xsd:string", {}),
+                    (
+                        "GO:0016020",
+                        "oio:hasDbXref",
+                        "Wikipedia:Biological_membrane",
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0016020", "oio:hasNarrowSynonym", "membrane region", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasNarrowSynonym", "region of membrane", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasNarrowSynonym", "whole membrane", "xsd:string", {}),
+                    ("GO:0016020", "oio:hasOBONamespace", "cellular_component", "xsd:string", {}),
+                    ("GO:0016020", "oio:id", "GO:0016020", "xsd:string", {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                    ("GO:0016020", "rdfs:label", "membrane", "xsd:string", {}),
+                ],
+            ),
+            (
+                [MEMBRANE],
+                ["oio:inSubset"],
+                [
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                ],
+            ),
+            (
+                [NUCLEUS],
+                None,
+                [
+                    (
+                        "GO:0005634",
+                        "IAO:0000115",
+                        "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.",  # noqa:E501
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:hasDbXref",
+                        "NIF_Subcellular:sao1702920020",
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0005634", "oio:hasDbXref", "Wikipedia:Cell_nucleus", "xsd:string", {}),
+                    ("GO:0005634", "oio:hasExactSynonym", "cell nucleus", "xsd:string", {}),
+                    ("GO:0005634", "oio:hasNarrowSynonym", "horsetail nucleus", "xsd:string", {}),
+                    ("GO:0005634", "oio:hasOBONamespace", "cellular_component", "xsd:string", {}),
+                    ("GO:0005634", "oio:id", "GO:0005634", "xsd:string", {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_mouse", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_generic", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_drosophila", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_agr", None, {}),
+                    ("GO:0005634", "rdfs:label", "nucleus", "xsd:string", {}),
+                ],
+            ),
+            (
+                [NUCLEUS],
+                ["oio:inSubset"],
+                [
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_mouse", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_metagenomics", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_generic", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_flybase_ribbon", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_drosophila", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_aspergillus", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_agr", None, {}),
+                ],
+            ),
+        ]
+        for case in cases:
+            curies, predicates, expected_result = case
+            results = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
+            test.assertCountEqual(results, expected_result)
+            test.assertCountEqual(results[0], expected_result[0])
+            for idx, result in enumerate(results):
+                test.assertEqual(result, expected_result[idx])

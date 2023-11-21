@@ -752,7 +752,7 @@ class ProntoImplementation(
 
     def logical_definitions(
         self,
-        subjects: Optional[Iterable[CURIE]],
+        subjects: Optional[Iterable[CURIE]] = None,
         predicates: Iterable[PRED_CURIE] = None,
         objects: Iterable[CURIE] = None,
         **kwargs,

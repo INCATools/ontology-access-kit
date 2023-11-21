@@ -877,6 +877,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_information_content_scores(self):
         self.compliance_tester.test_information_content_scores(self.oi, False)
+        self.compliance_tester.test_information_content_scores(self.oi, True)
 
     def test_common_ancestors(self):
         self.compliance_tester.test_common_ancestors(self.oi)
@@ -898,3 +899,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_simple_subproperty_of_chains(self):
         self.compliance_tester.test_simple_subproperty_of_chains(self.oi)
+
+    def test_entities_metadata_statements(self):
+        self.compliance_tester.test_entities_metadata_statements(self.oi)
