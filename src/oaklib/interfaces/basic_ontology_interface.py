@@ -31,6 +31,7 @@ from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
 from oaklib.utilities.iterator_utils import chunk
+from oaklib.utilities.keyval_cache import KeyValCache
 
 LANGUAGE_TAG = str
 NC_NAME = str
@@ -157,6 +158,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     cache_lookups: bool = False
     """If True, the implementation may choose to cache lookup operations"""
+
+    property_cache: KeyValCache = field(default_factory=lambda: KeyValCache())
 
     _edge_index: Optional[EdgeIndex] = None
     _entailed_edge_index: Optional[EdgeIndex] = None

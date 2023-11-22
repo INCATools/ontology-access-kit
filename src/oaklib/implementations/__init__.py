@@ -17,6 +17,7 @@ from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
 from oaklib.implementations.llm_implementation import LLMImplementation
 from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
+from oaklib.implementations.ncbi.ncbi_gene_implementation import NCBIGeneImplementation
 from oaklib.implementations.ols import (
     BaseOlsImplementation,
     OlsImplementation,
@@ -77,6 +78,7 @@ __all__ = [
     "OlsImplementation",
     "TIBOlsImplementation",
     "MonarchImplementation",
+    "NCBIGeneImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
     "SimpleOboImplementation",
