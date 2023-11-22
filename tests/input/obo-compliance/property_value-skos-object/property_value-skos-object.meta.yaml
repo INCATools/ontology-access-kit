@@ -1,0 +1,5 @@
+name: property_value-skos-object
+name: property_value-skos-object
+description: SKOS mapping to an object
+non-canonical-form-of: relationship-skos-object
+unstable: true

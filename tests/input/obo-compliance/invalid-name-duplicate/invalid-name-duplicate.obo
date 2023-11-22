@@ -1,0 +1,8 @@
+format-version: 1.4
+ontology: invalid-name-duplicate
+
+[Term]
+id: X:1
+name: x1
+name: x2
+

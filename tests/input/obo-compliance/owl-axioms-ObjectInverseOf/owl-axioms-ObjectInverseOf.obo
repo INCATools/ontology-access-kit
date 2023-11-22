@@ -1,0 +1,4 @@
+format-version: 1.4
+ontology: owl-axioms-ObjectInverseOf
+owl-axioms: Ontology(SubObjectPropertyOf(<http://purl.obolibrary.org/obo/RO_0002378> ObjectInverseOf(<http://purl.obolibrary.org/obo/RO_0002376>)))
+

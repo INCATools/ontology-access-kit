@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: typedef-transitive_over
+
+[Typedef]
+id: R:1
+transitive_over: R:3
+

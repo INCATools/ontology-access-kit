@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: typedef-def
+
+[Typedef]
+id: R:1
+def: "An example definition." []
+

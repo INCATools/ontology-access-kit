@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: equivalent_to
+
+[Term]
+id: X:1
+equivalent_to: X:2
+

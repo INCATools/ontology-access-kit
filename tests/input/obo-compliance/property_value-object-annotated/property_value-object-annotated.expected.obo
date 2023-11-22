@@ -1,0 +1,10 @@
+format-version: 1.2
+ontology: property_value-object-annotated
+owl-axioms: Prefix(owl:=<http://www.w3.org/2002/07/owl#>)\nPrefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\nPrefix(xml:=<http://www.w3.org/XML/1998/namespace>)\nPrefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)\nPrefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n\n\nOntology(\nDeclaration(ObjectProperty(<http://purl.obolibrary.org/obo/R_1>))\nDeclaration(NamedIndividual(<http://purl.obolibrary.org/obo/X_1>))\nDeclaration(NamedIndividual(<http://purl.obolibrary.org/obo/Y_1>))\nDeclaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#source>))\n\n\n\n############################\n#   Named Individuals\n############################\n\n# Individual: <http://purl.obolibrary.org/obo/X_1> (<http://purl.obolibrary.org/obo/X_1>)\n\nObjectPropertyAssertion(Annotation(<http://www.geneontology.org/formats/oboInOwl#source> \"PMID:123471\") <http://purl.obolibrary.org/obo/R_1> <http://purl.obolibrary.org/obo/X_1> <http://purl.obolibrary.org/obo/Y_1>)\n\n\n)
+
+[Term]
+id: X:1
+
+[Typedef]
+id: R:1
+

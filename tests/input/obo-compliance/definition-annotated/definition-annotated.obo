@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: definition-annotated
+
+[Term]
+id: X:1
+def: "x1 def" [PMID:123459]
+

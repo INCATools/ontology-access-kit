@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: created_by-annotated
+
+[Term]
+id: X:1
+created_by: ORCID:1234 {source="PMID:123466"}
+

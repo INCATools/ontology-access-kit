@@ -1,0 +1,8 @@
+format-version: 1.4
+default-namespace: NS1
+ontology: default-namespace
+
+[Term]
+id: X:1
+
+

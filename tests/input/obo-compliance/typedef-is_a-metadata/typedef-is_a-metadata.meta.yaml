@@ -1,0 +1,5 @@
+name: typedef-is_a-metadata
+name: typedef-is_a-metadata
+description: test that is_a on a metadata Typedef maps to subAnnotationPropertyOf
+issue: https://github.com/owlcollab/oboformat/issues/147
+unstable: true

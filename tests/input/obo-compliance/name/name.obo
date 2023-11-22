@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: name
+
+[Term]
+id: X:1
+name: x1
+

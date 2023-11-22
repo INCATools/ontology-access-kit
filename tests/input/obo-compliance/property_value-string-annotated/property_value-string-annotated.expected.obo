@@ -1,0 +1,11 @@
+format-version: 1.2
+ontology: property_value-string-annotated
+
+[Term]
+id: X:1
+property_value: R:1 "foo" xsd:string {source="PMID:123472"}
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+

@@ -1,0 +1,11 @@
+format-version: 1.4
+ontology: property_value-object
+
+[Term]
+id: X:1
+property_value: R:1 Y:1
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+

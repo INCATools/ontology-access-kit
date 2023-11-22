@@ -1,0 +1,11 @@
+format-version: 1.2
+ontology: property_value-float
+
+[Term]
+id: X:1
+property_value: R:1 "1.5" xsd:float
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+

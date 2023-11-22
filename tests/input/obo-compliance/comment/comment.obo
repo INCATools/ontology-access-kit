@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: comment
+
+[Term]
+id: X:1
+comment: "This is a comment about term X:1."
+

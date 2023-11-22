@@ -1,0 +1,3 @@
+name: typedef-is_a
+name: typedef-is_a
+description: test that is_a on Typedef maps to subObjectPropertyOf

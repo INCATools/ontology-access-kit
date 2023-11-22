@@ -1,0 +1,4 @@
+format-version: 1.2
+synonymtypedef: S:1 "example"
+ontology: synonymtypedef-definition
+

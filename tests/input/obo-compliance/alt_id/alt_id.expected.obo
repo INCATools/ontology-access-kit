@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: alt_id
+
+[Term]
+id: X:1
+alt_id: X:2
+

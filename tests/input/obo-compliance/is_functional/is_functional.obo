@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: is_functional
+
+[Typedef]
+id: R:1
+is_functional: true
+
