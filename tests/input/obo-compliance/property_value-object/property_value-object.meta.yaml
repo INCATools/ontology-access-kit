@@ -1,0 +1,5 @@
+name: property_value-object
+name: property_value-object
+description: Annotation using PropertyValue
+non-canonical-form-of: relationship-non-logical
+issue: https://github.com/owlcollab/oboformat/issues/144

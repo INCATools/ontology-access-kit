@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: creation_date-annotated
+
+[Term]
+id: X:1
+creation_date: 2023-11-20 {source="PMID:123467"}
+

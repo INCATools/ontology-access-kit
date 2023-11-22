@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: is_cyclic
+
+[Typedef]
+id: R:1
+is_cyclic: true
+

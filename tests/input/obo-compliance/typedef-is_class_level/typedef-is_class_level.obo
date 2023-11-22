@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: typedef-is_class_level
+
+[Typedef]
+id: R:1
+is_class_level: true
+

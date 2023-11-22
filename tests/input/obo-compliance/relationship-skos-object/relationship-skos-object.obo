@@ -1,0 +1,12 @@
+format-version: 1.4
+ontology: relationship-skos-object
+idspace: skos http://www.w3.org/2004/02/skos/core#
+
+[Term]
+id: X:1
+relationship: skos:exactMatch Y:1
+
+[Typedef]
+id: skos:exactMatch
+is_metadata_tag: true
+

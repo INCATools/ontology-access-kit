@@ -1,0 +1,4 @@
+name: invalid-intersection_of-single-element
+name: invalid-intersection_of-single-element
+description: Single elements disallowed
+invalid: true

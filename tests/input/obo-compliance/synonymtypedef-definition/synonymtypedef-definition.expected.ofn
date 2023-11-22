@@ -1,0 +1,35 @@
+Prefix(:=<http://purl.obolibrary.org/obo/synonymtypedef-definition.owl#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://purl.obolibrary.org/obo/synonymtypedef-definition.owl>
+Annotation(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "1.4")
+
+Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/S_1>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#SynonymTypeProperty>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion>))
+Declaration(AnnotationProperty(rdfs:label))
+############################
+#   Annotation Properties
+############################
+
+# Annotation Property: <http://purl.obolibrary.org/obo/S_1> (example)
+
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/S_1> "example")
+SubAnnotationPropertyOf(<http://purl.obolibrary.org/obo/S_1> <http://www.geneontology.org/formats/oboInOwl#SynonymTypeProperty>)
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#SynonymTypeProperty> (synonym_type_property)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#SynonymTypeProperty> "synonym_type_property")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> (has_obo_format_version)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
+
+
+
+)

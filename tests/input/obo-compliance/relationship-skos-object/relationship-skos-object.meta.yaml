@@ -1,0 +1,5 @@
+name: relationship-skos-object
+name: relationship-skos-object
+description: SKOS mapping to an object using relationship
+issue: https://github.com/geneontology/obographs/issues/102
+unstable: true

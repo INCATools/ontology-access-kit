@@ -1,0 +1,34 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/relationship-skos-object.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/X_1",
+      "type" : "CLASS",
+      "meta" : {
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/skos_exactMatch",
+          "val" : "http://purl.obolibrary.org/obo/Y_1"
+        } ]
+      }
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/skos_exactMatch",
+      "type" : "PROPERTY",
+      "meta" : {
+        "basicPropertyValues" : [ {
+          "pred" : "http://www.geneontology.org/formats/oboInOwl#is_metadata_tag",
+          "val" : "true"
+        } ]
+      }
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    } ]
+  } ]
+}

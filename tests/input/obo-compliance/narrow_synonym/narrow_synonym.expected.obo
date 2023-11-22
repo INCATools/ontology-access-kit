@@ -1,0 +1,8 @@
+format-version: 1.2
+ontology: narrow_synonym
+
+[Term]
+id: X:1
+name: example term
+synonym: "narrow synonym" NARROW []
+

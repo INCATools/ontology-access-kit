@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: typedef-domain
+
+[Typedef]
+id: R:1
+domain: X:1
+
