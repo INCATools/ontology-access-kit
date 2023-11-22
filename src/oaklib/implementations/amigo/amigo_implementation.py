@@ -9,7 +9,7 @@ import pysolr
 
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
-from oaklib.datamodels.vocabulary import PART_OF, RDFS_LABEL
+from oaklib.datamodels.vocabulary import RDFS_LABEL
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,

@@ -2,7 +2,6 @@ from typing import Any, Dict
 
 from pydantic import BaseModel
 
-from oaklib.datamodels.vocabulary import RDFS_LABEL
 from oaklib.types import CURIE
 
 

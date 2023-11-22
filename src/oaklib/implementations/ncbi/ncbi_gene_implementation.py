@@ -1,9 +1,8 @@
 """Adapter for NCBIGene solr index."""
 import logging
 from dataclasses import dataclass
-from time import sleep
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree  # noqa S405
 
 import requests
 
@@ -19,9 +18,8 @@ __all__ = [
     "NCBIGeneImplementation",
 ]
 
-from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
+from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG
 from oaklib.types import CURIE, PRED_CURIE
-from oaklib.utilities.iterator_utils import chunk
 
 EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
@@ -109,7 +107,7 @@ class NCBIGeneImplementation(
             response = requests.get(EFETCH_URL, params)
 
             # Parsing the XML file
-            root = ET.fromstring(response.content)
+            root = ElementTree.fromstring(response.content)  # noqa S314
 
             yield from self.associations_from_xml(subject, root)
 
@@ -117,9 +115,9 @@ class NCBIGeneImplementation(
         """
         Extracts associations from the XML file
 
-        :param subject: 
-        :param root: 
-        :return: 
+        :param subject:
+        :param root:
+        :return:
         """
         gene_symbol = None
         for gene_ref in root.iter("Gene-ref_locus"):
@@ -128,7 +126,9 @@ class NCBIGeneImplementation(
 
         # Searching for GO annotations in the specified structure
         subpath = "Gene-commentary/Gene-commentary_comment"
-        for gene_commentary in root.findall(f".//Entrezgene_properties/{subpath}/{subpath}/Gene-commentary"):
+        for gene_commentary in root.findall(
+            f".//Entrezgene_properties/{subpath}/{subpath}/Gene-commentary"
+        ):
             pmids = set()
             for pmid in gene_commentary.iter("PubMedId"):
                 pmids.add(f"PMID:{pmid.text}")
@@ -157,7 +157,7 @@ class NCBIGeneImplementation(
                                 object=go_id,
                                 object_label=go_label,
                                 evidence_type=evidence,
-                                #property_values=[evidence_obj],
+                                # property_values=[evidence_obj],
                                 publications=list(pmids),
                             )
                             yield assoc
@@ -174,7 +174,7 @@ class NCBIGeneImplementation(
 
         response = requests.get(ESEARCH_URL, params=search_params)
         if response.status_code != 200:
-            raise Exception(f"Failed to search for gene '{gene_name_or_symbol}'")
+            raise Exception(f"Failed to search for gene '{search_term}'")
 
         # Parse the JSON response
         result = response.json()

@@ -32,6 +32,7 @@ FORMAT_SYNONYMS = {
     "obographs": "obojson",
 }
 
+
 class DumperInterface(BasicOntologyInterface, ABC):
     """
     An OntologyInterface that is capable of exporting entire contents.

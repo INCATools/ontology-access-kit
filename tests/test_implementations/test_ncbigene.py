@@ -1,15 +1,15 @@
 import unittest
-
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree  # noqa S405
 
 from oaklib import get_adapter
 from oaklib.implementations import NCBIGeneImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
-from tests import INPUT_DIR, CYTOPLASM
+from tests import CYTOPLASM, INPUT_DIR
 
 GENE_PATH = INPUT_DIR / "ncbigene-1956.xml"
+
 
 # TODO: use mock tests
 class TestNCBIGene(unittest.TestCase):
@@ -31,7 +31,7 @@ class TestNCBIGene(unittest.TestCase):
     def test_parse_gene_xml(self):
         """Tests parsing gene XML."""
         adapter = self.adapter
-        root = ET.parse(str(GENE_PATH)).getroot()
+        root = ElementTree.parse(str(GENE_PATH)).getroot()  # noqa S314
         if not isinstance(adapter, NCBIGeneImplementation):
             raise AssertionError
         assocs = list(adapter.associations_from_xml("NCBIGene:1956", root))

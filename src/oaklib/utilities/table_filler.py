@@ -130,7 +130,12 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
 
 
 def write_table(
-    rows: List[ROW], output_file: IO, comments: List[str] = None, delimiter="\t", list_delimiter="|", header: List[str] = None,
+    rows: List[ROW],
+    output_file: IO,
+    comments: List[str] = None,
+    delimiter="\t",
+    list_delimiter="|",
+    header: List[str] = None,
 ) -> None:
     """Writes a list of rows to a file, replacing None values with empty strings.
 
