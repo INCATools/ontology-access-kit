@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: name-annotated
+
+[Term]
+id: X:1
+name: x1 {source="PMID:123457"}
+

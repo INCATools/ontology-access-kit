@@ -1,0 +1,10 @@
+format-version: 1.2
+ontology: relationship-annotated
+
+[Term]
+id: X:1
+relationship: R:1 Y:1 {source="PMID:123456"}
+
+[Typedef]
+id: R:1
+

@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: disjoint_from-annotated
+
+[Term]
+id: X:1
+disjoint_from: X:2 {source="PMID:123465"}
+

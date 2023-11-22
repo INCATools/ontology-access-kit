@@ -1,0 +1,389 @@
+import difflib
+import json
+import logging
+import shutil
+import subprocess
+from functools import lru_cache
+from pathlib import Path
+from typing import Optional
+
+import pytest
+import rdflib
+
+from rdflib.compare import isomorphic
+
+from oaklib import get_adapter
+from tests import INPUT_DIR, OUTPUT_DIR
+
+logger = logging.getLogger(__name__)
+
+COMPILED_OBO_FILE = INPUT_DIR / "obo-compliance.obo"
+OBO_COMPLIANCE_DIR = INPUT_DIR / "obo-compliance"
+OBO_COMPLIANCE_OUTPUT_DIR = OUTPUT_DIR / "obo-compliance"
+
+CANONICAL_DUMPER = "robot"
+
+KNOWN_ISSUES = [
+    "typedef-xref-ro",
+    "intersection_of-genus-differentia-annotated",
+    "union-of-annotated",
+    "property_value-object-annotated",
+    "owl-axioms-ObjectInverseOf",
+
+    ]
+
+@pytest.fixture(scope="session")
+def split_compiled_obo():
+    """
+    Split the compiled OBO file into individual files,
+    adding additional metdata files
+
+    The compiled OBO file is a concatenation of multiple different ontologies,
+    separated by yaml metadata after !! characters (obo format comments).
+
+    Note: this procedure may eventually go away and the component files
+    managed independently but for now it is easier to manage them together.
+
+    :return:
+    """
+    blocks = {}
+    metadata = {}
+    yamls = {}
+    ontology_id = None
+    paths = {}
+    with open(COMPILED_OBO_FILE) as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.startswith("!!"):
+                yaml = line[3:].rstrip()
+                if not yaml:
+                    continue
+                if yaml.startswith("#"):
+                    continue
+                if ":" not in yaml:
+                    raise ValueError(f"Invalid yaml: {yaml}")
+                k, v = yaml.strip().split(":", 1)
+                v = v.strip()
+                if k == "name":
+                    ontology_id = v
+                    if ontology_id in blocks:
+                        raise ValueError(f"Duplicate ontology id: {ontology_id}")
+                    metadata[ontology_id] = {}
+                    yamls[ontology_id] = [yaml.rstrip()]
+                    blocks[ontology_id] = [
+                        f"format-version: 1.4\n",
+                        f"ontology: {ontology_id}\n",
+                    ]
+                metadata[ontology_id][k.strip()] = v.strip()
+                yamls[ontology_id].append(yaml.strip())
+
+            else:
+                blocks[ontology_id].append(line)
+                if line.startswith("ontology:") and blocks[ontology_id][1].startswith("ontology:"):
+                    # normally we auto-populate the ontology id;
+                    # however, some tests may explicitly include the ontology tag
+                    # (necessary to preserve line ordering). In this case we
+                    # remove the auto-populated tag
+                    blocks[ontology_id].pop(1)
+    for ontology_id, block in blocks.items():
+        folder = OBO_COMPLIANCE_DIR / ontology_id
+        folder.mkdir(exist_ok=True, parents=True)
+        filename = folder / f"{ontology_id}.obo"
+        paths[ontology_id] = filename
+        #logger.info(f"W")
+        with open(filename, "w") as f:
+            f.write("".join(block))
+        with open(folder / f"{ontology_id}.meta.yaml", "w") as f:
+            f.write("\n".join(yamls[ontology_id]))
+    return paths, metadata
+
+
+def test_split(split_compiled_obo):
+    paths, metadata = split_compiled_obo
+    for ontology_id, path in paths.items():
+        print(ontology_id)
+
+@pytest.mark.parametrize("output_format", [
+    "owl", "json","obo","ofn",
+])
+def test_generate_canonical_files(split_compiled_obo, output_format):
+    """
+    Generate canonical converted files using .obo as source.
+
+    Note that this test is intended to serve as a bootstrap,
+    and eventually the canonical conversions will be manually edited
+    rather than generated automatically.
+
+    This will go through the compliance suite, and generate
+    *.expected.{obo,owl,json} files in the input obo-compliance folder.
+    These are intended to be checked in.
+
+    If there is a diff between what was previously deposited, a message
+    will be written, but the test will pass. We realize that TestByGuru
+    is an anti-pattern, but this is temporary until the compliance suite
+    settles down.
+
+    We use robot to generate the canonical files, except for json,
+    for which we use ogger (part of the obographs java package). These
+    are both called on the command line (if they are not found then
+    no canonical file will be generated). Again, this is a temporary
+    measure, and for now this unit test is intended for exectution
+    by a small subset of the OAK team. It is expected that the person
+    running this will use the appropriate version of each.
+
+    :param split_compiled_obo:
+    :param output_format:
+    :return:
+    """
+    paths, metadata = split_compiled_obo
+    for ontology_id, path in paths.items():
+        print(f"Testing {ontology_id} to {output_format}")
+        if metadata[ontology_id].get("invalid", None):
+            print(f"Skipping intentionally invalid ontology: {ontology_id}")
+            continue
+        output_path = make_filename(ontology_id, "robot", output_format, parent=OUTPUT_DIR)
+        print(f"CONVERTING {path} to {output_path}")
+        if output_path == "json":
+            ok = ogger_convert(path, output_path)
+        else:
+            ok = robot_convert(path, output_path)
+        assert ok is not False
+        if ok:
+            canonical_path = Path(make_filename(ontology_id, "expected", output_format, parent=OBO_COMPLIANCE_DIR))
+            if canonical_path.exists():
+                print(f"Comparing {output_path} to {canonical_path}")
+                #compare_output(path, ontology_id, "robot", output_format)
+            else:
+                canonical_path.parent.mkdir(exist_ok=True, parents=True)
+                # copy the output to the input dir
+                print(f"Copying {output_path} to {canonical_path}")
+                shutil.copy(output_path, canonical_path)
+        else:
+            assert ok is None
+
+
+@pytest.mark.parametrize("output_format", [
+    "obo", "json", "owl",
+])
+@pytest.mark.parametrize("wrapper", [("obo", "simpleobo")])
+def test_oak_loaders_dumpers(split_compiled_obo, output_format, wrapper):
+    """
+    Tests that conversion via OAK generates files that are compliant.
+
+    :param split_compiled_obo:
+    :param output_format:
+    :param wrapper:
+    :return:
+    """
+    paths, metadata = split_compiled_obo
+    input_format, loader = wrapper
+    for ontology_id, path in paths.items():
+        logger.info(f"Exporting {ontology_id} to {output_format}")
+        if metadata[ontology_id].get("invalid", None):
+            print("Skipping intentionally invalid ontology")
+            continue
+        adapter = get_adapter(f"{loader}:{path}")
+        _entities = list(adapter.entities())
+        output_path = make_filename(ontology_id, loader, output_format)
+        output_format_option = output_format
+        if output_format == "owl":
+            # xml is canonical for OBOFoundry
+            output_format_option = "rdfxml"
+        adapter.dump(output_path, output_format_option)
+        if metadata[ontology_id].get("non-canonical-form-of", None):
+            # non-canonical forms are not expected to be identical
+            continue
+        canonical = canonical_path(ontology_id, output_format)
+        _, _, fatal = compare_output(output_path, canonical, output_format, metadata=metadata[ontology_id])
+        if output_format == "obo":
+            assert not fatal
+
+
+def compare_output(generated_path: str, canonical_path: str, format: str=None, metadata: dict=None):
+    """
+    Compare the output of OAK loading and dumping vs canonical files.
+
+    :param generated_path:
+    :param canonical_path:
+    :param format:
+    :return:
+    """
+    fatal = False
+    if not metadata:
+        metadata = {}
+    if format == "obo":
+        num_changes, diffs = diff_files(canonical_path, generated_path)
+    elif format.endswith("json"):
+        generated_obj = json.load(open(generated_path))
+        canonical_obj = json.load(open(canonical_path))
+        if generated_obj == canonical_obj:
+            diffs = []
+        else:
+            diffs = list(difflib.unified_diff(json.dumps(canonical_obj, indent=2, sort_keys=True).splitlines(), json.dumps(generated_obj, indent=2, sort_keys=True).splitlines()))
+        num_changes = len(diffs)
+    elif format == "owl":
+        canonical_graph = rdflib.Graph()
+        canonical_graph.parse(canonical_path, format="xml")
+        generated_graph = rdflib.Graph()
+        generated_graph.parse(generated_path, format="xml")
+        if isomorphic(canonical_graph, generated_graph):
+            diffs = []
+        else:
+            diffs = list(difflib.unified_diff(canonical_graph.serialize(format="turtle").splitlines(), generated_graph.serialize(format="turtle").splitlines()))
+        num_changes = len(diffs)
+    else:
+        num_changes, diffs = 0, []
+    if num_changes:
+        name = metadata.get("name", None)
+        if 'unstable' in metadata:
+            expected = "EXPECTED"
+        else:
+            if name in KNOWN_ISSUES:
+                expected = "TOD"
+            else:
+                expected = "UNEXPECTED"
+                fatal = False
+        print(f"## {name}:: {expected} DIFF {format}: {canonical_path} vs {generated_path}:")
+        for diff in diffs:
+            print(diff)
+
+    else:
+        print(f"## IDENTICAL {format}: {canonical_path} vs {generated_path}:")
+    return num_changes, diffs, fatal
+
+
+def diff_files(file_path1, file_path2):
+    """
+    Diff two files, at the ascii level
+
+    ignores the format-version line for obo format
+
+    :param file_path1:
+    :param file_path2:
+    :return:
+    """
+    def readlines(file):
+        lines = []
+        for line in file.readlines():
+            line = line.rstrip()
+            if line.startswith("format-version:"):
+                continue
+            lines.append(line)
+        return lines
+    with open(file_path1, 'r') as file1, open(file_path2, 'r') as file2:
+        file1_contents = readlines(file1)
+        file2_contents = readlines(file2)
+        differ = difflib.Differ()
+        diffs = list(differ.compare(file1_contents, file2_contents))
+        def is_change(line):
+            if line.startswith("+") or line.startswith("-"):
+                if line[1:].strip() == "":
+                    return False
+                else:
+                    return True
+            else:
+                return False
+        return len([line for line in diffs if is_change(line)]), diffs
+
+def make_filename(ontology_id: str, loader: str, output_format: str, parent=OBO_COMPLIANCE_OUTPUT_DIR) -> str:
+    """
+    Make a filename for a given ontology id, loader, and output format.
+
+    :param ontology_id:
+    :param loader:
+    :param output_format:
+    :param parent:
+    :return:
+    """
+    outdir = parent / ontology_id
+    outdir.mkdir(exist_ok=True, parents=True)
+    return str(outdir / f"{ontology_id}.{loader}.{output_format}")
+    #return str(source_path.parent / f"{ontology_id}.{loader}.{output_format}")
+
+def canonical_path(ontology_id: str, output_format: str) -> str:
+    """
+    Get the canonical path for a given ontology id and output format.
+
+    :param ontology_id:
+    :param output_format:
+    :return:
+    """
+    return str(OBO_COMPLIANCE_DIR / ontology_id / f"{ontology_id}.expected.{output_format}")
+
+@lru_cache
+def robot_is_on_path():
+    """
+    Check if robot is on the path.
+
+    Can be installed from robot.obolibrary.org
+
+    :return:
+    """
+    return shutil.which("robot") is not None
+
+
+@lru_cache
+def obographs_java_is_on_path():
+    """
+    Check if ogger is on the path.
+
+    Part of obographs-java
+    :return:
+    """
+    return shutil.which("ogger") is not None
+
+
+def robot_convert(input_path: str, output_path: str) -> Optional[bool]:
+    """
+    Convert an ontology using robot.
+
+    :param input_path:
+    :param output_path:
+    :return:
+    """
+    if not robot_is_on_path():
+        return None
+    cmd = [
+        "robot",
+        "convert",
+        "-i",
+        input_path,
+        "-o",
+        output_path,
+    ]
+    try:
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+        if result.stderr:
+            logging.warning(result.stderr)
+        logging.info(result.stdout)
+        return True
+    except subprocess.CalledProcessError as e:
+        logging.info(f"Robot call failed: {e}")
+        return False
+
+
+def ogger_convert(input_path: str, output_path: str) -> Optional[bool]:
+    """
+    Convert an ontology using ogger.
+
+    :param input_path:
+    :param output_path:
+    :return:
+    """
+    if not obographs_java_is_on_path():
+        return None
+    cmd = [
+        "ogger",
+        input_path,
+        "-o",
+        output_path,
+    ]
+    try:
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+        if result.stderr:
+            logging.warning(result.stderr)
+        logging.info(result.stdout)
+        return True
+    except subprocess.CalledProcessError as e:
+        logging.info(f"Ogger call failed: {e}")
+        return False

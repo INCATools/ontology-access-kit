@@ -1,0 +1,8 @@
+format-version: 1.2
+ontology: consider
+
+[Term]
+id: X:1
+is_obsolete: true
+consider: X:3
+

@@ -1,0 +1,8 @@
+format-version: 1.2
+ontology: union_of
+
+[Term]
+id: X:1
+union_of: X:2
+union_of: X:3
+

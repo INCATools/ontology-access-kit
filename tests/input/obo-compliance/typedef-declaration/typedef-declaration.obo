@@ -1,0 +1,6 @@
+format-version: 1.4
+ontology: typedef-declaration
+
+[Typedef]
+id: R:1
+

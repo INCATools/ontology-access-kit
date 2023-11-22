@@ -1,0 +1,8 @@
+format-version: 1.2
+ontology: intersection_of-genus-differentia-annotated
+
+[Term]
+id: X:1
+intersection_of: X:2 {source="PMID:123460"}
+intersection_of: R:1 X:3 {source="PMID:123460"}
+

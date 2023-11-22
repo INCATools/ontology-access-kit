@@ -1,0 +1,8 @@
+format-version: 1.4
+ontology: prefixes-xref
+idspace: Y http://example.org/Y/
+
+[Term]
+id: X:1
+xref: Y:1
+

@@ -1,0 +1,9 @@
+format-version: 1.4
+ontology: prefixes-created_by
+idspace: Y http://example.org/Y/
+
+[Term]
+id: X:1
+created_by: Y:1
+
+

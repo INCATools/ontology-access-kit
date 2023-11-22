@@ -1,0 +1,8 @@
+format-version: 1.2
+ontology: synonym-with-scope-and-xref
+
+[Term]
+id: X:1
+name: example term
+synonym: "synonym with scope and xref" RELATED [PMID:2]
+
