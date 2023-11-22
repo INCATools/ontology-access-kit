@@ -372,7 +372,7 @@ class Structure:
         pairs = []
         for v in self._values(TAG_INTERSECTION_OF):
             toks = [x for x in v.split(" ") if x]
-            if toks[1].startswith("!"):
+            if len(toks) == 1 or toks[1].startswith("!"):
                 pairs.append((toks[0], None))
             else:
                 pairs.append((toks[0], toks[1]))
@@ -382,7 +382,7 @@ class Structure:
         pairs = []
         for v in self._values(TAG_PROPERTY_VALUE):
             toks = [x for x in v.split(" ") if x]
-            if toks[1].startswith("!"):
+            if len(toks) == 1 or toks[1].startswith("!"):
                 pairs.append((toks[0], None))
             else:
                 pairs.append((toks[0], toks[1]))

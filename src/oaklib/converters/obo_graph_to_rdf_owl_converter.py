@@ -45,7 +45,7 @@ SCOPE_MAP = {
 class OboGraphToRdfOwlConverter(DataModelConverter):
     """Converts from OboGraph to OWL layered on RDF."""
 
-    def dump(self, source: GraphDocument, target: str = None, **kwargs) -> None:
+    def dump(self, source: GraphDocument, target: str = None, format="turtle", **kwargs) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem
 
@@ -55,9 +55,9 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         """
         g = self.convert(source)
         if target is None:
-            print(g.serialize(format="turtle"))
+            print(g.serialize(format=format))
         else:
-            g.serialize(format="turtle", destination=target)
+            g.serialize(format=format, destination=target)
 
     def convert(
         self, source: Union[Graph, GraphDocument], target: rdflib.Graph = None, **kwargs
@@ -157,6 +157,8 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         target.add((pred, RDF.type, OWL.AnnotationProperty))
 
     def _uri_ref(self, curie: CURIE) -> rdflib.URIRef:
+        if ":" not in curie:
+            curie = f"obo:{curie}"
         if self.curie_converter is None:
             self.curie_converter = BasicOntologyInterface().converter
         uri = self.curie_converter.expand(curie, passthrough=True)
