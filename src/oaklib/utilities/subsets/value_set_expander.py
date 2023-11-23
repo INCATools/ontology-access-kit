@@ -182,6 +182,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         oi: BasicOntologyInterface,
         enum_definition: EnumDefinition = None,
     ) -> PermissibleValue:
+        definition = oi.definition(curie)
         label = oi.label(curie)
         pv_formula = enum_definition.pv_formula if enum_definition else None
         if str(pv_formula) == "CURIE":
@@ -194,7 +195,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
             text = curie.split(":")[1]
         else:
             text = curie
-        return PermissibleValue(text=text, meaning=curie, description=label)
+        return PermissibleValue(text=text, meaning=curie, description=definition, title=label)
 
     def expand_in_place(
         self,
