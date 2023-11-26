@@ -2,7 +2,6 @@
 .tox/
 __pycache__/
 .ipynb_checkpoints/
-tests/output/
 dist/
 db/
 
@@ -25,7 +24,8 @@ notebooks/api-key.txt
 .coverage.*
 .coverage
 coverage.*
-tests/input/fhirjson_conf.json
+tests/input/*_conf.json
+tests/output/
 
 oak_hp.profile
 oak_semsimian_hp.profile

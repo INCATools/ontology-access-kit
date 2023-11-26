@@ -125,7 +125,10 @@ from oaklib.io.obograph_writer import write_graph
 from oaklib.io.rollup_report_writer import write_report
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
-from oaklib.io.streaming_fhir_writer import StreamingFHIRWriter
+from oaklib.io.streaming_fhir_writer import (
+    StreamingFhirJsonWriter,
+    StreamingFhirNpmWriter,
+)
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_kgcl_writer import StreamingKGCLWriter
@@ -212,6 +215,7 @@ OWLFUN_FORMAT = "ofn"
 NL_FORMAT = "nl"
 KGCL_FORMAT = "kgcl"
 FHIR_JSON_FORMAT = "fhirjson"
+FHIR_NPM_FORMAT = "fhirnpm"
 HEATMAP_FORMAT = "heatmap"
 
 ONT_FORMATS = [
@@ -222,6 +226,7 @@ ONT_FORMATS = [
     JSON_FORMAT,
     YAML_FORMAT,
     FHIR_JSON_FORMAT,
+    FHIR_NPM_FORMAT,
     CSV_FORMAT,
     NL_FORMAT,
 ]
@@ -238,7 +243,8 @@ WRITERS = {
     JSONL_FORMAT: StreamingJsonWriter,
     YAML_FORMAT: StreamingYamlWriter,
     SSSOM_FORMAT: StreamingSssomWriter,
-    FHIR_JSON_FORMAT: StreamingFHIRWriter,
+    FHIR_JSON_FORMAT: StreamingFhirJsonWriter,
+    FHIR_NPM_FORMAT: StreamingFhirNpmWriter,
     INFO_FORMAT: StreamingInfoWriter,
     NL_FORMAT: StreamingNaturalLanguageWriter,
     KGCL_FORMAT: StreamingKGCLWriter,

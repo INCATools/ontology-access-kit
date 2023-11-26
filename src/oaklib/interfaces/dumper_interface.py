@@ -5,7 +5,10 @@ from typing import Any, Dict
 from linkml_runtime.dumpers import json_dumper
 
 from oaklib.converters.obo_graph_to_cx_converter import OboGraphToCXConverter
-from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
+from oaklib.converters.obo_graph_to_fhir_converter import (
+    OboGraphToFhirJsonConverter,
+    OboGraphToFhirNpmConverter,
+)
 from oaklib.converters.obo_graph_to_obo_format_converter import (
     OboGraphToOboFormatConverter,
 )
@@ -18,7 +21,8 @@ SUMMARY_STATISTICS_MAP = Dict[str, Any]
 
 OBOGRAPH_CONVERTERS = {
     "obo": OboGraphToOboFormatConverter,
-    "fhirjson": OboGraphToFHIRConverter,
+    "fhirjson": OboGraphToFhirJsonConverter,
+    "fhirnpm": OboGraphToFhirNpmConverter,
     "owl": OboGraphToRdfOwlConverter,
     "turtle": OboGraphToRdfOwlConverter,
     "rdf": OboGraphToRdfOwlConverter,

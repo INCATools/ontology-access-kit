@@ -4,7 +4,12 @@ Resources
 - Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369
 - Conversion examples: https://drive.google.com/drive/folders/1lwGQ63_fedfWlGlRemq8OeZhZsvIXN01
 """
+import json
 import logging
+import os
+import shutil
+import tarfile
+import tempfile
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple, Union
 
@@ -52,7 +57,7 @@ SCOPE_DISPLAY = {
 
 
 @dataclass
-class OboGraphToFHIRConverter(DataModelConverter):
+class OboGraphToFhirJsonConverter(DataModelConverter):
     """Converts from OboGraph to FHIR.
 
     - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
@@ -86,7 +91,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         Dump an OBO Graph Document to a FHIR CodeSystem.
 
         :param source: Source serialization.
-        :param target: Target serialization.
+        :param target: Target outpath.
         :param kwargs: Additional keyword arguments passed to :ref:`convert`.
         """
         cs = self.convert(
@@ -119,11 +124,11 @@ class OboGraphToFHIRConverter(DataModelConverter):
 
         To use:
 
-        >>> from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
+        >>> from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFhirJsonConverter
         >>> from oaklib.datamodels.obograph import GraphDocument
         >>> from linkml_runtime.dumpers import json_dumper
         >>> from linkml_runtime.loaders import json_loader
-        >>> converter = OboGraphToFHIRConverter()
+        >>> converter = OboGraphToFhirJsonConverter()
         >>> graph = json_loader.load("tests/input/hp_test.json", target_class=GraphDocument)
         >>> code_system = converter.convert(graph)
         >>> print(json_dumper.dumps(code_system))
@@ -205,6 +210,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         predicate_period_replacement: bool = False,
     ) -> CodeSystem:
         target.id = source.id
+        target.version = source.meta.version
         edges_by_subject = index_graph_edges_by_subject(source)
         logging.info(f"Converting graph to obo: {source.id}, nodes={len(source.nodes)}")
         self.predicates_to_export = set()
@@ -286,3 +292,71 @@ class OboGraphToFHIRConverter(DataModelConverter):
                     value=synonym.val,
                 )
             )
+
+
+@dataclass
+class OboGraphToFhirNpmConverter(OboGraphToFhirJsonConverter):
+    """Converts an OBO Graph to a FHIR NPM package.
+
+    Plays the same role as OboGraphToFhirJsonConverter, but also packages the outpus.
+    """
+
+    def dump(
+        self,
+        source: GraphDocument,
+        target: str,
+        manifest_path: str,
+        **kwargs,
+    ) -> str:
+        """
+        Dump an OBO Graph Document to a FHIR CodeSystem.
+
+        :param source: Source serialization.
+        :param target: Target directory to save the output.
+        :param manifest_path: Path to a manifest JSON. Required fields:'name', 'version', 'description', and 'author'.
+                              See: https://confluence.hl7.org/display/FHIR/NPM+Package+Specification
+        :param kwargs: Additional keyword arguments passed to :ref:`convert`.
+        """
+        cs = self.convert(
+            source,
+            **kwargs,
+        )
+        cs_filename = "CodeSystem-" + kwargs["code_system_id"] + ".json"
+
+        outpath = os.path.join(target, cs_filename.replace(".json", ".tgz"))
+
+        # Create directory structure
+        temp_dir = tempfile.mkdtemp()
+        package_dir = os.path.join(temp_dir, "package")
+        os.mkdir(package_dir)
+
+        # Save FHIR resources
+        cs_str = json_dumper.dumps(cs, inject_type=False)
+        with open(os.path.join(package_dir, cs_filename), "w", encoding="UTF-8") as f:
+            f.write(cs_str)
+
+        # Save manifest package.json
+        shutil.copyfile(manifest_path, os.path.join(package_dir, "package.json"))
+
+        # Create and save .index.json
+        package_index = {
+            "index-version": 1,
+            "files": [
+                {
+                    "filename": cs_filename,
+                    "resourceType": "CodeSystem",
+                    "id": kwargs["code_system_id"],
+                    "url": kwargs["code_system_url"],
+                    "version": cs.version,
+                },
+            ],
+        }
+        with open(os.path.join(package_dir, ".index.json"), "w", encoding="UTF-8") as f:
+            json.dump(package_index, f)
+
+        # Save zipfile and remove temp dir
+        with tarfile.open(outpath, "w:gz") as tar:
+            tar.add(package_dir, arcname="package")
+        shutil.rmtree(temp_dir)
+
+        return outpath
