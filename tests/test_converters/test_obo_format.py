@@ -9,7 +9,6 @@ from typing import Optional
 
 import pytest
 import rdflib
-
 from rdflib.compare import isomorphic
 
 from oaklib import get_adapter
@@ -29,8 +28,8 @@ KNOWN_ISSUES = [
     "union-of-annotated",
     "property_value-object-annotated",
     "owl-axioms-ObjectInverseOf",
+]
 
-    ]
 
 @pytest.fixture(scope="session")
 def split_compiled_obo():
@@ -90,7 +89,7 @@ def split_compiled_obo():
         folder.mkdir(exist_ok=True, parents=True)
         filename = folder / f"{ontology_id}.obo"
         paths[ontology_id] = filename
-        #logger.info(f"W")
+        # logger.info(f"W")
         with open(filename, "w") as f:
             f.write("".join(block))
         with open(folder / f"{ontology_id}.meta.yaml", "w") as f:
@@ -103,9 +102,16 @@ def test_split(split_compiled_obo):
     for ontology_id, path in paths.items():
         print(ontology_id)
 
-@pytest.mark.parametrize("output_format", [
-    "owl", "json","obo","ofn",
-])
+
+@pytest.mark.parametrize(
+    "output_format",
+    [
+        "owl",
+        "json",
+        "obo",
+        "ofn",
+    ],
+)
 def test_generate_canonical_files(split_compiled_obo, output_format):
     """
     Generate canonical converted files using .obo as source.
@@ -149,10 +155,12 @@ def test_generate_canonical_files(split_compiled_obo, output_format):
             ok = robot_convert(path, output_path)
         assert ok is not False
         if ok:
-            canonical_path = Path(make_filename(ontology_id, "expected", output_format, parent=OBO_COMPLIANCE_DIR))
+            canonical_path = Path(
+                make_filename(ontology_id, "expected", output_format, parent=OBO_COMPLIANCE_DIR)
+            )
             if canonical_path.exists():
                 print(f"Comparing {output_path} to {canonical_path}")
-                #compare_output(path, ontology_id, "robot", output_format)
+                # compare_output(path, ontology_id, "robot", output_format)
             else:
                 canonical_path.parent.mkdir(exist_ok=True, parents=True)
                 # copy the output to the input dir
@@ -162,9 +170,14 @@ def test_generate_canonical_files(split_compiled_obo, output_format):
             assert ok is None
 
 
-@pytest.mark.parametrize("output_format", [
-    "obo", "json", "owl",
-])
+@pytest.mark.parametrize(
+    "output_format",
+    [
+        "obo",
+        "json",
+        "owl",
+    ],
+)
 @pytest.mark.parametrize("wrapper", [("obo", "simpleobo")])
 def test_oak_loaders_dumpers(split_compiled_obo, output_format, wrapper):
     """
@@ -194,12 +207,16 @@ def test_oak_loaders_dumpers(split_compiled_obo, output_format, wrapper):
             # non-canonical forms are not expected to be identical
             continue
         canonical = canonical_path(ontology_id, output_format)
-        _, _, fatal = compare_output(output_path, canonical, output_format, metadata=metadata[ontology_id])
+        _, _, fatal = compare_output(
+            output_path, canonical, output_format, metadata=metadata[ontology_id]
+        )
         if output_format == "obo":
             assert not fatal
 
 
-def compare_output(generated_path: str, canonical_path: str, format: str=None, metadata: dict=None):
+def compare_output(
+    generated_path: str, canonical_path: str, format: str = None, metadata: dict = None
+):
     """
     Compare the output of OAK loading and dumping vs canonical files.
 
@@ -219,7 +236,12 @@ def compare_output(generated_path: str, canonical_path: str, format: str=None, m
         if generated_obj == canonical_obj:
             diffs = []
         else:
-            diffs = list(difflib.unified_diff(json.dumps(canonical_obj, indent=2, sort_keys=True).splitlines(), json.dumps(generated_obj, indent=2, sort_keys=True).splitlines()))
+            diffs = list(
+                difflib.unified_diff(
+                    json.dumps(canonical_obj, indent=2, sort_keys=True).splitlines(),
+                    json.dumps(generated_obj, indent=2, sort_keys=True).splitlines(),
+                )
+            )
         num_changes = len(diffs)
     elif format == "owl":
         canonical_graph = rdflib.Graph()
@@ -229,13 +251,18 @@ def compare_output(generated_path: str, canonical_path: str, format: str=None, m
         if isomorphic(canonical_graph, generated_graph):
             diffs = []
         else:
-            diffs = list(difflib.unified_diff(canonical_graph.serialize(format="turtle").splitlines(), generated_graph.serialize(format="turtle").splitlines()))
+            diffs = list(
+                difflib.unified_diff(
+                    canonical_graph.serialize(format="turtle").splitlines(),
+                    generated_graph.serialize(format="turtle").splitlines(),
+                )
+            )
         num_changes = len(diffs)
     else:
         num_changes, diffs = 0, []
     if num_changes:
         name = metadata.get("name", None)
-        if 'unstable' in metadata:
+        if "unstable" in metadata:
             expected = "EXPECTED"
         else:
             if name in KNOWN_ISSUES:
@@ -262,6 +289,7 @@ def diff_files(file_path1, file_path2):
     :param file_path2:
     :return:
     """
+
     def readlines(file):
         lines = []
         for line in file.readlines():
@@ -270,11 +298,13 @@ def diff_files(file_path1, file_path2):
                 continue
             lines.append(line)
         return lines
-    with open(file_path1, 'r') as file1, open(file_path2, 'r') as file2:
+
+    with open(file_path1, "r") as file1, open(file_path2, "r") as file2:
         file1_contents = readlines(file1)
         file2_contents = readlines(file2)
         differ = difflib.Differ()
         diffs = list(differ.compare(file1_contents, file2_contents))
+
         def is_change(line):
             if line.startswith("+") or line.startswith("-"):
                 if line[1:].strip() == "":
@@ -283,9 +313,13 @@ def diff_files(file_path1, file_path2):
                     return True
             else:
                 return False
+
         return len([line for line in diffs if is_change(line)]), diffs
 
-def make_filename(ontology_id: str, loader: str, output_format: str, parent=OBO_COMPLIANCE_OUTPUT_DIR) -> str:
+
+def make_filename(
+    ontology_id: str, loader: str, output_format: str, parent=OBO_COMPLIANCE_OUTPUT_DIR
+) -> str:
     """
     Make a filename for a given ontology id, loader, and output format.
 
@@ -298,7 +332,8 @@ def make_filename(ontology_id: str, loader: str, output_format: str, parent=OBO_
     outdir = parent / ontology_id
     outdir.mkdir(exist_ok=True, parents=True)
     return str(outdir / f"{ontology_id}.{loader}.{output_format}")
-    #return str(source_path.parent / f"{ontology_id}.{loader}.{output_format}")
+    # return str(source_path.parent / f"{ontology_id}.{loader}.{output_format}")
+
 
 def canonical_path(ontology_id: str, output_format: str) -> str:
     """
@@ -309,6 +344,7 @@ def canonical_path(ontology_id: str, output_format: str) -> str:
     :return:
     """
     return str(OBO_COMPLIANCE_DIR / ontology_id / f"{ontology_id}.expected.{output_format}")
+
 
 @lru_cache
 def robot_is_on_path():
