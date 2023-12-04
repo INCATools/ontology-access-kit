@@ -70,7 +70,7 @@ def split_compiled_obo():
                     metadata[ontology_id] = {}
                     yamls[ontology_id] = [yaml.rstrip()]
                     blocks[ontology_id] = [
-                        f"format-version: 1.4\n",
+                        "format-version: 1.4\n",
                         f"ontology: {ontology_id}\n",
                     ]
                 metadata[ontology_id][k.strip()] = v.strip()
@@ -99,8 +99,7 @@ def split_compiled_obo():
 
 def test_split(split_compiled_obo):
     paths, metadata = split_compiled_obo
-    for ontology_id, path in paths.items():
-        print(ontology_id)
+    assert len(paths.items()) > 0
 
 
 @pytest.mark.parametrize(
@@ -196,7 +195,7 @@ def test_oak_loaders_dumpers(split_compiled_obo, output_format, wrapper):
             print("Skipping intentionally invalid ontology")
             continue
         adapter = get_adapter(f"{loader}:{path}")
-        _entities = list(adapter.entities())
+        assert len(list(adapter.entities())) > 0
         output_path = make_filename(ontology_id, loader, output_format)
         output_format_option = output_format
         if output_format == "owl":
