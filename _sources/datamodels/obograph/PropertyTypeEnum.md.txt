@@ -7,7 +7,7 @@ _The node subtype for property nodes_
 
 
 
-URI: [PropertyTypeEnum](PropertyTypeEnum)
+URI: [PropertyTypeEnum](PropertyTypeEnum.md)
 
 ## Permissible Values
 

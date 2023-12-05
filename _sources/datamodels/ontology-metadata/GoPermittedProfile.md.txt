@@ -1,6 +1,6 @@
 # Subset: GoPermittedProfile
 
-URI: [GoPermittedProfile](GoPermittedProfile)
+URI: [GoPermittedProfile](GoPermittedProfile.md)
 
 
 

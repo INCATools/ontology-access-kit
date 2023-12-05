@@ -1,6 +1,6 @@
 # Subset: AllotropePermittedProfile
 
-URI: [AllotropePermittedProfile](AllotropePermittedProfile)
+URI: [AllotropePermittedProfile](AllotropePermittedProfile.md)
 
 
 

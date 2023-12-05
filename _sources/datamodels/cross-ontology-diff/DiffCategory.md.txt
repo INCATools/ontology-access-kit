@@ -7,7 +7,7 @@ _Category of the cross-ontology diff, from the perspective of the left-hand edge
 
 
 
-URI: [DiffCategory](DiffCategory)
+URI: [DiffCategory](DiffCategory.md)
 
 ## Permissible Values
 

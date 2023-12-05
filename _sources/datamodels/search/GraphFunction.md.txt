@@ -2,7 +2,7 @@
 
 
 
-URI: [GraphFunction](GraphFunction)
+URI: [GraphFunction](GraphFunction.md)
 
 ## Permissible Values
 

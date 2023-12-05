@@ -2,7 +2,7 @@
 
 
 
-URI: [BooleanOperator](BooleanOperator)
+URI: [BooleanOperator](BooleanOperator.md)
 
 ## Permissible Values
 

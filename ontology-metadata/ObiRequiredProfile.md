@@ -1,6 +1,6 @@
 # Subset: ObiRequiredProfile
 
-URI: [ObiRequiredProfile](ObiRequiredProfile)
+URI: [ObiRequiredProfile](ObiRequiredProfile.md)
 
 
 

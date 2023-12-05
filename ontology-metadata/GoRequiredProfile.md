@@ -1,6 +1,6 @@
 # Subset: GoRequiredProfile
 
-URI: [GoRequiredProfile](GoRequiredProfile)
+URI: [GoRequiredProfile](GoRequiredProfile.md)
 
 
 

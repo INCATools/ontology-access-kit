@@ -2,7 +2,7 @@
 
 
 
-URI: [SeverityOptions](SeverityOptions)
+URI: [SeverityOptions](SeverityOptions.md)
 
 ## Permissible Values
 

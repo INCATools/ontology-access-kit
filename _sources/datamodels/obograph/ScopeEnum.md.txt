@@ -7,7 +7,7 @@ _A vocabulary of terms that can be used to "scope" a synonym_
 
 
 
-URI: [ScopeEnum](ScopeEnum)
+URI: [ScopeEnum](ScopeEnum.md)
 
 ## Permissible Values
 

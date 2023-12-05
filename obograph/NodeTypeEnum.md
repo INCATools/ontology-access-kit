@@ -7,7 +7,7 @@ _The main type of a node_
 
 
 
-URI: [NodeTypeEnum](NodeTypeEnum)
+URI: [NodeTypeEnum](NodeTypeEnum.md)
 
 ## Permissible Values
 

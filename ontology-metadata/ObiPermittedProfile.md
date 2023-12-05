@@ -1,6 +1,6 @@
 # Subset: ObiPermittedProfile
 
-URI: [ObiPermittedProfile](ObiPermittedProfile)
+URI: [ObiPermittedProfile](ObiPermittedProfile.md)
 
 
 

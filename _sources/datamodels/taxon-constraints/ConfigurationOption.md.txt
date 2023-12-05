@@ -2,7 +2,7 @@
 
 
 
-URI: [ConfigurationOption](ConfigurationOption)
+URI: [ConfigurationOption](ConfigurationOption.md)
 
 ## Permissible Values
 

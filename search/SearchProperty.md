@@ -7,7 +7,7 @@ _A property that can be searched on_
 
 
 
-URI: [SearchProperty](SearchProperty)
+URI: [SearchProperty](SearchProperty.md)
 
 ## Permissible Values
 

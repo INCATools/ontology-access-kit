@@ -2,7 +2,7 @@
 
 
 
-URI: [MappingCardinalityEnum](MappingCardinalityEnum)
+URI: [MappingCardinalityEnum](MappingCardinalityEnum.md)
 
 ## Permissible Values
 

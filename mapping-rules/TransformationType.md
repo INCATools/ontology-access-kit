@@ -7,7 +7,7 @@ _A controlled datamodels of the types of transformation that can be applied to_
 
 
 
-URI: [TransformationType](TransformationType)
+URI: [TransformationType](TransformationType.md)
 
 ## Permissible Values
 

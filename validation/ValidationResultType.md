@@ -2,7 +2,7 @@
 
 
 
-URI: [ValidationResultType](ValidationResultType)
+URI: [ValidationResultType](ValidationResultType.md)
 
 ## Permissible Values
 

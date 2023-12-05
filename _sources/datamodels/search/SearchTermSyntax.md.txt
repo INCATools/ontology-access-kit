@@ -2,7 +2,7 @@
 
 
 
-URI: [SearchTermSyntax](SearchTermSyntax)
+URI: [SearchTermSyntax](SearchTermSyntax.md)
 
 ## Permissible Values
 

@@ -1,6 +1,6 @@
 # Subset: AllotropeRequiredProfile
 
-URI: [AllotropeRequiredProfile](AllotropeRequiredProfile)
+URI: [AllotropeRequiredProfile](AllotropeRequiredProfile.md)
 
 
 

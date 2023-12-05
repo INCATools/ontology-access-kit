@@ -7,7 +7,7 @@ _The field to sort by_
 
 
 
-URI: [SortFieldEnum](SortFieldEnum)
+URI: [SortFieldEnum](SortFieldEnum.md)
 
 ## Permissible Values
 

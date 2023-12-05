@@ -1,6 +1,6 @@
 # Subset: GoRecommendedProfile
 
-URI: [GoRecommendedProfile](GoRecommendedProfile)
+URI: [GoRecommendedProfile](GoRecommendedProfile.md)
 
 
 
