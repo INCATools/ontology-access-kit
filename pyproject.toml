@@ -35,7 +35,7 @@ pysolr = "^3.9.0"
 eutils = ">=0.6.0"
 requests-cache = "^1.0.1"
 click = "*"
-semsimian = ">=0.2.1"
+semsimian = "^0.2.1"
 urllib3 = {version = "< 2", optional = true}
 pydantic = "*"
 
