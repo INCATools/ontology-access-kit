@@ -22,8 +22,10 @@ OBOGRAPH_CONVERTERS = {
     "owl": OboGraphToRdfOwlConverter,
     "turtle": OboGraphToRdfOwlConverter,
     "rdf": OboGraphToRdfOwlConverter,
+    "rdfxml": OboGraphToRdfOwlConverter,
     "cx": OboGraphToCXConverter,
     "obojson": None,
+    "json": None,
 }
 
 
@@ -53,7 +55,8 @@ class DumperInterface(BasicOntologyInterface, ABC):
             raise ValueError(f"Cannot handle interface: {self}")
         og = self.as_obograph()
         ogdoc = GraphDocument(graphs=[og])
-        if syntax == "obojson":
+        converter_cls = OBOGRAPH_CONVERTERS[syntax]
+        if converter_cls is None:
             json_str = json_dumper.dumps(ogdoc)
             if path:
                 with open(path, "w", encoding="utf-8") as f:
@@ -61,9 +64,9 @@ class DumperInterface(BasicOntologyInterface, ABC):
             else:
                 print(json_str)
         else:
-            converter = OBOGRAPH_CONVERTERS[syntax]()
+            converter = converter_cls()
             converter.enforce_canonical_ordering = enforce_canonical_ordering
             logging.info(f"Using {converter}")
             converter.curie_converter = self.converter
             kwargs = {k: v for k, v in kwargs.items() if v is not None}
-            converter.dump(ogdoc, target=path, **kwargs)
+            converter.dump(ogdoc, target=path, format=syntax, **kwargs)

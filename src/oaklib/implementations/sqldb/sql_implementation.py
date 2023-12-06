@@ -1145,11 +1145,11 @@ class SqlImplementation(
         """
         if syntax is None:
             syntax = "ttl"
-        if syntax == "ttl":
+        if syntax in ["ttl", "rdfxml", "owl"]:
             g = self.as_rdflib_graph()
             logging.info(f"Dumping to {path}")
             g.serialize(path, format=syntax)
-        elif syntax == "json":
+        elif syntax in ["json", "obojson"]:
             g = self.as_obograph(expand_curies=True)
             gd = obograph.GraphDocument(graphs=[g])
             json_dumper.dump(gd, path)
