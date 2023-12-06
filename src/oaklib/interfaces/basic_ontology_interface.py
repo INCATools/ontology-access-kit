@@ -209,9 +209,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param mappings: Mappings for predicates such as rdfs:subClassOf
         :return:
         """
-        if isinstance(mappings, Path):
-            mappings = str
-        if isinstance(mappings, str):
+        if isinstance(mappings, (str, Path)):
             msdf = parse_sssom_table(mappings)
             msd = to_mapping_set_document(msdf)
             mappings = msd.mapping_set.mappings
