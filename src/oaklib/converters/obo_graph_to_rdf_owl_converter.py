@@ -54,6 +54,8 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         :return:
         """
         g = self.convert(source)
+        if format == "rdfxml":
+            format = "xml"
         if target is None:
             print(g.serialize(format=format))
         else:
