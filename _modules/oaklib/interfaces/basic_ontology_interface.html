@@ -304,9 +304,7 @@
 <span class="sd">        :param mappings: Mappings for predicates such as rdfs:subClassOf</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mappings</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
-            <span class="n">mappings</span> <span class="o">=</span> <span class="nb">str</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mappings</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mappings</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
             <span class="n">msdf</span> <span class="o">=</span> <span class="n">parse_sssom_table</span><span class="p">(</span><span class="n">mappings</span><span class="p">)</span>
             <span class="n">msd</span> <span class="o">=</span> <span class="n">to_mapping_set_document</span><span class="p">(</span><span class="n">msdf</span><span class="p">)</span>
             <span class="n">mappings</span> <span class="o">=</span> <span class="n">msd</span><span class="o">.</span><span class="n">mapping_set</span><span class="o">.</span><span class="n">mappings</span>
