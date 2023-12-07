@@ -84,7 +84,7 @@ For more examples, see
 See:
 
  - [CLI docs](https://incatools.github.io/ontology-access-kit/cli.html)
- - [Example notebooks](https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands
+ - [Example notebooks](https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands)
 
 ## Search
 
