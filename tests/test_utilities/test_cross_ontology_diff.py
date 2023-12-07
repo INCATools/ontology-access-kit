@@ -50,7 +50,11 @@ class TestStructuralDiff(unittest.TestCase):
         ]
         for oi in [self.oi, self.owl_oi]:
             for subject, preds, ancs in cases:
-                self.assertEqual(ancs, list(oi.ancestors([subject], predicates=preds)))
+                self.assertEqual(
+                    ancs,
+                    list(oi.ancestors([subject], predicates=preds)),
+                    msg=f"Initial Check Failed for {oi.__class__}",
+                )
 
     def test_structural_diff(self):
         cases = [(EXPECTED_L2R, False), (EXPECTED_BIDI, True)]
