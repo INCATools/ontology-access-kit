@@ -11,7 +11,7 @@ Python lib for common ontology operations over a variety of backends.
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6456239.svg)](https://doi.org/10.5281/zenodo.6456239)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](.github/CODE_OF_CONDUCT.md) 
 
-OAK provides a collection of [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for various ontology operations, including:
+OAK provides a collection of [interfaces](https://incatools.github.io/ontology-access-kit/packages/interfaces/index.html#interfaces) for various ontology operations, including:
 
  - [look up basic features](https://incatools.github.io/ontology-access-kit/guide/basics.html) of an ontology element, such as its label, definition, relationships, or aliases
  - search an ontology for a term
