@@ -217,8 +217,6 @@ runoak lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
 ```
 
 
-
-
 ### Visualization of ancestor graphs
 
 Use the sqlite backend to visualize graph up from 'vacuole' using test ontology sqlite:
