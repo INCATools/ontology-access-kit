@@ -153,6 +153,10 @@ from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
+from oaklib.utilities.format_utilities import (
+    OBOGRAPHS_SYNTAX_ALIAS_MAP,
+    RDFLIB_SYNTAX_ALIAS_MAP,
+)
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
 from oaklib.utilities.identifier_utils import (
     string_as_base64_curie,
@@ -1146,10 +1150,13 @@ class SqlImplementation(
         if syntax is None:
             syntax = "ttl"
         if syntax in ["ttl", "rdfxml", "owl"]:
+            if syntax in RDFLIB_SYNTAX_ALIAS_MAP:
+                syntax = RDFLIB_SYNTAX_ALIAS_MAP[syntax]
             g = self.as_rdflib_graph()
             logging.info(f"Dumping to {path}")
             g.serialize(path, format=syntax)
-        elif syntax in ["json", "obojson"]:
+        elif syntax in OBOGRAPHS_SYNTAX_ALIAS_MAP.keys():
+            syntax = OBOGRAPHS_SYNTAX_ALIAS_MAP[syntax]
             g = self.as_obograph(expand_curies=True)
             gd = obograph.GraphDocument(graphs=[g])
             json_dumper.dump(gd, path)
