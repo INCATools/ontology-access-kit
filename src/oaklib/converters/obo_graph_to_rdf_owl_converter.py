@@ -24,6 +24,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_RELATED_SYNONYM,
 )
 from oaklib.types import CURIE
+from oaklib.utilities.format_utilities import RDFLIB_SYNTAX_ALIAS_MAP
 
 TRIPLE = Tuple[rdflib.URIRef, rdflib.URIRef, Any]
 
@@ -54,8 +55,9 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         :return:
         """
         g = self.convert(source)
-        if format == "rdfxml":
-            format = "xml"
+        # TODO: simplify this, see https://github.com/INCATools/ontology-access-kit/issues/687
+        if format in RDFLIB_SYNTAX_ALIAS_MAP:
+            format = RDFLIB_SYNTAX_ALIAS_MAP[format]
         if target is None:
             print(g.serialize(format=format))
         else:
