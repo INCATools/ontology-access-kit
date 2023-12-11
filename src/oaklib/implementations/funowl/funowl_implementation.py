@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass
-from typing import Any, Iterable, List, Mapping, Optional
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 import rdflib
 from funowl import (
@@ -27,7 +27,7 @@ from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
-from oaklib.types import CURIE, PRED_CURIE
+from oaklib.types import CURIE, PRED_CURIE, URI
 
 
 @dataclass
@@ -97,7 +97,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             else:
                 raise ValueError(f"Label must be literal, not {label}")
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         for ax in self._ontology.axioms:
             if isinstance(ax, Declaration):
                 uri = ax.v.full_uri(self.functional_writer.g)

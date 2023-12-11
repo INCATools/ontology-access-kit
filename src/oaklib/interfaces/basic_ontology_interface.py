@@ -603,7 +603,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             f"ontology_metadata_map() method not implemented for {self.__class__.__name__}"
         )
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         """
         Yields all known entity CURIEs.
 

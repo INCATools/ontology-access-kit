@@ -151,7 +151,7 @@ class OboGraphImplementation(
                             # directionality is lost in OboGraph representation
                             yield self._tuple_to_curies((n1, EQUIVALENT_CLASS, n2))
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         od = self.obograph_document
         for g in od.graphs:
             for n in g.nodes:

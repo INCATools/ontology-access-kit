@@ -150,7 +150,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
-from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
+from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
@@ -407,7 +407,7 @@ class SqlImplementation(
             if row.language:
                 yield row.language
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
         # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
         q = self.session.query(Node)

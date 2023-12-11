@@ -4,7 +4,7 @@ import shutil
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Type
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Type, Union
 
 import rdflib
 import sqlalchemy.orm
@@ -63,7 +63,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
-from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
+from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.identifier_utils import synonym_type_code_from_curie
 from oaklib.utilities.iterator_utils import chunk
 
@@ -347,7 +347,7 @@ class KGXImplementation(
         # TODO
         return False
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         q = self.session.query(Node.id)
         logging.debug(f"Entities Query: {q}")
         for row in q:

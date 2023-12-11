@@ -213,7 +213,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             return uri.replace("_", ":")
         return uri
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         query = SparqlQuery(select=["?s"], distinct=True, where=["?s a ?cls", "FILTER (isIRI(?s))"])
         if owl_type:
             query.where.append(f"?s a {self.curie_to_sparql(owl_type)}")

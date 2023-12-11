@@ -120,7 +120,7 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
-from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
@@ -255,7 +255,7 @@ class SimpleOboImplementation(
         reasoner = RelationGraphReasoner(self)
         yield from reasoner.entailed_edges()
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         od = self.obo_document
         for s_id, s in od.stanzas.items():
             if filter_obsoletes:

@@ -74,7 +74,7 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
-from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.types import CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
@@ -293,7 +293,7 @@ class ProntoImplementation(
         else:
             return self.wrapped_ontology.create_relationship(curie)
 
-    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[Union[URI, CURIE]]:
         for t in self.wrapped_ontology.terms():
             if filter_obsoletes and t.obsolete:
                 continue
