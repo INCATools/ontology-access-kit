@@ -188,7 +188,11 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         if str(pv_formula) == "CURIE":
             text = curie
         elif str(pv_formula) == "LABEL":
-            text = label
+            # not all ontologies will have text for every element
+            if label is not None:
+                text = label
+            else:
+                text = curie
         elif str(pv_formula) == "URI":
             text = curie
         elif str(pv_formula) == "CODE":
