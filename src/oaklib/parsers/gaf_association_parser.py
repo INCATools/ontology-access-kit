@@ -48,7 +48,7 @@ class GafAssociationParser(XafAssociationParser):
     def post_process(
         self, association: Association
     ) -> List[Union[Association, NegatedAssociation]]:
-        if association.predicate and "not" in association.predicate.lower():
+        if association.predicate and "NOT" in association.predicate.lower():
             # in future this may return a NegatedAssociation
             return [NegatedAssociation(**association.__dict__)]
         return super().post_process(association)

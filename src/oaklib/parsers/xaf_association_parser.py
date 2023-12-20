@@ -171,6 +171,7 @@ class XafAssociationParser(AssociationParser):
         ):
             raise ValueError(f"Unexpected default predicate {self.default_predicate_value} in file")
         for line in file.readlines():
+            negated = False
             if line.startswith(self.comment_character):
                 continue
             line = line.rstrip()
@@ -181,6 +182,13 @@ class XafAssociationParser(AssociationParser):
             o = lookup_object(vals)
             if not p:
                 p = self.default_predicate_value
+            if p and "|" in p:
+                ps = p.split("|")
+                if ps[0] == "NOT":
+                    p = ps[1]
+                    negated = True
+                else:
+                    raise ValueError(f"Unexpected predicate {p} in line: {line}")
             if self.subject_prefix_column:
                 sp = lookup_subject_prefix(vals)
                 s = f"{sp}:{s}"
@@ -194,7 +202,10 @@ class XafAssociationParser(AssociationParser):
             if s.startswith("MGI:MGI:"):
                 # TODO: make this more configurable
                 s = s.replace("MGI:MGI:", "MGI:")
-            association = Association(s, p, o)
+            if negated:
+                association = NegatedAssociation(s, p, o)
+            else:
+                association = Association(s, p, o)
             if lookup_publications:
                 pub = lookup_publications(vals)
                 if pub:
