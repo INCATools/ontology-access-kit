@@ -184,7 +184,8 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
     ) -> PermissibleValue:
         definition = oi.definition(curie)
         # \n can break some downstream tooling like LinkML's gen-pydantic (v1.6.6)
-        definition = definition.replace("\n", " ")
+        if definition is not None:
+            definition = definition.replace("\n", " ")
         label = oi.label(curie)
         pv_formula = enum_definition.pv_formula if enum_definition else None
         if str(pv_formula) == "CURIE":
