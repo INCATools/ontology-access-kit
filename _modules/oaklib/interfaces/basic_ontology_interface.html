@@ -116,6 +116,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CATEGORY_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span><span class="p">,</span> <span class="n">URI</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.basic_utils</span> <span class="kn">import</span> <span class="n">get_curie_prefix</span><span class="p">,</span> <span class="n">pairs_as_dict</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.iterator_utils</span> <span class="kn">import</span> <span class="n">chunk</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.keyval_cache</span> <span class="kn">import</span> <span class="n">KeyValCache</span>
 
 <span class="n">LANGUAGE_TAG</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">NC_NAME</span> <span class="o">=</span> <span class="nb">str</span>
@@ -244,6 +245,8 @@
 
     <span class="n">cache_lookups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;If True, the implementation may choose to cache lookup operations&quot;&quot;&quot;</span>
+
+    <span class="n">property_cache</span><span class="p">:</span> <span class="n">KeyValCache</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">KeyValCache</span><span class="p">())</span>
 
     <span class="n">_edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_entailed_edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeIndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>

@@ -97,6 +97,10 @@
       
       PositiveOrNegativeAssociation : aggregator_knowledge_source
         
+      PositiveOrNegativeAssociation : comments
+        
+      PositiveOrNegativeAssociation : evidence_type
+        
       PositiveOrNegativeAssociation : negated
         
       PositiveOrNegativeAssociation : object
@@ -126,6 +130,8 @@
       PositiveOrNegativeAssociation : subject_closure_label
         
       PositiveOrNegativeAssociation : subject_label
+        
+      PositiveOrNegativeAssociation : supporting_objects
         
       
         </div><section id="inheritance">
@@ -195,6 +201,16 @@
 <td><p>The publications that support the association</p></td>
 <td><p>direct</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="evidence_type.html"><span class="std std-doc">evidence_type</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The type of evidence supporting the association</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="supporting_objects.html"><span class="std std-doc">supporting_objects</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
+<td><p>The objects that support the association</p></td>
+<td><p>direct</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="primary_knowledge_source.html"><span class="std std-doc">primary_knowledge_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Uriorcurie.html"><span class="std std-doc">Uriorcurie</span></a></p></td>
 <td><p>The primary knowledge source for the association</p></td>
@@ -223,6 +239,11 @@
 <tr class="row-even"><td><p><a class="reference internal" href="object_closure_label.html"><span class="std std-doc">object_closure_label</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>The set of objects that are related to the object of the association via the …</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="comments.html"><span class="std std-doc">comments</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>Comments about the association</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -275,12 +296,15 @@ slots:
 - object_label
 - negated
 - publications
+- evidence_type
+- supporting_objects
 - primary_knowledge_source
 - aggregator_knowledge_source
 - subject_closure
 - subject_closure_label
 - object_closure
 - object_closure_label
+- comments
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -414,6 +438,27 @@ attributes:
     - PositiveOrNegativeAssociation
     - AssociationChange
     range: uriorcurie
+  evidence_type:
+    name: evidence_type
+    description: The type of evidence supporting the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: evidence_type
+    owner: PositiveOrNegativeAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: uriorcurie
+  supporting_objects:
+    name: supporting_objects
+    description: The objects that support the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: supporting_objects
+    owner: PositiveOrNegativeAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: uriorcurie
   primary_knowledge_source:
     name: primary_knowledge_source
     description: The primary knowledge source for the association
@@ -484,6 +529,18 @@ attributes:
     rank: 1000
     multivalued: true
     alias: object_closure_label
+    owner: PositiveOrNegativeAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: string
+  comments:
+    name: comments
+    description: Comments about the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: rdfs:comment
+    multivalued: true
+    alias: comments
     owner: PositiveOrNegativeAssociation
     domain_of:
     - PositiveOrNegativeAssociation

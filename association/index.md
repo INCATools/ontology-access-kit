@@ -44,11 +44,13 @@ Name: association
 | [closure_delta](closure_delta.md) |  |
 | [closure_information_content_delta](closure_information_content_delta.md) |  |
 | [closure_predicates](closure_predicates.md) | The set of predicates used to determine if the new association object is a sp... |
+| [comments](comments.md) | Comments about the association |
 | [core_triple](core_triple.md) | A grouping slot for the core subject-predicate-object triple |
 | [creation_date](creation_date.md) | The date the association was created |
 | [date](date.md) | The date the association was created or last updated |
 | [denormalized_slot](denormalized_slot.md) | denormalized slots are for models that follow a denormalized data model |
 | [diff_slot](diff_slot.md) | A mixin for any paired slot that pertains to an association diff |
+| [evidence_type](evidence_type.md) | The type of evidence supporting the association |
 | [group_object](group_object.md) | An ontology entity that is the ancestor of the objects in the group's  |
 | [include_association_attributes](include_association_attributes.md) | If true, then the parser will include non S/P/O properties as additional attr... |
 | [is_creation](is_creation.md) |  |
@@ -94,6 +96,7 @@ Name: association
 | [subject_label](subject_label.md) | The label of the thing which the association is about |
 | [subjects_in_common](subjects_in_common.md) |  |
 | [summary_group](summary_group.md) | The field used to group an association diff summary |
+| [supporting_objects](supporting_objects.md) | The objects that support the association |
 
 
 ## Enumerations

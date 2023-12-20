@@ -19,6 +19,10 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
       
       NegatedAssociation : aggregator_knowledge_source
         
+      NegatedAssociation : comments
+        
+      NegatedAssociation : evidence_type
+        
       NegatedAssociation : negated
         
       NegatedAssociation : object
@@ -49,6 +53,8 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
         
       NegatedAssociation : subject_label
         
+      NegatedAssociation : supporting_objects
+        
       
 ```
 
@@ -75,12 +81,15 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
 | [object_label](object_label.md) | 0..1 <br/> [String](String.md) | The label of the ontology entity that is associated with the subject | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [negated](negated.md) | 0..1 <br/> [Boolean](Boolean.md) | True if the association is negated - i | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [publications](publications.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The publications that support the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [evidence_type](evidence_type.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The type of evidence supporting the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [supporting_objects](supporting_objects.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The objects that support the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [primary_knowledge_source](primary_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The primary knowledge source for the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [aggregator_knowledge_source](aggregator_knowledge_source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) | The knowledge source that aggregated the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [subject_closure](subject_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [subject_closure_label](subject_closure_label.md) | 0..* <br/> [String](String.md) | The set of subjects that are related to the subject of the association via th... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [object_closure](object_closure.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 | [object_closure_label](object_closure_label.md) | 0..* <br/> [String](String.md) | The set of objects that are related to the object of the association via the ... | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
+| [comments](comments.md) | 0..* <br/> [String](String.md) | Comments about the association | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |
 
 
 
@@ -279,6 +288,27 @@ attributes:
     - PositiveOrNegativeAssociation
     - AssociationChange
     range: uriorcurie
+  evidence_type:
+    name: evidence_type
+    description: The type of evidence supporting the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: evidence_type
+    owner: NegatedAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: uriorcurie
+  supporting_objects:
+    name: supporting_objects
+    description: The objects that support the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    multivalued: true
+    alias: supporting_objects
+    owner: NegatedAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: uriorcurie
   primary_knowledge_source:
     name: primary_knowledge_source
     description: The primary knowledge source for the association
@@ -349,6 +379,18 @@ attributes:
     rank: 1000
     multivalued: true
     alias: object_closure_label
+    owner: NegatedAssociation
+    domain_of:
+    - PositiveOrNegativeAssociation
+    range: string
+  comments:
+    name: comments
+    description: Comments about the association
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    slot_uri: rdfs:comment
+    multivalued: true
+    alias: comments
     owner: NegatedAssociation
     domain_of:
     - PositiveOrNegativeAssociation
