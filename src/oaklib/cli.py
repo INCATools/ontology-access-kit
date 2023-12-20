@@ -1006,8 +1006,9 @@ def main(
 @main.command()
 @click.argument("terms", nargs=-1)
 @ontological_output_type_option
+@autolabel_option
 @output_option
-def search(terms, output_type: str, output: TextIO):
+def search(terms, output_type: str, autolabel, output: TextIO):
     """
     Searches ontology for entities that have a label, alias, or other property matching a search term.
 
@@ -1056,11 +1057,15 @@ def search(terms, output_type: str, output: TextIO):
     if isinstance(impl, SearchInterface):
         writer = _get_writer(output_type, impl, StreamingInfoWriter)
         writer.output = output
-        for curie_it in chunk(query_terms_iterator(terms, impl)):
-            logging.info("** Next chunk:")
-            # TODO: move chunking logic to writer
-            for curie, label in impl.labels(curie_it):
-                writer.emit(dict(id=curie, label=label))
+        if autolabel:
+            for curie_it in chunk(query_terms_iterator(terms, impl)):
+                logging.info("** Next chunk:")
+                # TODO: move chunking logic to writer
+                for curie, label in impl.labels(curie_it):
+                    writer.emit(dict(id=curie, label=label))
+        else:
+            for curie in query_terms_iterator(terms, impl):
+                writer.emit(dict(id=curie), label_fields=[])
         writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
