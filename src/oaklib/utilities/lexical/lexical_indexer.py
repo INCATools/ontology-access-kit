@@ -7,19 +7,20 @@ Various utilities for working with lexical aspects of ontologies plus mappings
 """
 import logging
 import re
+import typing as t
 from collections import defaultdict
 from pathlib import Path
 from typing import Collection, Dict, List, Optional, Tuple, Union
 
+import curies
+from curies import Converter
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import json_loader, yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from sssom.constants import LICENSE, MAPPING_SET_ID
-from sssom.context import get_default_metadata
-from sssom.sssom_document import MappingSetDocument
-from sssom.typehints import Metadata
-from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
-from sssom_schema import Mapping, MappingSet
+from sssom.constants import CURIE_MAP
+from sssom.context import ensure_converter
+from sssom.util import MappingSetDataFrame
+from sssom_schema import Mapping
 
 from oaklib.datamodels.lexical_index import (
     LexicalGrouping,
@@ -244,8 +245,8 @@ def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
-    meta: Metadata = None,
-    prefix_map: dict = None,
+    meta: Optional[Dict[str, t.Any]] = None,
+    prefix_map: Union[None, Converter, t.Mapping[str, str]] = None,
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
@@ -310,24 +311,15 @@ def lexical_index_to_sssom(
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
 
-    if meta is None:
-        meta = get_default_metadata()
-    if prefix_map:
-        meta.prefix_map.update(
-            {k: v for k, v in prefix_map.items() if k not in meta.prefix_map.keys()}
-        )
-    mapping_set_id = meta.metadata[MAPPING_SET_ID]
-    license = meta.metadata[LICENSE]
-
-    mset = MappingSet(mapping_set_id=mapping_set_id, mappings=mappings, license=license)
-    # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
-    doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
-    msdf = to_mapping_set_dataframe(doc)
-    num_mappings = len(msdf.df.index)
-    if ensure_strict_prefixes:
-        msdf.clean_prefix_map()
-        if len(msdf.df.index) < num_mappings:
-            raise ValueError("Mappings included prefixes that were not in the prefix map")
+    converter = curies.chain(
+        [
+            Converter.from_prefix_map((meta or {}).pop(CURIE_MAP, {})),
+            ensure_converter(prefix_map, use_defaults=False),
+            oi.converter,
+        ]
+    )
+    msdf = MappingSetDataFrame.from_mappings(mappings=mappings, metadata=meta, converter=converter)
+    msdf.clean_prefix_map(strict=ensure_strict_prefixes)
     return msdf
 
 

@@ -182,19 +182,27 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         oi: BasicOntologyInterface,
         enum_definition: EnumDefinition = None,
     ) -> PermissibleValue:
+        definition = oi.definition(curie)
+        # \n can break some downstream tooling like LinkML's gen-pydantic (v1.6.6)
+        if definition is not None:
+            definition = definition.replace("\n", " ")
         label = oi.label(curie)
         pv_formula = enum_definition.pv_formula if enum_definition else None
         if str(pv_formula) == "CURIE":
             text = curie
         elif str(pv_formula) == "LABEL":
-            text = label
+            # not all ontologies will have text for every element
+            if label is not None:
+                text = label
+            else:
+                text = curie
         elif str(pv_formula) == "URI":
             text = curie
         elif str(pv_formula) == "CODE":
             text = curie.split(":")[1]
         else:
             text = curie
-        return PermissibleValue(text=text, meaning=curie, description=label)
+        return PermissibleValue(text=text, meaning=curie, description=definition, title=label)
 
     def expand_in_place(
         self,

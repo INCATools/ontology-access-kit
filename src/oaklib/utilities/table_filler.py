@@ -130,7 +130,12 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
 
 
 def write_table(
-    rows: List[ROW], output_file: IO, comments: List[str] = None, delimiter="\t", list_delimiter="|"
+    rows: List[ROW],
+    output_file: IO,
+    comments: List[str] = None,
+    delimiter="\t",
+    list_delimiter="|",
+    header: List[str] = None,
 ) -> None:
     """Writes a list of rows to a file, replacing None values with empty strings.
 
@@ -144,7 +149,14 @@ def write_table(
         for comment in comments:
             output_file.write(comment)
 
-    cols = list(rows[0].keys())
+    if header:
+        cols = header
+    else:
+        cols = []
+        for row in rows:
+            for col in row.keys():
+                if col not in cols:
+                    cols.append(col)
     writer = csv.DictWriter(output_file, fieldnames=cols, delimiter=delimiter)
     writer.writeheader()
     for row in rows:

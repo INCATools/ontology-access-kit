@@ -41,12 +41,15 @@ classes:
       - object_label
       - negated
       - publications
+      - evidence_type
+      - supporting_objects
       - primary_knowledge_source
       - aggregator_knowledge_source
       - subject_closure
       - subject_closure_label
       - object_closure
       - object_closure_label
+      - comments
 
   Association:
     is_a: PositiveOrNegativeAssociation
@@ -242,6 +245,18 @@ slots:
     description: The knowledge source that aggregated the association
     slot_uri: biolink:aggregator_knowledge_source
     range: uriorcurie
+  evidence_type:
+    description: The type of evidence supporting the association
+    range: uriorcurie
+  supporting_objects:
+    description: The objects that support the association
+    range: uriorcurie
+    multivalued: true
+  comments:
+    description: Comments about the association
+    slot_uri: rdfs:comment
+    range: string
+    multivalued: true
   denormalized_slot:
     mixin: true
     description: |-
@@ -387,3 +402,4 @@ slots:
   associations_for_subjects_in_common:
     multivalued: true
     range: Association
+

@@ -1,5 +1,5 @@
-# Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-08-14T15:53:04
+# Auto generated from association.yaml by pythongen.py version: 0.0.1
+# Generation date: 2023-11-17T17:56:03
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -69,6 +69,7 @@ LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
 ONTOASSOC = CurieNamespace("ontoassoc", "https://w3id.org/oak/association/")
 RDF = CurieNamespace("rdf", "http://example.org/UNKNOWN/rdf/")
+RDFS = CurieNamespace("rdfs", "http://example.org/UNKNOWN/rdfs/")
 SSSOM = CurieNamespace("sssom", "https://w3id.org/sssom/")
 DEFAULT_ = ONTOASSOC
 
@@ -100,6 +101,10 @@ class PositiveOrNegativeAssociation(YAMLRoot):
     publications: Optional[
         Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
     ] = empty_list()
+    evidence_type: Optional[Union[str, URIorCURIE]] = None
+    supporting_objects: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
     primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
     aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
     subject_closure: Optional[
@@ -110,6 +115,7 @@ class PositiveOrNegativeAssociation(YAMLRoot):
         Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
     ] = empty_list()
     object_closure_label: Optional[Union[str, List[str]]] = empty_list()
+    comments: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.subject is not None and not isinstance(self.subject, URIorCURIE):
@@ -146,6 +152,17 @@ class PositiveOrNegativeAssociation(YAMLRoot):
             self.publications = [self.publications] if self.publications is not None else []
         self.publications = [
             v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.publications
+        ]
+
+        if self.evidence_type is not None and not isinstance(self.evidence_type, URIorCURIE):
+            self.evidence_type = URIorCURIE(self.evidence_type)
+
+        if not isinstance(self.supporting_objects, list):
+            self.supporting_objects = (
+                [self.supporting_objects] if self.supporting_objects is not None else []
+            )
+        self.supporting_objects = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.supporting_objects
         ]
 
         if self.primary_knowledge_source is not None and not isinstance(
@@ -187,6 +204,10 @@ class PositiveOrNegativeAssociation(YAMLRoot):
         self.object_closure_label = [
             v if isinstance(v, str) else str(v) for v in self.object_closure_label
         ]
+
+        if not isinstance(self.comments, list):
+            self.comments = [self.comments] if self.comments is not None else []
+        self.comments = [v if isinstance(v, str) else str(v) for v in self.comments]
 
         super().__post_init__(**kwargs)
 
@@ -709,6 +730,33 @@ slots.aggregator_knowledge_source = Slot(
     model_uri=ONTOASSOC.aggregator_knowledge_source,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.evidence_type = Slot(
+    uri=ONTOASSOC.evidence_type,
+    name="evidence_type",
+    curie=ONTOASSOC.curie("evidence_type"),
+    model_uri=ONTOASSOC.evidence_type,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.supporting_objects = Slot(
+    uri=ONTOASSOC.supporting_objects,
+    name="supporting_objects",
+    curie=ONTOASSOC.curie("supporting_objects"),
+    model_uri=ONTOASSOC.supporting_objects,
+    domain=None,
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
+slots.comments = Slot(
+    uri=RDFS.comment,
+    name="comments",
+    curie=RDFS.curie("comment"),
+    model_uri=ONTOASSOC.comments,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
 )
 
 slots.denormalized_slot = Slot(
