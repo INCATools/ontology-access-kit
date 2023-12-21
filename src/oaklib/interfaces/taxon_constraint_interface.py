@@ -321,7 +321,7 @@ class TaxonConstraintInterface(BasicOntologyInterface):
         return list(include)
 
     def _fill_missing(self, st: SubjectTerm):
-        # fills in trivial inferrable information
+        # fills in trivial inferable information
         for tc in st.only_in:
             if not tc.subject:
                 tc.subject = st.id

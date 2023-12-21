@@ -16,7 +16,7 @@ class AssociationIndexTest(unittest.TestCase):
     """Tests indexing associations in-memory."""
 
     def test_index(self):
-        """Tests in-memory index by laoding from GAF."""
+        """Tests in-memory index by loading from GAF."""
         parser = XafAssociationParser(
             subject_column=ColumnReference(1), object_column=ColumnReference(4)
         )
