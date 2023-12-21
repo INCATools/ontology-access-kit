@@ -79,4 +79,6 @@ class DumperInterface(BasicOntologyInterface, ABC):
             logging.info(f"Using {converter}, kwargs={kwargs}")
             converter.curie_converter = self.converter
             kwargs = {k: v for k, v in kwargs.items() if v is not None}
-            converter.dump(ogdoc, target=path, format=syntax, **kwargs)
+            if "format" not in kwargs:
+                kwargs["format"] = syntax
+            converter.dump(ogdoc, target=path, **kwargs)
