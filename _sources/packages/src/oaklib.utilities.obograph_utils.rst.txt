@@ -21,6 +21,7 @@
       default_stylemap_path
       depth_first_ordering
       draw_graph
+      edges_from_tree
       expand_all_graph_ids
       filter_by_predicates
       graph_as_dict

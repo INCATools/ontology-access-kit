@@ -537,6 +537,20 @@
 <span class="sd">        Here objects are typically nodes from ontologies and subjects are annotated</span>
 <span class="sd">        entities such as genes.</span>
 
+<span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
+<span class="sd">        &gt;&gt;&gt; from oaklib.datamodels.vocabulary import IS_A, PART_OF</span>
+<span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;src/oaklib/conf/go-pombase-input-spec.yaml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; genes = [&quot;PomBase:SPAC1142.02c&quot;, &quot;PomBase:SPAC3H1.05&quot;, &quot;PomBase:SPAC1142.06&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; preds = [IS_A, PART_OF]</span>
+<span class="sd">        &gt;&gt;&gt; for term, num in adapter.association_subject_counts(genes, object_closure_predicates=preds):</span>
+<span class="sd">        ...    print(term, num)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        ...</span>
+<span class="sd">        GO:0051668 3</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        This shows that GO:0051668 (localization within membrane) is used for all 3 input subjects</span>
+
 <span class="sd">        :param subjects:</span>
 <span class="sd">        :param predicates:</span>
 <span class="sd">        :param property_filter:</span>

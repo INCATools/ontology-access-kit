@@ -142,6 +142,10 @@
 <span class="sd">        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane</span>
 <span class="sd">        ...</span>
 
+<span class="sd">        By default, results may include redundant terms. If we set `filter_redundant=True`,</span>
+<span class="sd">        then redundant terms are removed, unless they are more significant than the</span>
+<span class="sd">        descendant term</span>
+
 <span class="sd">        :param subjects: The set of entities to test for over-representation of classes</span>
 <span class="sd">        :param item_list: An item list objects as an alternate way to specify subjects</span>
 <span class="sd">        :param background: The set of entities to use as a background for the test (recommended)</span>
@@ -173,6 +177,8 @@
                 <span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span> <span class="n">object_closure_predicates</span><span class="o">=</span><span class="n">object_closure_predicates</span>
             <span class="p">)</span>
         <span class="p">}</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sample_count</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No associations found for subjects&quot;</span><span class="p">)</span>
         <span class="n">potential_hypotheses</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">sample_count</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">hypotheses</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">hypotheses</span> <span class="o">=</span> <span class="n">potential_hypotheses</span>
