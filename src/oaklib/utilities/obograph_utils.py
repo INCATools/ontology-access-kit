@@ -182,18 +182,24 @@ def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: s
 
 
 def as_multi_digraph(
-    graph: Graph, reverse: bool = True, filter_reflexive: bool = True
+    graph: Graph,
+    reverse: bool = True,
+    filter_reflexive: bool = True,
+    predicates: Optional[List[PRED_CURIE]] = None,
 ) -> nx.MultiDiGraph:
     """
     Convert to a networkx :class:`.MultiDiGraph`
 
     :param graph: OBOGraph
-    :param reverse:
-    :return:
+    :param filter_reflexive: if true, remove edges where sub == obj
+    :param predicates: if not None, only include edges with these predicates
+    :return: networkx MultiDiGraph
     """
     mdg = nx.MultiDiGraph()
     for edge in graph.edges:
         if filter_reflexive and reflexive(edge):
+            continue
+        if predicates is not None and edge.pred not in predicates:
             continue
         edge_attrs = {"predicate": edge.pred}
         if reverse:
@@ -343,13 +349,72 @@ def shortest_paths(
                 logging.info(f"No path between {start_curie} and {end_curie}")
 
 
-def depth_first_ordering(graph: Graph) -> List[CURIE]:
+def edges_from_tree(tree: dict, pred=IS_A) -> List[Edge]:
+    """
+    Given a parent node and a list of children, return a list of edges
+
+    >>> from oaklib.utilities.obograph_utils import edges_from_tree
+    >>> for e in edges_from_tree({1: {2: [3, 4]}}):
+    ...    print(e.sub, e.obj)
+    2 1
+    3 2
+    4 2
+
+    :param tree:
+    :param pred: defaults to IS_A
+    :return:
+    """
+    edges = []
+
+    def _safe(x: Any):
+        return str(x)
+
+    def _edge(s: Any, o: Any) -> None:
+        edges.append(Edge(sub=str(s), pred=pred, obj=str(o)))
+
+    for parent, children in tree.items():
+        if isinstance(children, list):
+            # leaf nodes
+            for child in children:
+                _edge(child, parent)
+        else:
+            # non-leaf nodes
+            for child, grandchildren in children.items():
+                _edge(child, parent)
+                edges.extend(edges_from_tree({child: grandchildren}, pred=pred))
+    return edges
+
+
+def depth_first_ordering(
+    graph: Graph, predicates: Optional[List[PRED_CURIE]] = None
+) -> List[CURIE]:
     """
     Return a depth-first ordering of the nodes in the graph.
 
-    :param graph:
+    >>> from oaklib.datamodels.obograph import Graph
+    >>> from oaklib.utilities.obograph_utils import depth_first_ordering, edges_from_tree
+    >>> ## Chains have a deterministic DF ordering
+    >>> edges = edges_from_tree({1: {2: [3]}})
+    >>> list(depth_first_ordering(Graph("test", edges=edges)))
+    ['1', '2', '3']
+    >>> list(depth_first_ordering(Graph("test", edges=list(reversed(edges)))))
+    ['1', '2', '3']
+    >>> edges2 = edges_from_tree({5: [3, 4]})
+    >>> ordered = list(depth_first_ordering(Graph("test", edges=edges + edges2)))
+    >>> assert ordered.index('1') < ordered.index('2')
+
+    :param graph: OBOGraph
+    :param predicates:
     :return:
     """
+    g = as_digraph(graph, predicates=predicates)
+    roots = [n for n, d in g.in_degree() if d == 0]
+    ordered = []
+    for root in roots:
+        for n in nx.dfs_preorder_nodes(g, root):
+            if n not in ordered:
+                ordered.append(n)
+    return ordered
     six = index_graph_edges_by_subject(graph)
     oix = index_graph_edges_by_object(graph)
     stack = list(set(oix.keys()) - set(six.keys()))
@@ -544,8 +609,20 @@ def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
     return d
 
 
-def topological_sort(graph: Graph, predicates: List[PRED_CURIE]) -> List[CURIE]:
-    dg = as_multi_digraph(graph)
+def topological_sort(graph: Graph, predicates: Optional[List[PRED_CURIE]]) -> List[CURIE]:
+    """
+    Returns a topological sort of the graph.
+
+    A topological sort is a nonunique permutation of the nodes of a
+    directed graph such that an edge from u to v implies that u
+    appears before v in the topological sort order. This ordering is
+    valid only if the graph has no directed cycles.
+
+    :param graph:
+    :param predicates:
+    :return:
+    """
+    dg = as_multi_digraph(graph, predicates=predicates)
     return nx.topological_sort(dg)
 
 
