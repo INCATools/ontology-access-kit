@@ -433,6 +433,20 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         Here objects are typically nodes from ontologies and subjects are annotated
         entities such as genes.
 
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
+        >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+        >>> genes = ["PomBase:SPAC1142.02c", "PomBase:SPAC3H1.05", "PomBase:SPAC1142.06"]
+        >>> preds = [IS_A, PART_OF]
+        >>> for term, num in adapter.association_subject_counts(genes, object_closure_predicates=preds):
+        ...    print(term, num)
+        <BLANKLINE>
+        ...
+        GO:0051668 3
+        ...
+
+        This shows that GO:0051668 (localization within membrane) is used for all 3 input subjects
+
         :param subjects:
         :param predicates:
         :param property_filter:

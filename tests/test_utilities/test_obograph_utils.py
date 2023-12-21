@@ -31,10 +31,12 @@ from tests import (
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
+    MEMBRANE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
     ORGANELLE,
     OUTPUT_DIR,
+    PLASMA_MEMBRANE,
     VACUOLE,
 )
 
@@ -158,6 +160,11 @@ class TestOboGraphUtils(unittest.TestCase):
             raise NotImplementedError
 
     def test_shortest_paths(self):
+        """
+        Test that the shortest paths are correct.
+
+        :return:
+        """
         oi = self.oi
         both = [IS_A, PART_OF]
         hi = 1.0
@@ -188,17 +195,42 @@ class TestOboGraphUtils(unittest.TestCase):
                         self.assertNotIn(x, path)
 
     def test_depth_first_ordering(self):
+        """
+        Test that the depth first ordering of the graph is correct.
+
+        Note that DF ordering may be non-deterministic if the graph is not a tree.
+        This test conservatively checks conditions that are guaranteed to hold
+        even with DAGs
+
+        :return:
+        """
         oi = self.oi
-        graph = oi.descendant_graph([CELLULAR_COMPONENT], predicates=[IS_A, PART_OF])
-        ordered = depth_first_ordering(graph)
-        self.assertEqual(ordered[0], CELLULAR_COMPONENT)
-        expected_order = [
-            (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
-            (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
-            (ORGANELLE, NUCLEUS),
-            # (CYTOPLASM, NUCLEUS),
-            (IMBO, NUCLEUS),
-            (NUCLEUS, NUCLEAR_MEMBRANE),
+        expected = [
+            (
+                [CELLULAR_COMPONENT],
+                [IS_A, PART_OF],
+                [
+                    (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
+                    (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
+                    (CELLULAR_ANATOMICAL_ENTITY, NUCLEUS),
+                ],
+            ),
+            (
+                [CELLULAR_COMPONENT],
+                [IS_A],
+                [
+                    (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
+                    (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
+                    (CELLULAR_ANATOMICAL_ENTITY, NUCLEUS),
+                    (CELLULAR_ANATOMICAL_ENTITY, MEMBRANE),
+                    (MEMBRANE, PLASMA_MEMBRANE),
+                ],
+            ),
         ]
-        for parent, child in expected_order:
-            self.assertLess(ordered.index(parent), ordered.index(child), f"{parent} -> {child}")
+        for starts, preds, expected_order in expected:
+            graph = oi.descendant_graph(starts, predicates=preds)
+            ordered = depth_first_ordering(graph)
+            if len(starts) == 1:
+                self.assertEqual(ordered[0], starts[0])
+            for parent, child in expected_order:
+                self.assertLess(ordered.index(parent), ordered.index(child), f"{parent} -> {child}")
