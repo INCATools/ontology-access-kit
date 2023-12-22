@@ -62,7 +62,8 @@ class DumperInterface(BasicOntologyInterface, ABC):
             raise ValueError(f"Cannot handle interface: {self}")
         og = self.as_obograph()
         ogdoc = GraphDocument(graphs=[og])
-        if syntax not in OBOGRAPH_CONVERTERS:
+        converter_class = OBOGRAPH_CONVERTERS.get(syntax, None)
+        if converter_class is None:
             json_str = json_dumper.dumps(ogdoc, inject_type=False)
             if path:
                 with open(path, "w", encoding="utf-8") as f:
@@ -70,7 +71,6 @@ class DumperInterface(BasicOntologyInterface, ABC):
             else:
                 print(json_str)
         else:
-            converter_class = OBOGRAPH_CONVERTERS[syntax]
             if isinstance(converter_class, tuple):
                 converter_class, converter_kwargs = converter_class
                 kwargs.update(converter_kwargs)
