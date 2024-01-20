@@ -113,7 +113,7 @@ classes:
       predicate:
         slot_uri: rdf:predicate
         range: PredicateTerm
-        description: The relationship type for the contraint (e.g. in_taxon, never_in taxon)
+        description: The relationship type for the constraint (e.g. in_taxon, never_in taxon)
         todos:
           - define a value set of this
       asserted:

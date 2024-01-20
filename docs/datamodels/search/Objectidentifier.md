@@ -21,7 +21,7 @@ URI: [shex:iri](http://www.w3.org/ns/shex#iri)
 
 ## Comments
 
-* Used for inheritence and type checking
+* Used for inheritance and type checking
 
 ## Identifier and Mapping Information
 

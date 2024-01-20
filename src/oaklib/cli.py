@@ -1258,7 +1258,7 @@ def statistics(
     For bundled ontologies, we recommend some kind of partitioning, such as via
     defined roots, or via the CURIE prefix, using the ``--group-by-prefix`` option.
 
-    Ouput formats:
+    Output formats:
 
     The recommended output types for this command are yaml, json, or csv.
     The default output type is yaml, following the SummaryStatistics data model.
@@ -2027,7 +2027,7 @@ def ancestors(
 
     This will show ancestry over the full relationship graph. Like any relational
     OAK command, this can be filtered by relationship type (predicate), using --predicate (-p).
-    For exampple, constrained to is-a and part-of:
+    For example, constrained to is-a and part-of:
 
         runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050
 

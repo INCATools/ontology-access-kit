@@ -228,7 +228,7 @@ slots:
     inlined_as_list: true
     description: >-
       All nodes present in a graph. This includes class nodes as well as supporting nodes, including
-      nodes representing relationship types, subsets, annotation proeprties, etc
+      nodes representing relationship types, subsets, annotation properties, etc
   edges:
     multivalued: true
     range: Edge

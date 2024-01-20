@@ -91,7 +91,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     horsetail nucleus
     nucleus
 
-    This omits metdata about the synonym, such as the predicate, source, and type.
+    This omits metadata about the synonym, such as the predicate, source, and type.
     For this more granular view, the :ref:`obograph_interface` can be used.
 
     Basic concepts:

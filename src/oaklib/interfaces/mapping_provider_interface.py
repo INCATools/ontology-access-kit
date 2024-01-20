@@ -223,7 +223,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         """
         Normalize a CURIE to a target prefix.
 
-        If a prefix alias map is supplied, this is takes precendence:
+        If a prefix alias map is supplied, this is takes precedence:
 
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("tests/input/go-nucleus.obo")
