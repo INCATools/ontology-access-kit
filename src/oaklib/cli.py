@@ -1687,7 +1687,9 @@ def annotate(
         if match_column:
             writer = _get_writer(output_type, impl, StreamingCsvWriter)
             writer.output = output
-            for row in impl.annotate_tabular_file(text_file, configuration=configuration, match_column=match_column):
+            for row in impl.annotate_tabular_file(
+                text_file, configuration=configuration, match_column=match_column
+            ):
                 writer.emit(row)
         else:
             for ann in impl.annotate_file(text_file, configuration):

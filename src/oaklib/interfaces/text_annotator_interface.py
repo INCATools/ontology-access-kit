@@ -3,7 +3,7 @@ import logging
 from abc import ABC
 from io import TextIOWrapper
 from pathlib import Path
-from typing import Iterable, Iterator, Optional, Dict
+from typing import Dict, Iterable, Iterator, Optional
 
 from oaklib.datamodels.lexical_index import LexicalIndex
 from oaklib.datamodels.mapping_rules_datamodel import MappingRuleCollection

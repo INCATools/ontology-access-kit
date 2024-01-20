@@ -9,15 +9,21 @@ Adapter for NCATS Biomedical Translator endpoints (experimental).
 """
 import logging
 from dataclasses import dataclass
-from typing import Iterable, Mapping, Optional, Union, List
+from typing import Iterable, List, Mapping, Optional, Union
 
 import requests
 import sssom_schema.datamodel.sssom_schema as sssom
 
 from oaklib.datamodels.search import SearchConfiguration
-from oaklib.datamodels.vocabulary import SEMAPV, SKOS_CLOSE_MATCH, SKOS_EXACT_MATCH, RDFS_LABEL, HAS_RELATED_SYNONYM
+from oaklib.datamodels.vocabulary import (
+    HAS_RELATED_SYNONYM,
+    RDFS_LABEL,
+    SEMAPV,
+    SKOS_CLOSE_MATCH,
+    SKOS_EXACT_MATCH,
+)
 from oaklib.interfaces import SearchInterface
-from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, ALIAS_MAP
+from oaklib.interfaces.basic_ontology_interface import ALIAS_MAP, LANGUAGE_TAG
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.types import CURIE
 
@@ -101,10 +107,12 @@ class TranslatorImplementation(
         return
 
     def basic_search(
-            self, search_term: str, config: Optional[SearchConfiguration] = None
+        self, search_term: str, config: Optional[SearchConfiguration] = None
     ) -> Iterable[CURIE]:
-        r = requests.get(f"{NAME_NORMALIZER_ENDPOINT}/lookup",
-                         params={"string": search_term, "autocomplete": "true"})
+        r = requests.get(
+            f"{NAME_NORMALIZER_ENDPOINT}/lookup",
+            params={"string": search_term, "autocomplete": "true"},
+        )
         r.raise_for_status()
         results = r.json()
         for result in results:
@@ -117,8 +125,7 @@ class TranslatorImplementation(
             raise NotImplementedError
         if self.property_cache.contains(curie, RDFS_LABEL):
             return self.property_cache.get(curie, RDFS_LABEL)
-        r = requests.get(f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup",
-                         params={"curies": curie})
+        r = requests.get(f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup", params={"curies": curie})
         r.raise_for_status()
         results = r.json()
         if curie not in results:
@@ -126,8 +133,7 @@ class TranslatorImplementation(
         return results[curie]["preferred_name"]
 
     def entity_aliases(self, curie: CURIE) -> List[str]:
-        r = requests.get(f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup",
-                         params={"curies": curie})
+        r = requests.get(f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup", params={"curies": curie})
         r.raise_for_status()
         results = r.json()
         if curie not in results:
@@ -136,5 +142,3 @@ class TranslatorImplementation(
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         return {HAS_RELATED_SYNONYM: self.entity_aliases(curie)}
-
-
