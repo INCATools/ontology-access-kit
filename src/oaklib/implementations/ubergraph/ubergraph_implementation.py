@@ -18,7 +18,7 @@ from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP, RELATIONSHIP_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
 from oaklib.interfaces.rdf_interface import TRIPLE
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -64,11 +64,17 @@ class UbergraphImplementation(
 
     An UbergraphImplementation can be initialed by:
 
-        .. code:: python
+    >>> from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
+    >>> adapter = UbergraphImplementation()
 
-           >>>  oi = UbergraphImplementation()
+    or
 
-        The default ubergraph endpoint will be assumed
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("ubergraph:")
+
+    to use a specific ontology or named graph within ubergraph:
+
+    >>> adapter = get_adapter("ubergraph:cl")
 
     """
 
@@ -108,7 +114,7 @@ class UbergraphImplementation(
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             query.where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             pred = self.uri_to_curie(row["p"]["value"])
             obj = self.uri_to_curie(row["o"]["value"])
@@ -125,7 +131,7 @@ class UbergraphImplementation(
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             query.where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             pred = self.uri_to_curie(row["p"]["value"])
             subj = self.uri_to_curie(row["s"]["value"])
@@ -154,17 +160,18 @@ class UbergraphImplementation(
         objects: List[CURIE] = None,
         include_tbox: bool = True,
         include_abox: bool = True,
-        include_entailed: bool = True,
+        include_entailed: bool = False,
     ) -> Iterator[RELATIONSHIP]:
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
-        query.graph = RelationGraphEnum.nonredundant.value
+        if not include_entailed:
+            query.graph = RelationGraphEnum.nonredundant.value
         if subjects:
             query.where.append(_sparql_values("s", [self.curie_to_sparql(x) for x in subjects]))
         if predicates:
             query.where.append(_sparql_values("p", [self.curie_to_sparql(x) for x in predicates]))
         if objects:
             query.where.append(_sparql_values("o", [self.curie_to_sparql(x) for x in objects]))
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             sub = self.uri_to_curie(row["s"]["value"])
             pred = self.uri_to_curie(row["p"]["value"])
@@ -232,7 +239,7 @@ class UbergraphImplementation(
             + where,
         )
         # print(f'G={graph} Q={query.query_str()}')
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             v = row["o"]["value"]
             if not object_is_literal:
@@ -275,8 +282,14 @@ class UbergraphImplementation(
         return obograph.Graph(id="query", nodes=list(nodes.values()), edges=edges)
 
     def ancestors(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
+        if method and method == GraphTraversalMethod.HOP:
+            raise NotImplementedError("HOP not implemented for ubergraph")
         # TODO: DRY
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
@@ -291,13 +304,19 @@ class UbergraphImplementation(
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("p", pred_uris))
         query = SparqlQuery(select=["?o"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["o"]["value"])
 
     def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
+        if method and method == GraphTraversalMethod.HOP:
+            raise NotImplementedError("HOP not implemented for ubergraph")
         # TODO: DRY
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s ?p ?o", "?s a owl:Class", f'VALUES ?o {{ {" ".join(query_uris)} }}']
@@ -305,7 +324,7 @@ class UbergraphImplementation(
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -326,7 +345,7 @@ class UbergraphImplementation(
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("p", pred_uris))
         query = SparqlQuery(select=["?s ?p ?o"], where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         # TODO: remove redundancy
         rels = []
         for row in bindings:
@@ -355,7 +374,7 @@ class UbergraphImplementation(
             where.append(_sparql_values("sp", pred_uris))
             where.append(_sparql_values("op", pred_uris))
         query = SparqlQuery(select=["?a"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["a"]["value"])
 
@@ -376,7 +395,7 @@ class UbergraphImplementation(
         query = SparqlQuery(select=["?a"], distinct=True, where=where)
         subq = SparqlQuery(select=["?a2"], where=where2)
         query.add_not_in(subq)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["a"]["value"])
 
@@ -406,7 +425,7 @@ class UbergraphImplementation(
             where.append(_sparql_values("sp", pred_uris))
             where.append(_sparql_values("op", pred_uris))
         query = SparqlQuery(select=["?a", "?ic"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         ics = {
             self.uri_to_curie(row["a"]["value"]): float(self.uri_to_curie(row["ic"]["value"]))
             for row in bindings
@@ -465,7 +484,7 @@ class UbergraphImplementation(
                 _sparql_values("seed", seed_uris),
             ],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         n = 0
         for row in bindings:
             n += 1

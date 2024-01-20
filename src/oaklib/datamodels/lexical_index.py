@@ -1,8 +1,8 @@
 # Auto generated from lexical_index.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-09-21T22:56:24
+# Generation date: 2023-03-23T19:29:20
 # Schema: lexical-index
 #
-# id: https://w3id.org/linkml/lexical_index
+# id: https://w3id.org/oak/lexical-index
 # description: A datamodel for representing a lexical index of an ontology. A lexical index is keyed by optionally
 #              normalized terms.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
@@ -49,8 +49,8 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-LI = CurieNamespace("li", "https://w3id.org/linkml/lexical_index/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
+ONTOLEXINDEX = CurieNamespace("ontolexindex", "https://w3id.org/oak/lexical-index/")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 PAV = CurieNamespace("pav", "http://purl.org/pav/")
 PROV = CurieNamespace("prov", "http://www.w3.org/ns/prov#")
@@ -60,10 +60,11 @@ SCHEMA = CurieNamespace("schema", "http://schema.org/")
 SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
-DEFAULT_ = LI
+DEFAULT_ = ONTOLEXINDEX
 
 
 # Types
+
 
 # Class references
 class LexicalGroupingTerm(extended_str):
@@ -71,6 +72,10 @@ class LexicalGroupingTerm(extended_str):
 
 
 class LexicalTransformationPipelineName(extended_str):
+    pass
+
+
+class ParameterName(extended_str):
     pass
 
 
@@ -82,10 +87,10 @@ class LexicalIndex(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalIndex
-    class_class_curie: ClassVar[str] = "li:LexicalIndex"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalIndex
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalIndex"
     class_name: ClassVar[str] = "LexicalIndex"
-    class_model_uri: ClassVar[URIRef] = LI.LexicalIndex
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalIndex
 
     groupings: Optional[
         Union[
@@ -126,10 +131,10 @@ class LexicalGrouping(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalGrouping
-    class_class_curie: ClassVar[str] = "li:LexicalGrouping"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalGrouping
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalGrouping"
     class_name: ClassVar[str] = "LexicalGrouping"
-    class_model_uri: ClassVar[URIRef] = LI.LexicalGrouping
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalGrouping
 
     term: Union[str, LexicalGroupingTerm] = None
     relationships: Optional[
@@ -160,10 +165,10 @@ class RelationshipToTerm(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.RelationshipToTerm
-    class_class_curie: ClassVar[str] = "li:RelationshipToTerm"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.RelationshipToTerm
+    class_class_curie: ClassVar[str] = "ontolexindex:RelationshipToTerm"
     class_name: ClassVar[str] = "RelationshipToTerm"
-    class_model_uri: ClassVar[URIRef] = LI.RelationshipToTerm
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.RelationshipToTerm
 
     predicate: Optional[Union[str, URIorCURIE]] = None
     element: Optional[Union[str, URIorCURIE]] = None
@@ -215,7 +220,7 @@ class Activity(YAMLRoot):
     class_class_uri: ClassVar[URIRef] = PROV.Activity
     class_class_curie: ClassVar[str] = "prov:Activity"
     class_name: ClassVar[str] = "Activity"
-    class_model_uri: ClassVar[URIRef] = LI.Activity
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.Activity
 
 
 @dataclass
@@ -226,10 +231,10 @@ class LexicalTransformationPipeline(Activity):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalTransformationPipeline
-    class_class_curie: ClassVar[str] = "li:LexicalTransformationPipeline"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalTransformationPipeline
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalTransformationPipeline"
     class_name: ClassVar[str] = "LexicalTransformationPipeline"
-    class_model_uri: ClassVar[URIRef] = LI.LexicalTransformationPipeline
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalTransformationPipeline
 
     name: Union[str, LexicalTransformationPipelineName] = None
     transformations: Optional[
@@ -262,22 +267,47 @@ class LexicalTransformation(Activity):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = LI.LexicalTransformation
-    class_class_curie: ClassVar[str] = "li:LexicalTransformation"
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalTransformation
+    class_class_curie: ClassVar[str] = "ontolexindex:LexicalTransformation"
     class_name: ClassVar[str] = "LexicalTransformation"
-    class_model_uri: ClassVar[URIRef] = LI.LexicalTransformation
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.LexicalTransformation
 
     type: Optional[Union[str, "TransformationType"]] = None
-    params: Optional[str] = None
+    params: Optional[Union[Union[dict, "Any"], List[Union[dict, "Any"]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.type is not None and not isinstance(self.type, TransformationType):
             self.type = TransformationType(self.type)
 
-        if self.params is not None and not isinstance(self.params, str):
-            self.params = str(self.params)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Parameter(YAMLRoot):
+    """
+    A parameter to be applied to a transformation
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOLEXINDEX.Parameter
+    class_class_curie: ClassVar[str] = "ontolexindex:Parameter"
+    class_name: ClassVar[str] = "Parameter"
+    class_model_uri: ClassVar[URIRef] = ONTOLEXINDEX.Parameter
+
+    name: Union[str, ParameterName] = None
+    value: Optional[Union[dict, "Any"]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.name):
+            self.MissingRequiredField("name")
+        if not isinstance(self.name, ParameterName):
+            self.name = ParameterName(self.name)
 
         super().__post_init__(**kwargs)
+
+
+Any = Any
 
 
 # Enumerations
@@ -329,10 +359,10 @@ class slots:
 
 
 slots.lexicalIndex__groupings = Slot(
-    uri=LI.groupings,
+    uri=ONTOLEXINDEX.groupings,
     name="lexicalIndex__groupings",
-    curie=LI.curie("groupings"),
-    model_uri=LI.lexicalIndex__groupings,
+    curie=ONTOLEXINDEX.curie("groupings"),
+    model_uri=ONTOLEXINDEX.lexicalIndex__groupings,
     domain=None,
     range=Optional[
         Union[
@@ -343,10 +373,10 @@ slots.lexicalIndex__groupings = Slot(
 )
 
 slots.lexicalIndex__pipelines = Slot(
-    uri=LI.pipelines,
+    uri=ONTOLEXINDEX.pipelines,
     name="lexicalIndex__pipelines",
-    curie=LI.curie("pipelines"),
-    model_uri=LI.lexicalIndex__pipelines,
+    curie=ONTOLEXINDEX.curie("pipelines"),
+    model_uri=ONTOLEXINDEX.lexicalIndex__pipelines,
     domain=None,
     range=Optional[
         Union[
@@ -360,64 +390,64 @@ slots.lexicalIndex__pipelines = Slot(
 )
 
 slots.lexicalGrouping__term = Slot(
-    uri=LI.term,
+    uri=ONTOLEXINDEX.term,
     name="lexicalGrouping__term",
-    curie=LI.curie("term"),
-    model_uri=LI.lexicalGrouping__term,
+    curie=ONTOLEXINDEX.curie("term"),
+    model_uri=ONTOLEXINDEX.lexicalGrouping__term,
     domain=None,
     range=URIRef,
 )
 
 slots.lexicalGrouping__relationships = Slot(
-    uri=LI.relationships,
+    uri=ONTOLEXINDEX.relationships,
     name="lexicalGrouping__relationships",
-    curie=LI.curie("relationships"),
-    model_uri=LI.lexicalGrouping__relationships,
+    curie=ONTOLEXINDEX.curie("relationships"),
+    model_uri=ONTOLEXINDEX.lexicalGrouping__relationships,
     domain=None,
     range=Optional[Union[Union[dict, RelationshipToTerm], List[Union[dict, RelationshipToTerm]]]],
 )
 
 slots.relationshipToTerm__predicate = Slot(
-    uri=LI.predicate,
+    uri=ONTOLEXINDEX.predicate,
     name="relationshipToTerm__predicate",
-    curie=LI.curie("predicate"),
-    model_uri=LI.relationshipToTerm__predicate,
+    curie=ONTOLEXINDEX.curie("predicate"),
+    model_uri=ONTOLEXINDEX.relationshipToTerm__predicate,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.relationshipToTerm__element = Slot(
-    uri=LI.element,
+    uri=ONTOLEXINDEX.element,
     name="relationshipToTerm__element",
-    curie=LI.curie("element"),
-    model_uri=LI.relationshipToTerm__element,
+    curie=ONTOLEXINDEX.curie("element"),
+    model_uri=ONTOLEXINDEX.relationshipToTerm__element,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.relationshipToTerm__element_term = Slot(
-    uri=LI.element_term,
+    uri=ONTOLEXINDEX.element_term,
     name="relationshipToTerm__element_term",
-    curie=LI.curie("element_term"),
-    model_uri=LI.relationshipToTerm__element_term,
+    curie=ONTOLEXINDEX.curie("element_term"),
+    model_uri=ONTOLEXINDEX.relationshipToTerm__element_term,
     domain=None,
     range=Optional[str],
 )
 
 slots.relationshipToTerm__source = Slot(
-    uri=LI.source,
+    uri=ONTOLEXINDEX.source,
     name="relationshipToTerm__source",
-    curie=LI.curie("source"),
-    model_uri=LI.relationshipToTerm__source,
+    curie=ONTOLEXINDEX.curie("source"),
+    model_uri=ONTOLEXINDEX.relationshipToTerm__source,
     domain=None,
     range=Optional[Union[str, URIorCURIE]],
 )
 
 slots.relationshipToTerm__pipeline = Slot(
-    uri=LI.pipeline,
+    uri=ONTOLEXINDEX.pipeline,
     name="relationshipToTerm__pipeline",
-    curie=LI.curie("pipeline"),
-    model_uri=LI.relationshipToTerm__pipeline,
+    curie=ONTOLEXINDEX.curie("pipeline"),
+    model_uri=ONTOLEXINDEX.relationshipToTerm__pipeline,
     domain=None,
     range=Optional[
         Union[
@@ -428,28 +458,28 @@ slots.relationshipToTerm__pipeline = Slot(
 )
 
 slots.relationshipToTerm__synonymized = Slot(
-    uri=LI.synonymized,
+    uri=ONTOLEXINDEX.synonymized,
     name="relationshipToTerm__synonymized",
-    curie=LI.curie("synonymized"),
-    model_uri=LI.relationshipToTerm__synonymized,
+    curie=ONTOLEXINDEX.curie("synonymized"),
+    model_uri=ONTOLEXINDEX.relationshipToTerm__synonymized,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.lexicalTransformationPipeline__name = Slot(
-    uri=LI.name,
+    uri=ONTOLEXINDEX.name,
     name="lexicalTransformationPipeline__name",
-    curie=LI.curie("name"),
-    model_uri=LI.lexicalTransformationPipeline__name,
+    curie=ONTOLEXINDEX.curie("name"),
+    model_uri=ONTOLEXINDEX.lexicalTransformationPipeline__name,
     domain=None,
     range=URIRef,
 )
 
 slots.lexicalTransformationPipeline__transformations = Slot(
-    uri=LI.transformations,
+    uri=ONTOLEXINDEX.transformations,
     name="lexicalTransformationPipeline__transformations",
-    curie=LI.curie("transformations"),
-    model_uri=LI.lexicalTransformationPipeline__transformations,
+    curie=ONTOLEXINDEX.curie("transformations"),
+    model_uri=ONTOLEXINDEX.lexicalTransformationPipeline__transformations,
     domain=None,
     range=Optional[
         Union[Union[dict, LexicalTransformation], List[Union[dict, LexicalTransformation]]]
@@ -457,19 +487,37 @@ slots.lexicalTransformationPipeline__transformations = Slot(
 )
 
 slots.lexicalTransformation__type = Slot(
-    uri=LI.type,
+    uri=ONTOLEXINDEX.type,
     name="lexicalTransformation__type",
-    curie=LI.curie("type"),
-    model_uri=LI.lexicalTransformation__type,
+    curie=ONTOLEXINDEX.curie("type"),
+    model_uri=ONTOLEXINDEX.lexicalTransformation__type,
     domain=None,
     range=Optional[Union[str, "TransformationType"]],
 )
 
 slots.lexicalTransformation__params = Slot(
-    uri=LI.params,
+    uri=ONTOLEXINDEX.params,
     name="lexicalTransformation__params",
-    curie=LI.curie("params"),
-    model_uri=LI.lexicalTransformation__params,
+    curie=ONTOLEXINDEX.curie("params"),
+    model_uri=ONTOLEXINDEX.lexicalTransformation__params,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[Union[dict, Any], List[Union[dict, Any]]]],
+)
+
+slots.parameter__name = Slot(
+    uri=ONTOLEXINDEX.name,
+    name="parameter__name",
+    curie=ONTOLEXINDEX.curie("name"),
+    model_uri=ONTOLEXINDEX.parameter__name,
+    domain=None,
+    range=URIRef,
+)
+
+slots.parameter__value = Slot(
+    uri=ONTOLEXINDEX.value,
+    name="parameter__value",
+    curie=ONTOLEXINDEX.curie("value"),
+    model_uri=ONTOLEXINDEX.parameter__value,
+    domain=None,
+    range=Optional[Union[dict, Any]],
 )

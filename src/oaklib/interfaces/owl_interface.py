@@ -1,30 +1,45 @@
 import inspect
+import itertools
 from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Iterable, List, Optional, Type, Union
+from typing import Any, Callable, Iterable, List, Optional, Tuple, Type, Union
 
 # TODO: add funowl to dependencies
 import funowl
 from funowl import (
     IRI,
     AnnotationAssertion,
+    AsymmetricObjectProperty,
     Axiom,
     Class,
     ClassExpression,
     DisjointClasses,
     EquivalentClasses,
+    IrreflexiveObjectProperty,
     Literal,
     ObjectAllValuesFrom,
     ObjectIntersectionOf,
+    ObjectPropertyChain,
     ObjectPropertyExpression,
     ObjectSomeValuesFrom,
     ObjectUnionOf,
     Ontology,
+    ReflexiveObjectProperty,
     SubClassOf,
+    SubObjectPropertyOf,
+    SymmetricObjectProperty,
+    TransitiveObjectProperty,
 )
 from funowl.writers import FunctionalWriter
 
+from oaklib.datamodels.vocabulary import (
+    OWL_ASYMMETRIC_PROPERTY,
+    OWL_IRREFLEXIVE_PROPERTY,
+    OWL_REFLEXIVE_PROPERTY,
+    OWL_SYMMETRIC_PROPERTY,
+    OWL_TRANSITIVE_PROPERTY,
+)
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 
@@ -50,6 +65,7 @@ class AxiomFilter:
     about: Optional[Union[CURIE, List[CURIE]]] = None
     references: Optional[CURIE] = None
     func: Callable = None
+    ontologies: Optional[List[CURIE]] = None
 
     def set_type(self, axiom_type: Union[str, Type[Axiom]]) -> None:
         if isinstance(axiom_type, str):
@@ -162,6 +178,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :return:
         """
         for axiom in self.axioms():
+            # TODO: use indexing to speed this up
             if isinstance(axiom, AnnotationAssertion):
                 if subject is not None:
                     if not self._entity_matches(axiom.subject, subject):
@@ -173,6 +190,30 @@ class OwlInterface(BasicOntologyInterface, ABC):
                     if not self._entity_matches(axiom.value, value):
                         continue
                 yield axiom
+
+    def disjoint_pairs(self, subjects: Iterable[CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
+        """
+        Gets all disjoint pairs of entities
+
+        :param subjects:
+        :return:
+        """
+        for axiom in self.axioms():
+            if isinstance(axiom, DisjointClasses):
+                if isinstance(axiom.classExpressions, list):
+                    for c1, c2 in itertools.combinations(axiom.classExpressions, 2):
+                        if not subjects or (c1 in subjects or c2 in subjects):
+                            yield c1, c2
+
+    def is_disjoint(self, subject: CURIE, object: CURIE) -> bool:
+        """
+        Checks if two entities are declared or entailed disjoint.
+
+        :param subject:
+        :param object:
+        :return:
+        """
+        raise NotImplementedError
 
     def owl_classes(self) -> Iterable[Class]:
         raise NotImplementedError
@@ -301,3 +342,52 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def _axiom_is_about_curies(self, axiom: Axiom) -> List[CURIE]:
         return [self.entity_iri_to_curie(e) for e in self.axiom_is_about(axiom)]
+
+    def property_characteristics(self, property: CURIE) -> Iterable[CURIE]:
+        """
+        Gets all property characteristics for a given property
+
+        :param property:
+        :return:
+        """
+        pc_tuples = [
+            (TransitiveObjectProperty, OWL_TRANSITIVE_PROPERTY),
+            (SymmetricObjectProperty, OWL_SYMMETRIC_PROPERTY),
+            (AsymmetricObjectProperty, OWL_ASYMMETRIC_PROPERTY),
+            (ReflexiveObjectProperty, OWL_REFLEXIVE_PROPERTY),
+            (IrreflexiveObjectProperty, OWL_IRREFLEXIVE_PROPERTY),
+        ]
+        pcs = tuple([pc[0] for pc in pc_tuples])
+        for axiom in self.axioms():
+            if isinstance(axiom, pcs):
+                for pc, pc_curie in pc_tuples:
+                    if isinstance(axiom, pc):
+                        if isinstance(axiom.objectPropertyExpression, IRI):
+                            if self.entity_iri_to_curie(axiom.objectPropertyExpression) == property:
+                                yield pc_curie
+
+    def transitive_object_properties(self) -> Iterable[CURIE]:
+        """
+        Gets all transitive object properties
+
+        :return:
+        """
+        for axiom in self.axioms():
+            if isinstance(axiom, TransitiveObjectProperty):
+                if isinstance(axiom.objectPropertyExpression, IRI):
+                    yield self.entity_iri_to_curie(axiom.objectPropertyExpression)
+
+    def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
+        """
+        Gets all property chains of where the super property is a chain of IRIs
+
+        :return:
+        """
+        for axiom in self.axioms():
+            if isinstance(axiom, SubObjectPropertyOf):
+                if isinstance(axiom.superObjectPropertyExpression, ObjectPropertyChain):
+                    if isinstance(axiom.subObjectPropertyExpression, IRI):
+                        chain_exprs = axiom.superObjectPropertyExpression.objectPropertyExpressions
+                        if all(isinstance(p, IRI) for p in chain_exprs):
+                            chain = [self.entity_iri_to_curie(p) for p in chain_exprs]
+                            yield self.entity_iri_to_curie(axiom.subObjectPropertyExpression), chain

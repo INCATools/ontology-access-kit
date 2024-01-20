@@ -13,6 +13,8 @@ DEFAULT_PREFIX_MAP = {ns.prefix: str(ns) for ns in NAMESPACES}
 APP_NAME = "ontology-access-kit"
 
 IDENTIFIER_PREDICATE = "rdf:ID"
+URL_PREDICATE = "schema:url"
+PREFIX_PREDICATE = "sh:prefix"
 
 # TODO: replace with oio vocab
 LABEL_PREDICATE = omd.slots.label.curie
@@ -38,24 +40,77 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 
 DEPRECATED_PREDICATE = omd.slots.deprecated.curie
-HAS_ONTOLOGY_ROOT_TERM = omd.slots.has_ontology_root_term.curie
+TERM_REPLACED_BY = omd.slots.term_replaced_by.curie
+CONSIDER_REPLACEMENT = omd.slots.consider.curie
+HAS_OBSOLESCENCE_REASON = omd.slots.has_obsolescence_reason.curie
+TERMS_MERGED = "IAO:0000227"
+OBSOLETION_RELATIONSHIP_PREDICATES = [TERM_REPLACED_BY, CONSIDER_REPLACEMENT]
 
-IN_CATEGORY_PREDS = ["biolink:category", "dbont:category"]
+HAS_ONTOLOGY_ROOT_TERM = omd.slots.has_ontology_root_term.curie
+HAS_OBO_NAMESPACE = omd.slots.has_obo_namespace.curie
+
+BIOLINK_CATEGORY = "biolink:category"
+IN_CATEGORY_PREDS = [BIOLINK_CATEGORY, "dbont:category"]
 
 OWL_CLASS = "owl:Class"
+OWL_NAMED_INDIVIDUAL = "owl:NamedIndividual"
 OWL_OBJECT_PROPERTY = "owl:ObjectProperty"
+OWL_DATATYPE_PROPERTY = "owl:DatatypeProperty"
+OWL_ANNOTATION_PROPERTY = "owl:AnnotationProperty"
+OWL_TRANSITIVE_PROPERTY = "owl:TransitiveProperty"
+OWL_SYMMETRIC_PROPERTY = "owl:SymmetricProperty"
+OWL_ASYMMETRIC_PROPERTY = "owl:SymmetricProperty"
+OWL_REFLEXIVE_PROPERTY = "owl:ReflexiveProperty"
+OWL_IRREFLEXIVE_PROPERTY = "owl:IrreflexiveProperty"
 OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
+IS_DEFINED_BY = "rdfs:isDefinedBy"
+RDFS_COMMENT = "rdfs:comment"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 DISJOINT_WITH = "owl:disjointWith"
-SUBPROPERTY_OF = "owl:subPropertyOf"
+SUBPROPERTY_OF = "rdfs:subPropertyOf"
+RDFS_DOMAIN = "rdfs:domain"
+RDFS_RANGE = "rdfs:range"
 INVERSE_OF = "owl:inverseOf"
 RDF_TYPE = "rdf:type"
+RDFS_LABEL = "rdfs:label"
 EQUIVALENT_CLASS = "owl:equivalentClass"
 OWL_SAME_AS = "owl:sameAs"
 RDF_SEE_ALSO = "rdfs:seeAlso"
+OWL_RESTRICTION = "owl:Restriction"
+OWL_ON_PROPERTY = "owl:onProperty"
+OWL_SOME_VALUES_FROM = "owl:someValuesFrom"
+OWL_PROPERTY_CHAIN_AXIOM = "owl:propertyChainAxiom"
+
+OWL_META_CLASSES = [
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
+    OWL_NAMED_INDIVIDUAL,
+    OWL_DATATYPE_PROPERTY,
+    OWL_ANNOTATION_PROPERTY,
+    OWL_TRANSITIVE_PROPERTY,
+    OWL_SYMMETRIC_PROPERTY,
+]
+
+DCTERMS_LANGUAGE = "dcterms:language"
+PROTEGE_PREFERRED_LANGUAGE = "protege:preferredLanguage"
+ONTOLOGY_LEVEL_LANGUAGE_INDICATORS = [DCTERMS_LANGUAGE, PROTEGE_PREFERRED_LANGUAGE]
+
+STANDARD_ANNOTATION_PROPERTIES = [
+    TERM_REPLACED_BY,
+    CONSIDER_REPLACEMENT,
+    DEPRECATED_PREDICATE,
+    HAS_OBSOLESCENCE_REASON,
+    TERMS_MERGED,
+    HAS_ONTOLOGY_ROOT_TERM,
+    HAS_OBO_NAMESPACE,
+    LABEL_PREDICATE,
+]
+
 PART_OF = "BFO:0000050"
+PRECEDED_BY = "BFO:0000062"
+OVERLAPS = "RO:0002131"
 LOCATED_IN = "RO:0001025"
 DEVELOPS_FROM = "RO:0002202"
 HAS_PART = "BFO:0000051"
@@ -63,6 +118,9 @@ ONLY_IN_TAXON = "RO:0002160"
 NEVER_IN_TAXON = "RO:0002161"
 IN_TAXON = "RO:0002162"
 PRESENT_IN_TAXON = "RO:0002175"
+NEGATIVELY_REGULATES = "RO:0002212"
+POSITIVELY_REGULATES = "RO:0002213"
+REGULATES = "RO:0002211"
 
 OBO_PURL = "http://purl.obolibrary.org/obo/"
 
@@ -84,10 +142,27 @@ SKOS_MATCH_PREDICATES = [
 HAS_DBXREF = omd.slots.database_cross_reference.curie
 HAS_SYNONYM_TYPE = "oio:hasSynonymType"
 OIO_SUBSET_PROPERTY = "oio:SubsetProperty"
+OIO_SYNONYM_TYPE_PROPERTY = "oio:SynonymTypeProperty"
 ALL_MATCH_PREDICATES = SKOS_MATCH_PREDICATES + [HAS_DBXREF, OWL_SAME_AS]
 HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie
 SKOS_DEFINITION_CURIE = "skos:definition"
+
+DEFINITION_SOURCE = omd.slots.definition_source.curie
+ENTITY_LEVEL_DEFINITION_PREDICATES = [DEFINITION_SOURCE]
+
+TERM_TRACKER_ITEM = omd.slots.term_tracker_item.curie
+
+OIO_CREATED_BY = "oio:created_by"
+OIO_CREATION_DATE = "oio:creation_date"
+CONTRIBUTOR = "dcterms:contributor"
+CREATOR = "dcterms:creator"
+CREATED = "dcterms:created"
+IAO_TERM_EDITOR = "IAO:0000117"
+ALL_CONTRIBUTOR_PREDICATES = [OIO_CREATED_BY, CONTRIBUTOR, CREATOR, IAO_TERM_EDITOR]
+
+OWL_VERSION_INFO = "owl:versionInfo"
+OWL_VERSION_IRI = "owl:versionIRI"
 
 
 class SEMAPV(Enum):

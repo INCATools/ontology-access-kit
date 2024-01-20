@@ -33,6 +33,19 @@ imports:
 # Classes                         #
 #==================================
 classes:
+
+  NamedResource:
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+
+  ConstraintComponent:
+    is_a: NamedResource
+
+  Node:
+    is_a: NamedResource
+
   ValidationConfiguration:
     description: Configuration parameters for execution of a validation report
     attributes:
@@ -141,7 +154,7 @@ classes:
 #==================================
 slots:
   type:
-    range: uriorcurie
+    range: ConstraintComponent
     slot_uri: sh:sourceConstraintComponent
     description: >-
       The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel.
@@ -149,26 +162,26 @@ slots:
     required: true
   subject:
     description: The instance which the result is about
-    range: uriorcurie
+    range: Node
     slot_uri: sh:focusNode
     required: true
   instantiates:
     description: The type of the subject
-    range: uriorcurie
+    range: Node
     exact_mappings:
       - sh:sourceShape
   predicate:
     description: The predicate or property of the subject which the result is about
-    range: uriorcurie
+    range: Node
     related_mappings:
       - sh:resultPath
   object:
-    range: uriorcurie
+    range: Node
     slot_uri: sh:value
   object_str:
     range: string
   source:
-    range: uriorcurie
+    range: string
   severity:
     description: the severity of the issue
     range: severity_options

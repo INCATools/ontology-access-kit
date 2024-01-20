@@ -4,7 +4,7 @@ import unittest
 import pronto
 from kgcl_schema.datamodel import kgcl
 
-from oaklib import get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -20,7 +20,7 @@ from oaklib.utilities.obograph_utils import (
     index_graph_edges_by_subject,
     index_graph_nodes,
 )
-from oaklib.utilities.validation.definition_ontology_rules import (
+from oaklib.utilities.validation.definition_ontology_rule import (
     TextAndLogicalDefinitionMatchOntologyRule,
 )
 from tests import (
@@ -28,10 +28,15 @@ from tests import (
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
+    IMBO,
     INPUT_DIR,
+    NUCLEAR_ENVELOPE,
+    NUCLEAR_MEMBRANE,
     NUCLEUS,
+    ORGANELLE_MEMBRANE,
     OUTPUT_DIR,
     VACUOLE,
+    filecmp_difflib,
 )
 from tests.test_implementations import ComplianceTester
 
@@ -46,11 +51,12 @@ class TestProntoImplementation(unittest.TestCase):
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
+        json_resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
+        self.json_oi = ProntoImplementation(json_resource)
         self.compliance_tester = ComplianceTester(self)
 
     def test_obo_json(self) -> None:
-        resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
-        json_oi = ProntoImplementation(resource)
+        json_oi = self.json_oi
         curies = list(json_oi.entities())
         # for e in curies:
         #    logging.info(e)
@@ -66,6 +72,20 @@ class TestProntoImplementation(unittest.TestCase):
         #     OntologyResource(slug='go-nucleus.from-json.obo', directory=OUTPUT_DIR, local=True, format='obo')
         #     )
 
+    def test_custom_prefixes(self):
+        resource = OntologyResource(slug="alignment-test.obo", directory=INPUT_DIR, local=True)
+        oi = ProntoImplementation(resource)
+        cases = [
+            ("XX:1", "http://purl.obolibrary.org/obo/XX_1"),
+            (NUCLEUS, "http://purl.obolibrary.org/obo/GO_0005634"),
+            ("schema:Person", "http://schema.org/Person"),
+            ("FOO:1", None),
+        ]
+        for curie, iri in cases:
+            self.assertEqual(oi.curie_to_uri(curie), iri, f"in expand curie: {curie}")
+            if iri is not None:
+                self.assertEqual(oi.uri_to_curie(iri), curie, f"in contract iri: {iri}")
+
     def test_relationship_map(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map("GO:0005773")
@@ -76,6 +96,10 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi)
+
+    @unittest.skip("TODO: fix")
+    def test_rbox_relationships(self):
+        self.compliance_tester.test_rbox_relationships(self.oi)
 
     def test_equiv_relationships(self):
         self.compliance_tester.test_equiv_relationships(self.oi)
@@ -114,6 +138,9 @@ class TestProntoImplementation(unittest.TestCase):
         assert "term_tracker_item" in m.keys()
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
 
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi)
+
     def test_labels(self):
         self.compliance_tester.test_labels(self.oi)
 
@@ -133,6 +160,21 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
+
+    def test_synonym_types(self):
+        self.compliance_tester.test_synonym_types(self.oi)
+
+    @unittest.skip("TODO")
+    def test_synonym_types_json(self):
+        self.compliance_tester.test_synonym_types(self.json_oi)
+
+    def test_defined_bys(self):
+        self.compliance_tester.test_defined_bys(self.oi)
+
+    def test_obsolete_entities(self):
+        resource = OntologyResource(slug="obsoletion_test.obo", directory=INPUT_DIR, local=True)
+        oi = ProntoImplementation(resource)
+        self.compliance_tester.test_obsolete_entities(oi)
 
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
@@ -156,6 +198,7 @@ class TestProntoImplementation(unittest.TestCase):
             )
         )
 
+    @unittest.skip("Avoid network dependencies.")
     def test_from_obo_library(self):
         oi = ProntoImplementation(OntologyResource(local=False, slug="pato.obo"))
         curies = oi.curies_by_label("shape")
@@ -172,7 +215,6 @@ class TestProntoImplementation(unittest.TestCase):
         """
         for slug in ["test_import_root.obo", "test_import_root.obo"]:
             resource = OntologyResource(slug=slug, directory=INPUT_DIR, local=True)
-            # print(resource.local_path)
             # currently throws exception
             pronto.Ontology(resource.local_path)
             oi = ProntoImplementation.create(resource)
@@ -210,7 +252,7 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_definitions(self):
-        self.compliance_tester.test_definitions(self.oi)
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
 
     def test_store_associations(self):
         self.compliance_tester.test_store_associations(self.oi)
@@ -279,6 +321,25 @@ class TestProntoImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)  # TODO
+
+    def test_ancestors_descendants(self):
+        self.compliance_tester.test_ancestors_descendants(self.oi)
+
+    @unittest.skip("TODO: relies on relation graph")
+    def test_entailed_edges(self):
+        oi = self.oi
+        with self.assertRaises(NotImplementedError):
+            list(oi.relationships([NUCLEUS], include_entailed=True))
+
+    @unittest.skip("TODO: ensure that all test files used by compliance tests are the same")
+    def test_subgraph_from_traversal(self):
+        self.compliance_tester.test_subgraph_from_traversal(self.oi)
+
+    def test_as_obograph(self):
+        self.compliance_tester.test_as_obograph(self.oi)
+
     def test_save_extract(self):
         g = self.oi.ancestor_graph(VACUOLE)
         oi = ProntoImplementation()
@@ -326,7 +387,47 @@ class TestProntoImplementation(unittest.TestCase):
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
 
+    @unittest.skip("Pronto does not currently preserve line ordering")
+    def test_sort_order_no_edits(self):
+        """
+        Ensures that dump does not perturb ordering of terms.
+        """
+        input_path = str(INPUT_DIR / "sort-test.obo")
+        output_path = str(OUTPUT_DIR / "sort-test.obo")
+        resource = OntologyResource(input_path, local=True)
+        oi = ProntoImplementation(resource)
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp_difflib(input_path, output_path))
+
+    def test_reflexive_diff(self):
+        self.compliance_tester.test_reflexive_diff(self.oi)
+
+    def test_merge(self):
+        resource1 = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
+        resource2 = OntologyResource(slug="interneuron.obo", directory=INPUT_DIR, local=True)
+        oi1 = ProntoImplementation(resource1)
+        oi2 = ProntoImplementation(resource2)
+        self.compliance_tester.test_merge(oi1, oi2)
+
+    def test_diff(self):
+        resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
+        oi_modified = ProntoImplementation(resource)
+        self.compliance_tester.test_diff(self.oi, oi_modified)
+
     def test_patcher(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = ProntoImplementation(resource)
+
+        def roundtrip(oi_in: OntologyResource):
+            out_file = str(OUTPUT_DIR / "post-kgcl.obo")
+            oi_in.dump(out_file, syntax="obo")
+            resource2 = OntologyResource(slug=out_file, local=True)
+            return ProntoImplementation(resource2)
+
+        self.compliance_tester.test_patcher(oi, self.oi, roundtrip_function=roundtrip)
+
+    def test_patcher_extra(self):
         resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
         oi = ProntoImplementation(resource)
         oi.apply_patch(
@@ -344,6 +445,13 @@ class TestProntoImplementation(unittest.TestCase):
                 new_value="foo bar",
             )
         )
+        oi.apply_patch(kgcl.RemoveUnder(id="x", subject=NUCLEUS, object=IMBO))
+        oi.apply_patch(
+            kgcl.EdgeDeletion(id="x", subject=NUCLEAR_MEMBRANE, object=NUCLEUS, predicate=PART_OF)
+        )
+        oi.apply_patch(
+            kgcl.EdgeCreation(id="x", subject=NUCLEUS, object=NUCLEAR_MEMBRANE, predicate=HAS_PART)
+        )
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
@@ -352,15 +460,23 @@ class TestProntoImplementation(unittest.TestCase):
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
             oi2.entity_aliases(CELLULAR_COMPONENT),
         )
+        cases = [
+            (NUCLEAR_MEMBRANE, IS_A, ORGANELLE_MEMBRANE),
+            (NUCLEAR_MEMBRANE, PART_OF, NUCLEAR_ENVELOPE),
+        ]
+        self.assertCountEqual(cases, list(oi2.relationships([NUCLEAR_MEMBRANE])))
+        self.assertCountEqual(
+            [(NUCLEUS, HAS_PART, NUCLEAR_MEMBRANE)], list(oi2.relationships([NUCLEUS]))
+        )
 
     def test_create_ontology_via_patches(self):
-        oi = get_implementation_from_shorthand("pronto:")
+        oi = get_adapter("pronto:")
         if isinstance(oi, PatcherInterface):
 
             def _roundtrip(original_oi: PatcherInterface) -> PatcherInterface:
                 out = str(OUTPUT_DIR / "test-create.obo")
                 original_oi.dump(out)
-                return get_implementation_from_shorthand(f"pronto:{out}")
+                return get_adapter(f"pronto:{out}")
 
             self.compliance_tester.test_create_ontology_via_patches(
                 oi, roundtrip_function=_roundtrip
@@ -387,3 +503,18 @@ class TestProntoImplementation(unittest.TestCase):
         rule = TextAndLogicalDefinitionMatchOntologyRule()
         results = list(rule.evaluate(self.oi))
         self.assertGreater(len(results), 5)
+
+    # TextAnnotatorInterface tests
+
+    @unittest.skip("TODO: OP labels")
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)
+
+    # OwlInterface tests
+
+    def test_transitive_object_properties(self):
+        self.compliance_tester.test_transitive_object_properties(self.oi)
+
+    @unittest.skip("TODO: pronto throws KeyError on test ontology")
+    def test_simple_subproperty_of_chains(self):
+        self.compliance_tester.test_simple_subproperty_of_chains(self.oi)

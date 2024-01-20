@@ -1,28 +1,39 @@
+import itertools
 import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
 from functools import lru_cache
-from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
+from pathlib import Path
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import curies
 from deprecation import deprecated
 from prefixmaps.io.parser import load_context
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
     HAS_ONTOLOGY_ROOT_TERM,
     IS_A,
+    IS_DEFINED_BY,
     LABEL_PREDICATE,
+    OBSOLETION_RELATIONSHIP_PREDICATES,
     OWL_CLASS,
     OWL_NOTHING,
     OWL_THING,
+    PREFIX_PREDICATE,
+    URL_PREDICATE,
 )
+from oaklib.indexes.edge_index import EdgeIndex
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
-from oaklib.utilities.basic_utils import get_curie_prefix
+from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
+from oaklib.utilities.iterator_utils import chunk
+from oaklib.utilities.keyval_cache import KeyValCache
 
+LANGUAGE_TAG = str
 NC_NAME = str
 PREFIX_MAP = Mapping[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
@@ -30,6 +41,11 @@ ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
 # ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
+DATATYPE = CURIE
+LITERAL_METADATA_STATEMENT = Tuple[CURIE, PRED_CURIE, Any, DATATYPE, Optional[METADATA_MAP]]
+OBJECT_METADATA_STATEMENT = Tuple[CURIE, PRED_CURIE, CURIE, None, Optional[METADATA_MAP]]
+METADATA_STATEMENT = Union[LITERAL_METADATA_STATEMENT, OBJECT_METADATA_STATEMENT]
+DEFINITION = Tuple[CURIE, str, METADATA_MAP]
 
 MISSING_PREFIX_MAP = dict(
     EFO="http://www.ebi.ac.uk/efo/EFO_",
@@ -52,13 +68,31 @@ def get_default_prefix_map() -> Mapping[str, str]:
 @dataclass
 class BasicOntologyInterface(OntologyInterface, ABC):
     """
-    Basic lookup operations on ontologies
+    Basic lookup operations on ontologies.
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter('tests/input/go-nucleus.db')
+    >>> print(adapter.label("GO:0005634"))
+    nucleus
 
     No Object Model is used - input and payloads are simple scalars, dicts, and lists
 
     This presents an intentionally highly simplistic, lossy view of an ontology. It
     is intended to fit the "80% of uses" scenario - for more advanced uses, use one of the
-    more specialized subclasses
+    more specialized subclasses.
+
+    For example, BasicOntologyInterface exposes a simple model of synonyms as aliases:
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter('tests/input/go-nucleus.db')
+    >>> for alias in sorted(adapter.entity_aliases("GO:0005634")):
+    ...     print(alias)
+    cell nucleus
+    horsetail nucleus
+    nucleus
+
+    This omits metdata about the synonym, such as the predicate, source, and type.
+    For this more granular view, the :ref:`obograph_interface` can be used.
 
     Basic concepts:
 
@@ -105,6 +139,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     strict: bool = False
     """Raise exceptions when entities not found in ID-based lookups"""
 
+    _multilingual: bool = None
+
     autosave: bool = field(default_factory=lambda: True)
     """For adapters that wrap a transactional source (e.g sqlite), this controls
     whether results should be auto-committed after each operation"""
@@ -117,12 +153,33 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     _converter: Optional[curies.Converter] = None
 
+    auto_relax_axioms: bool = None
+    """If True, relax some OWL axioms as per https://robot.obolibrary.org/relax"""
+
+    cache_lookups: bool = False
+    """If True, the implementation may choose to cache lookup operations"""
+
+    property_cache: KeyValCache = field(default_factory=lambda: KeyValCache())
+
+    _edge_index: Optional[EdgeIndex] = None
+    _entailed_edge_index: Optional[EdgeIndex] = None
+
     def prefix_map(self) -> PREFIX_MAP:
         """
         Return a dictionary mapping all prefixes known to the resource to their URI expansion.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for prefix, expansion in adapter.prefix_map().items():
+        ...     print(prefix, expansion)
+        <BLANKLINE>
+        ...
+        GO http://purl.obolibrary.org/obo/GO_
+        ...
+
         By default, this returns a combination of the  OBO Foundry prefix map with
         the default OAKlib prefix map (see :data:`oaklib.datamodels.vocabulary.DEFAULT_PREFIX_MAP`).
+
 
         :return: prefix map
         """
@@ -136,19 +193,29 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def converter(self) -> curies.Converter:
         """Get a converter for this ontology interface's prefix map.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> converter = adapter.converter
+        >>> print(converter.compress("http://purl.obolibrary.org/obo/GO_0005634"))
+        GO:0005634
+
         :return: A converter
         """
         if self._converter is None:
             self._converter = curies.Converter.from_prefix_map(self.prefix_map())
         return self._converter
 
-    def set_metamodel_mappings(self, mappings: List[Mapping]) -> None:
+    def set_metamodel_mappings(self, mappings: Union[str, Path, List[Mapping]]) -> None:
         """
         Sets the ontology metamodel mapper.
 
         :param mappings: Mappings for predicates such as rdfs:subClassOf
         :return:
         """
+        if isinstance(mappings, (str, Path)):
+            msdf = parse_sssom_table(mappings)
+            msd = to_mapping_set_document(msdf)
+            mappings = msd.mapping_set.mappings
         self.ontology_metamodel_mapper = OntologyMetadataMapper(
             mappings, curie_converter=self.converter
         )
@@ -157,15 +224,24 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Expands a CURIE to a URI.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> print(adapter.curie_to_uri("GO:0005634"))
+        http://purl.obolibrary.org/obo/GO_0005634
+
         :param curie:
         :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded
         :return:
         """
+        if ":" not in curie:
+            if strict:
+                raise ValueError(f"Invalid CURIE: {curie}")
+            return None
         rv = self.converter.expand(curie)
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
-                for prefix, uri_prefix in sorted(self.converter.data.items())
+                for prefix, uri_prefix in sorted(self.converter.prefix_map.items())
             )
             raise ValueError(
                 f"{self.__class__.__name__}.prefix_map() does not support expanding {curie}.\n"
@@ -179,6 +255,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Contracts a URI to a CURIE.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> print(adapter.uri_to_curie("http://purl.obolibrary.org/obo/GO_0005634"))
+        GO:0005634
+
         If strict conditions hold, then no URI can map to more than one CURIE
         (i.e one URI base should not start with another).
 
@@ -187,27 +268,64 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]
         :return: contracted URI, or original URI if no contraction possible
         """
-        rv = self.converter.compress(uri)
-        if use_uri_fallback:
-            strict = False
+        rv = self.converter.compress(uri, passthrough=use_uri_fallback)
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
-                for prefix, uri_prefix in sorted(self.converter.data.items())
+                for prefix, uri_prefix in sorted(self.converter.prefix_map.items())
             )
             raise ValueError(
                 f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
                 f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
             )
-        if rv is None and use_uri_fallback:
-            return uri
         return rv
 
     @property
+    def edge_index(self) -> EdgeIndex:
+        """
+        An index of all asserted edges in the ontology.
+
+        .. note::
+
+            not all adapters populate this index.
+
+        :return: index of edges
+        """
+        if self._edge_index is None:
+            self._edge_index = EdgeIndex(lambda: self._all_relationships())
+        return self._edge_index
+
+    @property
+    def entailed_edge_index(self) -> EdgeIndex:
+        """
+        An index of all entailed edges in the ontology.
+
+        .. note::
+
+            not all adapters populate this index.
+
+        :return: index of entailed edges
+        """
+        if self._entailed_edge_index is None:
+            self._entailed_edge_index = EdgeIndex(lambda: self._all_entailed_relationships())
+        return self._entailed_edge_index
+
+    def _all_entailed_relationships(self):
+        raise NotImplementedError("This adapter does not support entailed relationships")
+
+    @property
     def _relationship_index(self) -> Dict[CURIE, List[RELATIONSHIP]]:
+        """
+        An index of relationships keyed by either subject or object.
+
+        The first time this is called, it will build the index.
+        Subsequent calls will return the cached index.
+
+        :return: dictionary mapping subject or object to list of relationships
+        """
         if self._relationship_index_cache:
             return self._relationship_index_cache
-        logging.info("Building relationship")
+        logging.info("Building relationship index")
         ix = defaultdict(list)
         for rel in self._all_relationships():
             s, p, o = rel
@@ -218,21 +336,118 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def _rebuild_relationship_index(self):
         self._relationship_index_cache = None
+        self._edge_index = None
         _ = self._relationship_index  # force re-index
+
+    def _clear_relationship_index(self):
+        self._edge_index = None
+        self._relationship_index_cache = None
 
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
         raise NotImplementedError
+
+    @property
+    def multilingual(self) -> bool:
+        """
+        Returns True if this ontology interface supports multilingual annotations.
+
+        This is by default inferred from the content of the ontology, if more than
+        one language tag is present. This is the case for the international version
+        of the HPO:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.multilingual
+        True
+
+        If no language tags are present, then this will return False:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> adapter.multilingual
+        False
+
+        .. note ::
+
+            currently this is only implemented for the SQL backend.
+
+        :return: True if multilingual
+        """
+        if self._multilingual is None:
+            self._multilingual = len([x for x in self.languages()]) > 1
+        return self._multilingual
+
+    @multilingual.setter
+    def multilingual(self, value: bool):
+        self._multilingual = value
+
+    def languages(self) -> Iterable[LANGUAGE_TAG]:
+        """
+        Returns a list of languages explicitly supported by this ontology interface.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> for lang in sorted(adapter.languages()):
+        ...    print(lang)
+        cs
+        fr
+        nl
+        tr
+
+        :return: iterator of language tags
+        """
+        return iter([])
+
+    @property
+    def default_language(self) -> Optional[LANGUAGE_TAG]:
+        """
+        Returns the default language for this ontology interface.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.default_language
+        'en'
+
+        Note that here "default" has a particular meaning: it means that lexical elements
+        are MUST NOT be explicitly tagged with this language, and that it MUST be assumed that
+        a blank/empty/null language tag means that the default language is intended.
+
+        :return: language tag
+        """
+        return "en"
 
     def ontologies(self) -> Iterable[CURIE]:
         """
         Yields all known ontology CURIEs.
 
         Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
-        Even when a single ontology is wrapped, there may be multiple ontologies included as imports
+        Even when a single ontology is wrapped, there may be multiple ontologies included as imports.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.owl.ttl')
+        >>> list(adapter.ontologies())
+        ['go.owl']
+
+        .. note ::
+
+            The payload for this method may change to return normalized ontology names such as 'go'
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('bioportal:')
+        >>> for ont in sorted(adapter.ontologies()):
+        ...     print(ont)
+        <BLANKLINE>
+        ...
+        GO
+        ...
+        UBERON
+        ...
 
         :return: iterator
         """
-        raise NotImplementedError
+        raise NotImplementedError(
+            f"ontologies() method not implemented for {self.__class__.__name__}"
+        )
 
     @deprecated("Replaced by ontologies()")
     def ontology_curies(self) -> Iterable[CURIE]:
@@ -242,21 +457,131 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def all_ontology_curies(self) -> Iterable[CURIE]:
         return self.ontologies()
 
-    def obsoletes(self) -> Iterable[CURIE]:
+    def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         """
-        Yields all known CURIEs that are obsolete.
+        Yields all known entities that are obsolete.
+
+        Example:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:cob")
+        >>> for entity in adapter.obsoletes():
+        ...     print(entity)
+        <BLANKLINE>
+        ...
+        COB:0000014
+
+        In OWL, obsolete entities (aka deprecated entities) are those
+        that have an ``owl:deprecated`` annotation with value "True"
+
+        By default, *merged terms* are included. Merged terms are entities
+        that are:
+
+        - (a) obsolete
+        - (b) have a replacement term
+        - (c) have an "obsolescence reason" that is "merged term"
+
+        In OBO Format, merged terms do not get their own stanza, but
+        instead show up as ``alt_id`` tags on the replacement term.
+
+        To exclude merged terms, set ``include_merged=False``:
+
+        Example:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:cob")
+        >>> for entity in adapter.obsoletes(include_merged=False):
+        ...     print(entity)
+        <BLANKLINE>
+        ...
+        COB:0000014
+
+        :param include_merged: If True, merged terms will be included
+        :return: iterator over CURIEs
+        """
+        raise NotImplementedError
+
+    def obsoletes_migration_relationships(
+        self, entities: Iterable[CURIE]
+    ) -> Iterable[RELATIONSHIP]:
+        """
+        Yields relationships between an obsolete entity and potential replacements.
+
+        Example:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:cob")
+        >>> for rel in adapter.obsoletes_migration_relationships(adapter.obsoletes()):
+        ...     print(rel)
+
+        Obsoletion relationship predicates may be:
+
+        - IAO:0100001 (term replaced by)
+        - oboInOwl:consider
+        - rdfs:seeAlso
 
         :return: iterator
         """
-        raise NotImplementedError
+        for entity in entities:
+            for prop, vals in self.entity_metadata_map(entity).items():
+                if prop in OBSOLETION_RELATIONSHIP_PREDICATES:
+                    for val in vals:
+                        yield entity, prop, val
 
     @deprecated("Replaced by obsoletes()")
     def all_obsolete_curies(self) -> Iterable[CURIE]:
         return self.obsoletes()
 
+    def dangling(self, curies: Optional[Iterable[CURIE]] = None) -> Iterable[CURIE]:
+        """
+        Yields all known entities in provided set that are dangling.
+
+        Example:
+
+        This example is over an OBO file with one stanza:
+
+        .. code-block:: obo
+
+            [Term]
+            id: GO:0012505
+            name: endomembrane system
+            is_a: GO:0110165 ! cellular anatomical entity
+            relationship: has_part GO:0005773 ! vacuole
+
+        The two edges point to entities that do not exist in the file.
+
+        The following code will show these:
+
+        >>> from oaklib import get_adapter
+        >>> # Note: pronto adapter refuses to parse ontology files with dangling
+        >>> adapter = get_adapter("simpleobo:tests/input/dangling-node-test.obo")
+        >>> for entity in sorted(adapter.dangling()):
+        ...     print(entity)
+        GO:0005773
+        GO:0110165
+
+        :param curies: CURIEs to check for dangling; if empty will check all
+        :return: iterator over CURIEs
+        """
+        if curies is None:
+            curies = self.entities(filter_obsoletes=False)
+            curies = itertools.chain(curies, {rel[2] for rel in self.relationships()})
+        for curie_it in chunk(curies):
+            chunked_curies = list(curie_it)
+            logging.debug(f"Checking {len(chunked_curies)} curies for dangling")
+            curie_labels = self.labels(chunked_curies, allow_none=True)
+            candidates = [curie for curie, label in curie_labels if label is None]
+            exclude = {rel[0] for rel in self.relationships(candidates)}
+            logging.debug(f"Candidates {len(candidates)} exclude: {len(exclude)}")
+            yield from [curie for curie in candidates if curie not in exclude]
+
     def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
         """
         Yields all version identifiers for an ontology.
+
+        .. warning ::
+
+            This method is not yet implemented for all OntologyInterface implementations.
 
         :param ontology:
         :return: iterator
@@ -267,14 +592,42 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Property-values metadata map with metadata about an ontology.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for ont in adapter.ontologies():
+        ...     m = adapter.ontology_metadata_map(ont)
+        ...     m.get('schema:url')
+        ['http://purl.obolibrary.org/obo/go.owl']
+
         :param ontology:
         :return:
         """
-        raise NotImplementedError
+        raise NotImplementedError(
+            f"ontology_metadata_map() method not implemented for {self.__class__.__name__}"
+        )
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """
         Yields all known entity CURIEs.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in adapter.entities():
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        GO:0005634
+        ...
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import OWL_OBJECT_PROPERTY
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in adapter.entities(owl_type=OWL_OBJECT_PROPERTY):
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        BFO:0000051
+        ...
 
         :param filter_obsoletes: if True, exclude any obsolete/deprecated element
         :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
@@ -286,16 +639,113 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
         return self.entities(**kwargs)
 
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
+        """
+        Yields all known OWL types for given entities.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e, t in sorted(adapter.owl_types(['GO:0005634', 'BFO:0000050'])):
+        ...     print(e, t)
+        BFO:0000050 owl:ObjectProperty
+        BFO:0000050 owl:TransitiveProperty
+        GO:0005634 owl:Class
+
+        The OWL type must either be the instantiated type as the RDFS level, e.g.
+
+        - owl:Class
+        - owl:ObjectProperty
+        - owl:DatatypeProperty
+        - owl:AnnotationProperty
+        - owl:NamedIndividual
+
+        Or a vocabulary type for a particular kind of construct, e.g
+
+        - oio:SubsetProperty
+        - obo:SynonymTypeProperty
+
+        See `Section 8.3<https://www.w3.org/TR/owl2-primer/#Entity_Declarations>` of the OWL 2 Primer
+
+        :param entities:
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def owl_type(self, entity: CURIE) -> List[CURIE]:
+        """
+        Get the OWL type for a given entity.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> adapter.owl_type('GO:0005634')
+        ['owl:Class']
+
+        Typically each entity will have a single OWL type, but in some cases
+        an entity may have multiple OWL types. This is called "punning",
+        see `Section 8.3<https://www.w3.org/TR/owl2-primer/#Entity_Declarations>` of
+        the OWL primer
+
+        :param entity:
+        :return: CURIE
+        """
+        return [x[1] for x in self.owl_types([entity]) if x[1] is not None]
+
+    def defined_by(self, entity: CURIE) -> Optional[str]:
+        """
+        Returns the CURIE of the ontology that defines the given entity.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> adapter.defined_by('GO:0005634')
+        'GO'
+
+        :param entity:
+        :return:
+        """
+        for _, x in self.defined_bys([entity]):
+            return x
+
+    def defined_bys(self, entities: Iterable[CURIE]) -> Iterable[str]:
+        """
+        Yields all known isDefinedBys for given entities.
+
+        This is for determining the ontology that defines a given entity, i.e.
+        which ontology the entity belongs to.
+
+        Formally, this should be captured by an rdfs:isDefinedBy triple, but
+        in practice this may not be explicitly stated. In this case, implementations
+        may choose to use heuristic measures, including using the ontology prefix.
+
+        :param entities:
+        :return: iterator
+        """
+        for e in entities:
+            if ":" in e:
+                yield e, e.split(":")[0]
+            else:
+                yield e, None
+
     def roots(
         self,
-        predicates: List[PRED_CURIE] = None,
+        predicates: Optional[List[PRED_CURIE]] = None,
         ignore_owl_thing=True,
         filter_obsoletes=True,
         annotated_roots=False,
-        id_prefixes: List[CURIE] = None,
+        id_prefixes: Optional[List[CURIE]] = None,
     ) -> Iterable[CURIE]:
         """
         Yields all entities without a parent.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.roots()):
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        BFO:0000003
+        ...
+        OBI:0100026
+        ...
 
         Note that the concept of a "root" in an ontology can be ambiguous:
 
@@ -303,6 +753,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         - are we asking for the root of the is-a graph, or a subset of predicates?
         - do we include parents in imported/merged other ontologies (e.g. BFO)?
         - do we include obsolete nodes (which are typically singletons)?
+
+        Note also that the release OWL versions of many OBO ontologies may exhibit a certain
+        level of messiness with multiple roots.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.roots(id_prefixes=['GO'])):
+        ...     print(e, adapter.label(e))
+        GO:0003674 molecular_function
+        GO:0005575 cellular_component
+        GO:0008150 biological_process
 
         This method will yield entities that are not the subject of an edge, considering
         only edges with a given set of predicates, optionally ignoring owl:Thing, and
@@ -355,7 +816,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 yield term
 
     def leafs(
-        self, predicates: List[PRED_CURIE] = None, ignore_owl_nothing=True, filter_obsoletes=True
+        self,
+        predicates: Optional[List[PRED_CURIE]] = None,
+        ignore_owl_nothing=True,
+        filter_obsoletes=True,
     ) -> Iterable[CURIE]:
         """
         Yields all nodes that have no children.
@@ -397,7 +861,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 yield term
 
     def singletons(
-        self, predicates: List[PRED_CURIE] = None, filter_obsoletes=True
+        self, predicates: Optional[List[PRED_CURIE]] = None, filter_obsoletes=True
     ) -> Iterable[CURIE]:
         """
         Yields entities that have neither parents nor children.
@@ -437,6 +901,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all subsets (slims) defined in the ontology.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.subsets()):
+        ...     print(e)
+        <BLANKLINE>
+        ...
+        goslim_drosophila
+        goslim_flybase_ribbon
+        goslim_generic
+        ...
+
         All subsets yielded are contracted to their short form.
 
         :return: iterator
@@ -455,6 +930,18 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all entities belonging to the specified subset.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e in sorted(adapter.subset_members('goslim_generic')):
+        ...     print(e, adapter.label(e))
+        <BLANKLINE>
+        ...
+        GO:0005634 nucleus
+        GO:0005635 nuclear envelope
+        GO:0005737 cytoplasm
+        GO:0005773 vacuole
+        ...
+
         :return: iterator
         """
         raise NotImplementedError
@@ -462,6 +949,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
         """
         Yields entity-subset pairs for the given set of entities.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/go-nucleus.db')
+        >>> for e, subset in sorted(adapter.terms_subsets(['GO:0005634', 'GO:0005635'])):
+        ...     print(subset, e, adapter.label(e))
+        <BLANKLINE>
+        ...
+        goslim_yeast GO:0005634 nucleus
+        goslim_chembl GO:0005635 nuclear envelope
+        goslim_generic GO:0005635 nuclear envelope
+        ...
 
         :return: iterator
         """
@@ -477,6 +975,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields all categories an entity or entities belongs to.
 
+        .. note ::
+
+            This method is not implemented for all adapters.
+
         :return: iterator
         """
         raise NotImplementedError
@@ -485,25 +987,40 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         return self.subset_members(subset)
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         """
         fetches the unique label for a CURIE.
 
-        The CURIE may be for a class, individual, property, or ontology
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.owl")
+        >>> adapter.label("GO:0005634")
+        'nucleus'
+
+        The CURIE may be for a class, individual, property, or ontology.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.owl")
+        >>> adapter.label("BFO:0000050")
+        'part of'
+
+        For backends that support internationalization, the lang tag can be used:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.label('HP:0000118', lang='fr')
+        'Anomalie phénotypique'
+
+        If the argument matches the default language, and the literal is not
+        explicitly language tagged, it is still returned
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> adapter.label('HP:0000118', lang='en')
+        'Phenotypic abnormality'
 
         :param curie:
-        :return:
-        """
-        raise NotImplementedError
-
-    def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
-        """
-        Yields entity-comment pairs for a CURIE or CURIEs.
-
-        The CURIE may be for a class, individual, property, or ontology
-
-        :param curies:
-        :return:
+        :param lang: [None] language tag
+        :return: label
         """
         raise NotImplementedError
 
@@ -511,15 +1028,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
         return self.label(curie)
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
         """
         Yields entity-label pairs for a CURIE or CURIEs.
 
-        The CURIE may be for a class, individual, property, or ontology
+        The CURIE may be for a class, individual, property, or ontology.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.owl")
+        >>> list(sorted(adapter.labels(["GO:0005634", "GO:0005635"])))
+        [('GO:0005634', 'nucleus'), ('GO:0005635', 'nuclear envelope')]
 
         :param curies: identifiers to be queried
         :param allow_none: [True] use None as value if no label found
-        :return:
+        :return: iterator over tuples of (curie, label)
         """
         # default implementation: may be overridden for efficiency
         for curie in curies:
@@ -528,16 +1052,42 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 continue
             yield curie, label
 
+    def multilingual_labels(
+        self, curies: Iterable[CURIE], allow_none=True, langs: Optional[List[LANGUAGE_TAG]] = None
+    ) -> Iterable[Tuple[CURIE, str, LANGUAGE_TAG]]:
+        """
+        Yields entity-label-language tuples for a CURIE or CURIEs.
+
+        For example, in the HPO international edition:
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter('tests/input/hp-international-test.db')
+        >>> for tuple in sorted(adapter.multilingual_labels(['HP:0000118'], langs=['en', 'nl'])):
+        ...     print(tuple)
+        ('HP:0000118', 'Fenotypische abnormaliteit', 'nl')
+        ('HP:0000118', 'Phenotypic abnormality', None)
+
+        Note that the english label is not explicitly tagged with a language tag, but is returned
+        because it matches the :ref:`default_language`.
+
+        :param curies: identifiers to be queried
+        :param allow_none: [True] use None as value if no label found
+        :param langs: [None] list of languages to be queried (None means all)
+        :return: iterator over tuples of (curie, label, language)
+        """
+        raise NotImplementedError
+
     @deprecated("Use labels(...)")
     def get_labels_for_curies(self, **kwargs) -> Iterable[Tuple[CURIE, str]]:
         return self.labels(**kwargs)
 
-    def set_label(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str, lang: LANGUAGE_TAG = None) -> bool:
         """
         Sets the value of a label for a CURIE.
 
         :param curie:
         :param label:
+        :param lang:
         :return:
         """
         raise NotImplementedError
@@ -558,7 +1108,97 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         return self.curies_by_label(label)
 
-    def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def comments(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, Optional[str]]]:
+        """
+        Yields entity-comment pairs for a CURIE or CURIEs.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for curie, comment in sorted(adapter.comments(["GO:0016772", "GO:0005634"], allow_none=False)):
+        ...     print(f"{curie} {comment[0:31]}[snip]")
+        GO:0016772 Note that this term encompasses[snip]
+
+        Note in the above query, no tuples for "GO:0005634" were yielded - this is because
+        the test ontology has no comments for this CURIE, and ``allow_none=False``.
+
+        If ``allow_none=True``, then a tuple with a None value in the second position will be yielded.
+
+        The CURIE may be for a class, individual, property, or ontology
+
+        :param curies:
+        :param allow_none: [True] if False, only yield entities with comments
+        :param lang: [None] language tag
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def relationships(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = False,
+        exclude_blank: bool = True,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Yields all relationships matching query constraints.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for s, p, o in sorted(adapter.relationships(subjects=["GO:0005634"])):
+        ...     print(f"{p} {o} '{adapter.label(o)}'")
+        RO:0002160 NCBITaxon:2759 'Eukaryota'
+        rdfs:subClassOf GO:0043231 'intracellular membrane-bounded organelle'
+
+        :param subjects: constrain search to these subjects (i.e outgoing edges)
+        :param predicates: constrain search to these predicates
+        :param objects: constrain search to these objects (i.e incoming edges)
+        :param include_tbox: if true, include class-class relationships (default True)
+        :param include_abox: if true, include instance-instance/class relationships (default True)
+        :param include_entailed:
+        :param exclude_blank: do not include blank nodes/anonymous expressions
+        :return:
+        """
+        if not subjects:
+            subjects = list(self.entities())
+        logging.info(f"Subjects: {len(subjects)}")
+        for subject in subjects:
+            for this_predicate, this_objects in self.outgoing_relationship_map(subject).items():
+                if predicates and this_predicate not in predicates:
+                    continue
+                for this_object in this_objects:
+                    if objects and this_object not in objects:
+                        continue
+                    yield subject, this_predicate, this_object
+
+    def relationships_metadata(
+        self, relationships: Iterable[RELATIONSHIP], **kwargs
+    ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
+        """
+        given collection of relationships, yield relationships with metadata attached.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:mondo")
+        >>> rels = list(adapter.relationships(["MONDO:0009831"]))
+        >>> for rel, metadatas in adapter.relationships_metadata(rels):
+        ...     for p, v in metadatas:
+        ...         print(rel, p, v)
+        <BLANKLINE>
+        ...
+        ('MONDO:0009831', 'rdfs:subClassOf', 'MONDO:0002516') oio:source NCIT:C9005
+        ...
+
+        :param relationships: collection of subject-predicate-object tuples
+        :param kwargs:
+        :return: yields relationships with property-value metadata
+        """
+        raise NotImplementedError
+
+    def hierarchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
         Returns all hierarchical parents.
 
@@ -592,14 +1232,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie: the 'child' term
         :return:
         """
-        raise NotImplementedError()
-
-    @deprecated("Use outgoing_relationship_map(curie)")
-    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self.outgoing_relationship_map(curie)
+        return pairs_as_dict([(p, o) for _, p, o in self.relationships([curie])])
 
     def outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
         Yields relationships where the input curie in the subject.
@@ -608,17 +1244,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.outgoing_relationship_map(curie).items():
-            if predicates is not None and p not in predicates:
-                continue
-            for v in vs:
-                yield p, v
-
-    @deprecated("Use outgoing_relationships()")
-    def get_outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        return self.outgoing_relationships(curie, predicates)
+        for _, p, o in self.relationships([curie], predicates=predicates):
+            yield p, o
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
@@ -629,14 +1256,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :return:
         """
-        raise NotImplementedError
-
-    @deprecated("Use incoming_relationship_map(curie)")
-    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self.incoming_relationship_map(curie)
+        return pairs_as_dict([(p, s) for s, p, _ in self.relationships(objects=[curie])])
 
     def incoming_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
         Returns relationships where curie in the object
@@ -645,51 +1268,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.incoming_relationship_map(curie).items():
-            if predicates is None or p not in predicates:
-                continue
-            for v in vs:
-                yield p, v
-
-    @deprecated("Replaced by incoming_relationships(...)")
-    def get_incoming_relationships(self, **kwargs) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        return self.incoming_relationships(**kwargs)
-
-    def relationships(
-        self,
-        subjects: Iterable[CURIE] = None,
-        predicates: Iterable[PRED_CURIE] = None,
-        objects: Iterable[CURIE] = None,
-        include_tbox: bool = True,
-        include_abox: bool = True,
-        include_entailed: bool = True,
-    ) -> Iterator[RELATIONSHIP]:
-        """
-        Yields all relationships matching query constraints.
-
-        :param subjects: constrain search to these subjects (i.e outgoing edges)
-        :param predicates: constrain search to these predicates
-        :param objects: constrain search to these objects (i.e incoming edges)
-        :param include_tbox: if true, include class-class relationships (default True)
-        :param include_abox: if true, include instance-instance/class relationships (default True)
-        :param include_entailed:
-        :return:
-        """
-        if not subjects:
-            subjects = list(self.entities())
-        logging.info(f"Subjects: {len(subjects)}")
-        for subject in subjects:
-            for this_predicate, this_objects in self.outgoing_relationship_map(subject).items():
-                if predicates and this_predicate not in predicates:
-                    continue
-                for this_object in this_objects:
-                    if objects and this_object not in objects:
-                        continue
-                    yield subject, this_predicate, this_object
-
-    @deprecated("Use relationships()")
-    def get_relationships(self, **kwargs) -> Iterator[RELATIONSHIP]:
-        return self.relationships(**kwargs)
+        for s, p, _ in self.relationships(objects=[curie], predicates=predicates):
+            yield p, s
 
     @deprecated("Use relationships()")
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
@@ -703,14 +1283,53 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 for filler in fillers:
                     yield curie, pred, filler
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         """
         Lookup the text definition of an entity.
 
-        :param curie:
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for curie, defn, meta in adapter.definitions(["GO:0005634", "GO:0005737"], include_metadata=True):
+        ...     print(f"{curie} {defn[0:30]}[snip] [{meta}]")
+        GO:0005634 A membrane-bounded organelle o[snip] [{'oio:hasDbXref': ['GOC:go_curators']}]
+        GO:0005737 All of the contents of a cell [snip] [{'oio:hasDbXref': ['ISBN:0198547684']}]
+
+        :param curie: entity identifier to be looked up
+        :param lang: language tag
         :return:
         """
         raise NotImplementedError()
+
+    def definitions(
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
+    ) -> Iterator[DEFINITION]:
+        """
+        Lookup the text definition plus metadata for a list of entities.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> for curie, defn, meta in adapter.definitions(["GO:0005634", "GO:0005737"], include_metadata=True):
+        ...     print(f"{curie} {defn[0:30]}[snip] [{meta}]")
+        GO:0005634 A membrane-bounded organelle o[snip] [{'oio:hasDbXref': ['GOC:go_curators']}]
+        GO:0005737 All of the contents of a cell [snip] [{'oio:hasDbXref': ['ISBN:0198547684']}]
+
+        :param curies: iterable collection of entity identifiers to be looked up
+        :param include_metadata: if true, include metadata
+        :param include_missing: if true, include curies with no definition
+        :param lang: language tag
+        :return: iterator over definition objects
+        """
+        if include_metadata:
+            raise NotImplementedError()
+        for curie in curies:
+            defn = self.definition(curie)
+            if not defn and not include_missing:
+                continue
+            yield curie, defn, {}
 
     @deprecated("Use definition()")
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
@@ -722,7 +1341,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Here, each mapping is represented as a simple tuple (predicate, object)
 
-        :param curie:
+        .. note ::
+
+            For a more sophisticated mapping interface, see :ref:`MappingProviderInterface`
+
+        :param curie: entity identifier to be looked up
         :return: iterator over predicate-object tuples
         """
         raise NotImplementedError()
@@ -731,8 +1354,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields simple mappings for a collection of subjects
 
-        :param curies:
-        :return:
+        :param curies: iterable collection of entity identifiers to be looked up
+        :return: iterable subject-predicate-object tuples
         """
         for s in curies:
             for p, o in self.simple_mappings_by_curie(s):
@@ -796,8 +1419,63 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
+    def entities_metadata_statements(
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
+        **kwargs,
+    ) -> Iterator[METADATA_STATEMENT]:
+        """
+        Retrieve metadata statements (entity annotations) for a collection of entities.
+
+        :param curies:
+        :return:
+        """
+        # Note: this implementation may be inefficient for some backends.
+        # It is recommended to override this method in specific implementations.
+        for curie in curies:
+            for k, vs in self.entity_metadata_map(curie).items():
+                if predicates is not None and k not in predicates:
+                    continue
+                for v in vs:
+                    yield curie, k, v, None, None
+
+    def add_missing_property_values(self, curie: CURIE, metadata_map: METADATA_MAP) -> None:
+        """
+        Add missing property values to a metadata map.
+
+        This is a convenience method for implementations that do not have a complete metadata map.
+
+        :param curie:
+        :param metadata_map:
+        :return:
+        """
+        if "id" not in metadata_map:
+            metadata_map["id"] = [curie]
+        if ":" in curie:
+            prefix, _ = curie.split(":", 1)
+            if PREFIX_PREDICATE not in metadata_map:
+                metadata_map[PREFIX_PREDICATE] = [prefix]
+            uri = self.curie_to_uri(curie, False)
+            if uri:
+                if URL_PREDICATE not in metadata_map:
+                    metadata_map[URL_PREDICATE] = [uri]
+                if IS_DEFINED_BY not in metadata_map:
+                    if uri.startswith("http://purl.obolibrary.org/obo/"):
+                        metadata_map[IS_DEFINED_BY] = [
+                            f"http://purl.obolibrary.org/obo/{prefix.lower()}.owl"
+                        ]
+                    else:
+                        metadata_map[IS_DEFINED_BY] = [self.curie_to_uri(f"{prefix}:", False)]
+
     def create_entity(
-        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+        self,
+        curie: CURIE,
+        label: str = None,
+        relationships: RELATIONSHIP_MAP = None,
+        replace=False,
+        **kwargs,
     ) -> CURIE:
         """
         Creates and stores an entity.
@@ -805,7 +1483,38 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :param label:
         :param relationships:
+        :param replace:
+        :param kwargs:
         :return:
+        """
+        raise NotImplementedError
+
+    def delete_entity(self, curie: CURIE, label: str = None, **kwargs) -> CURIE:
+        """
+        Deletes an entity.
+
+        :param curie:
+        :param kwargs:
+        :return:
+        """
+        raise NotImplementedError
+
+    def query(
+        self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
+    ) -> Iterator[Any]:
+        """
+        Executes a query.
+
+        The behavior of this operation is entirely adapter-dependent, and is
+        thus not portable.
+
+        The intention is for SQL backends to support SQL queries, and for
+        SPARQL backends to support SPARQL queries.
+
+        :param query:
+        :param syntax:
+        :param kwargs:
+        :return: an iterator over the results, which can be arbitrary objects
         """
         raise NotImplementedError
 
@@ -813,16 +1522,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Saves current state.
 
-        :return:
-        """
-        raise NotImplementedError
-
-    def dump(self, path: str = None, syntax: str = None):
-        """
-        Exports current state.
-
-        :param path:
-        :param syntax:
         :return:
         """
         raise NotImplementedError
@@ -835,3 +1534,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def precompute_lookups(self) -> None:
+        """
+        Precompute all main lookup operations.
+
+        An implementation may choose to use this to do lookups in advance. This may be
+        faster for some operations that involve repeatedly visiting the same entity.
+        :return:
+        """

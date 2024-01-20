@@ -1,20 +1,27 @@
 # Class: PropertyChainAxiom
+_An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn_
 
 
 
 
-URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyChainAxiom)
-
+URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyChainAxiom)
 
 
 
 ```{mermaid}
  classDiagram
+    class PropertyChainAxiom
       Axiom <|-- PropertyChainAxiom
       
+      PropertyChainAxiom : chainPredicateIds
+        
       PropertyChainAxiom : meta
+        
+          PropertyChainAxiom ..> Meta : meta
+        
+      PropertyChainAxiom : predicateId
+        
       
-
 ```
 
 
@@ -29,17 +36,24 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [predicateId](predicateId.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [chainPredicateIds](chainPredicateIds.md) | 0..* <br/> [String](String.md) | A list of identifiers of predicates that form the precedent clause of a prope... | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [propertyChainAxioms](propertyChainAxioms.md) | range | PropertyChainAxiom |
+| [Graph](Graph.md) | [propertyChainAxioms](propertyChainAxioms.md) | range | [PropertyChainAxiom](PropertyChainAxiom.md) |
+
+
+
 
 
 
@@ -60,17 +74,18 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:PropertyChainAxiom'] |
-| native | ['og:PropertyChainAxiom'] |
+| self | obographs:PropertyChainAxiom |
+| native | obographs:PropertyChainAxiom |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -79,8 +94,14 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 <details>
 ```yaml
 name: PropertyChainAxiom
+description: An axiom that represents an OWL property chain, e.g. R <- R1 o ... o
+  Rn
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: Axiom
+slots:
+- predicateId
+- chainPredicateIds
 
 ```
 </details>
@@ -90,14 +111,51 @@ is_a: Axiom
 <details>
 ```yaml
 name: PropertyChainAxiom
+description: An axiom that represents an OWL property chain, e.g. R <- R1 o ... o
+  Rn
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: Axiom
 attributes:
+  predicateId:
+    name: predicateId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: predicateId
+    owner: PropertyChainAxiom
+    domain_of:
+    - DomainRangeAxiom
+    - PropertyChainAxiom
+    range: string
+  chainPredicateIds:
+    name: chainPredicateIds
+    description: A list of identifiers of predicates that form the precedent clause
+      of a property chain rule
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: chainPredicateIds
+    owner: PropertyChainAxiom
+    domain_of:
+    - PropertyChainAxiom
+    range: string
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
+    rank: 1000
     alias: meta
     owner: PropertyChainAxiom
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - Edge
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

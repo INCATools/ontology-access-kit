@@ -1,7 +1,8 @@
+import collections
 import logging
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Tuple, Union
+from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 from urllib.parse import quote
 
 import requests
@@ -17,7 +18,11 @@ from oaklib.interfaces import (
     SearchInterface,
     TextAnnotatorInterface,
 )
-from oaklib.interfaces.basic_ontology_interface import METADATA_MAP, PREFIX_MAP
+from oaklib.interfaces.basic_ontology_interface import (
+    LANGUAGE_TAG,
+    METADATA_MAP,
+    PREFIX_MAP,
+)
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, URI
 from oaklib.utilities.apikey_manager import get_apikey_value
@@ -40,7 +45,6 @@ SOURCE_TO_PREDICATE = {
 class OntoPortalImplementationBase(
     TextAnnotatorInterface, OboGraphInterface, SearchInterface, MappingProviderInterface, ABC
 ):
-
     ontoportal_client_class: ClassVar[type[PreconfiguredOntoPortalClient]] = None
     api_key: Union[str, None] = None
 
@@ -123,9 +127,37 @@ class OntoPortalImplementationBase(
                 label_cache[curie] = label
                 yield curie, label
 
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language not supported")
+        _obj = self._class(curie)
+        return _obj.get("prefLabel", None)
+
+    def _class(self, curie: CURIE) -> dict:
+        ontology, class_uri = self._get_ontology_and_uri_from_id(curie)
+        logging.debug(f"Fetching class for {ontology} class = {class_uri}")
+        quoted_class_uri = quote(class_uri, safe="")
+        req_url = f"/ontologies/{ontology}/classes/{quoted_class_uri}"
+        logging.debug(req_url)
+        response = self._get_response(
+            req_url, params={"display_context": "false"}, raise_for_status=False
+        )
+        if response.status_code != requests.codes.ok:
+            logging.warning(f"Could not fetch class for {curie}")
+            return {}
+        return response.json()
+
     def annotate_text(
         self, text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """
+         Implements annotate_text from text_annotator_interface by calling the
+         `annotate` endpoint using ontoportal client.
+
+        :param text: Text to be annotated.
+        :param configuration: Text annotation configuration.
+        :return: A generator function that returns annotated results.
+        """
         if configuration is None:
             configuration = TextAnnotationConfiguration()
         logging.info(f"Annotating text: {text}")
@@ -137,6 +169,7 @@ class OntoPortalImplementationBase(
         if self.resource and self.resource.slug:
             params["ontologies"] = self.resource.slug.upper()
         results = self._get_json("/annotator", params=params)
+        logging.debug(f"Annotate results: {results}")
         return self._annotator_json_to_results(results, text, configuration)
 
     def _annotator_json_to_results(
@@ -212,8 +245,20 @@ class OntoPortalImplementationBase(
     # Implements: MappingProviderInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_sssom_mappings_by_curie(self, id: Union[CURIE, URI]) -> Iterable[Mapping]:
+    def sssom_mappings(
+        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
+    ) -> Iterable[Mapping]:
+        if not isinstance(curies, str):
+            if isinstance(curies, collections.Iterable):
+                curies = list(curies)
+            if not isinstance(curies, list):
+                raise ValueError(f"Invalid curies: {curies}")
+            for curie in curies:
+                yield from self.sssom_mappings(curie, source=source)
+            return
+        id = curies
         ontology, class_uri = self._get_ontology_and_uri_from_id(id)
+        logging.debug(f"Fetching mappings for {ontology} class = {class_uri}")
         # This may return lots of duplicate mappings
         # See: https://github.com/ncbo/ontologies_linked_data/issues/117
         quoted_class_uri = quote(class_uri, safe="")
@@ -226,8 +271,12 @@ class OntoPortalImplementationBase(
             logging.warning(f"Could not fetch mappings for {id}")
             return []
         body = response.json()
+        yielded = set()
         for result in body:
-            yield self.result_to_mapping(result)
+            m = self.result_to_mapping(result)
+            if str(m) not in yielded:
+                yield m
+            yielded.add(str(m))
 
     def result_to_mapping(self, result: Dict[str, Any]) -> Mapping:
         subject = result["classes"][0]
@@ -235,10 +284,10 @@ class OntoPortalImplementationBase(
         self.add_uri_to_ontology_mapping(subject)
         self.add_uri_to_ontology_mapping(object)
         mapping = Mapping(
-            subject_id=subject["@id"],
+            subject_id=self.uri_to_curie(subject["@id"]),
             predicate_id=SOURCE_TO_PREDICATE[result["source"]],
             mapping_justification=SEMAPV.UnspecifiedMatching.value,
-            object_id=object["@id"],
+            object_id=self.uri_to_curie(object["@id"], use_uri_fallback=True),
             mapping_provider=result["@type"],
             mapping_tool=result["source"],
         )
@@ -270,4 +319,8 @@ class OntoPortalImplementationBase(
         else:
             ontology = id.split(":", 1)[0]
             uri = self.curie_to_uri(id)
+            if ontology.lower() == "fbbt":
+                ontology = "FB-BT"
+            elif ontology.lower() == "wbbt":
+                ontology = "WB-BT"
         return ontology, uri

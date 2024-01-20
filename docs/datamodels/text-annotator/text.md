@@ -1,15 +1,32 @@
 # Slot: text
 
-URI: [https://w3id.org/linkml/text_annotator/text](https://w3id.org/linkml/text_annotator/text)
+URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextualElement](TextualElement.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
+
+
+
+
 
 
 
@@ -24,7 +41,23 @@ URI: [https://w3id.org/linkml/text_annotator/text](https://w3id.org/linkml/text_
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: text
+from_schema: https://w3id.org/oak/text_annotator
+rank: 1000
+alias: text
+owner: TextualElement
+domain_of:
+- TextualElement
+range: string
+
+```
+</details>

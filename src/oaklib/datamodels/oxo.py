@@ -361,7 +361,6 @@ class Container(YAMLRoot):
 
 # Enumerations
 class SourceEnum(EnumDefinitionImpl):
-
     ONTOLOGY = PermissibleValue(text="ONTOLOGY")
     DATABASE = PermissibleValue(text="DATABASE")
 
@@ -371,7 +370,6 @@ class SourceEnum(EnumDefinitionImpl):
 
 
 class ScopeEnum(EnumDefinitionImpl):
-
     RELATED = PermissibleValue(text="RELATED")
     EXACT = PermissibleValue(text="EXACT")
     BROADER = PermissibleValue(text="BROADER")

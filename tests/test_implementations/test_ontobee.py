@@ -12,7 +12,7 @@ TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
 
 
-# @unittest.skip("Ontobee times out too often")
+@unittest.skip("Ontobee times out too often")
 class TestOntobeeImplementation(unittest.TestCase):
     def setUp(self) -> None:
         oi = OntobeeImplementation(OntologyResource())
@@ -31,7 +31,7 @@ class TestOntobeeImplementation(unittest.TestCase):
         self.assertIn("GO:0005737", rels[PART_OF])
 
     def test_parents(self):
-        parents = self.oi.hierararchical_parents(VACUOLE)
+        parents = self.oi.hierarchical_parents(VACUOLE)
         # logging.info(parents)
         assert "GO:0043231" in parents
 

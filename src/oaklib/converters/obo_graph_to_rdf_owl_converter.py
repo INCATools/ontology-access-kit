@@ -1,19 +1,18 @@
 from dataclasses import dataclass
 from typing import Any, Tuple, Union
 
-import curies
 import rdflib
-from rdflib import OWL, RDFS
+from rdflib import OWL, RDF, RDFS
 
 from oaklib import BasicOntologyInterface
 from oaklib.converters.data_model_converter import DataModelConverter
 from oaklib.datamodels.obograph import (
-    RDF,
     Edge,
     Graph,
     GraphDocument,
     Meta,
     Node,
+    PropertyTypeEnum,
     PropertyValue,
 )
 from oaklib.datamodels.vocabulary import (
@@ -46,9 +45,23 @@ SCOPE_MAP = {
 class OboGraphToRdfOwlConverter(DataModelConverter):
     """Converts from OboGraph to OWL layered on RDF."""
 
-    curie_converter: curies.Converter = None
+    def dump(self, source: GraphDocument, target: str = None, **kwargs) -> None:
+        """
+        Dump an OBO Graph Document to a FHIR CodeSystem
 
-    def convert(self, source: GraphDocument, target: rdflib.Graph = None) -> rdflib.Graph:
+        :param source:
+        :param target:
+        :return:
+        """
+        g = self.convert(source)
+        if target is None:
+            print(g.serialize(format="turtle"))
+        else:
+            g.serialize(format="turtle", destination=target)
+
+    def convert(
+        self, source: Union[Graph, GraphDocument], target: rdflib.Graph = None, **kwargs
+    ) -> rdflib.Graph:
         """
         Convert an OBO GraphDocument.
 
@@ -58,8 +71,11 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         """
         if target is None:
             target = rdflib.Graph()
-        for g in source.graphs:
-            self._convert_graph(g, target=target)
+        if isinstance(source, GraphDocument):
+            for g in source.graphs:
+                self._convert_graph(g, target=target)
+        else:
+            self._convert_graph(source, target=target)
         return target
 
     def _convert_graph(self, source: Graph, target: rdflib.Graph) -> rdflib.Graph:
@@ -73,6 +89,17 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         uri = self._uri_ref(source.id)
         if not source.type or source.type == "CLASS":
             target.add((uri, RDF.type, OWL.Class))
+        elif source.type == "PROPERTY":
+            if source.propertyType == PropertyTypeEnum.OBJECT:
+                target.add((uri, RDF.type, OWL.ObjectProperty))
+            elif source.propertyType == PropertyTypeEnum.ANNOTATION:
+                target.add((uri, RDF.type, OWL.AnnotationProperty))
+            elif source.propertyType == PropertyTypeEnum.DATA:
+                target.add((uri, RDF.type, OWL.DatatypeProperty))
+        elif source.type == "INDIVIDUAL":
+            target.add((uri, RDF.type, OWL.NamedIndividual))
+        else:
+            raise ValueError(f"Unknown node type: {source.type}")
         if source.lbl:
             target.add((uri, RDFS.label, rdflib.Literal(source.lbl)))
         if source.meta:
@@ -132,7 +159,5 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
     def _uri_ref(self, curie: CURIE) -> rdflib.URIRef:
         if self.curie_converter is None:
             self.curie_converter = BasicOntologyInterface().converter
-        uri = self.curie_converter.expand(curie)
-        if uri is None:
-            uri = curie
+        uri = self.curie_converter.expand(curie, passthrough=True)
         return rdflib.URIRef(uri)

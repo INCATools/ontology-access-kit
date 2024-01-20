@@ -1,5 +1,5 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-29T22:52:46
+# Generation date: 2023-04-09T14:06:34
 # Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
@@ -8,19 +8,38 @@
 
 import dataclasses
 import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.types import String, Uriorcurie
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_list
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = "0.0.1"
@@ -30,18 +49,21 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
 IAO = CurieNamespace("IAO", "http://purl.obolibrary.org/obo/IAO_")
+NCBITAXON = CurieNamespace("NCBITaxon", "http://purl.obolibrary.org/obo/NCBITaxon_")
 NCIT = CurieNamespace("NCIT", "http://purl.obolibrary.org/obo/NCIT_")
 OBI = CurieNamespace("OBI", "http://purl.obolibrary.org/obo/OBI_")
 OIO = CurieNamespace("OIO", "http://www.geneontology.org/formats/oboInOwl#")
 OMO = CurieNamespace("OMO", "http://purl.obolibrary.org/obo/OMO_")
 RO = CurieNamespace("RO", "http://purl.obolibrary.org/obo/RO_")
 BIOLINK = CurieNamespace("biolink", "https://w3id.org/biolink/vocab/")
+DCE = CurieNamespace("dce", "http://example.org/UNKNOWN/dce/")
 DCTERMS = CurieNamespace("dcterms", "http://purl.org/dc/terms/")
 FOAF = CurieNamespace("foaf", "http://xmlns.com/foaf/0.1/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OBO = CurieNamespace("obo", "http://purl.obolibrary.org/obo/")
 OIO = CurieNamespace("oio", "http://www.geneontology.org/formats/oboInOwl#")
-OMOSCHEMA = CurieNamespace("omoschema", "http://purl.obolibrary.org/obo/schema/")
+OMOSCHEMA = CurieNamespace("omoschema", "http://purl.obolibrary.org/obo/omo/schema/")
+ORCID = CurieNamespace("orcid", "https://orcid.org/")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 PAV = CurieNamespace("pav", "http://purl.org/pav/")
 PROTEGE = CurieNamespace("protege", "http://example.org/UNKNOWN/protege/")
@@ -141,6 +163,18 @@ class TransitivePropertyId(ObjectPropertyId):
 
 
 class NamedIndividualId(TermId):
+    pass
+
+
+class HomoSapiensId(NamedIndividualId):
+    pass
+
+
+class AgentId(NamedIndividualId):
+    pass
+
+
+class ImageId(NamedIndividualId):
     pass
 
 
@@ -365,8 +399,8 @@ class HasProvenance(AnnotationPropertyMixin):
 
     created_by: Optional[str] = None
     creation_date: Optional[Union[str, List[str]]] = empty_list()
-    contributor: Optional[Union[Union[dict, "Thing"], List[Union[dict, "Thing"]]]] = empty_list()
-    creator: Optional[Union[str, List[str]]] = empty_list()
+    contributor: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
+    creator: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
     created: Optional[str] = None
     date: Optional[Union[str, List[str]]] = empty_list()
     isDefinedBy: Optional[Union[str, OntologyId]] = None
@@ -391,13 +425,11 @@ class HasProvenance(AnnotationPropertyMixin):
 
         if not isinstance(self.contributor, list):
             self.contributor = [self.contributor] if self.contributor is not None else []
-        self.contributor = [
-            v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.contributor
-        ]
+        self.contributor = [v if isinstance(v, AgentId) else AgentId(v) for v in self.contributor]
 
         if not isinstance(self.creator, list):
             self.creator = [self.creator] if self.creator is not None else []
-        self.creator = [v if isinstance(v, str) else str(v) for v in self.creator]
+        self.creator = [v if isinstance(v, AgentId) else AgentId(v) for v in self.creator]
 
         if self.created is not None and not isinstance(self.created, str):
             self.created = str(self.created)
@@ -569,7 +601,7 @@ class HasUserInformation(AnnotationPropertyMixin):
     example_of_usage: Optional[Union[str, List[str]]] = empty_list()
     curator_note: Optional[Union[str, List[str]]] = empty_list()
     has_curation_status: Optional[str] = None
-    depicted_by: Optional[Union[str, List[str]]] = empty_list()
+    depicted_by: Optional[Union[Union[str, ImageId], List[Union[str, ImageId]]]] = empty_list()
     page: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -599,7 +631,7 @@ class HasUserInformation(AnnotationPropertyMixin):
 
         if not isinstance(self.depicted_by, list):
             self.depicted_by = [self.depicted_by] if self.depicted_by is not None else []
-        self.depicted_by = [v if isinstance(v, str) else str(v) for v in self.depicted_by]
+        self.depicted_by = [v if isinstance(v, ImageId) else ImageId(v) for v in self.depicted_by]
 
         if not isinstance(self.page, list):
             self.page = [self.page] if self.page is not None else []
@@ -674,7 +706,7 @@ class Ontology(NamedObject):
     ] = empty_list()
     source: Optional[Union[str, List[str]]] = empty_list()
     comment: Optional[Union[str, List[str]]] = empty_list()
-    creator: Optional[Union[str, List[str]]] = empty_list()
+    creator: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
     created: Optional[str] = None
     imports: Optional[str] = None
 
@@ -722,7 +754,7 @@ class Ontology(NamedObject):
 
         if not isinstance(self.creator, list):
             self.creator = [self.creator] if self.creator is not None else []
-        self.creator = [v if isinstance(v, str) else str(v) for v in self.creator]
+        self.creator = [v if isinstance(v, AgentId) else AgentId(v) for v in self.creator]
 
         if self.created is not None and not isinstance(self.created, str):
             self.created = str(self.created)
@@ -779,8 +811,8 @@ class Term(NamedObject):
     should_conform_to: Optional[Union[dict, Thing]] = None
     created_by: Optional[str] = None
     creation_date: Optional[Union[str, List[str]]] = empty_list()
-    contributor: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
-    creator: Optional[Union[str, List[str]]] = empty_list()
+    contributor: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
+    creator: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
     created: Optional[str] = None
     date: Optional[Union[str, List[str]]] = empty_list()
     isDefinedBy: Optional[Union[str, OntologyId]] = None
@@ -811,7 +843,7 @@ class Term(NamedObject):
     example_of_usage: Optional[Union[str, List[str]]] = empty_list()
     curator_note: Optional[Union[str, List[str]]] = empty_list()
     has_curation_status: Optional[str] = None
-    depicted_by: Optional[Union[str, List[str]]] = empty_list()
+    depicted_by: Optional[Union[Union[str, ImageId], List[Union[str, ImageId]]]] = empty_list()
     page: Optional[Union[str, List[str]]] = empty_list()
     label: Optional[Union[str, LabelType]] = None
     definition: Optional[
@@ -936,13 +968,11 @@ class Term(NamedObject):
 
         if not isinstance(self.contributor, list):
             self.contributor = [self.contributor] if self.contributor is not None else []
-        self.contributor = [
-            v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.contributor
-        ]
+        self.contributor = [v if isinstance(v, AgentId) else AgentId(v) for v in self.contributor]
 
         if not isinstance(self.creator, list):
             self.creator = [self.creator] if self.creator is not None else []
-        self.creator = [v if isinstance(v, str) else str(v) for v in self.creator]
+        self.creator = [v if isinstance(v, AgentId) else AgentId(v) for v in self.creator]
 
         if self.created is not None and not isinstance(self.created, str):
             self.created = str(self.created)
@@ -1072,7 +1102,7 @@ class Term(NamedObject):
 
         if not isinstance(self.depicted_by, list):
             self.depicted_by = [self.depicted_by] if self.depicted_by is not None else []
-        self.depicted_by = [v if isinstance(v, str) else str(v) for v in self.depicted_by]
+        self.depicted_by = [v if isinstance(v, ImageId) else ImageId(v) for v in self.depicted_by]
 
         if not isinstance(self.page, list):
             self.page = [self.page] if self.page is not None else []
@@ -1287,6 +1317,10 @@ class Property(Term):
 
 @dataclass
 class AnnotationProperty(Property):
+    """
+    A property used in non-logical axioms
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.AnnotationProperty
@@ -1312,6 +1346,10 @@ class AnnotationProperty(Property):
 
 @dataclass
 class ObjectProperty(Property):
+    """
+    A property that connects two objects in logical axioms
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.ObjectProperty
@@ -1380,6 +1418,10 @@ class ObjectProperty(Property):
 
 @dataclass
 class TransitiveProperty(ObjectProperty):
+    """
+    An ObjectProperty with the property of transitivity
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.TransitiveProperty
@@ -1400,6 +1442,10 @@ class TransitiveProperty(ObjectProperty):
 
 @dataclass
 class NamedIndividual(Term):
+    """
+    An instance that has a IRI
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.NamedIndividual
@@ -1419,7 +1465,75 @@ class NamedIndividual(Term):
 
 
 @dataclass
+class HomoSapiens(NamedIndividual):
+    """
+    An individual human being
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = NCBITAXON["9606"]
+    class_class_curie: ClassVar[str] = "NCBITaxon:9606"
+    class_name: ClassVar[str] = "HomoSapiens"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.HomoSapiens
+
+    id: Union[str, HomoSapiensId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, HomoSapiensId):
+            self.id = HomoSapiensId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Agent(NamedIndividual):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = PROV.Agent
+    class_class_curie: ClassVar[str] = "prov:Agent"
+    class_name: ClassVar[str] = "Agent"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Agent
+
+    id: Union[str, AgentId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, AgentId):
+            self.id = AgentId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Image(NamedIndividual):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = IAO["0000101"]
+    class_class_curie: ClassVar[str] = "IAO:0000101"
+    class_name: ClassVar[str] = "Image"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Image
+
+    id: Union[str, ImageId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ImageId):
+            self.id = ImageId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
 class Annotation(YAMLRoot):
+    """
+    A reified property-object pair
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.Annotation
@@ -1442,6 +1556,10 @@ class Annotation(YAMLRoot):
 
 @dataclass
 class Axiom(YAMLRoot):
+    """
+    A logical or non-logical statement
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.Axiom
@@ -1486,7 +1604,6 @@ class Axiom(YAMLRoot):
             self.annotatedProperty = AnnotationPropertyId(self.annotatedProperty)
 
         if self.annotatedSource is not None and not isinstance(self.annotatedSource, NamedObjectId):
-            self.annotatedSource = NamedObjectId(self.annotatedSource)
             self.annotatedSource = NamedObjectId(self.annotatedSource)
 
         if not isinstance(self.annotations, list):
@@ -1835,6 +1952,56 @@ class NotObsoleteAspect(YAMLRoot):
 
 
 # Enumerations
+class DefinitionConstraintComponent(EnumDefinitionImpl):
+    """
+    An extension of SHACL constraint component for constraining definitions
+    """
+
+    DefinitionConstraint = PermissibleValue(
+        text="DefinitionConstraint",
+        description="A general problem with a definition",
+        meaning=OMOSCHEMA["DCC.Any"],
+    )
+    DefinitionPresence = PermissibleValue(
+        text="DefinitionPresence",
+        description="An entity must have a definition",
+        meaning=OMOSCHEMA["DCC.S0"],
+    )
+    Conventions = PermissibleValue(
+        text="Conventions",
+        description="Definitions should conform to conventions",
+        meaning=OMOSCHEMA["DCC.S1"],
+    )
+    Harmonized = PermissibleValue(
+        text="Harmonized",
+        description="Definitions should be harmonized",
+        meaning=OMOSCHEMA["DCC.S1.1"],
+    )
+    GenusDifferentiaForm = PermissibleValue(
+        text="GenusDifferentiaForm",
+        description="A definition should follow the genus-differentia form",
+        meaning=OMOSCHEMA["DCC.S3"],
+    )
+    SingleGenus = PermissibleValue(
+        text="SingleGenus",
+        description="An entity must have a single genus",
+        meaning=OMOSCHEMA["DCC.S3.1"],
+    )
+    Circularity = PermissibleValue(
+        text="Circularity",
+        description="A definition must not be circular",
+        meaning=OMOSCHEMA["DCC.S7"],
+    )
+    MatchTextAndLogical = PermissibleValue(
+        text="MatchTextAndLogical",
+        description="Text definitions and logical forms should match",
+        meaning=OMOSCHEMA["DCC.S11"],
+    )
+
+    _defn = EnumDefinition(
+        name="DefinitionConstraintComponent",
+        description="An extension of SHACL constraint component for constraining definitions",
+    )
 
 
 # Slots
@@ -1885,6 +2052,24 @@ slots.definition = Slot(
     model_uri=OMOSCHEMA.definition,
     domain=None,
     range=Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]],
+)
+
+slots.predicate = Slot(
+    uri=OMOSCHEMA.predicate,
+    name="predicate",
+    curie=OMOSCHEMA.curie("predicate"),
+    model_uri=OMOSCHEMA.predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.object = Slot(
+    uri=OMOSCHEMA.object,
+    name="object",
+    curie=OMOSCHEMA.curie("object"),
+    model_uri=OMOSCHEMA.object,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.title = Slot(
@@ -2031,6 +2216,15 @@ slots.defaultLanguage = Slot(
     range=Optional[str],
 )
 
+slots.language = Slot(
+    uri=DCTERMS.language,
+    name="language",
+    curie=DCTERMS.curie("language"),
+    model_uri=OMOSCHEMA.language,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.has_ontology_root_term = Slot(
     uri=IAO["0000700"],
     name="has_ontology_root_term",
@@ -2064,7 +2258,7 @@ slots.depicted_by = Slot(
     curie=FOAF.curie("depicted_by"),
     model_uri=OMOSCHEMA.depicted_by,
     domain=None,
-    range=Optional[Union[str, List[str]]],
+    range=Optional[Union[Union[str, ImageId], List[Union[str, ImageId]]]],
 )
 
 slots.page = Slot(
@@ -2208,7 +2402,7 @@ slots.contributor = Slot(
     curie=DCTERMS.curie("contributor"),
     model_uri=OMOSCHEMA.contributor,
     domain=None,
-    range=Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]],
+    range=Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]],
 )
 
 slots.creator = Slot(
@@ -2217,7 +2411,7 @@ slots.creator = Slot(
     curie=DCTERMS.curie("creator"),
     model_uri=OMOSCHEMA.creator,
     domain=None,
-    range=Optional[Union[str, List[str]]],
+    range=Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]],
 )
 
 slots.created = Slot(
@@ -3154,6 +3348,26 @@ slots.Property_subClassOf = Slot(
     model_uri=OMOSCHEMA.Property_subClassOf,
     domain=Property,
     range=Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]],
+)
+
+slots.HomoSapiens_id = Slot(
+    uri=OMOSCHEMA.id,
+    name="HomoSapiens_id",
+    curie=OMOSCHEMA.curie("id"),
+    model_uri=OMOSCHEMA.HomoSapiens_id,
+    domain=HomoSapiens,
+    range=Union[str, HomoSapiensId],
+    pattern=re.compile(r"^orcid:.*"),
+)
+
+slots.Agent_id = Slot(
+    uri=OMOSCHEMA.id,
+    name="Agent_id",
+    curie=OMOSCHEMA.curie("id"),
+    model_uri=OMOSCHEMA.Agent_id,
+    domain=Agent,
+    range=Union[str, AgentId],
+    pattern=re.compile(r"^orcid:.*"),
 )
 
 slots.Axiom_database_cross_reference = Slot(

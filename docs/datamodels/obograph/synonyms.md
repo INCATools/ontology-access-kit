@@ -1,15 +1,36 @@
 # Slot: synonyms
+_A list of synonym property value assertions for an entity_
 
-URI: [https://github.com/geneontology/obographs/synonyms](https://github.com/geneontology/obographs/synonyms)
+
+URI: [obographs:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
+
+
+
+
+
+
 ## Properties
 
- * Range: [SynonymPropertyValue](SynonymPropertyValue.md)
+* Range: [SynonymPropertyValue](SynonymPropertyValue.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -28,3 +49,20 @@ URI: [https://github.com/geneontology/obographs/synonyms](https://github.com/gen
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: synonyms
+description: A list of synonym property value assertions for an entity
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: synonyms
+domain_of:
+- Meta
+range: SynonymPropertyValue
+
+```
+</details>

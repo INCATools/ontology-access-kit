@@ -1,385 +1,585 @@
 @prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix linkml: <https://w3id.org/linkml/> .
-@prefix og: <https://github.com/geneontology/obographs/> .
+@prefix obographs: <https://github.com/geneontology/obographs/> .
+@prefix oio: <http://www.geneontology.org/formats/oboInOwl#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix pav: <http://purl.org/pav/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <https://w3id.org/shacl/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://github.com/geneontology/obographs> a owl:Ontology ;
+<https://github.com/geneontology/obographs.owl.ttl> a owl:Ontology ;
     rdfs:label "obographs_datamodel" ;
-    IAO:0000700 og:Axiom,
-        og:Edge,
-        og:ExistentialRestrictionExpression,
-        og:Graph,
-        og:GraphDocument,
-        og:Meta,
-        og:Node,
-        og:PropertyValue ;
+    IAO:0000700 obographs:Axiom,
+        obographs:Edge,
+        obographs:ExistentialRestrictionExpression,
+        obographs:Graph,
+        obographs:GraphDocument,
+        obographs:Meta,
+        obographs:Node,
+        obographs:PrefixDeclaration,
+        obographs:PropertyValue ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Obographs Datamodel" ;
-    pav:version "0.0.1" ;
-    linkml:generation_date "2022-08-18T13:42:13" ;
+    linkml:generation_date "2023-02-27T09:54:48" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "obograph.yaml" ;
-    linkml:source_file_date "2022-05-03T07:47:50" ;
-    linkml:source_file_size 3605 .
+    linkml:source_file_date "2023-02-23T08:56:46" ;
+    linkml:source_file_size 17125 .
 
-og:PredsEnum a owl:Class ;
-    rdfs:label "preds_enum" ;
-    owl:unionOf ( <https://github.com/geneontology/obographs/PredsEnum#hasExactSynonym> <https://github.com/geneontology/obographs/PredsEnum#hasNarrowSynonym> <https://github.com/geneontology/obographs/PredsEnum#hasBroadSynonym> <https://github.com/geneontology/obographs/PredsEnum#hasRelatedSynonym> ) ;
-    linkml:permissible_values <https://github.com/geneontology/obographs/PredsEnum#hasBroadSynonym>,
-        <https://github.com/geneontology/obographs/PredsEnum#hasExactSynonym>,
-        <https://github.com/geneontology/obographs/PredsEnum#hasNarrowSynonym>,
-        <https://github.com/geneontology/obographs/PredsEnum#hasRelatedSynonym> .
+obographs:GraphDocument a owl:Class ;
+    rdfs:label "GraphDocument" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom obographs:PrefixDeclaration ;
+            owl:onProperty sh:declare ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass obographs:Meta ;
+            owl:onProperty obographs:meta ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:Graph ;
+            owl:onProperty obographs:graphs ] ;
+    skos:definition "A graph document is a collection of graphs together with a set of prefixes that apply across all of them" ;
+    skos:note "A graph document frequently has a single graph but a multi-graph document can be used to represent multiple ontologies in an import closure in a single file." .
 
-og:XrefPropertyValue a owl:Class ;
+obographs:ScopeEnum a owl:Class ;
+    rdfs:label "ScopeEnum" ;
+    owl:unionOf ( oio:hasExactSynonym oio:hasNarrowSynonym oio:hasBroadSynonym oio:hasRelatedSynonym ) ;
+    linkml:permissible_values oio:hasBroadSynonym,
+        oio:hasExactSynonym,
+        oio:hasNarrowSynonym,
+        oio:hasRelatedSynonym .
+
+obographs:XrefPropertyValue a owl:Class ;
     rdfs:label "XrefPropertyValue" ;
-    rdfs:subClassOf og:PropertyValue .
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty rdf:object ],
+        obographs:PropertyValue ;
+    skos:definition "A property value that represents an assertion about an external reference to an entity" .
 
-og:ExistentialRestrictionExpression a owl:Class ;
+obographs:basicPropertyValues a owl:ObjectProperty ;
+    rdfs:label "basicPropertyValues" ;
+    rdfs:range obographs:BasicPropertyValue ;
+    skos:definition "A list of open-ended property values that does not correspond to those predefined in this standard, i.e xref, synonyms, definition" .
+
+obographs:chainPredicateIds a owl:DatatypeProperty ;
+    rdfs:label "chainPredicateIds" ;
+    rdfs:range xsd:string ;
+    skos:definition "A list of identifiers of predicates that form the precedent clause of a property chain rule" .
+
+obographs:definedClassId a owl:DatatypeProperty ;
+    rdfs:label "definedClassId" ;
+    rdfs:range xsd:string ;
+    skos:definition "The class that is defined by this axiom" .
+
+obographs:domainClassIds a owl:DatatypeProperty ;
+    rdfs:label "domainClassIds" ;
+    rdfs:range xsd:string .
+
+obographs:domainRangeAxioms a owl:ObjectProperty ;
+    rdfs:label "domainRangeAxioms" ;
+    rdfs:range obographs:DomainRangeAxiom ;
+    skos:definition "A list of axioms that define the domain and range of a property" .
+
+obographs:edges a owl:ObjectProperty ;
+    rdfs:label "edges" ;
+    rdfs:range obographs:Edge ;
+    skos:definition "All edges present in a graph." ;
+    skos:note "Note that this only includes core edges, formed by translating (a) SubClassOf between named classes (b) SubPropertyOf (c) SubClassOf between a named class and a simple existential axiom (d) ObjectPropertyAssertions" .
+
+obographs:equivalentNodesSets a owl:ObjectProperty ;
+    rdfs:label "equivalentNodesSets" ;
+    rdfs:range obographs:EquivalentNodesSet ;
+    skos:definition "A list of sets of nodes that form equivalence cliques" .
+
+obographs:fillerId a owl:DatatypeProperty ;
+    rdfs:label "fillerId" ;
+    rdfs:range xsd:string ;
+    skos:altLabel "object" ;
+    skos:definition "in an OWL restriction expression, the filler is the object of the restriction" .
+
+obographs:genusIds a owl:DatatypeProperty ;
+    rdfs:label "genusIds" ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso "https://github.com/geneontology/obographs/issues/89" ;
+    skos:definition "The set of classes that are the genus of the defined class" ;
+    skos:note "typically, this will be a single class" .
+
+obographs:graphs a owl:ObjectProperty ;
+    rdfs:label "graphs" ;
+    rdfs:range obographs:Graph ;
+    skos:definition "A list of all graphs (ontologies) in an ontology document." .
+
+obographs:isExact a owl:DatatypeProperty ;
+    rdfs:label "isExact" ;
+    rdfs:range xsd:boolean .
+
+obographs:lang a owl:DatatypeProperty ;
+    rdfs:label "lang" ;
+    rdfs:range xsd:string ;
+    skos:definition "the language of a property value" .
+
+obographs:logicalDefinitionAxioms a owl:ObjectProperty ;
+    rdfs:label "logicalDefinitionAxioms" ;
+    rdfs:range obographs:LogicalDefinitionAxiom ;
+    skos:definition "A list of logical definition axioms that define the meaning of a class in terms of other classes." .
+
+obographs:nodeIds a owl:DatatypeProperty ;
+    rdfs:label "nodeIds" ;
+    rdfs:range xsd:string .
+
+obographs:nodes a owl:ObjectProperty ;
+    rdfs:label "nodes" ;
+    rdfs:range obographs:Node ;
+    skos:definition "All nodes present in a graph. This includes class nodes as well as supporting nodes, including nodes representing relationship types, subsets, annotation proeprties, etc" .
+
+obographs:propertyChainAxioms a owl:ObjectProperty ;
+    rdfs:label "propertyChainAxioms" ;
+    rdfs:range obographs:PropertyChainAxiom ;
+    skos:definition "A list of axioms that define an OWL property chain" .
+
+obographs:propertyId a owl:DatatypeProperty ;
+    rdfs:label "propertyId" ;
+    rdfs:range xsd:string ;
+    skos:definition "in an OWL restriction expression, this is the predicate" .
+
+obographs:rangeClassIds a owl:DatatypeProperty ;
+    rdfs:label "rangeClassIds" ;
+    rdfs:range xsd:string .
+
+obographs:representativeNodeId a owl:DatatypeProperty ;
+    rdfs:label "representativeNodeId" ;
+    rdfs:range xsd:string ;
+    skos:definition "The identifier of a node that represents the class in an OWL equivalence clique" .
+
+obographs:synonymType a owl:DatatypeProperty ;
+    rdfs:label "synonymType" ;
+    rdfs:range xsd:string ;
+    skos:definition "This standard follows oboInOwl in allowing an open ended list of synonym types" .
+
+obographs:synonyms a owl:ObjectProperty ;
+    rdfs:label "synonyms" ;
+    rdfs:range obographs:SynonymPropertyValue ;
+    skos:definition "A list of synonym property value assertions for an entity" .
+
+obographs:type a owl:DatatypeProperty ;
+    rdfs:label "type" ;
+    rdfs:range xsd:string .
+
+obographs:valType a owl:DatatypeProperty ;
+    rdfs:label "valType" ;
+    rdfs:range xsd:string ;
+    skos:altLabel "datatype",
+        "value type" ;
+    skos:definition "the datatype of a property value" .
+
+IAO:0000115 a owl:ObjectProperty ;
+    rdfs:label "definition" ;
+    rdfs:range obographs:DefinitionPropertyValue ;
+    skos:definition "A definition of an entity" ;
+    skos:exactMatch IAO:0000115 .
+
+oio:hasBroadSynonym a owl:Class ;
+    rdfs:label "hasBroadSynonym" .
+
+oio:hasExactSynonym a owl:Class ;
+    rdfs:label "hasExactSynonym" .
+
+oio:hasNarrowSynonym a owl:Class ;
+    rdfs:label "hasNarrowSynonym" .
+
+oio:hasRelatedSynonym a owl:Class ;
+    rdfs:label "hasRelatedSynonym" .
+
+oio:inSubset a owl:DatatypeProperty ;
+    rdfs:label "subsets" ;
+    rdfs:range xsd:string ;
+    skos:definition "A list of subsets to which this entity belongs" ;
+    skos:exactMatch oio:inSubset .
+
+rdf:subject a owl:DatatypeProperty ;
+    rdfs:label "sub" ;
+    rdfs:range xsd:string ;
+    skos:altLabel "child",
+        "head",
+        "source",
+        "subject" ;
+    skos:definition "the subject of an edge" ;
+    skos:exactMatch rdf:subject .
+
+rdfs:comment a owl:DatatypeProperty ;
+    rdfs:label "comments" ;
+    rdfs:range xsd:string ;
+    skos:definition "A list of comments about the entity" ;
+    skos:exactMatch rdfs:comment ;
+    skos:note "for historic reasons obo format only supports a single comment per entity. This limitation is not carried over here, but users should be aware that multiple comments will not be supported in converting back to obo format." .
+
+owl:deprecated a owl:DatatypeProperty ;
+    rdfs:label "deprecated" ;
+    rdfs:range xsd:boolean ;
+    skos:exactMatch owl:deprecated .
+
+owl:someValuesFrom a owl:ObjectProperty ;
+    rdfs:label "restrictions" ;
+    rdfs:range obographs:ExistentialRestrictionExpression ;
+    rdfs:seeAlso "https://github.com/geneontology/obographs/issues/89" ;
+    skos:altLabel "differentia" ;
+    skos:definition "The set of restrictions that are the differentiating features of the defined class" ;
+    skos:exactMatch owl:someValuesFrom ;
+    skos:note "typically this will always be present." .
+
+owl:versionInfo a owl:DatatypeProperty ;
+    rdfs:label "version" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch owl:versionInfo .
+
+obographs:BasicPropertyValue a owl:Class ;
+    rdfs:label "BasicPropertyValue" ;
+    rdfs:subClassOf obographs:PropertyValue ;
+    skos:definition "A property value that represents an assertion about an entity that is not a definition, synonym, or xref" .
+
+obographs:DefinitionPropertyValue a owl:Class ;
+    rdfs:label "DefinitionPropertyValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty obographs:xrefs ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty rdf:object ],
+        obographs:PropertyValue ;
+    skos:definition "A property value that represents an assertion about the textual definition of an entity" .
+
+obographs:DomainRangeAxiom a owl:Class ;
+    rdfs:label "DomainRangeAxiom" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:predicateId ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty obographs:domainClassIds ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:Edge ;
+            owl:onProperty obographs:allValuesFromEdges ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty obographs:rangeClassIds ],
+        obographs:Axiom ;
+    skos:definition "This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range." ;
+    skos:note "When converting from OWL, an OWL domain axiom may be translated to a DomainRangeAxiom with a domainClassIds, and no rangeClassIds. An OWL range axiom may be translated to a DomainRangeAxiom with a rangeClassIds, and no domainClassIds. But translations may merge these, but only when semantically valid." .
+
+obographs:EquivalentNodesSet a owl:Class ;
+    rdfs:label "EquivalentNodesSet" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty obographs:nodeIds ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:representativeNodeId ],
+        obographs:Axiom ;
+    skos:definition "A clique of nodes that are all mutually equivalent" ;
+    skos:exactMatch owl:equivalentClass .
+
+obographs:LogicalDefinitionAxiom a owl:Class ;
+    rdfs:label "LogicalDefinitionAxiom" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:definedClassId ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:ExistentialRestrictionExpression ;
+            owl:onProperty owl:someValuesFrom ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty obographs:genusIds ],
+        obographs:Axiom ;
+    skos:altLabel "genus differentia definition" ;
+    skos:definition "An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia" ;
+    obographs:owl.fstring "EquivalentClasses({definedClassId} ObjectIntersectionOf({genusIds} {restrictions}))" .
+
+obographs:PropertyChainAxiom a owl:Class ;
+    rdfs:label "PropertyChainAxiom" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:predicateId ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty obographs:chainPredicateIds ],
+        obographs:Axiom ;
+    skos:definition "An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn" .
+
+obographs:SynonymPropertyValue a owl:Class ;
+    rdfs:label "SynonymPropertyValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty obographs:isExact ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass obographs:ScopeEnum ;
+            owl:onProperty rdf:predicate ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty rdf:object ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:synonymType ],
+        obographs:PropertyValue ;
+    skos:definition "A property value that represents an assertion about a synonym of an entity" .
+
+obographs:allValuesFromEdges a owl:ObjectProperty ;
+    rdfs:label "allValuesFromEdges" ;
+    rdfs:range obographs:Edge ;
+    skos:definition "A list of edges that represent subclasses of universal restrictions" .
+
+obographs:id a owl:DatatypeProperty ;
+    rdfs:label "id" ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso "https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5" ;
+    skos:definition "The unique identifier of the entity" .
+
+obographs:predicateId a owl:DatatypeProperty ;
+    rdfs:label "predicateId" ;
+    rdfs:range xsd:string .
+
+sh:namespace a owl:DatatypeProperty ;
+    rdfs:label "namespace" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The namespace associated with a prefix in a prefix declaration." ;
+    skos:exactMatch sh:namespace .
+
+sh:prefix a owl:DatatypeProperty ;
+    rdfs:label "prefix" ;
+    rdfs:range xsd:string ;
+    skos:definition "The prefix of a prefix declaration." ;
+    skos:exactMatch sh:prefix ;
+    skos:note "It is strongly recommended that the prefix is a valid NCName" .
+
+rdfs:label a owl:DatatypeProperty ;
+    rdfs:label "lbl" ;
+    rdfs:range xsd:string ;
+    skos:altLabel "label",
+        "name" ;
+    skos:definition "the human-readable label of a node" ;
+    skos:exactMatch rdfs:label ;
+    skos:note "the name \"lbl\" exists for legacy purposes, this should be considered identical to label in rdfs" .
+
+obographs:ExistentialRestrictionExpression a owl:Class ;
     rdfs:label "ExistentialRestrictionExpression" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:fillerId ],
+            owl:onProperty obographs:propertyId ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:propertyId ] .
+            owl:onProperty obographs:fillerId ] ;
+    skos:altLabel "some values from expression" ;
+    skos:definition "An existential restriction (OWL some values from) expression" ;
+    skos:exactMatch owl:Restriction ;
+    skos:note "note that most existing restrictions are present in simple A SubClassOf R some B axioms, which are translated to *edges* in a graph. This class exists for other cases that do not map to edges." ;
+    obographs:owl.fstring "ObjectSomeValuesFrom({propertyId} {fillerId})" .
 
-og:GraphDocument a owl:Class ;
-    rdfs:label "GraphDocument" ;
+obographs:Graph a owl:Class ;
+    rdfs:label "Graph" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass og:Meta ;
-            owl:onProperty og:meta ],
+            owl:allValuesFrom obographs:PrefixDeclaration ;
+            owl:onProperty sh:declare ],
         [ a owl:Restriction ;
-            owl:allValuesFrom og:Graph ;
-            owl:onProperty og:graphs ] .
-
-og:basicPropertyValues a owl:ObjectProperty ;
-    rdfs:label "basicPropertyValues" ;
-    rdfs:range og:BasicPropertyValue .
-
-og:comments a owl:DatatypeProperty ;
-    rdfs:label "comments" ;
-    rdfs:range xsd:string .
-
-og:definition a owl:ObjectProperty ;
-    rdfs:label "definition" ;
-    rdfs:range og:DefinitionPropertyValue .
-
-og:deprecated a owl:DatatypeProperty ;
-    rdfs:label "deprecated" ;
-    rdfs:range xsd:boolean .
-
-og:domainRangeAxioms a owl:ObjectProperty ;
-    rdfs:label "domainRangeAxioms" ;
-    rdfs:range og:DomainRangeAxiom .
-
-og:edges a owl:ObjectProperty ;
-    rdfs:label "edges" ;
-    rdfs:range og:Edge .
-
-og:equivalentNodesSets a owl:ObjectProperty ;
-    rdfs:label "equivalentNodesSets" ;
-    rdfs:range og:EquivalentNodesSet .
-
-og:fillerId a owl:DatatypeProperty ;
-    rdfs:label "fillerId" ;
-    rdfs:range xsd:string .
-
-og:graphs a owl:ObjectProperty ;
-    rdfs:label "graphs" ;
-    rdfs:range og:Graph .
-
-og:isExact a owl:DatatypeProperty ;
-    rdfs:label "isExact" ;
-    rdfs:range xsd:boolean .
-
-og:logicalDefinitionAxioms a owl:ObjectProperty ;
-    rdfs:label "logicalDefinitionAxioms" ;
-    rdfs:range og:LogicalDefinitionAxiom .
-
-og:nodeIds a owl:DatatypeProperty ;
-    rdfs:label "nodeIds" ;
-    rdfs:range xsd:string .
-
-og:nodes a owl:ObjectProperty ;
-    rdfs:label "nodes" ;
-    rdfs:range og:Node .
-
-og:obj a owl:DatatypeProperty ;
-    rdfs:label "obj" ;
-    rdfs:range xsd:string .
-
-og:propertyChainAxioms a owl:ObjectProperty ;
-    rdfs:label "propertyChainAxioms" ;
-    rdfs:range og:PropertyChainAxiom .
-
-og:propertyId a owl:DatatypeProperty ;
-    rdfs:label "propertyId" ;
-    rdfs:range xsd:string .
-
-og:representitiveNodeId a owl:DatatypeProperty ;
-    rdfs:label "representitiveNodeId" ;
-    rdfs:range xsd:string .
-
-og:scope a owl:ObjectProperty ;
-    rdfs:label "scope" ;
-    rdfs:range og:ScopesEnum .
-
-og:sub a owl:DatatypeProperty ;
-    rdfs:label "sub" ;
-    rdfs:range xsd:string .
-
-og:subsets a owl:DatatypeProperty ;
-    rdfs:label "subsets" ;
-    rdfs:range xsd:string .
-
-og:synonymType a owl:DatatypeProperty ;
-    rdfs:label "synonymType" ;
-    rdfs:range xsd:string .
-
-og:synonyms a owl:ObjectProperty ;
-    rdfs:label "synonyms" ;
-    rdfs:range og:SynonymPropertyValue .
-
-og:type a owl:DatatypeProperty ;
-    rdfs:label "type" ;
-    rdfs:range xsd:string .
-
-og:val a owl:DatatypeProperty ;
-    rdfs:label "val" ;
-    rdfs:range xsd:string .
-
-og:version a owl:DatatypeProperty ;
-    rdfs:label "version" ;
-    rdfs:range xsd:string .
-
-og:BasicPropertyValue a owl:Class ;
-    rdfs:label "BasicPropertyValue" ;
-    rdfs:subClassOf og:PropertyValue .
-
-og:DefinitionPropertyValue a owl:Class ;
-    rdfs:label "DefinitionPropertyValue" ;
-    rdfs:subClassOf og:PropertyValue .
-
-og:DomainRangeAxiom a owl:Class ;
-    rdfs:label "DomainRangeAxiom" ;
-    rdfs:subClassOf og:Axiom .
-
-og:EquivalentNodesSet a owl:Class ;
-    rdfs:label "EquivalentNodesSet" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty og:nodeIds ],
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:LogicalDefinitionAxiom ;
+            owl:onProperty obographs:logicalDefinitionAxioms ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:DomainRangeAxiom ;
+            owl:onProperty obographs:domainRangeAxioms ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:Edge ;
+            owl:onProperty obographs:allValuesFromEdges ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:Node ;
+            owl:onProperty obographs:nodes ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass obographs:Meta ;
+            owl:onProperty obographs:meta ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:Edge ;
+            owl:onProperty obographs:edges ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:PropertyChainAxiom ;
+            owl:onProperty obographs:propertyChainAxioms ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:EquivalentNodesSet ;
+            owl:onProperty obographs:equivalentNodesSets ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:representitiveNodeId ],
-        og:Axiom .
+            owl:onProperty rdfs:label ] ;
+    skos:definition "A graph is a collection of nodes and edges and other axioms that represents a single ontology." ;
+    skos:exactMatch owl:Ontology .
 
-og:LogicalDefinitionAxiom a owl:Class ;
-    rdfs:label "LogicalDefinitionAxiom" ;
-    rdfs:subClassOf og:Axiom .
-
-<https://github.com/geneontology/obographs/PredsEnum#hasBroadSynonym> a owl:Class ;
-    rdfs:label "hasBroadSynonym" .
-
-<https://github.com/geneontology/obographs/PredsEnum#hasExactSynonym> a owl:Class ;
-    rdfs:label "hasExactSynonym" .
-
-<https://github.com/geneontology/obographs/PredsEnum#hasNarrowSynonym> a owl:Class ;
-    rdfs:label "hasNarrowSynonym" .
-
-<https://github.com/geneontology/obographs/PredsEnum#hasRelatedSynonym> a owl:Class ;
-    rdfs:label "hasRelatedSynonym" .
-
-og:PropertyChainAxiom a owl:Class ;
-    rdfs:label "PropertyChainAxiom" ;
-    rdfs:subClassOf og:Axiom .
-
-og:ScopesEnum a owl:Class ;
-    rdfs:label "scopes_enum" ;
-    owl:unionOf ( <https://github.com/geneontology/obographs/ScopesEnum#exact> <https://github.com/geneontology/obographs/ScopesEnum#narrow> <https://github.com/geneontology/obographs/ScopesEnum#broad> <https://github.com/geneontology/obographs/ScopesEnum#related> ) ;
-    linkml:permissible_values <https://github.com/geneontology/obographs/ScopesEnum#broad>,
-        <https://github.com/geneontology/obographs/ScopesEnum#exact>,
-        <https://github.com/geneontology/obographs/ScopesEnum#narrow>,
-        <https://github.com/geneontology/obographs/ScopesEnum#related> .
-
-<https://github.com/geneontology/obographs/ScopesEnum#broad> a owl:Class ;
-    rdfs:label "broad" .
-
-<https://github.com/geneontology/obographs/ScopesEnum#exact> a owl:Class ;
-    rdfs:label "exact" .
-
-<https://github.com/geneontology/obographs/ScopesEnum#narrow> a owl:Class ;
-    rdfs:label "narrow" .
-
-<https://github.com/geneontology/obographs/ScopesEnum#related> a owl:Class ;
-    rdfs:label "related" .
-
-og:SynonymPropertyValue a owl:Class ;
-    rdfs:label "SynonymPropertyValue" ;
+obographs:Node a owl:Class ;
+    rdfs:label "Node" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass og:ScopesEnum ;
-            owl:onProperty og:scope ],
+            owl:onClass obographs:Meta ;
+            owl:onProperty obographs:meta ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:synonymType ],
+            owl:onProperty rdfs:label ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty og:isExact ],
-        og:PropertyValue .
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:type ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:id ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A node is a class, property, or other entity in an ontology" ;
+    skos:exactMatch rdf:Resource .
 
-og:id a owl:DatatypeProperty ;
-    rdfs:label "id" ;
-    rdfs:range xsd:string .
-
-og:lbl a owl:DatatypeProperty ;
-    rdfs:label "lbl" ;
-    rdfs:range xsd:string .
-
-og:pred a owl:DatatypeProperty ;
-    rdfs:label "pred" ;
-    rdfs:range xsd:string .
-
-og:xrefs a owl:DatatypeProperty ;
+obographs:xrefs a owl:DatatypeProperty ;
     rdfs:label "xrefs" ;
-    rdfs:range xsd:string .
+    rdfs:range xsd:string ;
+    skos:closeMatch rdfs:seeAlso ;
+    skos:definition "A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso" .
 
-og:Edge a owl:Class ;
+sh:declare a owl:ObjectProperty ;
+    rdfs:label "prefixes" ;
+    rdfs:range obographs:PrefixDeclaration ;
+    skos:definition "A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)" ;
+    skos:exactMatch sh:declare .
+
+rdf:predicate a owl:DatatypeProperty ;
+    rdfs:label "pred" ;
+    rdfs:range xsd:string ;
+    skos:definition "the predicate of an edge" ;
+    skos:exactMatch rdf:predicate .
+
+obographs:PrefixDeclaration a owl:Class ;
+    rdfs:label "PrefixDeclaration" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sh:prefix ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sh:namespace ] ;
+    skos:definition "A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)" ;
+    skos:exactMatch sh:PrefixDeclaration .
+
+rdf:object a owl:DatatypeProperty .
+
+obographs:Axiom a owl:Class ;
+    rdfs:label "Axiom" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass obographs:Meta ;
+            owl:onProperty obographs:meta ] ;
+    skos:definition """A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this standard.
+""" ;
+    skos:exactMatch owl:Axiom .
+
+obographs:PropertyValue a owl:Class ;
+    rdfs:label "PropertyValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty rdf:object ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:valType ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass obographs:Meta ;
+            owl:onProperty obographs:meta ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty obographs:lang ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty rdf:predicate ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty obographs:xrefs ] ;
+    skos:altLabel "annotation" ;
+    skos:definition "A generic grouping for the different kinds of key-value associations on object. Minimally, a property value has a predicate and a value. It can also have a list of xrefs indicating provenance, as well as a metadata object." ;
+    skos:note "Any PropertyValue can have a meta object, which can itself have basicPropertyValues, meaning that like the OWL annotation model, axiom annotations can be nested to arbitrary levels." .
+
+obographs:Edge a owl:Class ;
     rdfs:label "Edge" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:pred ],
+            owl:onProperty rdf:subject ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:sub ],
+            owl:onProperty rdf:predicate ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:obj ] .
+            owl:onProperty rdf:object ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass obographs:Meta ;
+            owl:onProperty obographs:meta ] ;
+    skos:definition "An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o" .
 
-og:Graph a owl:Class ;
-    rdfs:label "Graph" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom og:DomainRangeAxiom ;
-            owl:onProperty og:domainRangeAxioms ],
-        [ a owl:Restriction ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty og:id ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom og:PropertyChainAxiom ;
-            owl:onProperty og:propertyChainAxioms ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass og:Meta ;
-            owl:onProperty og:meta ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom og:Node ;
-            owl:onProperty og:nodes ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom og:LogicalDefinitionAxiom ;
-            owl:onProperty og:logicalDefinitionAxioms ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom og:Edge ;
-            owl:onProperty og:edges ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom og:EquivalentNodesSet ;
-            owl:onProperty og:equivalentNodesSets ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty og:lbl ] .
-
-og:Node a owl:Class ;
-    rdfs:label "Node" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass og:Meta ;
-            owl:onProperty og:meta ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty og:type ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty og:lbl ],
-        [ a owl:Restriction ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty og:id ;
-            owl:qualifiedCardinality 1 ] .
-
-og:Axiom a owl:Class ;
-    rdfs:label "Axiom" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass og:Meta ;
-            owl:onProperty og:meta ] .
-
-og:PropertyValue a owl:Class ;
-    rdfs:label "PropertyValue" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty og:xrefs ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass og:Meta ;
-            owl:onProperty og:meta ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty og:pred ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty og:val ] .
-
-og:meta a owl:ObjectProperty ;
+obographs:meta a owl:ObjectProperty ;
     rdfs:label "meta" ;
-    rdfs:range og:Meta .
+    rdfs:range obographs:Meta ;
+    skos:altLabel "annotations" ;
+    skos:definition "A collection of metadata about either an ontology (graph), an entity, or an axiom" .
 
-og:Meta a owl:Class ;
+obographs:Meta a owl:Class ;
     rdfs:label "Meta" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom og:BasicPropertyValue ;
-            owl:onProperty og:basicPropertyValues ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty og:subsets ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty owl:deprecated ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty og:version ],
+            owl:onProperty owl:versionInfo ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty og:deprecated ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom og:SynonymPropertyValue ;
-            owl:onProperty og:synonyms ],
+            owl:allValuesFrom obographs:BasicPropertyValue ;
+            owl:onProperty obographs:basicPropertyValues ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty og:comments ],
+            owl:onProperty rdfs:comment ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty og:xrefs ],
+            owl:allValuesFrom obographs:SynonymPropertyValue ;
+            owl:onProperty obographs:synonyms ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass og:DefinitionPropertyValue ;
-            owl:onProperty og:definition ] .
+            owl:onClass obographs:DefinitionPropertyValue ;
+            owl:onProperty IAO:0000115 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:inSubset ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom obographs:XrefPropertyValue ;
+            owl:onProperty obographs:xrefs ] ;
+    skos:altLabel "annotation collection" ;
+    skos:definition "A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect the logical interpretation of the container but provides useful information to humans or machines." .
 
 
 

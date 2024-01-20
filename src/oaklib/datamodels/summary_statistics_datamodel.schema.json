@@ -1,346 +1,508 @@
 {
-   "$defs": {
-      "FacetStatistics": {
-         "additionalProperties": false,
-         "description": "summary statistics for a data facet",
-         "properties": {
-            "annotation_property_count": {
-               "type": "integer"
-            },
-            "anonymous_class_expression_count": {
-               "type": "integer"
-            },
-            "anonymous_individual_count": {
-               "type": "integer"
-            },
-            "class_count": {
-               "type": "integer"
-            },
-            "class_count_excluding_deprecated": {
-               "type": "integer"
-            },
-            "class_count_with_definitions": {
-               "type": "integer"
-            },
-            "datatype_property_count": {
-               "type": "integer"
-            },
-            "description_logic_profile": {
-               "type": "string"
-            },
-            "distinct_synonym_count": {
-               "type": "integer"
-            },
-            "equivalentclasses_axiom_count": {
-               "type": "integer"
-            },
-            "facet": {
-               "type": "string"
-            },
-            "individual_count": {
-               "type": "integer"
-            },
-            "mapping_count": {
-               "type": "integer"
-            },
-            "named_individual_count": {
-               "type": "integer"
-            },
-            "object_property_count": {
-               "type": "integer"
-            },
-            "ontology_count": {
-               "type": "integer"
-            },
-            "owl_axiom_count": {
-               "type": "integer"
-            },
-            "property_count": {
-               "type": "integer"
-            },
-            "rdf_triple_count": {
-               "type": "integer"
-            },
-            "subclass_of_axiom_count": {
-               "type": "integer"
-            },
-            "synonym_statement_count": {
-               "type": "integer"
-            },
-            "unsatisfiable_class_count": {
-               "type": "integer"
-            },
-            "untyped_entity_count": {
-               "type": "integer"
-            }
-         },
-         "required": [
-            "facet"
-         ],
-         "title": "FacetStatistics",
-         "type": "object"
-      },
-      "FacetStatistics__identifier_optional": {
-         "additionalProperties": false,
-         "description": "summary statistics for a data facet",
-         "properties": {
-            "annotation_property_count": {
-               "type": "integer"
-            },
-            "anonymous_class_expression_count": {
-               "type": "integer"
-            },
-            "anonymous_individual_count": {
-               "type": "integer"
-            },
-            "class_count": {
-               "type": "integer"
-            },
-            "class_count_excluding_deprecated": {
-               "type": "integer"
-            },
-            "class_count_with_definitions": {
-               "type": "integer"
-            },
-            "datatype_property_count": {
-               "type": "integer"
-            },
-            "description_logic_profile": {
-               "type": "string"
-            },
-            "distinct_synonym_count": {
-               "type": "integer"
-            },
-            "equivalentclasses_axiom_count": {
-               "type": "integer"
-            },
-            "facet": {
-               "type": "string"
-            },
-            "individual_count": {
-               "type": "integer"
-            },
-            "mapping_count": {
-               "type": "integer"
-            },
-            "named_individual_count": {
-               "type": "integer"
-            },
-            "object_property_count": {
-               "type": "integer"
-            },
-            "ontology_count": {
-               "type": "integer"
-            },
-            "owl_axiom_count": {
-               "type": "integer"
-            },
-            "property_count": {
-               "type": "integer"
-            },
-            "rdf_triple_count": {
-               "type": "integer"
-            },
-            "subclass_of_axiom_count": {
-               "type": "integer"
-            },
-            "synonym_statement_count": {
-               "type": "integer"
-            },
-            "unsatisfiable_class_count": {
-               "type": "integer"
-            },
-            "untyped_entity_count": {
-               "type": "integer"
-            }
-         },
-         "required": [],
-         "title": "FacetStatistics",
-         "type": "object"
-      },
-      "GlobalStatistics": {
-         "additionalProperties": false,
-         "description": "summary statistics for the entire resource",
-         "properties": {
-            "annotation_property_count": {
-               "type": "integer"
-            },
-            "anonymous_class_expression_count": {
-               "type": "integer"
-            },
-            "anonymous_individual_count": {
-               "type": "integer"
-            },
-            "by_category": {
-               "additionalProperties": {
-                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
-               },
-               "description": "statistics keyed by category"
-            },
-            "by_ontology": {
-               "additionalProperties": {
-                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
-               },
-               "description": "statistics keyed by ontology"
-            },
-            "by_subset": {
-               "additionalProperties": {
-                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
-               },
-               "description": "statistics keyed by ontology subset"
-            },
-            "by_taxon": {
-               "additionalProperties": {
-                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
-               },
-               "description": "statistics keyed by organism taxon"
-            },
-            "class_count": {
-               "type": "integer"
-            },
-            "class_count_excluding_deprecated": {
-               "type": "integer"
-            },
-            "class_count_with_definitions": {
-               "type": "integer"
-            },
-            "datatype_property_count": {
-               "type": "integer"
-            },
-            "description_logic_profile": {
-               "type": "string"
-            },
-            "distinct_synonym_count": {
-               "type": "integer"
-            },
-            "equivalentclasses_axiom_count": {
-               "type": "integer"
-            },
-            "individual_count": {
-               "type": "integer"
-            },
-            "mapping_count": {
-               "type": "integer"
-            },
-            "named_individual_count": {
-               "type": "integer"
-            },
-            "object_property_count": {
-               "type": "integer"
-            },
-            "ontology_count": {
-               "type": "integer"
-            },
-            "owl_axiom_count": {
-               "type": "integer"
-            },
-            "property_count": {
-               "type": "integer"
-            },
-            "rdf_triple_count": {
-               "type": "integer"
-            },
-            "subclass_of_axiom_count": {
-               "type": "integer"
-            },
-            "synonym_statement_count": {
-               "type": "integer"
-            },
-            "unsatisfiable_class_count": {
-               "type": "integer"
-            },
-            "untyped_entity_count": {
-               "type": "integer"
-            }
-         },
-         "required": [],
-         "title": "GlobalStatistics",
-         "type": "object"
-      },
-      "SummaryStatisticCollection": {
-         "additionalProperties": false,
-         "description": "A summary statistics report object",
-         "properties": {
-            "annotation_property_count": {
-               "type": "integer"
-            },
-            "anonymous_class_expression_count": {
-               "type": "integer"
-            },
-            "anonymous_individual_count": {
-               "type": "integer"
-            },
-            "class_count": {
-               "type": "integer"
-            },
-            "class_count_excluding_deprecated": {
-               "type": "integer"
-            },
-            "class_count_with_definitions": {
-               "type": "integer"
-            },
-            "datatype_property_count": {
-               "type": "integer"
-            },
-            "description_logic_profile": {
-               "type": "string"
-            },
-            "distinct_synonym_count": {
-               "type": "integer"
-            },
-            "equivalentclasses_axiom_count": {
-               "type": "integer"
-            },
-            "individual_count": {
-               "type": "integer"
-            },
-            "mapping_count": {
-               "type": "integer"
-            },
-            "named_individual_count": {
-               "type": "integer"
-            },
-            "object_property_count": {
-               "type": "integer"
-            },
-            "ontology_count": {
-               "type": "integer"
-            },
-            "owl_axiom_count": {
-               "type": "integer"
-            },
-            "property_count": {
-               "type": "integer"
-            },
-            "rdf_triple_count": {
-               "type": "integer"
-            },
-            "subclass_of_axiom_count": {
-               "type": "integer"
-            },
-            "synonym_statement_count": {
-               "type": "integer"
-            },
-            "unsatisfiable_class_count": {
-               "type": "integer"
-            },
-            "untyped_entity_count": {
-               "type": "integer"
-            }
-         },
-         "required": [],
-         "title": "SummaryStatisticCollection",
-         "type": "object"
-      }
-   },
-   "$id": "https://w3id.org/linkml/summary_statistics",
-   "$schema": "http://json-schema.org/draft-07/schema#",
-   "additionalProperties": true,
-   "metamodel_version": "1.7.0",
-   "properties": {},
-   "required": [],
-   "title": "summary-statistics",
-   "type": "object",
-   "version": null
+    "$defs": {
+        "Agent": {
+            "additionalProperties": false,
+            "description": "An agent",
+            "properties": {
+                "id": {
+                    "description": "the unique identifier for the agent",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "the label for the agent",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Agent",
+            "type": "object"
+        },
+        "ChangeTypeStatistic": {
+            "additionalProperties": false,
+            "description": "statistics for a particular kind of diff",
+            "properties": {
+                "facet": {
+                    "description": "the facet used to group the counts",
+                    "type": "string"
+                },
+                "filtered_count": {
+                    "description": "the number of items in the facet",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "facet",
+                "filtered_count"
+            ],
+            "title": "ChangeTypeStatistic",
+            "type": "object"
+        },
+        "ChangeTypeStatistic__identifier_optional": {
+            "additionalProperties": false,
+            "description": "statistics for a particular kind of diff",
+            "properties": {
+                "facet": {
+                    "description": "the facet used to group the counts",
+                    "type": "string"
+                },
+                "filtered_count": {
+                    "description": "the number of items in the facet",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "filtered_count"
+            ],
+            "title": "ChangeTypeStatistic",
+            "type": "object"
+        },
+        "ContributorRole": {
+            "additionalProperties": false,
+            "description": "A role that a contributor can have",
+            "properties": {
+                "id": {
+                    "description": "the unique identifier for the role",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ContributorRole",
+            "type": "object"
+        },
+        "ContributorStatistics": {
+            "additionalProperties": false,
+            "description": "Statistics for a contributor",
+            "properties": {
+                "contributor_id": {
+                    "description": "the contributor",
+                    "type": "string"
+                },
+                "contributor_name": {
+                    "description": "the name of the contributor",
+                    "type": "string"
+                },
+                "normalization_comments": {
+                    "description": "if contributor name normalization was applied, provide details here",
+                    "type": "string"
+                },
+                "role_counts": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "type": "object"
+                }
+            },
+            "required": [
+                "contributor_id"
+            ],
+            "title": "ContributorStatistics",
+            "type": "object"
+        },
+        "ContributorStatistics__identifier_optional": {
+            "additionalProperties": false,
+            "description": "Statistics for a contributor",
+            "properties": {
+                "contributor_id": {
+                    "description": "the contributor",
+                    "type": "string"
+                },
+                "contributor_name": {
+                    "description": "the name of the contributor",
+                    "type": "string"
+                },
+                "normalization_comments": {
+                    "description": "if contributor name normalization was applied, provide details here",
+                    "type": "string"
+                },
+                "role_counts": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "type": "object"
+                }
+            },
+            "required": [],
+            "title": "ContributorStatistics",
+            "type": "object"
+        },
+        "FacetedCount": {
+            "additionalProperties": false,
+            "description": "Counts broken down by a facet",
+            "properties": {
+                "facet": {
+                    "description": "the facet used to group the counts",
+                    "type": "string"
+                },
+                "filtered_count": {
+                    "description": "the number of items in the facet",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "facet",
+                "filtered_count"
+            ],
+            "title": "FacetedCount",
+            "type": "object"
+        },
+        "FacetedCount__identifier_optional": {
+            "additionalProperties": false,
+            "description": "Counts broken down by a facet",
+            "properties": {
+                "facet": {
+                    "description": "the facet used to group the counts",
+                    "type": "string"
+                },
+                "filtered_count": {
+                    "description": "the number of items in the facet",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "filtered_count"
+            ],
+            "title": "FacetedCount",
+            "type": "object"
+        },
+        "GroupedStatistics": {
+            "additionalProperties": false,
+            "description": "summary statistics for the entire resource",
+            "properties": {
+                "agents": {
+                    "description": "Agents that contributed to the report",
+                    "items": {
+                        "$ref": "#/$defs/Agent"
+                    },
+                    "type": "array"
+                },
+                "compared_with": {
+                    "description": "For diffs, the ontologies being compared against",
+                    "items": {
+                        "$ref": "#/$defs/Ontology"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "description": "Unique handle for this report",
+                    "type": "string"
+                },
+                "ontologies": {
+                    "description": "Ontology for which the statistics are computed",
+                    "items": {
+                        "$ref": "#/$defs/Ontology"
+                    },
+                    "type": "array"
+                },
+                "partitions": {
+                    "description": "statistics grouped by a particular property",
+                    "items": {
+                        "$ref": "#/$defs/UngroupedStatistics"
+                    },
+                    "type": "array"
+                },
+                "was_generated_by": {
+                    "$ref": "#/$defs/SummaryStatisticsCalculationActivity",
+                    "description": "The process that generated the report"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "GroupedStatistics",
+            "type": "object"
+        },
+        "Ontology": {
+            "additionalProperties": false,
+            "description": "An ontology",
+            "properties": {
+                "description": {
+                    "description": "a description of the resource",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "the unique identifier for the resource",
+                    "type": "string"
+                },
+                "prefix": {
+                    "description": "the prefix for the ontology",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "the title of the resource",
+                    "type": "string"
+                },
+                "version": {
+                    "description": "the version of the resource",
+                    "type": "string"
+                },
+                "version_info": {
+                    "description": "the version info of the resource",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Ontology",
+            "type": "object"
+        },
+        "SummaryStatisticsCalculationActivity": {
+            "additionalProperties": false,
+            "description": "An activity that calculates summary statistics for an ontology",
+            "properties": {
+                "acted_on_behalf_of": {
+                    "description": "the agent that the activity acted on behalf of",
+                    "type": "string"
+                },
+                "ended_at_time": {
+                    "description": "the time at which the activity ended",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "started_at_time": {
+                    "description": "the time at which the activity started",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "was_associated_with": {
+                    "description": "the agent that was associated with the activity",
+                    "type": "string"
+                }
+            },
+            "title": "SummaryStatisticsCalculationActivity",
+            "type": "object"
+        },
+        "UngroupedStatistics": {
+            "additionalProperties": false,
+            "description": "A summary statistics report object",
+            "properties": {
+                "agents": {
+                    "description": "Agents that contributed to the report",
+                    "items": {
+                        "$ref": "#/$defs/Agent"
+                    },
+                    "type": "array"
+                },
+                "annotation_property_count": {
+                    "description": "Number of annotation properties (metadata properties) in the ontology or subset",
+                    "type": "integer"
+                },
+                "anonymous_class_expression_count": {
+                    "description": "Number of anonymous class expressions in the ontology or subset",
+                    "type": "integer"
+                },
+                "anonymous_individual_count": {
+                    "description": "Number of anonymous individuals in the ontology or subset",
+                    "type": "integer"
+                },
+                "change_summary": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/ChangeTypeStatistic__identifier_optional"
+                    },
+                    "description": "Summary of changes between two versions of an ontology",
+                    "type": "object"
+                },
+                "class_count": {
+                    "description": "Number of classes in the ontology or subset",
+                    "type": "integer"
+                },
+                "class_count_by_category": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of classes grouped by category in the ontology or subset",
+                    "type": "object"
+                },
+                "class_count_by_subset": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of classes grouped by subset (slim, value set) in the ontology or subset",
+                    "type": "object"
+                },
+                "class_count_with_text_definitions": {
+                    "description": "Number of classes with text definitions in the ontology or subset",
+                    "type": "integer"
+                },
+                "class_count_without_text_definitions": {
+                    "description": "Number of classes without text definitions in the ontology or subset",
+                    "type": "integer"
+                },
+                "compared_with": {
+                    "description": "For diffs, the ontologies being compared against",
+                    "items": {
+                        "$ref": "#/$defs/Ontology"
+                    },
+                    "type": "array"
+                },
+                "contributor_summary": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/ContributorStatistics__identifier_optional"
+                    },
+                    "type": "object"
+                },
+                "datatype_property_count": {
+                    "description": "Number of datatype properties in the ontology or subset",
+                    "type": "integer"
+                },
+                "deprecated_class_count": {
+                    "description": "Number of deprecated (obsoleted) classes in the ontology or subset",
+                    "type": "integer"
+                },
+                "deprecated_object_property_count": {
+                    "description": "Number of deprecated (obsoleted) object properties in the ontology or subset",
+                    "type": "integer"
+                },
+                "description_logic_profile": {
+                    "description": "Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset",
+                    "type": "string"
+                },
+                "distinct_synonym_count": {
+                    "description": "Number of distinct synonym strings in the ontology or subset",
+                    "type": "integer"
+                },
+                "edge_count_by_predicate": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of edges grouped by predicate in the ontology or subset",
+                    "type": "object"
+                },
+                "entailed_edge_count_by_predicate": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of entailed (includes indirect) edges grouped by predicate in the ontology or subset",
+                    "type": "object"
+                },
+                "equivalent_classes_axiom_count": {
+                    "description": "Number of equivalent classes axioms in the ontology or subset",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "Unique handle for this report",
+                    "type": "string"
+                },
+                "individual_count": {
+                    "description": "Number of individuals (named and anonymous) in the ontology or subset",
+                    "type": "integer"
+                },
+                "mapping_count": {
+                    "description": "Number of mappings (including xrefs) in the ontology or subset",
+                    "type": "integer"
+                },
+                "mapping_statement_count_by_object_source": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of mappings grouped by object_source (prefix of external vocabulary) in the ontology or subset",
+                    "type": "object"
+                },
+                "mapping_statement_count_by_predicate": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of mappings grouped by predicate (e.g. xref, skos predicate) in the ontology or subset",
+                    "type": "object"
+                },
+                "mapping_statement_count_subject_by_object_source": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of distinct subject entities grouped by object_source (prefix of external vocabulary) in the ontology or subset",
+                    "type": "object"
+                },
+                "merged_class_count": {
+                    "description": "Number of merged classes (obsoletions with merge reason) in the ontology or subset",
+                    "type": "integer"
+                },
+                "named_individual_count": {
+                    "description": "Number of named individuals in the ontology or subset",
+                    "type": "integer"
+                },
+                "non_deprecated_class_count": {
+                    "description": "Number of non-deprecated (non-obsoleted) classes in the ontology or subset",
+                    "type": "integer"
+                },
+                "non_deprecated_object_property_count": {
+                    "description": "Number of non-deprecated (non-obsoleted) object properties in the ontology or subset",
+                    "type": "integer"
+                },
+                "object_property_count": {
+                    "description": "Number of object properties (relations) in the ontology or subset",
+                    "type": "integer"
+                },
+                "ontologies": {
+                    "description": "Ontology for which the statistics are computed",
+                    "items": {
+                        "$ref": "#/$defs/Ontology"
+                    },
+                    "type": "array"
+                },
+                "ontology_count": {
+                    "description": "Number of ontologies (including imports) for the ontology or subset",
+                    "type": "integer"
+                },
+                "owl_axiom_count": {
+                    "description": "Number of OWL axioms in the ontology or subset",
+                    "type": "integer"
+                },
+                "property_count": {
+                    "description": "Number of properties in the ontology or subset",
+                    "type": "integer"
+                },
+                "rdf_triple_count": {
+                    "description": "Number of RDF triples in the ontology or subset",
+                    "type": "integer"
+                },
+                "subclass_of_axiom_count": {
+                    "description": "Number of subclass axioms in the ontology or subset",
+                    "type": "integer"
+                },
+                "subset_count": {
+                    "description": "Number of distinct subsets (slims, value sets) in the ontology or subset",
+                    "type": "integer"
+                },
+                "synonym_statement_count": {
+                    "description": "Number of synonym statements (assertions) in the ontology or subset",
+                    "type": "integer"
+                },
+                "synonym_statement_count_by_predicate": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/FacetedCount__identifier_optional"
+                    },
+                    "description": "Number of synonym statements (assertions) grouped by predicate (scope) in the ontology or subset",
+                    "type": "object"
+                },
+                "unsatisfiable_class_count": {
+                    "description": "Number of unsatisfiable classes in the ontology or subset",
+                    "type": "integer"
+                },
+                "untyped_entity_count": {
+                    "description": "Number of entities whose type could not be determined in the ontology or subset",
+                    "type": "integer"
+                },
+                "was_generated_by": {
+                    "$ref": "#/$defs/SummaryStatisticsCalculationActivity",
+                    "description": "The process that generated the report"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "UngroupedStatistics",
+            "type": "object"
+        }
+    },
+    "$id": "https://w3id.org/oaklib/summary_statistics",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "title": "summary-statistics",
+    "type": "object",
+    "version": null
 }
-

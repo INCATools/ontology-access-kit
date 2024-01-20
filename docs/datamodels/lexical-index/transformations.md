@@ -1,15 +1,34 @@
 # Slot: transformations
 
-URI: [https://w3id.org/linkml/lexical_index/transformations](https://w3id.org/linkml/lexical_index/transformations)
+URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transformations)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas...
+
+
+
+
+
+
 ## Properties
 
- * Range: [LexicalTransformation](LexicalTransformation.md)
+* Range: [LexicalTransformation](LexicalTransformation.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -24,7 +43,24 @@ URI: [https://w3id.org/linkml/lexical_index/transformations](https://w3id.org/li
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: transformations
+from_schema: https://w3id.org/oak/lexical-index
+rank: 1000
+multivalued: true
+alias: transformations
+owner: LexicalTransformationPipeline
+domain_of:
+- LexicalTransformationPipeline
+range: LexicalTransformation
+
+```
+</details>

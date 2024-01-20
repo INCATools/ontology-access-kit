@@ -1,42 +1,140 @@
 import logging
 from abc import ABC
-from typing import Any, Iterator, Tuple
+from dataclasses import dataclass
+from typing import Any, Dict, Iterator, Optional, Tuple
 
 import kgcl_schema.datamodel.kgcl as kgcl
-from kgcl_schema.datamodel.kgcl import Change, NodeCreation, NodeDeletion
+from kgcl_schema.datamodel.kgcl import (
+    Change,
+    ClassCreation,
+    NewTextDefinition,
+    NodeCreation,
+    NodeDeletion,
+    NodeTextDefinitionChange,
+)
 
+from oaklib.datamodels.vocabulary import (
+    DEPRECATED_PREDICATE,
+    HAS_OBSOLESCENCE_REASON,
+    OWL_CLASS,
+    TERM_REPLACED_BY,
+    TERMS_MERGED,
+)
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.types import CURIE
+from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.kgcl_utilities import generate_change_id
 
 TERM_LIST_DIFF = Tuple[CURIE, CURIE]
+RESIDUAL_KEY = "__RESIDUAL__"
+
+
+@dataclass
+class DiffConfiguration:
+    """Configuration for the differ."""
+
+    simple: bool = False
+    group_by_property: PRED_CURIE = None
 
 
 def _gen_id():
-    return "x"
+    return generate_change_id()
 
 
 class DifferInterface(BasicOntologyInterface, ABC):
     """
-    Generates descriptions of differences
+    Generates Change objects between one ontology and another.
 
-    TBD: low level diffs vs high level
-
-     See `KGCL <https://github.com/INCATools/kgcl>`_
+    This uses the KGCL datamodel, see :ref:`kgcl-datamodel` for more information.
     """
 
-    def diff(self, other_ontology: BasicOntologyInterface) -> Iterator[Change]:
+    def diff(
+        self, other_ontology: BasicOntologyInterface, configuration: DiffConfiguration = None
+    ) -> Iterator[Change]:
         """
-        Diffs two ontologies
+        Diffs two ontologies.
+
+        The changes that are yielded describe transitions from the current ontology to the other ontology.
+
+        Note that this is not guaranteed to diff every axiom in both ontologies. Only a subset of KGCL change
+        types are supported:
+
+        - NodeCreation
+        - NodeDeletion
+        - NodeMove
+        - NodeRename
+        - PredicateChange
+        - NewTextDefinition
+        - NodeTextDefinitionChange
 
         :param other_ontology:
+        :param configuration:
         :return: KGCL change object
         """
-        for e1 in self.entities():
+        if configuration is None:
+            configuration = DiffConfiguration()
+        other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
+        self_entities = set(list(self.entities(filter_obsoletes=False)))
+        logging.info(f"Comparing {len(self_entities)} terms in this ontology")
+        for e1 in self_entities:
+            # e1_types = self.owl_type(e1)
+            # is_class = OWL_CLASS in e1_types
             logging.debug(f"Comparing e1 {e1}")
-            if e1 not in other_ontology.entities():
+            if e1 not in other_ontology_entities:
                 yield NodeDeletion(id=_gen_id(), about_node=e1)
                 continue
-            if not self.different_from(e1, other_ontology):
+            if configuration.simple:
+                continue
+            e1_metadata = self.entity_metadata_map(e1)
+            e2_metadata = other_ontology.entity_metadata_map(e1)
+            metadata_props = set(e1_metadata.keys()).union(e2_metadata.keys())
+            if DEPRECATED_PREDICATE in metadata_props:
+                e1_dep = e1_metadata.get(DEPRECATED_PREDICATE, [False])[0]
+                e2_dep = e2_metadata.get(DEPRECATED_PREDICATE, [False])[0]
+                if e1_dep != e2_dep:
+                    # TODO: bundle associated changes
+                    if e1_dep and not e2_dep:
+                        yield kgcl.NodeUnobsoletion(id=_gen_id(), about_node=e1)
+                    elif not e1_dep and e2_dep:
+                        if TERM_REPLACED_BY in e2_metadata:
+                            if TERMS_MERGED in e2_metadata.get(HAS_OBSOLESCENCE_REASON, []):
+                                yield kgcl.NodeDirectMerge(
+                                    id=_gen_id(),
+                                    about_node=e1,
+                                    has_direct_replacement=e2_metadata[TERM_REPLACED_BY][0],
+                                )
+                            else:
+                                yield kgcl.NodeObsoletionWithDirectReplacement(
+                                    id=_gen_id(),
+                                    about_node=e1,
+                                    has_direct_replacement=e2_metadata[TERM_REPLACED_BY][0],
+                                )
+                        else:
+                            yield kgcl.NodeObsoletion(id=_gen_id(), about_node=e1)
+            # Check for definition change/addition
+            if self.definition(e1) != other_ontology.definition(e1):
+                if self.definition(e1) is None or other_ontology.definition(e1) is None:
+                    old_value = new_value = None
+                    if self.definition(e1):
+                        old_value = self.definition(e1)
+
+                    if other_ontology.definition(e1):
+                        new_value = other_ontology.definition(e1)
+
+                    yield NewTextDefinition(
+                        id=_gen_id(), about_node=e1, new_value=new_value, old_value=old_value
+                    )
+                elif self.definition(e1) is not None and other_ontology.definition(e1) is not None:
+                    yield NodeTextDefinitionChange(
+                        id=_gen_id(),
+                        about_node=e1,
+                        new_value=other_ontology.definition(e1),
+                        old_value=self.definition(e1),
+                    )
+                else:
+                    logging.info(f"Both ontologies have no definition for {e1}")
+
+            differs = self.different_from(e1, other_ontology)
+            if differs is not None and not differs:
                 continue
             e1_arels = set(self.alias_relationships(e1, exclude_labels=True))
             e2_arels = set(other_ontology.alias_relationships(e1, exclude_labels=True))
@@ -60,28 +158,105 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 )
             e1_rels = set(self.outgoing_relationships(e1))
             e2_rels = set(other_ontology.outgoing_relationships(e1))
-            for rel in e1_rels.difference(e2_arels):
+            for rel in e1_rels.difference(e2_rels):
                 pred, filler = rel
                 edge = kgcl.Edge(subject=e1, predicate=pred, object=filler)
                 switches = list({r[0] for r in e2_rels if r[1] == filler})
                 if len(switches) == 1:
                     e2_rels = set([x for x in e2_rels if x[1] != filler])
-                    yield kgcl.PredicateChange(
-                        id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
-                    )
+                    if pred != switches[0]:
+                        yield kgcl.PredicateChange(
+                            id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
+                        )
                 else:
-                    yield kgcl.NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
+                    yield kgcl.EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=filler)
             for rel in e2_rels.difference(e1_rels):
                 pred, filler = rel
                 edge = kgcl.Edge(subject=e1, predicate=pred, object=filler)
                 yield kgcl.NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
-        for e2 in other_ontology.entities():
-            if e2 not in self.entities():
-                yield NodeCreation(id=_gen_id(), about_node=e2)
+        logging.info(f"Comparing {len(other_ontology_entities)} terms in other ontology")
+        for e2 in other_ontology_entities:
+            logging.debug(f"Comparing e2 {e2}")
+            if e2 not in self_entities:
+                e2_types = other_ontology.owl_type(e2)
+                is_class = OWL_CLASS in e2_types
+                if is_class:
+                    yield ClassCreation(id=_gen_id(), about_node=e2)
+                else:
+                    yield NodeCreation(id=_gen_id(), about_node=e2)
                 continue
 
-    def different_from(self, entity: CURIE, other_ontology: BasicOntologyInterface) -> bool:
-        raise NotImplementedError
+    def diff_summary(
+        self, other_ontology: BasicOntologyInterface, configuration: DiffConfiguration = None
+    ) -> Dict[str, Any]:
+        """
+        Provides high level summary of differences.
+
+        The result is a two-level dictionary
+
+        - the first level is the grouping key
+        - the second level is the type of change
+
+        The value of the second level is a count of the number of changes of that type.
+
+
+
+        :param other_ontology:
+        :param configuration:
+        :return:
+        """
+        summary = {}
+        bins = {
+            "All_Obsoletion": [
+                kgcl.NodeObsoletion.__name__,
+                kgcl.NodeObsoletionWithDirectReplacement.__name__,
+                kgcl.NodeDirectMerge.__name__,
+            ],
+            "All_Synonym": [
+                kgcl.NewSynonym.__name__,
+                kgcl.RemoveSynonym.__name__,
+                kgcl.SynonymPredicateChange.__name__,
+                kgcl.SynonymReplacement.__name__,
+            ],
+        }
+        for change in self.diff(other_ontology, configuration):
+            if isinstance(change, kgcl.NodeChange):
+                about = change.about_node
+            elif isinstance(change, kgcl.EdgeChange):
+                if isinstance(change, kgcl.EdgeDeletion):
+                    about = change.subject
+                else:
+                    about = change.about_edge.subject
+            else:
+                about = None
+            partition = RESIDUAL_KEY
+            if about and configuration and configuration.group_by_property:
+                md = self.entity_metadata_map(about)
+                if not md or configuration.group_by_property not in md:
+                    md = other_ontology.entity_metadata_map(about)
+                if configuration.group_by_property in md:
+                    v = md[configuration.group_by_property]
+                    if len(v) == 1:
+                        partition = v[0]
+                    else:
+                        logging.warning(
+                            f"Multiple values for {configuration.group_by_property} = {v}"
+                        )
+            if partition not in summary:
+                summary[partition] = {}
+            typ = type(change).__name__
+            if typ not in summary[partition]:
+                summary[partition][typ] = 0
+            summary[partition][typ] += 1
+        for partition_summary in summary.values():
+            for k, categories in bins.items():
+                partition_summary[k] = sum([partition_summary.get(cat, 0) for cat in categories])
+        return dict(summary)
+
+    def different_from(
+        self, entity: CURIE, other_ontology: BasicOntologyInterface
+    ) -> Optional[bool]:
+        return None
 
     def compare_ontology_term_lists(
         self, other_ontology: BasicOntologyInterface

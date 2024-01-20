@@ -4,20 +4,22 @@ _A collection of atomic lexical transformations that are applied in serial fashi
 
 
 
-
-URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline)
-
+URI: [ontolexindex:LexicalTransformationPipeline](https://w3id.org/oak/lexical-index/LexicalTransformationPipeline)
 
 
 
 ```{mermaid}
  classDiagram
+    class LexicalTransformationPipeline
       Activity <|-- LexicalTransformationPipeline
       
       LexicalTransformationPipeline : name
+        
       LexicalTransformationPipeline : transformations
+        
+          LexicalTransformationPipeline ..> LexicalTransformation : transformations
+        
       
-
 ```
 
 
@@ -32,19 +34,24 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [name](name.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [transformations](transformations.md) | [LexicalTransformation](LexicalTransformation.md) | 0..* | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [name](name.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [LexicalIndex](LexicalIndex.md) | [pipelines](pipelines.md) | range | LexicalTransformationPipeline |
-| [RelationshipToTerm](RelationshipToTerm.md) | [pipeline](pipeline.md) | range | LexicalTransformationPipeline |
+| [LexicalIndex](LexicalIndex.md) | [pipelines](pipelines.md) | range | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |
+| [RelationshipToTerm](RelationshipToTerm.md) | [pipeline](pipeline.md) | range | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |
+
+
+
 
 
 
@@ -59,9 +66,7 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
-
-
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -71,11 +76,14 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalTransformationPipeline'] |
-| native | ['li:LexicalTransformationPipeline'] |
+| self | ontolexindex:LexicalTransformationPipeline |
+| native | ontolexindex:LexicalTransformationPipeline |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -86,16 +94,19 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
+rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
+    rank: 1000
     key: true
   transformations:
     name: transformations
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
+    rank: 1000
     multivalued: true
     range: LexicalTransformation
 
@@ -109,22 +120,29 @@ attributes:
 name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
+rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
+    rank: 1000
     key: true
     alias: name
     owner: LexicalTransformationPipeline
+    domain_of:
+    - LexicalTransformationPipeline
     range: string
   transformations:
     name: transformations
-    from_schema: https://w3id.org/linkml/lexical_index
+    from_schema: https://w3id.org/oak/lexical-index
+    rank: 1000
     multivalued: true
     alias: transformations
     owner: LexicalTransformationPipeline
+    domain_of:
+    - LexicalTransformationPipeline
     range: LexicalTransformation
 
 ```

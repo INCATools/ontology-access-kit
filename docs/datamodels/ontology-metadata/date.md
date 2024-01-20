@@ -1,22 +1,21 @@
-# Slot: date
-_when the term was updated_
+# Type: Date
 
 
-URI: [http://purl.org/dc/terms/date](http://purl.org/dc/terms/date)
+_a date (year, month and day) in an idealized calendar_
+
+
+URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
+
+* [base](https://w3id.org/linkml/base): XSDDate
+
+* [uri](https://w3id.org/linkml/uri): xsd:date
+
+* [repr](https://w3id.org/linkml/repr): str
 
 
 
 
-## Inheritance
 
-* [provenance_property](provenance_property.md)
-    * **date**
-
-
-
-## Properties
-
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 

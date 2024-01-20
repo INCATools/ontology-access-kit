@@ -1,15 +1,36 @@
 # Slot: subsets
+_A list of subsets to which this entity belongs_
 
-URI: [https://github.com/geneontology/obographs/subsets](https://github.com/geneontology/obographs/subsets)
+
+URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -28,3 +49,21 @@ URI: [https://github.com/geneontology/obographs/subsets](https://github.com/gene
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: subsets
+description: A list of subsets to which this entity belongs
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+slot_uri: oio:inSubset
+multivalued: true
+alias: subsets
+domain_of:
+- Meta
+range: string
+
+```
+</details>

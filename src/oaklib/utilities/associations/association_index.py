@@ -1,11 +1,12 @@
 """An in-memory sqlite index for simple associations."""
 import logging
 import sqlite3
-from dataclasses import dataclass
-from typing import Any, Dict, Iterable, Iterator
+from collections import defaultdict
+from dataclasses import dataclass, field
+from typing import Any, Dict, Iterable, Iterator, List, Tuple
 
 from semsql.sqla.semsql import TermAssociation
-from sqlalchemy import create_engine
+from sqlalchemy import Column, String, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -15,12 +16,35 @@ from oaklib.types import CURIE, PRED_CURIE
 COLS = ["id", "subject", "predicate", "object", "evidence_type", "publication", "source"]
 
 
+class DenormalizedAssociation:
+    """A denormalized association. (for future extension)"""
+
+    __tablename__ = "denormalized_term_association"
+    subject_id = Column(String)
+    subject_label = Column(String)
+    object_id = Column(String)
+    object_label = Column(String)
+    predicate_id = Column(String)
+    predicate_label = Column(String)
+    subject_closure_json = Column(String)
+    object_closure_json = Column(String)
+    subject_property_values_json = Column(String)
+    object_property_values_json = Column(String)
+    association_property_values_json = Column(String)
+
+
 @dataclass
 class AssociationIndex:
+    """
+    A sqlite in-memory index for a collection of associations.
+    """
 
     _connection: sqlite3.Connection = None
     _session: Session = None
     _engine: Engine = None
+    _associations_by_spo: Dict[Tuple[CURIE, PRED_CURIE, CURIE], List[Association]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
 
     def create(self):
         connection_string: str = "sqlite:///:memory:"
@@ -34,10 +58,18 @@ class AssociationIndex:
         self._engine = engine
 
     def populate(self, associations: Iterable[Association]):
-        tups = [(a.subject, a.predicate, a.object) for a in associations]
+        associations = list(associations)
+        tups = [
+            (a.subject, a.predicate, a.object, a.primary_knowledge_source) for a in associations
+        ]
+        logging.info(f"Bulk loading {len(tups)} associations")
         self._connection.executemany(
-            "insert into term_association(subject, predicate, object) values (?,?,?)", tups
+            "insert into term_association(subject, predicate, object, source) values (?,?,?,?)",
+            tups,
         )
+        for a in associations:
+            tup = (a.subject, a.predicate, a.object)
+            self._associations_by_spo[tup].append(a)
 
     def lookup(
         self,
@@ -56,6 +88,7 @@ class AssociationIndex:
             q = q.filter(TermAssociation.predicate.in_(tuple(predicates)))
         if objects:
             q = q.filter(TermAssociation.object.in_(tuple(objects)))
-        logging.info(f"Association query: {q}")
+        logging.info(f"Association index lookup: {q}")
         for row in q:
-            yield Association(subject=row.subject, predicate=row.predicate, object=row.object)
+            tup = (row.subject, row.predicate, row.object)
+            yield from self._associations_by_spo[tup]

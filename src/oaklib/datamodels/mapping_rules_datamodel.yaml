@@ -1,19 +1,20 @@
-id: https://w3id.org/linkml/mapping_rules_datamodel
+id: https://w3id.org/oak/mapping-rules-datamodel
 title: Mapping Rules Datamodel
-name: mapping-rules
-description: A datamodel for specifying lexical mapping rules. NOTE -- this may move to another package
+name: mapping-rules-datamodel
+description: >-
+  A datamodel for specifying lexical mapping rules.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  mrules: https://w3id.org/linkml/mapping_rules_datamodel/
+  mappingrules: https://w3id.org/oak/mapping-rules-datamodel/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
   sh: https://w3id.org/shacl/
   prov: http://www.w3.org/ns/prov#
 
-default_prefix: mrules
+default_prefix: mappingrules
 default_range: string
 
 default_curi_maps:
@@ -82,6 +83,9 @@ classes:
         multivalued: true
       transformations_included_in:
         multivalued: true
+      predicate_id_one_of:
+        multivalued: true
+
 
   Postcondition:
     attributes:
@@ -109,4 +113,22 @@ classes:
     replacement:
       description: Reg-ex rule to replace substrings in labels
       range: string
-    
+    qualifier:
+      description: Type of match for the new synonym generated.
+      range: string
+    prefix:
+      description: The rule applies to nodes of a specific prefix.
+      range: string
+    tests:
+      description: Unit tests for each rules.
+      range: Test
+  
+  Test:
+   attributes:
+    input:
+     description: Input string for the rule.
+    output:
+     description: Output based on the rule.
+    prefix:
+      description: The prefix that qualifies for the rule.
+     

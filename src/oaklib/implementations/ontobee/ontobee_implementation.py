@@ -16,24 +16,62 @@ class OntobeeImplementation(
     AbstractSparqlImplementation, SearchInterface, MappingProviderInterface, OboGraphInterface
 ):
     """
-    Wraps the Ontobee sparql endpoint
+    An OAK adapter that standardizes access to the Ontobee sparql endpoint.
 
-    An OntobeeImplementation can be initialed by:
+    Ontobee is the default linked data server for most OBO Foundry library ontologies.
+    Ontobee has also been used for many non-OBO ontologies.
 
-        .. code:: python
+    To access this use the ``ontobee:`` :term:`Input Selector`:
 
-           >>>  oi = OntobeeImplementation()
+    - ``ontobee:`` - the default ontobee endpoint
+    - ``ontobee:uberon`` - the uberon subgraph on ontobee
+
+    This adapter implements:
+
+    - :ref:`basic_ontology_interface`
+    - :ref:`search_interface`
+    - :ref:`mapping_provider_interface`
+    - :ref:`obograph_interface`
+
+    .. note ::
+
+        To see the full range of methods implemented, see the documentation for the interfaces above.
+
+    An OntobeeImplementation can be initialized directly:
+
+    >>> from oaklib.implementations import OntobeeImplementation
+    >>> oi = OntobeeImplementation()
 
     The default ontobee endpoint will be assumed
 
     Alternatively, use a selector:
 
-    .. code :: python
+    >>> from oaklib import get_adapter
+    >>> oi = get_adapter("ontobee:")
 
-        >>> oi = get_implementation_from_shorthand("ontobee:")
-        >>> for a in oi.ancestors("UBERON:0002398", predicates=[IS_A]):
-        >>>     ...
+    Or to access a specific ontology, such as the Vaccine Ontology:
 
+    >>> oi = get_adapter("ontobee:vo")
+
+    After that you can use any of the methods that OntoBee implements; e.g.
+
+    >>> from oaklib.datamodels.vocabulary import IS_A
+    >>> # uncomment to test
+    >>> # for a in oi.ancestors("UBERON:0002398", predicates=[IS_A]):
+    >>> #    print(a)
+
+    Command Line
+    ------------
+
+    .. code-block:: bash
+
+        $ runoak -i ontobee:uberon ancestors -p i UBERON:0002398
+
+    Notes
+    -----
+
+    This is a specialization the :ref:`sparql` implementation to
+    allow access for ontologies on the `Ontobee <https://www.ontobee.org/>`_ linked data server.
 
     See: `<https://www.ontobee.org/>`_
     """

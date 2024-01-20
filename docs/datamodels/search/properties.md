@@ -2,16 +2,35 @@
 _determines which properties are searched over_
 
 
-URI: [https://w3id.org/linkml/search_datamodel/properties](https://w3id.org/linkml/search_datamodel/properties)
+URI: [ontosearch:properties](https://w3id.org/oak/search-datamodel/properties)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+
+
+
+
+
+
 ## Properties
 
- * Range: [SearchProperty](SearchProperty.md)
+* Range: [SearchProperty](SearchProperty.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -26,7 +45,25 @@ URI: [https://w3id.org/linkml/search_datamodel/properties](https://w3id.org/link
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: properties
+description: determines which properties are searched over
+from_schema: https://w3id.org/oak/search-datamodel
+rank: 1000
+multivalued: true
+alias: properties
+owner: SearchBaseConfiguration
+domain_of:
+- SearchBaseConfiguration
+range: SearchProperty
+
+```
+</details>

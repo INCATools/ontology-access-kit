@@ -11,13 +11,14 @@ default_curi_maps:
   - semweb_context
   
 prefixes:
-  omoschema: http://purl.obolibrary.org/obo/schema/
+  omoschema: http://purl.obolibrary.org/obo/omo/schema/
   obo: http://purl.obolibrary.org/obo/
   RO: http://purl.obolibrary.org/obo/RO_
   OMO: http://purl.obolibrary.org/obo/OMO_
   IAO: http://purl.obolibrary.org/obo/IAO_
   OBI: http://purl.obolibrary.org/obo/OBI_
   NCIT: http://purl.obolibrary.org/obo/NCIT_
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
   oio: http://www.geneontology.org/formats/oboInOwl#
   dcterms: http://purl.org/dc/terms/
   linkml: https://w3id.org/linkml/
@@ -28,9 +29,13 @@ prefixes:
   rdfs: http://www.w3.org/2000/01/rdf-schema#
   pav: http://purl.org/pav/
   prov: http://www.w3.org/ns/prov-o#
+  orcid: https://orcid.org/
 
 default_prefix: omoschema
 default_range: string
+
+settings:
+  orcid_regex: "orcid:\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]"
 
 imports:
   - linkml:types
@@ -349,6 +354,29 @@ classes:
     #slots:
     #- type
 
+  HomoSapiens:
+    is_a: NamedIndividual
+    description: An individual human being
+    class_uri: NCBITaxon:9606
+    id_prefixes:
+      - orcid
+    slot_usage:
+      id:
+        pattern: "^orcid:.*"
+
+  Agent:
+    is_a: NamedIndividual
+    class_uri: prov:Agent
+    id_prefixes:
+      - orcid
+    slot_usage:
+      id:
+        pattern: "^orcid:.*"
+
+  Image:
+    is_a: NamedIndividual
+    class_uri: IAO:0000101
+
   Annotation:
     description: A reified property-object pair
     represents_relationship: true
@@ -520,6 +548,12 @@ slots:
     comments:
       - SHOULD be in Aristotelian (genus-differentia) form
 
+  predicate:
+    relational_role: PREDICATE
+
+  object:
+    relational_role: OBJECT
+
   title:
     slot_uri: dcterms:title
     range: narrative text
@@ -596,6 +630,11 @@ slots:
   defaultLanguage:
     is_a: informative_property
     slot_uri: protege:defaultLanguage
+  language:
+    is_a: informative_property
+    slot_uri: dcterms:language
+    exact_mappings:
+      - dce:language
   has_ontology_root_term:
     is_a: informative_property
     slot_uri: IAO:0000700
@@ -620,6 +659,7 @@ slots:
     is_a: informative_property
     slot_uri: foaf:depicted_by
     multivalued: true
+    range: Image
   page:
     is_a: informative_property
     slot_uri: foaf:page
@@ -720,15 +760,24 @@ slots:
     is_a: provenance_property
     slot_uri: dcterms:contributor
     multivalued: true
-    range: Thing
+    range: Agent
     close_mappings:
       - prov:wasAttributedTo
+    structured_pattern:
+      syntax: "{orcid_regex}"
+      interpolated: true
+      partial_match: false
   creator:
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
+    range: Agent
     close_mappings:
       - prov:wasAttributedTo
+    structured_pattern:
+      syntax: "{orcid_regex}"
+      interpolated: true
+      partial_match: false
   created:
     is_a: provenance_property
     slot_uri: dcterms:created
@@ -1213,4 +1262,51 @@ types:
     description: >-
       A string that provides a human-readable description of something
 
-  
+enums:
+  DefinitionConstraintComponent:
+    description: >-
+      An extension of SHACL constraint component for constraining definitions
+    source: https://philpapers.org/archive/SEPGFW.pdf
+    see_also:
+      - https://github.com/INCATools/ontology-access-kit/issues/305
+    permissible_values:
+      DefinitionConstraint:
+        description: >-
+          A general problem with a definition
+        meaning: omoschema:DCC.Any
+      DefinitionPresence:
+        is_a: DefinitionConstraint
+        description: >-
+          An entity must have a definition
+        meaning: omoschema:DCC.S0
+      Conventions:
+        is_a: DefinitionConstraint
+        description: >-
+          Definitions should conform to conventions
+        meaning: omoschema:DCC.S1
+      Harmonized:
+        is_a: DefinitionConstraint
+        description: >-
+          Definitions should be harmonized
+        meaning: omoschema:DCC.S1.1
+      GenusDifferentiaForm:
+        is_a: DefinitionConstraint
+        description: >-
+          A definition should follow the genus-differentia form
+        meaning: omoschema:DCC.S3
+      SingleGenus:
+        is_a: GenusDifferentiaForm
+        description: >-
+          An entity must have a single genus
+        meaning: omoschema:DCC.S3.1
+      Circularity:
+        is_a: DefinitionConstraint
+        description: >-
+          A definition must not be circular
+        meaning: omoschema:DCC.S7
+      MatchTextAndLogical:
+        is_a: DefinitionConstraint
+        description: >-
+          Text definitions and logical forms should match
+        meaning: omoschema:DCC.S11
+      

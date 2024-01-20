@@ -1,15 +1,32 @@
 # Slot: parent_document
 
-URI: [https://w3id.org/linkml/text_annotator/parent_document](https://w3id.org/linkml/text_annotator/parent_document)
+URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_document)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextualElement](TextualElement.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Uriorcurie](Uriorcurie.md)
+
+
+
+
 
 
 
@@ -24,7 +41,23 @@ URI: [https://w3id.org/linkml/text_annotator/parent_document](https://w3id.org/l
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: parent_document
+from_schema: https://w3id.org/oak/text_annotator
+rank: 1000
+alias: parent_document
+owner: TextualElement
+domain_of:
+- TextualElement
+range: uriorcurie
+
+```
+</details>

@@ -1,0 +1,87 @@
+format-version: 1.2
+synonymtypedef: x "test synonym type"
+synonymtypedef: Y "test synonym type"
+synonymtypedef: z "test synonym type"
+ontology: TEMP
+
+[Term]
+id: X:1
+name: synonym order test 1
+synonym: "A" BROAD []
+synonym: "A" EXACT []
+synonym: "A" NARROW []
+synonym: "A" RELATED []
+synonym: "a" BROAD Y []
+synonym: "a" BROAD x []
+synonym: "a" BROAD z []
+synonym: "a" BROAD []
+synonym: "a" EXACT Y []
+synonym: "a" EXACT []
+synonym: "a" EXACT x []
+synonym: "a" EXACT [PMID:1]
+synonym: "a" EXACT [pmid:1]
+synonym: "a" EXACT [PMID:2]
+synonym: "a" EXACT [pmid:2]
+synonym: "a" EXACT [pmid:1, pmid:2]
+synonym: "a" EXACT [PMID:1, PMID:2]
+synonym: "a" NARROW Y []
+synonym: "a" NARROW []
+synonym: "a" NARROW x []
+synonym: "a" RELATED []
+synonym: "a" RELATED Y []
+synonym: "a" RELATED x []
+synonym: "A " BROAD []
+synonym: "A " EXACT []
+synonym: "A " NARROW []
+synonym: "A " RELATED []
+synonym: "Ab" BROAD []
+synonym: "Ab" EXACT []
+synonym: "Ab" NARROW []
+synonym: "Ab" RELATED []
+synonym: "ab" BROAD []
+synonym: "ab" EXACT []
+synonym: "ab" NARROW []
+synonym: "ab" RELATED []
+synonym: "Ac" BROAD []
+synonym: "Ac" EXACT []
+synonym: "Ac" NARROW []
+synonym: "Ac" RELATED []
+synonym: "ac" BROAD []
+synonym: "ac" EXACT []
+synonym: "ac" NARROW []
+synonym: "ac" RELATED []
+synonym: "As" RELATED []
+synonym: "as" NARROW []
+synonym: "astacin activity" EXACT []
+synonym: "Astacus" RELATED []
+synonym: "astacus" NARROW []
+synonym: "Astacus proteinase activity" RELATED []
+synonym: "astacus proteinase activity" NARROW []
+
+[Term]
+id: A:1
+name: synonym order test 3
+synonym: "B" BROAD []
+synonym: "B" EXACT []
+synonym: "B" NARROW []
+synonym: "B" RELATED []
+synonym: "b" BROAD Y []
+
+[Typedef]
+id: X:4
+name: synonym order test 4
+synonym: "C" BROAD []
+synonym: "C" EXACT []
+synonym: "C" NARROW []
+synonym: "C" RELATED []
+synonym: "c" BROAD Y []
+
+[Typedef]
+id: A:2
+name: synonym order test 2
+synonym: "D" BROAD []
+synonym: "D" EXACT []
+synonym: "D" NARROW []
+synonym: "D" RELATED []
+synonym: "d" BROAD Y []
+

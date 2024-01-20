@@ -27,7 +27,7 @@ LIST_PATTERN = re.compile(r"\[(.*)\]")
 @dataclass
 class ColumnDependency:
     """
-    Models an interdependency between an identifier column and a column with a dependent value
+    Models an interdependency between an identifier column and a column with a dependent value.
     """
 
     primary_key: COLUMN_NAME
@@ -97,7 +97,7 @@ def apply_dict(
             from_val = row[from_col]
             new_to_val = mapping.get(from_val)
             if not new_to_val:
-                msg = f"No corresponding value in {from_col} for: {from_val}"
+                msg = f"No corresponding value in {from_col} for: {from_val}, dep={dependency}"
                 if not dependency.allow_missing_values:
                     raise ValueError(msg)
                 else:
@@ -116,7 +116,7 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
     :param delimiter:
     :return:
     """
-    reader = csv.DictReader(input_file, delimiter=delimiter)
+    reader = csv.DictReader(filter(lambda row: row[0] != "#", input_file), delimiter=delimiter)
     rows = [row for row in reader]
     for row in rows:
         for col in row.keys():
@@ -129,15 +129,34 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
     return rows
 
 
-def write_table(rows: List[ROW], output_file: IO, delimiter="\t", list_delimiter="|") -> None:
-    """
-    Writes a list of rows to a file, replacing None values with empty strings
+def write_table(
+    rows: List[ROW],
+    output_file: IO,
+    comments: List[str] = None,
+    delimiter="\t",
+    list_delimiter="|",
+    header: List[str] = None,
+) -> None:
+    """Writes a list of rows to a file, replacing None values with empty strings.
 
-    :param rows:
-    :param delimiter:
-    :return:
+    :param rows: List of rows in dict format.
+    :param output_file: Target location to write output.
+    :param comments: A list of comments in the table.
+    :param delimiter: File delimiter., defaults to "\t"
+    :param list_delimiter: List delimiter., defaults to "|"
     """
-    cols = list(rows[0].keys())
+    if comments and len(comments) > 0:
+        for comment in comments:
+            output_file.write(comment)
+
+    if header:
+        cols = header
+    else:
+        cols = []
+        for row in rows:
+            for col in row.keys():
+                if col not in cols:
+                    cols.append(col)
     writer = csv.DictWriter(output_file, fieldnames=cols, delimiter=delimiter)
     writer.writeheader()
     for row in rows:
@@ -153,7 +172,7 @@ def write_table(rows: List[ROW], output_file: IO, delimiter="\t", list_delimiter
 @dataclass
 class TableFiller:
     """
-    An engine for filling in missing columns in tables based on metadata about these columns
+    An engine for filling in missing columns in tables based on metadata about these columns.
     """
 
     ontology_interface: BasicOntologyInterface = None
@@ -179,7 +198,55 @@ class TableFiller:
 
     def fill_table(self, rows: List[ROW], table_metadata: TableMetadata = None):
         """
-        Fills in missing values for a list of rows
+        Fills in missing values for a list of rows.
+
+        This will populate missing columns based on ontology lookups and a metadata specification.
+
+        If no metadata specification is passed, it will do a best-attempt job to guess your intent
+        based on conventions and the first row of the table (see :ref:`infer_metadata`).
+
+        For example, with a table with a ``su`` and ``ob`` column we can hint (a) that these are
+        foreign keys by using the ``_id`` convention, and (b) we want corresponding labels by
+        including empty columns with the same base name suffixed with ``_label``.
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.utilities.table_filler import TableFiller
+        >>> rows = [{"su_id": "GO:0005634", "su_label": None, "ob_id": "GO:0031965",  "ob_label": None}]
+        >>> filler = TableFiller(get_adapter("sqlite:obo:go"))
+        >>> filler.fill_table(rows)
+        >>> for row in rows:
+        ...     print(row)
+        {'su_id': 'GO:0005634', 'su_label': 'nucleus', 'ob_id': 'GO:0031965', 'ob_label': 'nuclear membrane'}
+
+        For brevity this example only has one row, but this works for any number.
+
+        To provide more explicit control, create a metadata object.
+
+        >>> from oaklib.utilities.table_filler import TableMetadata, ColumnDependency
+        >>> cd1 = ColumnDependency("su", "label", "su_label")
+        >>> cd2 = ColumnDependency("ob", "label", "ob_label")
+        >>> metadata = TableMetadata(dependencies=[cd1, cd2])
+        >>> rows = [{"su": "GO:0005634", "ob": "GO:0031965"}]
+        >>> filler.fill_table(rows, metadata)
+        >>> for row in rows:
+        ...     print(row)
+        {'su': 'GO:0005634', 'ob': 'GO:0031965', 'su_label': 'nucleus', 'ob_label': 'nuclear membrane'}
+
+        Note in this case we didn't need to provide any hints in the column names, or provide blank cells.
+
+        However, if we want to control column ordering then the first row should contain blank cells indicating
+        desired column ordering, as before.
+
+        We can use this for other properties too:
+
+        >>> cd1 = ColumnDependency("term", "IAO:0100001", "replacement")
+        >>> metadata = TableMetadata(dependencies=[cd1])
+        >>> rows = [{"term": "GO:0000108", "info": "foo"}, {"term": "GO:0005634"}]
+        >>> filler.fill_table(rows, metadata)
+        >>> for row in rows:
+        ...     print(row)
+        {'term': 'GO:0000108', 'info': 'foo', 'replacement': ['GO:0000109']}
+        {'term': 'GO:0005634'}
 
         :param rows: list of rows, which each row is a dict. Edited in place.
         :param table_metadata:
@@ -211,10 +278,10 @@ class TableFiller:
         }
         fwd_mapping = {}
         rev_mapping = {}
-        # Note to developers: it may be tempting to genericize the code below,
+        # Note to developers: it may be tempting to genericize the packages below,
         # but be very careful before doing this. Logic for different properties
         # may be subtly different, and over-genericizing may lead to overly
-        # abstract or less efficient code
+        # abstract or less efficient packages
         if rel == LABEL_KEY:
             if pk_vals:
                 for curie, label in oi.labels(list(pk_vals)):
@@ -253,9 +320,6 @@ class TableFiller:
             if pk_vals:
                 if isinstance(oi, BasicOntologyInterface):
                     for curie in pk_vals:
-                        params = dependency.parameters
-                        if not params:
-                            params = {}
                         mappings = [x for _, x in oi.simple_mappings_by_curie(curie)]
                         fwd_mapping[curie] = mappings
                 else:
@@ -263,17 +327,62 @@ class TableFiller:
             if dc_vals:
                 raise NotImplementedError
         else:
-            raise NotImplementedError(f"Rel = {rel}")
+            if pk_vals:
+                if isinstance(oi, BasicOntologyInterface):
+                    for curie in pk_vals:
+                        vals = [x for x in oi.entity_metadata_map(curie).get(rel, [])]
+                        fwd_mapping[curie] = vals
+                else:
+                    raise ValueError(f"{oi} must implement OboGraphInterface for ancestors option")
+            if dc_vals:
+                raise NotImplementedError
         apply_dict(rows, fwd_mapping, pk, dc, dependency)
         apply_dict(rows, rev_mapping, dc, pk, dependency)
 
     def infer_metadata(self, row: ROW) -> TableMetadata:
         """
-        Infers the metadata given a sample row, based entirely on conventions
+        Infers the metadata given a sample row, based entirely on conventions.
+
+        By convention, ``id`` and ``label`` have special meaning.
+
+        >>> from oaklib.utilities.table_filler import TableFiller
+        >>> filler = TableFiller()
+        >>> metadata = filler.infer_metadata({"id": "GO:0005634", "label": None})
+        >>> dep = metadata.dependencies[0]
+        >>> dep.primary_key, dep.relation, dep.dependent_column
+        ('id', 'label', 'label')
+
+        If your table consists of foreign keys, then using the convention of suffixing
+        with the name of the lookup slot will work:
+
+        >>> metadata = filler.infer_metadata({"foo_id": "GO:0005634", "foo_label": None})
+        >>> dep = metadata.dependencies[0]
+        >>> dep.primary_key, dep.relation, dep.dependent_column
+        ('foo_id', 'label', 'foo_label')
+
+        Note that (``_name``) also works:
+
+        >>> metadata = filler.infer_metadata({"foo_id": "GO:0005634", "foo_name": None})
+        >>> dep = metadata.dependencies[0]
+        >>> dep.primary_key, dep.relation, dep.dependent_column
+        ('foo_id', 'label', 'foo_name')
+
+        Other conventions are:
+
+        - ``definition`` is the definition of the entity
+        - ``mappings`` is a list of mappings
+        - ``ancestors`` is a list of ancestors
+
+
+        >>> metadata = filler.infer_metadata({"foo_id": "GO:0005634", "foo_ancestors": None})
+        >>> dep = metadata.dependencies[0]
+        >>> dep.primary_key, dep.relation, dep.dependent_column
+        ('foo_id', 'ancestors', 'foo_ancestors')
 
         :param row:
         :return:
         """
+        logging.info(f"Inferring metadata from row: {row}")
         tm = TableMetadata(dependencies=[])
         for k in [LABEL_KEY, DEFINITION_KEY, MAPPINGS_KEY, ANCESTORS_KEY]:
             if k in row:
@@ -296,6 +405,8 @@ class TableFiller:
                             inferred[base_name][LABEL_KEY] = col
                         if base_col == DEFINITION_KEY:
                             inferred[base_name][DEFINITION_KEY] = col
+                        if base_col == ANCESTORS_KEY:
+                            inferred[base_name][ANCESTORS_KEY] = col
         for v in inferred.values():
             if ID_KEY in v:
                 id_col = v[ID_KEY]
@@ -305,6 +416,10 @@ class TableFiller:
                     tm.dependencies.append(
                         ColumnDependency(id_col, DEFINITION_KEY, v[DEFINITION_KEY])
                     )
+                if ANCESTORS_KEY in v:
+                    tm.dependencies.append(
+                        ColumnDependency(id_col, ANCESTORS_KEY, v[ANCESTORS_KEY])
+                    )
 
         return tm
 
@@ -312,7 +427,7 @@ class TableFiller:
         self, schema: Union[str, SchemaDefinition], class_name: str = None
     ) -> TableMetadata:
         """
-        Extract dependencies using a LinkML schema
+        Extract dependencies using a LinkML schema.
 
         The primary_key in the dependency is the slot that is designated the identifier
 
@@ -320,7 +435,7 @@ class TableFiller:
 
         For example, with the following schema
 
-        .. code-block ::
+        .. code-block:: yaml
 
             classes:
               Person:

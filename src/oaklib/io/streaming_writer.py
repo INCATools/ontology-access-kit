@@ -1,15 +1,18 @@
 import atexit
+import logging
 import sys
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Mapping, Optional, Type, Union
+from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Type, Union
 
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import Node
+from oaklib.datamodels.settings import Settings
 from oaklib.types import CURIE
+from oaklib.utilities.iterator_utils import chunk
 
 ID_KEY = "id"
 LABEL_KEY = "label"
@@ -25,11 +28,23 @@ class StreamingWriter(ABC):
     ontology_interface: BasicOntologyInterface = None
     display_options: List[str] = None
     autolabel: bool = None
-    schemaview: SchemaView = None
+    schemaview: Optional[SchemaView] = None
+    index_slot: Optional[str] = None
+    uses_schemaview = False
+    list_delimiter: ClassVar[str] = None
+    heterogeneous_keys: bool = False
     _output: Any = None
+    object_count: int = field(default=0)
+    settings: Settings = field(default_factory=lambda: Settings())
+    primary_key: str = field(default="id")
+    primary_value_field: str = field(default="label")
+    pivot_fields: List[str] = field(default_factory=lambda: [])
 
     def __post_init__(self):
         atexit.register(self.close)
+
+    def __hash__(self):
+        return hash(str(self))
 
     @property
     def output(self) -> str:
@@ -67,6 +82,21 @@ class StreamingWriter(ABC):
         else:
             self.emit_obj(obj)
 
+    def emit_multiple(self, entities: Iterable[CURIE], **kwargs):
+        """
+        Emit multiple objects.
+
+        :param entities:
+        :param kwargs:
+        :return:
+        """
+        for curie_it in chunk(entities):
+            logging.info("** Next chunk:")
+            for curie, label in self.ontology_interface.labels(
+                curie_it, lang=self.settings.preferred_language
+            ):
+                self.emit(curie, label)
+
     def emit_curie(self, curie: CURIE, label=None):
         raise NotImplementedError
 
@@ -77,12 +107,13 @@ class StreamingWriter(ABC):
         pass
 
     def finish(self):
-        pass
+        # always ensure a file is writer
+        self.file.write("")
 
     def line(self, v: str):
         self.file.write(f"{v}\n")
 
-    def add_labels(self, obj_as_dict: Dict, label_fields: Optional[List[str]] = None):
+    def add_labels(self, obj_as_dict: Dict, label_fields: Optional[List[str]] = None) -> Dict:
         """
         Adds labels to the object
 
@@ -90,15 +121,35 @@ class StreamingWriter(ABC):
         :param label_fields:
         :return:
         """
+
+        def _label(c: CURIE) -> str:
+            lbl = self.ontology_interface.label(c, lang=self.settings.preferred_language)
+            return str(lbl) if lbl else ""
+
         if label_fields and self.autolabel:
             for f in label_fields:
                 curie = obj_as_dict.get(f, None)
-                if curie:
+                col_name = f"{f}_label"
+                if curie and obj_as_dict.get(col_name, None) is None:
+                    # allow for a list of CURIEs flattened using a delimiter
+                    delim = self.list_delimiter
+                    if delim and isinstance(curie, str) and delim in curie:
+                        curie = curie.split("|")
                     if isinstance(curie, list):
-                        label = [self.ontology_interface.label(c) for c in curie]
+                        label = [_label(c) for c in curie]
+                        if delim:
+                            label = delim.join(label)
                     else:
-                        label = self.ontology_interface.label(curie)
-                    obj_as_dict[f"{f}_label"] = label
+                        label = self.ontology_interface.label(
+                            curie, lang=self.settings.preferred_language
+                        )
+                    obj_as_dict_new = {}
+                    for k, v in obj_as_dict.items():
+                        obj_as_dict_new[k] = v
+                        if k == f:
+                            obj_as_dict_new[col_name] = label
+                    obj_as_dict = obj_as_dict_new
+        return obj_as_dict
 
     def emit_dict(self, obj: Mapping[str, Any], object_type: Type = None):
         """

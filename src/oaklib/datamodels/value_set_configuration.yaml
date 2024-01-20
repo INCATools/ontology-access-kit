@@ -1,0 +1,98 @@
+id: https://w3id.org/linkml/value-set-configuration
+title: Value Set Configuration
+name: value-set-configuration
+description: >-
+  A datamodel for configuring value sets and value set expabsions
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  vsconf: https://w3id.org/linkml/value-set-configuration/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  oa: http://www.w3.org/ns/oa#
+
+default_prefix: vsconf
+default_range: string
+
+imports:
+  - linkml:types
+
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  ValueSetConfiguration:
+    description: configuration for value sets
+    attributes:
+      default_resolver:
+        range: Resolver
+        inlined: true
+      resource_resolvers:
+        range: Resolver
+        multivalued: true
+        inlined: true
+      prefix_resolvers:
+        range: Resolver
+        multivalued: true
+        inlined: true
+
+  Resolver:
+    description: A mechanism for resolving using an ontology
+    attributes:
+      name:
+        range: string
+        key: true
+        description: The name of the resource or prefix
+      shorthand_prefix:
+      shorthand:
+        description: A shorthand for the resolver, using the OAK shorthand syntax
+      method:
+        range: ResolverMethod
+        description: >-
+          The method used to resolve the value set.
+      url:
+        range: uri
+
+  NamedResolver:
+    description: A resolver that is associated with a named resource or prefix
+    is_a: Resolver
+    attributes:
+      name:
+        range: string
+        key: true
+        description: The name of the resource or prefix
+
+enums:
+  ResolverMethod:
+    permissible_values:
+      SemanticSQL:
+        annotations:
+          prefix: sqlite:obo
+      OLS:
+        annotations:
+          prefix: ols
+      BioPortal:
+        annotations:
+          prefix: bioportal
+      OntoBee:
+        annotations:
+          prefix: ontobee
+      Ubergraph:
+        annotations:
+          prefix: ubergraph
+      TCCM:
+      SPARQL:
+      LOV:
+        annotations:
+          prefix: lov
+      Pronto:
+        annotations:
+          prefix: pronto
+      Uniprot:
+        annotations:
+          prefix: uniprot
+
+
+

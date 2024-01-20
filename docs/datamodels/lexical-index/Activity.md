@@ -6,14 +6,13 @@ _Generic grouping for any lexical operation_
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
-
 
 
 
 ```{mermaid}
  classDiagram
+    class Activity
       Activity <|-- LexicalTransformationPipeline
       Activity <|-- LexicalTransformation
       
@@ -33,11 +32,14 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
 
-## Usages
+
+
+
+
 
 
 
@@ -52,9 +54,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/lexical_index
-
-
+* from schema: https://w3id.org/oak/lexical-index
 
 
 
@@ -64,11 +64,14 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['prov:Activity'] |
-| native | ['li:Activity'] |
+| self | prov:Activity |
+| native | ontolexindex:Activity |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -78,7 +81,8 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 ```yaml
 name: Activity
 description: Generic grouping for any lexical operation
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
+rank: 1000
 abstract: true
 class_uri: prov:Activity
 
@@ -91,7 +95,8 @@ class_uri: prov:Activity
 ```yaml
 name: Activity
 description: Generic grouping for any lexical operation
-from_schema: https://w3id.org/linkml/lexical_index
+from_schema: https://w3id.org/oak/lexical-index
+rank: 1000
 abstract: true
 class_uri: prov:Activity
 

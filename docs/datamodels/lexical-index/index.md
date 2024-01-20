@@ -2,18 +2,21 @@
 
 A datamodel for representing a lexical index of an ontology. A lexical index is keyed by optionally normalized terms.
 
-URI: https://w3id.org/linkml/lexical_index
+URI: https://w3id.org/oak/lexical-index
 Name: lexical-index
+
+
 
 ## Classes
 
 | Class | Description |
 | --- | --- |
 | [Activity](Activity.md) | Generic grouping for any lexical operation |
+| [Any](Any.md) |  |
 | [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |
 | [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |
-| [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transformed string |
-| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fashion |
+| [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |
+| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |
 | [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |
 
 
@@ -21,18 +24,19 @@ Name: lexical-index
 
 | Slot | Description |
 | --- | --- |
-| [element](element.md) | None |
+| [element](element.md) |  |
 | [element_term](element_term.md) | the original term used in the element |
 | [groupings](groupings.md) | all groupings |
-| [name](name.md) | None |
+| [name](name.md) |  |
 | [params](params.md) | Any parameters to be applied to the transformation algorithm |
-| [pipeline](pipeline.md) | None |
+| [pipeline](pipeline.md) |  |
 | [pipelines](pipelines.md) | all pipelines used to build the index |
-| [predicate](predicate.md) | None |
+| [predicate](predicate.md) |  |
 | [relationships](relationships.md) | All ontology elements grouped and their relationship to the normalized term |
-| [source](source.md) | None |
+| [source](source.md) |  |
+| [synonymized](synonymized.md) |  |
 | [term](term.md) | A normalized term that groups ontology elements |
-| [transformations](transformations.md) | None |
+| [transformations](transformations.md) |  |
 | [type](type.md) | The type of transformation |
 
 
@@ -41,6 +45,28 @@ Name: lexical-index
 | Enumeration | Description |
 | --- | --- |
 | [TransformationType](TransformationType.md) | A controlled datamodels of the types of transformation that can be applied to |
+
+
+## Types
+
+| Type | Description |
+| --- | --- |
+| [Boolean](Boolean.md) | A binary (true or false) value |
+| [Curie](Curie.md) | a compact URI |
+| [Date](Date.md) | a date (year, month and day) in an idealized calendar |
+| [DateOrDatetime](DateOrDatetime.md) | Either a date or a datetime |
+| [Datetime](Datetime.md) | The combination of a date and time |
+| [Decimal](Decimal.md) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
+| [Double](Double.md) | A real number that conforms to the xsd:double specification |
+| [Float](Float.md) | A real number that conforms to the xsd:float specification |
+| [Integer](Integer.md) | An integer |
+| [Ncname](Ncname.md) | Prefix part of CURIE |
+| [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
+| [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [String](String.md) | A character string |
+| [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
+| [Uri](Uri.md) | a complete URI |
+| [Uriorcurie](Uriorcurie.md) | a URI or a CURIE |
 
 
 ## Subsets

@@ -22,9 +22,17 @@ class GafAssociationParserTest(unittest.TestCase):
             self.assertIn(
                 Association(
                     subject="UniProtKB:Q9BPZ7",
-                    predicate=None,
+                    subject_label="MAPKAP1",
+                    predicate="is_active_in",
                     object="GO:0005737",
                     property_values=[],
+                    publications=["PMID:21873635"],
+                    primary_knowledge_source="infores:GO_Central",
                 ),
                 assocs,
+            )
+            self.assertNotIn(
+                "UniProtKB:FAKE123",
+                [a.subject for a in assocs],
+                "by default, negated associations should be filtered",
             )

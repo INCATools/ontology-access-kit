@@ -81,28 +81,77 @@ def calculate_pairwise_relational_diff(
     entities: Optional[Iterable[CURIE]] = None,
     mappings: Optional[List[Mapping]] = None,
     predicates: Optional[List[PRED_CURIE]] = None,
-    include_identity=False,
+    include_identity_mappings=False,
     include_reflexive=False,
+    bidirectional=True,
     add_labels=False,
 ) -> Iterator[RelationalDiff]:
     """
-    Calculates a relational diff between ontologies in two sources using the combined mappings
-    from both
+    Calculates a relational diff between ontologies using mappings.
 
-    E.g. use MP and HP mappings to give a report on how these ontologies are structurally different.
+    Example use case:
 
-    :param left_oi:
-    :param right_oi:
+      - use MP and HP mappings to give a report on how these ontologies are structurally different.
+
+
+
+    :param left_oi: left ontology interface
+    :param right_oi: right ontology interface
     :param sources:
-    :param entities:
+    :param entities: if provided, only calculate diffs for these entities
     :param mappings: if None, then mappings are extracted from both sources
     :param predicates:
-    :param include_identity: include identity relations to mappings (useful for comparing versions)
+    :param include_identity_mappings: include identity relations to mappings (useful for comparing versions)
     :param include_reflexive: include reflexive relations such as A part-of A; excluded by default
+    :param bidirectional: if True, then calculate diff from both perspectives
     :param add_labels:
     :return:
     """
-    if include_identity:
+    if entities is not None:
+        entities = list(entities)
+    if bidirectional:
+        reported_quartets = set()
+        for r in calculate_pairwise_relational_diff(
+            left_oi=left_oi,
+            right_oi=right_oi,
+            sources=sources,
+            entities=entities,
+            mappings=mappings,
+            predicates=predicates,
+            include_identity_mappings=include_identity_mappings,
+            include_reflexive=include_reflexive,
+            bidirectional=False,
+            add_labels=add_labels,
+        ):
+            yield r
+            quartet = (r.left_subject_id, r.left_object_id, r.right_subject_id, r.right_object_id)
+            reported_quartets.add(quartet)
+        for r in calculate_pairwise_relational_diff(
+            left_oi=right_oi,
+            right_oi=left_oi,
+            sources=sources,
+            entities=entities,
+            mappings=mappings,
+            predicates=predicates,
+            include_identity_mappings=include_identity_mappings,
+            include_reflexive=include_reflexive,
+            bidirectional=False,
+            add_labels=add_labels,
+        ):
+            quartet = (r.left_subject_id, r.left_object_id, r.right_subject_id, r.right_object_id)
+            reciprocal_quartet = (
+                r.right_subject_id,
+                r.right_object_id,
+                r.left_subject_id,
+                r.left_object_id,
+            )
+            if reciprocal_quartet not in reported_quartets and quartet not in reported_quartets:
+                yield r
+        return
+    if include_identity_mappings:
+        # add trivial mappings "X exactMatch X" - this is useful
+        # if we are comparing two versions of the same ontology
+        logging.info("Including identity mappings of form X exactMatch X")
         if mappings is None:
             mappings = []
         for x in set(left_oi.entities(filter_obsoletes=False)).intersection(
@@ -112,10 +161,10 @@ def calculate_pairwise_relational_diff(
                 subject_id=x,
                 object_id=x,
                 predicate_id=SKOS_EXACT_MATCH,
-                mapping_justification=SEMAPV.LexicalMatching.value,
+                mapping_justification=str(SEMAPV.LexicalMatching.value),
             )
             mappings.append(m)
-        logging.info(f"Identity mappings: {len(mappings)}")
+        logging.info(f"Identity/self mappings: {len(mappings)}")
     if mappings is None:
         logging.info("No mappings provided -- using mappings embedded in both ontologies")
         mappings = []
@@ -135,68 +184,70 @@ def calculate_pairwise_relational_diff(
             logging.warning("No mappings found in either left or right")
     if entities is not None:
         entities = list(entities)
-        if False:
-            logging.info(
-                f"Filtering {len(mappings)} mappings to entity set of size {len(entities)}"
-            )
-            mappings = [m for m in mappings if m.subject_id in entities or m.object_id in entities]
-            if not mappings:
-                logging.warning("No mappings present after filtering: consider expanding entities")
+        logging.info(f"Using user-supplied {len(entities)} entities")
+        # logging.info(
+        #    f"Filtering {len(mappings)} mappings to entity set of size {len(entities)}"
+        # )
+        # mappings = [m for m in mappings if m.subject_id in entities or m.object_id in entities]
+        # if not mappings:
+        #    logging.warning("No mappings present after filtering: consider expanding entities")
     logging.info(f"Converting all {len(mappings)} mappings to networkx, sources={sources}")
     g = mappings_to_graph(mappings)
     logging.info("Completed conversion to nx")
-    if isinstance(left_oi, OboGraphInterface) and isinstance(right_oi, OboGraphInterface):
-        if entities is not None:
-            left_oi_entities = entities
-        else:
-            left_oi_entities = left_oi.entities()
-        for subject_child in left_oi_entities:
-            logging.info(f"Subject child: {subject_child}")
-            if not curie_has_prefix(subject_child, sources):
-                continue
-            for pred, subject_parent in relation_dict_as_tuples(
-                left_oi.outgoing_relationship_map(subject_child)
-            ):
-                if entities is not None:
-                    if subject_child not in entities and subject_parent not in entities:
-                        continue
-                if predicates and pred not in predicates:
-                    continue
-                if not curie_has_prefix(subject_parent, sources):
-                    continue
-                if not include_reflexive and subject_child == subject_parent:
-                    continue
-                for r in calculate_pairwise_relational_diff_for_edge(
-                    left_oi,
-                    right_oi,
-                    sources,
-                    g,
-                    subject_child,
-                    pred,
-                    subject_parent,
-                    predicates=predicates,
-                    include_reflexive=include_reflexive,
-                ):
-                    if add_labels:
-                        add_labels_to_object(
-                            left_oi,
-                            r,
-                            [
-                                ("left_subject_id", "left_subject_label"),
-                                ("left_object_id", "left_object_label"),
-                            ],
-                        )
-                        add_labels_to_object(
-                            right_oi,
-                            r,
-                            [
-                                ("right_subject_id", "right_subject_label"),
-                                ("right_object_id", "right_object_label"),
-                            ],
-                        )
-                    yield r
+    if not (isinstance(left_oi, OboGraphInterface) and isinstance(right_oi, OboGraphInterface)):
+        raise NotImplementedError("both left and right must implement OboGraphInterface")
+    if entities is not None:
+        left_oi_entities = entities
     else:
-        raise NotImplementedError
+        left_oi_entities = left_oi.entities()
+    # main diff calculation loop:
+    # iterate through all entities in left/subject ontology, treat as subject/child
+    for subject_child in left_oi_entities:
+        logging.info(f"Subject child: {subject_child}")
+        if not curie_has_prefix(subject_child, sources):
+            continue
+        for pred, subject_parent in relation_dict_as_tuples(
+            left_oi.outgoing_relationship_map(subject_child)
+        ):
+            logging.debug(f"left edge: {subject_child} {pred} {subject_parent}")
+            if entities is not None:
+                if subject_child not in entities and subject_parent not in entities:
+                    continue
+            if predicates and pred not in predicates:
+                continue
+            if not curie_has_prefix(subject_parent, sources):
+                continue
+            if not include_reflexive and subject_child == subject_parent:
+                continue
+            for r in calculate_pairwise_relational_diff_for_edge(
+                left_oi,
+                right_oi,
+                sources,
+                g,
+                subject_child,
+                pred,
+                subject_parent,
+                predicates=predicates,
+                include_reflexive=include_reflexive,
+            ):
+                if add_labels:
+                    add_labels_to_object(
+                        left_oi,
+                        r,
+                        [
+                            ("left_subject_id", "left_subject_label"),
+                            ("left_object_id", "left_object_label"),
+                        ],
+                    )
+                    add_labels_to_object(
+                        right_oi,
+                        r,
+                        [
+                            ("right_subject_id", "right_subject_label"),
+                            ("right_object_id", "right_object_label"),
+                        ],
+                    )
+                yield r
 
 
 def _mapping_cardinality(opposite_nodes: List[CURIE]) -> Optional[MappingCardinalityEnum]:

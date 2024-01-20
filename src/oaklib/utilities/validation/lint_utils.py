@@ -1,7 +1,12 @@
 import re
 from typing import Iterable, Tuple, Type
 
-from kgcl_schema.datamodel.kgcl import Change, NodeRename, NodeTextDefinitionChange
+from kgcl_schema.datamodel.kgcl import (
+    Change,
+    NodeRename,
+    NodeTextDefinitionChange,
+    SynonymReplacement,
+)
 
 from oaklib import BasicOntologyInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -44,7 +49,7 @@ def _lint_ontology_dry_run(
     oi: BasicOntologyInterface, entities: Iterable[CURIE] = None
 ) -> Iterable[ISSUE]:
     if entities is None:
-        entities = oi.all_entity_curies()
+        entities = oi.entities()
     for e in entities:
         label = oi.label(e)
         for r in repair(e, label, NodeRename):
@@ -52,3 +57,6 @@ def _lint_ontology_dry_run(
         defn = oi.definition(e)
         for r in repair(e, defn, NodeTextDefinitionChange):
             yield r
+        for _pred, syn in oi.alias_relationships(e):
+            for r in repair(e, syn, SynonymReplacement):
+                yield r

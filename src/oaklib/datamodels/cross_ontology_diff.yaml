@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/cross_ontology_diff
+id: https://w3id.org/oak/cross-ontology-diff
 title: Cross-Ontology Diff
 name: cross-ontology-diff
 description: >-
@@ -7,7 +7,7 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  ann: https://w3id.org/linkml/text_annotator/
+  xodiff: https://w3id.org/oak/cross-ontology-diff/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
@@ -16,7 +16,7 @@ prefixes:
   sssom: http://w3id.org/sssom/
   bpa: https://bioportal.bioontology.org/annotator/
 
-default_prefix: ann
+default_prefix: xodiff
 default_range: string
 
 

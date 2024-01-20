@@ -1,6 +1,8 @@
-# Ontology Access Kit
+# Ontology Access Kit (OAK)
 
 Python lib for common ontology operations over a variety of backends.
+
+<img src="docs/logos/oak-logo_black-icon.png" width="20%">
 
 [![PyPI version](https://badge.fury.io/py/oaklib.svg)](https://badge.fury.io/py/oaklib)
 ![](https://github.com/incatools/ontology-access-kit/workflows/Build/badge.svg)
@@ -9,9 +11,9 @@ Python lib for common ontology operations over a variety of backends.
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6456239.svg)](https://doi.org/10.5281/zenodo.6456239)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](.github/CODE_OF_CONDUCT.md) 
 
-OAK provides a collection of [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for various ontology operations, including:
+OAK provides a collection of [interfaces](https://incatools.github.io/ontology-access-kit/packages/interfaces/index.html#interfaces) for various ontology operations, including:
 
- - [look up basic features](https://incatools.github.io/ontology-access-kit/interfaces/basic.html) of an ontology element, such as its label, definition, relationships, or aliases
+ - [look up basic features](https://incatools.github.io/ontology-access-kit/guide/basics.html) of an ontology element, such as its label, definition, relationships, or aliases
  - search an ontology for a term
  - validate an ontology
  - modify or delete terms
@@ -19,7 +21,8 @@ OAK provides a collection of [interfaces](https://incatools.github.io/ontology-a
  - identify lexical matches and export as SSSOM mapping tables
  - perform more advanced operations, such as graph traversal, OWL axiom processing, or text annotation
 
-These interfaces are *separated* from any particular [backend](https://incatools.github.io/ontology-access-kit/implementations/index.html). This means the same API can be used regardless of whether the ontology:
+These interfaces are *separated* from any particular backend, for which there a number of different [adapters](https://incatools.github.io/ontology-access-kit/implementations/index.html).
+This means the same Python API and command line can be used regardless of whether the ontology:
 
  - is served by a remote API such as OLS or BioPortal
  - is present locally on the filesystem in owl, obo, obojson, or sqlite formats
@@ -29,8 +32,9 @@ These interfaces are *separated* from any particular [backend](https://incatools
 ## Documentation:
 
 - [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
-- [Inaugural OAK Workshop slides](https://www.slideshare.net/cmungall/ontology-access-kit-workshop-intro-slidespptx)
-- [OBO Tools Session slides](https://docs.google.com/presentation/d/1m0vFK0F-1StCiVNCCJRdvj3aSjF2gXw-oIF4Jezmsso/edit#slide=id.p)
+- Presentations:
+   - [Using the OAK command line](https://doi.org/10.5281/zenodo.7708962) *OBO Academy 2023*
+   - [Introduction to OAK](https://doi.org/10.5281/zenodo.7765088) *OAK workshop 2022*
 
 ## Contributing
 
@@ -40,31 +44,49 @@ All contributors are expected to uphold our [Code of Conduct](.github/CODE_OF_CO
 ## Usage
 
 ```python
-from oaklib import OntologyResource
+from oaklib import get_adapter
 
-ontology_resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
-ontology_interface = ontology_resource.materialize("sql")
-# can also pass an implementation class explicitly instead of a string.
+# connect to the CL sqlite database adapter
+# (will first download if not already downloaded)
+adapter = get_adapter("sqlite:obo:cl")
 
-for curie in ontology_interface.basic_search("cell"):
-    print(f'{curie} ! {ontology_interface.label(curie)}')
-    for rel, fillers in ontology_interface.outgoing_relationship_map(curie).items():
-        print(f'  RELATION: {rel} ! {ontology_interface.label(rel)}')
-        for filler in fillers:
-            print(f'     * {filler} ! {ontology_interface.label(filler)}')
+NEURON = "CL:0000540"
+
+print('## Basic info')
+print(f'ID: {NEURON}')
+print(f'Label: {adapter.label(NEURON)}')
+
+for alias in adapter.entity_aliases(NEURON):
+    print(f'Alias: {alias}')
+
+print('## Relationships (direct)')
+for relationship in adapter.relationships([NEURON]):
+    print(f' * {relationship.predicate} -> {relationship.object} "{adapter.label(relationship.object)}"')
+    
+print('## Ancestors (over IS_A and PART_OF)')
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.interfaces import OboGraphInterface
+
+if not isinstance(adapter, OboGraphInterface):
+    raise ValueError('This adapter does not support graph operations')
+
+for ancestor in adapter.ancestors(NEURON, predicates=[IS_A, PART_OF]):
+    print(f' * ANCESTOR: "{adapter.label(ancestor)}"')
 ```
 
 For more examples, see
 
 - [demo notebook](https://github.com/incatools/ontology-access-kit/blob/main/notebooks/basic-demo.ipynb)
+- [tutorial part 2](https://incatools.github.io/ontology-access-kit/intro/tutorial02.html)
 
-### Command Line
+## Command Line
 
-Documentation here is incomplete.
+See:
 
-See [CLI docs](https://incatools.github.io/ontology-access-kit/cli.html)
+ - [CLI docs](https://incatools.github.io/ontology-access-kit/cli.html)
+ - [Example notebooks](https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands)
 
-### Search
+## Search
 
 Use the pronto backend to fetch and parse an ontology from the OBO library, then use the `search` command
 
@@ -224,33 +246,3 @@ runoak -i obolibrary:go.obo  viz GO:0005773
 OAK uses [`pystow`](https://github.com/cthoyt/pystow) for caching. By default,
 this goes inside `~/.data/`, but can be configured following
 [these instructions](https://github.com/cthoyt/pystow#%EF%B8%8F%EF%B8%8F-configuration).
-
-## Developer notes
-
-### Local project setup
-Prerequisites:
-1. Python 3.9+
-2. [Poetry](https://python-poetry.org/)
-
-Setup steps:
-```shell
-git clone https://github.com/INCATools/ontology-access-kit.git
-cd ontology-access-kit
-poetry install
-```
-
-Testing locally:
-```shell
-poetry run python -m unittest discover
-```
-
-Code quality locally:
-```shell   
-poetry run tox
-```
-
-
-### Potential Refactoring
-Currently all implementations exist in this repo/module, this results in a lot of dependencies
-
-One possibility is to split out each implementation into its own repo and use a plugin architecture

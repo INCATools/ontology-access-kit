@@ -1,14 +1,15 @@
-# Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-10-08T12:34:48
+# Auto generated from obograph.yaml by pythongen.py version: 0.0.1
+# Generation date: 2023-08-29T10:52:15
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
-# description: Schema for benchmarking based on obographs
+# description: A data model for graph-oriented representations of ontologies. Each ontology is represented as a Graph, and multiple ontologies can be connected together in a GraphDocument.
+#   The principle elements of a Graph are Node objects and Edge objects. A Node represents an arbitrary ontology element, including but not limited to the core terms in the ontology. Edges represent simple relationships between Nodes. Nodes and Edges can both have Meta objects attached, providing additional metedata.
+#   Not everything in an ontology can be represented as nodes and edges. More complex axioms have specialized structures such as DomainRangeAxiom objects and LogicalDefinitionAxiom.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
 import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -36,14 +37,15 @@ from linkml_runtime.utils.yamlutils import (
 from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
-version = "0.0.1"
+version = None
 
 # Overwrite dataclasses _init_fn to add **kwargs in __init__
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+IAO = CurieNamespace("IAO", "http://purl.obolibrary.org/obo/IAO_")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
-OG = CurieNamespace("og", "https://github.com/geneontology/obographs/")
+OBOGRAPHS = CurieNamespace("obographs", "https://github.com/geneontology/obographs/")
 OIO = CurieNamespace("oio", "http://www.geneontology.org/formats/oboInOwl#")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 RDF = CurieNamespace("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
@@ -52,36 +54,81 @@ SDO = CurieNamespace("sdo", "https://schema.org/")
 SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
-DEFAULT_ = OG
+DEFAULT_ = OBOGRAPHS
 
 
 # Types
+class XrefString(String):
+    """A string that is a cross reference to another entity represented in another ontology, vocabulary, database, or website. The string SHOULD be a CURIE or a URL, but this standard relaxes this to a string to support parsing of legacy ontologies that may use other syntaxes. If a CURIE is provided, this SHOULD be registered in a standard registry such as bioregistry."""
+
+    type_class_uri = XSD.string
+    type_class_curie = "xsd:string"
+    type_name = "XrefString"
+    type_model_uri = OBOGRAPHS.XrefString
+
+
+class OboIdentifierString(String):
+    """A string that represents an OBO identifier. This MUST be EITHER a PrefixedID (CURIE), an UnprefixedID, or a URI. If the identifier is for a Class, then the identifier MUST be a PrefixedID"""
+
+    type_class_uri = XSD.string
+    type_class_curie = "xsd:string"
+    type_name = "OboIdentifierString"
+    type_model_uri = OBOGRAPHS.OboIdentifierString
+
+
+class SynonymTypeIdentifierString(String):
+    """A string that represents a synonym type. Note synonym types are distinct from synonym scopes. A synonym type is commonly represented as a plain string such as ABBREVIATION"""
+
+    type_class_uri = XSD.string
+    type_class_curie = "xsd:string"
+    type_name = "SynonymTypeIdentifierString"
+    type_model_uri = OBOGRAPHS.SynonymTypeIdentifierString
+
 
 # Class references
-class GraphId(extended_str):
+class PrefixDeclarationPrefix(extended_str):
     pass
 
 
-class NodeId(extended_str):
+class GraphId(OboIdentifierString):
+    pass
+
+
+class NodeId(OboIdentifierString):
+    pass
+
+
+class SubsetDefinitionId(OboIdentifierString):
+    pass
+
+
+class SynonymTypeDefinitionId(OboIdentifierString):
     pass
 
 
 @dataclass
 class GraphDocument(YAMLRoot):
+    """
+    A graph document is a collection of graphs together with a set of prefixes that apply across all of them
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.GraphDocument
-    class_class_curie: ClassVar[str] = "og:GraphDocument"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.GraphDocument
+    class_class_curie: ClassVar[str] = "obographs:GraphDocument"
     class_name: ClassVar[str] = "GraphDocument"
-    class_model_uri: ClassVar[URIRef] = OG.GraphDocument
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.GraphDocument
 
     meta: Optional[Union[dict, "Meta"]] = None
     graphs: Optional[
         Union[Dict[Union[str, GraphId], Union[dict, "Graph"]], List[Union[dict, "Graph"]]]
     ] = empty_dict()
     prefixes: Optional[
-        Union[Union[dict, "PrefixDeclaration"], List[Union[dict, "PrefixDeclaration"]]]
-    ] = empty_list()
+        Union[
+            Dict[Union[str, PrefixDeclarationPrefix], Union[dict, "PrefixDeclaration"]],
+            List[Union[dict, "PrefixDeclaration"]],
+        ]
+    ] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.meta is not None and not isinstance(self.meta, Meta):
@@ -91,12 +138,9 @@ class GraphDocument(YAMLRoot):
             slot_name="graphs", slot_type=Graph, key_name="id", keyed=True
         )
 
-        if not isinstance(self.prefixes, list):
-            self.prefixes = [self.prefixes] if self.prefixes is not None else []
-        self.prefixes = [
-            v if isinstance(v, PrefixDeclaration) else PrefixDeclaration(**as_dict(v))
-            for v in self.prefixes
-        ]
+        self._normalize_inlined_as_dict(
+            slot_name="prefixes", slot_type=PrefixDeclaration, key_name="prefix", keyed=True
+        )
 
         super().__post_init__(**kwargs)
 
@@ -104,7 +148,7 @@ class GraphDocument(YAMLRoot):
 @dataclass
 class PrefixDeclaration(YAMLRoot):
     """
-    maps individual prefix to namespace
+    A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -112,14 +156,16 @@ class PrefixDeclaration(YAMLRoot):
     class_class_uri: ClassVar[URIRef] = SH.PrefixDeclaration
     class_class_curie: ClassVar[str] = "sh:PrefixDeclaration"
     class_name: ClassVar[str] = "PrefixDeclaration"
-    class_model_uri: ClassVar[URIRef] = OG.PrefixDeclaration
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.PrefixDeclaration
 
-    prefix: Optional[str] = None
+    prefix: Union[str, PrefixDeclarationPrefix] = None
     namespace: Optional[Union[str, URI]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.prefix is not None and not isinstance(self.prefix, str):
-            self.prefix = str(self.prefix)
+        if self._is_empty(self.prefix):
+            self.MissingRequiredField("prefix")
+        if not isinstance(self.prefix, PrefixDeclarationPrefix):
+            self.prefix = PrefixDeclarationPrefix(self.prefix)
 
         if self.namespace is not None and not isinstance(self.namespace, URI):
             self.namespace = URI(self.namespace)
@@ -129,15 +175,37 @@ class PrefixDeclaration(YAMLRoot):
 
 @dataclass
 class Graph(YAMLRoot):
+    """
+    A graph is a collection of nodes and edges and other axioms that represents a single ontology.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.Ontology
     class_class_curie: ClassVar[str] = "owl:Ontology"
     class_name: ClassVar[str] = "Graph"
-    class_model_uri: ClassVar[URIRef] = OG.Graph
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.Graph
 
     id: Union[str, GraphId] = None
     lbl: Optional[str] = None
+    prefixes: Optional[
+        Union[
+            Dict[Union[str, PrefixDeclarationPrefix], Union[dict, PrefixDeclaration]],
+            List[Union[dict, PrefixDeclaration]],
+        ]
+    ] = empty_dict()
+    subsetDefinitions: Optional[
+        Union[
+            Dict[Union[str, SubsetDefinitionId], Union[dict, "SubsetDefinition"]],
+            List[Union[dict, "SubsetDefinition"]],
+        ]
+    ] = empty_dict()
+    synonymTypeDefinitions: Optional[
+        Union[
+            Dict[Union[str, SynonymTypeDefinitionId], Union[dict, "SynonymTypeDefinition"]],
+            List[Union[dict, "SynonymTypeDefinition"]],
+        ]
+    ] = empty_dict()
     meta: Optional[Union[dict, "Meta"]] = None
     nodes: Optional[
         Union[Dict[Union[str, NodeId], Union[dict, "Node"]], List[Union[dict, "Node"]]]
@@ -152,6 +220,9 @@ class Graph(YAMLRoot):
     domainRangeAxioms: Optional[
         Union[Union[dict, "DomainRangeAxiom"], List[Union[dict, "DomainRangeAxiom"]]]
     ] = empty_list()
+    allValuesFromEdges: Optional[
+        Union[Union[dict, "Edge"], List[Union[dict, "Edge"]]]
+    ] = empty_list()
     propertyChainAxioms: Optional[
         Union[Union[dict, "PropertyChainAxiom"], List[Union[dict, "PropertyChainAxiom"]]]
     ] = empty_list()
@@ -164,6 +235,21 @@ class Graph(YAMLRoot):
 
         if self.lbl is not None and not isinstance(self.lbl, str):
             self.lbl = str(self.lbl)
+
+        self._normalize_inlined_as_dict(
+            slot_name="prefixes", slot_type=PrefixDeclaration, key_name="prefix", keyed=True
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="subsetDefinitions", slot_type=SubsetDefinition, key_name="id", keyed=True
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="synonymTypeDefinitions",
+            slot_type=SynonymTypeDefinition,
+            key_name="id",
+            keyed=True,
+        )
 
         if self.meta is not None and not isinstance(self.meta, Meta):
             self.meta = Meta(**as_dict(self.meta))
@@ -203,6 +289,14 @@ class Graph(YAMLRoot):
             for v in self.domainRangeAxioms
         ]
 
+        if not isinstance(self.allValuesFromEdges, list):
+            self.allValuesFromEdges = (
+                [self.allValuesFromEdges] if self.allValuesFromEdges is not None else []
+            )
+        self.allValuesFromEdges = [
+            v if isinstance(v, Edge) else Edge(**as_dict(v)) for v in self.allValuesFromEdges
+        ]
+
         if not isinstance(self.propertyChainAxioms, list):
             self.propertyChainAxioms = (
                 [self.propertyChainAxioms] if self.propertyChainAxioms is not None else []
@@ -217,16 +311,21 @@ class Graph(YAMLRoot):
 
 @dataclass
 class Node(YAMLRoot):
+    """
+    A node is a class, property, or other entity in an ontology
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = RDF.Resource
     class_class_curie: ClassVar[str] = "rdf:Resource"
     class_name: ClassVar[str] = "Node"
-    class_model_uri: ClassVar[URIRef] = OG.Node
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.Node
 
     id: Union[str, NodeId] = None
     lbl: Optional[str] = None
     type: Optional[str] = None
+    propertyType: Optional[Union[str, "PropertyTypeEnum"]] = None
     meta: Optional[Union[dict, "Meta"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -241,6 +340,9 @@ class Node(YAMLRoot):
         if self.type is not None and not isinstance(self.type, str):
             self.type = str(self.type)
 
+        if self.propertyType is not None and not isinstance(self.propertyType, PropertyTypeEnum):
+            self.propertyType = PropertyTypeEnum(self.propertyType)
+
         if self.meta is not None and not isinstance(self.meta, Meta):
             self.meta = Meta(**as_dict(self.meta))
 
@@ -249,16 +351,23 @@ class Node(YAMLRoot):
 
 @dataclass
 class Edge(YAMLRoot):
+    """
+    An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s
+    SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s
+    EquivalentTo o (f) s type o
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.Edge
-    class_class_curie: ClassVar[str] = "og:Edge"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.Edge
+    class_class_curie: ClassVar[str] = "obographs:Edge"
     class_name: ClassVar[str] = "Edge"
-    class_model_uri: ClassVar[URIRef] = OG.Edge
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.Edge
 
     sub: Optional[str] = None
     pred: Optional[str] = None
     obj: Optional[str] = None
+    meta: Optional[Union[dict, "Meta"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.sub is not None and not isinstance(self.sub, str):
@@ -270,17 +379,25 @@ class Edge(YAMLRoot):
         if self.obj is not None and not isinstance(self.obj, str):
             self.obj = str(self.obj)
 
+        if self.meta is not None and not isinstance(self.meta, Meta):
+            self.meta = Meta(**as_dict(self.meta))
+
         super().__post_init__(**kwargs)
 
 
 @dataclass
 class Meta(YAMLRoot):
+    """
+    A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect the
+    logical interpretation of the container but provides useful information to humans or machines.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.Meta
-    class_class_curie: ClassVar[str] = "og:Meta"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.Meta
+    class_class_curie: ClassVar[str] = "obographs:Meta"
     class_name: ClassVar[str] = "Meta"
-    class_model_uri: ClassVar[URIRef] = OG.Meta
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.Meta
 
     subsets: Optional[Union[str, List[str]]] = empty_list()
     version: Optional[str] = None
@@ -343,17 +460,24 @@ class Meta(YAMLRoot):
 
 @dataclass
 class PropertyValue(YAMLRoot):
+    """
+    A generic grouping for the different kinds of key-value associations on object. Minimally, a property value has a
+    predicate and a value. It can also have a list of xrefs indicating provenance, as well as a metadata object.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.PropertyValue
-    class_class_curie: ClassVar[str] = "og:PropertyValue"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.PropertyValue
+    class_class_curie: ClassVar[str] = "obographs:PropertyValue"
     class_name: ClassVar[str] = "PropertyValue"
-    class_model_uri: ClassVar[URIRef] = OG.PropertyValue
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.PropertyValue
 
     pred: Optional[str] = None
     val: Optional[str] = None
-    xrefs: Optional[Union[str, List[str]]] = empty_list()
+    xrefs: Optional[Union[Union[str, XrefString], List[Union[str, XrefString]]]] = empty_list()
     meta: Optional[Union[dict, Meta]] = None
+    valType: Optional[str] = None
+    lang: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.pred is not None and not isinstance(self.pred, str):
@@ -364,57 +488,105 @@ class PropertyValue(YAMLRoot):
 
         if not isinstance(self.xrefs, list):
             self.xrefs = [self.xrefs] if self.xrefs is not None else []
-        self.xrefs = [v if isinstance(v, str) else str(v) for v in self.xrefs]
+        self.xrefs = [v if isinstance(v, XrefString) else XrefString(v) for v in self.xrefs]
 
         if self.meta is not None and not isinstance(self.meta, Meta):
             self.meta = Meta(**as_dict(self.meta))
 
+        if self.valType is not None and not isinstance(self.valType, str):
+            self.valType = str(self.valType)
+
+        if self.lang is not None and not isinstance(self.lang, str):
+            self.lang = str(self.lang)
+
         super().__post_init__(**kwargs)
 
 
+@dataclass
 class DefinitionPropertyValue(PropertyValue):
+    """
+    A property value that represents an assertion about the textual definition of an entity
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.DefinitionPropertyValue
-    class_class_curie: ClassVar[str] = "og:DefinitionPropertyValue"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.DefinitionPropertyValue
+    class_class_curie: ClassVar[str] = "obographs:DefinitionPropertyValue"
     class_name: ClassVar[str] = "DefinitionPropertyValue"
-    class_model_uri: ClassVar[URIRef] = OG.DefinitionPropertyValue
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.DefinitionPropertyValue
+
+    val: Optional[str] = None
+    xrefs: Optional[Union[Union[str, XrefString], List[Union[str, XrefString]]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.val is not None and not isinstance(self.val, str):
+            self.val = str(self.val)
+
+        if not isinstance(self.xrefs, list):
+            self.xrefs = [self.xrefs] if self.xrefs is not None else []
+        self.xrefs = [v if isinstance(v, XrefString) else XrefString(v) for v in self.xrefs]
+
+        super().__post_init__(**kwargs)
 
 
 class BasicPropertyValue(PropertyValue):
+    """
+    A property value that represents an assertion about an entity that is not a definition, synonym, or xref
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.BasicPropertyValue
-    class_class_curie: ClassVar[str] = "og:BasicPropertyValue"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.BasicPropertyValue
+    class_class_curie: ClassVar[str] = "obographs:BasicPropertyValue"
     class_name: ClassVar[str] = "BasicPropertyValue"
-    class_model_uri: ClassVar[URIRef] = OG.BasicPropertyValue
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.BasicPropertyValue
 
 
+@dataclass
 class XrefPropertyValue(PropertyValue):
+    """
+    A property value that represents an assertion about an external reference to an entity
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.XrefPropertyValue
-    class_class_curie: ClassVar[str] = "og:XrefPropertyValue"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.XrefPropertyValue
+    class_class_curie: ClassVar[str] = "obographs:XrefPropertyValue"
     class_name: ClassVar[str] = "XrefPropertyValue"
-    class_model_uri: ClassVar[URIRef] = OG.XrefPropertyValue
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.XrefPropertyValue
+
+    val: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.val is not None and not isinstance(self.val, str):
+            self.val = str(self.val)
+
+        super().__post_init__(**kwargs)
 
 
 @dataclass
 class SynonymPropertyValue(PropertyValue):
+    """
+    A property value that represents an assertion about a synonym of an entity
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.SynonymPropertyValue
-    class_class_curie: ClassVar[str] = "og:SynonymPropertyValue"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.SynonymPropertyValue
+    class_class_curie: ClassVar[str] = "obographs:SynonymPropertyValue"
     class_name: ClassVar[str] = "SynonymPropertyValue"
-    class_model_uri: ClassVar[URIRef] = OG.SynonymPropertyValue
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.SynonymPropertyValue
 
-    synonymType: Optional[str] = None
+    synonymType: Optional[Union[str, SynonymTypeIdentifierString]] = None
     isExact: Optional[Union[bool, Bool]] = None
     pred: Optional[Union[str, "ScopeEnum"]] = None
+    val: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.synonymType is not None and not isinstance(self.synonymType, str):
-            self.synonymType = str(self.synonymType)
+        if self.synonymType is not None and not isinstance(
+            self.synonymType, SynonymTypeIdentifierString
+        ):
+            self.synonymType = SynonymTypeIdentifierString(self.synonymType)
 
         if self.isExact is not None and not isinstance(self.isExact, Bool):
             self.isExact = Bool(self.isExact)
@@ -422,17 +594,77 @@ class SynonymPropertyValue(PropertyValue):
         if self.pred is not None and not isinstance(self.pred, ScopeEnum):
             self.pred = ScopeEnum(self.pred)
 
+        if self.val is not None and not isinstance(self.val, str):
+            self.val = str(self.val)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class SubsetDefinition(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OIO.SubsetProperty
+    class_class_curie: ClassVar[str] = "oio:SubsetProperty"
+    class_name: ClassVar[str] = "SubsetDefinition"
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.SubsetDefinition
+
+    id: Union[str, SubsetDefinitionId] = None
+    lbl: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, SubsetDefinitionId):
+            self.id = SubsetDefinitionId(self.id)
+
+        if self.lbl is not None and not isinstance(self.lbl, str):
+            self.lbl = str(self.lbl)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class SynonymTypeDefinition(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OIO.SynonymType
+    class_class_curie: ClassVar[str] = "oio:SynonymType"
+    class_name: ClassVar[str] = "SynonymTypeDefinition"
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.SynonymTypeDefinition
+
+    id: Union[str, SynonymTypeDefinitionId] = None
+    lbl: Optional[str] = None
+    pred: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, SynonymTypeDefinitionId):
+            self.id = SynonymTypeDefinitionId(self.id)
+
+        if self.lbl is not None and not isinstance(self.lbl, str):
+            self.lbl = str(self.lbl)
+
+        if self.pred is not None and not isinstance(self.pred, str):
+            self.pred = str(self.pred)
+
         super().__post_init__(**kwargs)
 
 
 @dataclass
 class Axiom(YAMLRoot):
+    """
+    A generic grouping for any OWL axiom or group of axioms that is not captured by existing constructs in this
+    standard.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.Axiom
-    class_class_curie: ClassVar[str] = "og:Axiom"
+    class_class_uri: ClassVar[URIRef] = OWL.Axiom
+    class_class_curie: ClassVar[str] = "owl:Axiom"
     class_name: ClassVar[str] = "Axiom"
-    class_model_uri: ClassVar[URIRef] = OG.Axiom
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.Axiom
 
     meta: Optional[Union[dict, Meta]] = None
 
@@ -445,16 +677,22 @@ class Axiom(YAMLRoot):
 
 @dataclass
 class DomainRangeAxiom(Axiom):
+    """
+    This groups potentially multiple axioms that constrain the usage of a property depending on some combination of
+    domain and range.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.DomainRangeAxiom
-    class_class_curie: ClassVar[str] = "og:DomainRangeAxiom"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.DomainRangeAxiom
+    class_class_curie: ClassVar[str] = "obographs:DomainRangeAxiom"
     class_name: ClassVar[str] = "DomainRangeAxiom"
-    class_model_uri: ClassVar[URIRef] = OG.DomainRangeAxiom
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.DomainRangeAxiom
 
     predicateId: Optional[str] = None
     domainClassIds: Optional[Union[str, List[str]]] = empty_list()
     rangeClassIds: Optional[Union[str, List[str]]] = empty_list()
+    allValuesFromEdges: Optional[Union[Union[dict, Edge], List[Union[dict, Edge]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.predicateId is not None and not isinstance(self.predicateId, str):
@@ -468,17 +706,29 @@ class DomainRangeAxiom(Axiom):
             self.rangeClassIds = [self.rangeClassIds] if self.rangeClassIds is not None else []
         self.rangeClassIds = [v if isinstance(v, str) else str(v) for v in self.rangeClassIds]
 
+        if not isinstance(self.allValuesFromEdges, list):
+            self.allValuesFromEdges = (
+                [self.allValuesFromEdges] if self.allValuesFromEdges is not None else []
+            )
+        self.allValuesFromEdges = [
+            v if isinstance(v, Edge) else Edge(**as_dict(v)) for v in self.allValuesFromEdges
+        ]
+
         super().__post_init__(**kwargs)
 
 
 @dataclass
 class EquivalentNodesSet(Axiom):
+    """
+    A clique of nodes that are all mutually equivalent
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.EquivalentNodesSet
-    class_class_curie: ClassVar[str] = "og:EquivalentNodesSet"
+    class_class_uri: ClassVar[URIRef] = OWL.equivalentClass
+    class_class_curie: ClassVar[str] = "owl:equivalentClass"
     class_name: ClassVar[str] = "EquivalentNodesSet"
-    class_model_uri: ClassVar[URIRef] = OG.EquivalentNodesSet
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.EquivalentNodesSet
 
     representativeNodeId: Optional[str] = None
     nodeIds: Optional[Union[str, List[str]]] = empty_list()
@@ -496,12 +746,16 @@ class EquivalentNodesSet(Axiom):
 
 @dataclass
 class ExistentialRestrictionExpression(YAMLRoot):
+    """
+    An existential restriction (OWL some values from) expression
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.ExistentialRestrictionExpression
-    class_class_curie: ClassVar[str] = "og:ExistentialRestrictionExpression"
+    class_class_uri: ClassVar[URIRef] = OWL.Restriction
+    class_class_curie: ClassVar[str] = "owl:Restriction"
     class_name: ClassVar[str] = "ExistentialRestrictionExpression"
-    class_model_uri: ClassVar[URIRef] = OG.ExistentialRestrictionExpression
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.ExistentialRestrictionExpression
 
     fillerId: Optional[str] = None
     propertyId: Optional[str] = None
@@ -518,14 +772,18 @@ class ExistentialRestrictionExpression(YAMLRoot):
 
 @dataclass
 class LogicalDefinitionAxiom(Axiom):
+    """
+    An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.LogicalDefinitionAxiom
-    class_class_curie: ClassVar[str] = "og:LogicalDefinitionAxiom"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.LogicalDefinitionAxiom
+    class_class_curie: ClassVar[str] = "obographs:LogicalDefinitionAxiom"
     class_name: ClassVar[str] = "LogicalDefinitionAxiom"
-    class_model_uri: ClassVar[URIRef] = OG.LogicalDefinitionAxiom
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.LogicalDefinitionAxiom
 
-    definedClassId: Optional[str] = None
+    definedClassId: str = None
     genusIds: Optional[Union[str, List[str]]] = empty_list()
     restrictions: Optional[
         Union[
@@ -535,7 +793,9 @@ class LogicalDefinitionAxiom(Axiom):
     ] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.definedClassId is not None and not isinstance(self.definedClassId, str):
+        if self._is_empty(self.definedClassId):
+            self.MissingRequiredField("definedClassId")
+        if not isinstance(self.definedClassId, str):
             self.definedClassId = str(self.definedClassId)
 
         if not isinstance(self.genusIds, list):
@@ -555,13 +815,70 @@ class LogicalDefinitionAxiom(Axiom):
 
 
 @dataclass
-class PropertyChainAxiom(Axiom):
+class DisjointClassExpressionsAxiom(Axiom):
+    """
+    An axiom that defines a set of classes or class expressions as being mutually disjoint. Formally, there exists no
+    instance that instantiates more that one of the union of classIds and classExpressions.
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.PropertyChainAxiom
-    class_class_curie: ClassVar[str] = "og:PropertyChainAxiom"
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.DisjointClassExpressionsAxiom
+    class_class_curie: ClassVar[str] = "obographs:DisjointClassExpressionsAxiom"
+    class_name: ClassVar[str] = "DisjointClassExpressionsAxiom"
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.DisjointClassExpressionsAxiom
+
+    classIds: Optional[Union[str, List[str]]] = empty_list()
+    classExpressions: Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
+    ] = empty_list()
+    unionEquivalentTo: Optional[str] = None
+    unionEquivalentToExpression: Optional[Union[dict, ExistentialRestrictionExpression]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if not isinstance(self.classIds, list):
+            self.classIds = [self.classIds] if self.classIds is not None else []
+        self.classIds = [v if isinstance(v, str) else str(v) for v in self.classIds]
+
+        if not isinstance(self.classExpressions, list):
+            self.classExpressions = (
+                [self.classExpressions] if self.classExpressions is not None else []
+            )
+        self.classExpressions = [
+            v
+            if isinstance(v, ExistentialRestrictionExpression)
+            else ExistentialRestrictionExpression(**as_dict(v))
+            for v in self.classExpressions
+        ]
+
+        if self.unionEquivalentTo is not None and not isinstance(self.unionEquivalentTo, str):
+            self.unionEquivalentTo = str(self.unionEquivalentTo)
+
+        if self.unionEquivalentToExpression is not None and not isinstance(
+            self.unionEquivalentToExpression, ExistentialRestrictionExpression
+        ):
+            self.unionEquivalentToExpression = ExistentialRestrictionExpression(
+                **as_dict(self.unionEquivalentToExpression)
+            )
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class PropertyChainAxiom(Axiom):
+    """
+    An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.PropertyChainAxiom
+    class_class_curie: ClassVar[str] = "obographs:PropertyChainAxiom"
     class_name: ClassVar[str] = "PropertyChainAxiom"
-    class_model_uri: ClassVar[URIRef] = OG.PropertyChainAxiom
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.PropertyChainAxiom
 
     predicateId: Optional[str] = None
     chainPredicateIds: Optional[Union[str, List[str]]] = empty_list()
@@ -583,14 +900,64 @@ class PropertyChainAxiom(Axiom):
 
 # Enumerations
 class ScopeEnum(EnumDefinitionImpl):
+    """
+    A vocabulary of terms that can be used to "scope" a synonym
+    """
 
-    hasExactSynonym = PermissibleValue(text="hasExactSynonym", meaning=OIO.hasExactSynonym)
-    hasNarrowSynonym = PermissibleValue(text="hasNarrowSynonym", meaning=OIO.hasNarrowSynonym)
-    hasBroadSynonym = PermissibleValue(text="hasBroadSynonym", meaning=OIO.hasBroadSynonym)
-    hasRelatedSynonym = PermissibleValue(text="hasRelatedSynonym", meaning=OIO.hasRelatedSynonym)
+    hasExactSynonym = PermissibleValue(
+        text="hasExactSynonym",
+        description="The synonym represents the exact meaning of the node.",
+        meaning=OIO.hasExactSynonym,
+    )
+    hasNarrowSynonym = PermissibleValue(
+        text="hasNarrowSynonym",
+        description="The synonym represents something narrower in meaning than the node.",
+        meaning=OIO.hasNarrowSynonym,
+    )
+    hasBroadSynonym = PermissibleValue(
+        text="hasBroadSynonym",
+        description="The synonym represents something broader in meaning than the node.",
+        meaning=OIO.hasBroadSynonym,
+    )
+    hasRelatedSynonym = PermissibleValue(
+        text="hasRelatedSynonym",
+        description="""The synonym represents something closely related in meaning than the node, but in not exact, broad, or narrow.""",
+        meaning=OIO.hasRelatedSynonym,
+    )
 
     _defn = EnumDefinition(
         name="ScopeEnum",
+        description='A vocabulary of terms that can be used to "scope" a synonym',
+    )
+
+
+class NodeTypeEnum(EnumDefinitionImpl):
+    """
+    The main type of a node
+    """
+
+    CLASS = PermissibleValue(text="CLASS", meaning=OWL.Class)
+    PROPERTY = PermissibleValue(text="PROPERTY", meaning=RDFS.Property)
+    INDIVIDUAL = PermissibleValue(text="INDIVIDUAL", meaning=OWL.NamedIndividual)
+
+    _defn = EnumDefinition(
+        name="NodeTypeEnum",
+        description="The main type of a node",
+    )
+
+
+class PropertyTypeEnum(EnumDefinitionImpl):
+    """
+    The node subtype for property nodes
+    """
+
+    ANNOTATION = PermissibleValue(text="ANNOTATION", meaning=OWL.AnnotationProperty)
+    OBJECT = PermissibleValue(text="OBJECT", meaning=OWL.ObjectProperty)
+    DATA = PermissibleValue(text="DATA", meaning=OWL.DatatypeProperty)
+
+    _defn = EnumDefinition(
+        name="PropertyTypeEnum",
+        description="The node subtype for property nodes",
     )
 
 
@@ -600,268 +967,323 @@ class slots:
 
 
 slots.id = Slot(
-    uri=OG.id, name="id", curie=OG.curie("id"), model_uri=OG.id, domain=None, range=URIRef
+    uri=OBOGRAPHS.id,
+    name="id",
+    curie=OBOGRAPHS.curie("id"),
+    model_uri=OBOGRAPHS.id,
+    domain=None,
+    range=URIRef,
 )
 
 slots.sub = Slot(
-    uri=OG.sub,
+    uri=RDF.subject,
     name="sub",
-    curie=OG.curie("sub"),
-    model_uri=OG.sub,
+    curie=RDF.curie("subject"),
+    model_uri=OBOGRAPHS.sub,
     domain=None,
     range=Optional[str],
 )
 
 slots.pred = Slot(
-    uri=OG.pred,
+    uri=RDF.predicate,
     name="pred",
-    curie=OG.curie("pred"),
-    model_uri=OG.pred,
+    curie=RDF.curie("predicate"),
+    model_uri=OBOGRAPHS.pred,
     domain=None,
     range=Optional[str],
 )
 
 slots.obj = Slot(
-    uri=OG.obj,
+    uri=RDF.object,
     name="obj",
-    curie=OG.curie("obj"),
-    model_uri=OG.obj,
+    curie=RDF.curie("object"),
+    model_uri=OBOGRAPHS.obj,
     domain=None,
     range=Optional[str],
 )
 
 slots.val = Slot(
-    uri=OG.val,
+    uri=RDF.object,
     name="val",
-    curie=OG.curie("val"),
-    model_uri=OG.val,
+    curie=RDF.curie("object"),
+    model_uri=OBOGRAPHS.val,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.valType = Slot(
+    uri=OBOGRAPHS.valType,
+    name="valType",
+    curie=OBOGRAPHS.curie("valType"),
+    model_uri=OBOGRAPHS.valType,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.lang = Slot(
+    uri=OBOGRAPHS.lang,
+    name="lang",
+    curie=OBOGRAPHS.curie("lang"),
+    model_uri=OBOGRAPHS.lang,
     domain=None,
     range=Optional[str],
 )
 
 slots.lbl = Slot(
-    uri=OG.lbl,
+    uri=RDFS.label,
     name="lbl",
-    curie=OG.curie("lbl"),
-    model_uri=OG.lbl,
+    curie=RDFS.curie("label"),
+    model_uri=OBOGRAPHS.lbl,
     domain=None,
     range=Optional[str],
 )
 
 slots.type = Slot(
-    uri=OG.type,
+    uri=OBOGRAPHS.type,
     name="type",
-    curie=OG.curie("type"),
-    model_uri=OG.type,
+    curie=OBOGRAPHS.curie("type"),
+    model_uri=OBOGRAPHS.type,
     domain=None,
     range=Optional[str],
 )
 
+slots.propertyType = Slot(
+    uri=OBOGRAPHS.propertyType,
+    name="propertyType",
+    curie=OBOGRAPHS.curie("propertyType"),
+    model_uri=OBOGRAPHS.propertyType,
+    domain=None,
+    range=Optional[Union[str, "PropertyTypeEnum"]],
+)
+
 slots.meta = Slot(
-    uri=OG.meta,
+    uri=OBOGRAPHS.meta,
     name="meta",
-    curie=OG.curie("meta"),
-    model_uri=OG.meta,
+    curie=OBOGRAPHS.curie("meta"),
+    model_uri=OBOGRAPHS.meta,
     domain=None,
     range=Optional[Union[dict, Meta]],
 )
 
 slots.definition = Slot(
-    uri=OG.definition,
+    uri=IAO["0000115"],
     name="definition",
-    curie=OG.curie("definition"),
-    model_uri=OG.definition,
+    curie=IAO.curie("0000115"),
+    model_uri=OBOGRAPHS.definition,
     domain=None,
     range=Optional[Union[dict, DefinitionPropertyValue]],
 )
 
 slots.basicPropertyValues = Slot(
-    uri=OG.basicPropertyValues,
+    uri=OBOGRAPHS.basicPropertyValues,
     name="basicPropertyValues",
-    curie=OG.curie("basicPropertyValues"),
-    model_uri=OG.basicPropertyValues,
+    curie=OBOGRAPHS.curie("basicPropertyValues"),
+    model_uri=OBOGRAPHS.basicPropertyValues,
     domain=None,
     range=Optional[Union[Union[dict, BasicPropertyValue], List[Union[dict, BasicPropertyValue]]]],
 )
 
 slots.comments = Slot(
-    uri=OG.comments,
+    uri=RDFS.comment,
     name="comments",
-    curie=OG.curie("comments"),
-    model_uri=OG.comments,
+    curie=RDFS.curie("comment"),
+    model_uri=OBOGRAPHS.comments,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.version = Slot(
-    uri=OG.version,
+    uri=OWL.versionInfo,
     name="version",
-    curie=OG.curie("version"),
-    model_uri=OG.version,
+    curie=OWL.curie("versionInfo"),
+    model_uri=OBOGRAPHS.version,
     domain=None,
     range=Optional[str],
 )
 
 slots.deprecated = Slot(
-    uri=OG.deprecated,
+    uri=OWL.deprecated,
     name="deprecated",
-    curie=OG.curie("deprecated"),
-    model_uri=OG.deprecated,
+    curie=OWL.curie("deprecated"),
+    model_uri=OBOGRAPHS.deprecated,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.subsets = Slot(
-    uri=OG.subsets,
+    uri=OIO.inSubset,
     name="subsets",
-    curie=OG.curie("subsets"),
-    model_uri=OG.subsets,
+    curie=OIO.curie("inSubset"),
+    model_uri=OBOGRAPHS.subsets,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.xrefs = Slot(
-    uri=OG.xrefs,
+    uri=OBOGRAPHS.xrefs,
     name="xrefs",
-    curie=OG.curie("xrefs"),
-    model_uri=OG.xrefs,
+    curie=OBOGRAPHS.curie("xrefs"),
+    model_uri=OBOGRAPHS.xrefs,
     domain=None,
-    range=Optional[Union[str, List[str]]],
+    range=Optional[Union[Union[str, XrefString], List[Union[str, XrefString]]]],
 )
 
 slots.nodes = Slot(
-    uri=OG.nodes,
+    uri=OBOGRAPHS.nodes,
     name="nodes",
-    curie=OG.curie("nodes"),
-    model_uri=OG.nodes,
+    curie=OBOGRAPHS.curie("nodes"),
+    model_uri=OBOGRAPHS.nodes,
     domain=None,
     range=Optional[Union[Dict[Union[str, NodeId], Union[dict, Node]], List[Union[dict, Node]]]],
 )
 
 slots.edges = Slot(
-    uri=OG.edges,
+    uri=OBOGRAPHS.edges,
     name="edges",
-    curie=OG.curie("edges"),
-    model_uri=OG.edges,
+    curie=OBOGRAPHS.curie("edges"),
+    model_uri=OBOGRAPHS.edges,
     domain=None,
     range=Optional[Union[Union[dict, Edge], List[Union[dict, Edge]]]],
 )
 
 slots.equivalentNodesSets = Slot(
-    uri=OG.equivalentNodesSets,
+    uri=OBOGRAPHS.equivalentNodesSets,
     name="equivalentNodesSets",
-    curie=OG.curie("equivalentNodesSets"),
-    model_uri=OG.equivalentNodesSets,
+    curie=OBOGRAPHS.curie("equivalentNodesSets"),
+    model_uri=OBOGRAPHS.equivalentNodesSets,
     domain=None,
     range=Optional[Union[Union[dict, EquivalentNodesSet], List[Union[dict, EquivalentNodesSet]]]],
 )
 
 slots.logicalDefinitionAxioms = Slot(
-    uri=OG.logicalDefinitionAxioms,
+    uri=OBOGRAPHS.logicalDefinitionAxioms,
     name="logicalDefinitionAxioms",
-    curie=OG.curie("logicalDefinitionAxioms"),
-    model_uri=OG.logicalDefinitionAxioms,
+    curie=OBOGRAPHS.curie("logicalDefinitionAxioms"),
+    model_uri=OBOGRAPHS.logicalDefinitionAxioms,
     domain=None,
     range=Optional[
         Union[Union[dict, LogicalDefinitionAxiom], List[Union[dict, LogicalDefinitionAxiom]]]
     ],
 )
 
+slots.disjointClassExpressionsAxioms = Slot(
+    uri=OBOGRAPHS.disjointClassExpressionsAxioms,
+    name="disjointClassExpressionsAxioms",
+    curie=OBOGRAPHS.curie("disjointClassExpressionsAxioms"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxioms,
+    domain=None,
+    range=Optional[
+        Union[
+            Union[dict, DisjointClassExpressionsAxiom],
+            List[Union[dict, DisjointClassExpressionsAxiom]],
+        ]
+    ],
+)
+
 slots.domainRangeAxioms = Slot(
-    uri=OG.domainRangeAxioms,
+    uri=OBOGRAPHS.domainRangeAxioms,
     name="domainRangeAxioms",
-    curie=OG.curie("domainRangeAxioms"),
-    model_uri=OG.domainRangeAxioms,
+    curie=OBOGRAPHS.curie("domainRangeAxioms"),
+    model_uri=OBOGRAPHS.domainRangeAxioms,
     domain=None,
     range=Optional[Union[Union[dict, DomainRangeAxiom], List[Union[dict, DomainRangeAxiom]]]],
 )
 
+slots.allValuesFromEdges = Slot(
+    uri=OBOGRAPHS.allValuesFromEdges,
+    name="allValuesFromEdges",
+    curie=OBOGRAPHS.curie("allValuesFromEdges"),
+    model_uri=OBOGRAPHS.allValuesFromEdges,
+    domain=None,
+    range=Optional[Union[Union[dict, Edge], List[Union[dict, Edge]]]],
+)
+
 slots.propertyChainAxioms = Slot(
-    uri=OG.propertyChainAxioms,
+    uri=OBOGRAPHS.propertyChainAxioms,
     name="propertyChainAxioms",
-    curie=OG.curie("propertyChainAxioms"),
-    model_uri=OG.propertyChainAxioms,
+    curie=OBOGRAPHS.curie("propertyChainAxioms"),
+    model_uri=OBOGRAPHS.propertyChainAxioms,
     domain=None,
     range=Optional[Union[Union[dict, PropertyChainAxiom], List[Union[dict, PropertyChainAxiom]]]],
 )
 
 slots.representativeNodeId = Slot(
-    uri=OG.representativeNodeId,
+    uri=OBOGRAPHS.representativeNodeId,
     name="representativeNodeId",
-    curie=OG.curie("representativeNodeId"),
-    model_uri=OG.representativeNodeId,
+    curie=OBOGRAPHS.curie("representativeNodeId"),
+    model_uri=OBOGRAPHS.representativeNodeId,
     domain=None,
     range=Optional[str],
 )
 
 slots.chainPredicateIds = Slot(
-    uri=OG.chainPredicateIds,
+    uri=OBOGRAPHS.chainPredicateIds,
     name="chainPredicateIds",
-    curie=OG.curie("chainPredicateIds"),
-    model_uri=OG.chainPredicateIds,
+    curie=OBOGRAPHS.curie("chainPredicateIds"),
+    model_uri=OBOGRAPHS.chainPredicateIds,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.nodeIds = Slot(
-    uri=OG.nodeIds,
+    uri=OBOGRAPHS.nodeIds,
     name="nodeIds",
-    curie=OG.curie("nodeIds"),
-    model_uri=OG.nodeIds,
+    curie=OBOGRAPHS.curie("nodeIds"),
+    model_uri=OBOGRAPHS.nodeIds,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.fillerId = Slot(
-    uri=OG.fillerId,
+    uri=OBOGRAPHS.fillerId,
     name="fillerId",
-    curie=OG.curie("fillerId"),
-    model_uri=OG.fillerId,
+    curie=OBOGRAPHS.curie("fillerId"),
+    model_uri=OBOGRAPHS.fillerId,
     domain=None,
     range=Optional[str],
 )
 
 slots.propertyId = Slot(
-    uri=OG.propertyId,
+    uri=OBOGRAPHS.propertyId,
     name="propertyId",
-    curie=OG.curie("propertyId"),
-    model_uri=OG.propertyId,
+    curie=OBOGRAPHS.curie("propertyId"),
+    model_uri=OBOGRAPHS.propertyId,
     domain=None,
     range=Optional[str],
 )
 
 slots.predicateId = Slot(
-    uri=OG.predicateId,
+    uri=OBOGRAPHS.predicateId,
     name="predicateId",
-    curie=OG.curie("predicateId"),
-    model_uri=OG.predicateId,
+    curie=OBOGRAPHS.curie("predicateId"),
+    model_uri=OBOGRAPHS.predicateId,
     domain=None,
     range=Optional[str],
 )
 
 slots.domainClassIds = Slot(
-    uri=OG.domainClassIds,
+    uri=OBOGRAPHS.domainClassIds,
     name="domainClassIds",
-    curie=OG.curie("domainClassIds"),
-    model_uri=OG.domainClassIds,
+    curie=OBOGRAPHS.curie("domainClassIds"),
+    model_uri=OBOGRAPHS.domainClassIds,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.rangeClassIds = Slot(
-    uri=OG.rangeClassIds,
+    uri=OBOGRAPHS.rangeClassIds,
     name="rangeClassIds",
-    curie=OG.curie("rangeClassIds"),
-    model_uri=OG.rangeClassIds,
+    curie=OBOGRAPHS.curie("rangeClassIds"),
+    model_uri=OBOGRAPHS.rangeClassIds,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.synonyms = Slot(
-    uri=OG.synonyms,
+    uri=OBOGRAPHS.synonyms,
     name="synonyms",
-    curie=OG.curie("synonyms"),
-    model_uri=OG.synonyms,
+    curie=OBOGRAPHS.curie("synonyms"),
+    model_uri=OBOGRAPHS.synonyms,
     domain=None,
     range=Optional[
         Union[Union[dict, SynonymPropertyValue], List[Union[dict, SynonymPropertyValue]]]
@@ -869,28 +1291,28 @@ slots.synonyms = Slot(
 )
 
 slots.synonymType = Slot(
-    uri=OG.synonymType,
+    uri=OBOGRAPHS.synonymType,
     name="synonymType",
-    curie=OG.curie("synonymType"),
-    model_uri=OG.synonymType,
+    curie=OBOGRAPHS.curie("synonymType"),
+    model_uri=OBOGRAPHS.synonymType,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[str, SynonymTypeIdentifierString]],
 )
 
 slots.isExact = Slot(
-    uri=OG.isExact,
+    uri=OBOGRAPHS.isExact,
     name="isExact",
-    curie=OG.curie("isExact"),
-    model_uri=OG.isExact,
+    curie=OBOGRAPHS.curie("isExact"),
+    model_uri=OBOGRAPHS.isExact,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.graphs = Slot(
-    uri=OG.graphs,
+    uri=OBOGRAPHS.graphs,
     name="graphs",
-    curie=OG.curie("graphs"),
-    model_uri=OG.graphs,
+    curie=OBOGRAPHS.curie("graphs"),
+    model_uri=OBOGRAPHS.graphs,
     domain=None,
     range=Optional[Union[Dict[Union[str, GraphId], Union[dict, Graph]], List[Union[dict, Graph]]]],
 )
@@ -899,52 +1321,85 @@ slots.prefixes = Slot(
     uri=SH.declare,
     name="prefixes",
     curie=SH.curie("declare"),
-    model_uri=OG.prefixes,
+    model_uri=OBOGRAPHS.prefixes,
     domain=None,
-    range=Optional[Union[Union[dict, PrefixDeclaration], List[Union[dict, PrefixDeclaration]]]],
+    range=Optional[
+        Union[
+            Dict[Union[str, PrefixDeclarationPrefix], Union[dict, PrefixDeclaration]],
+            List[Union[dict, PrefixDeclaration]],
+        ]
+    ],
+)
+
+slots.synonymTypeDefinitions = Slot(
+    uri=OBOGRAPHS.synonymTypeDefinitions,
+    name="synonymTypeDefinitions",
+    curie=OBOGRAPHS.curie("synonymTypeDefinitions"),
+    model_uri=OBOGRAPHS.synonymTypeDefinitions,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, SynonymTypeDefinitionId], Union[dict, SynonymTypeDefinition]],
+            List[Union[dict, SynonymTypeDefinition]],
+        ]
+    ],
+)
+
+slots.subsetDefinitions = Slot(
+    uri=OBOGRAPHS.subsetDefinitions,
+    name="subsetDefinitions",
+    curie=OBOGRAPHS.curie("subsetDefinitions"),
+    model_uri=OBOGRAPHS.subsetDefinitions,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, SubsetDefinitionId], Union[dict, SubsetDefinition]],
+            List[Union[dict, SubsetDefinition]],
+        ]
+    ],
 )
 
 slots.prefixDeclaration__prefix = Slot(
     uri=SH.prefix,
     name="prefixDeclaration__prefix",
     curie=SH.curie("prefix"),
-    model_uri=OG.prefixDeclaration__prefix,
+    model_uri=OBOGRAPHS.prefixDeclaration__prefix,
     domain=None,
-    range=Optional[str],
+    range=URIRef,
 )
 
 slots.prefixDeclaration__namespace = Slot(
     uri=SH.namespace,
     name="prefixDeclaration__namespace",
     curie=SH.curie("namespace"),
-    model_uri=OG.prefixDeclaration__namespace,
+    model_uri=OBOGRAPHS.prefixDeclaration__namespace,
     domain=None,
     range=Optional[Union[str, URI]],
 )
 
 slots.logicalDefinitionAxiom__definedClassId = Slot(
-    uri=OG.definedClassId,
+    uri=OBOGRAPHS.definedClassId,
     name="logicalDefinitionAxiom__definedClassId",
-    curie=OG.curie("definedClassId"),
-    model_uri=OG.logicalDefinitionAxiom__definedClassId,
+    curie=OBOGRAPHS.curie("definedClassId"),
+    model_uri=OBOGRAPHS.logicalDefinitionAxiom__definedClassId,
     domain=None,
-    range=Optional[str],
+    range=str,
 )
 
 slots.logicalDefinitionAxiom__genusIds = Slot(
-    uri=OG.genusIds,
+    uri=OBOGRAPHS.genusIds,
     name="logicalDefinitionAxiom__genusIds",
-    curie=OG.curie("genusIds"),
-    model_uri=OG.logicalDefinitionAxiom__genusIds,
+    curie=OBOGRAPHS.curie("genusIds"),
+    model_uri=OBOGRAPHS.logicalDefinitionAxiom__genusIds,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
 
 slots.logicalDefinitionAxiom__restrictions = Slot(
-    uri=OG.restrictions,
+    uri=OWL.someValuesFrom,
     name="logicalDefinitionAxiom__restrictions",
-    curie=OG.curie("restrictions"),
-    model_uri=OG.logicalDefinitionAxiom__restrictions,
+    curie=OWL.curie("someValuesFrom"),
+    model_uri=OBOGRAPHS.logicalDefinitionAxiom__restrictions,
     domain=None,
     range=Optional[
         Union[
@@ -954,20 +1409,97 @@ slots.logicalDefinitionAxiom__restrictions = Slot(
     ],
 )
 
+slots.disjointClassExpressionsAxiom__classIds = Slot(
+    uri=OBOGRAPHS.classIds,
+    name="disjointClassExpressionsAxiom__classIds",
+    curie=OBOGRAPHS.curie("classIds"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__classIds,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.disjointClassExpressionsAxiom__classExpressions = Slot(
+    uri=OBOGRAPHS.classExpressions,
+    name="disjointClassExpressionsAxiom__classExpressions",
+    curie=OBOGRAPHS.curie("classExpressions"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__classExpressions,
+    domain=None,
+    range=Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
+    ],
+)
+
+slots.disjointClassExpressionsAxiom__unionEquivalentTo = Slot(
+    uri=OBOGRAPHS.unionEquivalentTo,
+    name="disjointClassExpressionsAxiom__unionEquivalentTo",
+    curie=OBOGRAPHS.curie("unionEquivalentTo"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__unionEquivalentTo,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.disjointClassExpressionsAxiom__unionEquivalentToExpression = Slot(
+    uri=OBOGRAPHS.unionEquivalentToExpression,
+    name="disjointClassExpressionsAxiom__unionEquivalentToExpression",
+    curie=OBOGRAPHS.curie("unionEquivalentToExpression"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__unionEquivalentToExpression,
+    domain=None,
+    range=Optional[Union[dict, ExistentialRestrictionExpression]],
+)
+
 slots.Meta_xrefs = Slot(
-    uri=OG.xrefs,
+    uri=OBOGRAPHS.xrefs,
     name="Meta_xrefs",
-    curie=OG.curie("xrefs"),
-    model_uri=OG.Meta_xrefs,
+    curie=OBOGRAPHS.curie("xrefs"),
+    model_uri=OBOGRAPHS.Meta_xrefs,
     domain=Meta,
     range=Optional[Union[Union[dict, "XrefPropertyValue"], List[Union[dict, "XrefPropertyValue"]]]],
 )
 
+slots.DefinitionPropertyValue_val = Slot(
+    uri=RDF.object,
+    name="DefinitionPropertyValue_val",
+    curie=RDF.curie("object"),
+    model_uri=OBOGRAPHS.DefinitionPropertyValue_val,
+    domain=DefinitionPropertyValue,
+    range=Optional[str],
+)
+
+slots.DefinitionPropertyValue_xrefs = Slot(
+    uri=OBOGRAPHS.xrefs,
+    name="DefinitionPropertyValue_xrefs",
+    curie=OBOGRAPHS.curie("xrefs"),
+    model_uri=OBOGRAPHS.DefinitionPropertyValue_xrefs,
+    domain=DefinitionPropertyValue,
+    range=Optional[Union[Union[str, XrefString], List[Union[str, XrefString]]]],
+)
+
+slots.XrefPropertyValue_val = Slot(
+    uri=RDF.object,
+    name="XrefPropertyValue_val",
+    curie=RDF.curie("object"),
+    model_uri=OBOGRAPHS.XrefPropertyValue_val,
+    domain=XrefPropertyValue,
+    range=Optional[str],
+)
+
 slots.SynonymPropertyValue_pred = Slot(
-    uri=OG.pred,
+    uri=RDF.predicate,
     name="SynonymPropertyValue_pred",
-    curie=OG.curie("pred"),
-    model_uri=OG.SynonymPropertyValue_pred,
+    curie=RDF.curie("predicate"),
+    model_uri=OBOGRAPHS.SynonymPropertyValue_pred,
     domain=SynonymPropertyValue,
     range=Optional[Union[str, "ScopeEnum"]],
+)
+
+slots.SynonymPropertyValue_val = Slot(
+    uri=RDF.object,
+    name="SynonymPropertyValue_val",
+    curie=RDF.curie("object"),
+    model_uri=OBOGRAPHS.SynonymPropertyValue_val,
+    domain=SynonymPropertyValue,
+    range=Optional[str],
 )

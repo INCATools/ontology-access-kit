@@ -4,9 +4,7 @@ _A collection of annotation results_
 
 
 
-
 URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAnnotationResultSet)
-
 
 
 
@@ -14,6 +12,9 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
  classDiagram
     class TextAnnotationResultSet
       TextAnnotationResultSet : annotations
+        
+          TextAnnotationResultSet ..> TextAnnotation : annotations
+        
       
 ```
 
@@ -25,12 +26,15 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [annotations](annotations.md) | [TextAnnotation](TextAnnotation.md) | 0..* | all annotations  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [annotations](annotations.md) | 0..* <br/> [TextAnnotation](TextAnnotation.md) | all annotations | direct |
 
 
-## Usages
+
+
+
+
 
 
 
@@ -45,9 +49,7 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/text_annotator
-
-
+* from schema: https://w3id.org/oak/text_annotator
 
 
 
@@ -57,11 +59,14 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['ann:TextAnnotationResultSet'] |
-| native | ['ann:TextAnnotationResultSet'] |
+| self | ann:TextAnnotationResultSet |
+| native | ann:TextAnnotationResultSet |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -71,12 +76,14 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 ```yaml
 name: TextAnnotationResultSet
 description: A collection of annotation results
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
+rank: 1000
 attributes:
   annotations:
     name: annotations
     description: all annotations
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
     multivalued: true
     range: TextAnnotation
     inlined: true
@@ -90,15 +97,19 @@ attributes:
 ```yaml
 name: TextAnnotationResultSet
 description: A collection of annotation results
-from_schema: https://w3id.org/linkml/text_annotator
+from_schema: https://w3id.org/oak/text_annotator
+rank: 1000
 attributes:
   annotations:
     name: annotations
     description: all annotations
-    from_schema: https://w3id.org/linkml/text_annotator
+    from_schema: https://w3id.org/oak/text_annotator
+    rank: 1000
     multivalued: true
     alias: annotations
     owner: TextAnnotationResultSet
+    domain_of:
+    - TextAnnotationResultSet
     range: TextAnnotation
     inlined: true
 

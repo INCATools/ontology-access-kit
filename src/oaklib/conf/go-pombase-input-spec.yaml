@@ -1,0 +1,7 @@
+ontology_resources:
+  go:
+    selector: sqlite:obo:go
+association_resources:
+  pombase:
+    selector: "gaf:pombase"
+    aggregator_knowledge_source: "infores:go"

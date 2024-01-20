@@ -2,7 +2,7 @@ rules:
   - description: default
     postconditions:
       predicate_id: skos:closeMatch
-      weight: 0.0
+      weight: -0.02
 
   - description: exact to exact
     preconditions:
@@ -64,13 +64,13 @@ rules:
 
   - synonymizer:
       the_rule: Remove parentheses bound info from the label.
-      match: r'\([^)]*\)'
+      match: "\\([^)]*\\)"
       match_scope: "*"
       replacement: ""
 
   - synonymizer:
       the_rule: Remove box brackets bound info from the label.
-      match: r'\[[^)]*\]'
+      match: "\\[[^)]*\\]"
       match_scope: "*"
       replacement: ""
 

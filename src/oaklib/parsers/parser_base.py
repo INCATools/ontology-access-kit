@@ -23,16 +23,19 @@ class Parser(ABC):
     """Base class for all parsers."""
 
     @abstractmethod
-    def parse(self, file: TextIO) -> Iterator:
+    def parse(self, file: TextIO, **kwargs) -> Iterator:
         """
         Abstract method for all parsers.
 
-        :param file:
+        :param file: file-like object to parse
+        :param kwargs: additional arguments
         :return:
         """
         raise NotImplementedError
 
-    def index_lookup_function(self, column_reference: Optional[ColumnReference]) -> Callable:
+    def index_lookup_function(
+        self, column_reference: Optional[ColumnReference]
+    ) -> Optional[Callable]:
         """
         Returns a function that can be used to lookup a row by reference.
 

@@ -3,7 +3,7 @@ import math
 import statistics
 from abc import ABC
 from collections import defaultdict
-from typing import Iterable, Iterator, List, Optional, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 import networkx as nx
 
@@ -26,6 +26,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     An interface for calculating similarity measures between pairs of terms or
     collections of terms
     """
+
+    cached_information_content_map: Dict[CURIE, float] = None
+    """Mapping from term to information content"""
 
     def most_recent_common_ancestors(
         self,
@@ -64,6 +67,42 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                 yield OWL_THING
         else:
             raise NotImplementedError
+
+    def setwise_most_recent_common_ancestors(
+        self,
+        subjects: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        include_owl_thing: bool = True,
+    ) -> Iterable[CURIE]:
+        """
+        Most recent common ancestors (MRCAs) for a set of entities
+
+        The MRCAs are the set of Common Ancestors (CAs) that are not themselves proper
+        ancestors of another CA
+
+        :param subjects:
+        :param predicates:
+        :param include_owl_thing:
+        :return:
+        """
+        if not isinstance(self, OboGraphInterface):
+            raise NotImplementedError
+        ancs = []
+        for s in subjects:
+            ancs.append(set(self.ancestors([s], predicates)))
+        common = set.intersection(*ancs)
+        ancs_of_common = []
+        for ca in common:
+            for caa in self.ancestors(ca, predicates):
+                if caa != ca:
+                    ancs_of_common.append(caa)
+        n = 0
+        for a in common:
+            if a not in ancs_of_common:
+                yield a
+                n += 1
+        if n == 0 and include_owl_thing:
+            yield OWL_THING
 
     def multiset_most_recent_common_ancestors(
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, asymmetric=True
@@ -125,6 +164,15 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         for a in subject_ancestors.intersection(object_ancestors):
             yield a
 
+    def common_descendants(
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        include_owl_nothing: bool = False,
+    ) -> Iterable[CURIE]:
+        raise NotImplementedError
+
     def get_information_content(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Optional[float]:
@@ -149,6 +197,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         object_closure_predicates: List[PRED_CURIE] = None,
         use_associations: bool = None,
+        term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
         """
         Yields entity-score pairs for a given collection of entities.
@@ -163,10 +213,57 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
             Pr(t) = freq(t)/|items|
 
         :param curies:
+        :param predicates:
         :param object_closure_predicates:
+        :param use_associations:
+        :param term_to_entities_map:
+        :param kwargs:
         :return:
         """
-        raise NotImplementedError
+        curies = list(curies)
+        if self.cached_information_content_map is not None:
+            for curie in curies:
+                if curie in self.cached_information_content_map:
+                    yield curie, self.cached_information_content_map[curie]
+            return
+        if use_associations:
+            from oaklib.interfaces.association_provider_interface import (
+                AssociationProviderInterface,
+            )
+
+            if not isinstance(self, AssociationProviderInterface):
+                raise ValueError(
+                    f"unable to retrieve associations from this interface, type {type(self)}"
+                )
+            all_entities = set()
+            for a in self.associations():
+                all_entities.add(a.subject)
+            num_entities = len(all_entities)
+            logging.info(f"num_entities={num_entities}")
+            for curie in curies:
+                entities = list(
+                    self.associations_subjects(
+                        objects=[curie],
+                        predicates=predicates,
+                        object_closure_predicates=object_closure_predicates,
+                    )
+                )
+                if entities:
+                    yield curie, -math.log(len(entities) / num_entities)
+            return
+        all_entities = list(self.entities())
+        num_entities = len(all_entities)
+        if not isinstance(self, OboGraphInterface):
+            raise NotImplementedError
+        yielded_owl_thing = False
+        for curie in curies:
+            descendants = list(self.descendants([curie], object_closure_predicates))
+            yield curie, -math.log(len(descendants) / num_entities)
+            if curie == OWL_THING:
+                yielded_owl_thing = True
+        # inject owl:Thing, which always has zero information
+        if (OWL_THING in curies or not curies) and not yielded_owl_thing:
+            yield OWL_THING, 0.0
 
     def pairwise_similarity(
         self,
@@ -175,7 +272,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         subject_ancestors: List[CURIE] = None,
         object_ancestors: List[CURIE] = None,
-    ) -> TermPairwiseSimilarity:
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
+    ) -> Optional[TermPairwiseSimilarity]:
         """
         Pairwise similarity between a pair of ontology terms
 
@@ -184,9 +283,19 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param predicates:
         :param subject_ancestors: optional pre-generated ancestor list
         :param object_ancestors: optional pre-generated ancestor list
+        :param min_jaccard_similarity: minimum Jaccard similarity for a pair to be considered
+        :param min_ancestor_information_content: minimum IC for a common ancestor to be considered
         :return:
         """
-        logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+        logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
+        if subject_ancestors is None and isinstance(self, OboGraphInterface):
+            subject_ancestors = list(self.ancestors(subject, predicates=predicates))
+        if object_ancestors is None and isinstance(self, OboGraphInterface):
+            object_ancestors = list(self.ancestors(object, predicates=predicates))
+        if subject_ancestors is not None and object_ancestors is not None:
+            jaccard_similarity = setwise_jaccard_similarity(subject_ancestors, object_ancestors)
+        if min_jaccard_similarity is not None and jaccard_similarity < min_jaccard_similarity:
+            return None
         cas = list(
             self.common_ancestors(
                 subject,
@@ -210,20 +319,19 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         else:
             max_ic = 0.0
             anc = None
+        if min_ancestor_information_content is not None:
+            if max_ic < min_ancestor_information_content:
+                return None
         logging.info(f"MRCA = {anc} with {max_ic}")
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,
             ancestor_id=anc,
             ancestor_information_content=max_ic,
+            jaccard_similarity=jaccard_similarity,
         )
         sim.ancestor_information_content = max_ic
-        if subject_ancestors is None and isinstance(self, OboGraphInterface):
-            subject_ancestors = self.ancestors(subject, predicates=predicates)
-        if object_ancestors is None and isinstance(self, OboGraphInterface):
-            object_ancestors = self.ancestors(object, predicates=predicates)
-        if subject_ancestors is not None and object_ancestors is not None:
-            sim.jaccard_similarity = setwise_jaccard_similarity(subject_ancestors, object_ancestors)
+
         if sim.ancestor_information_content and sim.jaccard_similarity:
             sim.phenodigm_score = math.sqrt(
                 sim.jaccard_similarity * sim.ancestor_information_content
@@ -300,6 +408,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         subjects: Iterable[CURIE],
         objects: Iterable[CURIE],
         predicates: List[PRED_CURIE] = None,
+        min_jaccard_similarity: Optional[float] = None,
+        min_ancestor_information_content: Optional[float] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
         """
         Compute similarity for all combinations of terms in subsets vs all terms in objects
@@ -311,5 +421,14 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         """
         objects = list(objects)
         for s in subjects:
+            logging.info(f"Computing pairwise similarity for {s} x {len(objects)} objects")
             for o in objects:
-                yield self.pairwise_similarity(s, o, predicates=predicates)
+                val = self.pairwise_similarity(
+                    s,
+                    o,
+                    predicates=predicates,
+                    min_jaccard_similarity=min_jaccard_similarity,
+                    min_ancestor_information_content=min_ancestor_information_content,
+                )
+                if val:
+                    yield val

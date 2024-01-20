@@ -5,7 +5,10 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
+from sssom.constants import RDFS_SUBCLASS_OF, RDFS_SUBPROPERTY_OF
+
 from oaklib.datamodels.obograph import (
+    DisjointClassExpressionsAxiom,
     Edge,
     Graph,
     LogicalDefinitionAxiom,
@@ -19,16 +22,28 @@ from oaklib.interfaces.basic_ontology_interface import (
 )
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
+from oaklib.utilities.obograph_utils import shortest_paths
+
+GRAPH_PATH = Tuple[CURIE, CURIE, CURIE]
 
 
 class Distance(Enum):
     """
-    Specifies how many hops to walk in any given direction
+    Specifies how many hops to walk in any given direction.
     """
 
     ZERO = "zero"
     DIRECT = "direct"
     TRANSITIVE = "transitive"
+
+
+class GraphTraversalMethod(Enum):
+    """
+    Specifies a strategy for computing graph relationships.
+    """
+
+    HOP = "HOP"
+    ENTAILMENT = "ENTAILMENT"
 
 
 def _edges_to_nodes(
@@ -86,6 +101,18 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         self.transitive_query_cache = None
 
+    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> Node:
+        """
+        Look up a node object by CURIE
+
+        :param curie: identifier of node
+        :param strict: raise exception if node not found
+        :param include_metadata: include detailed metadata
+        :param expand_curies: if True expand CURIEs to URIs
+        :return:
+        """
+        raise NotImplementedError
+
     def nodes(self, expand_curies=False) -> Iterator[Node]:
         """
         Yields all nodes in all graphs
@@ -118,18 +145,6 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
                     p = "is_a"
                 yield Edge(sub=s, pred=p, obj=o)
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> Node:
-        """
-        Look up a node object by CURIE
-
-        :param curie: identifier of node
-        :param strict: raise exception if node not found
-        :param include_metadata: include detailed metadata
-        :param expand_curies: if True expand CURIEs to URIs
-        :return:
-        """
-        raise NotImplementedError
-
     def synonym_property_values(
         self, subject: Union[CURIE, Iterable[CURIE]]
     ) -> Iterator[Tuple[CURIE, SynonymPropertyValue]]:
@@ -157,6 +172,8 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
                 node_map[s] = self.node(s)
             if p not in node_map:
                 p_node = self.node(p)
+                if not p_node:
+                    p_node = Node(p)
                 p_node.type = "PROPERTY"
                 node_map[p] = p_node
             if o not in node_map:
@@ -188,6 +205,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         # this implements a traversal approach that iteratively walks up the graph;
         # this may be inefficient. It is recommended that different implementations
         # override this with a more efficient method that leverages cached tables
+        logging.info(
+            f"Computing ancestor graph for {start_curies} / {predicates} using graph walking"
+        )
         g = self._graph(walk_up(self, start_curies, predicates=predicates))
         if self.transitive_query_cache is not None:
             self.transitive_query_cache[key] = g
@@ -221,6 +241,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
         """
         Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified
@@ -233,17 +254,30 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param start_curies: curie or curies to start the walk from
         :param predicates: only traverse over these (traverses over all if this is not set)
         :param reflexive: include self
+        :param method:
         :return: all ancestor CURIEs
         """
-        return _edges_to_nodes(
-            start_curies, self.ancestor_graph(start_curies, predicates).edges, reflexive
-        )
+        if method and method == GraphTraversalMethod.ENTAILMENT:
+            if isinstance(start_curies, str):
+                start_curies = [start_curies]
+            yielded = set()
+            for rel in self.relationships(
+                start_curies, predicates=predicates, include_entailed=True
+            ):
+                o = rel[2]
+                if o not in yielded:
+                    yield o
+                    yielded.add(o)
+        else:
+            g = self.ancestor_graph(start_curies, predicates).edges
+            yield from _edges_to_nodes(start_curies, g, reflexive)
 
     def descendants(
         self,
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         reflexive=True,
+        method: Optional[GraphTraversalMethod] = None,
     ) -> Iterable[CURIE]:
         """
         Descendants obtained from a walk downwards starting from start_curies
@@ -256,38 +290,135 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param start_curies: curie or curies to start the walk from
         :param predicates: only traverse over these (traverses over all if this is not set)
         :param reflexive: include self
+        :param method:
         :return: all descendant CURIEs
         """
-        return _edges_to_nodes(
-            start_curies, self.descendant_graph(start_curies, predicates).edges, reflexive
-        )
+        if method and method == GraphTraversalMethod.ENTAILMENT:
+            if isinstance(start_curies, str):
+                start_curies = [start_curies]
+            yielded = set()
+            for rel in self.relationships(
+                objects=start_curies, predicates=predicates, include_entailed=True
+            ):
+                s = rel[0]
+                if s not in yielded:
+                    yield s
+                    yielded.add(s)
+        else:
+            g = self.descendant_graph(start_curies, predicates).edges
+            yield from _edges_to_nodes(start_curies, g, reflexive)
 
-    def subgraph(
+    def descendant_count(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
+    ) -> int:
+        """
+        Count of descendants.
+
+        See :ref:`descendants` for more details.
+
+        :param start_curies: curie or curies to start the walk from
+        :param predicates: only traverse over these (traverses over all if this is not set)
+        :param reflexive: include self
+        :return: count of distinct CURIEs
+        """
+        return len(set(self.descendants(start_curies, predicates, reflexive)))
+
+    def subgraph_from_traversal(
         self,
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         traversal: TraversalConfiguration = None,
     ) -> Graph:
         """
-        Combines ancestors and descendants according to a traversal configuration
+        Combines ancestors and descendants according to a traversal configuration.
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.interfaces.obograph_interface import TraversalConfiguration, Distance
+        >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
+        >>> # use an adapter to talk to an endpoint (here, sqlite)
+        >>> adapter = get_adapter("tests/input/go-nucleus.db")
+        >>> # get a subgraph centered around these nodes
+        >>> seeds = ["GO:0005634", "GO:0005773"] # nucleus, vacuole
+        >>> # walk up the graph to get ancestors, and also get direct children
+        >>> traversal = TraversalConfiguration(up_distance=Distance.TRANSITIVE, down_distance=Distance.DIRECT)
+        >>> graph = adapter.subgraph_from_traversal(seeds, predicates=[IS_A, PART_OF], traversal=traversal)
+        >>> len(graph.nodes)
+        22
+        >>> len(graph.edges)
+        27
 
         :param start_curies:
         :param predicates:
         :param traversal:
         :return:
         """
+        if not isinstance(start_curies, list):
+            start_curies = [start_curies]
         if traversal is None:
             traversal = TraversalConfiguration()
         if traversal.up_distance == Distance.TRANSITIVE:
             logging.info(f"Getting ancestor graph from {type(self)}, start={start_curies}")
             up_graph = self.ancestor_graph(start_curies, predicates=predicates)
+        elif traversal.up_distance == Distance.DIRECT:
+            up_graph = self._graph(self.relationships(start_curies, predicates=predicates))
         else:
             up_graph = None
         if traversal.down_distance == Distance.TRANSITIVE:
             down_graph = self.descendant_graph(start_curies, predicates=predicates)
+        elif traversal.down_distance == Distance.DIRECT:
+            down_graph = self._graph(
+                self.relationships(objects=start_curies, predicates=predicates)
+            )
         else:
             down_graph = None
         g = self._merge_graphs([up_graph, down_graph])
+        return g
+
+    def extract_graph(
+        self,
+        entities: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        dangling=True,
+        include_metadata=True,
+    ) -> Graph:
+        """
+        Extract a subgraph from the graph that contains the specified entities and predicates.
+
+        :param entities: entities to extract
+        :param predicates: predicates to extract
+        :param dangling: if true, include dangling nodes
+        :return: subgraph
+        """
+        logging.info(f"Extracting using seed of {len(entities)} entities")
+        nodes = [self.node(e, include_metadata=include_metadata) for e in entities]
+        edges = []
+        logging.info(f"extracting rels for {len(entities)} p={predicates} dangling={dangling}")
+        used_predicates = set()
+        for s, p, o in self.relationships(subjects=entities, predicates=predicates):
+            if dangling or o in entities:
+                edges.append(Edge(sub=s, pred=p, obj=o))
+                if p not in [RDFS_SUBCLASS_OF, RDFS_SUBPROPERTY_OF]:
+                    used_predicates.add(p)
+        ontologies = list(self.ontologies())
+        curr_id = ontologies[0]
+        g = Graph(id=f"{curr_id}-transformed", nodes=nodes, edges=edges)
+        for lda in self.logical_definitions(entities):
+            if predicates:
+                if any(r for r in lda.restrictions if r.propertyId not in predicates):
+                    continue
+            if not dangling:
+                signature = set(lda.genusIds + [r.fillerId for r in lda.restrictions])
+                if signature.difference(entities):
+                    continue
+            g.logicalDefinitionAxioms.append(lda)
+            for r in lda.restrictions:
+                used_predicates.add(r.propertyId)
+        logging.info(f"Used predicates = {used_predicates}")
+        pred_nodes = [self.node(e, include_metadata=include_metadata) for e in used_predicates]
+        g.nodes.extend([n for n in pred_nodes if n])
         return g
 
     def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:
@@ -319,14 +450,104 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         return walk_up(self, start_curies, predicates=predicates)
 
-    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+    def paths(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        target_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        predicate_weights: Dict[PRED_CURIE, float] = None,
+        shortest=True,
+        directed=False,
+    ) -> Iterator[GRAPH_PATH]:
         """
-        Yields all logical definitions for input subjects
+        Returns all paths between sources and targets.
 
-        :param subjects:
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db", implements=OboGraphInterface)
+        >>> for path in sorted(list(adapter.paths(["GO:0005634"], ["GO:0005773"]))):
+        ...   print(path)
+        ('GO:0005634', 'GO:0005773', 'GO:0005634')
+        ('GO:0005634', 'GO:0005773', 'GO:0005773')
+        ('GO:0005634', 'GO:0005773', 'GO:0043231')
+
+        :param start_curies:
+        :param start_curies:
+        :param predicates:
+        :param predicate_weights:
+        :param shortest:
         :return:
         """
-        raise NotImplementedError
+        if not shortest:
+            raise NotImplementedError("Only shortest paths are supported")
+        if isinstance(start_curies, CURIE):
+            start_curies = [start_curies]
+        if isinstance(target_curies, CURIE):
+            target_curies = [target_curies]
+        if target_curies is None:
+            all_curies = start_curies
+        else:
+            all_curies = list(set(start_curies).union(set(target_curies)))
+        graph = self.ancestor_graph(all_curies, predicates=predicates)
+        logging.info("Calculating graph stats")
+        for s, o, intermediates in shortest_paths(
+            graph,
+            start_curies,
+            end_curies=target_curies,
+            predicate_weights=predicate_weights,
+            directed=directed,
+        ):
+            for intermediate in intermediates:
+                yield s, o, intermediate
+
+    def logical_definitions(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
+    ) -> Iterable[LogicalDefinitionAxiom]:
+        """
+        Yields all logical definitions for input subjects.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db", implements=OboGraphInterface)
+        >>> for ldef in adapter.logical_definitions(["GO:0009892"]):
+        ...     print(f"Genus: {adapter.label(ldef.genusIds[0])}")
+        ...     for r in ldef.restrictions:
+        ...         print(f"  Differentia: {adapter.label(r.propertyId)} SOME {adapter.label(r.fillerId)}")
+        Genus: biological regulation
+          Differentia: negatively regulates SOME metabolic process
+
+        Leaving the subjects parameter as None will yield all logical definitions in the ontology.
+
+        >>> len(list(adapter.logical_definitions()))
+        50
+
+        :param subjects: If specified, defined class must be in this set
+        :param predicates: If specified, only yields logical definitions with these predicates
+        :param objects: If specified, only yields logical definitions with genus or filler in this list
+
+        :return:
+        """
+        return iter(())
+
+    def disjoint_class_expressions_axioms(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        group=False,
+        **kwargs,
+    ) -> Iterable[DisjointClassExpressionsAxiom]:
+        """
+        Yields all disjoint class expressions.
+
+        :param subjects: if present, filter to only those that reference these subjects
+        :param predicates: if present, filter to only those that reference these predicates
+        :param group: if True, group into cliques
+        :param kwargs:
+        :return:
+        """
+        return iter(())
 
     def add_metadata(self, graph: Graph) -> None:
         """
@@ -353,9 +574,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             logging.warning(f"Could not determine a single ontology for: {ontologies}")
             ont_id = "TEMP"
         else:
-            ont_id = list(ontologies[0])
-        entities = self.entities()
-        ldefs = list(self.logical_definitions(entities))
+            ont_id = list(ontologies)[0]
+        ldefs = list(self.logical_definitions())
+        logging.info(f"Found {len(ldefs)} logical definitions")
         g = Graph(
             id=ont_id,
             nodes=list(self.nodes(expand_curies=expand_curies)),

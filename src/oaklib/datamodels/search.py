@@ -24,8 +24,8 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
 
     term is either a plaintext search term, or a search term prefixed by
 
-    - 1. a property code, one of t, ., l (for term, anything, label)
-    - 2. a match type indicator, one of "~","/","=","^"
+    - 1. a property packages, one of t, ., l (for term, anything, label)
+    - 2. a match type indicator, one of "~","/","=","^","@"
 
     For more documentation, see `Search docs <https://incatools.github.io/ontology-access-kit/interfaces/search.html>`_
 
@@ -59,8 +59,10 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
                 props = [SearchProperty.LABEL]
             elif prop == "i":
                 props = [SearchProperty.IDENTIFIER]
+            elif prop == "x":
+                props = [SearchProperty.MAPPED_IDENTIFIER]
             else:
-                raise ValueError(f"Unknown property code: {prop}")
+                raise ValueError(f"Unknown property packages: {prop}")
             cfg.properties = [SearchProperty(p) for p in props]
         return cfg
     else:
@@ -88,7 +90,9 @@ class SearchConfiguration(SearchBaseConfiguration):
     """
     Parameters for altering behavior of search
 
-    .. note ::
+    Examples:
 
-        many of these parameters are not yet implemented
+    >>> from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax
+    >>> cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+
     """

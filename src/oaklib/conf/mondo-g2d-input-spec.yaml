@@ -1,0 +1,46 @@
+ontology_resources:
+  mondo:
+    selector: sqlite:obo:mondo
+association_resources:
+  medgen:
+    selector: "medgen_mim_g2d:"
+    normalizers:
+      - selector: "sqlite:obo:mondo"
+        source_prefixes:
+          - OMIM
+        target_prefixes:
+          - MONDO
+        slots:
+          - object
+      - selector: "sqlite:obo:hgnc"
+        source_prefixes:
+          - ncbigene
+        target_prefixes:
+          - HGNC
+        slots:
+          - subject
+        prefix_alias_map:
+          hgnc: HGNC
+          ncbigene: NCBIGene
+  hpoa_g2d:
+    selector: "hpoa_g2d:"
+    normalizers:
+      - selector: "sqlite:obo:mondo"
+        source_prefixes:
+          - OMIM
+        target_prefixes:
+          - MONDO
+        slots:
+          - object
+      - selector: "sqlite:obo:hgnc"
+        source_prefixes:
+          - ncbigene
+        target_prefixes:
+          - HGNC
+        slots:
+          - subject
+        prefix_alias_map:
+          hgnc: HGNC
+          ncbigene: NCBIGene
+  gencc:
+    selector: "gencc:"

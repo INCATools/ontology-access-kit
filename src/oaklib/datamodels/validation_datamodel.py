@@ -1,5 +1,5 @@
 # Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-30T15:33:38
+# Generation date: 2022-11-18T17:10:52
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
@@ -10,17 +10,34 @@ import dataclasses
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_dict, empty_list
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -44,9 +61,82 @@ DEFAULT_ = VM
 
 # Types
 
+
 # Class references
+class NamedResourceId(URIorCURIE):
+    pass
+
+
+class ConstraintComponentId(NamedResourceId):
+    pass
+
+
+class NodeId(NamedResourceId):
+    pass
+
+
 class TypeSeverityKeyValueType(URIorCURIE):
     pass
+
+
+@dataclass
+class NamedResource(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = VM.NamedResource
+    class_class_curie: ClassVar[str] = "vm:NamedResource"
+    class_name: ClassVar[str] = "NamedResource"
+    class_model_uri: ClassVar[URIRef] = VM.NamedResource
+
+    id: Union[str, NamedResourceId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, NamedResourceId):
+            self.id = NamedResourceId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class ConstraintComponent(NamedResource):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = VM.ConstraintComponent
+    class_class_curie: ClassVar[str] = "vm:ConstraintComponent"
+    class_name: ClassVar[str] = "ConstraintComponent"
+    class_model_uri: ClassVar[URIRef] = VM.ConstraintComponent
+
+    id: Union[str, ConstraintComponentId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ConstraintComponentId):
+            self.id = ConstraintComponentId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Node(NamedResource):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = VM.Node
+    class_class_curie: ClassVar[str] = "vm:Node"
+    class_name: ClassVar[str] = "Node"
+    class_model_uri: ClassVar[URIRef] = VM.Node
+
+    id: Union[str, NodeId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, NodeId):
+            self.id = NodeId(self.id)
+
+        super().__post_init__(**kwargs)
 
 
 @dataclass
@@ -253,44 +343,44 @@ class ValidationResult(Result):
     class_name: ClassVar[str] = "ValidationResult"
     class_model_uri: ClassVar[URIRef] = VM.ValidationResult
 
-    type: Union[str, URIorCURIE] = None
-    subject: Union[str, URIorCURIE] = None
+    type: Union[str, ConstraintComponentId] = None
+    subject: Union[str, NodeId] = None
     severity: Optional[Union[str, "SeverityOptions"]] = None
-    instantiates: Optional[Union[str, URIorCURIE]] = None
-    predicate: Optional[Union[str, URIorCURIE]] = None
-    object: Optional[Union[str, URIorCURIE]] = None
+    instantiates: Optional[Union[str, NodeId]] = None
+    predicate: Optional[Union[str, NodeId]] = None
+    object: Optional[Union[str, NodeId]] = None
     object_str: Optional[str] = None
-    source: Optional[Union[str, URIorCURIE]] = None
+    source: Optional[str] = None
     info: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.type):
             self.MissingRequiredField("type")
-        if not isinstance(self.type, URIorCURIE):
-            self.type = URIorCURIE(self.type)
+        if not isinstance(self.type, ConstraintComponentId):
+            self.type = ConstraintComponentId(self.type)
 
         if self._is_empty(self.subject):
             self.MissingRequiredField("subject")
-        if not isinstance(self.subject, URIorCURIE):
-            self.subject = URIorCURIE(self.subject)
+        if not isinstance(self.subject, NodeId):
+            self.subject = NodeId(self.subject)
 
         if self.severity is not None and not isinstance(self.severity, SeverityOptions):
             self.severity = SeverityOptions(self.severity)
 
-        if self.instantiates is not None and not isinstance(self.instantiates, URIorCURIE):
-            self.instantiates = URIorCURIE(self.instantiates)
+        if self.instantiates is not None and not isinstance(self.instantiates, NodeId):
+            self.instantiates = NodeId(self.instantiates)
 
-        if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
-            self.predicate = URIorCURIE(self.predicate)
+        if self.predicate is not None and not isinstance(self.predicate, NodeId):
+            self.predicate = NodeId(self.predicate)
 
-        if self.object is not None and not isinstance(self.object, URIorCURIE):
-            self.object = URIorCURIE(self.object)
+        if self.object is not None and not isinstance(self.object, NodeId):
+            self.object = NodeId(self.object)
 
         if self.object_str is not None and not isinstance(self.object_str, str):
             self.object_str = str(self.object_str)
 
-        if self.source is not None and not isinstance(self.source, URIorCURIE):
-            self.source = URIorCURIE(self.source)
+        if self.source is not None and not isinstance(self.source, str):
+            self.source = str(self.source)
 
         if self.info is not None and not isinstance(self.info, str):
             self.info = str(self.info)
@@ -345,8 +435,8 @@ class ExternalReferenceValidationResult(ValidationResult):
     class_name: ClassVar[str] = "ExternalReferenceValidationResult"
     class_model_uri: ClassVar[URIRef] = VM.ExternalReferenceValidationResult
 
-    type: Union[str, URIorCURIE] = None
-    subject: Union[str, URIorCURIE] = None
+    type: Union[str, ConstraintComponentId] = None
+    subject: Union[str, NodeId] = None
     url: Optional[str] = None
     time_checked: Optional[str] = None
     number_of_attempts: Optional[int] = None
@@ -370,7 +460,6 @@ class ExternalReferenceValidationResult(ValidationResult):
 
 # Enumerations
 class SeverityOptions(EnumDefinitionImpl):
-
     FATAL = PermissibleValue(text="FATAL")
     ERROR = PermissibleValue(text="ERROR", meaning=SH.Violation)
     WARNING = PermissibleValue(text="WARNING", meaning=SH.Warning)
@@ -382,7 +471,6 @@ class SeverityOptions(EnumDefinitionImpl):
 
 
 class ValidationResultType(EnumDefinitionImpl):
-
     DatatypeConstraintComponent = PermissibleValue(
         text="DatatypeConstraintComponent",
         description="constraint in which the range is a type, and the slot value must conform to the type",
@@ -423,6 +511,10 @@ class ValidationResultType(EnumDefinitionImpl):
         description="constraint where the slot value must be allowable for the type of an instance",
         meaning=SH.ClosedConstraintComponent,
     )
+    RuleConstraintComponent = PermissibleValue(
+        text="RuleConstraintComponent",
+        description="constraint where the structure of an object must conform to a specified rule",
+    )
 
     _defn = EnumDefinition(
         name="ValidationResultType",
@@ -440,7 +532,7 @@ slots.type = Slot(
     curie=SH.curie("sourceConstraintComponent"),
     model_uri=VM.type,
     domain=None,
-    range=Union[str, URIorCURIE],
+    range=Union[str, ConstraintComponentId],
 )
 
 slots.subject = Slot(
@@ -449,7 +541,7 @@ slots.subject = Slot(
     curie=SH.curie("focusNode"),
     model_uri=VM.subject,
     domain=None,
-    range=Union[str, URIorCURIE],
+    range=Union[str, NodeId],
 )
 
 slots.instantiates = Slot(
@@ -458,7 +550,7 @@ slots.instantiates = Slot(
     curie=VM.curie("instantiates"),
     model_uri=VM.instantiates,
     domain=None,
-    range=Optional[Union[str, URIorCURIE]],
+    range=Optional[Union[str, NodeId]],
 )
 
 slots.predicate = Slot(
@@ -467,7 +559,7 @@ slots.predicate = Slot(
     curie=VM.curie("predicate"),
     model_uri=VM.predicate,
     domain=None,
-    range=Optional[Union[str, URIorCURIE]],
+    range=Optional[Union[str, NodeId]],
 )
 
 slots.object = Slot(
@@ -476,7 +568,7 @@ slots.object = Slot(
     curie=SH.curie("value"),
     model_uri=VM.object,
     domain=None,
-    range=Optional[Union[str, URIorCURIE]],
+    range=Optional[Union[str, NodeId]],
 )
 
 slots.object_str = Slot(
@@ -494,7 +586,7 @@ slots.source = Slot(
     curie=VM.curie("source"),
     model_uri=VM.source,
     domain=None,
-    range=Optional[Union[str, URIorCURIE]],
+    range=Optional[str],
 )
 
 slots.severity = Slot(
@@ -522,6 +614,15 @@ slots.results = Slot(
     model_uri=VM.results,
     domain=None,
     range=Optional[Union[Union[dict, Result], List[Union[dict, Result]]]],
+)
+
+slots.namedResource__id = Slot(
+    uri=VM.id,
+    name="namedResource__id",
+    curie=VM.curie("id"),
+    model_uri=VM.namedResource__id,
+    domain=None,
+    range=URIRef,
 )
 
 slots.validationConfiguration__max_number_results_per_type = Slot(

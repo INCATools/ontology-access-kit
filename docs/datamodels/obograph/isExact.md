@@ -1,15 +1,32 @@
 # Slot: isExact
 
-URI: [https://github.com/geneontology/obographs/isExact](https://github.com/geneontology/obographs/isExact)
+URI: [obographs:isExact](https://github.com/geneontology/obographs/isExact)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [Boolean](Boolean.md)
+
+
+
+
 
 
 
@@ -28,3 +45,19 @@ URI: [https://github.com/geneontology/obographs/isExact](https://github.com/gene
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: isExact
+deprecated: use synonymType instead
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: isExact
+domain_of:
+- SynonymPropertyValue
+range: boolean
+
+```
+</details>

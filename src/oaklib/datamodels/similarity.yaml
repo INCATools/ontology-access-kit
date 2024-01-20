@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/similarity
+id: https://w3id.org/oak/similarity
 title: Semantic Similarity
 name: similarity
 description: >-
@@ -60,6 +60,7 @@ classes:
       - subject_information_content
       - ancestor_information_content
       - jaccard_similarity
+      - cosine_similarity
       - dice_similarity
       - phenodigm_score
 
@@ -95,11 +96,13 @@ classes:
       match_target_label:
       score:
         range: float
+        required: true
       match_subsumer:
         range: uriorcurie
       match_subsumer_label:
       similarity:
         range: TermPairwiseSimilarity
+        required: true
 
 types:
   ZeroToOne:
@@ -171,6 +174,10 @@ slots:
     is_a: score
     range: ZeroToOne
     description: The number of concepts in the intersection divided by the number in the union
+  cosine_similarity:
+     is_a: score
+     range: float
+     description: the dot product of two node embeddings divided by the product of their lengths
   dice_similarity:
     is_a: score
     range: ZeroToOne
@@ -215,6 +222,8 @@ slots:
     range: uriorcurie
   average_score:
     range: float
+    required: false
   best_score:
     range: float
+    required: false
 

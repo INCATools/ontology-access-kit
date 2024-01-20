@@ -1,4 +1,4 @@
-id: https://w3id.org/linkml/summary_statistics
+id: https://w3id.org/oak/summary_statistics
 title: Summary Statistics Datamodel
 name: summary-statistics
 description: A datamodel for reports on data
@@ -6,13 +6,13 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  reporting: https://w3id.org/linkml/report
+  summary_statistics: https://w3id.org/oaklib/summary_statistics.
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
   sh: https://w3id.org/shacl/
 
-default_prefix: reporting
+default_prefix:   summary_statistics
 default_range: string
 
 default_curi_maps:
@@ -29,119 +29,433 @@ imports:
   - linkml:types
 
 
-
 #==================================
 # Classes                         #
 #==================================
 classes:
-  SummaryStatisticCollection:
+
+  SummaryStatisticsReport:
+    abstract: true
+    description: abstract base class for all summary statistics reports
+    attributes:
+      id:
+        description: Unique handle for this report
+        required: true
+      ontologies:
+        description: Ontology for which the statistics are computed
+        range: Ontology
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+      compared_with:
+        description: For diffs, the ontologies being compared against
+        range: Ontology
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+      was_generated_by:
+        description: The process that generated the report
+        range:  SummaryStatisticsCalculationActivity
+      agents:
+        description: Agents that contributed to the report
+        range: Agent
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+
+  GroupedStatistics:
+    description: summary statistics for the entire resource
+    is_a: SummaryStatisticsReport
+    attributes:
+      partitions:
+        description: statistics grouped by a particular property
+        comments:
+          - For example, GO stats may be broken out by MF/BP/CC
+        range:  UngroupedStatistics
+        multivalued: true
+        inlined: true
+
+  UngroupedStatistics:
     description: A summary statistics report object
+    is_a: SummaryStatisticsReport
     attributes:
       class_count:
+        description: Number of classes in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: class_statistic_group
+        annotations:
+          filter: Class
       anonymous_class_expression_count:
+        description: Number of anonymous class expressions in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: class_statistic_group
       unsatisfiable_class_count:
+        description: Number of unsatisfiable classes in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: class_statistic_group
-      class_count_excluding_deprecated:
+        annotations:
+          filter: Class, Unsatisfiable
+      deprecated_class_count:
+        description: Number of deprecated (obsoleted) classes in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: class_statistic_group
-      class_count_with_definitions:
+        annotations:
+          filter: Class, Deprecated
+      non_deprecated_class_count:
+        description: Number of non-deprecated (non-obsoleted) classes in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: class_statistic_group
+        annotations:
+          filter: Class, NotDeprecated
+      merged_class_count:
+        description: Number of merged classes (obsoletions with merge reason) in the ontology or subset
+        is_a: count_statistic
+        range: integer
+        slot_group: class_statistic_group
+        annotations:
+          filter: Class, Deprecated, Merged
+      class_count_with_text_definitions:
+        description: Number of classes with text definitions in the ontology or subset
+        is_a: count_statistic
+        range: integer
+        slot_group: class_statistic_group
+        annotations:
+          filter: Class, HasTextDefinition
+      class_count_without_text_definitions:
+        description: Number of classes without text definitions in the ontology or subset
+        is_a: count_statistic
+        range: integer
+        slot_group: class_statistic_group
+        annotations:
+          filter: Class, NotHasTextDefinition
       property_count:
+        description: Number of properties in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: property_statistic_group
       object_property_count:
+        description: Number of object properties (relations) in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: property_statistic_group
+        annotations:
+          filter: ObjectProperty
+      deprecated_object_property_count:
+        description: Number of deprecated (obsoleted) object properties in the ontology or subset
+        is_a: count_statistic
+        range: integer
+        slot_group: property_statistic_group
+        annotations:
+          filter: ObjectProperty, Deprecated
+      non_deprecated_object_property_count:
+        description: Number of non-deprecated (non-obsoleted) object properties in the ontology or subset
+        is_a: count_statistic
+        range: integer
+        slot_group: property_statistic_group
+        annotations:
+          filter: ObjectProperty, NotDeprecated
       datatype_property_count:
+        description: Number of datatype properties in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: property_statistic_group
+        annotations:
+          filter: DatatypeProperty
       annotation_property_count:
+        description: Number of annotation properties (metadata properties) in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: property_statistic_group
+        annotations:
+          filter: AnnotationProperty
       individual_count:
+        description: Number of individuals (named and anonymous) in the ontology or subset
         is_a: count_statistic
-        slot_group: individual_statistic_group
-      named_individual_count:
-        is_a: count_statistic
+        range: integer
         slot_group: individual_statistic_group
         annotations:
-          count_of: owl:NamedIndividual
-      anonymous_individual_count:
+          filter: Individual
+      named_individual_count:
+        description: Number of named individuals in the ontology or subset
         is_a: count_statistic
+        range: integer
+        slot_group: individual_statistic_group
+        annotations:
+          filter: NamedIndividual
+      anonymous_individual_count:
+        description: Number of anonymous individuals in the ontology or subset
+        is_a: count_statistic
+        range: integer
         slot_group: individual_statistic_group
         equals_expression: "{named_individual_count} - {individual_count}"
+        annotations:
+          filter: AnonymousIndividual
       untyped_entity_count:
+        description: Number of entities whose type could not be determined in the ontology or subset
         is_a: count_statistic
+        range: integer
+      subset_count:
+        description: Number of distinct subsets (slims, value sets) in the ontology or subset
+        is_a: count_statistic
+        range: integer
       description_logic_profile:
+        description: Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset
         range: string
         slot_group: owl_statistic_group
       owl_axiom_count:
+        description: Number of OWL axioms in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: owl_statistic_group
+        annotations:
+          filter: Axiom
       rdf_triple_count:
+        description: Number of RDF triples in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: owl_statistic_group
       subclass_of_axiom_count:
+        description: Number of subclass axioms in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: owl_statistic_group
       equivalent_classes_axiom_count:
+        description: Number of equivalent classes axioms in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: owl_statistic_group
+      edge_count_by_predicate:
+        description: Number of edges grouped by predicate in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Edge
+          facet: Predicate
+      entailed_edge_count_by_predicate:
+        description: Number of entailed (includes indirect) edges grouped by predicate in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: EntailedEdge
+          facet: Predicate
       distinct_synonym_count:
+        description: Number of distinct synonym strings in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: metadata_statistic_group
+        annotations:
+          filter: Synonym
+          distinct: Value
       synonym_statement_count:
+        description: Number of synonym statements (assertions) in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: metadata_statistic_group
+        annotations:
+          filter: Synonym
+      synonym_statement_count_by_predicate:
+        description: Number of synonym statements (assertions) grouped by predicate (scope) in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Synonym
+          facet: Predicate
+      class_count_by_subset:
+        description: Number of classes grouped by subset (slim, value set) in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Subset
+          facet: Predicate
+      class_count_by_category:
+        description: Number of classes grouped by category in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Class
+          facet: Category
       mapping_count:
+        description: Number of mappings (including xrefs) in the ontology or subset
         is_a: count_statistic
+        range: integer
         slot_group: metadata_statistic_group
+        annotations:
+          filter: Mapping
+      mapping_statement_count_by_predicate:
+        description: Number of mappings grouped by predicate (e.g. xref, skos predicate) in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Mapping
+          facet: Predicate
+      mapping_statement_count_by_object_source:
+        description: Number of mappings grouped by object_source (prefix of external vocabulary) in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Mapping
+          facet: ObjectSource
+      mapping_statement_count_subject_by_object_source:
+        description: Number of distinct subject entities grouped by object_source (prefix of external vocabulary) in the ontology or subset
+        comments:
+          - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Mapping
+          facet: ObjectSource
+          distinct: Subject
       ontology_count:
+        description: Number of ontologies (including imports) for the ontology or subset
         is_a: count_statistic
-
-  GlobalStatistics:
-    is_a: SummaryStatisticCollection
-    description: summary statistics for the entire resource
-    attributes:
-      by_category:
-        description: statistics keyed by category
-        comments:
-          - for example, GO stats may be broken out by MF/BP/CC
-        range: FacetStatistics
+        range: integer
+        annotations:
+          filter: Ontology
+      contributor_summary:
+        range: ContributorStatistics
         multivalued: true
         inlined: true
-      by_taxon:
-        description: statistics keyed by organism taxon
-        range: FacetStatistics
-        multivalued: true
-        inlined: true
-      by_ontology:
-        description: statistics keyed by ontology
-        comments:
-          - if a large ontology collection like OntoBee is indexed then it makes sense to break stats into each sub-ontology
-        range: FacetStatistics
-        multivalued: true
-        inlined: true
-      by_subset:
-        description: statistics keyed by ontology subset
-        comments:
-          - For example, GO metagenomics_slim
-        range: FacetStatistics
+      change_summary:
+        description: Summary of changes between two versions of an ontology
+        range:  ChangeTypeStatistic
         multivalued: true
         inlined: true
 
-  FacetStatistics:
-    is_a: SummaryStatisticCollection
-    description: summary statistics for a data facet
+  FacetedCount:
+    description: Counts broken down by a facet
+    comments:
+      - For example, edge counts may be grouped by predicate (relationship type)
     attributes:
       facet:
         key: true
+        description: the facet used to group the counts
+      filtered_count:
+        range: integer
+        required: true
+        description: the number of items in the facet
+
+  ChangeTypeStatistic:
+    description: statistics for a particular kind of diff
+    attributes:
+      facet:
+        key: true
+        description: the facet used to group the counts
+      filtered_count:
+        range: integer
+        required: true
+        description: the number of items in the facet
+
+  ContributorStatistics:
+    description: Statistics for a contributor
+    attributes:
+      contributor_id:
+        key: true
+        range: uriorcurie
+        required: true
+        description: the contributor
+      contributor_name:
+        range: string
+        description: the name of the contributor
+      normalization_comments:
+        range: string
+        description: if contributor name normalization was applied, provide details here
+      role_counts:
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+
+  Ontology:
+    description: An ontology
+    class_uri: owl:Ontology
+    attributes:
+      id:
+        description: the unique identifier for the resource
+        range: string
+        identifier: true
+      description:
+        description: a description of the resource
+        range: string
+        slot_uri: dcterms:description
+      title:
+        description: the title of the resource
+        range: string
+        slot_uri: dcterms:title
+      prefix:
+        description: the prefix for the ontology
+        range: string
+        slot_uri: sh:prefix
+      version:
+        description: the version of the resource
+        range: string
+        slot_uri: owl:versionIRI
+      version_info:
+        description: the version info of the resource
+        range: string
+        slot_uri: owl:versionInfo
+
+  SummaryStatisticsCalculationActivity:
+    description: An activity that calculates summary statistics for an ontology
+    attributes:
+      started_at_time:
+        description: the time at which the activity started
+        range: datetime
+        slot_uri: prov:startedAtTime
+      ended_at_time:
+        description: the time at which the activity ended
+        range: datetime
+        slot_uri: prov:endedAtTime
+      was_associated_with:
+        description: the agent that was associated with the activity
+        range: Agent
+        slot_uri: prov:wasAssociatedWith
+      acted_on_behalf_of:
+        description: the agent that the activity acted on behalf of
+        range: Agent
+        slot_uri: prov:actedOnBehalfOf
+
+  Agent:
+    description: An agent
+    class_uri: prov:Agent
+    attributes:
+      id:
+        description: the unique identifier for the agent
+        range: string
+        identifier: true
+      label:
+        description: the label for the agent
+        range: string
+        slot_uri: rdfs:label
+
+  ContributorRole:
+    description: A role that a contributor can have
+    class_uri: sh:ContributorRole
+    attributes:
+      id:
+        description: the unique identifier for the role
+        range: uriorcurie
+        identifier: true
+
 
 #==================================
 # Slots                           #

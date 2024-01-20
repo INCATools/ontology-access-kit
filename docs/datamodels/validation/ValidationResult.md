@@ -4,27 +4,50 @@ _An individual result arising from validation of a data instance using a particu
 
 
 
-
 URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
-
 
 
 
 ```{mermaid}
  classDiagram
+    class ValidationResult
       Result <|-- ValidationResult
       
-      ValidationResult : info
-      ValidationResult : instantiates
-      ValidationResult : object
-      ValidationResult : object_str
-      ValidationResult : predicate
-      ValidationResult : severity
-      ValidationResult : source
-      ValidationResult : subject
-      ValidationResult : type
-      
 
+      ValidationResult <|-- ExternalReferenceValidationResult
+      
+      
+      ValidationResult : info
+        
+      ValidationResult : instantiates
+        
+          ValidationResult ..> Node : instantiates
+        
+      ValidationResult : object
+        
+          ValidationResult ..> Node : object
+        
+      ValidationResult : object_str
+        
+      ValidationResult : predicate
+        
+          ValidationResult ..> Node : predicate
+        
+      ValidationResult : severity
+        
+          ValidationResult ..> severity_options : severity
+        
+      ValidationResult : source
+        
+      ValidationResult : subject
+        
+          ValidationResult ..> Node : subject
+        
+      ValidationResult : type
+        
+          ValidationResult ..> ConstraintComponent : type
+        
+      
 ```
 
 
@@ -40,26 +63,31 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID  | . |
-| [severity](severity.md) | [SeverityOptions](SeverityOptions.md) | 0..1 | the severity of the issue  | . |
-| [subject](subject.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The instance which the result is about  | . |
-| [instantiates](instantiates.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The type of the subject  | . |
-| [predicate](predicate.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The predicate or property of the subject which the result is about  | . |
-| [object](object.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
-| [object_str](object_str.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [source](source.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
-| [info](info.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | additional information about the issue  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | direct |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | direct |
+| [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | direct |
+| [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | direct |
+| [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | direct |
+| [object](object.md) | 0..1 <br/> [Node](Node.md) |  | direct |
+| [object_str](object_str.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [source](source.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [info](info.md) | 0..1 <br/> [String](String.md) | additional information about the issue | direct |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [ValidationReport](ValidationReport.md) | [results](results.md) | range | ValidationResult |
-| [RepairOperation](RepairOperation.md) | [repairs](repairs.md) | range | ValidationResult |
+| [ValidationReport](ValidationReport.md) | [results](results.md) | range | [ValidationResult](ValidationResult.md) |
+| [RepairOperation](RepairOperation.md) | [repairs](repairs.md) | range | [ValidationResult](ValidationResult.md) |
+
+
+
 
 
 
@@ -80,17 +108,18 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sh:ValidationResult'] |
-| native | ['vm:ValidationResult'] |
+| self | sh:ValidationResult |
+| native | vm:ValidationResult |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -102,6 +131,7 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Result
 slots:
 - type
@@ -126,6 +156,7 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Result
 attributes:
   type:
@@ -134,27 +165,38 @@ attributes:
       for checks against a datamodel. For principle checks use the corresponding rule
       or principle, e.g. GO RULE ID, OBO Principle ID
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:sourceConstraintComponent
     alias: type
     owner: ValidationResult
-    range: uriorcurie
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
+    range: ConstraintComponent
     required: true
   severity:
     name: severity
     description: the severity of the issue
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:resultSeverity
     alias: severity
     owner: ValidationResult
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: severity_options
   subject:
     name: subject
     description: The instance which the result is about
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:focusNode
     alias: subject
     owner: ValidationResult
-    range: uriorcurie
+    domain_of:
+    - ValidationResult
+    range: Node
     required: true
   instantiates:
     name: instantiates
@@ -162,44 +204,63 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     exact_mappings:
     - sh:sourceShape
+    rank: 1000
     alias: instantiates
     owner: ValidationResult
-    range: uriorcurie
+    domain_of:
+    - ValidationResult
+    range: Node
   predicate:
     name: predicate
     description: The predicate or property of the subject which the result is about
     from_schema: https://w3id.org/linkml/validation_results
     related_mappings:
     - sh:resultPath
+    rank: 1000
     alias: predicate
     owner: ValidationResult
-    range: uriorcurie
+    domain_of:
+    - ValidationResult
+    range: Node
   object:
     name: object
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:value
     alias: object
     owner: ValidationResult
-    range: uriorcurie
+    domain_of:
+    - ValidationResult
+    range: Node
   object_str:
     name: object_str
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: object_str
     owner: ValidationResult
+    domain_of:
+    - ValidationResult
     range: string
   source:
     name: source
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: source
     owner: ValidationResult
-    range: uriorcurie
+    domain_of:
+    - ValidationResult
+    range: string
   info:
     name: info
     description: additional information about the issue
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:resultMessage
     alias: info
     owner: ValidationResult
+    domain_of:
+    - ValidationResult
+    - RepairOperation
     range: string
 class_uri: sh:ValidationResult
 

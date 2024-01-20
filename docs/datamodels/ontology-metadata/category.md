@@ -1,6 +1,6 @@
 # Slot: category
 
-URI: [https://w3id.org/biolink/vocab/category](https://w3id.org/biolink/vocab/category)
+URI: [biolink:category](https://w3id.org/biolink/vocab/category)
 
 
 
@@ -12,9 +12,37 @@ URI: [https://w3id.org/biolink/vocab/category](https://w3id.org/biolink/vocab/ca
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasCategory](HasCategory.md) | 
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | 
+[Property](Property.md) | 
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [String](String.md)
+
+
+
+
 
 
 
@@ -33,3 +61,20 @@ URI: [https://w3id.org/biolink/vocab/category](https://w3id.org/biolink/vocab/ca
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: category
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: informative_property
+slot_uri: biolink:category
+alias: category
+domain_of:
+- HasCategory
+range: string
+
+```
+</details>

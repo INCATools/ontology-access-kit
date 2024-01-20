@@ -7,19 +7,20 @@ Various utilities for working with lexical aspects of ontologies plus mappings
 """
 import logging
 import re
+import typing as t
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Collection, Dict, List, Optional, Tuple, Union
 
+import curies
+from curies import Converter
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import json_loader, yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from sssom.constants import LICENSE, MAPPING_SET_ID
-from sssom.context import get_default_metadata
-from sssom.sssom_document import MappingSetDocument
-from sssom.typehints import Metadata
-from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
-from sssom_schema import Mapping, MappingSet
+from sssom.constants import CURIE_MAP
+from sssom.context import ensure_converter
+from sssom.util import MappingSetDataFrame
+from sssom_schema import Mapping
 
 from oaklib.datamodels.lexical_index import (
     LexicalGrouping,
@@ -35,6 +36,7 @@ from oaklib.datamodels.mapping_rules_datamodel import (
     Synonymizer,
 )
 from oaklib.datamodels.vocabulary import (
+    IDENTIFIER_PREDICATE,
     SEMAPV,
     SKOS_BROAD_MATCH,
     SKOS_CLOSE_MATCH,
@@ -42,10 +44,17 @@ from oaklib.datamodels.vocabulary import (
     SKOS_NARROW_MATCH,
 )
 from oaklib.interfaces import BasicOntologyInterface
-from oaklib.types import PRED_CURIE
+from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
 
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
+DEFAULT_QUALIFIER = "exact"
+QUALIFIER_DICT = {
+    "exact": "oio:hasExactSynonym",
+    "broad": "oio:hasBroadSynonym",
+    "narrow": "oio:hasNarrowSynonym",
+    "related": "oio:hasRelatedSynonym",
+}
 
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
@@ -75,8 +84,9 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
 
 def create_lexical_index(
     oi: BasicOntologyInterface,
-    pipelines: List[LexicalTransformationPipeline] = None,
-    synonym_rules: List[Synonymizer] = None,
+    pipelines: Optional[List[LexicalTransformationPipeline]] = None,
+    synonym_rules: Optional[List[Synonymizer]] = None,
+    mapping_rule_collection: Optional[MappingRuleCollection] = None,
 ) -> LexicalIndex:
     """
     Generates a LexicalIndex keyed by normalized terms
@@ -89,30 +99,44 @@ def create_lexical_index(
     :param synonym_rules: list of synonymizer rules to apply
     :return: An index over an ontology keyed by lexical unit.
     """
+    if mapping_rule_collection:
+        if not synonym_rules:
+            synonym_rules = []
+        synonym_rules.extend(
+            [x.synonymizer for x in mapping_rule_collection.rules if x.synonymizer]
+        )
     if pipelines is None:
-        # Option 1: Apply synonymizer here.
-        step1 = LexicalTransformation(TransformationType.CaseNormalization)
-        step2 = LexicalTransformation(TransformationType.WhitespaceNormalization)
-        step3 = LexicalTransformation(TransformationType.Synonymization, params=synonym_rules)
+        steps = [
+            LexicalTransformation(TransformationType.CaseNormalization),
+            LexicalTransformation(TransformationType.WhitespaceNormalization),
+        ]
         if synonym_rules:
-            pipelines = [
-                LexicalTransformationPipeline(
-                    name="default_with_synonymizer", transformations=[step1, step2, step3]
-                )
-            ]
-        else:
-            pipelines = [
-                LexicalTransformationPipeline(name="default", transformations=[step1, step2])
-            ]
+            steps.append(
+                LexicalTransformation(TransformationType.Synonymization, params=synonym_rules)
+            )
+        pipelines = [LexicalTransformationPipeline(name="default", transformations=steps)]
     logging.info(f"Creating lexical index, pipelines={pipelines}")
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
+
+    def _invert_mapping_pred(mapping_pred: PRED_CURIE) -> PRED_CURIE:
+        return f"{mapping_pred}-INVERSE"
+
+    logging.info("Creating mapping index")
+    mapping_pairs_by_curie = defaultdict(list)
+    for curie in oi.entities():
+        pairs = list(oi.simple_mappings_by_curie(curie))
+        for pred, object_id in pairs:
+            mapping_pairs_by_curie[curie].append((pred, object_id))
+            mapping_pairs_by_curie[object_id].append((_invert_mapping_pred(pred), curie))
+            mapping_pairs_by_curie[curie].append((IDENTIFIER_PREDICATE, curie))
+    logging.info(f"Created mapping index; {len(mapping_pairs_by_curie)} mappings")
     for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
         if not URIorCURIE.is_valid(curie):
             logging.warning(f"Skipping {curie} as it is not a valid CURIE")
             continue
         alias_map = oi.entity_alias_map(curie)
-        mapping_map = pairs_as_dict(oi.simple_mappings_by_curie(curie))
+        mapping_map = pairs_as_dict(mapping_pairs_by_curie.get(curie, []))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
                 if not term:
@@ -124,7 +148,10 @@ def create_lexical_index(
                     term2 = term
                     for tr in pipeline.transformations:
                         if tr.type.code == TransformationType.Synonymization:
-                            synonymized, term2 = apply_transformation(term2, tr)
+                            synonymized, term2, qualifier = apply_transformation(term2, tr)
+                            if qualifier != DEFAULT_QUALIFIER and qualifier is not None:
+                                pred = QUALIFIER_DICT[qualifier]
+
                         else:
                             term2 = apply_transformation(term2, tr)
 
@@ -142,7 +169,29 @@ def create_lexical_index(
     return ix
 
 
-def save_lexical_index(lexical_index: LexicalIndex, path: str, syntax: str = None):
+def create_or_load_lexical_index(
+    path: Optional[Union[Path, str]], oi: BasicOntologyInterface, **kwargs
+) -> LexicalIndex:
+    """
+    Creates a lexical index and saves it to the specified path if it does not exist.
+
+    :param path:
+    :param oi:
+    :param kwargs:
+    :return:
+    """
+    if path:
+        if isinstance(path, str):
+            path = Path(path)
+        if path.exists():
+            return load_lexical_index(path)
+    li = create_lexical_index(oi, **kwargs)
+    if path:
+        save_lexical_index(li, path)
+    return li
+
+
+def save_lexical_index(lexical_index: LexicalIndex, path: Union[Path, str], syntax: str = None):
     """
     Saves a YAML using standard mapping of datanodel to YAML
 
@@ -151,6 +200,8 @@ def save_lexical_index(lexical_index: LexicalIndex, path: str, syntax: str = Non
     :param syntax:
     :return:
     """
+    if isinstance(path, Path):
+        path = str(path)
     if syntax is None:
         syntax = _infer_syntax(path, "yaml")
     logging.info(f"Saving lexical index from {path} syntax={syntax}")
@@ -162,7 +213,7 @@ def save_lexical_index(lexical_index: LexicalIndex, path: str, syntax: str = Non
         raise ValueError(f"Cannot use syntax: {syntax}")
 
 
-def load_lexical_index(path: str, syntax: str = None) -> LexicalIndex:
+def load_lexical_index(path: Union[Path, str], syntax: str = None) -> LexicalIndex:
     """
     Loads from a YAML file
 
@@ -170,6 +221,8 @@ def load_lexical_index(path: str, syntax: str = None) -> LexicalIndex:
     :param syntax:
     :return: An index over an ontology keyed by lexical unit.
     """
+    if isinstance(path, Path):
+        path = str(path)
     if syntax is None:
         syntax = _infer_syntax(path, "yaml")
     logging.info(f"Loading lexical index from {path} syntax={syntax}")
@@ -192,7 +245,12 @@ def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
-    meta: Metadata = None,
+    meta: Optional[Dict[str, t.Any]] = None,
+    prefix_map: Union[None, Converter, t.Mapping[str, str]] = None,
+    subjects: Collection[CURIE] = None,
+    objects: Collection[CURIE] = None,
+    symmetric: bool = False,
+    ensure_strict_prefixes: bool = False,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
@@ -200,10 +258,23 @@ def lexical_index_to_sssom(
     :param oi: An ontology interface for making label lookups.
     :param lexical_index: An index over an ontology keyed by lexical unit.
     :param meta: Metadata object that contains the curie_map and metadata for the SSSOM maaping.
+    :param prefix_map: Prefix maps provided externally for mapping.
+    :param subjects: An optional collection of entities, if specified, then only subjects in this set are reported
+    :param objects: An optional collection of entities, if specified, then only objects in this set are reported
+    :param symmetric: If true, then mappings in either direction are reported
+    :param ensure_strict_prefixes: If true, prefixes & mappings in SSSOM MappingSetDataFrame will be filtred.
     :return: SSSOM MappingSetDataFrame object.
     """
     mappings = []
     logging.info("Converting lexical index to SSSOM")
+    if subjects:
+        subjects = set(subjects)
+    if objects:
+        objects = set(objects)
+    if subjects and objects and subjects != objects:
+        symmetric = True
+        logging.info("Forcing symmetric comparison")
+    logging.info(f"Iterating over {len(lexical_index.groupings)} groupings")
     for term, grouping in lexical_index.groupings.items():
         # elements = set([r.element for r in grouping.relationships])
         elementmap = defaultdict(list)
@@ -211,12 +282,28 @@ def lexical_index_to_sssom(
             elementmap[r.element].append(r)
         if len(elementmap.keys()) < 2:
             continue
+        logging.debug(f"Processing {term} with {len(elementmap.keys())} elements")
         for e1 in elementmap:
             for e2 in elementmap:
-                if e1 < e2:
-                    for r1 in elementmap[e1]:
-                        for r2 in elementmap[e2]:
-                            mappings.append(inferred_mapping(oi, term, r1, r2, ruleset=ruleset))
+                for r1 in elementmap[e1]:
+                    if subjects and r1.element not in subjects:
+                        continue
+                    for r2 in elementmap[e2]:
+                        if objects and r2.element not in objects:
+                            continue
+                        if symmetric or r1.element < r2.element:
+                            mapping = inferred_mapping(oi, term, r1, r2, ruleset=ruleset)
+                            if (
+                                ruleset
+                                and ruleset.minimum_confidence is not None
+                                and mapping.confidence < ruleset.minimum_confidence
+                            ):
+                                logging.debug(
+                                    "Skipping low confidence mapping:"
+                                    f"{mapping.confidence} < {ruleset.minimum_confidence}"
+                                )
+                                continue
+                            mappings.append(mapping)
 
         # for r1 in grouping.relationships:
         #    for r2 in grouping.relationships:
@@ -224,19 +311,15 @@ def lexical_index_to_sssom(
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
 
-    if meta is None:
-        meta = get_default_metadata()
-
-    mapping_set_id = meta.metadata[MAPPING_SET_ID]
-    license = meta.metadata[LICENSE]
-
-    mset = MappingSet(mapping_set_id=mapping_set_id, mappings=mappings, license=license)
-    # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
-    doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
-    msdf = to_mapping_set_dataframe(doc)
-    # TODO uncomment below.
-    # TODO Right now it erases the entire msdf.df in the absence of CURIEs in map.
-    # msdf.clean_prefix_map()
+    converter = curies.chain(
+        [
+            Converter.from_prefix_map((meta or {}).pop(CURIE_MAP, {})),
+            ensure_converter(prefix_map, use_defaults=False),
+            oi.converter,
+        ]
+    )
+    msdf = MappingSetDataFrame.from_mappings(mappings=mappings, metadata=meta, converter=converter)
+    msdf.clean_prefix_map(strict=ensure_strict_prefixes)
     return msdf
 
 
@@ -339,8 +422,9 @@ def inferred_mapping(
                 if best[0] is None or weight > best[0]:
                     best = weight, m, m.predicate_id
     best_weight, best_mapping, _ = best
-    if best_weight is not None:
-        best_mapping.confidence = inverse_logit(best_weight)
+    if best_weight is None:
+        best_weight = 0.0
+    best_mapping.confidence = inverse_logit(best_weight)
     best_mapping.subject_label = oi.label(best_mapping.subject_id)
     best_mapping.object_label = oi.label(best_mapping.object_id)
     return best_mapping
@@ -372,25 +456,24 @@ def invert_mapping_predicate(pred: PRED_CURIE) -> Optional[PRED_CURIE]:
 
 
 def precondition_holds(precondition: Precondition, mapping: Mapping) -> bool:
-    for k in ["subject_match_field", "object_match_field"]:
+    for k in ["subject_match_field", "object_match_field", "subject_source", "object_source"]:
         k_one_of = f"{k}_one_of"
         expected_values = getattr(precondition, k_one_of, [])
         actual_values = getattr(mapping, k, [])
-        # print(f'CHECKING {actual_values} << {expected_values}')
         if expected_values and not any(v for v in actual_values if v in expected_values):
-            # print('** NO MATCH')
             return False
-        # print(f'**** MTCH {k}')
     return True
 
 
-def apply_transformation(term: str, transformation: LexicalTransformation) -> str:
+def apply_transformation(
+    term: str, transformation: LexicalTransformation
+) -> Union[str, List[Tuple[bool, str, str]]]:
     """
     Apply an individual transformation on a term
 
-    :param term:
-    :param transformation:
-    :return:
+    :param term: Original label.
+    :param transformation: Type of transformation to be performed on the label.
+    :return: Transformed label.
     """
     typ = str(transformation.type)
     logging.debug(f"Applying: {transformation}")
@@ -399,21 +482,44 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
     elif typ == TransformationType.Synonymization.text:
-        return apply_synonymizer(term, eval(transformation.params))
+        synonymized_results = apply_synonymizer(term, transformation.params)
+        true_results = [x for x in list(synonymized_results) if x[0] is True]
+        if len(true_results) > 0:
+            return true_results[-1]
+        else:
+            return (False, term, DEFAULT_QUALIFIER)
     else:
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
         )
 
 
-def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
-    tmp_term = term
+def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, str]:
+    """Apply synonymizer rules declared in the given match-rules.yaml file.
+
+    The basic concept is looking for regex in labels and replacing the ones that match
+    with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')
+    as to whether the replacement is an 'exact', 'broad', 'narrow', or 'related' synonym.
+
+    Note: This function "yields" all intermediate results (for each rule applied)
+    as opposed to a final result. The reason being we only want to return a "True"
+    synonymized result. If the term is not synonymized, then the result will be just
+    the term and a default qualifier. In the case of multiple synonyms, the actual result
+    will be the latest synonymized result.In other words, all the rules have been
+    implemented on the term to finally produce the result.
+
+    :param term: Original label.
+    :param rules: Synonymizer rules from match-rules.yaml file.
+    :yield: A Tuple stating [if the label changed, new label, qualifier]
+    """
     for rule in rules:
-        term = re.sub(eval(rule.match), rule.replacement, term)
-    if tmp_term == term:
-        return False, term.rstrip()
-    else:
-        return True, term.rstrip()
+        tmp_term_2 = term
+        term = re.sub(rule.match, rule.replacement, term)
+
+        if tmp_term_2 != term:
+            yield True, term.strip(), rule.qualifier
+        else:
+            yield False, term.strip(), rule.qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):

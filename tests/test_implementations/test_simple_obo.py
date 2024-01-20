@@ -4,12 +4,26 @@ from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
 
+from oaklib.cli import query_terms_iterator
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.datamodels.vocabulary import HAS_PART, IS_A, ONLY_IN_TAXON, PART_OF
+from oaklib.datamodels.vocabulary import (
+    HAS_PART,
+    IS_A,
+    ONLY_IN_TAXON,
+    PART_OF,
+    TERM_TRACKER_ITEM,
+)
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
+)
+from oaklib.implementations.simpleobo.simple_obo_parser import (
+    TAG_DEF,
+    TAG_SYNONYM,
+    QuotedText,
+    TagValue,
+    XrefList,
 )
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
@@ -21,6 +35,7 @@ from oaklib.utilities.obograph_utils import (
     index_graph_nodes,
 )
 from tests import (
+    BIOLOGICAL_ENTITY,
     CELL,
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
@@ -28,11 +43,15 @@ from tests import (
     FAKE_ID,
     FAKE_PREDICATE,
     HUMAN,
+    IMBO,
     INPUT_DIR,
+    NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
+    ORGANELLE_MEMBRANE,
     OUTPUT_DIR,
     VACUOLE,
+    filecmp_difflib,
 )
 from tests.test_implementations import ComplianceTester
 
@@ -49,6 +68,41 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.oi = oi
         self.compliance_tester = ComplianceTester(self)
 
+    def test_parser(self):
+        """
+        Tests low-level parser methods.
+
+        This may be moved to a separate test class in future, as it does
+        not pertain to testing of the interface.
+        """
+        obodoc = self.oi.obo_document
+        nuc = obodoc.stanzas[NUCLEUS]
+        tvs = nuc.tag_values
+        [defn] = [tv for tv in tvs if tv.tag == TAG_DEF]
+        self.assertEqual(TAG_DEF, defn.tag)
+        self.assertTrue(defn.value.startswith('"A membrane-bounded organelle'))
+        toks = defn.tokenize()
+        tok0, tok1 = toks
+        self.assertIsInstance(tok0, QuotedText)
+        self.assertIsInstance(tok1, XrefList)
+        tv = TagValue(TAG_SYNONYM, '"abc def ghi" EXACT [PMID:1, PMID:2]')
+        toks = tv.tokenize()
+        self.assertGreater(len(toks), 2)
+
+    def test_custom_prefixes(self):
+        resource = OntologyResource(slug="alignment-test.obo", directory=INPUT_DIR, local=True)
+        oi = SimpleOboImplementation(resource)
+        cases = [
+            ("XX:1", "http://purl.obolibrary.org/obo/XX_1"),
+            (NUCLEUS, "http://purl.obolibrary.org/obo/GO_0005634"),
+            ("schema:Person", "http://schema.org/Person"),
+            ("FOO:1", None),
+        ]
+        for curie, iri in cases:
+            self.assertEqual(oi.curie_to_uri(curie), iri, f"in expand curie: {curie}")
+            if iri is not None:
+                self.assertEqual(oi.uri_to_curie(iri), curie, f"in contract iri: {iri}")
+
     def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map("GO:0005773")
@@ -59,6 +113,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
 
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi)
+
+    def test_rbox_relationships(self):
+        self.compliance_tester.test_rbox_relationships(self.oi)
 
     def test_equiv_relationships(self):
         self.compliance_tester.test_equiv_relationships(self.oi)
@@ -83,7 +140,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         entities = list(self.oi.entities())
         self.assertIn(NUCLEUS, entities)
         self.assertIn(CELLULAR_COMPONENT, entities)
-        self.assertIn("part_of", entities)
+        self.assertIn(PART_OF, entities)
 
     @unittest.skip("TODO")
     def test_relations(self):
@@ -94,14 +151,18 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert t.id == PART_OF
         assert t.lbl.startswith("part")
 
-    @unittest.skip("TODO")
     def test_metadata(self):
-        for curie in self.oi.entities():
-            m = self.oi.entity_metadata_map(curie)
-            logging.info(f"{curie} {m}")
-        m = self.oi.entity_metadata_map("GO:0005622")
-        assert "term_tracker_item" in m.keys()
-        assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
+        self.compliance_tester.test_metadata(self.oi)
+
+    def test_shorthand(self):
+        oi = self.oi
+        cases = [
+            (PART_OF, "part_of"),
+            (TERM_TRACKER_ITEM, "term_tracker_item"),
+        ]
+        for curie, shorthand in cases:
+            self.assertEqual(oi.map_shorthand_to_curie(shorthand), curie)
+            self.assertEqual(oi.map_curie_to_shorthand(curie), shorthand)
 
     def test_labels(self):
         """
@@ -119,12 +180,14 @@ class TestSimpleOboImplementation(unittest.TestCase):
         label = oi.label(IS_A)
         self.assertIsNotNone(label)
 
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi)
+
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
 
     def test_synonyms_extra(self):
         syns = self.oi.entity_aliases("GO:0005575")
-        print(syns)
         # logging.info(syns)
         self.assertCountEqual(
             syns,
@@ -148,29 +211,20 @@ class TestSimpleOboImplementation(unittest.TestCase):
             ],
         )
 
-    @unittest.skip("TODO")
-    def test_mappings(self):
-        oi = self.oi
-        mappings = list(oi.get_sssom_mappings_by_curie(NUCLEUS))
-        assert any(m for m in mappings if m.object_id == "Wikipedia:Cell_nucleus")
-        self.assertEqual(len(mappings), 2)
-        for m in mappings:
-            logging.info(f"GETTING {m.object_id}")
-            reverse_mappings = list(oi.get_sssom_mappings_by_curie(m.object_id))
-            reverse_subject_ids = [m.subject_id for m in reverse_mappings]
-            self.assertEqual(reverse_subject_ids, [NUCLEUS])
+    def test_sssom_mappings(self):
+        self.compliance_tester.test_sssom_mappings(self.oi)
 
     def test_definitions(self):
         self.compliance_tester.test_definitions(self.oi)
 
     def test_subsets(self):
-        oi = self.oi
-        subsets = list(oi.subsets())
-        self.assertIn("goslim_aspergillus", subsets)
-        self.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
-        self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
+        self.compliance_tester.test_subsets(self.oi)
 
-    # @unittest.skip("TODO")
+    def test_obsolete_entities(self):
+        resource = OntologyResource(slug="obsoletion_test.obo", directory=INPUT_DIR, local=True)
+        oi = SimpleOboImplementation(resource)
+        self.compliance_tester.test_obsolete_entities(oi)
+
     def test_save(self):
         oi = SimpleOboImplementation()
         OUTPUT_DIR.mkdir(exist_ok=True)
@@ -189,7 +243,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
             logging.info(t)
         self.assertIn("CARO:0000003", oi.term_curies_without_definitions())
 
-    @unittest.skip("TODO")
     def test_walk_up(self):
         oi = self.oi
         rels = list(oi.walk_up_relationship_graph("GO:0005773"))
@@ -205,7 +258,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert ("GO:0043227", HAS_PART, "GO:0016020") not in rels
         assert ("GO:0110165", IS_A, "CARO:0000000") in rels
 
-    @unittest.skip("TODO")
     def test_ancestors(self):
         oi = self.oi
         ancs = list(oi.ancestors("GO:0005773"))
@@ -220,7 +272,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert "GO:0005773" in ancs  # reflexive
         assert "GO:0043231" in ancs  # reflexive
 
-    @unittest.skip("TODO")
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
         nix = index_graph_nodes(g)
@@ -250,7 +301,19 @@ class TestSimpleOboImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi, test_metadata=False)  # TODO
+
     @unittest.skip("TODO")
+    def test_subgraph_from_traversal(self):
+        self.compliance_tester.test_subgraph_from_traversal(self.oi)
+
+    def test_as_obograph(self):
+        self.compliance_tester.test_as_obograph(self.oi)
+
+    def test_ancestors_descendants(self):
+        self.compliance_tester.test_ancestors_descendants(self.oi)
+
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
         curies = list(self.oi.basic_search("enzyme activity", config=config))
@@ -259,14 +322,12 @@ class TestSimpleOboImplementation(unittest.TestCase):
         curies = list(self.oi.basic_search("enzyme activity", config=config))
         self.assertEqual(curies, [])
 
-    @unittest.skip("TODO")
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
         # logging.info(curies)
         assert CYTOPLASM in curies
 
-    @unittest.skip("TODO")
     def test_search_partial(self):
         config = SearchConfiguration(is_partial=True)
         curies = list(self.oi.basic_search("nucl", config=config))
@@ -274,7 +335,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
-    @unittest.skip("TODO")
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
@@ -282,7 +342,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
-    @unittest.skip("TODO")
     def test_search_regex(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.oi.basic_search("^nucl", config=config))
@@ -294,6 +353,60 @@ class TestSimpleOboImplementation(unittest.TestCase):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
+
+    def test_sort_order_no_edits(self):
+        """
+        Ensures that dump does not perturb ordering of terms.
+        """
+        input_path = str(INPUT_DIR / "sort-test.obo")
+        output_path = str(OUTPUT_DIR / "sort-test.obo")
+        resource = OntologyResource(input_path, local=True)
+        oi = SimpleOboImplementation(resource)
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp_difflib(input_path, output_path))
+        stanza_length_before_sort = len(oi.obo_document.stanzas)
+        stanza_keys_before_sort = oi.obo_document.stanzas.keys()
+        # try ordering stanzas (but do not ordering within a stanza)
+        oi.obo_document.order_stanzas()
+        stanza_length_after_sort = len(oi.obo_document.stanzas)
+        stanza_keys_after_sort = oi.obo_document.stanzas.keys()
+        oi.dump(output_path, syntax="obo")
+        # AssertFalse because the stanzas are sorted.
+        self.assertFalse(filecmp_difflib(input_path, output_path))
+        self.assertEqual(stanza_length_before_sort, stanza_length_after_sort)
+        self.assertEqual(stanza_keys_before_sort, stanza_keys_after_sort)
+
+    @unittest.skip(
+        "Currently not guaranteed same as OWLAPI: see https://github.com/owlcollab/oboformat/issues/138"
+    )
+    def test_sort_order_with_forced_reorder(self):
+        """
+        Ensures that dump does not perturb ordering of terms after normalization
+        """
+        input_path = str(INPUT_DIR / "sort-test.obo")
+        output_path = str(OUTPUT_DIR / "sort-test.obo")
+        resource = OntologyResource(input_path, local=True)
+        oi = SimpleOboImplementation(resource)
+        oi.obo_document.normalize_line_order()
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        oi.dump(output_path, syntax="obo")
+        self.assertTrue(filecmp_difflib(input_path, output_path))
+
+    def test_merge(self):
+        resource1 = OntologyResource(slug=TEST_ONT, directory=INPUT_DIR, local=True)
+        resource2 = OntologyResource(slug="interneuron.obo", directory=INPUT_DIR, local=True)
+        oi1 = SimpleOboImplementation(resource1)
+        oi2 = SimpleOboImplementation(resource2)
+        self.compliance_tester.test_merge(oi1, oi2)
+
+    def test_reflexive_diff(self):
+        self.compliance_tester.test_reflexive_diff(self.oi)
+
+    def test_diff(self):
+        resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
+        oi_modified = SimpleOboImplementation(resource)
+        self.compliance_tester.test_diff(self.oi, oi_modified)
 
     def test_patcher(self):
         resource = OntologyResource(slug=TEST_ONT, local=True)
@@ -307,8 +420,30 @@ class TestSimpleOboImplementation(unittest.TestCase):
             return SimpleOboImplementation(resource2)
 
         self.compliance_tester.test_patcher(
-            self.oi, original_oi=original_oi, roundtrip_function=roundtrip
+            oi, original_oi=original_oi, roundtrip_function=roundtrip
         )
+
+    def test_patcher_obsoletion_chains(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        self.compliance_tester.test_patcher_obsoletion_chains(
+            lambda: SimpleOboImplementation(resource)
+        )
+
+    def test_add_contributors(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = SimpleOboImplementation(resource)
+        self.assertTrue(oi.uses_legacy_properties)
+        self.compliance_tester.test_add_contributors(oi, legacy=True)
+        oi.dump(str(OUTPUT_DIR / "go-nucleus-contributors.obo"), syntax="obo")
+
+    def test_add_contributors_non_legacy(self):
+        """Tests adding contributor metadata using newer standard properties"""
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = SimpleOboImplementation(resource)
+        oi.set_uses_legacy_properties(False)
+        self.assertFalse(oi.uses_legacy_properties)
+        self.compliance_tester.test_add_contributors(oi, legacy=False)
+        oi.dump(str(OUTPUT_DIR / "go-nucleus-contributors2.obo"), syntax="obo")
 
     def test_patcher2(self):
         resource = OntologyResource(slug=TEST_ONT, local=True)
@@ -331,6 +466,11 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi.apply_patch(
             kgcl.NewSynonym(id=generate_change_id(), about_node=HUMAN, new_value="people")
         )
+        oi.apply_patch(kgcl.RemoveUnder(id="x", subject=NUCLEUS, object=IMBO))
+        oi.apply_patch(
+            kgcl.EdgeDeletion(id="x", subject=NUCLEAR_MEMBRANE, object=NUCLEUS, predicate=PART_OF)
+        )
+        oi.apply_patch(kgcl.NodeDeletion(id=generate_change_id(), about_node=BIOLOGICAL_ENTITY))
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
@@ -343,6 +483,21 @@ class TestSimpleOboImplementation(unittest.TestCase):
             ["people", "Homo sapiens"],
             oi2.entity_aliases(HUMAN),
         )
+        self.assertNotIn((NUCLEUS, IS_A, IMBO), list(oi2.relationships([NUCLEUS])))
+        cases = [
+            (NUCLEAR_MEMBRANE, IS_A, ORGANELLE_MEMBRANE, True),
+            (NUCLEAR_MEMBRANE, PART_OF, NUCLEAR_ENVELOPE, True),
+            (NUCLEAR_MEMBRANE, PART_OF, NUCLEUS, False),
+        ]
+        rels = list(oi2.relationships([NUCLEAR_MEMBRANE]))
+        for s, p, o, is_in in cases:
+            rel = s, p, o
+            if is_in:
+                self.assertIn(rel, rels)
+            else:
+                self.assertNotIn(rel, rels)
+
+        self.assertTrue(BIOLOGICAL_ENTITY not in oi2.entities())
 
     def test_migrate_curies(self):
         """
@@ -374,3 +529,31 @@ class TestSimpleOboImplementation(unittest.TestCase):
         )
         # query with UNrewired preds should be incomplete
         self.assertNotIn(NUCLEAR_MEMBRANE, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+
+    def test_entity_alias_map(self):
+        """Test aliases."""
+        resource = OntologyResource(slug="test_simpleobo.obo", directory=INPUT_DIR, local=True)
+        impl = SimpleOboImplementation(resource)
+        alias_list = []
+        for curie in query_terms_iterator((".all",), impl):
+            for pred, aliases in impl.entity_alias_map(curie).items():
+                for alias in aliases:
+                    alias_list.append(dict(curie=curie, pred=pred, alias=alias))
+
+        self.assertEqual(len(alias_list), 3)
+
+    # TextAnnotatorInterface tests
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)
+
+    # OwlInterface tests
+
+    @unittest.skip("Not implemented")
+    def test_disjoint_with(self):
+        self.compliance_tester.test_disjoint_with(self.oi)
+
+    def test_transitive_object_properties(self):
+        self.compliance_tester.test_transitive_object_properties(self.oi)
+
+    def test_simple_subproperty_of_chains(self):
+        self.compliance_tester.test_simple_subproperty_of_chains(self.oi)

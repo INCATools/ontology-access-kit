@@ -1,0 +1,383 @@
+{
+  "graphs": [
+    {
+      "id": "obo:hp.owl-transformed",
+      "nodes": [
+        {
+          "id": "HP:0012639",
+          "lbl": "Abnormal nervous system morphology",
+          "type": "CLASS",
+          "meta": {
+            "definition": {
+              "val": "A structural anomaly of the nervous system."
+            },
+            "xrefs": [
+              {
+                "val": "Fyler:4135"
+              },
+              {
+                "val": "Fyler:4300"
+              },
+              {
+                "val": "UMLS:C4022810"
+              }
+            ],
+            "synonyms": [
+              {
+                "pred": "hasExactSynonym",
+                "val": "Abnormal shape of nervous system"
+              },
+              {
+                "pred": "hasExactSynonym",
+                "val": "Abnormality of nervous system morphology"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:created_by",
+                "val": "peter"
+              },
+              {
+                "pred": "oio:creation_date",
+                "val": "2014-01-19T08:03:08Z"
+              },
+              {
+                "pred": "oio:id",
+                "val": "HP:0012639"
+              },
+              {
+                "pred": "owl:equivalentClass",
+                "val": "_:riog00127440"
+              }
+            ]
+          }
+        },
+        {
+          "id": "HP:0001291",
+          "lbl": "Abnormal cranial nerve morphology",
+          "type": "CLASS",
+          "meta": {
+            "definition": {
+              "val": "Structural abnormality affecting one or more of the cranial nerves, which emerge directly from the brain stem."
+            },
+            "xrefs": [
+              {
+                "val": "UMLS:C1854510"
+              },
+              {
+                "val": "UMLS:C4020872"
+              }
+            ],
+            "synonyms": [
+              {
+                "pred": "hasExactSynonym",
+                "val": "Abnormality of cranial nerve"
+              },
+              {
+                "pred": "hasExactSynonym",
+                "val": "Abnormality of the cranial nerves"
+              },
+              {
+                "pred": "hasExactSynonym",
+                "val": "Cranial nerve disease"
+              },
+              {
+                "pred": "hasExactSynonym",
+                "val": "Cranial nerve involvement"
+              },
+              {
+                "pred": "hasRelatedSynonym",
+                "val": "Cranial nerve abnormality"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:hasAlternativeId",
+                "val": "HP:0003480"
+              },
+              {
+                "pred": "oio:id",
+                "val": "HP:0001291"
+              },
+              {
+                "pred": "owl:equivalentClass",
+                "val": "_:riog00067504"
+              }
+            ]
+          }
+        },
+        {
+          "id": "HP:0000707",
+          "lbl": "Abnormality of the nervous system",
+          "type": "CLASS",
+          "meta": {
+            "definition": {
+              "val": "An abnormality of the nervous system."
+            },
+            "xrefs": [
+              {
+                "val": "MSH:D009421"
+              },
+              {
+                "val": "SNOMEDCT_US:88425004"
+              },
+              {
+                "val": "UMLS:C0497552"
+              }
+            ],
+            "synonyms": [
+              {
+                "pred": "hasBroadSynonym",
+                "val": "Brain and/or spinal cord issue"
+              },
+              {
+                "pred": "hasExactSynonym",
+                "val": "Abnormality of the nervous system"
+              },
+              {
+                "pred": "hasExactSynonym",
+                "val": "Neurologic abnormalities"
+              },
+              {
+                "pred": "hasExactSynonym",
+                "val": "Neurological abnormality"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:hasAlternativeId",
+                "val": "HP:0001333"
+              },
+              {
+                "pred": "oio:hasAlternativeId",
+                "val": "HP:0006987"
+              },
+              {
+                "pred": "oio:id",
+                "val": "HP:0000707"
+              },
+              {
+                "pred": "owl:equivalentClass",
+                "val": "_:riog00064112"
+              },
+              {
+                "pred": "rdfs:comment",
+                "val": "The nervous system comprises the neuraxis (brain, spinal cord, and ventricles), the autonomic nervous system, the enteric nervous system, and the peripheral nervous system."
+              }
+            ]
+          }
+        },
+        {
+          "id": "HP:0045010",
+          "lbl": "Abnormality of peripheral nerves",
+          "type": "CLASS",
+          "meta": {
+            "xrefs": [
+              {
+                "val": "UMLS:C4022400"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:created_by",
+                "val": "HPO:skoehler"
+              },
+              {
+                "pred": "owl:equivalentClass",
+                "val": "_:riog00145143"
+              }
+            ]
+          }
+        },
+        {
+          "id": "HP:0000759",
+          "lbl": "Abnormal peripheral nervous system morphology",
+          "type": "CLASS",
+          "meta": {
+            "definition": {
+              "val": "A structural abnormality of the peripheral nervous system, which is composed of the nerves that lead to or branch off from the central nervous system. This includes the cranial nerves (olfactory and optic nerves are technically part of the central nervous system)."
+            },
+            "xrefs": [
+              {
+                "val": "MSH:D010523"
+              },
+              {
+                "val": "SNOMEDCT_US:302226006"
+              },
+              {
+                "val": "SNOMEDCT_US:42658009"
+              },
+              {
+                "val": "UMLS:C0031117"
+              },
+              {
+                "val": "UMLS:C4025831"
+              }
+            ],
+            "synonyms": [
+              {
+                "pred": "hasExactSynonym",
+                "val": "Abnormal peripheral nervous system structure"
+              },
+              {
+                "pred": "hasRelatedSynonym",
+                "val": "Peripheral nervous system disease"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:hasAlternativeId",
+                "val": "HP:0003483"
+              },
+              {
+                "pred": "oio:id",
+                "val": "HP:0000759"
+              },
+              {
+                "pred": "owl:equivalentClass",
+                "val": "_:riog00064522"
+              },
+              {
+                "pred": "rdfs:comment",
+                "val": "The peripheral nervous system is divided into autonomic and somatic components, which both include afferent (sensory) and efferent (motor) nerves."
+              }
+            ]
+          }
+        },
+        {
+          "id": "HP:0000118",
+          "lbl": "Phenotypic abnormality",
+          "type": "CLASS",
+          "meta": {
+            "definition": {
+              "val": "A phenotypic abnormality."
+            },
+            "xrefs": [
+              {
+                "val": "UMLS:C4021819"
+              }
+            ],
+            "synonyms": [
+              {
+                "pred": "hasExactSynonym",
+                "val": "Organ abnormality"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:id",
+                "val": "HP:0000118"
+              },
+              {
+                "pred": "owl:equivalentClass",
+                "val": "_:riog00059340"
+              },
+              {
+                "pred": "rdfs:comment",
+                "val": "This is the root of the phenotypic abnormality subontology of the HPO."
+              }
+            ]
+          }
+        },
+        {
+          "id": "HP:0000001",
+          "lbl": "All",
+          "type": "CLASS",
+          "meta": {
+            "xrefs": [
+              {
+                "val": "UMLS:C0444868"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:id",
+                "val": "HP:0000001"
+              },
+              {
+                "pred": "rdfs:comment",
+                "val": "Root of all terms in the Human Phenotype Ontology."
+              }
+            ]
+          }
+        },
+        {
+          "id": "HP:3000055",
+          "lbl": "Abnormality of inferior alveolar nerve",
+          "type": "CLASS",
+          "meta": {
+            "definition": {
+              "val": "An abnormality of an inferior alveolar nerve."
+            },
+            "xrefs": [
+              {
+                "val": "UMLS:C4073263"
+              }
+            ],
+            "basicPropertyValues": [
+              {
+                "pred": "oio:created_by",
+                "val": "vasilevs"
+              },
+              {
+                "pred": "oio:creation_date",
+                "val": "2015-08-07T01:10:08Z"
+              },
+              {
+                "pred": "oio:id",
+                "val": "HP:3000055"
+              },
+              {
+                "pred": "owl:equivalentClass",
+                "val": "_:riog00159275"
+              }
+            ]
+          }
+        }
+      ],
+      "edges": [
+        {
+          "sub": "HP:0000118",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0000001"
+        },
+        {
+          "sub": "HP:0000707",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0000118"
+        },
+        {
+          "sub": "HP:0000759",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0012639"
+        },
+        {
+          "sub": "HP:0001291",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0000759"
+        },
+        {
+          "sub": "HP:0012639",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0000707"
+        },
+        {
+          "sub": "HP:0045010",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0000759"
+        },
+        {
+          "sub": "HP:3000055",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0001291"
+        },
+        {
+          "sub": "HP:3000055",
+          "pred": "rdfs:subClassOf",
+          "obj": "HP:0045010"
+        }
+      ]
+    }
+  ],
+  "@type": "GraphDocument"
+}

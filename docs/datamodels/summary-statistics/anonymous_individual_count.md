@@ -1,6 +1,8 @@
 # Slot: anonymous_individual_count
+_Number of anonymous individuals in the ontology or subset_
 
-URI: [https://w3id.org/linkml/reportanonymous_individual_count](https://w3id.org/linkml/reportanonymous_individual_count)
+
+URI: [summary_statistics:anonymous_individual_count](https://w3id.org/oaklib/summary_statistics.anonymous_individual_count)
 
 
 
@@ -12,9 +14,26 @@ URI: [https://w3id.org/linkml/reportanonymous_individual_count](https://w3id.org
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [Integer](Integer.md)
+
+
+
+
 
 
 
@@ -24,12 +43,42 @@ URI: [https://w3id.org/linkml/reportanonymous_individual_count](https://w3id.org
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | AnonymousIndividual |
+
 
 
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oak/summary_statistics
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: anonymous_individual_count
+annotations:
+  filter:
+    tag: filter
+    value: AnonymousIndividual
+description: Number of anonymous individuals in the ontology or subset
+from_schema: https://w3id.org/oak/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: anonymous_individual_count
+owner: UngroupedStatistics
+domain_of:
+- UngroupedStatistics
+slot_group: individual_statistic_group
+range: integer
+equals_expression: '{named_individual_count} - {individual_count}'
+
+```
+</details>

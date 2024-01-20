@@ -1,9 +1,23 @@
+"""
+This package serves as the master index for all implementations.
+"""
 from functools import cache
 
 from class_resolver import ClassResolver
 
+from oaklib.implementations.aggregator.aggregator_implementation import (
+    AggregatorImplementation,
+)
+from oaklib.implementations.agrkb.agrkb_implementation import AGRKBImplementation
+from oaklib.implementations.amigo.amigo_implementation import AmiGOImplementation
+from oaklib.implementations.cx.cx_implementation import CXImplementation
+from oaklib.implementations.eutils.pubmed_implementation import PubMedImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
+from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
+from oaklib.implementations.llm_implementation import LLMImplementation
+from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
+from oaklib.implementations.ncbi.ncbi_gene_implementation import NCBIGeneImplementation
 from oaklib.implementations.ols import (
     BaseOlsImplementation,
     OlsImplementation,
@@ -26,15 +40,25 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.semsimian.semsimian_implementation import (
+    SemSimianImplementation,
+)
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
 from oaklib.implementations.sparql.lov_implementation import LovImplementation
+from oaklib.implementations.sparql.oak_metamodel_implementation import (
+    OakMetaModelImplementation,
+)
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.implementations.translator.translator_implementation import (
+    TranslatorImplementation,
+)
 from oaklib.implementations.ubergraph.ubergraph_implementation import (
     UbergraphImplementation,
 )
+from oaklib.implementations.uniprot.uniprot_implementation import UniprotImplementation
 from oaklib.implementations.wikidata.wikidata_implementation import (
     WikidataImplementation,
 )
@@ -43,12 +67,18 @@ from oaklib.interfaces import OntologyInterface
 __all__ = [
     "get_implementation_resolver",
     # Concrete classes
+    "AggregatorImplementation",
     "AgroPortalImplementation",
+    "AGRKBImplementation",
+    "AmiGOImplementation",
     "BioPortalImplementation",
+    "CXImplementation",
     "EcoPortalImplementation",
     "MatPortalImplementation",
     "OlsImplementation",
     "TIBOlsImplementation",
+    "MonarchImplementation",
+    "NCBIGeneImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
     "SimpleOboImplementation",
@@ -57,13 +87,40 @@ __all__ = [
     "LovImplementation",
     "SparqlImplementation",
     "WikidataImplementation",
+    "PubMedImplementation",
     "FunOwlImplementation",
     "GildaImplementation",
+    "LLMImplementation",
+    "KGXImplementation",
+    "UniprotImplementation",
+    "TranslatorImplementation",
+    "OakMetaModelImplementation",
+    "SemSimianImplementation",
 ]
 
 
 @cache
 def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
+    """
+    Get a class resolver for all implementations (adapters).
+
+    See `<https://class-resolver.readthedocs.io/>`_
+
+    Note that typical OAK users should never need to call this directly;
+    this is used by OAK to dynamically select the right implementation given
+    a selector descriptions
+
+    As far as possible we try and use generic mechanisms to resolve.
+
+    Any class specified in __all__ above will be checked to see if it inherits from
+    OntologyInterface.
+
+    If the class name ends with "Implementation" (which is the convention in OAK
+    for all implementations), then it should be available here, wiith a descriptor
+    name that is downcases class name, with "Implementation" removed.
+
+    :return: A ClassResolver capable of resolving an OntologyInterface implementation
+    """
     implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
         OntologyInterface,
         suffix="Implementation",
@@ -72,6 +129,9 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
             BaseOlsImplementation,
         },
     )
+    # if an implementation uses a shorthand name that is
+    # different from the class name (minus Implementation), then
+    # it should be added here
     implementation_resolver.synonyms.update(
         {
             "obolibrary": ProntoImplementation,
@@ -79,6 +139,10 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
             "simpleobo": SimpleOboImplementation,
             "sqlite": SqlImplementation,
             "rdflib": SparqlImplementation,
+            "oak": OakMetaModelImplementation,
+            "cx": CXImplementation,
+            "ndexbio": CXImplementation,
+            "semsimian": SemSimianImplementation,
         }
     )
 

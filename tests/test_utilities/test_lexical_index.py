@@ -7,6 +7,9 @@ from oaklib.datamodels.lexical_index import (
 )
 from oaklib.datamodels.mapping_rules_datamodel import Synonymizer
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.simpleobo.simple_obo_implementation import (
+    SimpleOboImplementation,
+)
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import (
     create_lexical_index,
@@ -47,19 +50,28 @@ class TestLexicalIndex(unittest.TestCase):
         builder.add_class("X:3", "foo  bar")
         builder.add_class("X:4", "foo bar (foo bar)")
         builder.add_class("X:5", "foo bar [foo bar]")
+        builder.add_class("X:6", "Other foo bar")
+        builder.add_class("X:7", "Other  (FOO) [bar] foo bar")
         builder.build()
         syn_param = [
             Synonymizer(
                 the_rule="Remove parentheses bound info from the label.",
-                match="r'\([^)]*\)'",  # noqa W605
+                match=r"\([^)]*\)",  # noqa W605
                 match_scope="*",
                 replacement="",
             ),
             Synonymizer(
-                the_rule="Remove parentheses bound info from the label.",
-                match="r'\[[^)]*\]'",  # noqa W605
+                the_rule="Remove box brackets bound info from the label.",
+                match=r"\[[^)]*\]",  # noqa W605
                 match_scope="*",
                 replacement="",
+            ),
+            Synonymizer(
+                the_rule="Broad match terms with the term 'other' in them.",
+                match=r"(?i)^Other ",  # noqa W605
+                match_scope="*",
+                replacement="",
+                qualifier="broad",
             ),
         ]
 
@@ -74,6 +86,8 @@ class TestLexicalIndex(unittest.TestCase):
                     "foo bar": ["X:1", "X:2", "X:3"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
+                    "other foo bar": ["X:6"],
+                    "other (foo) [bar] foo bar": ["X:7"],
                 },
             ),
             (
@@ -83,6 +97,8 @@ class TestLexicalIndex(unittest.TestCase):
                     "foo  bar": ["X:3"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
+                    "other foo bar": ["X:6"],
+                    "other  (foo) [bar] foo bar": ["X:7"],
                 },
             ),
             (
@@ -92,15 +108,21 @@ class TestLexicalIndex(unittest.TestCase):
                     "FOO BAR": ["X:2"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
+                    "Other foo bar": ["X:6"],
+                    "Other (FOO) [bar] foo bar": ["X:7"],
                 },
             ),
             (
                 [synonymization],
-                {"FOO BAR": ["X:2"], "foo  bar": ["X:3"], "foo bar": ["X:1", "X:4", "X:5"]},
+                {
+                    "FOO BAR": ["X:2"],
+                    "foo  bar": ["X:3"],
+                    "foo bar": ["X:1", "X:4", "X:5", "X:6", "X:7"],
+                },
             ),
             (
                 [case_norm, whitespace_norm, synonymization],
-                {"foo bar": ["X:1", "X:2", "X:3", "X:4", "X:5"]},
+                {"foo bar": ["X:1", "X:2", "X:3", "X:4", "X:5", "X:6", "X:7"]},
             ),
         ]
 
@@ -129,3 +151,27 @@ class TestLexicalIndex(unittest.TestCase):
 
     def test_save(self):
         save_lexical_index(self.lexical_index, TEST_OUT)
+
+    def test_synonymizer_with_other(self):
+        """Test synonymizer with 'other' in label."""
+        resource = OntologyResource(slug="foo_bar.obo", directory=INPUT_DIR, local=True)
+        oi = SimpleOboImplementation(resource)
+        syn_param = [
+            Synonymizer(
+                the_rule="Broad match terms with the term 'other' in them.",
+                match="(?i)^Other ",  # noqa W605
+                match_scope="*",
+                replacement="",
+                qualifier="broad",
+            ),
+        ]
+        synonymization = LexicalTransformation(TransformationType.Synonymization, params=syn_param)
+        pipelines = [
+            LexicalTransformationPipeline(name="test_other", transformations=synonymization)
+        ]
+        lexical_index = create_lexical_index(oi, pipelines=pipelines, synonym_rules=syn_param)
+
+        for _, v in lexical_index.groupings.items():
+            relation = [x for x in v.relationships if x.synonymized is True]
+            self.assertTrue(len(relation), 1)
+            self.assertEqual(relation[0].predicate, "oio:hasBroadSynonym")

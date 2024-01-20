@@ -1,6 +1,7 @@
 import logging
 import re
 from collections import defaultdict
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
@@ -9,10 +10,7 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.loaders import json_loader
 
-from oaklib.converters.obo_graph_to_rdf_owl_converter import (
-    SCOPE_MAP,
-    OboGraphToRdfOwlConverter,
-)
+from oaklib.converters.obo_graph_to_rdf_owl_converter import SCOPE_MAP
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import (
     Edge,
@@ -36,11 +34,13 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    LANGUAGE_TAG,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
-from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
+from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
@@ -48,6 +48,9 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
+from oaklib.utilities.axioms.logical_definition_utilities import (
+    logical_definition_matches,
+)
 from oaklib.utilities.basic_utils import pairs_as_dict
 
 RDFLIB_FORMAT_MAP = {
@@ -66,8 +69,9 @@ class OboGraphImplementation(
     RdfInterface,
     OboGraphInterface,
     SearchInterface,
-    MappingProviderInterface,
     PatcherInterface,
+    DumperInterface,
+    MergeInterface,
 ):
     """
     OBO Graphs JSON backed implementation.
@@ -76,11 +80,16 @@ class OboGraphImplementation(
 
     To use:
 
-    .. code :: python
+    .. packages :: python
 
-        >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.json')
-        >>> for term in oi.entities():
-        >>>     ...
+    >>> from oaklib import get_adapter
+    >>> oi = get_adapter('obograph:tests/input/go-nucleus.json')
+    >>> for node_id in oi.entities():
+    ...     print(node_id, oi.label(node_id))
+    <BLANKLINE>
+    ...
+    GO:0043226 organelle
+    ...
     """
 
     obograph_document: GraphDocument = None
@@ -90,14 +99,13 @@ class OboGraphImplementation(
         if self.obograph_document is None:
             resource = self.resource
             if resource and resource.local_path:
-                print(resource.local_path)
                 gd = json_loader.load(str(resource.local_path), target_class=GraphDocument)
             else:
                 gd = GraphDocument()
             self.obograph_document = gd
 
     def uri_to_curie(
-        self, uri: URI, strict: bool = True, use_uri_fallback=False
+        self, uri: URI, strict: bool = False, use_uri_fallback=True
     ) -> Optional[CURIE]:
         # TODO: use a map
         if uri == "is_a":
@@ -178,7 +186,7 @@ class OboGraphImplementation(
         else:
             return []
 
-    def _graph(self) -> Graph:
+    def _entire_graph(self) -> Graph:
         if len(self.obograph_document.graphs) > 1:
             raise ValueError("Multiple graphs")
         return self.obograph_document.graphs[0]
@@ -206,6 +214,8 @@ class OboGraphImplementation(
                     else:
                         node = n
         if node:
+            node = deepcopy(node)
+            node.id = self.uri_to_curie(node.id)
             return node
         else:
             if strict:
@@ -215,6 +225,9 @@ class OboGraphImplementation(
         n = self._node(curie, strict=strict)
         if n:
             return n.meta
+
+    def ontologies(self) -> Iterable[CURIE]:
+        return [g.id for g in self.obograph_document.graphs]
 
     def subsets(self) -> Iterable[CURIE]:
         raise NotImplementedError
@@ -226,14 +239,18 @@ class OboGraphImplementation(
                 if subset in self._node_subsets(n):
                     yield n
 
-    def label(self, curie: CURIE) -> Optional[str]:
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         if curie == IS_A:
             return "subClassOf"
         n = self._node(curie)
         if n:
             return n.lbl
 
-    def set_label(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str, lang: Optional[LANGUAGE_TAG] = None) -> bool:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         n = self._node(curie, True)
         n.lbl = label
         return True
@@ -247,15 +264,18 @@ class OboGraphImplementation(
         label: Optional[str] = None,
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
+        **kwargs,
     ) -> CURIE:
-        g = self._graph()
+        g = self._entire_graph()
         g.nodes.append(Node(curie, lbl=label, type=type))
         for p, objs in relationships:
             for obj in objs:
                 g.edges.append(Edge(curie, p, obj))
         return curie
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
         m = self._meta(curie)
         if m:
             return m.definition.val
@@ -288,17 +308,16 @@ class OboGraphImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
-        for s in self._relationship_index.keys():
-            if subjects is not None and s not in subjects:
-                continue
-            for s2, p, o in self._relationship_index[s]:
-                if s2 == s:
-                    if predicates is not None and p not in predicates:
-                        continue
-                    if objects is not None and o not in objects:
-                        continue
-                    yield s, p, o
+        ei = self.edge_index
+        if include_entailed:
+            raise NotImplementedError("Entailment not supported for pronto")
+        yield from ei.edges(
+            subjects=subjects,
+            predicates=predicates,
+            objects=objects,
+        )
 
     # TODO: DRY
     def outgoing_relationships(
@@ -326,7 +345,7 @@ class OboGraphImplementation(
 
     # TODO: DRY
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        # TODO: move up, avoid repeating code
+        # TODO: move up, avoid repeating packages
         if config is None:
             config = SearchConfiguration()
         matches = []
@@ -375,15 +394,15 @@ class OboGraphImplementation(
             for x in meta.xrefs:
                 yield HAS_DBXREF, x.val
 
-    def dump(self, path: str = None, syntax: str = "json"):
+    def dump(self, path: str = None, syntax: str = "json", **kwargs):
         logging.info(f"Dumping graph to {path} syntax: {syntax}")
-        if syntax in RDFLIB_FORMAT_MAP:
-            converter = OboGraphToRdfOwlConverter(curie_converter=self.converter)
-            g = converter.convert(self.obograph_document)
-            g.serialize(path, format=RDFLIB_FORMAT_MAP[syntax])
+        if syntax == "json" or syntax == "obojson":
+            if path is None:
+                print(json_dumper.dumps(self.obograph_document))
+            else:
+                json_dumper.dump(self.obograph_document, to_file=str(path))
         else:
-            logging.info("Using JSON dumper")
-            json_dumper.dump(self.obograph_document, to_file=str(path))
+            super().dump(path, syntax, **kwargs)
 
     def save(
         self,
@@ -391,12 +410,19 @@ class OboGraphImplementation(
         logging.info("Committing and flushing changes")
         self.dump(self.resource.slug)
 
+    def load_graph(self, graph: Graph, replace: True) -> None:
+        if not replace:
+            raise NotImplementedError
+        self.obograph_document = GraphDocument(graphs=[graph])
+
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
-        raise NotImplementedError
+    def sssom_mappings(
+        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
+    ) -> Iterable[sssom.Mapping]:
+        raise NotImplementedError()
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
@@ -408,14 +434,23 @@ class OboGraphImplementation(
         return self._node(curie)
 
     def as_obograph(self) -> Graph:
-        return self._graph()
+        return self._entire_graph()
 
-    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
-        subjects = list(subjects)
+    def logical_definitions(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
+    ) -> Iterable[LogicalDefinitionAxiom]:
+        if subjects:
+            subjects = list(subjects)
         for g in self.obograph_document.graphs:
-            for lda in g.logicalDefinitionAxioms:
-                if lda.definedClassId in subjects:
-                    yield lda
+            for ldef in g.logicalDefinitionAxioms:
+                if logical_definition_matches(
+                    ldef, subjects=subjects, predicates=predicates, objects=objects
+                ):
+                    yield ldef
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface
@@ -436,5 +471,21 @@ class OboGraphImplementation(
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
+        configuration: kgcl.Configuration = None,
     ) -> kgcl.Change:
         raise NotImplementedError
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OwlInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def transitive_object_properties(self) -> Iterable[CURIE]:
+        # TODO: obographs datamodel needs to be expanded to support this
+        pass
+
+    def simple_subproperty_of_chains(self) -> Iterable[Tuple[CURIE, List[CURIE]]]:
+        for g in self.obograph_document.graphs:
+            for pca in g.propertyChainAxioms:
+                yield self.uri_to_curie(pca.predicateId), [
+                    self.uri_to_curie(p) for p in pca.chainPredicateIds
+                ]

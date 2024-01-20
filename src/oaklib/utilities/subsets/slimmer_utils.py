@@ -13,6 +13,14 @@ from oaklib.types import CURIE, PRED_CURIE
 def filter_redundant(
     oi: OboGraphInterface, curies: Collection[CURIE], predicates: List[PRED_CURIE] = None
 ) -> List[CURIE]:
+    """
+    Filters a set of nodes to the non-redundant subset.
+
+    :param oi:
+    :param curies:
+    :param predicates:
+    :return:
+    """
     return [curie for curie in curies if not is_redundant(oi, curie, curies, predicates)]
 
 

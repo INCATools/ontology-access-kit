@@ -1,0 +1,11 @@
+{
+    "code_system_id": "HPO",
+    "code_system_url": "http://purl.obolibrary.org/obo/hp.owl",
+    "native_uri_stems": [
+        "http://purl.obolibrary.org/obo/HP_"
+    ],
+    "include_all_predicates": true,
+    "use_curies_native_concepts": false,
+    "use_curies_foreign_concepts": false,
+    "predicate_period_replacement": true
+}

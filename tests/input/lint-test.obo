@@ -5,3 +5,5 @@ ontology: lint-test
 id: X:1
 name: test  1 ! double whitespace
 def: " foo    bar  " [PMID:1] ! training spaces
+synonym: "  syn  1 " EXACT [PMID:1] ! training spaces
+synonym: "  syn  2 " BROAD [] ! training spaces

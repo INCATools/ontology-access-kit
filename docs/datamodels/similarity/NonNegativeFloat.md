@@ -1,10 +1,16 @@
-# NonNegativeFloat
+# Type: NonNegativeFloat
 
-None
 
-URI: http://www.w3.org/2001/XMLSchema#float
+
+URI: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
 
 * [base](https://w3id.org/linkml/base): float
+
+* [uri](https://w3id.org/linkml/uri): xsd:float
+
+
+* [typeof](https://w3id.org/linkml/typeof): float
+
 
 
 
@@ -22,7 +28,7 @@ URI: http://www.w3.org/2001/XMLSchema#float
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/similarity
+* from schema: https://w3id.org/oak/similarity
 
 
 

@@ -2,17 +2,13 @@ import logging
 import typing
 from abc import ABC
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
-import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
 from kgcl_schema.datamodel import kgcl
-from kgcl_schema.datamodel.kgcl import Change
-from kgcl_schema.grammar.parser import parse_statement
-from lark import UnexpectedCharacters
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
@@ -30,6 +26,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_DEFINITION_URI,
     IDENTIFIER_PREDICATE,
     IS_A,
+    IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBO_PURL,
     RDF_TYPE,
@@ -40,22 +37,25 @@ from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    LANGUAGE_TAG,
     METADATA_MAP,
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
-    BasicOntologyInterface,
 )
-from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
+from oaklib.interfaces.rdf_interface import RDF_TRIPLE, TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.utilities.basic_utils import pairs_as_dict
-from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
+from oaklib.utilities.mapping.sssom_utils import (
+    create_sssom_mapping,
+    inject_mapping_sources,
+)
 from oaklib.utilities.rate_limiter import check_limit
 
 VAL_VAR = "v"
-LANGUAGE_TAG = str
 
 
 def _sparql_values(var_name: str, vals: List[str]):
@@ -98,7 +98,7 @@ def _quote_uri(uri: str) -> str:
 
 
 @dataclass
-class AbstractSparqlImplementation(RdfInterface, ABC):
+class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     """
     An OntologyInterface implementation that wraps a (typically remote) SPARQL endpoint.
 
@@ -112,8 +112,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     sparql_wrapper: SPARQLWrapper = None
     graph: rdflib.Graph = None
-    multilingual: bool = None
-    preferred_language: LANGUAGE_TAG = field(default_factory=lambda: "en")
     _list_of_named_graphs: List[str] = None
 
     def __post_init__(self):
@@ -219,13 +217,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         query = SparqlQuery(select=["?s"], distinct=True, where=["?s a ?cls", "FILTER (isIRI(?s))"])
         if owl_type:
             query.where.append(f"?s a {self.curie_to_sparql(owl_type)}")
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
-    def obsoletes(self) -> Iterable[CURIE]:
+    def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         query = SparqlQuery(select=["?s"], distinct=True, where=["?s owl:deprecated true"])
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -234,13 +232,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         uri = self.curie_to_sparql(curie)
         query = SparqlQuery(select=["?p ?o"], distinct=True, where=[f"{uri} ?p ?o"])
         query.add_values("p", [self.curie_to_sparql(p) for p in mapping_preds])
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield (self.uri_to_curie(row["p"]["value"]), self.uri_to_curie(row["o"]["value"]))
 
     def ontologies(self) -> Iterable[CURIE]:
         query = SparqlQuery(select=["?s"], where=["?s rdf:type owl:Ontology"])
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -257,7 +255,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         self._list_of_named_graphs = [row["g"]["value"] for row in ret["results"]["bindings"]]
         return self._list_of_named_graphs
 
-    def _query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = None):
+    def _sparql_query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = None):
         if prefixes is None:
             prefixes = DEFAULT_PREFIX_MAP
         ng = self.named_graph
@@ -303,6 +301,36 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             logging.debug(f"queryResults={ret}")
             return ret["results"]["bindings"]
 
+    def query(
+        self, query: str, syntax: str = None, prefixes: List[str] = None, **kwargs
+    ) -> Iterator[Any]:
+        def _v(v: dict):
+            v = v["value"]
+            if v.startswith("http://"):
+                return self.uri_to_curie(v)
+            return v
+
+        qd = query.lower()
+        if (
+            "select" not in qd
+            and "construct" not in qd
+            and "ask" not in qd
+            and "describe" not in qd
+        ):
+            query = "SELECT * WHERE {" + query + "}"
+        if "limit" not in qd:
+            query += " LIMIT 100"
+            logging.warning(f"Auto-adding limit\nQuery has no LIMIT clause: {query}")
+        pm = None
+        if prefixes:
+            pm = dict(DEFAULT_PREFIX_MAP)
+            for p in prefixes:
+                pm[p] = self.prefix_map().get(p)
+        logging.debug(f"PREFIXES={prefixes} // {pm}")
+        for row in self._sparql_query(query, prefixes=pm, **kwargs):
+            row = {k: _v(row[k]) for k in row}
+            yield row
+
     def _triples(
         self,
         subject: CURIE = None,
@@ -328,13 +356,43 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         else:
             graph_uri = _urify_arg(graph, "g")
         vars_str = " ".join([f"?{v}" for v in vars])
-        bindings = self._query(
+        bindings = self._sparql_query(
             f"SELECT DISTINCT {vars_str} WHERE {{ GRAPH {graph_uri} {{ {subject_uri} {predicate_uri} {object_uri} }}}}"
         )
         for row in bindings:
             yield tuple([row[v]["value"] for v in vars])
 
-    def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def _triple_as_curies(self, triple: RDF_TRIPLE) -> TRIPLE:
+        s = self.uri_to_curie(triple[0])
+        p = self.uri_to_curie(triple[1])
+        o = self.uri_to_curie(triple[2])
+        return s, p, o
+
+    def triples(self, pattern: TRIPLE) -> Iterator[TRIPLE]:
+        """
+        All triples matching triple pattern
+
+        :param pattern: tuple of s,p,o, where None matches anything
+        :return:
+        """
+        if not self.graph:
+            raise NotImplementedError("Not implemented for SPARQL endpoints")
+        q = self._triple_as_urirefs(pattern)
+        for t in self.graph.triples(q):
+            yield self._triple_as_curies(t)
+
+    def all_triples(self) -> Iterator[TRIPLE]:
+        if not self.graph:
+            raise NotImplementedError("Not implemented for SPARQL endpoints")
+        for t in self.graph.triples((None, None, None)):
+            yield self._triple_as_curies(t)
+
+    def all_rdflib_triples(self) -> Iterator[RDF_TRIPLE]:
+        if not self.graph:
+            raise NotImplementedError("Not implemented for SPARQL endpoints")
+        yield from self.graph.triples((None, None, None))
+
+    def hierarchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         uri = self.curie_to_uri(curie)
         is_a_pred = (
             self.ontology_metamodel_mapper.is_a_uri()
@@ -344,7 +402,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         query = SparqlQuery(
             select=["?o"], where=[f"<{uri}> <{is_a_pred}> ?o", "FILTER (isIRI(?o))"]
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         return list(set([self.uri_to_curie(row["o"]["value"]) for row in bindings]))
 
     def get_hierararchical_children_by_curie(
@@ -354,7 +412,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         query = SparqlQuery(
             select=["?s"], where=[f"?s <{RDFS.subClassOf}> <{uri}>", "FILTER (isIRI(?s))"]
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         return list(set([self.uri_to_curie(row["s"]["value"]) for row in bindings]))
 
     def outgoing_relationships(
@@ -371,7 +429,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         )
         if not predicates or is_a_pred in predicates:
             # all simple is-a relationships
-            for p in self.hierararchical_parents(curie):
+            for p in self.hierarchical_parents(curie):
                 yield IS_A, p
         if not predicates or predicates != [is_a_pred]:
             # subclassof existential restrictions
@@ -383,7 +441,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 ],
             )
             query.add_values("p", pred_quris)
-            bindings = self._query(query)
+            bindings = self._sparql_query(query)
             for row in bindings:
                 pred = self.uri_to_curie(row["p"]["value"])
                 obj = self.uri_to_curie(row["o"]["value"])
@@ -397,13 +455,14 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 ],
             )
             query.add_values("p", pred_quris)
-            bindings = self._query(query)
+            bindings = self._sparql_query(query)
             for row in bindings:
                 pred = self.uri_to_curie(row["p"]["value"])
                 obj = self.uri_to_curie(row["o"]["value"])
                 yield pred, obj
             # simple RDF type triples
             if not predicates or RDF_TYPE in predicates:
+                # note: some ontologies use rdfs:Class
                 query = SparqlQuery(
                     select=["?o"],
                     where=[
@@ -411,10 +470,23 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                         "?o a owl:Class",
                     ],
                 )
-                bindings = self._query(query)
+                bindings = self._sparql_query(query)
                 for row in bindings:
                     obj = self.uri_to_curie(row["o"]["value"])
                     yield RDF_TYPE, obj
+            # RDF types to existential restrictions
+            if True:
+                query = SparqlQuery(
+                    select=["?p", "?o"],
+                    where=[
+                        f"<{uri}> {RDF_TYPE} [owl:onProperty ?p ; owl:someValuesFrom ?o]",
+                    ],
+                )
+                bindings = self._sparql_query(query)
+                for row in bindings:
+                    pred = self.uri_to_curie(row["p"]["value"])
+                    obj = self.uri_to_curie(row["o"]["value"])
+                    yield pred, obj
 
     def relationships(
         self,
@@ -424,6 +496,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = True,
+        exclude_blank: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships
@@ -463,7 +536,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 "FILTER (isIRI(?s))",
             ],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             pred = self.uri_to_curie(row["p"]["value"])
             subj = self.uri_to_curie(row["s"]["value"])
@@ -477,12 +550,14 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         pred = self.curie_to_sparql(pred)
         query = SparqlQuery(select=["?v"], where=[f"{uri} {pred} ?v"])
         if self.multilingual:
-            query.where.append(f'FILTER (LANG(?v) = "{self.preferred_language}")')
-        bindings = self._query(query)
+            query.where.append(f'FILTER (LANG(?v) = "{self.default_language}")')
+        bindings = self._sparql_query(query)
         return list(set([row[VAL_VAR]["value"] for row in bindings]))
 
-    def label(self, curie: CURIE):
-        labels = list(self.labels([curie]))
+    def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None):
+        if lang:
+            raise NotImplementedError("Language selection not implemented yet")
+        labels = list(self.labels([curie], lang=lang))
         if labels:
             if len(labels) > 1:
                 logging.warning(f"Multiple labels for {curie} = {labels}")
@@ -490,15 +565,20 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         else:
             return None
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: Optional[LANGUAGE_TAG] = None
+    ) -> Iterable[Tuple[CURIE, str]]:
         label_uri = self._label_uri()
         uris = [self.curie_to_sparql(x) for x in curies]
         query = SparqlQuery(
             select=["?s ?label"], where=[f"?s <{label_uri}> ?label", _sparql_values("s", uris)]
         )
         if self.multilingual:
-            query.where.append(f'FILTER (LANG(?label) = "{self.preferred_language}")')
-        bindings = self._query(query)
+            if not lang:
+                lang = self.default_language
+        if lang:
+            query.where.append(f'FILTER (LANG(?label) = "{lang}")')
+        bindings = self._sparql_query(query)
         label_map = {}
         for row in bindings:
             curie, label = self.uri_to_curie(row["s"]["value"]), row["label"]["value"]
@@ -512,6 +592,37 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             for curie in curies:
                 if curie not in label_map:
                     yield curie, None
+
+    def multilingual_labels(
+        self, curies: Iterable[CURIE], allow_none=True, langs: Optional[List[LANGUAGE_TAG]] = None
+    ) -> Iterable[Tuple[CURIE, str, LANGUAGE_TAG]]:
+        label_uri = self._label_uri()
+        uris = [self.curie_to_sparql(x) for x in curies]
+        query = SparqlQuery(
+            select=["?s" "?label", "(LANG(?label) AS ?lang)"],
+            where=[
+                f"?s <{label_uri}> ?label",
+                _sparql_values("LANG(?label)", langs),
+                _sparql_values("s", uris),
+            ],
+        )
+        bindings = self._sparql_query(query)
+        for row in bindings:
+            curie, label = self.uri_to_curie(row["s"]["value"]), row["label"]["value"]
+            yield curie, label, row["lang"]["value"]
+
+    def defined_bys(self, entities: Iterable[CURIE]) -> Iterable[str]:
+        entities = list(entities)
+        uris = [self.curie_to_sparql(x) for x in entities]
+        query = SparqlQuery(
+            select=["?s ?o"], where=[f"?s {IS_DEFINED_BY} ?o", _sparql_values("s", uris)]
+        )
+        bindings = self._sparql_query(query)
+        for row in bindings:
+            curie, db = self.uri_to_curie(row["s"]["value"]), row["o"]["value"]
+            yield curie, db
+            entities.remove(curie)
+        return super().defined_bys(entities)
 
     def _alias_predicates(self) -> List[PRED_CURIE]:
         # different implementations can override this; e.g Wikidata uses skos:altLabel
@@ -529,7 +640,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?o) = "{self.preferred_language}")')
         logging.info(f"{query.query_str()}")
-        bindings = self._query(
+        bindings = self._sparql_query(
             query.query_str(), {"oboInOwl": "http://www.geneontology.org/formats/oboInOwl#"}
         )
         m = defaultdict(list)
@@ -540,12 +651,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         uri = self.curie_to_sparql(curie)
         query = SparqlQuery(select=["?p", "?o"], where=[f"{uri} ?p ?o"])
-        bindings = self._query(
+        bindings = self._sparql_query(
             query.query_str(), {"oboInOwl": "http://www.geneontology.org/formats/oboInOwl#"}
         )
         m = defaultdict(list)
         for row in bindings:
             m[self.uri_to_curie(row["p"]["value"])].append(row["o"]["value"])
+        self.add_missing_property_values(curie, m)
         return dict(m)
 
     def curies_by_label(self, label: str) -> List[CURIE]:
@@ -560,18 +672,23 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         clauses_j = " UNION ".join([f"{{ {c} }}" for c in clauses])
         query = SparqlQuery(select=["?s"], where=[f"{{ {clauses_j} }}"])
         logging.info(f"Query = {query.query_str()}")
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         return [self.uri_to_curie(row["s"]["value"]) for row in bindings]
 
     def create_entity(
-        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+        self,
+        curie: CURIE,
+        label: str = None,
+        relationships: RELATIONSHIP_MAP = None,
+        replace=False,
+        **kwargs,
     ) -> CURIE:
         raise NotImplementedError
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
         raise NotImplementedError
 
-    def definition(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         # TODO: allow this to be configured to use different predicates
         defn_uri = self._definition_uri()
         labels = self._get_anns(curie, defn_uri)
@@ -582,11 +699,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         else:
             return None
 
-    def dump(self, path: str = None, syntax: str = "turtle"):
+    def dump(self, path: str = None, syntax: str = "turtle", **kwargs):
+        if syntax in ["fhirjson", "obo", "obojson"]:
+            return super().dump(path, syntax)
         if self.named_graph is None and not self.graph:
             raise ValueError("Must specify a named graph to dump for a remote triplestore")
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         g = rdflib.Graph()
 
         bnodes = {}
@@ -660,7 +779,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 )
             query = SparqlQuery(select=["?s"], where=where + [filter_clause])
         logging.info(f"Search query: {query.query_str()}")
-        bindings = self._query(query, prefixes=DEFAULT_PREFIX_MAP)
+        bindings = self._sparql_query(query, prefixes=DEFAULT_PREFIX_MAP)
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
         # if SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
@@ -670,15 +789,28 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE) -> obograph.Node:
+    def node(
+        self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
+    ) -> obograph.Node:
         params = dict(id=curie, lbl=self.label(curie))
-        return obograph.Node(**params)
+        node = obograph.Node(**params)
+        if include_metadata:
+            meta = obograph.Meta()
+            node.meta = meta
+            defn = self.definition(curie)
+            if defn:
+                meta.definition = obograph.DefinitionPropertyValue(val=defn)
+            for pred, syn in self.alias_relationships(curie, exclude_labels=True):
+                meta.synonyms.append(
+                    obograph.SynonymPropertyValue(pred=pred.replace("oio:", ""), val=syn)
+                )
+        return node
 
     def hierarchical_descendants(self, start_curies: Union[CURIE, List[CURIE]]) -> Iterable[CURIE]:
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s rdfs:subClassOf* ?o", _sparql_values("o", query_uris)]
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
-        bindings = self._query(query.query_str())
+        bindings = self._sparql_query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
@@ -693,7 +825,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             select=["?p", "?o"],
             where=[f"{self.curie_to_sparql(curie)} ?p ?o", _sparql_values("p", pred_uris)],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             m = create_sssom_mapping(
                 subject_id=curie,
@@ -702,6 +834,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
+                inject_mapping_sources(m)
                 yield m
         # input curie is object
         query = SparqlQuery(
@@ -719,7 +852,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 _sparql_values("p", pred_uris),
             ],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         for row in bindings:
             m = create_sssom_mapping(
                 subject_id=self.uri_to_curie(row["s"]["value"]),
@@ -728,6 +861,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
+                inject_mapping_sources(m)
                 yield m
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -761,7 +895,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 _sparql_values("seed", seed_uris),
             ],
         )
-        bindings = self._query(query)
+        bindings = self._sparql_query(query)
         n = 0
         for row in bindings:
             n += 1
@@ -827,6 +961,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
         metadata: typing.Mapping[PRED_CURIE, Any] = None,
+        configuration: kgcl.Configuration = None,
     ) -> Optional[kgcl.Change]:
         if self.graph:
             logging.info(f"Applying: {patch} to {self.graph}")
@@ -834,29 +969,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             return patch
         else:
             raise NotImplementedError("Apply patch is only implemented for local graphs")
-
-    def diff(self, other_ontology: BasicOntologyInterface) -> Iterator[Change]:
-        if self.graph:
-            if isinstance(other_ontology, AbstractSparqlImplementation):
-                if other_ontology.graph:
-                    for change in kgcl_diff.diff(self.graph, other_ontology.graph):
-                        if isinstance(change, str):
-                            # TODO: fix KGCL so changes are returned as objects
-                            try:
-                                change = parse_statement(change)
-                            except UnexpectedCharacters as e:
-                                # TODO: fix KGCL so this never occurs
-                                logging.error(f"Cannot serialize: {change}, problem with KGCL")
-                                logging.error(f"Original error: {e}")
-                                change = None
-                        if change:
-                            yield change
-                else:
-                    raise NotImplementedError("Diff is only implemented for local graphs")
-            else:
-                raise NotImplementedError("Second ontology must implement sparql interface")
-        else:
-            raise NotImplementedError("Diff is only implemented for local graphs")
 
     def save(self):
         if self.graph:

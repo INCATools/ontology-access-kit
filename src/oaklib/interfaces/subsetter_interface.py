@@ -28,13 +28,15 @@ class MireotExtraction(SubsetStrategy):
 
 class SubsetterInterface(BasicOntologyInterface, ABC):
     """
-    an interface that provides subsetting operations
+    an interface that provides subsetting operations.
 
-    a challenge here is what a subset operation should produce:
+    Subsets are named sets of entities/terms in an ontology. Subsetting operations include
+    extracting, and "rolling up" to a subset.
 
-     - an ontology object (committing to a specific object model)
-     - an ontology interface
-     - a reference to an ontology
+    See:
+
+     - http://geneontology.org/docs/go-subset-guide/
+
     """
 
     def extract_subset_ontology(
@@ -55,7 +57,7 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None
     ) -> Iterator[RELATIONSHIP]:
         """
-        Given a term subset as a list of curies, find all non-redundant relationships connecting them
+        Given a term subset as a list of curies, find all non-redundant relationships connecting them.
 
         This assumes relation-graph entailed edges, so currently only implemented for ubergraph and sqlite
 

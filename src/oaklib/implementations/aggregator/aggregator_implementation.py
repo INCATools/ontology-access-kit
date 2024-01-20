@@ -1,17 +1,20 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
+from io import TextIOWrapper
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
 
 from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import (
     ValidationConfiguration,
     ValidationResult,
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    DEFINITION,
     PRED_CURIE,
     RELATIONSHIP_MAP,
     BasicOntologyInterface,
@@ -21,6 +24,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.text_annotator_interface import TEXT, TextAnnotatorInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
@@ -33,22 +37,48 @@ class AggregatorImplementation(
     OboGraphInterface,
     SearchInterface,
     MappingProviderInterface,
+    TextAnnotatorInterface,
 ):
     """
-    Wraps multiple implementations and integrates results together.
+    An OAK adapter that wraps multiple implementations and integrates results together.
 
     This allows for multiple implementations to be wrapped, with calls to
     the aggregator farming out queries to multiple implementations, and weaving
     the results together.
 
-    Documentation:
+    >>> from oaklib import get_adapter
+    >>> from oaklib.implementations import AggregatorImplementation
+    >>> from oaklib.datamodels.search import SearchConfiguration, SearchTermSyntax
+    >>> hp = get_adapter("sqlite:obo:hp")
+    >>> mp = get_adapter("sqlite:obo:mp")
+    >>> cfg = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+    >>> agg = AggregatorImplementation(implementations=[hp, mp])
+    >>> for entity in sorted(agg.basic_search("parathyroid", config=cfg)):
+    ...     print(entity, agg.label(entity))
+    <BLANKLINE>
+    ...
+    HP:0000860 Parathyroid hypoplasia
+    ...
+    MP:0000680 absent parathyroid glands
+    ...
 
-    - `Aggregator Implementation <https://incatools.github.io/ontology-access-kit/implementations/aggregator.html>`_
+    Command Line Usage
+    ------------------
+
+    Use the :code:`--add` (:code:`-a`) option before the main command to add additional implementations.
+
+    E.g
+
+    .. code::
+
+        runoak -i db/mp.db -a db/hp.db COMMAND [COMMAND OPTIONS]
+
+
     """
 
     implementations: List[BasicOntologyInterface] = None
 
-    def _delegate_iterator(self, func: Callable) -> Iterable:
+    def _delegate_iterator(self, func: Callable) -> Iterator:
         for i in self.implementations:
             for v in func(i):
                 yield v
@@ -83,8 +113,17 @@ class AggregatorImplementation(
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         return self._delegate_iterator(lambda i: i.get_sssom_mappings_by_curie(curie))
 
-    def label(self, curie: CURIE) -> str:
-        return self._delegate_first(lambda i: i.label(curie))
+    def label(self, curie: CURIE, **kwargs) -> str:
+        return self._delegate_first(lambda i: i.label(curie, **kwargs))
+
+    def curies_by_label(self, label: str) -> List[CURIE]:
+        return list(self._delegate_iterator(lambda i: i.curies_by_label(label)))
+
+    def definition(self, curie: CURIE, **kwargs) -> str:
+        return self._delegate_first(lambda i: i.definition(curie, **kwargs))
+
+    def definitions(self, curies: Iterable[CURIE], **kwargs) -> Iterator[DEFINITION]:
+        return self._delegate_iterator(lambda i: i.definitions(curies, **kwargs))
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.entity_alias_map(curie))
@@ -111,3 +150,15 @@ class AggregatorImplementation(
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.incoming_relationship_map(curie))
+
+    def annotate_text(
+        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
+    ) -> Iterable[TextAnnotation]:
+        return self._delegate_iterator(lambda i: i.annotate_text(text, configuration))
+
+    def annotate_file(
+        self,
+        text_file: TextIOWrapper,
+        configuration: TextAnnotationConfiguration = None,
+    ) -> Iterator[TextAnnotation]:
+        return self._delegate_iterator(lambda i: i.annotate_file(text_file, configuration))

@@ -24,15 +24,18 @@ not need this.
    obograph/index
    sssom/index
    funowl/index
-   rdflib/index
+   kgcl/index
    similarity/index
    summary-statistics/index
+   taxon-constraints/index
    validation/index
    lexical-index/index
    mapping-rules/index
    text-annotator/index
    cross-ontology-diff/index
    association/index
+   fhir/index
+   item-lists/index
 
 
 

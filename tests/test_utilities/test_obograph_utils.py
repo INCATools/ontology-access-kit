@@ -1,6 +1,9 @@
 import json
 import logging
 import unittest
+from copy import deepcopy
+
+from curies import Converter
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -8,22 +11,32 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import (
     as_multi_digraph,
+    compress_all_graph_ids,
+    depth_first_ordering,
+    expand_all_graph_ids,
     filter_by_predicates,
     graph_as_dict,
-    graph_to_tree,
+    graph_ids,
+    graph_to_tree_display,
+    induce_graph_prefix_map,
     shortest_paths,
     trim_graph,
 )
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
+    CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
     HUMAN,
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
+    MEMBRANE,
+    NUCLEAR_MEMBRANE,
     NUCLEUS,
+    ORGANELLE,
     OUTPUT_DIR,
+    PLASMA_MEMBRANE,
     VACUOLE,
 )
 
@@ -37,6 +50,47 @@ class TestOboGraphUtils(unittest.TestCase):
         oi = ProntoImplementation(resource)
         self.oi = oi
         self.graph = oi.as_obograph()
+
+    def test_graph_ids(self):
+        ids = list(graph_ids(self.graph))
+        expected_ids = [NUCLEUS, PART_OF, HUMAN]
+        expected_edges = [(NUCLEAR_MEMBRANE, PART_OF, NUCLEUS)]
+        graph_edges = [(e.sub, e.pred, e.obj) for e in self.graph.edges]
+        for id in expected_ids:
+            self.assertIn(id, ids)
+        for s, p, o in expected_edges:
+            self.assertIn((s, p, o), graph_edges)
+        prefix_map = induce_graph_prefix_map(self.graph, self.oi.converter)
+        expected_prefix_map = {
+            "GO": "http://purl.obolibrary.org/obo/GO_",
+            "BFO": "http://purl.obolibrary.org/obo/BFO_",
+            "CL": "http://purl.obolibrary.org/obo/CL_",
+            "CHEBI": "http://purl.obolibrary.org/obo/CHEBI_",
+            "NCBITaxon": "http://purl.obolibrary.org/obo/NCBITaxon_",
+            "RO": "http://purl.obolibrary.org/obo/RO_",
+            "PATO": "http://purl.obolibrary.org/obo/PATO_",
+            "CARO": "http://purl.obolibrary.org/obo/CARO_",
+            "NCBITaxon_Union": "http://purl.obolibrary.org/obo/NCBITaxon_Union_",
+            "owl": "http://www.w3.org/2002/07/owl#",
+        }
+        self.assertDictEqual(expected_prefix_map, prefix_map)
+        g = deepcopy(self.graph)
+        converter = Converter.from_prefix_map(prefix_map)
+        expand_all_graph_ids(g, converter)
+        graph_edges = [(e.sub, e.pred, e.obj) for e in g.edges]
+        ids = list(graph_ids(g))
+        for id in expected_ids:
+            self.assertNotIn(id, ids)
+            self.assertIn(converter.expand(id), ids)
+        for s, p, o in expected_edges:
+            self.assertIn(
+                (converter.expand(s), converter.expand(p), converter.expand(o)), graph_edges
+            )
+        prefix_map = induce_graph_prefix_map(g, self.oi.converter)
+        self.assertDictEqual(expected_prefix_map, prefix_map)
+        compress_all_graph_ids(g, converter)
+        self.assertCountEqual(self.graph.nodes, g.nodes)
+        self.assertEqual(len(self.graph.edges), len(g.edges))
 
     def test_as_json(self):
         obj = graph_as_dict(self.graph)
@@ -62,13 +116,13 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertGreater(len(g2.edges), 100)
 
     def test_as_tree(self):
-        t = graph_to_tree(self.graph, predicates=[IS_A])
+        t = graph_to_tree_display(self.graph, predicates=[IS_A])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertNotIn("[p]", t)
         self.assertNotIn(PART_OF, t)
         self.assertGreater(len(lines), 100)
-        t = graph_to_tree(self.graph, predicates=[IS_A, PART_OF])
+        t = graph_to_tree_display(self.graph, predicates=[IS_A, PART_OF])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertIn("* [p] GO:0019209 ! kinase activator activity", t)
@@ -106,6 +160,11 @@ class TestOboGraphUtils(unittest.TestCase):
             raise NotImplementedError
 
     def test_shortest_paths(self):
+        """
+        Test that the shortest paths are correct.
+
+        :return:
+        """
         oi = self.oi
         both = [IS_A, PART_OF]
         hi = 1.0
@@ -134,3 +193,44 @@ class TestOboGraphUtils(unittest.TestCase):
                         self.assertIn(x, path)
                     for x in excludes:
                         self.assertNotIn(x, path)
+
+    def test_depth_first_ordering(self):
+        """
+        Test that the depth first ordering of the graph is correct.
+
+        Note that DF ordering may be non-deterministic if the graph is not a tree.
+        This test conservatively checks conditions that are guaranteed to hold
+        even with DAGs
+
+        :return:
+        """
+        oi = self.oi
+        expected = [
+            (
+                [CELLULAR_COMPONENT],
+                [IS_A, PART_OF],
+                [
+                    (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
+                    (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
+                    (CELLULAR_ANATOMICAL_ENTITY, NUCLEUS),
+                ],
+            ),
+            (
+                [CELLULAR_COMPONENT],
+                [IS_A],
+                [
+                    (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
+                    (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
+                    (CELLULAR_ANATOMICAL_ENTITY, NUCLEUS),
+                    (CELLULAR_ANATOMICAL_ENTITY, MEMBRANE),
+                    (MEMBRANE, PLASMA_MEMBRANE),
+                ],
+            ),
+        ]
+        for starts, preds, expected_order in expected:
+            graph = oi.descendant_graph(starts, predicates=preds)
+            ordered = depth_first_ordering(graph)
+            if len(starts) == 1:
+                self.assertEqual(ordered[0], starts[0])
+            for parent, child in expected_order:
+                self.assertLess(ordered.index(parent), ordered.index(child), f"{parent} -> {child}")

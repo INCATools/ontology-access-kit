@@ -25,6 +25,8 @@ class StreamingYamlWriter(StreamingWriter):
     """
 
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
+        if self.object_count:
+            self.file.write("\n---\n")
         if isinstance(obj, YAMLRoot):
             obj_as_dict = json_dumper.to_dict(obj)
             # self.file.write(yaml_dumper.dumps(obj))
@@ -33,8 +35,8 @@ class StreamingYamlWriter(StreamingWriter):
         else:
             raise ValueError(f"Not a dict or YAMLRoot: {obj}")
         self.add_labels(obj_as_dict, label_fields)
-        self.file.write(yaml.dump(obj_as_dict))
-        self.file.write("\n---\n")
+        self.file.write(yaml.dump(obj_as_dict, sort_keys=False))
+        self.object_count += 1
 
     def emit_dict(self, obj: dict, object_type: Type = None):
-        self.file.write(yaml.dump(obj))
+        self.file.write(yaml.dump(obj, sort_keys=False))

@@ -9,7 +9,7 @@ from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.resource import OntologyResource
-from oaklib.selector import get_implementation_from_shorthand
+from oaklib.selector import get_adapter
 from oaklib.utilities.obograph_utils import (
     graph_as_dict,
     index_graph_edges_by_object,
@@ -35,6 +35,7 @@ from tests import (
 from tests.test_implementations import ComplianceTester
 
 TEST_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
+INTERNEURON_RDF = INPUT_DIR / "interneuron.owl.ttl"
 TEST_INST_RDF = INPUT_DIR / "inst.owl.ttl"
 TEST_MUTABLE_RDF = OUTPUT_DIR / "go-nucleus.owl.ttl"
 TEST_IMPORTER = INPUT_DIR / "test_import_root.owl"
@@ -63,7 +64,6 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn("GO:0005737", rels[PART_OF])
         rels = oi.outgoing_relationship_map(NUCLEUS)
-        print(rels)
 
     def test_instance_graph(self):
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_INST_RDF)))
@@ -77,12 +77,14 @@ class TestSparqlImplementation(unittest.TestCase):
                 "http://example.org/b",
                 "http://example.org/c",
                 "http://example.org/i1",
+                "http://example.org/i2",
                 "http://example.org/j",
             ],
             entities,
         )
         expected = [
             ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
+            ("http://example.org/i2", "http://example.org/p", "http://example.org/a"),
             ("http://example.org/i1", RDF_TYPE, "http://example.org/c"),
             ("http://example.org/b", IS_A, "http://example.org/a"),
         ]
@@ -94,19 +96,20 @@ class TestSparqlImplementation(unittest.TestCase):
                     expected.remove(t)
         self.assertEqual([], expected)
         rels = list(oi.relationships())
-        self.assertEqual(
+        self.assertCountEqual(
             [
                 ("http://example.org/b", "rdfs:subClassOf", "http://example.org/a"),
                 ("http://example.org/b", "http://example.org/p", "http://example.org/a"),
                 ("http://example.org/c", "rdfs:subClassOf", "http://example.org/b"),
                 ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
                 ("http://example.org/i1", "rdf:type", "http://example.org/c"),
+                ("http://example.org/i2", "http://example.org/p", "http://example.org/a"),
             ],
             rels,
         )
 
     def test_parents(self):
-        parents = self.oi.hierararchical_parents(VACUOLE)
+        parents = self.oi.hierarchical_parents(VACUOLE)
         # logging.info(parents)
         assert "GO:0043231" in parents
 
@@ -121,7 +124,7 @@ class TestSparqlImplementation(unittest.TestCase):
         This makes use of a skos profile, which is a mapping from OMO
         properties to SKOS
         """
-        soil_oi = get_implementation_from_shorthand(str(INPUT_DIR / "soil-profile.skos.nt"))
+        soil_oi = get_adapter(str(INPUT_DIR / "soil-profile.skos.nt"))
         soil_oi.prefix_map()["soilprofile"] = "http://anzsoil.org/def/au/asls/soil-profile/"
         soil_oi.ontology_metamodel_mapper = OntologyMetadataMapper(
             [], curie_converter=soil_oi.converter
@@ -132,6 +135,7 @@ class TestSparqlImplementation(unittest.TestCase):
         )
         self.assertEqual("skos:prefLabel", soil_oi.ontology_metamodel_mapper.label_curie())
         soil_oi.multilingual = True
+        self.assertTrue(soil_oi.multilingual)
         soil_oi.preferred_language = "en"
         label_cases = [
             ("soilprofile:voids", "Voids"),
@@ -258,6 +262,10 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertIn(CELL_CORTEX, descs)
         self.assertEqual([NUCLEUS], list(self.oi.descendants(NUCLEUS, predicates=[IS_A])))
 
+    @unittest.skip("node metadata not yet implemented")
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi)
+
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
@@ -314,3 +322,10 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_common_ancestors(self):
         # TODO: this is currently slow
         self.compliance_tester.test_common_ancestors(self.oi)
+
+    def test_merge(self):
+        source = SparqlImplementation(OntologyResource(slug=str(INTERNEURON_RDF)))
+        self.compliance_tester.test_merge(self.oi, source)
+
+    def test_annotate_text(self):
+        self.compliance_tester.test_annotate_text(self.oi)

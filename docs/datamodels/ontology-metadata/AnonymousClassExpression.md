@@ -2,18 +2,20 @@
 
 
 
-
-URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/AnonymousClassExpression)
-
+URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/schema/AnonymousClassExpression)
 
 
 
 ```{mermaid}
  classDiagram
+    class AnonymousClassExpression
       Anonymous <|-- AnonymousClassExpression
       
-      
 
+      AnonymousClassExpression <|-- Restriction
+      
+      
+      
 ```
 
 
@@ -23,17 +25,20 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 ## Inheritance
 * [Anonymous](Anonymous.md)
     * **AnonymousClassExpression**
-        * [Restriction](Restriction.md) [ ClassExpression]
+        * [Restriction](Restriction.md) [ [ClassExpression](ClassExpression.md)]
 
 
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
 
-## Usages
+
+
+
+
 
 
 
@@ -54,17 +59,18 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:AnonymousClassExpression'] |
-| native | ['omoschema:AnonymousClassExpression'] |
+| self | omoschema:AnonymousClassExpression |
+| native | omoschema:AnonymousClassExpression |
 
 
-## LinkML Specification
+
+
+
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -74,6 +80,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 ```yaml
 name: AnonymousClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Anonymous
 
 ```
@@ -85,6 +92,7 @@ is_a: Anonymous
 ```yaml
 name: AnonymousClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Anonymous
 
 ```

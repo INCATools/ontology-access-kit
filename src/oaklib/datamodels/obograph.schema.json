@@ -1,358 +1,520 @@
 {
-   "$defs": {
-      "BasicPropertyValue": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "meta": {
-               "$ref": "#/$defs/Meta"
+    "$defs": {
+        "BasicPropertyValue": {
+            "additionalProperties": false,
+            "description": "A property value that represents an assertion about an entity that is not a definition, synonym, or xref",
+            "properties": {
+                "lang": {
+                    "description": "the language of a property value",
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "pred": {
+                    "description": "the predicate of an edge",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "the value of a property",
+                    "type": "string"
+                },
+                "valType": {
+                    "description": "the datatype of a property value",
+                    "type": "string"
+                },
+                "xrefs": {
+                    "description": "A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
             },
-            "pred": {
-               "type": "string"
+            "title": "BasicPropertyValue",
+            "type": "object"
+        },
+        "DefinitionPropertyValue": {
+            "additionalProperties": false,
+            "description": "A property value that represents an assertion about the textual definition of an entity",
+            "properties": {
+                "lang": {
+                    "description": "the language of a property value",
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "pred": {
+                    "description": "the predicate of an edge",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The textual string representing the definition.",
+                    "type": "string"
+                },
+                "valType": {
+                    "description": "the datatype of a property value",
+                    "type": "string"
+                },
+                "xrefs": {
+                    "description": "A list of identifiers that support the definition. The semantics are intentionally broad, and these identifiers might represent individual agents that contributed to the text of the definition, external publications, websites, or links to supporting information, or external vocabulary entities that played a contributing role in the definition.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
             },
-            "val": {
-               "type": "string"
+            "title": "DefinitionPropertyValue",
+            "type": "object"
+        },
+        "DomainRangeAxiom": {
+            "additionalProperties": false,
+            "description": "This groups potentially multiple axioms that constrain the usage of a property depending on some combination of domain and range.",
+            "properties": {
+                "allValuesFromEdges": {
+                    "description": "A list of edges that represent subclasses of universal restrictions",
+                    "items": {
+                        "$ref": "#/$defs/Edge"
+                    },
+                    "type": "array"
+                },
+                "domainClassIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "predicateId": {
+                    "type": "string"
+                },
+                "rangeClassIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
             },
-            "xrefs": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
-            }
-         },
-         "required": [],
-         "title": "BasicPropertyValue",
-         "type": "object"
-      },
-      "DefinitionPropertyValue": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "meta": {
-               "$ref": "#/$defs/Meta"
+            "title": "DomainRangeAxiom",
+            "type": "object"
+        },
+        "Edge": {
+            "additionalProperties": false,
+            "description": "An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o",
+            "properties": {
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "obj": {
+                    "description": "the object of an edge",
+                    "type": "string"
+                },
+                "pred": {
+                    "description": "the predicate of an edge",
+                    "type": "string"
+                },
+                "sub": {
+                    "description": "the subject of an edge",
+                    "type": "string"
+                }
             },
-            "pred": {
-               "type": "string"
+            "title": "Edge",
+            "type": "object"
+        },
+        "EquivalentNodesSet": {
+            "additionalProperties": false,
+            "description": "A clique of nodes that are all mutually equivalent",
+            "properties": {
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "nodeIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "representativeNodeId": {
+                    "description": "The identifier of a node that represents the class in an OWL equivalence clique",
+                    "type": "string"
+                }
             },
-            "val": {
-               "type": "string"
+            "title": "EquivalentNodesSet",
+            "type": "object"
+        },
+        "ExistentialRestrictionExpression": {
+            "additionalProperties": false,
+            "description": "An existential restriction (OWL some values from) expression",
+            "properties": {
+                "fillerId": {
+                    "description": "in an OWL restriction expression, the filler is the object of the restriction",
+                    "type": "string"
+                },
+                "propertyId": {
+                    "description": "in an OWL restriction expression, this is the predicate",
+                    "type": "string"
+                }
             },
-            "xrefs": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
-            }
-         },
-         "required": [],
-         "title": "DefinitionPropertyValue",
-         "type": "object"
-      },
-      "DomainRangeAxiom": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "meta": {
-               "$ref": "#/$defs/Meta"
-            }
-         },
-         "required": [],
-         "title": "DomainRangeAxiom",
-         "type": "object"
-      },
-      "Edge": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "obj": {
-               "type": "string"
+            "title": "ExistentialRestrictionExpression",
+            "type": "object"
+        },
+        "Graph": {
+            "additionalProperties": false,
+            "description": "A graph is a collection of nodes and edges and other axioms that represents a single ontology.",
+            "properties": {
+                "allValuesFromEdges": {
+                    "description": "A list of edges that represent subclasses of universal restrictions",
+                    "items": {
+                        "$ref": "#/$defs/Edge"
+                    },
+                    "type": "array"
+                },
+                "domainRangeAxioms": {
+                    "description": "A list of axioms that define the domain and range of a property",
+                    "items": {
+                        "$ref": "#/$defs/DomainRangeAxiom"
+                    },
+                    "type": "array"
+                },
+                "edges": {
+                    "description": "All edges present in a graph.",
+                    "items": {
+                        "$ref": "#/$defs/Edge"
+                    },
+                    "type": "array"
+                },
+                "equivalentNodesSets": {
+                    "description": "A list of sets of nodes that form equivalence cliques",
+                    "items": {
+                        "$ref": "#/$defs/EquivalentNodesSet"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "description": "The unique identifier of the entity",
+                    "type": "string"
+                },
+                "lbl": {
+                    "description": "the human-readable label of a node",
+                    "type": "string"
+                },
+                "logicalDefinitionAxioms": {
+                    "description": "A list of logical definition axioms that define the meaning of a class in terms of other classes.",
+                    "items": {
+                        "$ref": "#/$defs/LogicalDefinitionAxiom"
+                    },
+                    "type": "array"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "nodes": {
+                    "description": "All nodes present in a graph. This includes class nodes as well as supporting nodes, including nodes representing relationship types, subsets, annotation proeprties, etc",
+                    "items": {
+                        "$ref": "#/$defs/Node"
+                    },
+                    "type": "array"
+                },
+                "prefixes": {
+                    "description": "A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)",
+                    "items": {
+                        "$ref": "#/$defs/PrefixDeclaration"
+                    },
+                    "type": "array"
+                },
+                "propertyChainAxioms": {
+                    "description": "A list of axioms that define an OWL property chain",
+                    "items": {
+                        "$ref": "#/$defs/PropertyChainAxiom"
+                    },
+                    "type": "array"
+                }
             },
-            "pred": {
-               "type": "string"
+            "required": [
+                "id"
+            ],
+            "title": "Graph",
+            "type": "object"
+        },
+        "GraphDocument": {
+            "additionalProperties": false,
+            "description": "A graph document is a collection of graphs together with a set of prefixes that apply across all of them",
+            "properties": {
+                "graphs": {
+                    "description": "A list of all graphs (ontologies) in an ontology document.",
+                    "items": {
+                        "$ref": "#/$defs/Graph"
+                    },
+                    "type": "array"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "prefixes": {
+                    "description": "A collection of mappings between prefixes and namespaces, used to map CURIEs (e.g. GO:0008150) to IRIs (e.g. http://purl.obolibrary.org/obo/GO_0008150)",
+                    "items": {
+                        "$ref": "#/$defs/PrefixDeclaration"
+                    },
+                    "type": "array"
+                }
             },
-            "sub": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "Edge",
-         "type": "object"
-      },
-      "EquivalentNodesSet": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "meta": {
-               "$ref": "#/$defs/Meta"
+            "title": "GraphDocument",
+            "type": "object"
+        },
+        "LogicalDefinitionAxiom": {
+            "additionalProperties": false,
+            "description": "An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia",
+            "properties": {
+                "definedClassId": {
+                    "description": "The class that is defined by this axiom",
+                    "type": "string"
+                },
+                "genusIds": {
+                    "description": "The set of classes that are the genus of the defined class",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "restrictions": {
+                    "description": "The set of restrictions that are the differentiating features of the defined class",
+                    "items": {
+                        "$ref": "#/$defs/ExistentialRestrictionExpression"
+                    },
+                    "type": "array"
+                }
             },
-            "nodeIds": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
+            "required": [
+                "definedClassId"
+            ],
+            "title": "LogicalDefinitionAxiom",
+            "type": "object"
+        },
+        "Meta": {
+            "additionalProperties": false,
+            "description": "A collection of annotations on an entity or ontology or edge or axiom. Metadata typically does not affect the logical interpretation of the container but provides useful information to humans or machines.",
+            "properties": {
+                "basicPropertyValues": {
+                    "description": "A list of open-ended property values that does not correspond to those predefined in this standard, i.e xref, synonyms, definition",
+                    "items": {
+                        "$ref": "#/$defs/BasicPropertyValue"
+                    },
+                    "type": "array"
+                },
+                "comments": {
+                    "description": "A list of comments about the entity",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "definition": {
+                    "$ref": "#/$defs/DefinitionPropertyValue",
+                    "description": "A definition of an entity"
+                },
+                "deprecated": {
+                    "type": "boolean"
+                },
+                "subsets": {
+                    "description": "A list of subsets to which this entity belongs",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "synonyms": {
+                    "description": "A list of synonym property value assertions for an entity",
+                    "items": {
+                        "$ref": "#/$defs/SynonymPropertyValue"
+                    },
+                    "type": "array"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "xrefs": {
+                    "description": "A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso",
+                    "items": {
+                        "$ref": "#/$defs/XrefPropertyValue"
+                    },
+                    "type": "array"
+                }
             },
-            "representitiveNodeId": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "EquivalentNodesSet",
-         "type": "object"
-      },
-      "ExistentialRestrictionExpression": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "fillerId": {
-               "type": "string"
+            "title": "Meta",
+            "type": "object"
+        },
+        "Node": {
+            "additionalProperties": false,
+            "description": "A node is a class, property, or other entity in an ontology",
+            "properties": {
+                "id": {
+                    "description": "The unique identifier of the entity",
+                    "type": "string"
+                },
+                "lbl": {
+                    "description": "the human-readable label of a node",
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "type": {
+                    "type": "string"
+                }
             },
-            "propertyId": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "ExistentialRestrictionExpression",
-         "type": "object"
-      },
-      "Graph": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "domainRangeAxioms": {
-               "items": {
-                  "$ref": "#/$defs/DomainRangeAxiom"
-               },
-               "type": "array"
+            "required": [
+                "id"
+            ],
+            "title": "Node",
+            "type": "object"
+        },
+        "PrefixDeclaration": {
+            "additionalProperties": false,
+            "description": "A mapping between an individual prefix (e.g. GO) and a namespace (e.g. http://purl.obolibrary.org/obo/GO_)",
+            "properties": {
+                "namespace": {
+                    "description": "The namespace associated with a prefix in a prefix declaration.",
+                    "type": "string"
+                },
+                "prefix": {
+                    "description": "The prefix of a prefix declaration.",
+                    "type": "string"
+                }
             },
-            "edges": {
-               "items": {
-                  "$ref": "#/$defs/Edge"
-               },
-               "type": "array"
+            "title": "PrefixDeclaration",
+            "type": "object"
+        },
+        "PropertyChainAxiom": {
+            "additionalProperties": false,
+            "description": "An axiom that represents an OWL property chain, e.g. R <- R1 o ... o Rn",
+            "properties": {
+                "chainPredicateIds": {
+                    "description": "A list of identifiers of predicates that form the precedent clause of a property chain rule",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "predicateId": {
+                    "type": "string"
+                }
             },
-            "equivalentNodesSets": {
-               "items": {
-                  "$ref": "#/$defs/EquivalentNodesSet"
-               },
-               "type": "array"
+            "title": "PropertyChainAxiom",
+            "type": "object"
+        },
+        "ScopeEnum": {
+            "description": "A vocabulary of terms that can be used to \"scope\" a synonym",
+            "enum": [
+                "hasExactSynonym",
+                "hasNarrowSynonym",
+                "hasBroadSynonym",
+                "hasRelatedSynonym"
+            ],
+            "title": "ScopeEnum",
+            "type": "string"
+        },
+        "SynonymPropertyValue": {
+            "additionalProperties": false,
+            "description": "A property value that represents an assertion about a synonym of an entity",
+            "properties": {
+                "isExact": {
+                    "type": "boolean"
+                },
+                "lang": {
+                    "description": "the language of a property value",
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "pred": {
+                    "$ref": "#/$defs/ScopeEnum",
+                    "description": "the predicate of an edge"
+                },
+                "synonymType": {
+                    "description": "This standard follows oboInOwl in allowing an open ended list of synonym types",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The textual string representing the synonym.",
+                    "type": "string"
+                },
+                "valType": {
+                    "description": "the datatype of a property value",
+                    "type": "string"
+                },
+                "xrefs": {
+                    "description": "A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
             },
-            "id": {
-               "type": "string"
+            "title": "SynonymPropertyValue",
+            "type": "object"
+        },
+        "XrefPropertyValue": {
+            "additionalProperties": false,
+            "description": "A property value that represents an assertion about an external reference to an entity",
+            "properties": {
+                "lang": {
+                    "description": "the language of a property value",
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/$defs/Meta",
+                    "description": "A collection of metadata about either an ontology (graph), an entity, or an axiom"
+                },
+                "pred": {
+                    "description": "the predicate of an edge",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The textual representation of the external reference, e.g. \"PMID:12345\"",
+                    "type": "string"
+                },
+                "valType": {
+                    "description": "the datatype of a property value",
+                    "type": "string"
+                },
+                "xrefs": {
+                    "description": "A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
             },
-            "lbl": {
-               "type": "string"
-            },
-            "logicalDefinitionAxioms": {
-               "items": {
-                  "$ref": "#/$defs/LogicalDefinitionAxiom"
-               },
-               "type": "array"
-            },
-            "meta": {
-               "$ref": "#/$defs/Meta"
-            },
-            "nodes": {
-               "items": {
-                  "$ref": "#/$defs/Node"
-               },
-               "type": "array"
-            },
-            "propertyChainAxioms": {
-               "items": {
-                  "$ref": "#/$defs/PropertyChainAxiom"
-               },
-               "type": "array"
-            }
-         },
-         "required": [
-            "id"
-         ],
-         "title": "Graph",
-         "type": "object"
-      },
-      "LogicalDefinitionAxiom": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "meta": {
-               "$ref": "#/$defs/Meta"
-            }
-         },
-         "required": [],
-         "title": "LogicalDefinitionAxiom",
-         "type": "object"
-      },
-      "Meta": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "basicPropertyValues": {
-               "items": {
-                  "$ref": "#/$defs/BasicPropertyValue"
-               },
-               "type": "array"
-            },
-            "comments": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
-            },
-            "definition": {
-               "$ref": "#/$defs/DefinitionPropertyValue"
-            },
-            "deprecated": {
-               "type": "boolean"
-            },
-            "subsets": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
-            },
-            "synonyms": {
-               "items": {
-                  "$ref": "#/$defs/SynonymPropertyValue"
-               },
-               "type": "array"
-            },
-            "version": {
-               "type": "string"
-            },
-            "xrefs": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
-            }
-         },
-         "required": [],
-         "title": "Meta",
-         "type": "object"
-      },
-      "Node": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "id": {
-               "type": "string"
-            },
-            "label": {
-               "type": "string"
-            },
-            "meta": {
-               "$ref": "#/$defs/Meta"
-            },
-            "type": {
-               "type": "string"
-            }
-         },
-         "required": [
-            "id"
-         ],
-         "title": "Node",
-         "type": "object"
-      },
-      "PredsEnum": {
-         "description": "",
-         "enum": [
-            "hasExactSynonym",
-            "hasNarrowSynonym",
-            "hasBroadSynonym",
-            "hasRelatedSynonym"
-         ],
-         "title": "PredsEnum",
-         "type": "string"
-      },
-      "PropertyChainAxiom": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "meta": {
-               "$ref": "#/$defs/Meta"
-            }
-         },
-         "required": [],
-         "title": "PropertyChainAxiom",
-         "type": "object"
-      },
-      "ScopesEnum": {
-         "description": "",
-         "enum": [
-            "exact",
-            "narrow",
-            "broad",
-            "related"
-         ],
-         "title": "ScopesEnum",
-         "type": "string"
-      },
-      "SynonymPropertyValue": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "isExact": {
-               "type": "boolean"
-            },
-            "meta": {
-               "$ref": "#/$defs/Meta"
-            },
-            "pred": {
-               "type": "string"
-            },
-            "scope": {
-               "$ref": "#/$defs/ScopesEnum"
-            },
-            "synonymType": {
-               "type": "string"
-            },
-            "val": {
-               "type": "string"
-            },
-            "xrefs": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
-            }
-         },
-         "required": [],
-         "title": "SynonymPropertyValue",
-         "type": "object"
-      },
-      "XrefPropertyValue": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "meta": {
-               "$ref": "#/$defs/Meta"
-            },
-            "pred": {
-               "type": "string"
-            },
-            "val": {
-               "type": "string"
-            },
-            "xrefs": {
-               "items": {
-                  "type": "string"
-               },
-               "type": "array"
-            }
-         },
-         "required": [],
-         "title": "XrefPropertyValue",
-         "type": "object"
-      }
-   },
-   "$id": "https://github.com/geneontology/obographs",
-   "$schema": "http://json-schema.org/draft-07/schema#",
-   "additionalProperties": true,
-   "metamodel_version": "1.7.0",
-   "properties": {},
-   "required": [],
-   "title": "obographs_datamodel",
-   "type": "object",
-   "version": "0.0.1"
+            "title": "XrefPropertyValue",
+            "type": "object"
+        }
+    },
+    "$id": "https://github.com/geneontology/obographs",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "title": "obographs_datamodel",
+    "type": "object",
+    "version": null
 }
-

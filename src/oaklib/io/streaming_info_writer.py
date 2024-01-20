@@ -29,7 +29,7 @@ class StreamingInfoWriter(StreamingWriter):
     def emit_curie(self, curie, label=None, **kwargs):
         oi = self.ontology_interface
         if label is None:
-            label = oi.label(curie)
+            label = oi.label(curie, lang=self.settings.preferred_language)
         self.file.write(f"{curie} ! {label}")
         if self.display_options:
             show_all = "all" in self.display_options
@@ -40,17 +40,21 @@ class StreamingInfoWriter(StreamingWriter):
                 for k, vs in oi.outgoing_relationship_map(curie).items():
                     p = predicate_code_map.get(k, None)
                     if p is None:
-                        p = oi.label(k)
+                        p = oi.label(k, lang=self.settings.preferred_language)
                         if p is None:
                             p = k
                     self.file.write(f" {p}: [")
                     for v in vs:
-                        self.file.write(f' {v} "{oi.label(curie)}"')
+                        self.file.write(
+                            f' {v} "{oi.label(curie, lang=self.settings.preferred_language)}"'
+                        )
                     self.file.write("]")
             if show_all or "d" in self.display_options:
                 defn = oi.definition(curie)
                 if defn:
                     self.file.write(f' "{defn}"')
+            if show_all or "db" in self.display_options:
+                self.file.write(f" isDefinedBy: {oi.defined_by(curie)}")
             if "ic" in self.display_options and (
                 show_all and isinstance(oi, SemanticSimilarityInterface)
             ):

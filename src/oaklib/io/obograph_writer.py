@@ -7,6 +7,8 @@ from typing import Optional, TextIO, Union
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 
 from oaklib import OntologyResource
+from oaklib.converters.obo_graph_to_cx_converter import OboGraphToCXConverter
+from oaklib.converters.obo_graph_to_rdf_owl_converter import OboGraphToRdfOwlConverter
 from oaklib.datamodels.obograph import Graph
 from oaklib.implementations import ProntoImplementation
 
@@ -38,5 +40,11 @@ def write_graph(
         output_oi = ProntoImplementation()
         output_oi.load_graph(graph, replace=True)
         output_oi.store(OntologyResource(slug=output, local=True, format="obo"))
+    elif format == "turtle":
+        converter = OboGraphToRdfOwlConverter()
+        converter.dump(graph, output)
+    elif format == "cx":
+        converter = OboGraphToCXConverter()
+        converter.dump(graph, output)
     else:
         raise ValueError(f"Do not know how to write: {format}")

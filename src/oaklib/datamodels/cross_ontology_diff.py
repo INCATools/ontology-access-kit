@@ -1,8 +1,8 @@
 # Auto generated from cross_ontology_diff.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-07-10T18:38:16
+# Generation date: 2023-02-27T09:56:36
 # Schema: cross-ontology-diff
 #
-# id: https://w3id.org/linkml/cross_ontology_diff
+# id: https://w3id.org/oak/cross-ontology-diff
 # description: A datamodel for representing the results of relational diffs across a pair of ontologies connected
 #              by mappings
 # license: https://creativecommons.org/publicdomain/zero/1.0/
@@ -49,7 +49,6 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-ANN = CurieNamespace("ann", "https://w3id.org/linkml/text_annotator/")
 BPA = CurieNamespace("bpa", "https://bioportal.bioontology.org/annotator/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
@@ -61,16 +60,19 @@ SCHEMA = CurieNamespace("schema", "http://schema.org/")
 SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
 SSSOM = CurieNamespace("sssom", "http://w3id.org/sssom/")
+XODIFF = CurieNamespace("xodiff", "https://w3id.org/oak/cross-ontology-diff/")
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
-DEFAULT_ = ANN
+DEFAULT_ = XODIFF
 
 
 # Types
 class Label(String):
+    """A string that is used as a human-readable label"""
+
     type_class_uri = XSD.string
     type_class_curie = "xsd:string"
     type_name = "Label"
-    type_model_uri = ANN.Label
+    type_model_uri = XODIFF.Label
 
 
 class EntityReference(Uriorcurie):
@@ -79,7 +81,16 @@ class EntityReference(Uriorcurie):
     type_class_uri = RDFS.Resource
     type_class_curie = "rdfs:Resource"
     type_name = "EntityReference"
-    type_model_uri = ANN.EntityReference
+    type_model_uri = XODIFF.EntityReference
+
+
+class Source(String):
+    """The name of an ontology that acts as a source"""
+
+    type_class_uri = XSD.string
+    type_class_curie = "xsd:string"
+    type_name = "Source"
+    type_model_uri = XODIFF.Source
 
 
 # Class references
@@ -88,32 +99,32 @@ class EntityReference(Uriorcurie):
 @dataclass
 class StructureDiffResultSet(YAMLRoot):
     """
-    A collection of relational diff results results
+    A collection of relational diff results
     """
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ANN.StructureDiffResultSet
-    class_class_curie: ClassVar[str] = "ann:StructureDiffResultSet"
+    class_class_uri: ClassVar[URIRef] = XODIFF.StructureDiffResultSet
+    class_class_curie: ClassVar[str] = "xodiff:StructureDiffResultSet"
     class_name: ClassVar[str] = "StructureDiffResultSet"
-    class_model_uri: ClassVar[URIRef] = ANN.StructureDiffResultSet
+    class_model_uri: ClassVar[URIRef] = XODIFF.StructureDiffResultSet
 
     results: Optional[
         Union[Union[dict, "RelationalDiff"], List[Union[dict, "RelationalDiff"]]]
     ] = empty_list()
-    left_source: Optional[str] = None
-    right_source: Optional[str] = None
+    left_source: Optional[Union[str, Source]] = None
+    right_source: Optional[Union[str, Source]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         self._normalize_inlined_as_dict(
             slot_name="results", slot_type=RelationalDiff, key_name="left_subject_id", keyed=False
         )
 
-        if self.left_source is not None and not isinstance(self.left_source, str):
-            self.left_source = str(self.left_source)
+        if self.left_source is not None and not isinstance(self.left_source, Source):
+            self.left_source = Source(self.left_source)
 
-        if self.right_source is not None and not isinstance(self.right_source, str):
-            self.right_source = str(self.right_source)
+        if self.right_source is not None and not isinstance(self.right_source, Source):
+            self.right_source = Source(self.right_source)
 
         super().__post_init__(**kwargs)
 
@@ -143,14 +154,17 @@ class RelationalDiff(YAMLRoot):
     |                                  |
     left_subject   <--- mapped to ---> right_subject
     ```
+
+    The above figure gives hows the basic structure. Classification of the edge is done from the perspective
+    of the left edge.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ANN.RelationalDiff
-    class_class_curie: ClassVar[str] = "ann:RelationalDiff"
+    class_class_uri: ClassVar[URIRef] = XODIFF.RelationalDiff
+    class_class_curie: ClassVar[str] = "xodiff:RelationalDiff"
     class_name: ClassVar[str] = "RelationalDiff"
-    class_model_uri: ClassVar[URIRef] = ANN.RelationalDiff
+    class_model_uri: ClassVar[URIRef] = XODIFF.RelationalDiff
 
     left_subject_id: Union[str, EntityReference] = None
     left_object_id: Union[str, EntityReference] = None
@@ -347,7 +361,6 @@ class DiffCategory(EnumDefinitionImpl):
 
 
 class MappingCardinalityEnum(EnumDefinitionImpl):
-
     _defn = EnumDefinition(
         name="MappingCardinalityEnum",
     )
@@ -371,34 +384,34 @@ slots.label = Slot(
     uri=RDFS.label,
     name="label",
     curie=RDFS.curie("label"),
-    model_uri=ANN.label,
+    model_uri=XODIFF.label,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[str, Label]],
 )
 
 slots.side = Slot(
-    uri=ANN.side,
+    uri=XODIFF.side,
     name="side",
-    curie=ANN.curie("side"),
-    model_uri=ANN.side,
+    curie=XODIFF.curie("side"),
+    model_uri=XODIFF.side,
     domain=None,
     range=Optional[str],
 )
 
 slots.left_side = Slot(
-    uri=ANN.left_side,
+    uri=XODIFF.left_side,
     name="left_side",
-    curie=ANN.curie("left_side"),
-    model_uri=ANN.left_side,
+    curie=XODIFF.curie("left_side"),
+    model_uri=XODIFF.left_side,
     domain=None,
     range=Optional[str],
 )
 
 slots.right_side = Slot(
-    uri=ANN.right_side,
+    uri=XODIFF.right_side,
     name="right_side",
-    curie=ANN.curie("right_side"),
-    model_uri=ANN.right_side,
+    curie=XODIFF.curie("right_side"),
+    model_uri=XODIFF.right_side,
     domain=None,
     range=Optional[str],
 )
@@ -407,7 +420,7 @@ slots.subject = Slot(
     uri=RDF.subject,
     name="subject",
     curie=RDF.curie("subject"),
-    model_uri=ANN.subject,
+    model_uri=XODIFF.subject,
     domain=None,
     range=Optional[str],
 )
@@ -416,7 +429,7 @@ slots.predicate = Slot(
     uri=RDF.predicate,
     name="predicate",
     curie=RDF.curie("predicate"),
-    model_uri=ANN.predicate,
+    model_uri=XODIFF.predicate,
     domain=None,
     range=Optional[str],
 )
@@ -425,223 +438,223 @@ slots.object = Slot(
     uri=RDF.object,
     name="object",
     curie=RDF.curie("object"),
-    model_uri=ANN.object,
+    model_uri=XODIFF.object,
     domain=None,
     range=Optional[str],
 )
 
 slots.is_functional = Slot(
-    uri=ANN.is_functional,
+    uri=XODIFF.is_functional,
     name="is_functional",
-    curie=ANN.curie("is_functional"),
-    model_uri=ANN.is_functional,
+    curie=XODIFF.curie("is_functional"),
+    model_uri=XODIFF.is_functional,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
 
 slots.structureDiffResultSet__results = Slot(
-    uri=ANN.results,
+    uri=XODIFF.results,
     name="structureDiffResultSet__results",
-    curie=ANN.curie("results"),
-    model_uri=ANN.structureDiffResultSet__results,
+    curie=XODIFF.curie("results"),
+    model_uri=XODIFF.structureDiffResultSet__results,
     domain=None,
     range=Optional[Union[Union[dict, RelationalDiff], List[Union[dict, RelationalDiff]]]],
 )
 
 slots.structureDiffResultSet__left_source = Slot(
-    uri=ANN.left_source,
+    uri=XODIFF.left_source,
     name="structureDiffResultSet__left_source",
-    curie=ANN.curie("left_source"),
-    model_uri=ANN.structureDiffResultSet__left_source,
+    curie=XODIFF.curie("left_source"),
+    model_uri=XODIFF.structureDiffResultSet__left_source,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[str, Source]],
 )
 
 slots.structureDiffResultSet__right_source = Slot(
-    uri=ANN.right_source,
+    uri=XODIFF.right_source,
     name="structureDiffResultSet__right_source",
-    curie=ANN.curie("right_source"),
-    model_uri=ANN.structureDiffResultSet__right_source,
+    curie=XODIFF.curie("right_source"),
+    model_uri=XODIFF.structureDiffResultSet__right_source,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[str, Source]],
 )
 
 slots.relationalDiff__category = Slot(
-    uri=ANN.category,
+    uri=XODIFF.category,
     name="relationalDiff__category",
-    curie=ANN.curie("category"),
-    model_uri=ANN.relationalDiff__category,
+    curie=XODIFF.curie("category"),
+    model_uri=XODIFF.relationalDiff__category,
     domain=None,
     range=Optional[Union[str, "DiffCategory"]],
 )
 
 slots.relationalDiff__left_subject_id = Slot(
-    uri=ANN.left_subject_id,
+    uri=XODIFF.left_subject_id,
     name="relationalDiff__left_subject_id",
-    curie=ANN.curie("left_subject_id"),
-    model_uri=ANN.relationalDiff__left_subject_id,
+    curie=XODIFF.curie("left_subject_id"),
+    model_uri=XODIFF.relationalDiff__left_subject_id,
     domain=None,
     range=Union[str, EntityReference],
 )
 
 slots.relationalDiff__left_object_id = Slot(
-    uri=ANN.left_object_id,
+    uri=XODIFF.left_object_id,
     name="relationalDiff__left_object_id",
-    curie=ANN.curie("left_object_id"),
-    model_uri=ANN.relationalDiff__left_object_id,
+    curie=XODIFF.curie("left_object_id"),
+    model_uri=XODIFF.relationalDiff__left_object_id,
     domain=None,
     range=Union[str, EntityReference],
 )
 
 slots.relationalDiff__left_predicate_id = Slot(
-    uri=ANN.left_predicate_id,
+    uri=XODIFF.left_predicate_id,
     name="relationalDiff__left_predicate_id",
-    curie=ANN.curie("left_predicate_id"),
-    model_uri=ANN.relationalDiff__left_predicate_id,
+    curie=XODIFF.curie("left_predicate_id"),
+    model_uri=XODIFF.relationalDiff__left_predicate_id,
     domain=None,
     range=Union[str, EntityReference],
 )
 
 slots.relationalDiff__left_subject_label = Slot(
-    uri=ANN.left_subject_label,
+    uri=XODIFF.left_subject_label,
     name="relationalDiff__left_subject_label",
-    curie=ANN.curie("left_subject_label"),
-    model_uri=ANN.relationalDiff__left_subject_label,
+    curie=XODIFF.curie("left_subject_label"),
+    model_uri=XODIFF.relationalDiff__left_subject_label,
     domain=None,
     range=Optional[Union[str, Label]],
 )
 
 slots.relationalDiff__left_object_label = Slot(
-    uri=ANN.left_object_label,
+    uri=XODIFF.left_object_label,
     name="relationalDiff__left_object_label",
-    curie=ANN.curie("left_object_label"),
-    model_uri=ANN.relationalDiff__left_object_label,
+    curie=XODIFF.curie("left_object_label"),
+    model_uri=XODIFF.relationalDiff__left_object_label,
     domain=None,
     range=Optional[Union[str, Label]],
 )
 
 slots.relationalDiff__left_predicate_label = Slot(
-    uri=ANN.left_predicate_label,
+    uri=XODIFF.left_predicate_label,
     name="relationalDiff__left_predicate_label",
-    curie=ANN.curie("left_predicate_label"),
-    model_uri=ANN.relationalDiff__left_predicate_label,
+    curie=XODIFF.curie("left_predicate_label"),
+    model_uri=XODIFF.relationalDiff__left_predicate_label,
     domain=None,
     range=Optional[Union[str, Label]],
 )
 
 slots.relationalDiff__right_subject_id = Slot(
-    uri=ANN.right_subject_id,
+    uri=XODIFF.right_subject_id,
     name="relationalDiff__right_subject_id",
-    curie=ANN.curie("right_subject_id"),
-    model_uri=ANN.relationalDiff__right_subject_id,
+    curie=XODIFF.curie("right_subject_id"),
+    model_uri=XODIFF.relationalDiff__right_subject_id,
     domain=None,
     range=Optional[Union[str, EntityReference]],
 )
 
 slots.relationalDiff__right_object_id = Slot(
-    uri=ANN.right_object_id,
+    uri=XODIFF.right_object_id,
     name="relationalDiff__right_object_id",
-    curie=ANN.curie("right_object_id"),
-    model_uri=ANN.relationalDiff__right_object_id,
+    curie=XODIFF.curie("right_object_id"),
+    model_uri=XODIFF.relationalDiff__right_object_id,
     domain=None,
     range=Optional[Union[str, EntityReference]],
 )
 
 slots.relationalDiff__right_predicate_ids = Slot(
-    uri=ANN.right_predicate_ids,
+    uri=XODIFF.right_predicate_ids,
     name="relationalDiff__right_predicate_ids",
-    curie=ANN.curie("right_predicate_ids"),
-    model_uri=ANN.relationalDiff__right_predicate_ids,
+    curie=XODIFF.curie("right_predicate_ids"),
+    model_uri=XODIFF.relationalDiff__right_predicate_ids,
     domain=None,
     range=Optional[Union[Union[str, EntityReference], List[Union[str, EntityReference]]]],
 )
 
 slots.relationalDiff__right_subject_label = Slot(
-    uri=ANN.right_subject_label,
+    uri=XODIFF.right_subject_label,
     name="relationalDiff__right_subject_label",
-    curie=ANN.curie("right_subject_label"),
-    model_uri=ANN.relationalDiff__right_subject_label,
+    curie=XODIFF.curie("right_subject_label"),
+    model_uri=XODIFF.relationalDiff__right_subject_label,
     domain=None,
     range=Optional[Union[str, Label]],
 )
 
 slots.relationalDiff__right_object_label = Slot(
-    uri=ANN.right_object_label,
+    uri=XODIFF.right_object_label,
     name="relationalDiff__right_object_label",
-    curie=ANN.curie("right_object_label"),
-    model_uri=ANN.relationalDiff__right_object_label,
+    curie=XODIFF.curie("right_object_label"),
+    model_uri=XODIFF.relationalDiff__right_object_label,
     domain=None,
     range=Optional[Union[str, Label]],
 )
 
 slots.relationalDiff__right_predicate_labels = Slot(
-    uri=ANN.right_predicate_labels,
+    uri=XODIFF.right_predicate_labels,
     name="relationalDiff__right_predicate_labels",
-    curie=ANN.curie("right_predicate_labels"),
-    model_uri=ANN.relationalDiff__right_predicate_labels,
+    curie=XODIFF.curie("right_predicate_labels"),
+    model_uri=XODIFF.relationalDiff__right_predicate_labels,
     domain=None,
     range=Optional[Union[Union[str, Label], List[Union[str, Label]]]],
 )
 
 slots.relationalDiff__left_subject_is_functional = Slot(
-    uri=ANN.left_subject_is_functional,
+    uri=XODIFF.left_subject_is_functional,
     name="relationalDiff__left_subject_is_functional",
-    curie=ANN.curie("left_subject_is_functional"),
-    model_uri=ANN.relationalDiff__left_subject_is_functional,
+    curie=XODIFF.curie("left_subject_is_functional"),
+    model_uri=XODIFF.relationalDiff__left_subject_is_functional,
     domain=None,
     range=Optional[str],
 )
 
 slots.relationalDiff__left_object_is_functional = Slot(
-    uri=ANN.left_object_is_functional,
+    uri=XODIFF.left_object_is_functional,
     name="relationalDiff__left_object_is_functional",
-    curie=ANN.curie("left_object_is_functional"),
-    model_uri=ANN.relationalDiff__left_object_is_functional,
+    curie=XODIFF.curie("left_object_is_functional"),
+    model_uri=XODIFF.relationalDiff__left_object_is_functional,
     domain=None,
     range=Optional[str],
 )
 
 slots.relationalDiff__subject_mapping_predicate = Slot(
-    uri=ANN.subject_mapping_predicate,
+    uri=XODIFF.subject_mapping_predicate,
     name="relationalDiff__subject_mapping_predicate",
-    curie=ANN.curie("subject_mapping_predicate"),
-    model_uri=ANN.relationalDiff__subject_mapping_predicate,
+    curie=XODIFF.curie("subject_mapping_predicate"),
+    model_uri=XODIFF.relationalDiff__subject_mapping_predicate,
     domain=None,
     range=Optional[Union[str, EntityReference]],
 )
 
 slots.relationalDiff__object_mapping_predicate = Slot(
-    uri=ANN.object_mapping_predicate,
+    uri=XODIFF.object_mapping_predicate,
     name="relationalDiff__object_mapping_predicate",
-    curie=ANN.curie("object_mapping_predicate"),
-    model_uri=ANN.relationalDiff__object_mapping_predicate,
+    curie=XODIFF.curie("object_mapping_predicate"),
+    model_uri=XODIFF.relationalDiff__object_mapping_predicate,
     domain=None,
     range=Optional[Union[str, EntityReference]],
 )
 
 slots.relationalDiff__right_intermediate_ids = Slot(
-    uri=ANN.right_intermediate_ids,
+    uri=XODIFF.right_intermediate_ids,
     name="relationalDiff__right_intermediate_ids",
-    curie=ANN.curie("right_intermediate_ids"),
-    model_uri=ANN.relationalDiff__right_intermediate_ids,
+    curie=XODIFF.curie("right_intermediate_ids"),
+    model_uri=XODIFF.relationalDiff__right_intermediate_ids,
     domain=None,
     range=Optional[Union[Union[str, EntityReference], List[Union[str, EntityReference]]]],
 )
 
 slots.relationalDiff__subject_mapping_cardinality = Slot(
-    uri=ANN.subject_mapping_cardinality,
+    uri=XODIFF.subject_mapping_cardinality,
     name="relationalDiff__subject_mapping_cardinality",
-    curie=ANN.curie("subject_mapping_cardinality"),
-    model_uri=ANN.relationalDiff__subject_mapping_cardinality,
+    curie=XODIFF.curie("subject_mapping_cardinality"),
+    model_uri=XODIFF.relationalDiff__subject_mapping_cardinality,
     domain=None,
     range=Optional[Union[str, "MappingCardinalityEnum"]],
 )
 
 slots.relationalDiff__object_mapping_cardinality = Slot(
-    uri=ANN.object_mapping_cardinality,
+    uri=XODIFF.object_mapping_cardinality,
     name="relationalDiff__object_mapping_cardinality",
-    curie=ANN.curie("object_mapping_cardinality"),
-    model_uri=ANN.relationalDiff__object_mapping_cardinality,
+    curie=XODIFF.curie("object_mapping_cardinality"),
+    model_uri=XODIFF.relationalDiff__object_mapping_cardinality,
     domain=None,
     range=Optional[Union[str, "MappingCardinalityEnum"]],
 )

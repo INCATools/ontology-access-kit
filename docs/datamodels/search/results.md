@@ -1,15 +1,34 @@
 # Slot: results
 
-URI: [https://w3id.org/linkml/search_datamodel/results](https://w3id.org/linkml/search_datamodel/results)
+URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchResultSet](SearchResultSet.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [SearchResult](SearchResult.md)
+* Range: [SearchResult](SearchResult.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -24,7 +43,24 @@ URI: [https://w3id.org/linkml/search_datamodel/results](https://w3id.org/linkml/
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/search_datamodel
+* from schema: https://w3id.org/oak/search-datamodel
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: results
+from_schema: https://w3id.org/oak/search-datamodel
+rank: 1000
+multivalued: true
+alias: results
+owner: SearchResultSet
+domain_of:
+- SearchResultSet
+range: SearchResult
+
+```
+</details>

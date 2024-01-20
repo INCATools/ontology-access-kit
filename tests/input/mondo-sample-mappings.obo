@@ -1,0 +1,123 @@
+
+[Term]
+id: MONDO:0007030
+name: autosomal dominant Aarskog syndrome
+xref: DOID:0111825
+xref: MESH:C535331
+xref: OMIM:100050
+xref: Orphanet:915
+xref: SCTID:14921002
+synonym: "Aarskog syndrome" RELATED []
+synonym: "Aarskog syndrome, autosomal dominant" RELATED []
+synonym: "Aarskog-Scott syndrome" RELATED []
+synonym: "faciogenital dysplasia" RELATED []
+
+[Term]
+id: MONDO:0007032
+name: prune belly syndrome
+def: "Prune belly syndrome is a rare congenital disorder, belonging to the group of fetal lower urinary tract obstructions (LUTO), involving variable dilation of the lower urinary tract in association with partial or complete absence of the lateral and inferior abdominal wall musculature and in males bilateral non-palpable undescended testes." []
+xref: DOID:0060889
+xref: GARD:0007479
+xref: ICD9:756.71
+xref: MESH:C536477
+xref: MESH:D011535
+xref: MedDRA:10051025
+xref: NCIT:C85033
+xref: OMIM:100100
+xref: Orphanet:2970
+xref: SCTID:5187006
+xref: UMLS:C0033770
+xref: UMLS:C0265363
+subset: ordo_malformation_syndrome
+synonym: "Obrinsky syndrome" EXACT []
+synonym: "Obrisnksy syndrome" EXACT []
+synonym: "abdominal muscle deficiency syndrome" EXACT []
+synonym: "eagle-Barret syndrome" EXACT []
+synonym: "prune belly syndrome" EXACT []
+synonym: "syndrome of agenesis of abdominal muscles" EXACT []
+synonym: "triad syndrome" EXACT []
+synonym: "PBS" RELATED []
+synonym: "abdominal muscles, absence of, with urinary tract Abnormality and cryptorchidism" RELATED []
+synonym: "eagle-Barrett syndrome" RELATED []
+
+[Term]
+id: MONDO:0007033
+name: abducens nerve palsy
+def: "Paralysis of the abducens nerve." []
+xref: DOID:10865
+xref: GARD:0009482
+xref: ICD9:378.54
+xref: NCIT:C27592
+xref: OMIM:100200
+xref: SCTID:398963001
+synonym: "VIth nerve disorder" BROAD []
+synonym: "VIth nerve paralysis" EXACT []
+synonym: "abducens nerve cranial nerve palsy" EXACT []
+synonym: "abducens nerve weakness" EXACT []
+synonym: "abducent nerve paralysis" EXACT []
+synonym: "cranial nerve palsy of abducens nerve" EXACT []
+synonym: "disorder of abducent nerve" EXACT []
+synonym: "lateral rectus muscle denervation paresis" EXACT []
+synonym: "lateral rectus muscle innervation disorder" EXACT []
+synonym: "sixth cranial nerve disorder" EXACT []
+synonym: "sixth nerve palsy" EXACT []
+synonym: "sixth nerve paralysis" EXACT []
+synonym: "sixth or abducens nerve palsy" EXACT []
+synonym: "6th nerve palsy" RELATED []
+synonym: "VI nerve palsy" RELATED []
+synonym: "abducens nerve disease" RELATED []
+synonym: "abducens palsy" RELATED []
+synonym: "cranial mononeuropathy VI" RELATED []
+synonym: "cranial nerve VI palsy" RELATED []
+synonym: "sixth cranial nerve palsy" RELATED []
+
+[Term]
+id: MONDO:0007036
+name: Achard syndrome
+def: "A rare genetic syndrome featuring connective tissue abnormalities. Clinical signs include brachycephaly, arachnodactyly, receding mandible and joint laxity at the hands and feet." []
+xref: DOID:6686
+xref: GARD:0008176
+xref: MESH:C536012
+xref: NCIT:C35809
+xref: OMIM:100700
+xref: UMLS:C1332135
+subset: gard_rare
+synonym: "Achard syndrome" EXACT []
+synonym: "arachnodactyly, receding lower jaw and joint laxity of hands/feet" RELATED []
+
+[Term]
+id: MONDO:0024506
+name: Adams-Oliver syndrome 1
+def: "Any Adams-Oliver syndrome in which the cause of the disease is a mutation in the ARHGAP31 gene." []
+xref: OMIM:100300
+xref: UMLS:CN028867
+synonym: "AOS1" EXACT []
+synonym: "ARHGAP31 Adams-Oliver syndrome" EXACT []
+synonym: "Adams-Oliver syndrome 1" EXACT []
+synonym: "Adams-Oliver syndrome caused by mutation in ARHGAP31" EXACT []
+synonym: "AOS" RELATED []
+synonym: "absence defect of limbs, scalp, and skull" RELATED []
+synonym: "aplasia cutis congenita with terminal transverse limb defects" RELATED []
+synonym: "aplasia cutis congenita, congenital heart defect, and frontonasal cysts" RELATED []
+synonym: "congenital scalp defects with distal limb reduction anomalies" RELATED []
+
+[Term]
+id: MONDO:0024521
+name: aortic aneurysm, familial abdominal, 1
+xref: OMIM:100070
+synonym: "AAA1" EXACT []
+synonym: "aortic aneurysm, familial abdominal 1" EXACT []
+synonym: "aortic aneurysm, familial abdominal, 1" EXACT []
+synonym: "abdominal aortic aneurysm" RELATED []
+synonym: "aneurysm, abdominal aortic" RELATED []
+
+[Term]
+id: MONDO:0043003
+name: familial acanthosis nigricans
+def: "An instance of acanthosis nigricans (disease) that is caused by an inherited modification of the individual's genome." []
+xref: MESH:C531598
+xref: OMIM:100600
+xref: UMLS:C2930792
+synonym: "hereditary acanthosis nigricans (disease)" EXACT []
+synonym: "acanthosis nigricans" RELATED []
+
