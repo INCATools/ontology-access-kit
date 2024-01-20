@@ -80,7 +80,7 @@ TODO: add an option to pass in your own yaml file
 
 The Python API is described here:
 
- - [ValidatorInterface](https://incatools.github.io/ontology-access-kit/interfaces/validator.html)
+ - [ValidatorInterface](https://incatools.github.io/ontology-access-kit/packages/interfaces/validator.html)
 
 Currently there is only one implementation, the SqlDatabase implementation
 
