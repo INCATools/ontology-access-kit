@@ -182,7 +182,7 @@ from oaklib.utilities.obograph_utils import (
     graph_to_image,
     graph_to_tree_display,
     shortest_paths,
-    trim_graph,
+    trim_graph, graph_to_d3viz_objects,
 )
 from oaklib.utilities.semsim.similarity_utils import load_information_content_map
 from oaklib.utilities.subsets.slimmer_utils import (
@@ -1949,42 +1949,54 @@ def tree(
     impl = settings.impl
     if configure:
         logging.warning("Configure is not yet supported")
-    if isinstance(impl, OboGraphInterface):
-        curies = list(query_terms_iterator(terms, impl))
-        if stylemap is None:
-            stylemap = default_stylemap_path()
-        actual_predicates = _process_predicates_arg(predicates)
-        if add_mrcas:
-            if isinstance(impl, SemanticSimilarityInterface):
-                curies_to_add = [
-                    lca
-                    for s, o, lca in impl.multiset_most_recent_common_ancestors(
-                        curies, predicates=actual_predicates
-                    )
-                ]
-                curies = list(set(curies + curies_to_add))
-                logging.info(f"Expanded CURIEs = {curies}")
-            else:
-                raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
-        if down:
-            graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
-        elif gap_fill:
-            logging.info("Using gap-fill strategy")
-            if isinstance(impl, SubsetterInterface):
-                rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
-                if isinstance(impl, OboGraphInterface):
-                    graph = impl.relationships_to_graph(rels)
-                else:
-                    raise AssertionError(f"{impl} needs to be of type OboGraphInterface")
-            else:
-                raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    if stylemap is None:
+        stylemap = default_stylemap_path()
+    actual_predicates = _process_predicates_arg(predicates)
+    if add_mrcas:
+        if isinstance(impl, SemanticSimilarityInterface):
+            curies_to_add = [
+                lca
+                for s, o, lca in impl.multiset_most_recent_common_ancestors(
+                    curies, predicates=actual_predicates
+                )
+            ]
+            curies = list(set(curies + curies_to_add))
+            logging.info(f"Expanded CURIEs = {curies}")
         else:
-            graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-        logging.info(
-            f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
+            raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
+    if down:
+        graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
+    elif gap_fill:
+        logging.info("Using gap-fill strategy")
+        if isinstance(impl, SubsetterInterface):
+            rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+            if isinstance(impl, OboGraphInterface):
+                graph = impl.relationships_to_graph(rels)
+            else:
+                raise AssertionError(f"{impl} needs to be of type OboGraphInterface")
+        else:
+            raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    else:
+        graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+    logging.info(
+        f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
+    )
+    if max_hops is not None:
+        graph = trim_graph(graph, curies, distance=max_hops)
+    if output_type in ["d3viz", "d3viz_relational"]:
+        trees = graph_to_d3viz_objects(
+            graph,
+            predicates=actual_predicates,
+            start_curies=list(root) if root else None,
+            relations_as_nodes=output_type == "d3viz_relational",
+            max_paths=None,
         )
-        if max_hops is not None:
-            graph = trim_graph(graph, curies, distance=max_hops)
+        json_dump = json.dumps(trees, indent=2)
+        output.write(json_dump)
+    else:
         graph_to_tree_display(
             graph,
             seeds=curies,
@@ -1996,8 +2008,7 @@ def tree(
             display_options=display.split(","),
             output=output,
         )
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
 
 
 @main.command()

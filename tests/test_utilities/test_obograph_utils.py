@@ -20,7 +20,7 @@ from oaklib.utilities.obograph_utils import (
     graph_to_tree_display,
     induce_graph_prefix_map,
     shortest_paths,
-    trim_graph,
+    trim_graph, graph_to_tree_structure, graph_to_d3viz_objects,
 )
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
@@ -115,7 +115,7 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertGreater(len(g.edges), len(g2.edges))
         self.assertGreater(len(g2.edges), 100)
 
-    def test_as_tree(self):
+    def test_as_tree_display(self):
         t = graph_to_tree_display(self.graph, predicates=[IS_A])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
@@ -127,6 +127,17 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertIn("* [p] GO:0019209 ! kinase activator activity", t)
         self.assertGreater(len(lines), 100)
+
+    def test_as_tree_structure(self):
+        ts = graph_to_tree_structure(self.graph, predicates=[IS_A])
+        objs = [t.model_dump() for t in ts]
+        print(json.dumps(objs, indent=2))
+
+    def test_as_d3viz(self):
+        for preds in [[IS_A], [IS_A, PART_OF]]:
+            for relations_as_nodes in [True, False]:
+                objs = graph_to_d3viz_objects(self.graph, predicates=preds, relations_as_nodes=relations_as_nodes)
+                print(json.dumps(objs, indent=2))
 
     def test_trim_ancestors(self):
         oi = self.oi
