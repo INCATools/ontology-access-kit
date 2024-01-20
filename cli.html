@@ -459,7 +459,7 @@ a parent includes all relationship types, not just is-a.</p>
 </div></blockquote>
 <p>This will show ancestry over the full relationship graph. Like any relational
 OAK command, this can be filtered by relationship type (predicate), using –predicate (-p).
-For exampple, constrained to is-a and part-of:</p>
+For example, constrained to is-a and part-of:</p>
 <blockquote>
 <div><p>runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050</p>
 </div></blockquote>
@@ -4528,7 +4528,7 @@ all classes in the main OBI release will include not only “native” OBI class
 but also classes from other ontologies that are bundled in the release.</p>
 <p>For bundled ontologies, we recommend some kind of partitioning, such as via
 defined roots, or via the CURIE prefix, using the <code class="docutils literal notranslate"><span class="pre">--group-by-prefix</span></code> option.</p>
-<p>Ouput formats:</p>
+<p>Output formats:</p>
 <p>The recommended output types for this command are yaml, json, or csv.
 The default output type is yaml, following the SummaryStatistics data model.
 This is naturally nested, as the statistics includes faceted groupings

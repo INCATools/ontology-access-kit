@@ -1,7 +1,7 @@
 # Slot: predicate
 
 
-_The relationship type for the contraint (e.g. in_taxon, never_in taxon)_
+_The relationship type for the constraint (e.g. in_taxon, never_in taxon)_
 
 
 
@@ -59,7 +59,7 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 <details>
 ```yaml
 name: predicate
-description: The relationship type for the contraint (e.g. in_taxon, never_in taxon)
+description: The relationship type for the constraint (e.g. in_taxon, never_in taxon)
 todos:
 - define a value set of this
 from_schema: https://w3id.org/oak/taxon_constraints

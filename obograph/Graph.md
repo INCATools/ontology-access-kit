@@ -269,7 +269,7 @@ attributes:
     name: nodes
     description: All nodes present in a graph. This includes class nodes as well as
       supporting nodes, including nodes representing relationship types, subsets,
-      annotation proeprties, etc
+      annotation properties, etc
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true

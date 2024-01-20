@@ -71,7 +71,7 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [subject](subject.md) | 0..1 <br/> [SubjectTerm](SubjectTerm.md) | The term to which the constraint applies | direct |
-| [predicate](predicate.md) | 0..1 <br/> [PredicateTerm](PredicateTerm.md) | The relationship type for the contraint (e | direct |
+| [predicate](predicate.md) | 0..1 <br/> [PredicateTerm](PredicateTerm.md) | The relationship type for the constraint (e | direct |
 | [asserted](asserted.md) | 0..1 <br/> [Boolean](Boolean.md) | holds if the constraint is asserted in the source ontology, rather than infer... | direct |
 | [evolutionary](evolutionary.md) | 0..1 <br/> [Boolean](Boolean.md) | holds if the constraint is an evolutionary statement | direct |
 | [redundant](redundant.md) | 0..1 <br/> [Boolean](Boolean.md) | True if this is redundant within the set of constraints of the same type (nev... | direct |
@@ -156,7 +156,7 @@ attributes:
     range: SubjectTerm
   predicate:
     name: predicate
-    description: The relationship type for the contraint (e.g. in_taxon, never_in
+    description: The relationship type for the constraint (e.g. in_taxon, never_in
       taxon)
     todos:
     - define a value set of this
@@ -278,7 +278,7 @@ attributes:
     range: SubjectTerm
   predicate:
     name: predicate
-    description: The relationship type for the contraint (e.g. in_taxon, never_in
+    description: The relationship type for the constraint (e.g. in_taxon, never_in
       taxon)
     todos:
     - define a value set of this

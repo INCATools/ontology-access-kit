@@ -1,7 +1,7 @@
 # Slot: nodes
 
 
-_All nodes present in a graph. This includes class nodes as well as supporting nodes, including nodes representing relationship types, subsets, annotation proeprties, etc_
+_All nodes present in a graph. This includes class nodes as well as supporting nodes, including nodes representing relationship types, subsets, annotation properties, etc_
 
 
 
@@ -58,7 +58,7 @@ URI: [obographs:nodes](https://github.com/geneontology/obographs/nodes)
 ```yaml
 name: nodes
 description: All nodes present in a graph. This includes class nodes as well as supporting
-  nodes, including nodes representing relationship types, subsets, annotation proeprties,
+  nodes, including nodes representing relationship types, subsets, annotation properties,
   etc
 from_schema: https://github.com/geneontology/obographs
 rank: 1000

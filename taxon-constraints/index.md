@@ -34,7 +34,7 @@ Name: taxon-constraints
 | [label](label.md) | the human readable name or label of the term |
 | [never_in](never_in.md) | Points to a taxon constraint that states the SubjectTerm is NEVER found in a ... |
 | [only_in](only_in.md) | Points to a taxon constraint that states the SubjectTerm is ONLY found in a t... |
-| [predicate](predicate.md) | The relationship type for the contraint (e |
+| [predicate](predicate.md) | The relationship type for the constraint (e |
 | [predicates](predicates.md) | The predicates that connect the subject term to the via_terms |
 | [present_in](present_in.md) | The term MAY be in the specified taxon, or a descendant of that taxon |
 | [present_in_ancestor_of](present_in_ancestor_of.md) |  |
