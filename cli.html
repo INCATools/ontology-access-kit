@@ -533,13 +533,25 @@ For example, constrained to is-a and part-of:</p>
 </section>
 <section id="runoak-annotate">
 <h4>annotate<a class="headerlink" href="#runoak-annotate" title="Link to this heading"></a></h4>
-<p>Annotate a piece of text using a Named Entity Recognition annotation</p>
+<p>Annotate a piece of text using a Named Entity Recognition annotation.</p>
+<p>Some endpoints such as BioPortal have built-in support for annotation;
+in these cases the endpoint functionality is used:</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i bioportal: annotate “enlarged nucleus in T-cells from peripheral blood”</p>
 </div></blockquote>
-<p>See the ontorunner framework for plugins for SciSpacy and OGER - these will
-later become plugins.</p>
+<p>For other endpoints, the built-in OAK annotator is used. This currently uses a basic
+algorithm based on lexical matching.</p>
+<blockquote>
+<div><p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:cl annotate “enlarged nucleus in T-cells from peripheral blood”</p>
+</div></blockquote>
+</div></blockquote>
+<p>Using the builtin annotator can be slow, as the lexical index is re-built every time.
+To preserve this, use the <code class="docutils literal notranslate"><span class="pre">--lexical-index-file</span></code> (<code class="docutils literal notranslate"><span class="pre">-L</span></code>) option to specify a file to save.
+On subsequent iterations the file is reused.</p>
+<p>You can also use <code class="docutils literal notranslate"><span class="pre">--text-file</span></code> to pass in a text file to be parsed one line at a time</p>
 <p>If gilda is installed as an extra, it can be used,
 but <code class="docutils literal notranslate"><span class="pre">--matches-whole-text</span></code> (<code class="docutils literal notranslate"><span class="pre">-W</span></code>) must be specified,
 as gilda only performs grounding.</p>
@@ -613,6 +625,12 @@ subject_start: 0</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-annotate-A">
+<span id="cmdoption-runoak-annotate-match-column"></span><span class="sig-name descname"><span class="pre">-A</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--match-column</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;match_column&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-annotate-A" title="Link to this definition"></a></dt>
+<dd><p>name of column to match on (if the input is tsv/csv)</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-annotate-m">
 <span id="cmdoption-runoak-annotate-model"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-annotate-m" title="Link to this definition"></a></dt>
 <dd><p>Name of trained model to use for annotation, e.g. ‘en_ner_craft_md’.</p>
@@ -627,13 +645,13 @@ subject_start: 0</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-annotate-R">
 <span id="cmdoption-runoak-annotate-rules-file"></span><span class="sig-name descname"><span class="pre">-R</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--rules-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;rules_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-annotate-R" title="Link to this definition"></a></dt>
-<dd><p>path to rules file. Conforms to <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel">https://w3id.org/oak/mapping-rules-datamodel</a></p>
+<dd><p>path to rules file. Conforms to <a class="reference external" href="https://w3id.org/oak/mapping-rules">https://w3id.org/oak/mapping-rules</a></p>
 </dd></dl>
 
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-annotate-C">
 <span id="cmdoption-runoak-annotate-configuration-file"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configuration-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configuration_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-annotate-C" title="Link to this definition"></a></dt>
-<dd><p>path to config file. Conforms to <a class="reference external" href="https://w3id.org/oak/test-annotation">https://w3id.org/oak/test-annotation</a></p>
+<dd><p>path to config file. Conforms to <a class="reference external" href="https://w3id.org/oak/text-annotator">https://w3id.org/oak/text-annotator</a></p>
 </dd></dl>
 
 <dl class="std option">
