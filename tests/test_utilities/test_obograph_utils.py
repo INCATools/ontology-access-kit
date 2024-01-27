@@ -17,10 +17,12 @@ from oaklib.utilities.obograph_utils import (
     filter_by_predicates,
     graph_as_dict,
     graph_ids,
+    graph_to_d3viz_objects,
     graph_to_tree_display,
+    graph_to_tree_structure,
     induce_graph_prefix_map,
     shortest_paths,
-    trim_graph, graph_to_tree_structure, graph_to_d3viz_objects,
+    trim_graph,
 )
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
@@ -136,7 +138,9 @@ class TestOboGraphUtils(unittest.TestCase):
     def test_as_d3viz(self):
         for preds in [[IS_A], [IS_A, PART_OF]]:
             for relations_as_nodes in [True, False]:
-                objs = graph_to_d3viz_objects(self.graph, predicates=preds, relations_as_nodes=relations_as_nodes)
+                objs = graph_to_d3viz_objects(
+                    self.graph, predicates=preds, relations_as_nodes=relations_as_nodes
+                )
                 print(json.dumps(objs, indent=2))
 
     def test_trim_ancestors(self):

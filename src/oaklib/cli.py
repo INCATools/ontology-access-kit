@@ -141,6 +141,10 @@ from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter, get_resource_from_shorthand
+from oaklib.transformers.transformers_factory import (
+    apply_ontology_transformation,
+    get_ontology_transformer,
+)
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
@@ -179,10 +183,11 @@ from oaklib.utilities.ner_utilities import get_exclusion_token_list
 from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
     default_stylemap_path,
+    graph_to_d3viz_objects,
     graph_to_image,
     graph_to_tree_display,
     shortest_paths,
-    trim_graph, graph_to_d3viz_objects,
+    trim_graph,
 )
 from oaklib.utilities.semsim.similarity_utils import load_information_content_map
 from oaklib.utilities.subsets.slimmer_utils import (
@@ -2010,7 +2015,6 @@ def tree(
         )
 
 
-
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
@@ -2433,11 +2437,6 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     """
     Exports (dumps) the entire contents of an ontology.
 
-    :param terms: A list of terms to dump. If not specified, the entire ontology will be dumped.
-    :param output: Path to output file
-    :param output_type: The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl
-    :param config_file: Path to a configuration JSON file for additional params (which may be required for some formats)
-
     Example:
 
         runoak -i pato.obo dump -o pato.json -O json
@@ -2468,14 +2467,73 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     if terms:
         raise NotImplementedError("Currently dump for a subset of terms is not supported")
     impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        logging.info(f"Out={output} syntax={output_type}")
-        if config_file:
-            with open(config_file) as file:
-                kwargs |= json.load(file)
-        impl.dump(output, syntax=output_type, **kwargs)
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError
+    logging.info(f"Out={output} syntax={output_type}")
+    if config_file:
+        with open(config_file) as file:
+            kwargs |= json.load(file)
+    impl.dump(output, syntax=output_type, **kwargs)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option("-o", "--output", help="Path to output file")
+@output_type_option
+@click.option(
+    "-c",
+    "--config-file",
+    help="""Config file for additional transform params.""",
+)
+@click.option(
+    "-t",
+    "--transform",
+    required=True,
+    help="""Name of transformation to apply.""",
+)
+def transform(terms, transform, output, output_type: str, config_file: str = None, **kwargs):
+    """
+    Transforms an ontology
+
+    Example:
+
+        runoak -i pato.obo dump -o pato.json -O json
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O turtle
+
+    You can also pass in a JSON configuration file to parameterize the dump process.
+
+    Currently this is only used for fhirjson dumps, the configuration options are specified here:
+
+    https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
+
+    Currently each implementation only supports a subset of formats.
+
+    The dump command is also blocked for remote endpoints such as Ubergraph,
+    to avoid killer queries.
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
+    """
+    if terms:
+        raise NotImplementedError("Currently transform for a subset of terms is not supported")
+    impl = settings.impl
+    if not isinstance(impl, BasicOntologyInterface):
+        raise NotImplementedError
+    logging.info(f"Out={output} syntax={output_type}")
+    if config_file:
+        with open(config_file) as file:
+            kwargs |= yaml.safe_load(file)
+    transformer = get_ontology_transformer(transform, **kwargs)
+    new_impl = apply_ontology_transformation(impl, transformer)
+    new_impl.dump(output, syntax=output_type)
 
 
 @main.command()
