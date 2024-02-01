@@ -6,6 +6,7 @@ from oaklib.parsers.association_parser import AssociationParser
 from oaklib.parsers.gaf_association_parser import GafAssociationParser
 from oaklib.parsers.gencc_association_parser import GenCCAssociationParser
 from oaklib.parsers.hpoa_association_parser import HpoaAssociationParser
+from oaklib.parsers.hpoa_g2d_association_parser import HpoaG2DAssociationParser
 from oaklib.parsers.hpoa_g2p_association_parser import HpoaG2PAssociationParser
 from oaklib.parsers.mim2gene_association_parser import MedgenMimG2DAssociationParser
 from oaklib.parsers.pairwise_association_parser import PairwiseAssociationParser
@@ -37,6 +38,9 @@ HPOA = "hpoa"
 HPOA_G2P = "hpoa_g2p"
 """HPO Gene-to-Phenotype syntax"""
 
+HPOA_G2D = "hpoa_g2d"
+"""HPO Gene-to-Disease syntax"""
+
 GENCC = "gencc"
 """GenCC CSV format"""
 
@@ -67,6 +71,7 @@ def get_association_parser_resolver() -> ClassResolver[AssociationParser]:
             HPOA: HpoaAssociationParser,
             G2T: PairwiseAssociationParser,
             HPOA_G2P: HpoaG2PAssociationParser,
+            HPOA_G2D: HpoaG2DAssociationParser,
             PHAF: PhafAssociationParser,
             GENCC: GenCCAssociationParser,
             MEDGEN_MIM_G2D: MedgenMimG2DAssociationParser,

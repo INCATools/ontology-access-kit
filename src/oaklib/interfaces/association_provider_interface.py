@@ -5,9 +5,11 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.association import Association, PairwiseCoAssociation
+from oaklib.datamodels.similarity import TermSetPairwiseSimilarity
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.associations.association_index import AssociationIndex
 from oaklib.utilities.iterator_utils import chunk
@@ -138,6 +140,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        add_closure_fields: bool = False,
+        **kwargs,
     ) -> Iterator[Association]:
         """
         Yield all matching associations.
@@ -166,7 +170,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         PomBase:SPAC1142.02c sgt2
         ...
 
-        When determinining a match on `objects`, the predicates in ``object_closure_predicates`` is used.
+        When determining a match on `objects`, the predicates in ``object_closure_predicates`` is used.
         We recommend you always explicitly provide this. A good choice is typically IS_A and PART_OF for
         ontologies like GO, Uberon, CL, ENVO.
 
@@ -177,6 +181,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         :param subject_closure_predicates: subjects is treated as descendant via these predicates
         :param predicate_closure_predicates: predicates is treated as descendant via these predicates
         :param object_closure_predicates: object is treated as descendant via these predicates
+        :param add_closure_fields: add subject and object closure fields to the association
         :param include_modified:
         :return:
         """
@@ -206,19 +211,19 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                     association.subject_label = label_map[association.subject]
             yield from associations
 
-    def associations_subjects(self, **kwargs) -> Iterator[CURIE]:
+    def associations_subjects(self, *args, **kwargs) -> Iterator[CURIE]:
         """
         Yields all distinct subjects.
 
         >>> from oaklib import get_adapter
         >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
         >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
-        >>> genes = ["PomBase:SPAC1142.02c", "PomBase:SPAC3H1.05", "PomBase:SPAC1142.06", "PomBase:SPAC4G8.02c"]
-        >>> for assoc in adapter.associations(genes, object_closure_predicates=[IS_A, PART_OF]):
-        ...    print(f"{assoc.object} {adapter.label(assoc.object)}")
+        >>> preds = [IS_A, PART_OF]
+        >>> for gene in adapter.associations_subjects(objects=["GO:0045047"], object_closure_predicates=preds):
+        ...    print(gene)
         <BLANKLINE>
         ...
-        GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane
+        PomBase:SPBC1271.05c
         ...
 
         :param kwargs: same arguments as for :ref:`associations`
@@ -226,12 +231,101 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         """
         # individual implementations should override this to be more efficient
         yielded = set()
-        for a in self.associations(**kwargs):
+        for a in self.associations(*args, **kwargs):
             s = a.subject
             if s in yielded:
                 continue
             yield s
             yielded.add(s)
+
+    def associations_subject_search(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        subject_prefixes: Optional[List[str]] = None,
+        include_similarity_object: bool = False,
+        method: Optional[str] = None,
+        limit: Optional[int] = 10,
+        sort_by_similarity: bool = True,
+        **kwargs,
+    ) -> Iterator[Tuple[float, Optional[TermSetPairwiseSimilarity], CURIE]]:
+        """
+        Search over all subjects in the association index.
+
+        This relies on the SemanticSimilarityInterface.
+
+        .. note::
+
+           this is currently quite slow, this will be optimized in future
+
+        :param subjects: optional set of subjects (e.g. genes) to search against
+        :param predicates: only use associations with this predicate
+        :param objects: this is the query - the asserted objects for all subjects
+        :param property_filter: passed to associations query
+        :param subject_closure_predicates: passed to associations query
+        :param predicate_closure_predicates: passed to associations query
+        :param object_closure_predicates: closure to use over the ontology
+        :param subject_prefixes: only consider subjects with these prefixes
+        :param include_similarity_object: include the similarity object in the result
+        :param method: similarity method to use
+        :param limit: max number of results to return
+        :param kwargs:
+        :return: iterator over ordered pairs of (score, sim, subject)
+        """
+        all_assocs = []
+        if not subjects:
+            all_assocs = list(
+                self.associations(
+                    predicates=predicates, subject_closure_predicates=subject_closure_predicates
+                )
+            )
+            subjects = list({a.subject for a in all_assocs})
+        rows = []
+        n = 0
+        for subject in subjects:
+            if subject_prefixes:
+                if not any(subject.startswith(prefix) for prefix in subject_prefixes):
+                    continue
+            if all_assocs:
+                assocs = [a for a in all_assocs if a.subject == subject]
+            else:
+                assocs = self.associations(
+                    subjects=[subject],
+                    predicates=predicates,
+                    property_filter=property_filter,
+                    predicate_closure_predicates=predicate_closure_predicates,
+                )
+            terms = list({a.object for a in assocs})
+            if not isinstance(self, SemanticSimilarityInterface):
+                raise NotImplementedError
+            sim = self.termset_pairwise_similarity(
+                objects, terms, predicates=object_closure_predicates, labels=False
+            )
+            score = sim.best_score
+            if include_similarity_object:
+                row = (score, sim, subject)
+            else:
+                row = (score, None, subject)
+            if sort_by_similarity:
+                rows.append(row)
+            else:
+                yield row
+                n += 1
+                if limit and n >= limit:
+                    break
+        if rows:
+            # sort each row tuple by the first element of the tuple
+            n = 0
+            for row in sorted(rows, key=lambda x: x[0], reverse=True):
+                yield row
+                n += 1
+                if limit and n >= limit:
+                    break
 
     def association_pairwise_coassociations(
         self,
@@ -270,6 +364,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             raise NotImplementedError
         curies1 = list(curies1)
         curies2 = list(curies2)
+        logging.info(f"Finding co-associations between {curies1} and {curies2}")
         assocmap1 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies1}
         assocmap2 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies2}
         for c1 in curies1:
@@ -337,6 +432,20 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
 
         Here objects are typically nodes from ontologies and subjects are annotated
         entities such as genes.
+
+        >>> from oaklib import get_adapter
+        >>> from oaklib.datamodels.vocabulary import IS_A, PART_OF
+        >>> adapter = get_adapter("src/oaklib/conf/go-pombase-input-spec.yaml")
+        >>> genes = ["PomBase:SPAC1142.02c", "PomBase:SPAC3H1.05", "PomBase:SPAC1142.06"]
+        >>> preds = [IS_A, PART_OF]
+        >>> for term, num in adapter.association_subject_counts(genes, object_closure_predicates=preds):
+        ...    print(term, num)
+        <BLANKLINE>
+        ...
+        GO:0051668 3
+        ...
+
+        This shows that GO:0051668 (localization within membrane) is used for all 3 input subjects
 
         :param subjects:
         :param predicates:

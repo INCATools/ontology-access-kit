@@ -64,6 +64,11 @@
             "penwidth": 3,            
             "label": "ⓟ"
         },
+        "RO:0004009": {
+            "arrowhead": "box",
+            "color": "green",
+            "penwidth": 3
+        },
         "UPHENO:0000001": {
             "color": "gray",
             "label": "Ⓐ"
@@ -152,6 +157,9 @@
         "FBdv": {
             "fillcolor": "mediumturquoise"
         },
+        "PR": {
+            "fillcolor": "mediumturquoise"
+        },
         "RO": {
             "fillcolor": "pink"
         },
@@ -161,13 +169,13 @@
         "ENVO": {
             "fillcolor": "cyan"
         },
+        "CHEBI": {
+            "fillcolor": "cyan"
+        },
         "NCBITaxon": {
             "fillcolor": "burlywood1"
         },
         "FOODON": {
-            "fillcolor": "pink"
-        },
-        "CHEBI": {
             "fillcolor": "pink"
         },
         "sweet:realm/": {

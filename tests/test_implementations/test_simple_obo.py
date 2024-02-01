@@ -304,6 +304,13 @@ class TestSimpleOboImplementation(unittest.TestCase):
     def test_extract_graph(self):
         self.compliance_tester.test_extract_graph(self.oi, test_metadata=False)  # TODO
 
+    @unittest.skip("TODO")
+    def test_subgraph_from_traversal(self):
+        self.compliance_tester.test_subgraph_from_traversal(self.oi)
+
+    def test_as_obograph(self):
+        self.compliance_tester.test_as_obograph(self.oi)
+
     def test_ancestors_descendants(self):
         self.compliance_tester.test_ancestors_descendants(self.oi)
 

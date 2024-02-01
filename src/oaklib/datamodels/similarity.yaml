@@ -60,6 +60,7 @@ classes:
       - subject_information_content
       - ancestor_information_content
       - jaccard_similarity
+      - cosine_similarity
       - dice_similarity
       - phenodigm_score
 
@@ -173,6 +174,10 @@ slots:
     is_a: score
     range: ZeroToOne
     description: The number of concepts in the intersection divided by the number in the union
+  cosine_similarity:
+     is_a: score
+     range: float
+     description: the dot product of two node embeddings divided by the product of their lengths
   dice_similarity:
     is_a: score
     range: ZeroToOne

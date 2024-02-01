@@ -3,7 +3,7 @@ import io
 import logging
 import os
 from pathlib import Path
-from typing import List, Optional, Type, Union
+from typing import List, Optional, Type, TypeVar, Union
 
 import requests
 from deprecation import deprecated
@@ -12,6 +12,7 @@ from linkml_runtime.loaders import yaml_loader
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
 from oaklib.datamodels.input_specification import InputSpecification, Normalizer
+from oaklib.implementations import GildaImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces import OntologyInterface
 from oaklib.interfaces.association_provider_interface import (
@@ -40,6 +41,12 @@ ASSOCIATION_REGISTRY = {
         "http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt",
         False,
     ),
+    "hpoa_g2d": (
+        [],
+        "hpoa_g2d",
+        "http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt",
+        False,
+    ),
     "gaf": (["group"], "gaf", "http://current.geneontology.org/annotations/{group}.gaf.gz", True),
     "gaf_archive": (
         ["date", "group"],
@@ -61,10 +68,15 @@ ASSOCIATION_REGISTRY = {
     ),
 }
 
+T = TypeVar("T", bound=BasicOntologyInterface)
+
 
 def get_adapter(
-    descriptor: Union[str, Path, InputSpecification], format: str = None
-) -> BasicOntologyInterface:
+    descriptor: Union[str, Path, InputSpecification],
+    format: str = None,
+    implements: Optional[Type[T]] = None,
+    **kwargs,
+) -> T:
     """
     Gets an adapter (implementation) for a given descriptor.
 
@@ -111,9 +123,23 @@ def get_adapter(
         >>> print(adapter.label("GO:0005634"))
         nucleus
 
+    If you want to pass extra information through to the implementation
+    class, you can do so with keyword arguments:
+
+    .. packages :: python
+
+        >>> from oaklib import get_adapter
+        >>> from gilda import get_grounder
+        >>> grounder = get_grounder()
+        >>> adapter = get_adapter("gilda:", grounder=grounder)
+        >>> annotations = adapter.annotate_text("nucleus")
+
     :param descriptor:
-    :param format:
-    :return:
+        The input specification, path to a YAML describing an input specification,
+        or a shorthand string for instantiating an ontology interface
+    :param format: file format/syntax, e.g obo, turtle
+    :param kwargs: Keyword arguments to pass through to the implementation class
+    :return: An instantiated interface
     """
     if isinstance(descriptor, InputSpecification):
         return _get_adapter_from_specification(descriptor)
@@ -123,7 +149,7 @@ def get_adapter(
         input_specification = yaml_loader.load(open(descriptor), InputSpecification)
         return get_adapter(input_specification)
     res = get_resource_from_shorthand(descriptor, format)
-    return res.implementation_class(res)
+    return res.implementation_class(res, **kwargs)
 
 
 def _get_adapter_from_specification(
@@ -393,6 +419,8 @@ def get_resource_from_shorthand(
                 resource.local = True
 
             resource.slug = rest
+        elif impl_class == GildaImplementation:
+            resource.slug = Path(rest).resolve().as_posix() if rest is not None else rest
         elif not impl_class:
             raise ValueError(f"Scheme {scheme} not known")
     else:

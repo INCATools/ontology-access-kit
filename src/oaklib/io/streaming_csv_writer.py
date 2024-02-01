@@ -1,5 +1,6 @@
 import csv
 import logging
+from copy import copy
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Mapping, Type, Union
 
@@ -47,7 +48,7 @@ class StreamingCsvWriter(StreamingWriter):
         elif isinstance(obj, CURIE):
             obj_as_dict = self._get_dict(obj)
         else:
-            obj_as_dict = vars(obj)
+            obj_as_dict = copy(vars(obj))
         self._rewrite_dict(obj_as_dict, obj)
         obj_as_dict = self.add_labels(obj_as_dict, label_fields)
         heterogeneous_keys = self.heterogeneous_keys or self.pivot_fields
@@ -151,6 +152,7 @@ class StreamingCsvWriter(StreamingWriter):
         :param original:
         :return:
         """
+        # TODO: do this more generically using a transformer
         if isinstance(original, obograph.LogicalDefinitionAxiom):
             restrictions = original.restrictions
             obj_as_dict["genusIds"] = "|".join(original.genusIds)
@@ -159,6 +161,26 @@ class StreamingCsvWriter(StreamingWriter):
             obj_as_dict["restrictions"] = "|".join(
                 [f"{r.propertyId}={r.fillerId}" for r in original.restrictions]
             )
+            del obj_as_dict["meta"]
+        if isinstance(original, obograph.DisjointClassExpressionsAxiom):
+            # obj_as_dict["classIds"] = original.classIds
+            obj_as_dict["classExpressionPropertyIds"] = [
+                r.propertyId for r in original.classExpressions
+            ]
+            obj_as_dict["classExpressionFillerIds"] = [
+                r.fillerId for r in original.classExpressions
+            ]
+            del obj_as_dict["classExpressions"]
+            # if original.unionEquivalentTo:
+            #    obj_as_dict["unionEquivalentTo"] = original.unionEquivalentTo
+            if original.unionEquivalentToExpression:
+                obj_as_dict[
+                    "unionEquivalentToFillerId"
+                ] = original.unionEquivalentToExpression.fillerId
+                obj_as_dict[
+                    "unionEquivalentToPropertyId"
+                ] = original.unionEquivalentToExpression.propertyId
+                del obj_as_dict["unionEquivalentToExpression"]
             del obj_as_dict["meta"]
         if isinstance(original, summary_stats.UngroupedStatistics):
             for slot in [

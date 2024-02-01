@@ -159,7 +159,5 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
     def _uri_ref(self, curie: CURIE) -> rdflib.URIRef:
         if self.curie_converter is None:
             self.curie_converter = BasicOntologyInterface().converter
-        uri = self.curie_converter.expand(curie)
-        if uri is None:
-            uri = curie
+        uri = self.curie_converter.expand(curie, passthrough=True)
         return rdflib.URIRef(uri)

@@ -121,6 +121,11 @@ class StreamingWriter(ABC):
         :param label_fields:
         :return:
         """
+
+        def _label(c: CURIE) -> str:
+            lbl = self.ontology_interface.label(c, lang=self.settings.preferred_language)
+            return str(lbl) if lbl else ""
+
         if label_fields and self.autolabel:
             for f in label_fields:
                 curie = obj_as_dict.get(f, None)
@@ -131,14 +136,7 @@ class StreamingWriter(ABC):
                     if delim and isinstance(curie, str) and delim in curie:
                         curie = curie.split("|")
                     if isinstance(curie, list):
-                        label = [
-                            str(
-                                self.ontology_interface.label(
-                                    c, lang=self.settings.preferred_language
-                                )
-                            )
-                            for c in curie
-                        ]
+                        label = [_label(c) for c in curie]
                         if delim:
                             label = delim.join(label)
                     else:

@@ -67,7 +67,7 @@ OAK uses a mixture of native an external data models.
 
 Native data models have the OAK w3id namespace - for example, `<https://w3id.org/oak/class-enrichment>`_.
 
-What is an interator and why does OAK use them so much?
+What is an iterator and why does OAK use them so much?
 ---------------------
 
 OAK uses iterators in place of lists in a lot of places, in order to make the

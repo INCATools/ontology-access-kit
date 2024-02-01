@@ -8,6 +8,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 from sssom.constants import RDFS_SUBCLASS_OF, RDFS_SUBPROPERTY_OF
 
 from oaklib.datamodels.obograph import (
+    DisjointClassExpressionsAxiom,
     Edge,
     Graph,
     LogicalDefinitionAxiom,
@@ -461,6 +462,14 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         Returns all paths between sources and targets.
 
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db", implements=OboGraphInterface)
+        >>> for path in sorted(list(adapter.paths(["GO:0005634"], ["GO:0005773"]))):
+        ...   print(path)
+        ('GO:0005634', 'GO:0005773', 'GO:0005634')
+        ('GO:0005634', 'GO:0005773', 'GO:0005773')
+        ('GO:0005634', 'GO:0005773', 'GO:0043231')
+
         :param start_curies:
         :param start_curies:
         :param predicates:
@@ -491,12 +500,51 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
                 yield s, o, intermediate
 
     def logical_definitions(
-        self, subjects: Optional[Iterable[CURIE]] = None
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
     ) -> Iterable[LogicalDefinitionAxiom]:
         """
-        Yields all logical definitions for input subjects
+        Yields all logical definitions for input subjects.
 
-        :param subjects:
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("tests/input/go-nucleus.db", implements=OboGraphInterface)
+        >>> for ldef in adapter.logical_definitions(["GO:0009892"]):
+        ...     print(f"Genus: {adapter.label(ldef.genusIds[0])}")
+        ...     for r in ldef.restrictions:
+        ...         print(f"  Differentia: {adapter.label(r.propertyId)} SOME {adapter.label(r.fillerId)}")
+        Genus: biological regulation
+          Differentia: negatively regulates SOME metabolic process
+
+        Leaving the subjects parameter as None will yield all logical definitions in the ontology.
+
+        >>> len(list(adapter.logical_definitions()))
+        50
+
+        :param subjects: If specified, defined class must be in this set
+        :param predicates: If specified, only yields logical definitions with these predicates
+        :param objects: If specified, only yields logical definitions with genus or filler in this list
+
+        :return:
+        """
+        return iter(())
+
+    def disjoint_class_expressions_axioms(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        group=False,
+        **kwargs,
+    ) -> Iterable[DisjointClassExpressionsAxiom]:
+        """
+        Yields all disjoint class expressions.
+
+        :param subjects: if present, filter to only those that reference these subjects
+        :param predicates: if present, filter to only those that reference these predicates
+        :param group: if True, group into cliques
+        :param kwargs:
         :return:
         """
         return iter(())

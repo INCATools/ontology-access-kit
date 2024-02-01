@@ -34,6 +34,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
        If this is set then the recommended value is dct:contributor"""
 
     ignore_invalid_changes: bool = False
+    """If True, then invalid changes are ignored. If False, then invalid changes raise an exception"""
 
     def apply_patch(
         self,
@@ -172,8 +173,13 @@ class PatcherInterface(BasicOntologyInterface, ABC):
                                 # edge previously existed
                                 continue
                             new_edges.append(e)
+                            desc = f"Rewired from link to {about_node} {self.label(about_node)}"
                             ch = EdgeCreation(
-                                generate_change_id(), subject=s, predicate=pred, object=o
+                                generate_change_id(),
+                                subject=s,
+                                predicate=pred,
+                                object=o,
+                                change_description=desc,
                             )
                             changes.append(ch)
                             logging.info(f"Rewiring {s} {p1} {about_node} to {s} {pred} {o}")

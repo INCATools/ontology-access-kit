@@ -49,6 +49,7 @@ from oaklib.inference.relation_graph_reasoner import RelationGraphReasoner
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    DEFINITION,
     LANGUAGE_TAG,
     METADATA_MAP,
     PRED_CURIE,
@@ -74,6 +75,9 @@ from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterfac
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.utilities.axioms.logical_definition_utilities import (
+    logical_definition_matches,
+)
 from oaklib.utilities.kgcl_utilities import tidy_change_object
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
@@ -490,6 +494,27 @@ class ProntoImplementation(
         e = self._entity(curie)
         return e.definition if e else None
 
+    def definitions(
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
+    ) -> Iterator[DEFINITION]:
+        for curie in curies:
+            e = self._entity(curie)
+            if not e:
+                continue
+            defn = e.definition
+            if not defn and not include_missing:
+                continue
+            metadata = {}
+            if include_metadata:
+                metadata[HAS_DBXREF] = []
+                for x in defn.xrefs:
+                    metadata[HAS_DBXREF].append(x.id)
+            yield curie, defn, metadata
+
     def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         for curie in curies:
             e = self._entity(curie)
@@ -702,10 +727,11 @@ class ProntoImplementation(
             Edge(sub=r[0], pred="is_a" if r[1] == IS_A else r[1], obj=r[2])
             for r in self.relationships()
         ]
+        ldefs = list(self.logical_definitions(entities))
         graph_id = om.ontology
         if not graph_id:
             graph_id = self.resource.slug
-        return Graph(id=graph_id, nodes=nodes, edges=edges)
+        return Graph(id=graph_id, nodes=nodes, edges=edges, logicalDefinitionAxioms=ldefs)
 
     def synonym_property_values(
         self, subject: Union[CURIE, Iterable[CURIE]]
@@ -725,8 +751,14 @@ class ProntoImplementation(
                     yield curie, spv
 
     def logical_definitions(
-        self, subjects: Optional[Iterable[CURIE]]
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
     ) -> Iterable[obograph.LogicalDefinitionAxiom]:
+        if not subjects:
+            subjects = self.entities()
         for s in subjects:
             term = self._entity(s)
             if term and term.intersection_of:
@@ -741,7 +773,8 @@ class ProntoImplementation(
                             propertyId=rel, fillerId=filler.id
                         )
                         ldef.restrictions.append(er)
-                yield ldef
+                if logical_definition_matches(ldef, predicates=predicates, objects=objects):
+                    yield ldef
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface

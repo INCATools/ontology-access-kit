@@ -1,21 +1,24 @@
-# Auto generated from association.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-05-01T17:10:02
+# Auto generated from association.yaml by pythongen.py version: 0.0.1
+# Generation date: 2023-11-17T17:56:03
 # Schema: association
 #
 # id: https://w3id.org/oak/association
-# description: A data model for representing generic associations and changes of these associations. The core data
-#              model is broad, encompassing the W3 Open Annotation data model as well as common ontology
-#              annotation data models using in the biosciences, such as the GAF data model used by the Gene
-#              Ontology, and the HPOA association model used by the Human Phenotype Ontology. The core elements of
-#              the data model are the *subject* (the entity being described) and the *object* (the term,
-#              descriptor, or other entity that describes some aspect of the subject). A subject might be a
-#              biological entity such as gene, drug, disease, person, or chemical. The object is typically a class
-#              from an ontology such as a term from GO.
+# description: A data model for representing generic associations and changes of these associations.
+#
+#   The core data model is broad, encompassing the W3 Open Annotation data model as well
+#   as common ontology annotation data models using in the biosciences, such as the GAF
+#   data model used by the Gene Ontology, and the HPOA association model used by the Human Phenotype
+#   Ontology.
+#
+#   The core elements of the data model are the *subject* (the entity being described) and the *object*
+#   (the term, descriptor, or other entity that describes some aspect of the subject).
+#
+#   A subject might be a biological entity such as gene, drug, disease, person, or chemical. The object is typically
+#   a class from an ontology such as a term from GO.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
 import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -66,6 +69,7 @@ LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
 ONTOASSOC = CurieNamespace("ontoassoc", "https://w3id.org/oak/association/")
 RDF = CurieNamespace("rdf", "http://example.org/UNKNOWN/rdf/")
+RDFS = CurieNamespace("rdfs", "http://example.org/UNKNOWN/rdfs/")
 SSSOM = CurieNamespace("sssom", "https://w3id.org/sssom/")
 DEFAULT_ = ONTOASSOC
 
@@ -76,7 +80,140 @@ DEFAULT_ = ONTOASSOC
 
 
 @dataclass
-class Association(YAMLRoot):
+class PositiveOrNegativeAssociation(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ONTOASSOC.PositiveOrNegativeAssociation
+    class_class_curie: ClassVar[str] = "ontoassoc:PositiveOrNegativeAssociation"
+    class_name: ClassVar[str] = "PositiveOrNegativeAssociation"
+    class_model_uri: ClassVar[URIRef] = ONTOASSOC.PositiveOrNegativeAssociation
+
+    subject: Optional[Union[str, URIorCURIE]] = None
+    predicate: Optional[Union[str, URIorCURIE]] = None
+    object: Optional[Union[str, URIorCURIE]] = None
+    property_values: Optional[
+        Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
+    ] = empty_list()
+    subject_label: Optional[str] = None
+    predicate_label: Optional[str] = None
+    object_label: Optional[str] = None
+    negated: Optional[Union[bool, Bool]] = None
+    publications: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
+    evidence_type: Optional[Union[str, URIorCURIE]] = None
+    supporting_objects: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
+    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
+    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
+    subject_closure: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
+    subject_closure_label: Optional[Union[str, List[str]]] = empty_list()
+    object_closure: Optional[
+        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
+    ] = empty_list()
+    object_closure_label: Optional[Union[str, List[str]]] = empty_list()
+    comments: Optional[Union[str, List[str]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.subject is not None and not isinstance(self.subject, URIorCURIE):
+            self.subject = URIorCURIE(self.subject)
+
+        if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
+            self.predicate = URIorCURIE(self.predicate)
+
+        if self.object is not None and not isinstance(self.object, URIorCURIE):
+            self.object = URIorCURIE(self.object)
+
+        if not isinstance(self.property_values, list):
+            self.property_values = (
+                [self.property_values] if self.property_values is not None else []
+            )
+        self.property_values = [
+            v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
+            for v in self.property_values
+        ]
+
+        if self.subject_label is not None and not isinstance(self.subject_label, str):
+            self.subject_label = str(self.subject_label)
+
+        if self.predicate_label is not None and not isinstance(self.predicate_label, str):
+            self.predicate_label = str(self.predicate_label)
+
+        if self.object_label is not None and not isinstance(self.object_label, str):
+            self.object_label = str(self.object_label)
+
+        if self.negated is not None and not isinstance(self.negated, Bool):
+            self.negated = Bool(self.negated)
+
+        if not isinstance(self.publications, list):
+            self.publications = [self.publications] if self.publications is not None else []
+        self.publications = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.publications
+        ]
+
+        if self.evidence_type is not None and not isinstance(self.evidence_type, URIorCURIE):
+            self.evidence_type = URIorCURIE(self.evidence_type)
+
+        if not isinstance(self.supporting_objects, list):
+            self.supporting_objects = (
+                [self.supporting_objects] if self.supporting_objects is not None else []
+            )
+        self.supporting_objects = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.supporting_objects
+        ]
+
+        if self.primary_knowledge_source is not None and not isinstance(
+            self.primary_knowledge_source, URIorCURIE
+        ):
+            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
+
+        if self.aggregator_knowledge_source is not None and not isinstance(
+            self.aggregator_knowledge_source, URIorCURIE
+        ):
+            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
+
+        if not isinstance(self.subject_closure, list):
+            self.subject_closure = (
+                [self.subject_closure] if self.subject_closure is not None else []
+            )
+        self.subject_closure = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.subject_closure
+        ]
+
+        if not isinstance(self.subject_closure_label, list):
+            self.subject_closure_label = (
+                [self.subject_closure_label] if self.subject_closure_label is not None else []
+            )
+        self.subject_closure_label = [
+            v if isinstance(v, str) else str(v) for v in self.subject_closure_label
+        ]
+
+        if not isinstance(self.object_closure, list):
+            self.object_closure = [self.object_closure] if self.object_closure is not None else []
+        self.object_closure = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.object_closure
+        ]
+
+        if not isinstance(self.object_closure_label, list):
+            self.object_closure_label = (
+                [self.object_closure_label] if self.object_closure_label is not None else []
+            )
+        self.object_closure_label = [
+            v if isinstance(v, str) else str(v) for v in self.object_closure_label
+        ]
+
+        if not isinstance(self.comments, list):
+            self.comments = [self.comments] if self.comments is not None else []
+        self.comments = [v if isinstance(v, str) else str(v) for v in self.comments]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Association(PositiveOrNegativeAssociation):
     """
     A generic association between a thing (subject) and another thing (object).
     """
@@ -88,74 +225,17 @@ class Association(YAMLRoot):
     class_name: ClassVar[str] = "Association"
     class_model_uri: ClassVar[URIRef] = ONTOASSOC.Association
 
-    subject: Optional[Union[str, URIorCURIE]] = None
-    predicate: Optional[Union[str, URIorCURIE]] = None
-    object: Optional[Union[str, URIorCURIE]] = None
-    property_values: Optional[
-        Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
-    ] = empty_list()
-    subject_label: Optional[str] = None
-    predicate_label: Optional[str] = None
-    object_label: Optional[str] = None
     negated: Optional[Union[bool, Bool]] = None
-    publications: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
-    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
-    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.subject is not None and not isinstance(self.subject, URIorCURIE):
-            self.subject = URIorCURIE(self.subject)
-
-        if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
-            self.predicate = URIorCURIE(self.predicate)
-
-        if self.object is not None and not isinstance(self.object, URIorCURIE):
-            self.object = URIorCURIE(self.object)
-
-        if not isinstance(self.property_values, list):
-            self.property_values = (
-                [self.property_values] if self.property_values is not None else []
-            )
-        self.property_values = [
-            v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
-            for v in self.property_values
-        ]
-
-        if self.subject_label is not None and not isinstance(self.subject_label, str):
-            self.subject_label = str(self.subject_label)
-
-        if self.predicate_label is not None and not isinstance(self.predicate_label, str):
-            self.predicate_label = str(self.predicate_label)
-
-        if self.object_label is not None and not isinstance(self.object_label, str):
-            self.object_label = str(self.object_label)
-
         if self.negated is not None and not isinstance(self.negated, Bool):
             self.negated = Bool(self.negated)
-
-        if not isinstance(self.publications, list):
-            self.publications = [self.publications] if self.publications is not None else []
-        self.publications = [
-            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.publications
-        ]
-
-        if self.primary_knowledge_source is not None and not isinstance(
-            self.primary_knowledge_source, URIorCURIE
-        ):
-            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
-
-        if self.aggregator_knowledge_source is not None and not isinstance(
-            self.aggregator_knowledge_source, URIorCURIE
-        ):
-            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
 
         super().__post_init__(**kwargs)
 
 
 @dataclass
-class NegatedAssociation(YAMLRoot):
+class NegatedAssociation(PositiveOrNegativeAssociation):
     """
     A negated association between a thing (subject) and another thing (object).
     """
@@ -167,68 +247,11 @@ class NegatedAssociation(YAMLRoot):
     class_name: ClassVar[str] = "NegatedAssociation"
     class_model_uri: ClassVar[URIRef] = ONTOASSOC.NegatedAssociation
 
-    subject: Optional[Union[str, URIorCURIE]] = None
-    predicate: Optional[Union[str, URIorCURIE]] = None
-    object: Optional[Union[str, URIorCURIE]] = None
-    property_values: Optional[
-        Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]
-    ] = empty_list()
-    subject_label: Optional[str] = None
-    predicate_label: Optional[str] = None
-    object_label: Optional[str] = None
     negated: Optional[Union[bool, Bool]] = None
-    publications: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
-    primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
-    aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.subject is not None and not isinstance(self.subject, URIorCURIE):
-            self.subject = URIorCURIE(self.subject)
-
-        if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
-            self.predicate = URIorCURIE(self.predicate)
-
-        if self.object is not None and not isinstance(self.object, URIorCURIE):
-            self.object = URIorCURIE(self.object)
-
-        if not isinstance(self.property_values, list):
-            self.property_values = (
-                [self.property_values] if self.property_values is not None else []
-            )
-        self.property_values = [
-            v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
-            for v in self.property_values
-        ]
-
-        if self.subject_label is not None and not isinstance(self.subject_label, str):
-            self.subject_label = str(self.subject_label)
-
-        if self.predicate_label is not None and not isinstance(self.predicate_label, str):
-            self.predicate_label = str(self.predicate_label)
-
-        if self.object_label is not None and not isinstance(self.object_label, str):
-            self.object_label = str(self.object_label)
-
         if self.negated is not None and not isinstance(self.negated, Bool):
             self.negated = Bool(self.negated)
-
-        if not isinstance(self.publications, list):
-            self.publications = [self.publications] if self.publications is not None else []
-        self.publications = [
-            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.publications
-        ]
-
-        if self.primary_knowledge_source is not None and not isinstance(
-            self.primary_knowledge_source, URIorCURIE
-        ):
-            self.primary_knowledge_source = URIorCURIE(self.primary_knowledge_source)
-
-        if self.aggregator_knowledge_source is not None and not isinstance(
-            self.aggregator_knowledge_source, URIorCURIE
-        ):
-            self.aggregator_knowledge_source = URIorCURIE(self.aggregator_knowledge_source)
 
         super().__post_init__(**kwargs)
 
@@ -709,6 +732,33 @@ slots.aggregator_knowledge_source = Slot(
     range=Optional[Union[str, URIorCURIE]],
 )
 
+slots.evidence_type = Slot(
+    uri=ONTOASSOC.evidence_type,
+    name="evidence_type",
+    curie=ONTOASSOC.curie("evidence_type"),
+    model_uri=ONTOASSOC.evidence_type,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.supporting_objects = Slot(
+    uri=ONTOASSOC.supporting_objects,
+    name="supporting_objects",
+    curie=ONTOASSOC.curie("supporting_objects"),
+    model_uri=ONTOASSOC.supporting_objects,
+    domain=None,
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
+slots.comments = Slot(
+    uri=RDFS.comment,
+    name="comments",
+    curie=RDFS.curie("comment"),
+    model_uri=ONTOASSOC.comments,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
 slots.denormalized_slot = Slot(
     uri=ONTOASSOC.denormalized_slot,
     name="denormalized_slot",
@@ -914,6 +964,42 @@ slots.closure_information_content_delta = Slot(
     model_uri=ONTOASSOC.closure_information_content_delta,
     domain=None,
     range=Optional[float],
+)
+
+slots.subject_closure = Slot(
+    uri=ONTOASSOC.subject_closure,
+    name="subject_closure",
+    curie=ONTOASSOC.curie("subject_closure"),
+    model_uri=ONTOASSOC.subject_closure,
+    domain=None,
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
+slots.object_closure = Slot(
+    uri=ONTOASSOC.object_closure,
+    name="object_closure",
+    curie=ONTOASSOC.curie("object_closure"),
+    model_uri=ONTOASSOC.object_closure,
+    domain=None,
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
+slots.subject_closure_label = Slot(
+    uri=ONTOASSOC.subject_closure_label,
+    name="subject_closure_label",
+    curie=ONTOASSOC.curie("subject_closure_label"),
+    model_uri=ONTOASSOC.subject_closure_label,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.object_closure_label = Slot(
+    uri=ONTOASSOC.object_closure_label,
+    name="object_closure_label",
+    curie=ONTOASSOC.curie("object_closure_label"),
+    model_uri=ONTOASSOC.object_closure_label,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
 )
 
 slots.object1 = Slot(

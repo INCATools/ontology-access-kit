@@ -44,6 +44,7 @@ from semsql.sqla.semsql import (  # HasMappingStatement,
     ObjectPropertyNode,
     OntologyNode,
     OwlAxiomAnnotation,
+    OwlDisjointClassStatement,
     OwlEquivalentClassStatement,
     OwlSomeValuesFrom,
     Prefix,
@@ -66,6 +67,7 @@ from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.obograph import (
+    DisjointClassExpressionsAxiom,
     ExistentialRestrictionExpression,
     LogicalDefinitionAxiom,
 )
@@ -125,6 +127,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     DEFINITION,
     LANGUAGE_TAG,
     METADATA_MAP,
+    METADATA_STATEMENT,
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP,
@@ -148,6 +151,9 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
+from oaklib.utilities.axioms.logical_definition_utilities import (
+    logical_definition_matches,
+)
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
 from oaklib.utilities.identifier_utils import (
     string_as_base64_curie,
@@ -206,6 +212,11 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 def regex_to_sql_like(regex: str) -> str:
     """
     convert a regex to a LIKE
+
+    * ``.*`` => ``%``
+    * ``.`` => ``_``
+    * ``^`` => ``%`` (at start of string)
+    * ``$`` => ``%`` (at end of string)
 
     TODO: implement various different DBMS flavors
     https://stackoverflow.com/questions/20794860/regex-in-sql-to-detect-one-or-more-digit
@@ -302,6 +313,7 @@ class SqlImplementation(
     max_items_for_in_clause: int = field(default_factory=lambda: 1000)
 
     can_store_associations: bool = False
+    """True if the underlying sqlite database has term_association populated."""
 
     def __post_init__(self):
         if self.engine is None:
@@ -660,6 +672,33 @@ class SqlImplementation(
         self.add_missing_property_values(curie, m)
         return dict(m)
 
+    def entities_metadata_statements(
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
+        **kwargs,
+    ) -> Iterator[METADATA_STATEMENT]:
+        q = self.session.query(Statements)
+        if not include_nested_metadata:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == "owl:AnnotationProperty"
+            )
+            annotation_properties = {row.subject for row in subquery}
+            annotation_properties = annotation_properties.union(STANDARD_ANNOTATION_PROPERTIES)
+            q = q.filter(Statements.predicate.in_(tuple(annotation_properties)))
+        q = q.filter(Statements.subject.in_(curies))
+        if predicates is not None:
+            q = q.filter(Statements.predicate.in_(predicates))
+        for row in q:
+            if row.value is not None:
+                v = _python_value(row.value, row.datatype)
+            elif row.object is not None:
+                v = row.object
+            else:
+                v = None
+            yield row.subject, row.predicate, v, row.datatype, {}
+
     def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):
             yield row.id
@@ -956,7 +995,7 @@ class SqlImplementation(
         if not include_dangling:
             subq = self.session.query(Statements.subject)
             q = q.filter(tbl.object.in_(subq))
-        logging.info(f"Tbox query: {q}")
+        logging.debug(f"Tbox query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
@@ -981,7 +1020,7 @@ class SqlImplementation(
             q = q.filter(Statements.predicate.in_(op_subq))
         if objects:
             q = q.filter(Statements.object.in_(tuple(objects)))
-        logging.info(f"Abox query: {q}")
+        logging.debug(f"Abox query: {q}")
         for row in q:
             if not row.object:
                 # edge case: see https://github.com/monarch-initiative/phenio/issues/36
@@ -1048,9 +1087,16 @@ class SqlImplementation(
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if objects:
             q = q.filter(Statements.object.in_(tuple(objects)))
-        logging.info(f"RBOX query: {q}")
+        logging.debug(f"RBOX query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
+
+    def relationships_metadata(
+        self, relationships: Iterable[RELATIONSHIP], **kwargs
+    ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
+        for rel in relationships:
+            anns = [(ann.predicate, ann.object) for ann in self._axiom_annotations(*rel)]
+            yield rel, anns
 
     def node_exists(self, curie: CURIE) -> bool:
         return self.session.query(Statements).filter(Statements.subject == curie).count() > 0
@@ -1149,6 +1195,7 @@ class SqlImplementation(
             logging.info("Using base method")
             yield from super().associations(*args, **kwargs)
             return
+        logging.info("Using SQL queries")
         q = self._associations_query(*args, **kwargs)
         for row_it in chunk(q):
             assocs = []
@@ -1175,6 +1222,8 @@ class SqlImplementation(
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
         query: sqlalchemy.orm.Query = None,
+        add_closure_fields: bool = False,
+        **kwargs,
     ) -> Any:
         if query:
             q = query
@@ -1207,7 +1256,7 @@ class SqlImplementation(
                 q = q.filter(TermAssociation.object.in_(subquery))
             else:
                 q = q.filter(TermAssociation.object.in_(tuple(objects)))
-        logging.info(f"Association query: {q}")
+        logging.info(f"_associations_query: {q}")
         return q
 
     def add_associations(
@@ -1217,6 +1266,7 @@ class SqlImplementation(
         **kwargs,
     ) -> bool:
         if not self.can_store_associations:
+            logging.info("Using base method to store associations")
             return super().add_associations(associations, normalizers=normalizers)
         for a in associations:
             if normalizers:
@@ -1515,21 +1565,34 @@ class SqlImplementation(
             return ldef
 
     def logical_definitions(
-        self, subjects: Optional[Iterable[CURIE]] = None
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        **kwargs,
     ) -> Iterable[LogicalDefinitionAxiom]:
         logging.info("Getting logical definitions")
         q = self.session.query(OwlEquivalentClassStatement)
+        if predicates is not None:
+            predicates = list(predicates)
+        if objects is not None:
+            objects = list(objects)
         if subjects is None:
-            for ldef in self._logical_definitions_from_eq_query(q):
+            for ldef in self._logical_definitions_from_eq_query(q, predicates, objects):
                 yield ldef
             return
         for curie_it in chunk(subjects, self.max_items_for_in_clause):
             logging.info(f"Getting logical definitions for {curie_it} from {subjects}")
             q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(curie_it)))
-            for ldef in self._logical_definitions_from_eq_query(q):
+            for ldef in self._logical_definitions_from_eq_query(q, predicates, objects):
                 yield ldef
 
-    def _logical_definitions_from_eq_query(self, query) -> Iterable[LogicalDefinitionAxiom]:
+    def _logical_definitions_from_eq_query(
+        self,
+        query,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+    ) -> Iterable[LogicalDefinitionAxiom]:
         for eq_row in query:
             ixn_q = self.session.query(Statements).filter(
                 and_(
@@ -1540,7 +1603,84 @@ class SqlImplementation(
             for ixn in ixn_q:
                 ldef = self._ixn_definition(ixn.object, eq_row.subject)
                 if ldef:
+                    if not logical_definition_matches(ldef, predicates=predicates, objects=objects):
+                        continue
                     yield ldef
+
+    def _node_to_class_expression(
+        self, node: str
+    ) -> Optional[Union[CURIE, ExistentialRestrictionExpression]]:
+        if not _is_blank(node):
+            return node
+
+        svfq = self.session.query(OwlSomeValuesFrom).filter(OwlSomeValuesFrom.id == node)
+        svfq = list(svfq)
+        if svfq:
+            if len(svfq) > 1:
+                raise ValueError(f"Incorrect rdf structure for equiv axioms for {node}")
+            svf = svfq[0]
+            return ExistentialRestrictionExpression(propertyId=svf.on_property, fillerId=svf.filler)
+        else:
+            return None
+
+    def disjoint_class_expressions_axioms(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        group=False,
+        **kwargs,
+    ) -> Iterable[DisjointClassExpressionsAxiom]:
+        logging.info("Getting disjoint class expression axioms")
+        q = self.session.query(OwlDisjointClassStatement)
+        if predicates is not None:
+            predicates = list(predicates)
+        if subjects:
+            subjects = list(subjects)
+        axs = []
+        for da in q:
+            # blank
+            sx = self._node_to_class_expression(da.subject)
+            ox = self._node_to_class_expression(da.object)
+            allx = [sx, ox]
+            allx_named = [x for x in allx if isinstance(x, str)]
+            allx_exprs = [x for x in allx if isinstance(x, ExistentialRestrictionExpression)]
+            allx_fillers = [x.fillerId for x in allx_exprs]
+            if subjects:
+                if not any(x for x in allx_named if x in subjects) and not any(
+                    x for x in allx_fillers if x in subjects
+                ):
+                    continue
+            if predicates:
+                if not any(x for x in allx_exprs if x.propertyId in predicates):
+                    continue
+            ax = DisjointClassExpressionsAxiom(
+                classIds=allx_named,
+                classExpressions=allx_exprs,
+            )
+            axs.append(ax)
+        q = self.session.query(RdfTypeStatement.subject).filter(
+            RdfTypeStatement.object == "owl:AllDisjointClasses"
+        )
+        for adc in q:
+            class_ids = []
+            class_exprs = []
+            for (m,) in self.session.query(Statements.object).filter(
+                and_(
+                    Statements.subject == adc.subject,
+                    Statements.predicate == "owl:members",
+                )
+            ):
+                if isinstance(m, str):
+                    class_ids.append(m)
+                else:
+                    class_exprs.append(self._node_to_class_expression(m))
+            axs.append(
+                DisjointClassExpressionsAxiom(
+                    classIds=class_ids,
+                    classExpressions=class_exprs,
+                )
+            )
+        yield from axs
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface
@@ -1954,9 +2094,24 @@ class SqlImplementation(
         predicates: List[PRED_CURIE] = None,
         object_closure_predicates: List[PRED_CURIE] = None,
         use_associations: bool = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
         curies = list(curies)
+        if self.cached_information_content_map:
+            yield from super().information_content_scores(curies)
+            return
         if use_associations:
+            logging.info("Using associations to calculate IC")
+            if not self.can_store_associations:
+                yield from super().information_content_scores(
+                    curies,
+                    predicates=predicates,
+                    object_closure_predicates=object_closure_predicates,
+                    use_associations=use_associations,
+                    **kwargs,
+                )
+                return
+                # raise ValueError("Cannot use associations, not stored")
             q = self.session.query(EntailedEdge.object, func.count(TermAssociation.subject))
             q = q.filter(EntailedEdge.subject == TermAssociation.object)
             if curies is not None:
@@ -1966,6 +2121,7 @@ class SqlImplementation(
             if object_closure_predicates:
                 q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
             q = q.group_by(EntailedEdge.object)
+            logging.info(f"QUERY: {q}")
             num_nodes = (
                 self.session.query(TermAssociation).distinct(TermAssociation.subject).count()
             )
@@ -2488,11 +2644,14 @@ class SqlImplementation(
         if branch_subq:
             match_query = match_query.filter(Statements.subject.in_(branch_subq))
         subject_ids_by_object_source = defaultdict(list)
+        bad_ids = set()
         for row in match_query:
             subject_id = row.subject
             object_id = row.value if row.value else row.object
             if ":" not in object_id:
-                logging.warning(f"bad mapping: {object_id}")
+                if object_id not in bad_ids:
+                    logging.warning(f"bad mapping: {object_id}")
+                    bad_ids.add(object_id)
             object_source = object_id.split(":")[0]
             subject_ids_by_object_source[object_source].append(subject_id)
         for object_source, subject_ids in subject_ids_by_object_source.items():

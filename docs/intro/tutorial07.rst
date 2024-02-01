@@ -14,7 +14,7 @@ The :ref:`sql_implementation` wraps SQLite or any relational database.
 Download a SQLite file
 ----------------
 
-You can download ready made SQLite files for any :term:`OBO` Libray ontology
+You can download ready made SQLite files for any :term:`OBO` Library ontology
 
 For example: the Cell Ontology (CL) is available from https://s3.amazonaws.com/bbop-sqlite/cl.db.gz
 

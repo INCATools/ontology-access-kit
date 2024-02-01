@@ -462,6 +462,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 yield pred, obj
             # simple RDF type triples
             if not predicates or RDF_TYPE in predicates:
+                # note: some ontologies use rdfs:Class
                 query = SparqlQuery(
                     select=["?o"],
                     where=[
@@ -473,6 +474,19 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                 for row in bindings:
                     obj = self.uri_to_curie(row["o"]["value"])
                     yield RDF_TYPE, obj
+            # RDF types to existential restrictions
+            if True:
+                query = SparqlQuery(
+                    select=["?p", "?o"],
+                    where=[
+                        f"<{uri}> {RDF_TYPE} [owl:onProperty ?p ; owl:someValuesFrom ?o]",
+                    ],
+                )
+                bindings = self._sparql_query(query)
+                for row in bindings:
+                    pred = self.uri_to_curie(row["p"]["value"])
+                    obj = self.uri_to_curie(row["o"]["value"])
+                    yield pred, obj
 
     def relationships(
         self,

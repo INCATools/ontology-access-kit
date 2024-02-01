@@ -1,0 +1,1898 @@
+{
+  "entryType": "UniProtKB reviewed (Swiss-Prot)",
+  "primaryAccession": "P12345",
+  "secondaryAccessions": [
+    "G1SKL2"
+  ],
+  "uniProtkbId": "AATM_RABIT",
+  "entryAudit": {
+    "firstPublicDate": "1989-10-01",
+    "lastAnnotationUpdateDate": "2023-11-08",
+    "lastSequenceUpdateDate": "2013-09-18",
+    "entryVersion": 140,
+    "sequenceVersion": 2
+  },
+  "annotationScore": 5,
+  "organism": {
+    "scientificName": "Oryctolagus cuniculus",
+    "commonName": "Rabbit",
+    "taxonId": 9986,
+    "lineage": [
+      "Eukaryota",
+      "Metazoa",
+      "Chordata",
+      "Craniata",
+      "Vertebrata",
+      "Euteleostomi",
+      "Mammalia",
+      "Eutheria",
+      "Euarchontoglires",
+      "Glires",
+      "Lagomorpha",
+      "Leporidae",
+      "Oryctolagus"
+    ]
+  },
+  "proteinExistence": "1: Evidence at protein level",
+  "proteinDescription": {
+    "recommendedName": {
+      "fullName": {
+        "value": "Aspartate aminotransferase, mitochondrial"
+      },
+      "shortNames": [
+        {
+          "value": "mAspAT"
+        }
+      ],
+      "ecNumbers": [
+        {
+          "evidences": [
+            {
+              "evidenceCode": "ECO:0000250",
+              "source": "UniProtKB",
+              "id": "P00507"
+            }
+          ],
+          "value": "2.6.1.1"
+        },
+        {
+          "evidences": [
+            {
+              "evidenceCode": "ECO:0000250",
+              "source": "UniProtKB",
+              "id": "P00507"
+            }
+          ],
+          "value": "2.6.1.7"
+        }
+      ]
+    },
+    "alternativeNames": [
+      {
+        "fullName": {
+          "value": "Fatty acid-binding protein"
+        },
+        "shortNames": [
+          {
+            "value": "FABP-1"
+          }
+        ]
+      },
+      {
+        "fullName": {
+          "value": "Glutamate oxaloacetate transaminase 2"
+        }
+      },
+      {
+        "fullName": {
+          "value": "Kynurenine aminotransferase 4"
+        }
+      },
+      {
+        "fullName": {
+          "value": "Kynurenine aminotransferase IV"
+        }
+      },
+      {
+        "fullName": {
+          "value": "Kynurenine--oxoglutarate transaminase 4"
+        }
+      },
+      {
+        "fullName": {
+          "value": "Kynurenine--oxoglutarate transaminase IV"
+        }
+      },
+      {
+        "fullName": {
+          "value": "Plasma membrane-associated fatty acid-binding protein"
+        },
+        "shortNames": [
+          {
+            "value": "FABPpm"
+          }
+        ]
+      },
+      {
+        "fullName": {
+          "value": "Transaminase A"
+        }
+      }
+    ],
+    "flag": "Precursor"
+  },
+  "genes": [
+    {
+      "geneName": {
+        "value": "GOT2"
+      }
+    }
+  ],
+  "comments": [
+    {
+      "texts": [
+        {
+          "evidences": [
+            {
+              "evidenceCode": "ECO:0000250",
+              "source": "UniProtKB",
+              "id": "P00505"
+            }
+          ],
+          "value": "Catalyzes the irreversible transamination of the L-tryptophan metabolite L-kynurenine to form kynurenic acid (KA). As a member of the malate-aspartate shuttle, it has a key role in the intracellular NAD(H) redox balance. Is important for metabolite exchange between mitochondria and cytosol, and for amino acid metabolism. Facilitates cellular uptake of long-chain free fatty acids"
+        }
+      ],
+      "commentType": "FUNCTION"
+    },
+    {
+      "commentType": "CATALYTIC ACTIVITY",
+      "reaction": {
+        "name": "2-oxoglutarate + L-aspartate = L-glutamate + oxaloacetate",
+        "reactionCrossReferences": [
+          {
+            "database": "Rhea",
+            "id": "RHEA:21824"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:16452"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:16810"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:29985"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:29991"
+          }
+        ],
+        "ecNumber": "2.6.1.1",
+        "evidences": [
+          {
+            "evidenceCode": "ECO:0000250",
+            "source": "UniProtKB",
+            "id": "P00507"
+          }
+        ]
+      }
+    },
+    {
+      "commentType": "CATALYTIC ACTIVITY",
+      "reaction": {
+        "name": "2-oxoglutarate + L-kynurenine = H2O + kynurenate + L-glutamate",
+        "reactionCrossReferences": [
+          {
+            "database": "Rhea",
+            "id": "RHEA:65560"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:15377"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:16810"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:29985"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:57959"
+          },
+          {
+            "database": "ChEBI",
+            "id": "CHEBI:58454"
+          }
+        ],
+        "ecNumber": "2.6.1.7",
+        "evidences": [
+          {
+            "evidenceCode": "ECO:0000250",
+            "source": "UniProtKB",
+            "id": "P00507"
+          }
+        ]
+      }
+    },
+    {
+      "commentType": "COFACTOR",
+      "cofactors": [
+        {
+          "name": "pyridoxal 5'-phosphate",
+          "evidences": [
+            {
+              "evidenceCode": "ECO:0000250"
+            }
+          ],
+          "cofactorCrossReference": {
+            "database": "ChEBI",
+            "id": "CHEBI:597326"
+          }
+        }
+      ]
+    },
+    {
+      "texts": [
+        {
+          "evidences": [
+            {
+              "evidenceCode": "ECO:0000250"
+            }
+          ],
+          "value": "Homodimer"
+        }
+      ],
+      "commentType": "SUBUNIT"
+    },
+    {
+      "commentType": "SUBCELLULAR LOCATION",
+      "subcellularLocations": [
+        {
+          "location": {
+            "evidences": [
+              {
+                "evidenceCode": "ECO:0000250"
+              }
+            ],
+            "value": "Mitochondrion matrix",
+            "id": "SL-0170"
+          }
+        },
+        {
+          "location": {
+            "evidences": [
+              {
+                "evidenceCode": "ECO:0000250"
+              }
+            ],
+            "value": "Cell membrane",
+            "id": "SL-0039"
+          }
+        }
+      ]
+    },
+    {
+      "texts": [
+        {
+          "value": "In eukaryotes there are cytoplasmic, mitochondrial and chloroplastic isozymes"
+        }
+      ],
+      "commentType": "MISCELLANEOUS"
+    },
+    {
+      "texts": [
+        {
+          "evidences": [
+            {
+              "evidenceCode": "ECO:0000305"
+            }
+          ],
+          "value": "Belongs to the class-I pyridoxal-phosphate-dependent aminotransferase family"
+        }
+      ],
+      "commentType": "SIMILARITY"
+    }
+  ],
+  "features": [
+    {
+      "type": "Transit peptide",
+      "location": {
+        "start": {
+          "value": 1,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 29,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "Mitochondrion",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000269",
+          "source": "PubMed",
+          "id": "4030726"
+        }
+      ]
+    },
+    {
+      "type": "Chain",
+      "location": {
+        "start": {
+          "value": 30,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 430,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "Aspartate aminotransferase, mitochondrial",
+      "featureId": "PRO_0000123886"
+    },
+    {
+      "type": "Binding site",
+      "location": {
+        "start": {
+          "value": 65,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 65,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250"
+        }
+      ],
+      "ligand": {
+        "name": "substrate"
+      }
+    },
+    {
+      "type": "Binding site",
+      "location": {
+        "start": {
+          "value": 162,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 162,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250"
+        }
+      ],
+      "ligand": {
+        "name": "substrate"
+      }
+    },
+    {
+      "type": "Binding site",
+      "location": {
+        "start": {
+          "value": 215,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 215,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250"
+        }
+      ],
+      "ligand": {
+        "name": "substrate"
+      }
+    },
+    {
+      "type": "Binding site",
+      "location": {
+        "start": {
+          "value": 407,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 407,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250"
+        }
+      ],
+      "ligand": {
+        "name": "substrate"
+      }
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 48,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 48,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "Phosphothreonine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 59,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 59,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 73,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 73,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 73,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 73,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 82,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 82,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 90,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 90,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 90,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 90,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 96,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 96,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "3'-nitrotyrosine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 96,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 96,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "Phosphotyrosine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 122,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 122,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 122,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 122,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 143,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 143,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "Phosphoserine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 159,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 159,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 159,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 159,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 185,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 185,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 185,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 185,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 227,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 227,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 234,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 234,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 279,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 279,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-(pyridoxal phosphate)lysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 279,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 279,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 296,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 296,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 296,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 296,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 302,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 302,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 309,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 309,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 309,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 309,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P12344"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 313,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 313,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "Asymmetric dimethylarginine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 338,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 338,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 338,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 338,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 345,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 345,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 363,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 363,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 363,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 363,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 364,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 364,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 387,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 387,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 396,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 396,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 396,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 396,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 404,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 404,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-acetyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P00505"
+        }
+      ]
+    },
+    {
+      "type": "Modified residue",
+      "location": {
+        "start": {
+          "value": 404,
+          "modifier": "EXACT"
+        },
+        "end": {
+          "value": 404,
+          "modifier": "EXACT"
+        }
+      },
+      "description": "N6-succinyllysine; alternate",
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P05202"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    {
+      "id": "KW-0007",
+      "category": "PTM",
+      "name": "Acetylation"
+    },
+    {
+      "id": "KW-0032",
+      "category": "Molecular function",
+      "name": "Aminotransferase"
+    },
+    {
+      "id": "KW-1003",
+      "category": "Cellular component",
+      "name": "Cell membrane"
+    },
+    {
+      "id": "KW-0903",
+      "category": "Technical term",
+      "name": "Direct protein sequencing"
+    },
+    {
+      "id": "KW-0445",
+      "category": "Biological process",
+      "name": "Lipid transport"
+    },
+    {
+      "id": "KW-0472",
+      "category": "Cellular component",
+      "name": "Membrane"
+    },
+    {
+      "id": "KW-0488",
+      "category": "PTM",
+      "name": "Methylation"
+    },
+    {
+      "id": "KW-0496",
+      "category": "Cellular component",
+      "name": "Mitochondrion"
+    },
+    {
+      "id": "KW-0944",
+      "category": "PTM",
+      "name": "Nitration"
+    },
+    {
+      "id": "KW-0597",
+      "category": "PTM",
+      "name": "Phosphoprotein"
+    },
+    {
+      "id": "KW-0663",
+      "category": "Ligand",
+      "name": "Pyridoxal phosphate"
+    },
+    {
+      "id": "KW-1185",
+      "category": "Technical term",
+      "name": "Reference proteome"
+    },
+    {
+      "id": "KW-0808",
+      "category": "Molecular function",
+      "name": "Transferase"
+    },
+    {
+      "id": "KW-0809",
+      "category": "Domain",
+      "name": "Transit peptide"
+    },
+    {
+      "id": "KW-0813",
+      "category": "Biological process",
+      "name": "Transport"
+    }
+  ],
+  "references": [
+    {
+      "citation": {
+        "id": "CI-7QM34G8ELGT3G",
+        "citationType": "submission",
+        "authoringGroup": [
+          "The Genome Sequencing Platform"
+        ],
+        "authors": [
+          "Di Palma F.",
+          "Heiman D.",
+          "Young S.",
+          "Gnerre S.",
+          "Johnson J.",
+          "Lander E.S.",
+          "Lindblad-Toh K."
+        ],
+        "title": "Genome Sequence of Oryctolagus cuniculus (European rabbit).",
+        "publicationDate": "AUG-2009",
+        "submissionDatabase": "EMBL/GenBank/DDBJ databases"
+      },
+      "referencePositions": [
+        "NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]"
+      ],
+      "referenceComments": [
+        {
+          "value": "Thorbecke",
+          "type": "STRAIN"
+        }
+      ]
+    },
+    {
+      "citation": {
+        "id": "4030726",
+        "citationType": "journal article",
+        "authors": [
+          "Kuramitsu S.",
+          "Inoue K.",
+          "Kondo K.",
+          "Aki K.",
+          "Kagamiyama H."
+        ],
+        "citationCrossReferences": [
+          {
+            "database": "PubMed",
+            "id": "4030726"
+          },
+          {
+            "database": "DOI",
+            "id": "10.1093/oxfordjournals.jbchem.a135186"
+          }
+        ],
+        "title": "Aspartate aminotransferase isozymes from rabbit liver. Purification and properties.",
+        "publicationDate": "1985",
+        "journal": "J. Biochem.",
+        "firstPage": "1337",
+        "lastPage": "1345",
+        "volume": "97"
+      },
+      "referencePositions": [
+        "PROTEIN SEQUENCE OF 30-59"
+      ],
+      "referenceComments": [
+        {
+          "value": "Liver",
+          "type": "TISSUE"
+        }
+      ]
+    }
+  ],
+  "uniProtKBCrossReferences": [
+    {
+      "database": "EMBL",
+      "id": "AAGW02052878",
+      "properties": [
+        {
+          "key": "ProteinId",
+          "value": "-"
+        },
+        {
+          "key": "Status",
+          "value": "NOT_ANNOTATED_CDS"
+        },
+        {
+          "key": "MoleculeType",
+          "value": "Genomic_DNA"
+        }
+      ]
+    },
+    {
+      "database": "PIR",
+      "id": "B27103",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "B27103"
+        }
+      ]
+    },
+    {
+      "database": "RefSeq",
+      "id": "XP_002711597.1",
+      "properties": [
+        {
+          "key": "NucleotideSequenceId",
+          "value": "XM_002711551.3"
+        }
+      ]
+    },
+    {
+      "database": "AlphaFoldDB",
+      "id": "P12345",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "SMR",
+      "id": "P12345",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "STRING",
+      "id": "9986.ENSOCUP00000003357",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "PaxDb",
+      "id": "9986-ENSOCUP00000003357",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "GeneID",
+      "id": "100348732",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "KEGG",
+      "id": "ocu:100348732",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "CTD",
+      "id": "2806",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "eggNOG",
+      "id": "KOG1411",
+      "properties": [
+        {
+          "key": "ToxonomicScope",
+          "value": "Eukaryota"
+        }
+      ]
+    },
+    {
+      "database": "HOGENOM",
+      "id": "CLU_032440_1_2_1",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "InParanoid",
+      "id": "P12345",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "OMA",
+      "id": "VGACTIV",
+      "properties": [
+        {
+          "key": "Fingerprint",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "OrthoDB",
+      "id": "1123851at2759",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "TreeFam",
+      "id": "TF300641",
+      "properties": [
+        {
+          "key": "Description",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "database": "Proteomes",
+      "id": "UP000001811",
+      "properties": [
+        {
+          "key": "Component",
+          "value": "Unplaced"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0005759",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "C:mitochondrial matrix"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "IEA:UniProtKB-SubCell"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0005739",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "C:mitochondrion"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "ISS:UniProtKB"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0005886",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "C:plasma membrane"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "IEA:UniProtKB-SubCell"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0016212",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "F:kynurenine-oxoglutarate transaminase activity"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "IEA:UniProtKB-EC"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0004069",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "F:L-aspartate:2-oxoglutarate aminotransferase activity"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "ISS:UniProtKB"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0030170",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "F:pyridoxal phosphate binding"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "IEA:InterPro"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0006103",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "P:2-oxoglutarate metabolic process"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "ISS:UniProtKB"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0006531",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "P:aspartate metabolic process"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "ISS:UniProtKB"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0006536",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "P:glutamate metabolic process"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "ISS:UniProtKB"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0006869",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "P:lipid transport"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "IEA:UniProtKB-KW"
+        }
+      ]
+    },
+    {
+      "database": "GO",
+      "id": "GO:0006457",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "P:protein folding"
+        },
+        {
+          "key": "GoEvidenceType",
+          "value": "TAS:HGNC"
+        }
+      ],
+      "evidences": [
+        {
+          "evidenceCode": "ECO:0000304",
+          "source": "PubMed",
+          "id": "9683573"
+        }
+      ]
+    },
+    {
+      "database": "CDD",
+      "id": "cd00609",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "AAT_like"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "database": "Gene3D",
+      "id": "3.90.1150.10",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "Aspartate Aminotransferase, domain 1"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "database": "Gene3D",
+      "id": "3.40.640.10",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "Type I PLP-dependent aspartate aminotransferase-like (Major domain)"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "database": "InterPro",
+      "id": "IPR004839",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "Aminotransferase_I/II"
+        }
+      ]
+    },
+    {
+      "database": "InterPro",
+      "id": "IPR000796",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "Asp_trans"
+        }
+      ]
+    },
+    {
+      "database": "InterPro",
+      "id": "IPR004838",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "NHTrfase_class1_PyrdxlP-BS"
+        }
+      ]
+    },
+    {
+      "database": "InterPro",
+      "id": "IPR015424",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "PyrdxlP-dep_Trfase"
+        }
+      ]
+    },
+    {
+      "database": "InterPro",
+      "id": "IPR015421",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "PyrdxlP-dep_Trfase_major"
+        }
+      ]
+    },
+    {
+      "database": "InterPro",
+      "id": "IPR015422",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "PyrdxlP-dep_Trfase_small"
+        }
+      ]
+    },
+    {
+      "database": "PANTHER",
+      "id": "PTHR11879",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "ASPARTATE AMINOTRANSFERASE"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "database": "PANTHER",
+      "id": "PTHR11879:SF22",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "ASPARTATE AMINOTRANSFERASE, MITOCHONDRIAL"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "database": "Pfam",
+      "id": "PF00155",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "Aminotran_1_2"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "database": "PRINTS",
+      "id": "PR00799",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "TRANSAMINASE"
+        }
+      ]
+    },
+    {
+      "database": "SUPFAM",
+      "id": "SSF53383",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "PLP-dependent transferases"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "database": "PROSITE",
+      "id": "PS00105",
+      "properties": [
+        {
+          "key": "EntryName",
+          "value": "AA_TRANSFER_CLASS_1"
+        },
+        {
+          "key": "MatchStatus",
+          "value": "1"
+        }
+      ]
+    }
+  ],
+  "sequence": {
+    "value": "MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK",
+    "length": 430,
+    "molWeight": 47409,
+    "crc64": "12F54284974D27A5",
+    "md5": "CF84DAC1BDDD05632A89E4C1F186D0D3"
+  },
+  "extraAttributes": {
+    "countByCommentType": {
+      "FUNCTION": 1,
+      "CATALYTIC ACTIVITY": 2,
+      "COFACTOR": 1,
+      "SUBUNIT": 1,
+      "SUBCELLULAR LOCATION": 1,
+      "MISCELLANEOUS": 1,
+      "SIMILARITY": 1
+    },
+    "countByFeatureType": {
+      "Transit peptide": 1,
+      "Chain": 1,
+      "Binding site": 4,
+      "Modified residue": 37
+    },
+    "uniParcId": "UPI0001C61C61"
+  }
+}

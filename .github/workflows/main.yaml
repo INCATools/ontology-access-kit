@@ -57,7 +57,9 @@ jobs:
       #          install & configure poetry
       #----------------------------------------------
       - name: Install Poetry
-        run: pip install poetry
+        run: |
+          pip install --upgrade pip
+          pip install poetry
         # uses: snok/install-poetry@v1.3.3
         # with:
         #   virtualenvs-create: true
@@ -78,13 +80,20 @@ jobs:
       #----------------------------------------------
       - name: Install dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
+        run: |
+          poetry add setuptools@latest
+          poetry install --no-interaction --no-root
 
       #----------------------------------------------
       #    install your root project, if required
       #----------------------------------------------
       - name: Install library
         run: poetry install --no-interaction --extras "gilda"
+
+      - name: Get Gilda resources
+        run: |
+          poetry run python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
+          poetry run python -m adeft.download
 
       #----------------------------------------------
       #        run test suite + coverage report
