@@ -1,4 +1,5 @@
 """Abstract Base Class Adapter for EUtils."""
+
 import logging
 from abc import ABC
 from dataclasses import dataclass, field

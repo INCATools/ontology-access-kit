@@ -1,4 +1,5 @@
 """Parser for Boomer output"""
+
 import hashlib
 import logging
 import re

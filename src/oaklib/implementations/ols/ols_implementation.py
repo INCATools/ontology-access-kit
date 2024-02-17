@@ -122,9 +122,9 @@ class BaseOlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProv
             "fieldList": "iri,label",
             "rows": config.limit if config.limit is not None else SEARCH_ROWS,
             "start": 0,
-            "exact": "true"
-            if (config.is_complete is True or config.is_partial is False)
-            else "false",
+            "exact": (
+                "true" if (config.is_complete is True or config.is_partial is False) else "false"
+            ),
         }
         if len(query_fields) > 0:
             params["queryFields"] = ",".join(query_fields)

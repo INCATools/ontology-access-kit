@@ -2,6 +2,7 @@
 
 See <https://github.com/INCATools/ontology-access-kit/issues/291>_
 """
+
 import json
 import logging
 import tempfile

@@ -1,4 +1,5 @@
 """Profiler for running Semsimian performance tests"""
+
 import pstats
 import sys
 

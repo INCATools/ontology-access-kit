@@ -2,6 +2,7 @@
 Utilities for writing out obo graphs
 
 """
+
 from typing import Optional, TextIO, Union
 
 from linkml_runtime.dumpers import json_dumper, yaml_dumper

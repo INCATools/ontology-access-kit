@@ -5,6 +5,7 @@ Utilities for the OBOGraph Datamodel
 See :ref:`datamodels`
 
 """
+
 import io
 import json
 import logging

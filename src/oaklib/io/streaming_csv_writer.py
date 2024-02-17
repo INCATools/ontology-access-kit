@@ -174,12 +174,12 @@ class StreamingCsvWriter(StreamingWriter):
             # if original.unionEquivalentTo:
             #    obj_as_dict["unionEquivalentTo"] = original.unionEquivalentTo
             if original.unionEquivalentToExpression:
-                obj_as_dict[
-                    "unionEquivalentToFillerId"
-                ] = original.unionEquivalentToExpression.fillerId
-                obj_as_dict[
-                    "unionEquivalentToPropertyId"
-                ] = original.unionEquivalentToExpression.propertyId
+                obj_as_dict["unionEquivalentToFillerId"] = (
+                    original.unionEquivalentToExpression.fillerId
+                )
+                obj_as_dict["unionEquivalentToPropertyId"] = (
+                    original.unionEquivalentToExpression.propertyId
+                )
                 del obj_as_dict["unionEquivalentToExpression"]
             del obj_as_dict["meta"]
         if isinstance(original, summary_stats.UngroupedStatistics):

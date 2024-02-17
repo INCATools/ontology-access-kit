@@ -1,4 +1,5 @@
 """A reasoner that computes entailed edges."""
+
 import logging
 import subprocess
 from dataclasses import dataclass, field

@@ -1,4 +1,5 @@
 """Parser for KGX"""
+
 from csv import DictReader
 from dataclasses import dataclass
 from typing import Iterator, TextIO

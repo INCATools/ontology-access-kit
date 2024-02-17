@@ -1,6 +1,7 @@
 """
 This package serves as the master index for all implementations.
 """
+
 from functools import cache
 
 from class_resolver import ClassResolver

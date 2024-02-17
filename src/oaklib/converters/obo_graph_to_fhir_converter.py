@@ -4,6 +4,7 @@ Resources
 - Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369
 - Conversion examples: https://drive.google.com/drive/folders/1lwGQ63_fedfWlGlRemq8OeZhZsvIXN01
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple, Union

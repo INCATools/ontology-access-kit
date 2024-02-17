@@ -1,4 +1,5 @@
 """Rust implementation of semantic similarity measures."""
+
 import inspect
 import logging
 import math
