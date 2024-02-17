@@ -1384,21 +1384,27 @@ class TestCommandLineInterface(unittest.TestCase):
         with open(outfile) as f:
             contents = f.read()
             # Check for Overview section
-            self.assertIn("# Overview", contents)
-            self.assertIn("- EdgeDeletion: 1", contents)
+            self.assertIn("<details>", contents)
+            self.assertIn("<summary>Overview</summary>", contents)
             self.assertIn("- NodeDeletion: 2", contents)
+            self.assertIn("- EdgeDeletion: 1", contents)
+            self.assertIn("</details>", contents)
 
-            # Check for Edges Deleted table
-            self.assertIn("### Edges Deleted:", contents)
+            # Check for Nodes Deleted section
+            self.assertIn("<details>", contents)
+            self.assertIn("<summary>Nodes Deleted</summary>", contents)
+            self.assertIn("| ID | Label |", contents)
+            self.assertIn("----|----", contents)
+            self.assertIn("| RO:0000053 | has characteristic |", contents)
+            self.assertIn("| PATO:0001735 | liquid configuration |", contents)
+            self.assertIn("</details>", contents)
+
+            # Check for Edges Deleted section
+            self.assertIn("<details>", contents)
+            self.assertIn("<summary>Edges Deleted</summary>", contents)
             self.assertIn(
                 "| Subject ID | Subject Label | Predicate ID | Predicate Label | Object ID | Object Label |",
                 contents,
             )
             self.assertIn("----|----|----|----|----|----", contents)
-
-            # Check for Nodes Deleted table
-            self.assertIn("### Nodes Deleted:", contents)
-            self.assertIn("| ID |", contents)
-            self.assertIn("|----|", contents)
-            self.assertIn("| RO:0000053 |", contents)
-            self.assertIn("| PATO:0001735 |", contents)
+            self.assertIn("</details>", contents)
