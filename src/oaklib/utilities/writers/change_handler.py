@@ -196,12 +196,9 @@ class ChangeHandler:
         self.write_markdown_table("Nodes Deleted", header, rows)
 
     def handle_new_text_definition(self, value):
-        import pdb
-
-        pdb.set_trace()
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.new_value} |"
+            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} |"
             for change in value
         ]
         header = "| ID | Label | New Text Definition |"
