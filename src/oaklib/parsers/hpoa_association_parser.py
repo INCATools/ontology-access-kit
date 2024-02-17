@@ -1,4 +1,5 @@
 """Parser for GAF association formats"""
+
 from dataclasses import dataclass, field
 from typing import List, Union
 

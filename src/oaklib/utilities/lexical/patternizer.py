@@ -1,4 +1,5 @@
 """Detect logical definitions from lexical elements in an ontology."""
+
 import logging
 import urllib
 from typing import Dict, Iterator, List, Optional

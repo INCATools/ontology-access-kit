@@ -1,4 +1,5 @@
 """Parser for GAF association formats"""
+
 import csv
 from dataclasses import dataclass
 from typing import Iterator, Optional, TextIO, Union

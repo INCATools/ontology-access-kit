@@ -4,6 +4,7 @@ Utilities for traversing Ontology Graphs
 
 
 """
+
 import logging
 from copy import copy
 from typing import Iterable, List, Union

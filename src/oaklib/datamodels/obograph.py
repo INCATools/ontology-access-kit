@@ -220,9 +220,9 @@ class Graph(YAMLRoot):
     domainRangeAxioms: Optional[
         Union[Union[dict, "DomainRangeAxiom"], List[Union[dict, "DomainRangeAxiom"]]]
     ] = empty_list()
-    allValuesFromEdges: Optional[
-        Union[Union[dict, "Edge"], List[Union[dict, "Edge"]]]
-    ] = empty_list()
+    allValuesFromEdges: Optional[Union[Union[dict, "Edge"], List[Union[dict, "Edge"]]]] = (
+        empty_list()
+    )
     propertyChainAxioms: Optional[
         Union[Union[dict, "PropertyChainAxiom"], List[Union[dict, "PropertyChainAxiom"]]]
     ] = empty_list()
@@ -805,9 +805,11 @@ class LogicalDefinitionAxiom(Axiom):
         if not isinstance(self.restrictions, list):
             self.restrictions = [self.restrictions] if self.restrictions is not None else []
         self.restrictions = [
-            v
-            if isinstance(v, ExistentialRestrictionExpression)
-            else ExistentialRestrictionExpression(**as_dict(v))
+            (
+                v
+                if isinstance(v, ExistentialRestrictionExpression)
+                else ExistentialRestrictionExpression(**as_dict(v))
+            )
             for v in self.restrictions
         ]
 
@@ -848,9 +850,11 @@ class DisjointClassExpressionsAxiom(Axiom):
                 [self.classExpressions] if self.classExpressions is not None else []
             )
         self.classExpressions = [
-            v
-            if isinstance(v, ExistentialRestrictionExpression)
-            else ExistentialRestrictionExpression(**as_dict(v))
+            (
+                v
+                if isinstance(v, ExistentialRestrictionExpression)
+                else ExistentialRestrictionExpression(**as_dict(v))
+            )
             for v in self.classExpressions
         ]
 

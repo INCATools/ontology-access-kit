@@ -267,9 +267,9 @@ class TaxonConstraint(YAMLRoot):
             List[Union[dict, SubjectTerm]],
         ]
     ] = empty_dict()
-    predicates: Optional[
-        Union[Union[str, PredicateTermId], List[Union[str, PredicateTermId]]]
-    ] = empty_list()
+    predicates: Optional[Union[Union[str, PredicateTermId], List[Union[str, PredicateTermId]]]] = (
+        empty_list()
+    )
     sources: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
     comments: Optional[Union[str, List[str]]] = empty_list()
     candidate: Optional[Union[bool, Bool]] = None

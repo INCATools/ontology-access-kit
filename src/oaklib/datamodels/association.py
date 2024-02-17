@@ -98,22 +98,22 @@ class PositiveOrNegativeAssociation(YAMLRoot):
     predicate_label: Optional[str] = None
     object_label: Optional[str] = None
     negated: Optional[Union[bool, Bool]] = None
-    publications: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    publications: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     evidence_type: Optional[Union[str, URIorCURIE]] = None
-    supporting_objects: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    supporting_objects: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
     aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
-    subject_closure: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    subject_closure: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     subject_closure_label: Optional[Union[str, List[str]]] = empty_list()
-    object_closure: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    object_closure: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     object_closure_label: Optional[Union[str, List[str]]] = empty_list()
     comments: Optional[Union[str, List[str]]] = empty_list()
 
@@ -292,12 +292,12 @@ class RollupGroup(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = ONTOASSOC.RollupGroup
 
     group_object: Optional[Union[str, URIorCURIE]] = None
-    sub_groups: Optional[
-        Union[Union[dict, "RollupGroup"], List[Union[dict, "RollupGroup"]]]
-    ] = empty_list()
-    associations: Optional[
-        Union[Union[dict, Association], List[Union[dict, Association]]]
-    ] = empty_list()
+    sub_groups: Optional[Union[Union[dict, "RollupGroup"], List[Union[dict, "RollupGroup"]]]] = (
+        empty_list()
+    )
+    associations: Optional[Union[Union[dict, Association], List[Union[dict, Association]]]] = (
+        empty_list()
+    )
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.group_object is not None and not isinstance(self.group_object, URIorCURIE):
@@ -458,9 +458,9 @@ class AssociationChange(YAMLRoot):
     new_date: Optional[str] = None
     primary_knowledge_source: Optional[Union[str, URIorCURIE]] = None
     aggregator_knowledge_source: Optional[Union[str, URIorCURIE]] = None
-    publications: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    publications: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     publication_is_added: Optional[Union[bool, Bool]] = None
     publication_is_deleted: Optional[Union[bool, Bool]] = None
     subject: Optional[Union[str, URIorCURIE]] = None
@@ -474,9 +474,9 @@ class AssociationChange(YAMLRoot):
     is_specialization: Optional[Union[bool, Bool]] = None
     is_creation: Optional[Union[bool, Bool]] = None
     is_deletion: Optional[Union[bool, Bool]] = None
-    closure_predicates: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    closure_predicates: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     closure_delta: Optional[int] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):

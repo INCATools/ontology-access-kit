@@ -5,6 +5,7 @@ Lexical Utilities
 Various utilities for working with lexical aspects of ontologies plus mappings
 
 """
+
 import logging
 import re
 import typing as t

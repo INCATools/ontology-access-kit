@@ -198,9 +198,11 @@ class RelationshipToTerm(YAMLRoot):
         if not isinstance(self.pipeline, list):
             self.pipeline = [self.pipeline] if self.pipeline is not None else []
         self.pipeline = [
-            v
-            if isinstance(v, LexicalTransformationPipelineName)
-            else LexicalTransformationPipelineName(v)
+            (
+                v
+                if isinstance(v, LexicalTransformationPipelineName)
+                else LexicalTransformationPipelineName(v)
+            )
             for v in self.pipeline
         ]
 

@@ -1,4 +1,5 @@
 """A text annotator based on LLM."""
+
 import json
 import logging
 from dataclasses import dataclass

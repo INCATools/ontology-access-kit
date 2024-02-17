@@ -2,6 +2,7 @@
 Oaklib
 ------
 """
+
 __version__ = "0.1.0"
 
 from oaklib.interfaces import BasicOntologyInterface  # noqa:F401

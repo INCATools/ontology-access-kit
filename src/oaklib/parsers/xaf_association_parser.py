@@ -1,4 +1,5 @@
 """Parser for GAF/HPOA and related association formats"""
+
 import logging
 import re
 from dataclasses import dataclass, field

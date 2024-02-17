@@ -7,6 +7,7 @@ Adapter for NCATS Biomedical Translator endpoints (experimental).
     Only NodeNormalizer API implemented so far
 
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Iterable, List, Mapping, Optional, Union

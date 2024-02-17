@@ -212,9 +212,9 @@ class HasMinimalMetadata(AnnotationPropertyMixin):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.HasMinimalMetadata
 
     label: Optional[Union[str, LabelType]] = None
-    definition: Optional[
-        Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]
-    ] = empty_list()
+    definition: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = (
+        empty_list()
+    )
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.label is not None and not isinstance(self.label, LabelType):
@@ -242,18 +242,18 @@ class HasSynonyms(AnnotationPropertyMixin):
     class_name: ClassVar[str] = "HasSynonyms"
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.HasSynonyms
 
-    has_exact_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
-    has_narrow_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
-    has_broad_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
-    has_related_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
+    has_exact_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
+    has_narrow_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
+    has_broad_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
+    has_related_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
     alternative_term: Optional[Union[str, List[str]]] = empty_list()
     ISA_alternative_term: Optional[Union[str, List[str]]] = empty_list()
     IEDB_alternative_term: Optional[Union[str, List[str]]] = empty_list()
@@ -404,9 +404,9 @@ class HasProvenance(AnnotationPropertyMixin):
     created: Optional[str] = None
     date: Optional[Union[str, List[str]]] = empty_list()
     isDefinedBy: Optional[Union[str, OntologyId]] = None
-    editor_note: Optional[
-        Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]
-    ] = empty_list()
+    editor_note: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = (
+        empty_list()
+    )
     term_editor: Optional[Union[str, List[str]]] = empty_list()
     definition_source: Optional[Union[str, List[str]]] = empty_list()
     ontology_term_requester: Optional[str] = None
@@ -495,13 +495,13 @@ class HasLifeCycle(AnnotationPropertyMixin):
     has_obsolescence_reason: Optional[str] = None
     term_replaced_by: Optional[Union[dict, Any]] = None
     consider: Optional[Union[Union[dict, Any], List[Union[dict, Any]]]] = empty_list()
-    has_alternative_id: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    has_alternative_id: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     excluded_from_QC_check: Optional[Union[dict, "Thing"]] = None
-    excluded_subClassOf: Optional[
-        Union[Union[str, ClassId], List[Union[str, ClassId]]]
-    ] = empty_list()
+    excluded_subClassOf: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = (
+        empty_list()
+    )
     excluded_synonym: Optional[Union[str, List[str]]] = empty_list()
     should_conform_to: Optional[Union[dict, "Thing"]] = None
 
@@ -701,9 +701,9 @@ class Ontology(NamedObject):
     license: Union[dict, Thing] = None
     versionIRI: Union[str, URIorCURIE] = None
     versionInfo: str = None
-    has_ontology_root_term: Optional[
-        Union[Union[str, ClassId], List[Union[str, ClassId]]]
-    ] = empty_list()
+    has_ontology_root_term: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = (
+        empty_list()
+    )
     source: Optional[Union[str, List[str]]] = empty_list()
     comment: Optional[Union[str, List[str]]] = empty_list()
     creator: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
@@ -779,18 +779,18 @@ class Term(NamedObject):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Term
 
     id: Union[str, TermId] = None
-    has_exact_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
-    has_narrow_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
-    has_broad_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
-    has_related_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
+    has_exact_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
+    has_narrow_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
+    has_broad_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
+    has_related_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
     alternative_term: Optional[Union[str, List[str]]] = empty_list()
     ISA_alternative_term: Optional[Union[str, List[str]]] = empty_list()
     IEDB_alternative_term: Optional[Union[str, List[str]]] = empty_list()
@@ -800,13 +800,13 @@ class Term(NamedObject):
     has_obsolescence_reason: Optional[str] = None
     term_replaced_by: Optional[Union[dict, Any]] = None
     consider: Optional[Union[Union[dict, Any], List[Union[dict, Any]]]] = empty_list()
-    has_alternative_id: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    has_alternative_id: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     excluded_from_QC_check: Optional[Union[dict, Thing]] = None
-    excluded_subClassOf: Optional[
-        Union[Union[str, ClassId], List[Union[str, ClassId]]]
-    ] = empty_list()
+    excluded_subClassOf: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = (
+        empty_list()
+    )
     excluded_synonym: Optional[Union[str, List[str]]] = empty_list()
     should_conform_to: Optional[Union[dict, Thing]] = None
     created_by: Optional[str] = None
@@ -816,9 +816,9 @@ class Term(NamedObject):
     created: Optional[str] = None
     date: Optional[Union[str, List[str]]] = empty_list()
     isDefinedBy: Optional[Union[str, OntologyId]] = None
-    editor_note: Optional[
-        Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]
-    ] = empty_list()
+    editor_note: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = (
+        empty_list()
+    )
     term_editor: Optional[Union[str, List[str]]] = empty_list()
     definition_source: Optional[Union[str, List[str]]] = empty_list()
     ontology_term_requester: Optional[str] = None
@@ -846,9 +846,9 @@ class Term(NamedObject):
     depicted_by: Optional[Union[Union[str, ImageId], List[Union[str, ImageId]]]] = empty_list()
     page: Optional[Union[str, List[str]]] = empty_list()
     label: Optional[Union[str, LabelType]] = None
-    definition: Optional[
-        Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]
-    ] = empty_list()
+    definition: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = (
+        empty_list()
+    )
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.has_exact_synonym, list):
@@ -1134,9 +1134,9 @@ class Class(Term):
     never_in_taxon: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
     disconnected_from: Optional[Union[str, ClassId]] = None
     has_rank: Optional[Union[dict, Thing]] = None
-    definition: Optional[
-        Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]
-    ] = empty_list()
+    definition: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = (
+        empty_list()
+    )
     broadMatch: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
     exactMatch: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
     narrowMatch: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
@@ -1247,14 +1247,14 @@ class Property(Term):
     is_class_level: Optional[Union[bool, Bool]] = None
     is_metadata_tag: Optional[Union[bool, Bool]] = None
     label: Optional[Union[str, LabelType]] = None
-    definition: Optional[
-        Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]
-    ] = empty_list()
+    definition: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = (
+        empty_list()
+    )
     broadMatch: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = empty_list()
     exactMatch: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = empty_list()
-    narrowMatch: Optional[
-        Union[Union[str, PropertyId], List[Union[str, PropertyId]]]
-    ] = empty_list()
+    narrowMatch: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = (
+        empty_list()
+    )
     closeMatch: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = empty_list()
     subClassOf: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = empty_list()
 
@@ -1362,9 +1362,9 @@ class ObjectProperty(Property):
     is_cyclic: Optional[Union[bool, Bool]] = None
     is_transitive: Optional[Union[bool, Bool]] = None
     shorthand: Optional[Union[str, List[str]]] = empty_list()
-    equivalentProperty: Optional[
-        Union[Union[str, PropertyId], List[Union[str, PropertyId]]]
-    ] = empty_list()
+    equivalentProperty: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = (
+        empty_list()
+    )
     inverseOf: Optional[Union[str, PropertyId]] = None
     propertyChainAxiom: Optional[Union[str, List[str]]] = empty_list()
     disjointWith: Optional[Union[str, List[str]]] = empty_list()
@@ -1570,9 +1570,9 @@ class Axiom(YAMLRoot):
     annotatedProperty: Optional[Union[str, AnnotationPropertyId]] = None
     annotatedSource: Optional[Union[str, NamedObjectId]] = None
     annotatedTarget: Optional[Union[dict, Any]] = None
-    annotations: Optional[
-        Union[Union[dict, Annotation], List[Union[dict, Annotation]]]
-    ] = empty_list()
+    annotations: Optional[Union[Union[dict, Annotation], List[Union[dict, Annotation]]]] = (
+        empty_list()
+    )
     source: Optional[Union[str, List[str]]] = empty_list()
     is_inferred: Optional[Union[bool, Bool]] = None
     notes: Optional[Union[str, List[str]]] = empty_list()
@@ -1587,9 +1587,9 @@ class Axiom(YAMLRoot):
     database_cross_reference: Optional[
         Union[Union[str, CURIELiteral], List[Union[str, CURIELiteral]]]
     ] = empty_list()
-    has_exact_synonym: Optional[
-        Union[Union[str, LabelType], List[Union[str, LabelType]]]
-    ] = empty_list()
+    has_exact_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = (
+        empty_list()
+    )
     has_synonym_type: Optional[
         Union[Union[str, AnnotationPropertyId], List[Union[str, AnnotationPropertyId]]]
     ] = empty_list()
