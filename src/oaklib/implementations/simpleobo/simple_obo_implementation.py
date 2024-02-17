@@ -495,13 +495,14 @@ class SimpleOboImplementation(
         :param rel_type:
         :return:
         """
-        is_core = rel_type.startswith("BFO:") or rel_type.startswith("RO:")
-        for s in self.obo_document.stanzas.values():
-            if s.type == "Typedef":
-                for x in s.simple_values(TAG_XREF):
-                    if x == rel_type:
-                        if is_core or ":" not in s.id:
-                            return s.id
+        if rel_type:
+            is_core = rel_type.startswith("BFO:") or rel_type.startswith("RO:")
+            for s in self.obo_document.stanzas.values():
+                if s.type == "Typedef":
+                    for x in s.simple_values(TAG_XREF):
+                        if x == rel_type:
+                            if is_core or ":" not in s.id:
+                                return s.id
         return rel_type
 
     def relationships(

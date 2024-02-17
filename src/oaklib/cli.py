@@ -5524,17 +5524,27 @@ def diff(
             writer.emit(summary)
     else:
         if isinstance(writer, StreamingMarkdownWriter):
-            change_tally: dict = defaultdict(int)
-        for change in impl.diff(other_impl, configuration=config):
-            # TODO: when a complete type designator is added to KGCL
-            this_change_type = change.__class__.__name__
-            if change_type and this_change_type not in change_type:
-                continue
-            if isinstance(writer, (StreamingYamlWriter, StreamingCsvWriter)):
+            # Get the differences without pre-sorting
+            changes = impl.diff(other_impl, configuration=config)
+
+            # Create a default dictionary to group changes by their type name
+            changes_dict = defaultdict(list)
+            for change in changes:
+                changes_dict[change.__class__.__name__].append(change)
+
+            # Emit the grouped changes
+            writer.emit(changes_dict)
+        else:
+            for change in impl.diff(other_impl, configuration=config):
                 # TODO: when a complete type designator is added to KGCL
-                # we can remove this
-                change.type = this_change_type
-            writer.emit(change)
+                this_change_type = change.__class__.__name__
+                if change_type and this_change_type not in change_type:
+                    continue
+                if isinstance(writer, (StreamingYamlWriter, StreamingCsvWriter)):
+                    # TODO: when a complete type designator is added to KGCL
+                    # we can remove this
+                    change.type = this_change_type
+                writer.emit(change)
     writer.finish()
 
 

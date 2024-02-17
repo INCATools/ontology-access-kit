@@ -51,6 +51,8 @@ TEST_SIMPLE_OBO = f'simpleobo:{INPUT_DIR / "go-nucleus.obo"}'
 TEST_OBOJSON = INPUT_DIR / "go-nucleus.json"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_OWL_OFN = INPUT_DIR / "go-nucleus.ofn"
+TEST_OBO_1 = INPUT_DIR / "entailment-tutorial.obo"
+TEST_OBO_2 = INPUT_DIR / "entailment-tutorial-2.obo"
 TEST_DB = INPUT_DIR.joinpath("go-nucleus.db")
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
@@ -1371,3 +1373,32 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("oio:hasBroadSynonym", contents)
             self.assertIn("x:bone_element", contents)
             self.assertIn("z:bone_tissue", contents)
+
+    def test_diff_md(self):
+        outfile = f"{OUTPUT_DIR}/diff.md"
+        result = self.runner.invoke(
+            main,
+            ["-i", TEST_OBO_2, "diff", "-X", TEST_OBO_1, "-o", outfile, "-O", "md"],
+        )
+        self.assertEqual(0, result.exit_code)
+        with open(outfile) as f:
+            contents = f.read()
+            # Check for Overview section
+            self.assertIn("# Overview", contents)
+            self.assertIn("- EdgeDeletion: 1", contents)
+            self.assertIn("- NodeDeletion: 2", contents)
+
+            # Check for Edges Deleted table
+            self.assertIn("### Edges Deleted:", contents)
+            self.assertIn(
+                "| Subject ID | Subject Label | Predicate ID | Predicate Label | Object ID | Object Label |",
+                contents,
+            )
+            self.assertIn("----|----|----|----|----|----", contents)
+
+            # Check for Nodes Deleted table
+            self.assertIn("### Nodes Deleted:", contents)
+            self.assertIn("| ID |", contents)
+            self.assertIn("|----|", contents)
+            self.assertIn("| RO:0000053 |", contents)
+            self.assertIn("| PATO:0001735 |", contents)
