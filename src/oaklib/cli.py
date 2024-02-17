@@ -5524,10 +5524,8 @@ def diff(
         else:
             writer.emit(summary)
     else:
+        changes = impl.diff(other_impl, configuration=config)
         if isinstance(writer, StreamingMarkdownWriter):
-            # Get the differences without pre-sorting
-            changes = impl.diff(other_impl, configuration=config)
-
             # Create a default dictionary to group changes by their type name
             changes_dict = defaultdict(list)
             for change in changes:
@@ -5536,7 +5534,7 @@ def diff(
             # Emit the grouped changes
             writer.emit(changes_dict)
         else:
-            for change in impl.diff(other_impl, configuration=config):
+            for change in changes:
                 # TODO: when a complete type designator is added to KGCL
                 this_change_type = change.__class__.__name__
                 if change_type and this_change_type not in change_type:
