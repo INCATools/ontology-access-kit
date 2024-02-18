@@ -198,10 +198,10 @@ class ChangeHandler:
     def handle_new_text_definition(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} |"
+            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} | {change.new_value} |"
             for change in value
         ]
-        header = "| ID | Label | New Text Definition |"
+        header = "| ID | Label | Old Text Definition | New Text Definition |"
         self.write_markdown_table("New Text Definition", header, rows)
 
     # def handle_obsoletion(self, value):
