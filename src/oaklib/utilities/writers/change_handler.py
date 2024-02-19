@@ -60,15 +60,18 @@ class ChangeHandler:
 
     def handle_node_move(self, value):
         # Create rows for the table
+        import pdb; pdb.set_trace()
         rows = [
             f"| {change.about_edge.subject} | {self.oi.label(change.about_edge.subject)} | \
                 {change.about_edge.predicate} | {self.oi.label(change.about_edge.predicate)} \
-                    |{change.about_edge.object} | {self.oi.label(change.about_edge.object)} |"
+                    |{change.about_edge.object} | {self.oi.label(change.about_edge.object)} | \
+                        {change.old_value} | {change.new_value} |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| Subject_id | Subject_label | Predicate_id | Object_id | Object_label |"
+        header = "| Subject ID | Subject Label | Predicate ID | Object_id | Object_label\
+              | Old Predicate | New Predicate |"
 
         # Write the "Nodes Moved" section as a collapsible markdown table
         self.write_markdown_table("Nodes Moved", header, rows)
@@ -204,61 +207,61 @@ class ChangeHandler:
         header = "| ID | Label | Old Text Definition | New Text Definition |"
         self.write_markdown_table("New Text Definition", header, rows)
 
-    # def handle_obsoletion(self, value):
-    #     # Implement obsoletion handling logic here
-    #     pass
+    def handle_obsoletion(self, value):
+        # Implement obsoletion handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_datatype_or_language_tag_change(self, value):
-    #     # Implement datatype or language tag change handling logic here
-    #     pass
+    def handle_datatype_or_language_tag_change(self, value):
+        # Implement datatype or language tag change handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_language_tag_change(self, value):
-    #     # Implement language tag change handling logic here
-    #     pass
+    def handle_language_tag_change(self, value):
+        # Implement language tag change handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_datatype_change(self, value):
-    #     # Implement datatype change handling logic here
-    #     pass
+    def handle_datatype_change(self, value):
+        # Implement datatype change handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_allows_automatic_replacement_of_edges(self, value):
-    #     # Implement allows automatic replacement of edges handling logic here
-    #     pass
+    def handle_allows_automatic_replacement_of_edges(self, value):
+        # Implement allows automatic replacement of edges handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_unobsoletion(self, value):
-    #     # Implement unobsoletion handling logic here
-    #     pass
+    def handle_unobsoletion(self, value):
+        # Implement unobsoletion handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_deletion(self, value):
-    #     # Implement deletion handling logic here
-    #     pass
+    def handle_deletion(self, value):
+        # Implement deletion handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_creation(self, value):
-    #     # Implement creation handling logic here
-    #     pass
+    def handle_creation(self, value):
+        # Implement creation handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_subset_membership_change(self, value):
-    #     # Implement subset membership change handling logic here
-    #     pass
+    def handle_subset_membership_change(self, value):
+        # Implement subset membership change handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_add_to_subset(self, value):
-    #     # Implement add to subset handling logic here
-    #     pass
+    def handle_add_to_subset(self, value):
+        # Implement add to subset handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_remove_from_subset(self, value):
-    #     # Implement remove from subset handling logic here
-    #     pass
+    def handle_remove_from_subset(self, value):
+        # Implement remove from subset handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_edge_change(self, value):
-    #     # Implement edge change handling logic here
-    #     pass
+    def handle_edge_change(self, value):
+        # Implement edge change handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_edge_creation(self, value):
-    #     # Implement edge creation handling logic here
-    #     pass
+    def handle_edge_creation(self, value):
+        # Implement edge creation handling logic here
+        import pdb; pdb.set_trace()
 
-    # def handle_place_under(self, value):
-    #     # Implement place under handling logic here
-    #     pass
+    def handle_place_under(self, value):
+        # Implement place under handling logic here
+        import pdb; pdb.set_trace()
 
     def process_changes(self, curie_or_change):
         # Write overview and summary at the beginning of the document
@@ -278,9 +281,9 @@ class ChangeHandler:
             "ClassCreation": self.handle_class_creation,
             "NodeDeletion": self.handle_node_deletion,
             "NewTextDefinition": self.handle_new_text_definition,
-            # "Obsoletion": self.handle_obsoletion,
-            # "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
-            # "LanguageTagChange": self.handle_language_tag_change,
+            "Obsoletion": self.handle_obsoletion,
+            "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
+            "LanguageTagChange": self.handle_language_tag_change,
             # "DatatypeChange": self.handle_datatype_change,
             # "AllowsAutomaticReplacementOfEdges": self.handle_allows_automatic_replacement_of_edges,
             # "Unobsoletion": self.handle_unobsoletion,
