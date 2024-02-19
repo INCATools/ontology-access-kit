@@ -60,7 +60,6 @@ class ChangeHandler:
 
     def handle_node_move(self, value):
         # Create rows for the table
-        import pdb; pdb.set_trace()
         rows = [
             f"| {change.about_edge.subject} | {self.oi.label(change.about_edge.subject)} | \
                 {change.about_edge.predicate} | {self.oi.label(change.about_edge.predicate)} \
@@ -70,8 +69,10 @@ class ChangeHandler:
         ]
 
         # Define the header for the table
-        header = "| Subject ID | Subject Label | Predicate ID | Object_id | Object_label\
+        header = (
+            "| Subject ID | Subject Label | Predicate ID | Predicate label | Object ID | Object label\
               | Old Predicate | New Predicate |"
+        )
 
         # Write the "Nodes Moved" section as a collapsible markdown table
         self.write_markdown_table("Nodes Moved", header, rows)
