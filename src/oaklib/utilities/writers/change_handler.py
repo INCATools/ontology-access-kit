@@ -1,3 +1,6 @@
+import logging
+
+
 class ChangeHandler:
     def __init__(self, oi, file):
         self.file = file
@@ -208,87 +211,59 @@ class ChangeHandler:
 
     def handle_obsoletion(self, value):
         # Implement obsoletion handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Obsoletion handling not yet implemented.")
 
     def handle_datatype_or_language_tag_change(self, value):
         # Implement datatype or language tag change handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Datatype or language tag change handling not yet implemented.")
 
     def handle_language_tag_change(self, value):
         # Implement language tag change handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Language tag change handling not yet implemented.")
 
     def handle_datatype_change(self, value):
         # Implement datatype change handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Datatype change handling not yet implemented.")
 
     def handle_allows_automatic_replacement_of_edges(self, value):
         # Implement allows automatic replacement of edges handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Allows automatic replacement of edges handling not yet implemented.")
 
     def handle_unobsoletion(self, value):
         # Implement unobsoletion handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Unobsoletion handling not yet implemented.")
 
     def handle_deletion(self, value):
         # Implement deletion handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Deletion handling not yet implemented.")
 
     def handle_creation(self, value):
         # Implement creation handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Creation handling not yet implemented.")
 
     def handle_subset_membership_change(self, value):
         # Implement subset membership change handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Subset membership change handling not yet implemented.")
 
     def handle_add_to_subset(self, value):
         # Implement add to subset handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Add to subset handling not yet implemented.")
 
     def handle_remove_from_subset(self, value):
         # Implement remove from subset handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Remove from subset handling not yet implemented.")
 
     def handle_edge_change(self, value):
         # Implement edge change handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Edge change handling not yet implemented.")
 
     def handle_edge_creation(self, value):
         # Implement edge creation handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Edge creation handling not yet implemented.")
 
     def handle_place_under(self, value):
         # Implement place under handling logic here
-        import pdb
-
-        pdb.set_trace()
+        logging.info("Place under handling not yet implemented.")
 
     def process_changes(self, curie_or_change):
         # Write overview and summary at the beginning of the document
@@ -311,17 +286,17 @@ class ChangeHandler:
             "Obsoletion": self.handle_obsoletion,
             "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
             "LanguageTagChange": self.handle_language_tag_change,
-            # "DatatypeChange": self.handle_datatype_change,
-            # "AllowsAutomaticReplacementOfEdges": self.handle_allows_automatic_replacement_of_edges,
-            # "Unobsoletion": self.handle_unobsoletion,
-            # "Deletion": self.handle_deletion,
-            # "Creation": self.handle_creation,
-            # "SubsetMembershipChange": self.handle_subset_membership_change,
-            # "AddToSubset": self.handle_add_to_subset,
-            # "RemoveFromSubset": self.handle_remove_from_subset,
-            # "EdgeChange": self.handle_edge_change,
-            # "EdgeCreation": self.handle_edge_creation,
-            # "PlaceUnder": self.handle_place_under,
+            "DatatypeChange": self.handle_datatype_change,
+            "AllowsAutomaticReplacementOfEdges": self.handle_allows_automatic_replacement_of_edges,
+            "Unobsoletion": self.handle_unobsoletion,
+            "Deletion": self.handle_deletion,
+            "Creation": self.handle_creation,
+            "SubsetMembershipChange": self.handle_subset_membership_change,
+            "AddToSubset": self.handle_add_to_subset,
+            "RemoveFromSubset": self.handle_remove_from_subset,
+            "EdgeChange": self.handle_edge_change,
+            "EdgeCreation": self.handle_edge_creation,
+            "PlaceUnder": self.handle_place_under,
             # ... Add other mappings to handlers ...
         }
 
