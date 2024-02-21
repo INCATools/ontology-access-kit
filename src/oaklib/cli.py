@@ -5524,16 +5524,17 @@ def diff(
         else:
             writer.emit(summary)
     else:
-        changes = impl.diff(other_impl, configuration=config)
         if isinstance(writer, StreamingMarkdownWriter):
-            # Create a default dictionary to group changes by their type name
-            changes_dict = defaultdict(list)
-            for change in changes:
-                changes_dict[change.__class__.__name__].append(change)
-
+            changes = impl.diff_structured(other_impl, configuration=config)
+            # changes_overview = defaultdict(int)
             # Emit the grouped changes
-            writer.emit(changes_dict)
+            for change in changes:
+                # change_count_dict = {key: len(value) for key, value in change.items()}
+                # changes_overview.update(change_count_dict)
+                writer.emit(change, other_impl=other_impl)
+
         else:
+            changes = impl.diff(other_impl, configuration=config)
             for change in changes:
                 # TODO: when a complete type designator is added to KGCL
                 this_change_type = change.__class__.__name__

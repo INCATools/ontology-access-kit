@@ -17,12 +17,12 @@ class ChangeHandler:
         # Close the details tag
         self.file.write("</details>\n\n")
 
-    def write_markdown_overview_and_summary(self, curie_or_change):
-        # Create the Overview content lines
-        overview_lines = [f"- {key}: {len(value)}" for key, value in curie_or_change.items()]
+    # def write_markdown_overview_and_summary(self, curie_or_change):
+    #     # Create the Overview content lines
+    #     overview_lines = [f"- {key}: {len(value)}" for key, value in curie_or_change.items()]
 
-        # Write the Overview as a collapsible section
-        self.write_markdown_collapsible("Overview", overview_lines)
+    #     # Write the Overview as a collapsible section
+    #     self.write_markdown_collapsible("Overview", overview_lines)
 
     def write_markdown_table(self, title, header, rows):
         # Create the table header and separator lines
@@ -45,7 +45,7 @@ class ChangeHandler:
         header = "| ID | Label | New Synonym |"
 
         # Write the "New Synonyms Added" section as a collapsible markdown table
-        self.write_markdown_table("New Synonyms Added", header, rows)
+        self.write_markdown_table(f"New Synonyms Added: {len(rows)}", header, rows)
 
     def handle_edge_deletion(self, value):
         # Create rows for the table
@@ -59,7 +59,7 @@ class ChangeHandler:
         header = "| Subject ID | Subject Label | Predicate ID | Predicate Label | Object ID | Object Label |"
 
         # Write the "Edges Deleted" section as a collapsible markdown table
-        self.write_markdown_table("Edges Deleted", header, rows)
+        self.write_markdown_table(f"Edges Deleted: {len(rows)}", header, rows)
 
     def handle_node_move(self, value):
         # Create rows for the table
@@ -76,7 +76,7 @@ class ChangeHandler:
               | Old Predicate | New Predicate |"
 
         # Write the "Nodes Moved" section as a collapsible markdown table
-        self.write_markdown_table("Nodes Moved", header, rows)
+        self.write_markdown_table(f"Nodes Moved: {len(rows)}", header, rows)
 
     def handle_predicate_change(self, value):
         # Create rows for the table
@@ -91,7 +91,7 @@ class ChangeHandler:
         header = "| Subject ID | Subject Label | Old Predicate | New Predicate | Object ID | Object Label |"
 
         # Write the "Predicate Changed" section as a collapsible markdown table
-        self.write_markdown_table("Predicate Changed", header, rows)
+        self.write_markdown_table(f"Predicate Changed: {len(rows)}", header, rows)
 
     def handle_node_rename(self, value):
         # Create rows for the table
@@ -103,7 +103,7 @@ class ChangeHandler:
         header = "| ID | Old Label | New Label |"
 
         # Write the "Node Renamed" section as a collapsible markdown table
-        self.write_markdown_table("Node Renamed", header, rows)
+        self.write_markdown_table(f"Node Renamed: {len(rows)}", header, rows)
 
     def handle_remove_synonym(self, value):
         # Create rows for the table
@@ -116,7 +116,7 @@ class ChangeHandler:
         header = "| ID | Label | Removed Synonym |"
 
         # Write the "Synonyms Removed" section as a collapsible markdown table
-        self.write_markdown_table("Synonyms Removed", header, rows)
+        self.write_markdown_table(f"Synonyms Removed: {len(rows)}", header, rows)
 
     def hand_synonym_predicate_change(self, value):
         # Create rows for the table
@@ -130,7 +130,9 @@ class ChangeHandler:
         header = "| ID | Label | Old Synonym | New Synonym |"
 
         # Write the "Synonym Predicate Changed" section as a markdown table
-        self.write_markdown_table("Synonym Predicate Changed", header, rows)
+        self.write_markdown_table(
+            f"Synonym Predicate Changed: {len(rows)}", header, rows
+        )
 
     def handle_node_text_definition_change(self, value):
         # Create rows for the table
@@ -144,7 +146,9 @@ class ChangeHandler:
         header = "| ID | Label | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Changed" section as a markdown table
-        self.write_markdown_table("Node Text Definition Changed", header, rows)
+        self.write_markdown_table(
+            f"Node Text Definition Changed: {len(rows)}", header, rows
+        )
 
     def handle_node_text_definition(self, value):
         # Create rows for the table
@@ -158,7 +162,9 @@ class ChangeHandler:
         header = "| ID | Label | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Added" section as a markdown table
-        self.write_markdown_table("Node Text Definition Added", header, rows)
+        self.write_markdown_table(
+            f"Node Text Definition Added: {len(rows)}", header, rows
+        )
 
     def handle_node_unobsoletion(self, value):
         # Create rows for the table
@@ -168,7 +174,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Node Unobsoleted" section as a markdown table
-        self.write_markdown_table("Node Unobsoleted", header, rows)
+        self.write_markdown_table(f"Node Unobsoleted: {len(rows)}", header, rows)
 
     def handle_node_creation(self, value):
         # Create rows for the table
@@ -178,7 +184,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Node Created" section as a markdown table
-        self.write_markdown_table("Node Created", header, rows)
+        self.write_markdown_table(f"Node Created: {len(rows)}", header, rows)
 
     def handle_class_creation(self, value):
         # Create rows for the table
@@ -188,7 +194,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Class Created" section as a markdown table
-        self.write_markdown_table("Class Created", header, rows)
+        self.write_markdown_table(f"Class Created: {len(rows)}", header, rows)
 
     def handle_node_deletion(self, value):
         # Create rows for the table
@@ -198,7 +204,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Nodes Deleted" section as a markdown table
-        self.write_markdown_table("Nodes Deleted", header, rows)
+        self.write_markdown_table(f"Nodes Deleted: {len(rows)}", header, rows)
 
     def handle_new_text_definition(self, value):
         # Create rows for the table
@@ -207,67 +213,81 @@ class ChangeHandler:
             for change in value
         ]
         header = "| ID | Label | Old Text Definition | New Text Definition |"
-        self.write_markdown_table("New Text Definition", header, rows)
+        self.write_markdown_table(f"New Text Definition: {len(rows)}", header, rows)
 
-    def handle_obsoletion(self, value):
-        # Implement obsoletion handling logic here
-        logging.info("Obsoletion handling not yet implemented.")
+    def handle_node_obsoletion_with_direct_replacement(self, value):
+        rows = [
+            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.has_direct_replacement} | {self.oi.label(change.has_direct_replacement)} |"
+            for change in value
+        ]
+        header = "| ID | Label | Replacement ID | Replacement Label |"
+        self.write_markdown_table(f"Node Obsoleted with Direct Replacement: {len(rows)}", header, rows)
+        
 
-    def handle_datatype_or_language_tag_change(self, value):
-        # Implement datatype or language tag change handling logic here
-        logging.info("Datatype or language tag change handling not yet implemented.")
+    # def handle_node_obsoletion(self, value):
+    #     # Implement obsoletion handling logic here
+    #     logging.info("Obsoletion handling not yet implemented.")
 
-    def handle_language_tag_change(self, value):
-        # Implement language tag change handling logic here
-        logging.info("Language tag change handling not yet implemented.")
+    # def handle_node_direct_merge(self, value):
+    #     # Implement direct merge handling logic here
+    #     logging.info("Direct merge handling not yet implemented.")
+    
 
-    def handle_datatype_change(self, value):
-        # Implement datatype change handling logic here
-        logging.info("Datatype change handling not yet implemented.")
+    # def handle_datatype_or_language_tag_change(self, value):
+    #     # Implement datatype or language tag change handling logic here
+    #     logging.info("Datatype or language tag change handling not yet implemented.")
 
-    def handle_allows_automatic_replacement_of_edges(self, value):
-        # Implement allows automatic replacement of edges handling logic here
-        logging.info("Allows automatic replacement of edges handling not yet implemented.")
+    # def handle_language_tag_change(self, value):
+    #     # Implement language tag change handling logic here
+    #     logging.info("Language tag change handling not yet implemented.")
 
-    def handle_unobsoletion(self, value):
-        # Implement unobsoletion handling logic here
-        logging.info("Unobsoletion handling not yet implemented.")
+    # def handle_datatype_change(self, value):
+    #     # Implement datatype change handling logic here
+    #     logging.info("Datatype change handling not yet implemented.")
 
-    def handle_deletion(self, value):
-        # Implement deletion handling logic here
-        logging.info("Deletion handling not yet implemented.")
+    # def handle_allows_automatic_replacement_of_edges(self, value):
+    #     # Implement allows automatic replacement of edges handling logic here
+    #     logging.info("Allows automatic replacement of edges handling not yet implemented.")
 
-    def handle_creation(self, value):
-        # Implement creation handling logic here
-        logging.info("Creation handling not yet implemented.")
+    # def handle_unobsoletion(self, value):
+    #     # Implement unobsoletion handling logic here
+    #     logging.info("Unobsoletion handling not yet implemented.")
 
-    def handle_subset_membership_change(self, value):
-        # Implement subset membership change handling logic here
-        logging.info("Subset membership change handling not yet implemented.")
+    # def handle_deletion(self, value):
+    #     # Implement deletion handling logic here
+    #     logging.info("Deletion handling not yet implemented.")
 
-    def handle_add_to_subset(self, value):
-        # Implement add to subset handling logic here
-        logging.info("Add to subset handling not yet implemented.")
+    # def handle_creation(self, value):
+    #     # Implement creation handling logic here
+    #     logging.info("Creation handling not yet implemented.")
 
-    def handle_remove_from_subset(self, value):
-        # Implement remove from subset handling logic here
-        logging.info("Remove from subset handling not yet implemented.")
+    # def handle_subset_membership_change(self, value):
+    #     # Implement subset membership change handling logic here
+    #     logging.info("Subset membership change handling not yet implemented.")
 
-    def handle_edge_change(self, value):
-        # Implement edge change handling logic here
-        logging.info("Edge change handling not yet implemented.")
+    # def handle_add_to_subset(self, value):
+    #     # Implement add to subset handling logic here
+    #     logging.info("Add to subset handling not yet implemented.")
 
-    def handle_edge_creation(self, value):
-        # Implement edge creation handling logic here
-        logging.info("Edge creation handling not yet implemented.")
+    # def handle_remove_from_subset(self, value):
+    #     # Implement remove from subset handling logic here
+    #     logging.info("Remove from subset handling not yet implemented.")
 
-    def handle_place_under(self, value):
-        # Implement place under handling logic here
-        logging.info("Place under handling not yet implemented.")
+    # def handle_edge_change(self, value):
+    #     # Implement edge change handling logic here
+    #     logging.info("Edge change handling not yet implemented.")
+
+    # def handle_edge_creation(self, value):
+    #     # Implement edge creation handling logic here
+    #     logging.info("Edge creation handling not yet implemented.")
+
+    # def handle_place_under(self, value):
+    #     # Implement place under handling logic here
+    #     logging.info("Place under handling not yet implemented.")
 
     def process_changes(self, curie_or_change):
         # Write overview and summary at the beginning of the document
-        self.write_markdown_overview_and_summary(curie_or_change)
+        # self.write_markdown_overview_and_summary(curie_or_change)
         dispatch_table = {
             "NewSynonym": self.handle_new_synonym,
             "EdgeDeletion": self.handle_edge_deletion,
@@ -283,20 +303,22 @@ class ChangeHandler:
             "ClassCreation": self.handle_class_creation,
             "NodeDeletion": self.handle_node_deletion,
             "NewTextDefinition": self.handle_new_text_definition,
-            "Obsoletion": self.handle_obsoletion,
-            "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
-            "LanguageTagChange": self.handle_language_tag_change,
-            "DatatypeChange": self.handle_datatype_change,
-            "AllowsAutomaticReplacementOfEdges": self.handle_allows_automatic_replacement_of_edges,
-            "Unobsoletion": self.handle_unobsoletion,
-            "Deletion": self.handle_deletion,
-            "Creation": self.handle_creation,
-            "SubsetMembershipChange": self.handle_subset_membership_change,
-            "AddToSubset": self.handle_add_to_subset,
-            "RemoveFromSubset": self.handle_remove_from_subset,
-            "EdgeChange": self.handle_edge_change,
-            "EdgeCreation": self.handle_edge_creation,
-            "PlaceUnder": self.handle_place_under,
+            "NodeObsoletionWithDirectReplacement": self.handle_node_obsoletion_with_direct_replacement,
+            # "NodeObsoletion": self.handle_node_obsoletion,
+            # "NodeDirectMerge": self.handle_node_direct_merge,
+            # "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
+            # "LanguageTagChange": self.handle_language_tag_change,
+            # "DatatypeChange": self.handle_datatype_change,
+            # "AllowsAutomaticReplacementOfEdges": self.handle_allows_automatic_replacement_of_edges,
+            # "Unobsoletion": self.handle_unobsoletion,
+            # "Deletion": self.handle_deletion,
+            # "Creation": self.handle_creation,
+            # "SubsetMembershipChange": self.handle_subset_membership_change,
+            # "AddToSubset": self.handle_add_to_subset,
+            # "RemoveFromSubset": self.handle_remove_from_subset,
+            # "EdgeChange": self.handle_edge_change,
+            # "EdgeCreation": self.handle_edge_creation,
+            # "PlaceUnder": self.handle_place_under,
             # ... Add other mappings to handlers ...
         }
 

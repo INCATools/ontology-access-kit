@@ -31,8 +31,9 @@ class StreamingMarkdownWriter(StreamingWriter):
 
     def emit(self, curie_or_change: Union[str, Dict], label=None, **kwargs):
         oi = self.ontology_interface
+        other_oi = kwargs.get("other_impl", None)
         if isinstance(curie_or_change, dict):
-            change_handler = ChangeHandler(file=self.file, oi=oi)
+            change_handler = ChangeHandler(file=self.file, oi=other_oi)
             change_handler.process_changes(curie_or_change)
         else:
             if label is None:
