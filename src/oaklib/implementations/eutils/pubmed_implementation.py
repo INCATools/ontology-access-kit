@@ -5,6 +5,7 @@ Adapter for PubMed,
 
     this is currently highly incomplete.
 """
+
 import logging
 from dataclasses import dataclass
 
@@ -42,7 +43,7 @@ class PubMedImplementation(EUtilsImplementation):
             n = obograph.Node(
                 id=curie,
                 lbl=pa.title,
-                meta=obograph.Meta(definition=obograph.DefinitionPropertyValue(val=pa.abstract))
+                meta=obograph.Meta(definition=obograph.DefinitionPropertyValue(val=pa.abstract)),
                 # TODO: creators, ...
             )
             return n

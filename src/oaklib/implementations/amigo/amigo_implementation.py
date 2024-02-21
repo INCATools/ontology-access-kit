@@ -1,4 +1,5 @@
 """Adapter for AmiGO solr index."""
+
 import json
 import logging
 from dataclasses import dataclass

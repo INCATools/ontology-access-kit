@@ -1,4 +1,5 @@
 """Adapter for NCBIGene solr index."""
+
 import logging
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple

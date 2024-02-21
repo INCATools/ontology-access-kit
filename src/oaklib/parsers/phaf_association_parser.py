@@ -1,4 +1,5 @@
 """Parser for PomBase PHAF association formats"""
+
 from dataclasses import dataclass, field
 
 from oaklib.parsers.parser_base import ColumnReference

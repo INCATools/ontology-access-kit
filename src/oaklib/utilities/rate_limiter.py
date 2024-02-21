@@ -1,6 +1,7 @@
 """
 https://stackoverflow.com/questions/40748687/python-api-rate-limiting-how-to-limit-api-calls-globally
 """
+
 from ratelimit import limits, sleep_and_retry
 
 # calls per minute

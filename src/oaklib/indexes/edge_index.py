@@ -1,4 +1,5 @@
 """Simple in-memory cache for edges."""
+
 import logging
 from collections import defaultdict
 from dataclasses import dataclass

@@ -91,9 +91,9 @@ class SearchBaseConfiguration(YAMLRoot):
     class_name: ClassVar[str] = "SearchBaseConfiguration"
     class_model_uri: ClassVar[URIRef] = ONTOSEARCH.SearchBaseConfiguration
 
-    search_terms: Optional[
-        Union[Union[str, SearchTerm], List[Union[str, SearchTerm]]]
-    ] = empty_list()
+    search_terms: Optional[Union[Union[str, SearchTerm], List[Union[str, SearchTerm]]]] = (
+        empty_list()
+    )
     syntax: Optional[Union[str, "SearchTermSyntax"]] = None
     properties: Optional[
         Union[Union[str, "SearchProperty"], List[Union[str, "SearchProperty"]]]
@@ -166,15 +166,15 @@ class ComplexQuery(YAMLRoot):
     class_name: ClassVar[str] = "ComplexQuery"
     class_model_uri: ClassVar[URIRef] = ONTOSEARCH.ComplexQuery
 
-    all_of: Optional[
-        Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]
-    ] = empty_list()
-    any_of: Optional[
-        Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]
-    ] = empty_list()
-    none_of: Optional[
-        Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]
-    ] = empty_list()
+    all_of: Optional[Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]] = (
+        empty_list()
+    )
+    any_of: Optional[Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]] = (
+        empty_list()
+    )
+    none_of: Optional[Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]] = (
+        empty_list()
+    )
     path_to: Optional[str] = None
     atom: Optional[Union[dict, SearchBaseConfiguration]] = None
 
@@ -220,9 +220,9 @@ class PathExpression(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = ONTOSEARCH.PathExpression
 
     traversal: Optional[Union[str, "GraphFunction"]] = None
-    graph_predicates: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    graph_predicates: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     search_term: Optional[Union[dict, SearchBaseConfiguration]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -311,9 +311,9 @@ class SearchResultSet(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = ONTOSEARCH.SearchResultSet
 
     configuration: Optional[Union[dict, SearchBaseConfiguration]] = None
-    results: Optional[
-        Union[Union[dict, SearchResult], List[Union[dict, SearchResult]]]
-    ] = empty_list()
+    results: Optional[Union[Union[dict, SearchResult], List[Union[dict, SearchResult]]]] = (
+        empty_list()
+    )
     result_count: Optional[int] = None
     cursor: Optional[int] = None
 

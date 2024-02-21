@@ -1,4 +1,5 @@
 """Parser for GAF/HPOA and related association formats"""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Iterable, Iterator, Optional, TextIO, Union

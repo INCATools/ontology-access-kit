@@ -84,9 +84,9 @@ class ItemListCollection(YAMLRoot):
     class_name: ClassVar[str] = "ItemListCollection"
     class_model_uri: ClassVar[URIRef] = ITEMLIST.ItemListCollection
 
-    itemLists: Optional[
-        Union[Union[dict, "ItemList"], List[Union[dict, "ItemList"]]]
-    ] = empty_list()
+    itemLists: Optional[Union[Union[dict, "ItemList"], List[Union[dict, "ItemList"]]]] = (
+        empty_list()
+    )
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.itemLists, list):
@@ -126,12 +126,12 @@ class ItemList(YAMLRoot):
     ] = empty_dict()
     categories: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
     keywords: Optional[Union[str, List[str]]] = empty_list()
-    additionalType: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
-    wasGeneratedBy: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    additionalType: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
+    wasGeneratedBy: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.id is not None and not isinstance(self.id, URIorCURIE):
@@ -236,9 +236,9 @@ class Thing(YAMLRoot):
     id: Union[str, ThingId] = None
     name: Optional[str] = None
     url: Optional[Union[str, URI]] = None
-    identifiers: Optional[
-        Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
-    ] = empty_list()
+    identifiers: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = (
+        empty_list()
+    )
     description: Optional[str] = None
     type: Optional[Union[str, URIorCURIE]] = None
 

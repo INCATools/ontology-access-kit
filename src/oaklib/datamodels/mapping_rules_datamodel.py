@@ -88,9 +88,9 @@ class MappingRuleCollection(YAMLRoot):
     class_name: ClassVar[str] = "MappingRuleCollection"
     class_model_uri: ClassVar[URIRef] = MAPPINGRULES.MappingRuleCollection
 
-    rules: Optional[
-        Union[Union[dict, "MappingRule"], List[Union[dict, "MappingRule"]]]
-    ] = empty_list()
+    rules: Optional[Union[Union[dict, "MappingRule"], List[Union[dict, "MappingRule"]]]] = (
+        empty_list()
+    )
     minimum_confidence: Optional[float] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -440,9 +440,11 @@ class RelationshipToTerm(YAMLRoot):
         if not isinstance(self.pipeline, list):
             self.pipeline = [self.pipeline] if self.pipeline is not None else []
         self.pipeline = [
-            v
-            if isinstance(v, LexicalTransformationPipelineName)
-            else LexicalTransformationPipelineName(v)
+            (
+                v
+                if isinstance(v, LexicalTransformationPipelineName)
+                else LexicalTransformationPipelineName(v)
+            )
             for v in self.pipeline
         ]
 

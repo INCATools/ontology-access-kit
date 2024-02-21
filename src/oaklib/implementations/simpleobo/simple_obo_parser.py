@@ -6,6 +6,7 @@ specified toml-like structure, consisting of stanzas of tag-val pairs.
 
 The precise parsing of each tag-val pair is delayed until precise semantics are required
 """
+
 import logging
 import re
 from dataclasses import dataclass, field
