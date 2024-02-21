@@ -130,9 +130,7 @@ class ChangeHandler:
         header = "| ID | Label | Old Synonym | New Synonym |"
 
         # Write the "Synonym Predicate Changed" section as a markdown table
-        self.write_markdown_table(
-            f"Synonym Predicate Changed: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Synonym Predicate Changed: {len(rows)}", header, rows)
 
     def handle_node_text_definition_change(self, value):
         # Create rows for the table
@@ -146,9 +144,7 @@ class ChangeHandler:
         header = "| ID | Label | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Changed" section as a markdown table
-        self.write_markdown_table(
-            f"Node Text Definition Changed: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Node Text Definition Changed: {len(rows)}", header, rows)
 
     def handle_node_text_definition(self, value):
         # Create rows for the table
@@ -162,9 +158,7 @@ class ChangeHandler:
         header = "| ID | Label | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Added" section as a markdown table
-        self.write_markdown_table(
-            f"Node Text Definition Added: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Node Text Definition Added: {len(rows)}", header, rows)
 
     def handle_node_unobsoletion(self, value):
         # Create rows for the table
@@ -221,8 +215,9 @@ class ChangeHandler:
             for change in value
         ]
         header = "| ID | Label | Replacement ID | Replacement Label |"
-        self.write_markdown_table(f"Node Obsoleted with Direct Replacement: {len(rows)}", header, rows)
-        
+        self.write_markdown_table(
+            f"Node Obsoleted with Direct Replacement: {len(rows)}", header, rows
+        )
 
     # def handle_node_obsoletion(self, value):
     #     # Implement obsoletion handling logic here
@@ -231,7 +226,6 @@ class ChangeHandler:
     # def handle_node_direct_merge(self, value):
     #     # Implement direct merge handling logic here
     #     logging.info("Direct merge handling not yet implemented.")
-    
 
     # def handle_datatype_or_language_tag_change(self, value):
     #     # Implement datatype or language tag change handling logic here

@@ -7,34 +7,34 @@ import kgcl_schema.datamodel.kgcl as kgcl
 from kgcl_schema.datamodel.kgcl import (
     Change,
     ClassCreation,
+    EdgeDeletion,
+    NewSynonym,
     NewTextDefinition,
     NodeCreation,
     NodeDeletion,
-    NodeUnobsoletion,
     NodeDirectMerge,
-    NodeObsoletion,
-    NodeTextDefinitionChange,
-    NodeRename,
-    NodeObsoletionWithDirectReplacement,
-    SynonymPredicateChange,
-    NewSynonym,
-    RemoveSynonym,
-    PredicateChange,
-    EdgeDeletion,
     NodeMove,
+    NodeObsoletion,
+    NodeObsoletionWithDirectReplacement,
+    NodeRename,
+    NodeTextDefinitionChange,
+    NodeUnobsoletion,
+    PredicateChange,
+    RemoveSynonym,
+    SynonymPredicateChange,
 )
+
 from oaklib.constants import (
     CLASS_CREATION,
     NODE_CREATION,
     NODE_DELETION,
     NODE_DIRECT_MERGE,
     NODE_OBSOLETION,
-    NODE_RENAME,
-    NODE_UNOBSOLETION,
     NODE_OBSOLETION_WITH_DIRECT_REPLACEMENT,
+    NODE_RENAME,
     NODE_TEXT_DEFINITION_CHANGE,
+    NODE_UNOBSOLETION,
 )
-
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
     HAS_OBSOLESCENCE_REASON,
@@ -304,7 +304,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         self, other_ontology: BasicOntologyInterface, curie: CURIE, other_curie: CURIE = None
     ) -> Any:
         raise NotImplementedError
-    
+
     def diff_structured(
         self,
         other_ontology: BasicOntologyInterface,
@@ -329,9 +329,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         """
         if configuration is None:
             configuration = DiffConfiguration()
-        other_ontology_entities = set(
-            list(other_ontology.entities(filter_obsoletes=False))
-        )
+        other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
         self_entities = set(list(self.entities(filter_obsoletes=False)))
 
         # ! New classes
@@ -377,8 +375,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             list_of_deleted_nodes = list(self_entities - other_ontology_entities)
             yield {
                 NODE_DELETION: [
-                    NodeDeletion(id=_gen_id(), about_node=node)
-                    for node in list_of_deleted_nodes
+                    NodeDeletion(id=_gen_id(), about_node=node) for node in list_of_deleted_nodes
                 ]
             }
 
@@ -409,12 +406,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
         ]
         if definition_change_list:
             yield {NODE_TEXT_DEFINITION_CHANGE: definition_change_list}
-        
+
         # ! Obsoletions
         obsoletion_generator = _generate_obsoletion_changes(
-            self_entities,
-            self.entity_metadata_map,
-            other_ontology.entity_metadata_map
+            self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
         )
         for obsoletion_change in obsoletion_generator:
             if any(obsoletion_change.values()):
@@ -445,11 +440,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
         # )
         # for synonym_change in synonym_change_generator:
         #     if any(synonym_change.values()): yield synonym_change
-        
-        
-
-        
-        
 
 
 # ! Helper functions
@@ -466,17 +456,23 @@ def _generate_obsoletion_changes(
 
     # Precompute metadata maps outside of the loop to avoid redundant calculations
     self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in self_entities}
-    other_metadata_map = {entity: other_ontology_entity_metadata_map(entity) for entity in self_entities}
-    
+    other_metadata_map = {
+        entity: other_ontology_entity_metadata_map(entity) for entity in self_entities
+    }
+
     # Prepare deprecation status data using a list comprehension
     deprecation_data = [
-        (entity, self_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0], other_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0])
+        (
+            entity,
+            self_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
+            other_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
+        )
         for entity in self_entities
     ]
-    
+
     # Initialize the dictionary to collect changes
     obsoletion_changes = {}
-    
+
     # Process the prepared deprecation data
     for e1, e1_dep, e2_dep in deprecation_data:
         if e1_dep != e2_dep:
@@ -486,10 +482,9 @@ def _generate_obsoletion_changes(
                 class_name = kgcl_obj.__class__.__name__
                 # Use setdefault to initialize the list if the key doesn't exist yet
                 obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
-    
+
     # Yield the collected changes as a single dictionary
     yield obsoletion_changes
-    
 
 
 def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
@@ -514,6 +509,7 @@ def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
     else:
         return NodeUnobsoletion(id=_gen_id(), about_node=e1)
 
+
 # def _generate_synonym_changes(self_entities, other_ontology):
 #     changes_dict = {}
 #     for e1 in self_entities:
@@ -528,8 +524,6 @@ def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
 #             changes_dict[change_key].append(change)
 #     yield changes_dict
 
-
-    
 
 # def _generate_synonym_change_objects(e1, e1_arels, e2_arels):
 #     e1_diff_e2 = e1_arels.difference(e2_arels)
