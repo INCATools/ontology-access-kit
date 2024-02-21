@@ -1,4 +1,4 @@
-import logging
+"""Change Handler Class."""
 
 
 class ChangeHandler:
@@ -211,7 +211,8 @@ class ChangeHandler:
 
     def handle_node_obsoletion_with_direct_replacement(self, value):
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.has_direct_replacement} | {self.oi.label(change.has_direct_replacement)} |"
+            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.has_direct_replacement} |\
+                  {self.oi.label(change.has_direct_replacement)} |"
             for change in value
         ]
         header = "| ID | Label | Replacement ID | Replacement Label |"
