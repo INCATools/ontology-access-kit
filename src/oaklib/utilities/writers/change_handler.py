@@ -303,7 +303,7 @@ class ChangeHandler:
             "NodeCreation": self.handle_node_creation,
             "ClassCreation": self.handle_class_creation,
             "NodeDeletion": self.handle_node_deletion,
-            "NewTextDefinition": self.handle_new_text_definition,
+            "NewTextDefinition": self.handle_new_text_definition,  # ! same as NodeTextDefinition
             "NodeObsoletionWithDirectReplacement": self.handle_node_obsoletion_with_direct_replacement,
             # "NodeObsoletion": self.handle_node_obsoletion,
             "NodeDirectMerge": self.handle_node_direct_merge,
