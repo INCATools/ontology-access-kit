@@ -200,6 +200,15 @@ class ChangeHandler:
         # Write the "Nodes Deleted" section as a markdown table
         self.write_markdown_table(f"Nodes deleted: {len(rows)}", header, rows)
 
+    def handle_new_text_definition(self, value):
+        # Create rows for the table
+        rows = [
+            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} | {change.new_value} |"
+            for change in value
+        ]
+        header = "| ID | Label | Old Text Definition | New Text Definition |"
+        self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
+
     def handle_node_obsoletion_with_direct_replacement(self, value):
         rows = [
             f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.has_direct_replacement} |\
@@ -294,7 +303,7 @@ class ChangeHandler:
             "NodeCreation": self.handle_node_creation,
             "ClassCreation": self.handle_class_creation,
             "NodeDeletion": self.handle_node_deletion,
-            "NewTextDefinition": self.handle_node_text_definition,
+            "NewTextDefinition": self.handle_new_text_definition,
             "NodeObsoletionWithDirectReplacement": self.handle_node_obsoletion_with_direct_replacement,
             # "NodeObsoletion": self.handle_node_obsoletion,
             "NodeDirectMerge": self.handle_node_direct_merge,
