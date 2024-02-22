@@ -1,5 +1,7 @@
 import logging
+import multiprocessing
 from abc import ABC
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Dict, Iterator, Optional, Tuple
 
@@ -7,6 +9,7 @@ import kgcl_schema.datamodel.kgcl as kgcl
 from kgcl_schema.datamodel.kgcl import (
     Change,
     ClassCreation,
+    Edge,
     EdgeDeletion,
     NewSynonym,
     NewTextDefinition,
@@ -26,6 +29,7 @@ from kgcl_schema.datamodel.kgcl import (
 
 from oaklib.constants import (
     CLASS_CREATION,
+    NEW_TEXT_DEFINITION,
     NODE_CREATION,
     NODE_DELETION,
     NODE_DIRECT_MERGE,
@@ -320,12 +324,11 @@ class DifferInterface(BasicOntologyInterface, ABC):
         4. Obsoletions
         5. Added synonyms
         6. Added definitions
-        7. Added relationships
-        8. Removed relationships
+        7. Changed relationships
 
-        :param other_ontology:
-        :param configuration:
-        :return:
+        :param other_ontology: Ontology to compare against
+        :param configuration: Configuration for the differentiation
+        :return: A sequence of changes in the form of a dictionary
         """
         if configuration is None:
             configuration = DiffConfiguration()
@@ -403,6 +406,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
             )
             for entity in self_entities.intersection(other_ontology_entities)
             if self.definition(entity) != other_ontology.definition(entity)
+            and self.definition(entity) is not None
+            and other_ontology.definition(entity) is not None
         ]
         if definition_change_list:
             yield {NODE_TEXT_DEFINITION_CHANGE: definition_change_list}
@@ -416,30 +421,50 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 yield obsoletion_change
 
         # ! Synonyms
-        # for e1 in self_entities:
-        #     e1_arels = set(self.alias_relationships(e1, exclude_labels=True))
-        #     e2_arels = set(other_ontology.alias_relationships(e1, exclude_labels=True))
-        #     for arel in e1_arels.difference(e2_arels):
-        #         pred, alias = arel
-        #         switches = {r[0] for r in e2_arels if r[1] == alias}
-        #         if len(switches) == 1:
-        #             e2_arels = set([x for x in e2_arels if x[1] != alias])
-        #             # TODO: KGCL model needs to include predicates
-        #             yield SynonymPredicateChange(id=_gen_id(), about_node=e1, old_value=alias)
-        #         else:
-        #             yield RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
-        #     for arel in e2_arels.difference(e1_arels):
-        #         pred, alias = arel
-        #         yield NewSynonym(id=_gen_id(), about_node=e1, new_value=alias)
-        #     e1_label = self.label(e1)
-        #     e2_label = other_ontology.label(e1)
-        #  ! New way to generate synonym changes
-        # synonym_change_generator = _generate_synonym_changes(
-        #     self,
-        #     other_ontology
-        # )
-        # for synonym_change in synonym_change_generator:
-        #     if any(synonym_change.values()): yield synonym_change
+        self_aliases = {
+            entity: set(self.alias_relationships(entity, exclude_labels=True))
+            for entity in self_entities
+        }
+        other_aliases = {
+            entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
+            for entity in self_entities
+        }
+        synonyms_generator = _generate_synonym_changes(self_entities, self_aliases, other_aliases)
+        synonym_changes = defaultdict(list)
+        for synonyms_change in synonyms_generator:
+            synonym_changes.setdefault(synonyms_change.__class__.__name__, []).append(
+                synonyms_change
+            )
+        if synonym_changes:
+            yield synonym_changes
+
+        # ! New difinitions
+        new_definition_list = [
+            NewTextDefinition(
+                id=_gen_id(),
+                about_node=entity,
+                new_value=other_ontology.definition(entity),
+                old_value=self.definition(entity),
+            )
+            for entity in self_entities.intersection(other_ontology_entities)
+            if self.definition(entity) is None or other_ontology.definition(entity) is None
+        ]
+        if new_definition_list:
+            yield {NEW_TEXT_DEFINITION: new_definition_list}
+
+        # ! Relationships
+        self_out_rels = {
+            entity: set(self.outgoing_relationships(entity)) for entity in self_entities
+        }
+        other_out_rels = {
+            entity: set(other_ontology.outgoing_relationships(entity)) for entity in self_entities
+        }
+
+        # Process the entities in parallel using a generator
+        for relationship_change in _parallely_get_relationship_changes(
+            self_entities, self_out_rels, other_out_rels
+        ):
+            yield relationship_change
 
 
 # ! Helper functions
@@ -510,39 +535,70 @@ def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
         return NodeUnobsoletion(id=_gen_id(), about_node=e1)
 
 
-# def _generate_synonym_changes(self_entities, other_ontology):
-#     changes_dict = {}
-#     for e1 in self_entities:
-#         for change in _generate_synonym_change_objects(
-#             e1,
-#             self.entities.alias_relationships(e1, exclude_labels=True),
-#             other_ontology_alias_relationships(e1, exclude_labels=True),
-#         ):
-#             change_key = change.__class__.__name__
-#             if change_key not in changes_dict:
-#                 changes_dict[change_key] = []
-#             changes_dict[change_key].append(change)
-#     yield changes_dict
+def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
+    for e1 in self_entities:
+        e1_arels = self_aliases[e1]
+        e2_arels = other_aliases[e1]
+
+        # Pre-calculate the differences
+        e1_diff = e1_arels.difference(e2_arels)
+        e2_diff = e2_arels.difference(e1_arels)
+
+        for arel in e1_diff:
+            _, alias = arel
+            switches = {r[0] for r in e2_arels if r[1] == alias}
+            if len(switches) == 1:
+                # Update e2_arels to remove the alias
+                e2_arels = {x for x in e2_arels if x[1] != alias}
+                synonym_change = SynonymPredicateChange(
+                    id=_gen_id(), about_node=e1, old_value=alias
+                )
+            else:
+                synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
+
+            yield synonym_change
+
+        for arel in e2_diff:
+            _, alias = arel
+            synonym_change = NewSynonym(id=_gen_id(), about_node=e1, new_value=alias)
+            yield synonym_change
 
 
-# def _generate_synonym_change_objects(e1, e1_arels, e2_arels):
-#     e1_diff_e2 = e1_arels.difference(e2_arels)
-#     e2_diff_e1 = e2_arels.difference(e1_arels)
+def _generate_relation_changes(e1, self_out_rels, other_out_rels):
+    e1_rels = self_out_rels[e1]
+    e2_rels = other_out_rels[e1]
+    changes = {}
 
-#     # Generate changes for e1_arels not in e2_arels
-#     for arel in e1_diff_e2:
-#         pred, alias = arel
-#         switches = {r[0] for r in e2_arels if r[1] == alias}
-#         if len(switches) == 1:
-#             e2_arels.difference_update({x for x in e2_arels if x[1] == alias})
-#             yield SynonymPredicateChange(id=_gen_id(), about_node=e1, old_value=alias)
-#         else:
-#             yield RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
+    for rel in e1_rels.difference(e2_rels):
+        pred, filler = rel
+        edge = Edge(subject=e1, predicate=pred, object=filler)
+        switches = list({r[0] for r in e2_rels if r[1] == filler})
+        if len(switches) == 1:
+            e2_rels.discard((switches[0], filler))
+            if pred != switches[0]:
+                changes.setdefault(PredicateChange.__name__, []).append(
+                    PredicateChange(
+                        id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
+                    )
+                )
+        else:
+            changes.setdefault(EdgeDeletion.__name__, []).append(
+                EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=filler)
+            )
 
-#     # Generate changes for e2_arels not in e1_arels
-#     new_synonyms = (
-#         NewSynonym(id=_gen_id(), about_node=e1, new_value=alias)
-#         for pred, alias in e2_diff_e1
-#     )
-#     for synonym in new_synonyms:
-#         yield synonym
+    for rel in e2_rels.difference(e1_rels):
+        pred, filler = rel
+        edge = Edge(subject=e1, predicate=pred, object=filler)
+        changes.setdefault(NodeMove.__name__, []).append(
+            NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
+        )
+
+
+def _parallely_get_relationship_changes(self_entities, self_out_rels, other_out_rels):
+    with multiprocessing.Pool() as pool:
+        for result in pool.starmap(
+            _generate_relation_changes,
+            [(e1, self_out_rels, other_out_rels) for e1 in self_entities],
+        ):
+            if result:
+                yield result

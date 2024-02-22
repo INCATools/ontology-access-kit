@@ -14,6 +14,7 @@ NODE_CREATION = "NodeCreation"
 NODE_DELETION = "NodeDeletion"
 
 NODE_TEXT_DEFINITION_CHANGE = "NodeTextDefinitionChange"
+NEW_TEXT_DEFINITION = "NewTextDefinition"
 NODE_UNOBSOLETION = "NodeUnobsoletion"
 NODE_DIRECT_MERGE = "NodeDirectMerge"
 NODE_OBSOLETION_WITH_DIRECT_REPLACEMENT = "NodeObsoletionWithDirectReplacement"
