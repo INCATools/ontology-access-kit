@@ -45,7 +45,7 @@ class ChangeHandler:
         header = "| ID | Label | New Synonym |"
 
         # Write the "New Synonyms Added" section as a collapsible markdown table
-        self.write_markdown_table(f"New Synonyms Added: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Synonyms added: {len(rows)}", header, rows)
 
     def handle_edge_deletion(self, value):
         # Create rows for the table
@@ -59,7 +59,7 @@ class ChangeHandler:
         header = "| Subject ID | Subject Label | Predicate ID | Predicate Label | Object ID | Object Label |"
 
         # Write the "Edges Deleted" section as a collapsible markdown table
-        self.write_markdown_table(f"Edges Deleted: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Edges deleted: {len(rows)}", header, rows)
 
     def handle_node_move(self, value):
         # Create rows for the table
@@ -76,7 +76,7 @@ class ChangeHandler:
               | Old Predicate | New Predicate |"
 
         # Write the "Nodes Moved" section as a collapsible markdown table
-        self.write_markdown_table(f"Nodes Moved: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes moved: {len(rows)}", header, rows)
 
     def handle_predicate_change(self, value):
         # Create rows for the table
@@ -91,7 +91,7 @@ class ChangeHandler:
         header = "| Subject ID | Subject Label | Old Predicate | New Predicate | Object ID | Object Label |"
 
         # Write the "Predicate Changed" section as a collapsible markdown table
-        self.write_markdown_table(f"Predicate Changed: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Predicates changed: {len(rows)}", header, rows)
 
     def handle_node_rename(self, value):
         # Create rows for the table
@@ -103,7 +103,7 @@ class ChangeHandler:
         header = "| ID | Old Label | New Label |"
 
         # Write the "Node Renamed" section as a collapsible markdown table
-        self.write_markdown_table(f"Node Renamed: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes renamed: {len(rows)}", header, rows)
 
     def handle_remove_synonym(self, value):
         # Create rows for the table
@@ -116,7 +116,7 @@ class ChangeHandler:
         header = "| ID | Label | Removed Synonym |"
 
         # Write the "Synonyms Removed" section as a collapsible markdown table
-        self.write_markdown_table(f"Synonyms Removed: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Synonyms removed: {len(rows)}", header, rows)
 
     def hand_synonym_predicate_change(self, value):
         # Create rows for the table
@@ -130,7 +130,7 @@ class ChangeHandler:
         header = "| ID | Label | Old Synonym | New Synonym |"
 
         # Write the "Synonym Predicate Changed" section as a markdown table
-        self.write_markdown_table(f"Synonym Predicate Changed: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Synonym predicates changed: {len(rows)}", header, rows)
 
     def handle_node_text_definition_change(self, value):
         # Create rows for the table
@@ -144,7 +144,7 @@ class ChangeHandler:
         header = "| ID | Label | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Changed" section as a markdown table
-        self.write_markdown_table(f"Node Text Definition Changed: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Text definitions changed: {len(rows)}", header, rows)
 
     def handle_node_text_definition(self, value):
         # Create rows for the table
@@ -158,7 +158,7 @@ class ChangeHandler:
         header = "| ID | Label | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Added" section as a markdown table
-        self.write_markdown_table(f"Node Text Definition Added: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
 
     def handle_node_unobsoletion(self, value):
         # Create rows for the table
@@ -168,7 +168,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Node Unobsoleted" section as a markdown table
-        self.write_markdown_table(f"Node Unobsoleted: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes unobsoleted: {len(rows)}", header, rows)
 
     def handle_node_creation(self, value):
         # Create rows for the table
@@ -178,7 +178,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Node Created" section as a markdown table
-        self.write_markdown_table(f"Node Created: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes created: {len(rows)}", header, rows)
 
     def handle_class_creation(self, value):
         # Create rows for the table
@@ -188,7 +188,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Class Created" section as a markdown table
-        self.write_markdown_table(f"Class Created: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Classes created: {len(rows)}", header, rows)
 
     def handle_node_deletion(self, value):
         # Create rows for the table
@@ -198,16 +198,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Nodes Deleted" section as a markdown table
-        self.write_markdown_table(f"Nodes Deleted: {len(rows)}", header, rows)
-
-    def handle_new_text_definition(self, value):
-        # Create rows for the table
-        rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} | {change.new_value} |"
-            for change in value
-        ]
-        header = "| ID | Label | Old Text Definition | New Text Definition |"
-        self.write_markdown_table(f"New Text Definition: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes deleted: {len(rows)}", header, rows)
 
     def handle_node_obsoletion_with_direct_replacement(self, value):
         rows = [
@@ -217,7 +208,7 @@ class ChangeHandler:
         ]
         header = "| ID | Label | Replacement ID | Replacement Label |"
         self.write_markdown_table(
-            f"Node Obsoleted with Direct Replacement: {len(rows)}", header, rows
+            f"Nodes obsoleted with direct replacement: {len(rows)}", header, rows
         )
 
     # def handle_node_obsoletion(self, value):
@@ -232,7 +223,7 @@ class ChangeHandler:
             for change in value
         ]
         header = "| ID | Label | Replacement ID | Replacement Label |"
-        self.write_markdown_table(f"Node Direct Merge: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes direct merge: {len(rows)}", header, rows)
 
     # def handle_datatype_or_language_tag_change(self, value):
     #     # Implement datatype or language tag change handling logic here
@@ -303,7 +294,7 @@ class ChangeHandler:
             "NodeCreation": self.handle_node_creation,
             "ClassCreation": self.handle_class_creation,
             "NodeDeletion": self.handle_node_deletion,
-            "NewTextDefinition": self.handle_new_text_definition,
+            "NewTextDefinition": self.handle_node_text_definition,
             "NodeObsoletionWithDirectReplacement": self.handle_node_obsoletion_with_direct_replacement,
             # "NodeObsoletion": self.handle_node_obsoletion,
             "NodeDirectMerge": self.handle_node_direct_merge,
