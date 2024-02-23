@@ -1378,33 +1378,24 @@ class TestCommandLineInterface(unittest.TestCase):
         outfile = f"{OUTPUT_DIR}/diff.md"
         result = self.runner.invoke(
             main,
-            ["-i", TEST_OBO_2, "diff", "-X", TEST_OBO_1, "-o", outfile, "-O", "md"],
+            ["-i", TEST_OBO_1, "diff", "-X", TEST_OBO_2, "-o", outfile, "-O", "md"],
         )
         self.assertEqual(0, result.exit_code)
         with open(outfile) as f:
             contents = f.read()
-            # Check for Overview section
-            self.assertIn("<details>", contents)
-            self.assertIn("<summary>Overview</summary>", contents)
-            self.assertIn("- NodeDeletion: 2", contents)
-            self.assertIn("- EdgeDeletion: 1", contents)
-            self.assertIn("</details>", contents)
 
-            # Check for Nodes Deleted section
+            # Check for Nodes Created section
             self.assertIn("<details>", contents)
-            self.assertIn("<summary>Nodes Deleted</summary>", contents)
+            self.assertIn("<summary>Nodes created: 1</summary>", contents)
             self.assertIn("| ID | Label |", contents)
             self.assertIn("----|----", contents)
             self.assertIn("| RO:0000053 | has characteristic |", contents)
-            self.assertIn("| PATO:0001735 | liquid configuration |", contents)
             self.assertIn("</details>", contents)
 
-            # Check for Edges Deleted section
+            # Check for Classes Created section
             self.assertIn("<details>", contents)
-            self.assertIn("<summary>Edges Deleted</summary>", contents)
-            self.assertIn(
-                "| Subject ID | Subject Label | Predicate ID | Predicate Label | Object ID | Object Label |",
-                contents,
-            )
-            self.assertIn("----|----|----|----|----|----", contents)
+            self.assertIn("<summary>Classes created: 1</summary>", contents)
+            self.assertIn("| ID | Label |", contents)
+            self.assertIn("----|----", contents)
+            self.assertIn("| PATO:0001735 | liquid configuration |", contents)
             self.assertIn("</details>", contents)
