@@ -1386,7 +1386,7 @@ class TestCommandLineInterface(unittest.TestCase):
 
             # Check for Nodes Created section
             self.assertIn("<details>", contents)
-            self.assertIn("<summary>Nodes created: 1</summary>", contents)
+            self.assertIn("<summary>Other nodes created: 1</summary>", contents)
             self.assertIn("| ID | Label |", contents)
             self.assertIn("----|----", contents)
             self.assertIn("| RO:0000053 | has characteristic |", contents)

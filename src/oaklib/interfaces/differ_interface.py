@@ -166,13 +166,18 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 switches = {r[0] for r in e2_arels if r[1] == alias}
                 if len(switches) == 1:
                     e2_arels = set([x for x in e2_arels if x[1] != alias])
-                    # TODO: KGCL model needs to include predicates
-                    yield SynonymPredicateChange(id=_gen_id(), about_node=e1, old_value=alias)
+                    yield SynonymPredicateChange(
+                        id=_gen_id(),
+                        about_node=e1,
+                        target=alias,
+                        old_value=pred,
+                        new_value=switches.pop(),
+                    )
                 else:
                     yield RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
             for arel in e2_arels.difference(e1_arels):
                 pred, alias = arel
-                yield NewSynonym(id=_gen_id(), about_node=e1, new_value=alias)
+                yield NewSynonym(id=_gen_id(), about_node=e1, new_value=alias, predicate=pred)
             e1_label = self.label(e1)
             e2_label = other_ontology.label(e1)
             if e1_label != e2_label:
@@ -333,10 +338,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
         self_entities = set(list(self.entities(filter_obsoletes=False)))
 
         # ! New classes
-        
-        #* other_ontology_entities - self_entities => ClassCreation/NodeCreation
-        #* self_entities - other_ontology_entities => NodeDeletion
-        
+
+        # * other_ontology_entities - self_entities => ClassCreation/NodeCreation
+        # * self_entities - other_ontology_entities => NodeDeletion
+
         # Node/Class Creation
         if other_ontology_entities - self_entities:
             list_of_created_nodes = list(other_ontology_entities - self_entities)
@@ -378,14 +383,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     NodeDeletion(id=_gen_id(), about_node=node) for node in list_of_deleted_nodes
                 ]
             }
-        
+
         # ! Obsoletions
-        # obsoletion_generator = _generate_obsoletion_changes(
-        #     self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
-        # )
-        # for obsoletion_change in obsoletion_generator:
-        #     if any(obsoletion_change.values()):
-        #         yield obsoletion_change
         obsoletion_generator = _generate_obsoletion_changes(
             self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
         )
@@ -404,7 +403,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             )
             for entity in self_entities.intersection(other_ontology_entities)
             if self.label(entity) != other_ontology.label(entity)
-            and not other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING) # ! I don't likes.
+            and not other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING)  # ! I don't likes.
         ]
         if label_change_list:
             yield {NODE_RENAME: label_change_list}
@@ -473,50 +472,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
 
 # ! Helper functions
-# def _generate_obsoletion_changes(
-#     self_entities, self_entity_metadata_map, other_ontology_entity_metadata_map
-# ):
-#     # Initialize a dictionary to hold the KGCL class objects
-#     obsoletion_changes = {
-#         NODE_UNOBSOLETION: [],
-#         NODE_DIRECT_MERGE: [],
-#         NODE_OBSOLETION_WITH_DIRECT_REPLACEMENT: [],
-#         NODE_OBSOLETION: [],
-#     }
-
-#     # Precompute metadata maps outside of the loop to avoid redundant calculations
-#     self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in self_entities}
-#     other_metadata_map = {
-#         entity: other_ontology_entity_metadata_map(entity) for entity in self_entities
-#     }
-
-#     # Prepare deprecation status data using a list comprehension
-#     deprecation_data = [
-#         (
-#             entity,
-#             self_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
-#             other_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
-#         )
-#         for entity in self_entities
-#     ]
-
-#     # Initialize the dictionary to collect changes
-#     obsoletion_changes = {}
-
-#     # Process the prepared deprecation data
-#     for e1, e1_dep, e2_dep in deprecation_data:
-#         if e1_dep != e2_dep:
-#             kgcl_obj = _create_obsoletion_object(e1, e1_dep, e2_dep, other_metadata_map[e1])
-#             # Only add key if it has a value
-#             if kgcl_obj:
-#                 class_name = kgcl_obj.__class__.__name__
-#                 # Use setdefault to initialize the list if the key doesn't exist yet
-#                 obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
-
-#     # Yield the collected changes as a single dictionary
-#     yield obsoletion_changes
-
-
 def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
     if not e1_dep and e2_dep:
         term_replaced_by = e2_meta.get(TERM_REPLACED_BY)
@@ -556,7 +511,11 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
                 # Update e2_arels to remove the alias
                 e2_arels = {x for x in e2_arels if x[1] != alias}
                 synonym_change = SynonymPredicateChange(
-                    id=_gen_id(), about_node=e1, target=alias, old_value=pred, new_value=switches.pop()
+                    id=_gen_id(),
+                    about_node=e1,
+                    target=alias,
+                    old_value=pred,
+                    new_value=switches.pop(),
                 )
             else:
                 # ! Remove obsoletes
@@ -567,7 +526,9 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
 
         for arel in e2_diff:
             pred, alias = arel
-            synonym_change = NewSynonym(id=_gen_id(), about_node=e1, new_value=alias, predicate=pred)
+            synonym_change = NewSynonym(
+                id=_gen_id(), about_node=e1, new_value=alias, predicate=pred
+            )
             yield synonym_change
 
 

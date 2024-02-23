@@ -216,9 +216,7 @@ class ChangeHandler:
             for change in value
         ]
         header = "| ID | Label | Replacement ID | Replacement Label |"
-        self.write_markdown_table(
-            f"Nodes obsoleted with replacement: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Nodes obsoleted with replacement: {len(rows)}", header, rows)
 
     def handle_node_obsoletion(self, value):
         rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
