@@ -413,9 +413,16 @@ class DifferInterface(BasicOntologyInterface, ABC):
             yield {NODE_TEXT_DEFINITION_CHANGE: definition_change_list}
 
         # ! Obsoletions
+        # obsoletion_generator = _generate_obsoletion_changes(
+        #     self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
+        # )
+        # for obsoletion_change in obsoletion_generator:
+        #     if any(obsoletion_change.values()):
+        #         yield obsoletion_change
         obsoletion_generator = _generate_obsoletion_changes(
             self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
         )
+
         for obsoletion_change in obsoletion_generator:
             if any(obsoletion_change.values()):
                 yield obsoletion_change
@@ -438,7 +445,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         if synonym_changes:
             yield synonym_changes
 
-        # ! New difinitions
+        # ! New definitions
         new_definition_list = [
             NewTextDefinition(
                 id=_gen_id(),
@@ -447,7 +454,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 old_value=self.definition(entity),
             )
             for entity in self_entities.intersection(other_ontology_entities)
-            if self.definition(entity) is None or other_ontology.definition(entity) is None
+            if self.definition(entity) is None and other_ontology.definition(entity) is not None
         ]
         if new_definition_list:
             yield {NEW_TEXT_DEFINITION: new_definition_list}
@@ -468,48 +475,48 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
 
 # ! Helper functions
-def _generate_obsoletion_changes(
-    self_entities, self_entity_metadata_map, other_ontology_entity_metadata_map
-):
-    # Initialize a dictionary to hold the KGCL class objects
-    obsoletion_changes = {
-        NODE_UNOBSOLETION: [],
-        NODE_DIRECT_MERGE: [],
-        NODE_OBSOLETION_WITH_DIRECT_REPLACEMENT: [],
-        NODE_OBSOLETION: [],
-    }
+# def _generate_obsoletion_changes(
+#     self_entities, self_entity_metadata_map, other_ontology_entity_metadata_map
+# ):
+#     # Initialize a dictionary to hold the KGCL class objects
+#     obsoletion_changes = {
+#         NODE_UNOBSOLETION: [],
+#         NODE_DIRECT_MERGE: [],
+#         NODE_OBSOLETION_WITH_DIRECT_REPLACEMENT: [],
+#         NODE_OBSOLETION: [],
+#     }
 
-    # Precompute metadata maps outside of the loop to avoid redundant calculations
-    self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in self_entities}
-    other_metadata_map = {
-        entity: other_ontology_entity_metadata_map(entity) for entity in self_entities
-    }
+#     # Precompute metadata maps outside of the loop to avoid redundant calculations
+#     self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in self_entities}
+#     other_metadata_map = {
+#         entity: other_ontology_entity_metadata_map(entity) for entity in self_entities
+#     }
 
-    # Prepare deprecation status data using a list comprehension
-    deprecation_data = [
-        (
-            entity,
-            self_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
-            other_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
-        )
-        for entity in self_entities
-    ]
+#     # Prepare deprecation status data using a list comprehension
+#     deprecation_data = [
+#         (
+#             entity,
+#             self_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
+#             other_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
+#         )
+#         for entity in self_entities
+#     ]
 
-    # Initialize the dictionary to collect changes
-    obsoletion_changes = {}
+#     # Initialize the dictionary to collect changes
+#     obsoletion_changes = {}
 
-    # Process the prepared deprecation data
-    for e1, e1_dep, e2_dep in deprecation_data:
-        if e1_dep != e2_dep:
-            kgcl_obj = _create_obsoletion_object(e1, e1_dep, e2_dep, other_metadata_map[e1])
-            # Only add key if it has a value
-            if kgcl_obj:
-                class_name = kgcl_obj.__class__.__name__
-                # Use setdefault to initialize the list if the key doesn't exist yet
-                obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
+#     # Process the prepared deprecation data
+#     for e1, e1_dep, e2_dep in deprecation_data:
+#         if e1_dep != e2_dep:
+#             kgcl_obj = _create_obsoletion_object(e1, e1_dep, e2_dep, other_metadata_map[e1])
+#             # Only add key if it has a value
+#             if kgcl_obj:
+#                 class_name = kgcl_obj.__class__.__name__
+#                 # Use setdefault to initialize the list if the key doesn't exist yet
+#                 obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
 
-    # Yield the collected changes as a single dictionary
-    yield obsoletion_changes
+#     # Yield the collected changes as a single dictionary
+#     yield obsoletion_changes
 
 
 def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
@@ -562,6 +569,45 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
             _, alias = arel
             synonym_change = NewSynonym(id=_gen_id(), about_node=e1, new_value=alias)
             yield synonym_change
+
+
+def _process_deprecation_data(deprecation_data_item):
+    e1, e1_dep, e2_dep, e2_meta = deprecation_data_item
+    if e1_dep != e2_dep:
+        kgcl_obj = _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta)
+        if kgcl_obj:
+            return kgcl_obj.__class__.__name__, kgcl_obj
+    return None
+
+
+def _generate_obsoletion_changes(
+    self_entities, self_entity_metadata_map, other_ontology_entity_metadata_map
+):
+    self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in self_entities}
+    other_metadata_map = {
+        entity: other_ontology_entity_metadata_map(entity) for entity in self_entities
+    }
+
+    deprecation_data = [
+        (
+            entity,
+            self_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
+            other_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
+            other_metadata_map[entity],
+        )
+        for entity in self_entities
+    ]
+
+    with multiprocessing.Pool() as pool:
+        results = pool.map(_process_deprecation_data, deprecation_data)
+
+    obsoletion_changes = {}
+    for result in results:
+        if result:
+            class_name, kgcl_obj = result
+            obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
+
+    yield obsoletion_changes
 
 
 def _generate_relation_changes(e1, self_out_rels, other_out_rels):

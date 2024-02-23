@@ -220,12 +220,12 @@ class ChangeHandler:
             f"Nodes obsoleted with direct replacement: {len(rows)}", header, rows
         )
 
-    # def handle_node_obsoletion(self, value):
-    #     # Implement obsoletion handling logic here
-    #     logging.info("Obsoletion handling not yet implemented.")
+    def handle_node_obsoletion(self, value):
+        rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
+        header = "| ID | Label |"
+        self.write_markdown_table(f"Nodes obsoleted: {len(rows)}", header, rows)
 
     def handle_node_direct_merge(self, value):
-        # Implement direct merge handling logic here
         rows = [
             f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.has_direct_replacement} |\
                   {self.oi.label(change.has_direct_replacement)} |"
@@ -305,7 +305,7 @@ class ChangeHandler:
             "NodeDeletion": self.handle_node_deletion,
             "NewTextDefinition": self.handle_new_text_definition,  # ! same as NodeTextDefinition
             "NodeObsoletionWithDirectReplacement": self.handle_node_obsoletion_with_direct_replacement,
-            # "NodeObsoletion": self.handle_node_obsoletion,
+            "NodeObsoletion": self.handle_node_obsoletion,
             "NodeDirectMerge": self.handle_node_direct_merge,
             # "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
             # "LanguageTagChange": self.handle_language_tag_change,
