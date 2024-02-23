@@ -34,6 +34,7 @@ from oaklib.constants import (
     NODE_DELETION,
     NODE_RENAME,
     NODE_TEXT_DEFINITION_CHANGE,
+    OBSOLETE_SUBSTRING,
 )
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
@@ -358,18 +359,18 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 }
             else:
                 yield {
-                    NODE_CREATION: [
-                        NodeCreation(id=_gen_id(), about_node=node)
-                        for node in list_of_created_nodes
-                        if OWL_CLASS not in dict_nodes_or_classes[node]
-                    ],
                     CLASS_CREATION: [
                         ClassCreation(id=_gen_id(), about_node=node)
                         for node in list_of_created_nodes
                         if OWL_CLASS in dict_nodes_or_classes[node]
                     ],
+                    NODE_CREATION: [
+                        NodeCreation(id=_gen_id(), about_node=node)
+                        for node in list_of_created_nodes
+                        if OWL_CLASS not in dict_nodes_or_classes[node]
+                    ],
                 }
-        # Node Deletion
+        # ! Node Deletion
         if self_entities - other_ontology_entities:
             list_of_deleted_nodes = list(self_entities - other_ontology_entities)
             yield {
@@ -377,6 +378,21 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     NodeDeletion(id=_gen_id(), about_node=node) for node in list_of_deleted_nodes
                 ]
             }
+        
+        # ! Obsoletions
+        # obsoletion_generator = _generate_obsoletion_changes(
+        #     self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
+        # )
+        # for obsoletion_change in obsoletion_generator:
+        #     if any(obsoletion_change.values()):
+        #         yield obsoletion_change
+        obsoletion_generator = _generate_obsoletion_changes(
+            self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
+        )
+
+        for obsoletion_change in obsoletion_generator:
+            if any(obsoletion_change.values()):
+                yield obsoletion_change
 
         # ! Label changes
         label_change_list = [
@@ -388,6 +404,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             )
             for entity in self_entities.intersection(other_ontology_entities)
             if self.label(entity) != other_ontology.label(entity)
+            and not other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING) # ! I don't likes.
         ]
         if label_change_list:
             yield {NODE_RENAME: label_change_list}
@@ -407,21 +424,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
         ]
         if definition_change_list:
             yield {NODE_TEXT_DEFINITION_CHANGE: definition_change_list}
-
-        # ! Obsoletions
-        # obsoletion_generator = _generate_obsoletion_changes(
-        #     self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
-        # )
-        # for obsoletion_change in obsoletion_generator:
-        #     if any(obsoletion_change.values()):
-        #         yield obsoletion_change
-        obsoletion_generator = _generate_obsoletion_changes(
-            self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
-        )
-
-        for obsoletion_change in obsoletion_generator:
-            if any(obsoletion_change.values()):
-                yield obsoletion_change
 
         # ! Synonyms
         self_aliases = {
@@ -557,7 +559,8 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
                     id=_gen_id(), about_node=e1, old_value=alias
                 )
             else:
-                synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
+                if not alias.startswith(OBSOLETE_SUBSTRING):
+                    synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
 
             yield synonym_change
 

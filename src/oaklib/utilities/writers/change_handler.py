@@ -217,7 +217,7 @@ class ChangeHandler:
         ]
         header = "| ID | Label | Replacement ID | Replacement Label |"
         self.write_markdown_table(
-            f"Nodes obsoleted with direct replacement: {len(rows)}", header, rows
+            f"Nodes obsoleted with replacement: {len(rows)}", header, rows
         )
 
     def handle_node_obsoletion(self, value):
@@ -232,7 +232,8 @@ class ChangeHandler:
             for change in value
         ]
         header = "| ID | Label | Replacement ID | Replacement Label |"
-        self.write_markdown_table(f"Nodes direct merge: {len(rows)}", header, rows)
+        # ! This was "Nodes direct merged"
+        self.write_markdown_table(f"Nodes obsoleted without replacement: {len(rows)}", header, rows)
 
     # def handle_datatype_or_language_tag_change(self, value):
     #     # Implement datatype or language tag change handling logic here
