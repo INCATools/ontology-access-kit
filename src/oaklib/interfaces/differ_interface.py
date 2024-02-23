@@ -314,7 +314,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         """
         Provides a structured diff of two ontologies
 
-        Required sequence of changes:
+        Preferred sequence of changes:
         1. New classes
         2. Label changes
         3. Definition changes
@@ -333,10 +333,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
         self_entities = set(list(self.entities(filter_obsoletes=False)))
 
         # ! New classes
-        """
-            other_ontology_entities - self_entities => ClassCreation/NodeCreation
-            self_entities - other_ontology_entities => NodeDeletion
-        """
+        
+        #* other_ontology_entities - self_entities => ClassCreation/NodeCreation
+        #* self_entities - other_ontology_entities => NodeDeletion
+        
         # Node/Class Creation
         if other_ontology_entities - self_entities:
             list_of_created_nodes = list(other_ontology_entities - self_entities)
@@ -550,23 +550,24 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
         e2_diff = e2_arels.difference(e1_arels)
 
         for arel in e1_diff:
-            _, alias = arel
+            pred, alias = arel
             switches = {r[0] for r in e2_arels if r[1] == alias}
             if len(switches) == 1:
                 # Update e2_arels to remove the alias
                 e2_arels = {x for x in e2_arels if x[1] != alias}
                 synonym_change = SynonymPredicateChange(
-                    id=_gen_id(), about_node=e1, old_value=alias
+                    id=_gen_id(), about_node=e1, target=alias, old_value=pred, new_value=switches.pop()
                 )
             else:
+                # ! Remove obsoletes
                 if not alias.startswith(OBSOLETE_SUBSTRING):
                     synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
 
             yield synonym_change
 
         for arel in e2_diff:
-            _, alias = arel
-            synonym_change = NewSynonym(id=_gen_id(), about_node=e1, new_value=alias)
+            pred, alias = arel
+            synonym_change = NewSynonym(id=_gen_id(), about_node=e1, new_value=alias, predicate=pred)
             yield synonym_change
 
 

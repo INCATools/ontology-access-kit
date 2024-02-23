@@ -37,12 +37,12 @@ class ChangeHandler:
     def handle_new_synonym(self, value):
         # Create rows for the table
         rows = [
-            f"| {obj.about_node} | {self.oi.label(obj.about_node)} | {obj.new_value} |"
+            f"| {obj.about_node} | {self.oi.label(obj.about_node)} | {obj.new_value} | {obj.predicate} |"
             for obj in value
         ]
 
         # Define the header for the table
-        header = "| ID | Label | New Synonym |"
+        header = "| ID | Label | New Synonym | Predicate |"
 
         # Write the "New Synonyms Added" section as a collapsible markdown table
         self.write_markdown_table(f"Synonyms added: {len(rows)}", header, rows)
@@ -122,12 +122,12 @@ class ChangeHandler:
         # Create rows for the table
         rows = [
             f"| {change.about_node} | {self.oi.label(change.about_node)} \
-                | {change.old_value} | {change.new_value} |"
+                | {change.old_value} | {change.new_value} | {change.target} |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| ID | Label | Old Synonym | New Synonym |"
+        header = "| ID | Label | Old Predicate | New Predicate | Synonym |"
 
         # Write the "Synonym Predicate Changed" section as a markdown table
         self.write_markdown_table(f"Synonym predicates changed: {len(rows)}", header, rows)
