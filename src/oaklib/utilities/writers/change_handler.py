@@ -178,7 +178,7 @@ class ChangeHandler:
         header = "| ID | Label |"
 
         # Write the "Node Created" section as a markdown table
-        self.write_markdown_table(f"Nodes created: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Other nodes created: {len(rows)}", header, rows)
 
     def handle_class_creation(self, value):
         # Create rows for the table
