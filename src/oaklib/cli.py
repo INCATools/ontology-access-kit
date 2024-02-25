@@ -5525,18 +5525,11 @@ def diff(
             writer.emit(summary)
     else:
         if isinstance(writer, StreamingMarkdownWriter):
-            for change in impl.diff_structured(other_impl, configuration=config):
+            config.yield_individual_changes = False
+            for change in impl.diff(other_impl, configuration=config):
                 writer.emit(change, other_impl=other_impl)
         else:
             for change in impl.diff(other_impl, configuration=config):
-                # TODO: when a complete type designator is added to KGCL
-                this_change_type = change.__class__.__name__
-                if change_type and this_change_type not in change_type:
-                    continue
-                if isinstance(writer, (StreamingYamlWriter, StreamingCsvWriter)):
-                    # TODO: when a complete type designator is added to KGCL
-                    # we can remove this
-                    change.type = this_change_type
                 writer.emit(change)
     writer.finish()
 

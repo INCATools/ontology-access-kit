@@ -57,6 +57,7 @@ class DiffConfiguration:
 
     simple: bool = False
     group_by_property: PRED_CURIE = None
+    yield_individual_changes: bool = True
 
 
 def _gen_id():
@@ -71,8 +72,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
     """
 
     def diff(
-        self, other_ontology: BasicOntologyInterface, configuration: DiffConfiguration = None
-    ) -> Iterator[Change]:
+        self,
+        other_ontology: BasicOntologyInterface,
+        configuration: DiffConfiguration = None,
+    ) -> Iterator[Dict[str, Any]]:
         """
         Diffs two ontologies.
 
@@ -89,130 +92,230 @@ class DifferInterface(BasicOntologyInterface, ABC):
         - NewTextDefinition
         - NodeTextDefinitionChange
 
-        :param other_ontology:
-        :param configuration:
-        :return: KGCL change object
+        Preferred sequence of changes:
+        1. New classes
+        2. Label changes
+        3. Definition changes
+        4. Obsoletions
+        5. Added synonyms
+        6. Added definitions
+        7. Changed relationships
+
+        :param other_ontology: Ontology to compare against
+        :param configuration: Configuration for the differentiation
+        :return: A sequence of changes in the form of a dictionary
         """
         if configuration is None:
             configuration = DiffConfiguration()
         other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
         self_entities = set(list(self.entities(filter_obsoletes=False)))
-        logging.info(f"Comparing {len(self_entities)} terms in this ontology")
-        for e1 in self_entities:
-            # e1_types = self.owl_type(e1)
-            # is_class = OWL_CLASS in e1_types
-            logging.debug(f"Comparing e1 {e1}")
-            if e1 not in other_ontology_entities:
-                yield NodeDeletion(id=_gen_id(), about_node=e1)
-                continue
-            if configuration.simple:
-                continue
-            e1_metadata = self.entity_metadata_map(e1)
-            e2_metadata = other_ontology.entity_metadata_map(e1)
-            metadata_props = set(e1_metadata.keys()).union(e2_metadata.keys())
-            if DEPRECATED_PREDICATE in metadata_props:
-                e1_dep = e1_metadata.get(DEPRECATED_PREDICATE, [False])[0]
-                e2_dep = e2_metadata.get(DEPRECATED_PREDICATE, [False])[0]
-                if e1_dep != e2_dep:
-                    # TODO: bundle associated changes
-                    if e1_dep and not e2_dep:
-                        yield NodeUnobsoletion(id=_gen_id(), about_node=e1)
-                    elif not e1_dep and e2_dep:
-                        if TERM_REPLACED_BY in e2_metadata:
-                            if TERMS_MERGED in e2_metadata.get(HAS_OBSOLESCENCE_REASON, []):
-                                yield NodeDirectMerge(
-                                    id=_gen_id(),
-                                    about_node=e1,
-                                    has_direct_replacement=e2_metadata[TERM_REPLACED_BY][0],
-                                )
-                            else:
-                                yield NodeObsoletionWithDirectReplacement(
-                                    id=_gen_id(),
-                                    about_node=e1,
-                                    has_direct_replacement=e2_metadata[TERM_REPLACED_BY][0],
-                                )
-                        else:
-                            yield NodeObsoletion(id=_gen_id(), about_node=e1)
-            # Check for definition change/addition
-            if self.definition(e1) != other_ontology.definition(e1):
-                if self.definition(e1) is None or other_ontology.definition(e1) is None:
-                    old_value = new_value = None
-                    if self.definition(e1):
-                        old_value = self.definition(e1)
+        intersection_of_entities = self_entities.intersection(other_ontology_entities)
 
-                    if other_ontology.definition(e1):
-                        new_value = other_ontology.definition(e1)
+        # ! New classes
+        # * other_ontology_entities - self_entities => ClassCreation/NodeCreation
+        # * self_entities - other_ontology_entities => NodeDeletion
 
-                    yield NewTextDefinition(
-                        id=_gen_id(), about_node=e1, new_value=new_value, old_value=old_value
-                    )
-                elif self.definition(e1) is not None and other_ontology.definition(e1) is not None:
-                    yield NodeTextDefinitionChange(
-                        id=_gen_id(),
-                        about_node=e1,
-                        new_value=other_ontology.definition(e1),
-                        old_value=self.definition(e1),
-                    )
+        # Node/Class Creation
+        if other_ontology_entities - self_entities:
+            list_of_created_nodes = list(other_ontology_entities - self_entities)
+            dict_nodes_or_classes = {
+                ent: other_ontology.owl_type(ent) for ent in list_of_created_nodes
+            }
+
+            class_creations = []
+            node_creations = []
+
+            # Instead of checking all() twice, iterate once and classify each node
+            for node, types in dict_nodes_or_classes.items():
+                if OWL_CLASS in types:
+                    if configuration.yield_individual_changes:
+                        yield ClassCreation(id=_gen_id(), about_node=node)
+                    else:
+                        class_creations.append(ClassCreation(id=_gen_id(), about_node=node))
                 else:
-                    logging.info(f"Both ontologies have no definition for {e1}")
+                    if configuration.yield_individual_changes:
+                        yield NodeCreation(id=_gen_id(), about_node=node)
+                    else:
+                        node_creations.append(NodeCreation(id=_gen_id(), about_node=node))
 
-            differs = self.different_from(e1, other_ontology)
-            if differs is not None and not differs:
-                continue
-            e1_arels = set(self.alias_relationships(e1, exclude_labels=True))
-            e2_arels = set(other_ontology.alias_relationships(e1, exclude_labels=True))
-            for arel in e1_arels.difference(e2_arels):
-                pred, alias = arel
-                switches = {r[0] for r in e2_arels if r[1] == alias}
-                if len(switches) == 1:
-                    e2_arels = set([x for x in e2_arels if x[1] != alias])
-                    yield SynonymPredicateChange(
-                        id=_gen_id(),
-                        about_node=e1,
-                        target=alias,
-                        old_value=pred,
-                        new_value=switches.pop(),
-                    )
-                else:
-                    yield RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
-            for arel in e2_arels.difference(e1_arels):
-                pred, alias = arel
-                yield NewSynonym(id=_gen_id(), about_node=e1, new_value=alias, predicate=pred)
-            e1_label = self.label(e1)
-            e2_label = other_ontology.label(e1)
-            if e1_label != e2_label:
-                yield NodeRename(
-                    id=_gen_id(), about_node=e1, old_value=e1_label, new_value=e2_label
+            # Now yield based on the flag and whether there are items in the lists
+            if not configuration.yield_individual_changes:
+                changes = {}
+                if class_creations:
+                    changes[CLASS_CREATION] = class_creations
+                if node_creations:
+                    changes[NODE_CREATION] = node_creations
+                if changes:
+                    yield changes
+
+        # Node Deletion with consideration for yield_individual_changes flag
+        nodes_to_delete = self_entities - other_ontology_entities
+
+        if configuration.yield_individual_changes:
+            for node in nodes_to_delete:
+                yield NodeDeletion(id=_gen_id(), about_node=node)
+        else:
+            yield {
+                NODE_DELETION: [
+                    NodeDeletion(id=_gen_id(), about_node=node) for node in nodes_to_delete
+                ]
+            }
+
+        # ! Obsoletions
+        obsoletion_generator = _generate_obsoletion_changes(
+            self_entities,
+            self.entity_metadata_map,
+            other_ontology.entity_metadata_map,
+        )
+
+        if configuration.yield_individual_changes:
+            # Yield each obsoletion_change object individually
+            for obsoletion_change in obsoletion_generator:
+                yield obsoletion_change
+        else:
+            # Collect all obsoletion_change objects in a dictionary and yield them at the end
+            obsoletion_changes = defaultdict(list)
+            for obsoletion_change in obsoletion_generator:
+                if obsoletion_change:
+                    class_name = obsoletion_change.__class__.__name__
+                    obsoletion_changes.setdefault(class_name, []).append(obsoletion_change)
+
+            if obsoletion_changes:
+                yield obsoletion_changes
+
+        # ! Label changes
+        if not configuration.yield_individual_changes:
+            label_change_list = []
+        for entity in intersection_of_entities:
+            if self.label(entity) != other_ontology.label(entity) and not (
+                other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING)
+                or other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING.upper())
+            ):
+                node_rename = NodeRename(
+                    id=_gen_id(),
+                    about_node=entity,
+                    old_value=self.label(entity),
+                    new_value=other_ontology.label(entity),
                 )
-            e1_rels = set(self.outgoing_relationships(e1))
-            e2_rels = set(other_ontology.outgoing_relationships(e1))
-            for rel in e1_rels.difference(e2_rels):
-                pred, filler = rel
-                edge = kgcl.Edge(subject=e1, predicate=pred, object=filler)
-                switches = list({r[0] for r in e2_rels if r[1] == filler})
-                if len(switches) == 1:
-                    e2_rels = set([x for x in e2_rels if x[1] != filler])
-                    if pred != switches[0]:
-                        yield PredicateChange(
-                            id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
-                        )
+                if configuration.yield_individual_changes:
+                    # Yield NodeRename objects individually if the flag is True
+                    yield node_rename
                 else:
-                    yield EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=filler)
-            for rel in e2_rels.difference(e1_rels):
-                pred, filler = rel
-                edge = kgcl.Edge(subject=e1, predicate=pred, object=filler)
-                yield NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
-        logging.info(f"Comparing {len(other_ontology_entities)} terms in other ontology")
-        for e2 in other_ontology_entities:
-            logging.debug(f"Comparing e2 {e2}")
-            if e2 not in self_entities:
-                e2_types = other_ontology.owl_type(e2)
-                is_class = OWL_CLASS in e2_types
-                if is_class:
-                    yield ClassCreation(id=_gen_id(), about_node=e2)
+                    # Collect NodeRename objects in a list if the flag is False
+                    label_change_list.append(node_rename)
+
+        # If the flag is False and there are collected changes, yield them as a dictionary
+        if not configuration.yield_individual_changes and label_change_list:
+            yield {NODE_RENAME: label_change_list}
+
+        # ! Definition changes
+        for entity in intersection_of_entities:
+            old_value = self.definition(entity)
+            new_value = other_ontology.definition(entity)
+
+            if (
+                old_value != new_value
+                and old_value is not None
+                and new_value is not None
+                and not (
+                    new_value.startswith(OBSOLETE_SUBSTRING)
+                    or new_value.startswith(OBSOLETE_SUBSTRING.upper())
+                )
+            ):
+                change = NodeTextDefinitionChange(
+                    id=_gen_id(),
+                    about_node=entity,
+                    new_value=new_value,
+                    old_value=old_value,
+                )
+
+                if configuration.yield_individual_changes:
+                    yield change
                 else:
-                    yield NodeCreation(id=_gen_id(), about_node=e2)
-                continue
+                    # If we're not yielding individually, collect changes in a generator
+                    definition_change_gen = (change for _ in [None])  # Generator with one item
+
+                    # Yield the collected changes as a dictionary when the first change occurs
+                    yield {NODE_TEXT_DEFINITION_CHANGE: list(definition_change_gen)}
+                    break  # Exit the loop after yielding the dictionary
+
+        # ! Synonyms
+        self_aliases = {
+            entity: set(self.alias_relationships(entity, exclude_labels=True))
+            for entity in self_entities
+        }
+        other_aliases = {
+            entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
+            for entity in self_entities
+        }
+        synonyms_generator = _generate_synonym_changes(self_entities, self_aliases, other_aliases)
+        synonym_changes = defaultdict(list)
+        if configuration.yield_individual_changes:
+            # Yield each synonyms_change object individually
+            for synonyms_change in synonyms_generator:
+                yield synonyms_change
+        else:
+            # Collect all changes in a defaultdict and yield them at the end
+            synonym_changes = defaultdict(list)
+            for synonyms_change in synonyms_generator:
+                synonym_changes[synonyms_change.__class__.__name__].append(synonyms_change)
+
+            if synonym_changes:
+                yield synonym_changes
+
+        # ! New definitions
+        if configuration.yield_individual_changes:
+            # Yield each NewTextDefinition object individually
+            for entity in intersection_of_entities:
+                if (
+                    self.definition(entity) is None
+                    and other_ontology.definition(entity) is not None
+                ):
+                    yield NewTextDefinition(
+                        id=_gen_id(),
+                        about_node=entity,
+                        new_value=other_ontology.definition(entity),
+                        old_value=self.definition(entity),
+                    )
+        else:
+            # Collect all NewTextDefinition objects in a list and yield them at once
+            new_definition_list = [
+                NewTextDefinition(
+                    id=_gen_id(),
+                    about_node=entity,
+                    new_value=other_ontology.definition(entity),
+                    old_value=self.definition(entity),
+                )
+                for entity in intersection_of_entities
+                if self.definition(entity) is None and other_ontology.definition(entity) is not None
+            ]
+
+            if new_definition_list:
+                yield {NEW_TEXT_DEFINITION: new_definition_list}
+
+        # ! Relationships
+        self_out_rels = {
+            entity: set(self.outgoing_relationships(entity)) for entity in self_entities
+        }
+        other_out_rels = {
+            entity: set(other_ontology.outgoing_relationships(entity)) for entity in self_entities
+        }
+
+        # Process the entities in parallel using a generator
+        for relationship_changes in _parallely_get_relationship_changes(
+            self_entities,
+            self_out_rels,
+            other_out_rels,
+            configuration.yield_individual_changes,
+        ):
+            for change in relationship_changes:
+                if configuration.yield_individual_changes:
+                    yield change
+                else:
+                    # Collect all changes in a defaultdict and yield them at the end
+                    for change_type, change_list in change.items():
+                        if change_list:
+                            yield {change_type: change_list}
 
     def diff_summary(
         self, other_ontology: BasicOntologyInterface, configuration: DiffConfiguration = None
@@ -311,188 +414,29 @@ class DifferInterface(BasicOntologyInterface, ABC):
     ) -> Any:
         raise NotImplementedError
 
-    def diff_structured(
-        self,
-        other_ontology: BasicOntologyInterface,
-        configuration: DiffConfiguration = None,
-    ) -> Iterator[Dict[str, Any]]:
-        """
-        Provides a structured diff of two ontologies
 
-        Preferred sequence of changes:
-        1. New classes
-        2. Label changes
-        3. Definition changes
-        4. Obsoletions
-        5. Added synonyms
-        6. Added definitions
-        7. Changed relationships
-
-        :param other_ontology: Ontology to compare against
-        :param configuration: Configuration for the differentiation
-        :return: A sequence of changes in the form of a dictionary
-        """
-        if configuration is None:
-            configuration = DiffConfiguration()
-        other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
-        self_entities = set(list(self.entities(filter_obsoletes=False)))
-
-        # ! New classes
-
-        # * other_ontology_entities - self_entities => ClassCreation/NodeCreation
-        # * self_entities - other_ontology_entities => NodeDeletion
-
-        # Node/Class Creation
-        if other_ontology_entities - self_entities:
-            list_of_created_nodes = list(other_ontology_entities - self_entities)
-            dict_nodes_or_classes = {
-                ent: other_ontology.owl_type(ent) for ent in list_of_created_nodes
-            }
-            if all(OWL_CLASS in types for types in dict_nodes_or_classes.values()):
-                yield {
-                    CLASS_CREATION: [
-                        ClassCreation(id=_gen_id(), about_node=node)
-                        for node in list_of_created_nodes
-                    ]
-                }
-            elif all(OWL_CLASS not in types for types in dict_nodes_or_classes.values()):
-                yield {
-                    NODE_CREATION: [
-                        NodeCreation(id=_gen_id(), about_node=node)
-                        for node in list_of_created_nodes
-                    ]
-                }
-            else:
-                yield {
-                    CLASS_CREATION: [
-                        ClassCreation(id=_gen_id(), about_node=node)
-                        for node in list_of_created_nodes
-                        if OWL_CLASS in dict_nodes_or_classes[node]
-                    ],
-                    NODE_CREATION: [
-                        NodeCreation(id=_gen_id(), about_node=node)
-                        for node in list_of_created_nodes
-                        if OWL_CLASS not in dict_nodes_or_classes[node]
-                    ],
-                }
-        # ! Node Deletion
-        if self_entities - other_ontology_entities:
-            list_of_deleted_nodes = list(self_entities - other_ontology_entities)
-            yield {
-                NODE_DELETION: [
-                    NodeDeletion(id=_gen_id(), about_node=node) for node in list_of_deleted_nodes
-                ]
-            }
-
-        # ! Obsoletions
-        obsoletion_generator = _generate_obsoletion_changes(
-            self_entities, self.entity_metadata_map, other_ontology.entity_metadata_map
-        )
-
-        for obsoletion_change in obsoletion_generator:
-            if any(obsoletion_change.values()):
-                yield obsoletion_change
-
-        # ! Label changes
-        label_change_list = [
-            NodeRename(
-                id=_gen_id(),
-                about_node=entity,
-                old_value=self.label(entity),
-                new_value=other_ontology.label(entity),
-            )
-            for entity in self_entities.intersection(other_ontology_entities)
-            if self.label(entity) != other_ontology.label(entity)
-            and not other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING)  # ! I don't likes.
-        ]
-        if label_change_list:
-            yield {NODE_RENAME: label_change_list}
-
-        # ! Definition changes
-        definition_change_list = [
-            NodeTextDefinitionChange(
-                id=_gen_id(),
-                about_node=entity,
-                new_value=other_ontology.definition(entity),
-                old_value=self.definition(entity),
-            )
-            for entity in self_entities.intersection(other_ontology_entities)
-            if self.definition(entity) != other_ontology.definition(entity)
-            and self.definition(entity) is not None
-            and other_ontology.definition(entity) is not None
-        ]
-        if definition_change_list:
-            yield {NODE_TEXT_DEFINITION_CHANGE: definition_change_list}
-
-        # ! Synonyms
-        self_aliases = {
-            entity: set(self.alias_relationships(entity, exclude_labels=True))
-            for entity in self_entities
-        }
-        other_aliases = {
-            entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
-            for entity in self_entities
-        }
-        synonyms_generator = _generate_synonym_changes(self_entities, self_aliases, other_aliases)
-        synonym_changes = defaultdict(list)
-        for synonyms_change in synonyms_generator:
-            synonym_changes.setdefault(synonyms_change.__class__.__name__, []).append(
-                synonyms_change
-            )
-        if synonym_changes:
-            yield synonym_changes
-
-        # ! New definitions
-        new_definition_list = [
-            NewTextDefinition(
-                id=_gen_id(),
-                about_node=entity,
-                new_value=other_ontology.definition(entity),
-                old_value=self.definition(entity),
-            )
-            for entity in self_entities.intersection(other_ontology_entities)
-            if self.definition(entity) is None and other_ontology.definition(entity) is not None
-        ]
-        if new_definition_list:
-            yield {NEW_TEXT_DEFINITION: new_definition_list}
-
-        # ! Relationships
-        self_out_rels = {
-            entity: set(self.outgoing_relationships(entity)) for entity in self_entities
-        }
-        other_out_rels = {
-            entity: set(other_ontology.outgoing_relationships(entity)) for entity in self_entities
-        }
-
-        # Process the entities in parallel using a generator
-        for relationship_change in _parallely_get_relationship_changes(
-            self_entities, self_out_rels, other_out_rels
-        ):
-            yield relationship_change
-
-
-# ! Helper functions
-def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
-    if not e1_dep and e2_dep:
-        term_replaced_by = e2_meta.get(TERM_REPLACED_BY)
-        if term_replaced_by:
-            has_obsolescence_reason = e2_meta.get(HAS_OBSOLESCENCE_REASON, [])
-            if TERMS_MERGED in has_obsolescence_reason:
-                return NodeDirectMerge(
-                    id=_gen_id(),
-                    about_node=e1,
-                    has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
-                )
-            else:
-                return NodeObsoletionWithDirectReplacement(
-                    id=_gen_id(),
-                    about_node=e1,
-                    has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
-                )
-        else:
-            return NodeObsoletion(id=_gen_id(), about_node=e1)
-    else:
-        return NodeUnobsoletion(id=_gen_id(), about_node=e1)
+# ! Helper functions for the diff method
+# def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
+#     if not e1_dep and e2_dep:
+#         term_replaced_by = e2_meta.get(TERM_REPLACED_BY)
+#         if term_replaced_by is None:
+#             return NodeObsoletion(id=_gen_id(), about_node=e1)
+#         else:
+#             has_obsolescence_reason = e2_meta.get(HAS_OBSOLESCENCE_REASON, [])
+#             if TERMS_MERGED in has_obsolescence_reason:
+#                 return NodeDirectMerge(
+#                     id=_gen_id(),
+#                     about_node=e1,
+#                     has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
+#                 )
+#             else:
+#                 return NodeObsoletionWithDirectReplacement(
+#                     id=_gen_id(),
+#                     about_node=e1,
+#                     has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
+#                 )
+#     else:
+#         return NodeUnobsoletion(id=_gen_id(), about_node=e1)
 
 
 def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
@@ -519,7 +463,10 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
                 )
             else:
                 # ! Remove obsoletes
-                if not alias.startswith(OBSOLETE_SUBSTRING):
+                if not (
+                    alias.startswith(OBSOLETE_SUBSTRING)
+                    or alias.startswith(OBSOLETE_SUBSTRING.upper())
+                ):
                     synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
 
             yield synonym_change
@@ -535,10 +482,30 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
 def _process_deprecation_data(deprecation_data_item):
     e1, e1_dep, e2_dep, e2_meta = deprecation_data_item
     if e1_dep != e2_dep:
-        kgcl_obj = _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta)
-        if kgcl_obj:
-            return kgcl_obj.__class__.__name__, kgcl_obj
-    return None
+        #     kgcl_obj = _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta)
+        #     if kgcl_obj:
+        #         return kgcl_obj.__class__.__name__, kgcl_obj
+        # return None
+        if not e1_dep and e2_dep:
+            term_replaced_by = e2_meta.get(TERM_REPLACED_BY)
+            if term_replaced_by is None:
+                yield NodeObsoletion(id=_gen_id(), about_node=e1)
+            else:
+                has_obsolescence_reason = e2_meta.get(HAS_OBSOLESCENCE_REASON, [])
+                if TERMS_MERGED in has_obsolescence_reason:
+                    yield NodeDirectMerge(
+                        id=_gen_id(),
+                        about_node=e1,
+                        has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
+                    )
+                else:
+                    yield NodeObsoletionWithDirectReplacement(
+                        id=_gen_id(),
+                        about_node=e1,
+                        has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
+                    )
+        else:
+            yield NodeUnobsoletion(id=_gen_id(), about_node=e1)
 
 
 def _generate_obsoletion_changes(
@@ -559,53 +526,87 @@ def _generate_obsoletion_changes(
         for entity in self_entities
     ]
 
-    with multiprocessing.Pool() as pool:
-        results = pool.map(_process_deprecation_data, deprecation_data)
+    for item in deprecation_data:
+        results = _process_deprecation_data(item)
+        for result in results:
+            if result:
+                yield result
 
-    obsoletion_changes = {}
-    for result in results:
-        if result:
-            class_name, kgcl_obj = result
-            obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
+    # with multiprocessing.Pool() as pool:
+    #     results = pool.map(_process_deprecation_data, deprecation_data)
 
-    yield obsoletion_changes
+    # if yield_individual_changes:
+    #     # Yield individual KGCL objects if the flag is set
+    #     for result in results:
+    #         if result:
+    #             _, kgcl_obj = result
+    #             yield kgcl_obj
+    # else:
+    #     # Initialize the dictionary to collect obsoletion changes
+    #     obsoletion_changes = {}
+
+    #     for result in results:
+    #         if result:
+    #             class_name, kgcl_obj = result
+    #             # Aggregate changes by class name
+    #             obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
+
+    #     # Yield the aggregated changes if we're not yielding individual changes
+    #     if obsoletion_changes:
+    #         yield obsoletion_changes
 
 
-def _generate_relation_changes(e1, self_out_rels, other_out_rels):
+def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individual_changes):
     e1_rels = self_out_rels[e1]
     e2_rels = other_out_rels[e1]
-    changes = {}
+    changes = [] if yield_individual_changes else defaultdict(list)
 
     for rel in e1_rels.difference(e2_rels):
-        pred, filler = rel
-        edge = Edge(subject=e1, predicate=pred, object=filler)
-        switches = list({r[0] for r in e2_rels if r[1] == filler})
+        pred, alias = rel
+        edge = Edge(subject=e1, predicate=pred, object=alias)
+        switches = list({r[0] for r in e2_rels if r[1] == alias})
         if len(switches) == 1:
-            e2_rels.discard((switches[0], filler))
+            e2_rels.discard((switches[0], alias))
             if pred != switches[0]:
-                changes.setdefault(PredicateChange.__name__, []).append(
-                    PredicateChange(
-                        id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
-                    )
+                change = PredicateChange(
+                    id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
                 )
+                if yield_individual_changes:
+                    changes.append(change)
+                else:
+                    changes.setdefault(PredicateChange.__name__, []).append(change)
         else:
-            changes.setdefault(EdgeDeletion.__name__, []).append(
-                EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=filler)
-            )
+            change = EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=alias)
+            if yield_individual_changes:
+                changes.append(change)
+            else:
+                changes.setdefault(EdgeDeletion.__name__, []).append(change)
 
     for rel in e2_rels.difference(e1_rels):
-        pred, filler = rel
-        edge = Edge(subject=e1, predicate=pred, object=filler)
-        changes.setdefault(NodeMove.__name__, []).append(
-            NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
-        )
+        pred, alias = rel
+        edge = Edge(subject=e1, predicate=pred, object=alias)
+        change = NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
+        if yield_individual_changes:
+            changes.append(change)
+        else:
+            changes.setdefault(NodeMove.__name__, []).append(change)
+
+    # If not yielding individual changes and there are changes, return them as a dictionary
+    if not yield_individual_changes and changes:
+        return [changes]
+
+    # Otherwise, return the list of changes
+    return changes
 
 
-def _parallely_get_relationship_changes(self_entities, self_out_rels, other_out_rels):
+def _parallely_get_relationship_changes(
+    self_entities, self_out_rels, other_out_rels, yield_individual_changes
+):
     with multiprocessing.Pool() as pool:
-        for result in pool.starmap(
+        results = pool.starmap(
             _generate_relation_changes,
-            [(e1, self_out_rels, other_out_rels) for e1 in self_entities],
-        ):
+            [(e1, self_out_rels, other_out_rels, yield_individual_changes) for e1 in self_entities],
+        )
+        for result in results:
             if result:
                 yield result

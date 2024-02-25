@@ -17,13 +17,6 @@ class ChangeHandler:
         # Close the details tag
         self.file.write("</details>\n\n")
 
-    # def write_markdown_overview_and_summary(self, curie_or_change):
-    #     # Create the Overview content lines
-    #     overview_lines = [f"- {key}: {len(value)}" for key, value in curie_or_change.items()]
-
-    #     # Write the Overview as a collapsible section
-    #     self.write_markdown_collapsible("Overview", overview_lines)
-
     def write_markdown_table(self, title, header, rows):
         # Create the table header and separator lines
         markdown_rows = [header, "|".join(["----"] * len(header.split("|")[1:-1]))]
@@ -221,7 +214,7 @@ class ChangeHandler:
     def handle_node_obsoletion(self, value):
         rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
         header = "| ID | Label |"
-        self.write_markdown_table(f"Nodes obsoleted: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes obsoleted without replacement: {len(rows)}", header, rows)
 
     def handle_node_direct_merge(self, value):
         rows = [
