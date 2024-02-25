@@ -416,29 +416,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
 
 # ! Helper functions for the diff method
-# def _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta):
-#     if not e1_dep and e2_dep:
-#         term_replaced_by = e2_meta.get(TERM_REPLACED_BY)
-#         if term_replaced_by is None:
-#             return NodeObsoletion(id=_gen_id(), about_node=e1)
-#         else:
-#             has_obsolescence_reason = e2_meta.get(HAS_OBSOLESCENCE_REASON, [])
-#             if TERMS_MERGED in has_obsolescence_reason:
-#                 return NodeDirectMerge(
-#                     id=_gen_id(),
-#                     about_node=e1,
-#                     has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
-#                 )
-#             else:
-#                 return NodeObsoletionWithDirectReplacement(
-#                     id=_gen_id(),
-#                     about_node=e1,
-#                     has_direct_replacement=e2_meta[TERM_REPLACED_BY][0],
-#                 )
-#     else:
-#         return NodeUnobsoletion(id=_gen_id(), about_node=e1)
-
-
 def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
     for e1 in self_entities:
         e1_arels = self_aliases[e1]
@@ -482,10 +459,6 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
 def _process_deprecation_data(deprecation_data_item):
     e1, e1_dep, e2_dep, e2_meta = deprecation_data_item
     if e1_dep != e2_dep:
-        #     kgcl_obj = _create_obsoletion_object(e1, e1_dep, e2_dep, e2_meta)
-        #     if kgcl_obj:
-        #         return kgcl_obj.__class__.__name__, kgcl_obj
-        # return None
         if not e1_dep and e2_dep:
             term_replaced_by = e2_meta.get(TERM_REPLACED_BY)
             if term_replaced_by is None:
@@ -531,30 +504,6 @@ def _generate_obsoletion_changes(
         for result in results:
             if result:
                 yield result
-
-    # with multiprocessing.Pool() as pool:
-    #     results = pool.map(_process_deprecation_data, deprecation_data)
-
-    # if yield_individual_changes:
-    #     # Yield individual KGCL objects if the flag is set
-    #     for result in results:
-    #         if result:
-    #             _, kgcl_obj = result
-    #             yield kgcl_obj
-    # else:
-    #     # Initialize the dictionary to collect obsoletion changes
-    #     obsoletion_changes = {}
-
-    #     for result in results:
-    #         if result:
-    #             class_name, kgcl_obj = result
-    #             # Aggregate changes by class name
-    #             obsoletion_changes.setdefault(class_name, []).append(kgcl_obj)
-
-    #     # Yield the aggregated changes if we're not yielding individual changes
-    #     if obsoletion_changes:
-    #         yield obsoletion_changes
-
 
 def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individual_changes):
     e1_rels = self_out_rels[e1]
