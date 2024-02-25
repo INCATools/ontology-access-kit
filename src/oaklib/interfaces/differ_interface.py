@@ -34,7 +34,6 @@ from oaklib.constants import (
     NODE_DELETION,
     NODE_RENAME,
     NODE_TEXT_DEFINITION_CHANGE,
-    OBSOLETE_SUBSTRING,
 )
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
@@ -107,9 +106,12 @@ class DifferInterface(BasicOntologyInterface, ABC):
         """
         if configuration is None:
             configuration = DiffConfiguration()
+        # * self => old ontology
+        # * other_ontology => latest ontology
         other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
         self_entities = set(list(self.entities(filter_obsoletes=False)))
         intersection_of_entities = self_entities.intersection(other_ontology_entities)
+        obsolete_nodes = set()
 
         # ! New classes
         # * other_ontology_entities - self_entities => ClassCreation/NodeCreation
@@ -162,8 +164,18 @@ class DifferInterface(BasicOntologyInterface, ABC):
             }
 
         # ! Obsoletions
+        other_ontology_entities_with_obsoletes = set(
+            other_ontology.entities(filter_obsoletes=False)
+        )
+        other_ontology_entities_without_obsoletes = set(
+            other_ontology.entities(filter_obsoletes=True)
+        )
+        other_ontology_obsolete_entities = (
+            other_ontology_entities_with_obsoletes - other_ontology_entities_without_obsoletes
+        )
+        possible_obsoletes = self_entities.intersection(other_ontology_obsolete_entities)
         obsoletion_generator = _generate_obsoletion_changes(
-            self_entities,
+            possible_obsoletes,
             self.entity_metadata_map,
             other_ontology.entity_metadata_map,
         )
@@ -171,26 +183,31 @@ class DifferInterface(BasicOntologyInterface, ABC):
         if configuration.yield_individual_changes:
             # Yield each obsoletion_change object individually
             for obsoletion_change in obsoletion_generator:
+                obsolete_nodes.add(obsoletion_change.about_node)
                 yield obsoletion_change
         else:
             # Collect all obsoletion_change objects in a dictionary and yield them at the end
             obsoletion_changes = defaultdict(list)
             for obsoletion_change in obsoletion_generator:
                 if obsoletion_change:
-                    class_name = obsoletion_change.__class__.__name__
+                    class_name = obsoletion_change.type
+                    obsolete_nodes.add(obsoletion_change.about_node)
                     obsoletion_changes.setdefault(class_name, []).append(obsoletion_change)
 
             if obsoletion_changes:
                 yield obsoletion_changes
 
+        # ! Remove obsolete nodes from relevant sets
+
+        other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=True)))
+        self_entities = set(list(self.entities(filter_obsoletes=True)))
+        intersection_of_entities = self_entities.intersection(other_ontology_entities)
+
         # ! Label changes
         if not configuration.yield_individual_changes:
             label_change_list = []
         for entity in intersection_of_entities:
-            if self.label(entity) != other_ontology.label(entity) and not (
-                other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING)
-                or other_ontology.label(entity).startswith(OBSOLETE_SUBSTRING.upper())
-            ):
+            if self.label(entity) != other_ontology.label(entity):
                 node_rename = NodeRename(
                     id=_gen_id(),
                     about_node=entity,
@@ -213,15 +230,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             old_value = self.definition(entity)
             new_value = other_ontology.definition(entity)
 
-            if (
-                old_value != new_value
-                and old_value is not None
-                and new_value is not None
-                and not (
-                    new_value.startswith(OBSOLETE_SUBSTRING)
-                    or new_value.startswith(OBSOLETE_SUBSTRING.upper())
-                )
-            ):
+            if old_value != new_value and old_value is not None and new_value is not None:
                 change = NodeTextDefinitionChange(
                     id=_gen_id(),
                     about_node=entity,
@@ -440,11 +449,7 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
                 )
             else:
                 # ! Remove obsoletes
-                if not (
-                    alias.startswith(OBSOLETE_SUBSTRING)
-                    or alias.startswith(OBSOLETE_SUBSTRING.upper())
-                ):
-                    synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
+                synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
 
             yield synonym_change
 
@@ -482,12 +487,10 @@ def _process_deprecation_data(deprecation_data_item):
 
 
 def _generate_obsoletion_changes(
-    self_entities, self_entity_metadata_map, other_ontology_entity_metadata_map
+    entities, self_entity_metadata_map, other_ontology_entity_metadata_map
 ):
-    self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in self_entities}
-    other_metadata_map = {
-        entity: other_ontology_entity_metadata_map(entity) for entity in self_entities
-    }
+    self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in entities}
+    other_metadata_map = {entity: other_ontology_entity_metadata_map(entity) for entity in entities}
 
     deprecation_data = [
         (
@@ -496,7 +499,7 @@ def _generate_obsoletion_changes(
             other_metadata_map[entity].get(DEPRECATED_PREDICATE, [False])[0],
             other_metadata_map[entity],
         )
-        for entity in self_entities
+        for entity in entities
     ]
 
     for item in deprecation_data:
@@ -504,6 +507,7 @@ def _generate_obsoletion_changes(
         for result in results:
             if result:
                 yield result
+
 
 def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individual_changes):
     e1_rels = self_out_rels[e1]
