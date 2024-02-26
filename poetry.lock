@@ -2399,13 +2399,13 @@ linkml-runtime = ">=1.1.24"
 
 [[package]]
 name = "kgcl-schema"
-version = "0.6.3"
+version = "0.6.4"
 description = "Schema for the KGCL project."
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "kgcl_schema-0.6.3-py3-none-any.whl", hash = "sha256:be25c926dc0f97f85bbba827d4cb9d9d6885f420b59edc03331b98b845a955a1"},
-    {file = "kgcl_schema-0.6.3.tar.gz", hash = "sha256:4c459df3552a4d4d2c957e7bd93a5f4ab45909d8fefaf877f6eb458e19da4ec5"},
+    {file = "kgcl_schema-0.6.4-py3-none-any.whl", hash = "sha256:b16becf302e626efe09362344c7d01196b9afd753bed0f1f45cc82261c9f774a"},
+    {file = "kgcl_schema-0.6.4.tar.gz", hash = "sha256:13e886f50751ed3ba86dd33fb191578a606bd065c9503aae0c67a3f2dff6edab"},
 ]
 
 [package.dependencies]
@@ -6503,4 +6503,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "367fb568603a4cecafb5d71b6d16fe85b7c0c6fefa46b5b3c3a11a1a33442216"
+content-hash = "fb57c83e4ed702ced737faed65e39c18ce4cc7d84b44ca61df90bc9d8c6f1812"
