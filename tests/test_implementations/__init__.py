@@ -917,7 +917,10 @@ class ComplianceTester:
                 id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, old_value="enzyme activity"
             ),
             kgcl.NewSynonym(
-                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, new_value="catalytic activity"
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                new_value="catalytic activity",
+                predicate="oio:hasExactSynonym",
             ),
             kgcl.NodeRename(
                 id=FIXED_ID,
@@ -926,6 +929,59 @@ class ComplianceTester:
                 old_value="catalytic activity",
             ),
             kgcl.NodeDeletion(id=FIXED_ID, about_node="GO:0033673"),
+            kgcl.RemoveSynonym(
+                id=FIXED_ID,
+                about_node="GO:0033673",
+                old_value="inhibition of kinase activity",
+            ),
+            kgcl.RemoveSynonym(
+                id=FIXED_ID, about_node="GO:0033673", old_value="kinase inhibitor"
+            ),
+            kgcl.RemoveSynonym(
+                id=FIXED_ID,
+                about_node="GO:0033673",
+                old_value="down regulation of kinase activity",
+            ),
+            kgcl.RemoveSynonym(
+                id=FIXED_ID,
+                about_node="GO:0033673",
+                old_value="downregulation of kinase activity",
+            ),
+            kgcl.RemoveSynonym(
+                id=FIXED_ID,
+                about_node="GO:0033673",
+                old_value="down-regulation of kinase activity",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="rdfs:subClassOf",
+                object="GO:0051348",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="rdfs:subClassOf",
+                object="GO:0042326",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="RO:0002212",
+                object="GO:0016310",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="rdfs:subClassOf",
+                object="GO:0043549",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="RO:0002212",
+                object="GO:0016301",
+            ),
         ]
         for ch in diff:
             ch.id = FIXED_ID
@@ -938,10 +994,15 @@ class ComplianceTester:
         test.assertEqual(0, len(expected), f"Expected changes not found: {expected}")
         expected_rev = [
             kgcl.NewSynonym(
-                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, new_value="enzyme activity"
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                new_value="enzyme activity",
+                predicate="oio:hasExactSynonym",
             ),
             kgcl.RemoveSynonym(
-                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, old_value="catalytic activity"
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                old_value="catalytic activity",
             ),
             kgcl.NodeRename(
                 id=FIXED_ID,
@@ -950,6 +1011,7 @@ class ComplianceTester:
                 new_value="catalytic activity",
             ),
             kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
+            
         ]
         rdiff = list(oi_modified.diff(oi))
         for ch in rdiff:
@@ -967,12 +1029,15 @@ class ComplianceTester:
         logging.info(summary)
         residual = summary["__RESIDUAL__"]
         cases = [
-            ("RemoveSynonym", 1),
+            ("RemoveSynonym", 6),
             ("NewSynonym", 1),
             ("NodeDeletion", 1),
-            ("All_Synonym", 2),
+            ("All_Synonym", 7),
+            ("NodeRename", 1),
+            ("EdgeDeletion", 5),
         ]
         for typ, expected in cases:
+            print(typ)
             test.assertEqual(expected, residual[typ])
 
     def test_as_obograph(self, oi: OboGraphInterface):
@@ -1119,7 +1184,9 @@ class ComplianceTester:
         #   - expanded_changes - in some cases a change will be expanded into multiple changes
         cases = [
             (
-                kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE"),
+                kgcl.NodeRename(
+                    id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE"
+                ),
                 False,
                 lambda oi: test.assertEqual(
                     "VaCuOlE",
@@ -1155,7 +1222,12 @@ class ComplianceTester:
                 ],
                 None,
             ),
-            (NodeObsoletion(id=generate_change_id(), about_node=FAKE_ID), True, None, None),
+            (
+                NodeObsoletion(id=generate_change_id(), about_node=FAKE_ID),
+                True,
+                None,
+                None,
+            ),
             (
                 kgcl.SynonymReplacement(
                     id=generate_change_id(),
@@ -1178,6 +1250,7 @@ class ComplianceTester:
                         id=generate_change_id(),
                         about_node=CELLULAR_COMPONENT,
                         new_value="foo bar",
+                        predicate="oio:hasRelatedSynonym",
                     ),
                     kgcl.RemoveSynonym(
                         id=generate_change_id(),
@@ -1187,7 +1260,9 @@ class ComplianceTester:
                 ],
             ),
             (
-                kgcl.NewSynonym(id=generate_change_id(), about_node=FUNGI, new_value="shroom"),
+                kgcl.NewSynonym(
+                    id=generate_change_id(), about_node=FUNGI, new_value="shroom", predicate="oio:hasExactSynonym"
+                ),
                 False,
                 lambda oi: test.assertCountEqual(
                     ["shroom", "fungi", "Fungi", "Mycota"],
@@ -1195,6 +1270,17 @@ class ComplianceTester:
                 ),
                 None,
             ),
+            # (
+            #     kgcl.NewSynonym(
+            #         id=generate_change_id(), about_node=FUNGI, new_value="shroom", predicate="oio:hasExactSynonym"
+            #     ),
+            #     False,
+            #     lambda oi: test.assertCountEqual(
+            #         ["shroom", "fungi", "Fungi", "Mycota"],
+            #         oi.entity_aliases(FUNGI),
+            #     ),
+            #     None,
+            # ),
             (
                 kgcl.RemoveSynonym(
                     id=generate_change_id(),

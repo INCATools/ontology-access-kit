@@ -204,6 +204,7 @@ MD_FORMAT = "md"
 HTML_FORMAT = "html"
 OBOJSON_FORMAT = "obojson"
 CSV_FORMAT = "csv"
+TSV_FORMAT = "tsv"
 JSON_FORMAT = "json"
 JSONL_FORMAT = "jsonl"
 YAML_FORMAT = "yaml"
@@ -224,6 +225,7 @@ ONT_FORMATS = [
     YAML_FORMAT,
     FHIR_JSON_FORMAT,
     CSV_FORMAT,
+    TSV_FORMAT,
     NL_FORMAT,
 ]
 
@@ -235,6 +237,7 @@ WRITERS = {
     HTML_FORMAT: HTMLWriter,
     OBOJSON_FORMAT: StreamingOboJsonWriter,
     CSV_FORMAT: StreamingCsvWriter,
+    TSV_FORMAT: StreamingCsvWriter,
     JSON_FORMAT: StreamingJsonWriter,
     JSONL_FORMAT: StreamingJsonWriter,
     YAML_FORMAT: StreamingYamlWriter,
