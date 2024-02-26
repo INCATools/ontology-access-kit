@@ -934,9 +934,7 @@ class ComplianceTester:
                 about_node="GO:0033673",
                 old_value="inhibition of kinase activity",
             ),
-            kgcl.RemoveSynonym(
-                id=FIXED_ID, about_node="GO:0033673", old_value="kinase inhibitor"
-            ),
+            kgcl.RemoveSynonym(id=FIXED_ID, about_node="GO:0033673", old_value="kinase inhibitor"),
             kgcl.RemoveSynonym(
                 id=FIXED_ID,
                 about_node="GO:0033673",
@@ -1011,7 +1009,6 @@ class ComplianceTester:
                 new_value="catalytic activity",
             ),
             kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
-            
         ]
         rdiff = list(oi_modified.diff(oi))
         for ch in rdiff:
@@ -1261,7 +1258,10 @@ class ComplianceTester:
             ),
             (
                 kgcl.NewSynonym(
-                    id=generate_change_id(), about_node=FUNGI, new_value="shroom", predicate="oio:hasExactSynonym"
+                    id=generate_change_id(),
+                    about_node=FUNGI,
+                    new_value="shroom",
+                    predicate="oio:hasExactSynonym",
                 ),
                 False,
                 lambda oi: test.assertCountEqual(
@@ -1270,17 +1270,20 @@ class ComplianceTester:
                 ),
                 None,
             ),
-            # (
-            #     kgcl.NewSynonym(
-            #         id=generate_change_id(), about_node=FUNGI, new_value="shroom", predicate="oio:hasExactSynonym"
-            #     ),
-            #     False,
-            #     lambda oi: test.assertCountEqual(
-            #         ["shroom", "fungi", "Fungi", "Mycota"],
-            #         oi.entity_aliases(FUNGI),
-            #     ),
-            #     None,
-            # ),
+            (
+                kgcl.NewSynonym(
+                    id=generate_change_id(),
+                    about_node=FUNGI,
+                    new_value="shroom",
+                    predicate="oio:hasRelatedSynonym",
+                ),
+                False,
+                lambda oi: test.assertCountEqual(
+                    ["shroom", "fungi", "Fungi", "Mycota"],
+                    oi.entity_aliases(FUNGI),
+                ),
+                None,
+            ),
             (
                 kgcl.RemoveSynonym(
                     id=generate_change_id(),
