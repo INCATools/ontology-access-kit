@@ -177,8 +177,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
             other_ontology_entities_without_obsoletes - other_ontology_entities_with_obsoletes
         )
         possible_obsoletes = self_entities.intersection(other_ontology_obsolete_entities)
-        self_entities_without_obsoletes = set(list(self.entities(filter_obsoletes=True)))
-        self_ontology_obsoletes = self_entities - self_entities_without_obsoletes
+        self_ontology_without_obsoletes = set(list(self.entities(filter_obsoletes=True)))
+        self_ontology_obsoletes = self_entities - self_ontology_without_obsoletes
 
         # Find NodeUnobsoletions
         possible_unobsoletes = self_ontology_obsoletes.intersection(
@@ -209,7 +209,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 yield obsoletion_changes
 
         # ! Remove obsolete nodes from relevant sets
-        intersection_of_entities = self_entities_without_obsoletes.intersection(
+        intersection_of_entities = self_ontology_without_obsoletes.intersection(
             other_ontology_entities_without_obsoletes
         )
 
@@ -261,14 +261,14 @@ class DifferInterface(BasicOntologyInterface, ABC):
         # ! Synonyms
         self_aliases = {
             entity: set(self.alias_relationships(entity, exclude_labels=True))
-            for entity in self_entities_without_obsoletes
+            for entity in self_ontology_without_obsoletes
         }
         other_aliases = {
             entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
-            for entity in self_entities_without_obsoletes
+            for entity in self_ontology_without_obsoletes
         }
         synonyms_generator = _generate_synonym_changes(
-            self_entities_without_obsoletes, self_aliases, other_aliases
+            self_ontology_without_obsoletes, self_aliases, other_aliases
         )
         synonym_changes = defaultdict(list)
         if configuration.yield_individual_changes:
@@ -317,16 +317,16 @@ class DifferInterface(BasicOntologyInterface, ABC):
         # ! Relationships
         self_out_rels = {
             entity: set(self.outgoing_relationships(entity))
-            for entity in self_entities_without_obsoletes
+            for entity in self_ontology_without_obsoletes
         }
         other_out_rels = {
             entity: set(other_ontology.outgoing_relationships(entity))
-            for entity in self_entities_without_obsoletes
+            for entity in self_ontology_without_obsoletes
         }
 
         # Process the entities in parallel using a generator
         for relationship_changes in _parallely_get_relationship_changes(
-            self_entities_without_obsoletes,
+            self_ontology_without_obsoletes,
             self_out_rels,
             other_out_rels,
             configuration.yield_individual_changes,
