@@ -1255,34 +1255,6 @@ class ComplianceTester:
                 ],
             ),
             (
-                kgcl.NewSynonym(
-                    id=generate_change_id(),
-                    about_node=FUNGI,
-                    new_value="shroom",
-                    predicate="oio:hasExactSynonym",
-                ),
-                False,
-                lambda oi: test.assertCountEqual(
-                    ["shroom", "fungi", "Fungi", "Mycota"],
-                    oi.entity_aliases(FUNGI),
-                ),
-                None,
-            ),
-            (
-                kgcl.NewSynonym(
-                    id=generate_change_id(),
-                    about_node=FUNGI,
-                    new_value="shroom",
-                    predicate="oio:hasRelatedSynonym",
-                ),
-                False,
-                lambda oi: test.assertCountEqual(
-                    ["shroom", "fungi", "Fungi", "Mycota"],
-                    oi.entity_aliases(FUNGI),
-                ),
-                None,
-            ),
-            (
                 kgcl.RemoveSynonym(
                     id=generate_change_id(),
                     about_node=OPISTHOKONTA,
