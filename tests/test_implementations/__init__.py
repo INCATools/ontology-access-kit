@@ -1181,9 +1181,7 @@ class ComplianceTester:
         #   - expanded_changes - in some cases a change will be expanded into multiple changes
         cases = [
             (
-                kgcl.NodeRename(
-                    id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE"
-                ),
+                kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE"),
                 False,
                 lambda oi: test.assertEqual(
                     "VaCuOlE",
