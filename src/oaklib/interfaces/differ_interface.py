@@ -173,14 +173,20 @@ class DifferInterface(BasicOntologyInterface, ABC):
         other_ontology_obsolete_entities = (
             other_ontology_entities_with_obsoletes - other_ontology_entities_without_obsoletes
         )
+        other_ontology_unobsolete_entities = (
+            other_ontology_entities_without_obsoletes - other_ontology_entities_with_obsoletes
+        )
         possible_obsoletes = self_entities.intersection(other_ontology_obsolete_entities)
         self_entities_without_obsoletes = set(list(self.entities(filter_obsoletes=True)))
-        # ! Find NodeUnobsoletetions
-        # possible_unobsoletes = self_entities_without_obsoletes.intersection(other_ontology_entities_with_obsoletes)
-        # potential_obsoletes_and_unobsoletes = possible_obsoletes.union(possible_unobsoletes)
+        self_ontology_obsoletes = self_entities - self_entities_without_obsoletes
+
+        # Find NodeUnobsoletions
+        possible_unobsoletes = self_ontology_obsoletes.intersection(
+            other_ontology_unobsolete_entities
+        )
 
         obsoletion_generator = _generate_obsoletion_changes(
-            possible_obsoletes,
+            possible_obsoletes.union(possible_unobsoletes),
             self.entity_metadata_map,
             other_ontology.entity_metadata_map,
         )
@@ -335,7 +341,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
                             yield {change_type: change_list}
 
     def diff_summary(
-        self, other_ontology: BasicOntologyInterface, configuration: DiffConfiguration = None
+        self,
+        other_ontology: BasicOntologyInterface,
+        configuration: DiffConfiguration = None,
     ) -> Dict[str, Any]:
         """
         Provides high level summary of differences.
@@ -427,7 +435,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
             yield NodeCreation(id="x", about_node=t)
 
     def compare_term_in_two_ontologies(
-        self, other_ontology: BasicOntologyInterface, curie: CURIE, other_curie: CURIE = None
+        self,
+        other_ontology: BasicOntologyInterface,
+        curie: CURIE,
+        other_curie: CURIE = None,
     ) -> Any:
         raise NotImplementedError
 
