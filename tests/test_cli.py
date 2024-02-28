@@ -134,7 +134,8 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_info(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"]
+                main,
+                ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"],
             )
             result.stdout
             result.stderr
@@ -162,12 +163,14 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "present-only"]
+                main,
+                ["-i", str(input_arg), "labels", ".all", "--if-absent", "present-only"],
             )
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" not in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "absent-only"]
+                main,
+                ["-i", str(input_arg), "labels", ".all", "--if-absent", "absent-only"],
             )
             assert "cytoplasm" not in result.stdout
             assert "IAO:0000078" in result.stdout
@@ -178,21 +181,48 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("cytoplasm", result.stdout, "cytoplasm should be defined in .all")
             self.assertIn("IAO:0000078", result.stdout, "IAO:0000078 should be included in .all")
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "present-only"]
+                main,
+                [
+                    "-i",
+                    str(input_arg),
+                    "definitions",
+                    ".all",
+                    "--if-absent",
+                    "present-only",
+                ],
             )
             self.assertIn(
-                "cytoplasm", result.stdout, "cytoplasm should be included with present-only query"
+                "cytoplasm",
+                result.stdout,
+                "cytoplasm should be included with present-only query",
             )
             self.assertNotIn("IAO:0000078", result.stdout)
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "absent-only"]
+                main,
+                [
+                    "-i",
+                    str(input_arg),
+                    "definitions",
+                    ".all",
+                    "--if-absent",
+                    "absent-only",
+                ],
             )
             self.assertNotIn(
-                "cytoplasm", result.stdout, "cytoplasm should be excluded with absent-only query"
+                "cytoplasm",
+                result.stdout,
+                "cytoplasm should be excluded with absent-only query",
             )
             self.assertIn("IAO:0000078", result.stdout)
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", "--additional-metadata", "cytoplasm"]
+                main,
+                [
+                    "-i",
+                    str(input_arg),
+                    "definitions",
+                    "--additional-metadata",
+                    "cytoplasm",
+                ],
             )
             self.assertIn(
                 "ISBN:0198547684",
@@ -212,13 +242,33 @@ class TestCommandLineInterface(unittest.TestCase):
             out = self._out(outpath)
             assert "GO:0043226" in out
             self.runner.invoke(
-                main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", outpath]
+                main,
+                [
+                    "-i",
+                    input_arg,
+                    "ancestors",
+                    "-p",
+                    "i",
+                    "plasma membrane",
+                    "-o",
+                    outpath,
+                ],
             )
             out = self._out(outpath)
             assert "GO:0016020" in out
             assert "GO:0043226" not in out
             self.runner.invoke(
-                main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", outpath]
+                main,
+                [
+                    "-i",
+                    input_arg,
+                    "descendants",
+                    "-p",
+                    "i",
+                    "GO:0016020",
+                    "-o",
+                    outpath,
+                ],
             )
             out = self._out(outpath)
             # TODO:
@@ -397,7 +447,11 @@ class TestCommandLineInterface(unittest.TestCase):
                     [NUCLEUS, IMBO],
                     [CELLULAR_COMPONENT, CELL],
                 ),
-                (["-p", "i,p", CYTOPLASM, "--down"], [CYTOPLASM, VACUOLE, "GO:0110165"], []),
+                (
+                    ["-p", "i,p", CYTOPLASM, "--down"],
+                    [CYTOPLASM, VACUOLE, "GO:0110165"],
+                    [],
+                ),
             ]
             for args, expected_in, expected_not_in in cases:
                 result = self.runner.invoke(main, ["-i", input_arg, "tree", *args])
@@ -427,7 +481,14 @@ class TestCommandLineInterface(unittest.TestCase):
         for input_arg in input_args:
             result = self.runner.invoke(
                 main,
-                ["-i", input_arg, "obsoletes", "-o", TEST_OUT, "--show-migration-relationships"],
+                [
+                    "-i",
+                    input_arg,
+                    "obsoletes",
+                    "-o",
+                    TEST_OUT,
+                    "--show-migration-relationships",
+                ],
             )
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
@@ -440,7 +501,17 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_mappings_local(self):
         result = self.runner.invoke(
-            main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
+            main,
+            [
+                "-i",
+                str(TEST_ONT),
+                "mappings",
+                "GO:0016740",
+                "-o",
+                TEST_OUT,
+                "-O",
+                "csv",
+            ],
         )
         self.assertEqual(0, result.exit_code)
         out = self._out()
@@ -588,7 +659,15 @@ class TestCommandLineInterface(unittest.TestCase):
             for dangling in [True, False]:
                 logging.info(f"input={input}, output_format={output_format}")
                 query = [".desc//p=i", IMBO, ".anc//p=i", IMBO]
-                cmd = ["-i", str(input), "extract", "-o", TEST_OUT, "-O", output_format] + query
+                cmd = [
+                    "-i",
+                    str(input),
+                    "extract",
+                    "-o",
+                    TEST_OUT,
+                    "-O",
+                    output_format,
+                ] + query
                 # print(cmd)
                 if dangling:
                     cmd += ["--dangling"]
@@ -634,7 +713,16 @@ class TestCommandLineInterface(unittest.TestCase):
             for fmt in ["yaml", "csv", "html"]:
                 result = self.runner.invoke(
                     main,
-                    ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT, "-O", fmt],
+                    [
+                        "-i",
+                        str(input_arg),
+                        "taxon-constraints",
+                        NUCLEUS,
+                        "-o",
+                        TEST_OUT,
+                        "-O",
+                        fmt,
+                    ],
                 )
                 self.assertEqual(0, result.exit_code)
                 contents = self._out()
@@ -944,7 +1032,13 @@ class TestCommandLineInterface(unittest.TestCase):
         nucleus_match = "XX:1"
         intracellular_match = "XX:2"
         OTHER_ONTOLOGY = f"{INPUT_DIR}/alignment-test.obo"
-        for input_arg in [TEST_SIMPLE_OBO, TEST_OBOJSON, TEST_OWL_RDF, TEST_ONT, TEST_DB]:
+        for input_arg in [
+            TEST_SIMPLE_OBO,
+            TEST_OBOJSON,
+            TEST_OWL_RDF,
+            TEST_ONT,
+            TEST_DB,
+        ]:
             for reversed in [False, True]:
                 if reversed:
                     args = [
@@ -963,7 +1057,14 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(
                     main,
                     args
-                    + ["lexmatch", "-R", RULES_FILE, "-o", outfile, "--no-ensure-strict-prefixes"],
+                    + [
+                        "lexmatch",
+                        "-R",
+                        RULES_FILE,
+                        "-o",
+                        outfile,
+                        "--no-ensure-strict-prefixes",
+                    ],
                 )
                 err = result.stderr
                 self.assertEqual(0, result.exit_code)
@@ -1096,6 +1197,7 @@ class TestCommandLineInterface(unittest.TestCase):
             catalytic_activity_changed = any(
                 c.about_node == CATALYTIC_ACTIVITY for c in changes if isinstance(c, NodeChange)
             )
+
             if simple:
                 self.assertFalse(catalytic_activity_changed)
             else:
