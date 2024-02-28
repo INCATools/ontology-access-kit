@@ -127,7 +127,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 if OWL_CLASS in types:
                     yield ClassCreation(id=_gen_id(), about_node=entity)
                 else:
-                    yield NodeCreation(id=_gen_id(), about_node=entity)
+                    yield [NodeCreation(id=_gen_id(), about_node=type) for type in types]
         else:
             # Collect creations and yield at the end
             class_creations = []
@@ -138,7 +138,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 if OWL_CLASS in types:
                     class_creations.append(ClassCreation(id=_gen_id(), about_node=entity))
                 else:
-                    node_creations.append(NodeCreation(id=_gen_id(), about_node=entity))
+                    node_creations.extend(
+                        [NodeCreation(id=_gen_id(), about_node=type) for type in types]
+                    )
 
             # Yield collected changes as a dictionary if there are any
             changes = {}
