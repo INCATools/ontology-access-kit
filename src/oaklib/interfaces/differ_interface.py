@@ -118,50 +118,52 @@ class DifferInterface(BasicOntologyInterface, ABC):
         # * self_entities - other_ontology_entities => NodeDeletion
 
         # Node/Class Creation
-        if other_ontology_entities - self_entities:
-            list_of_created_nodes = list(other_ontology_entities - self_entities)
-            dict_nodes_or_classes = {
-                ent: other_ontology.owl_type(ent) for ent in list_of_created_nodes
-            }
+        created_entities = other_ontology_entities - self_entities
 
+        if configuration.yield_individual_changes:
+            # Yield each creation individually
+            for entity in created_entities:
+                types = other_ontology.owl_type(entity)
+                if OWL_CLASS in types:
+                    yield ClassCreation(id=_gen_id(), about_node=entity)
+                else:
+                    yield NodeCreation(id=_gen_id(), about_node=entity)
+        else:
+            # Collect creations and yield at the end
             class_creations = []
             node_creations = []
 
-            # Instead of checking all() twice, iterate once and classify each node
-            for node, types in dict_nodes_or_classes.items():
+            for entity in created_entities:
+                types = other_ontology.owl_type(entity)
                 if OWL_CLASS in types:
-                    if configuration.yield_individual_changes:
-                        yield ClassCreation(id=_gen_id(), about_node=node)
-                    else:
-                        class_creations.append(ClassCreation(id=_gen_id(), about_node=node))
+                    class_creations.append(ClassCreation(id=_gen_id(), about_node=entity))
                 else:
-                    if configuration.yield_individual_changes:
-                        yield NodeCreation(id=_gen_id(), about_node=node)
-                    else:
-                        node_creations.append(NodeCreation(id=_gen_id(), about_node=node))
+                    node_creations.append(NodeCreation(id=_gen_id(), about_node=entity))
 
-            # Now yield based on the flag and whether there are items in the lists
-            if not configuration.yield_individual_changes:
-                changes = {}
-                if class_creations:
-                    changes[CLASS_CREATION] = class_creations
-                if node_creations:
-                    changes[NODE_CREATION] = node_creations
-                if changes:
-                    yield changes
+            # Yield collected changes as a dictionary if there are any
+            changes = {}
+            if class_creations:
+                changes[CLASS_CREATION] = class_creations
+            if node_creations:
+                changes[NODE_CREATION] = node_creations
+            if changes:
+                yield changes
 
         # Node Deletion with consideration for yield_individual_changes flag
         nodes_to_delete = self_entities - other_ontology_entities
 
-        if configuration.yield_individual_changes:
-            for node in nodes_to_delete:
-                yield NodeDeletion(id=_gen_id(), about_node=node)
-        else:
-            yield {
-                NODE_DELETION: [
-                    NodeDeletion(id=_gen_id(), about_node=node) for node in nodes_to_delete
-                ]
-            }
+        if nodes_to_delete:
+            if configuration.yield_individual_changes:
+                # Yield each deletion individually
+                for node in nodes_to_delete:
+                    yield NodeDeletion(id=_gen_id(), about_node=node)
+            else:
+                # Yield all deletions at once in a dictionary
+                yield {
+                    NODE_DELETION: [
+                        NodeDeletion(id=_gen_id(), about_node=node) for node in nodes_to_delete
+                    ]
+                }
 
         # ! Obsoletions
         other_ontology_entities_with_obsoletes = set(
@@ -236,10 +238,16 @@ class DifferInterface(BasicOntologyInterface, ABC):
             yield {NODE_RENAME: label_change_list}
 
         # ! Definition changes
+        # Definition changes
+        definition_changes = (
+            defaultdict(list) if not configuration.yield_individual_changes else None
+        )
+
         for entity in intersection_of_entities:
             old_value = self.definition(entity)
             new_value = other_ontology.definition(entity)
 
+            # Check if there is a change and both values are not None
             if old_value != new_value and old_value is not None and new_value is not None:
                 change = NodeTextDefinitionChange(
                     id=_gen_id(),
@@ -251,38 +259,14 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 if configuration.yield_individual_changes:
                     yield change
                 else:
-                    # If we're not yielding individually, collect changes in a generator
-                    definition_change_gen = (change for _ in [None])  # Generator with one item
+                    definition_changes[NODE_TEXT_DEFINITION_CHANGE].append(change)
 
-                    # Yield the collected changes as a dictionary when the first change occurs
-                    yield {NODE_TEXT_DEFINITION_CHANGE: list(definition_change_gen)}
-                    break  # Exit the loop after yielding the dictionary
-
-        # ! Synonyms
-        self_aliases = {
-            entity: set(self.alias_relationships(entity, exclude_labels=True))
-            for entity in self_ontology_without_obsoletes
-        }
-        other_aliases = {
-            entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
-            for entity in self_ontology_without_obsoletes
-        }
-        synonyms_generator = _generate_synonym_changes(
-            self_ontology_without_obsoletes, self_aliases, other_aliases
-        )
-        synonym_changes = defaultdict(list)
-        if configuration.yield_individual_changes:
-            # Yield each synonyms_change object individually
-            for synonyms_change in synonyms_generator:
-                yield synonyms_change
-        else:
-            # Collect all changes in a defaultdict and yield them at the end
-            synonym_changes = defaultdict(list)
-            for synonyms_change in synonyms_generator:
-                synonym_changes[synonyms_change.__class__.__name__].append(synonyms_change)
-
-            if synonym_changes:
-                yield synonym_changes
+        if (
+            not configuration.yield_individual_changes
+            and definition_changes[NODE_TEXT_DEFINITION_CHANGE]
+        ):
+            # Yield the collected changes as a dictionary after processing all entities
+            yield definition_changes
 
         # ! New definitions
         if configuration.yield_individual_changes:
@@ -314,6 +298,32 @@ class DifferInterface(BasicOntologyInterface, ABC):
             if new_definition_list:
                 yield {NEW_TEXT_DEFINITION: new_definition_list}
 
+        # ! Synonyms
+        self_aliases = {
+            entity: set(self.alias_relationships(entity, exclude_labels=True))
+            for entity in self_ontology_without_obsoletes
+        }
+        other_aliases = {
+            entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
+            for entity in self_ontology_without_obsoletes
+        }
+        synonyms_generator = _generate_synonym_changes(
+            self_ontology_without_obsoletes, self_aliases, other_aliases
+        )
+        synonym_changes = defaultdict(list)
+        if configuration.yield_individual_changes:
+            # Yield each synonyms_change object individually
+            for synonyms_change in synonyms_generator:
+                yield synonyms_change
+        else:
+            # Collect all changes in a defaultdict and yield them at the end
+            synonym_changes = defaultdict(list)
+            for synonyms_change in synonyms_generator:
+                synonym_changes[synonyms_change.__class__.__name__].append(synonyms_change)
+
+            if synonym_changes:
+                yield synonym_changes
+
         # ! Relationships
         self_out_rels = {
             entity: set(self.outgoing_relationships(entity))
@@ -325,6 +335,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         }
 
         # Process the entities in parallel using a generator
+        list_of_changes = defaultdict(list) if not configuration.yield_individual_changes else []
         for relationship_changes in _parallely_get_relationship_changes(
             self_ontology_without_obsoletes,
             self_out_rels,
@@ -335,10 +346,12 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 if configuration.yield_individual_changes:
                     yield change
                 else:
-                    # Collect all changes in a defaultdict and yield them at the end
+                    # Collect all changes in a defaultdict
                     for change_type, change_list in change.items():
-                        if change_list:
-                            yield {change_type: change_list}
+                        list_of_changes.setdefault(change_type, []).extend(change_list)
+
+        if not configuration.yield_individual_changes:
+            yield list_of_changes  # Yield the collected changes once at the end
 
     def diff_summary(
         self,
