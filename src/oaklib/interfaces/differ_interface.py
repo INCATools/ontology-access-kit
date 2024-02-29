@@ -109,9 +109,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             configuration = DiffConfiguration()
         # * self => old ontology
         # * other_ontology => latest ontology
-        other_ontology_entities = set(
-            list(other_ontology.entities(filter_obsoletes=False))
-        )
+        other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
         self_entities = set(list(self.entities(filter_obsoletes=False)))
         intersection_of_entities = self_entities.intersection(other_ontology_entities)
         obsolete_nodes = set()
@@ -143,9 +141,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             for entity in created_entities:
                 types = other_ontology.owl_type(entity)
                 if OWL_CLASS in types:
-                    class_creations.append(
-                        ClassCreation(id=_gen_id(), about_node=entity)
-                    )
+                    class_creations.append(ClassCreation(id=_gen_id(), about_node=entity))
                 # elif OIO_SYNONYM_TYPE_PROPERTY in types:
                 #     node_creations.append(
                 #         NodeCreation(id=_gen_id(), about_node=OIO_SYNONYM_TYPE_PROPERTY)
@@ -174,8 +170,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 # Yield all deletions at once in a dictionary
                 yield {
                     NODE_DELETION: [
-                        NodeDeletion(id=_gen_id(), about_node=node)
-                        for node in nodes_to_delete
+                        NodeDeletion(id=_gen_id(), about_node=node) for node in nodes_to_delete
                     ]
                 }
 
@@ -187,19 +182,13 @@ class DifferInterface(BasicOntologyInterface, ABC):
             other_ontology.entities(filter_obsoletes=True)
         )
         other_ontology_obsolete_entities = (
-            other_ontology_entities_with_obsoletes
-            - other_ontology_entities_without_obsoletes
+            other_ontology_entities_with_obsoletes - other_ontology_entities_without_obsoletes
         )
         other_ontology_unobsolete_entities = (
-            other_ontology_entities_without_obsoletes
-            - other_ontology_entities_with_obsoletes
+            other_ontology_entities_without_obsoletes - other_ontology_entities_with_obsoletes
         )
-        possible_obsoletes = self_entities.intersection(
-            other_ontology_obsolete_entities
-        )
-        self_ontology_without_obsoletes = set(
-            list(self.entities(filter_obsoletes=True))
-        )
+        possible_obsoletes = self_entities.intersection(other_ontology_obsolete_entities)
+        self_ontology_without_obsoletes = set(list(self.entities(filter_obsoletes=True)))
         self_ontology_obsoletes = self_entities - self_ontology_without_obsoletes
 
         # Find NodeUnobsoletions
@@ -225,9 +214,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 if obsoletion_change:
                     class_name = obsoletion_change.type
                     obsolete_nodes.add(obsoletion_change.about_node)
-                    obsoletion_changes.setdefault(class_name, []).append(
-                        obsoletion_change
-                    )
+                    obsoletion_changes.setdefault(class_name, []).append(obsoletion_change)
 
             if obsoletion_changes:
                 yield obsoletion_changes
@@ -270,11 +257,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             new_value = other_ontology.definition(entity)
 
             # Check if there is a change and both values are not None
-            if (
-                old_value != new_value
-                and old_value is not None
-                and new_value is not None
-            ):
+            if old_value != new_value and old_value is not None and new_value is not None:
                 change = NodeTextDefinitionChange(
                     id=_gen_id(),
                     about_node=entity,
@@ -318,8 +301,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     old_value=self.definition(entity),
                 )
                 for entity in intersection_of_entities
-                if self.definition(entity) is None
-                and other_ontology.definition(entity) is not None
+                if self.definition(entity) is None and other_ontology.definition(entity) is not None
             ]
 
             if new_definition_list:
@@ -346,9 +328,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             # Collect all changes in a defaultdict and yield them at the end
             synonym_changes = defaultdict(list)
             for synonyms_change in synonyms_generator:
-                synonym_changes[synonyms_change.__class__.__name__].append(
-                    synonyms_change
-                )
+                synonym_changes[synonyms_change.__class__.__name__].append(synonyms_change)
 
             if synonym_changes:
                 yield synonym_changes
@@ -364,9 +344,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         }
 
         # Process the entities in parallel using a generator
-        list_of_changes = (
-            defaultdict(list) if not configuration.yield_individual_changes else []
-        )
+        list_of_changes = defaultdict(list) if not configuration.yield_individual_changes else []
         for relationship_changes in _parallely_get_relationship_changes(
             self_ontology_without_obsoletes,
             self_out_rels,
@@ -383,6 +361,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         if not configuration.yield_individual_changes:
             yield list_of_changes  # Yield the collected changes once at the end
+
+        #  ! Mappings
+        # TODO - mappings diff
 
     def diff_summary(
         self,
@@ -450,9 +431,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             summary[partition][typ] += 1
         for partition_summary in summary.values():
             for k, categories in bins.items():
-                partition_summary[k] = sum(
-                    [partition_summary.get(cat, 0) for cat in categories]
-                )
+                partition_summary[k] = sum([partition_summary.get(cat, 0) for cat in categories])
         return dict(summary)
 
     def different_from(
@@ -514,9 +493,7 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
                 )
             else:
                 # ! Remove obsoletes
-                synonym_change = RemoveSynonym(
-                    id=_gen_id(), about_node=e1, old_value=alias
-                )
+                synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
 
             yield synonym_change
 
@@ -556,12 +533,8 @@ def _process_deprecation_data(deprecation_data_item):
 def _generate_obsoletion_changes(
     entities, self_entity_metadata_map, other_ontology_entity_metadata_map
 ):
-    self_metadata_map = {
-        entity: self_entity_metadata_map(entity) for entity in entities
-    }
-    other_metadata_map = {
-        entity: other_ontology_entity_metadata_map(entity) for entity in entities
-    }
+    self_metadata_map = {entity: self_entity_metadata_map(entity) for entity in entities}
+    other_metadata_map = {entity: other_ontology_entity_metadata_map(entity) for entity in entities}
 
     deprecation_data = [
         (
@@ -580,9 +553,7 @@ def _generate_obsoletion_changes(
                 yield result
 
 
-def _generate_relation_changes(
-    e1, self_out_rels, other_out_rels, yield_individual_changes
-):
+def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individual_changes):
     e1_rels = self_out_rels[e1]
     e2_rels = other_out_rels[e1]
     changes = [] if yield_individual_changes else defaultdict(list)
@@ -602,9 +573,7 @@ def _generate_relation_changes(
                 else:
                     changes.setdefault(PredicateChange.__name__, []).append(change)
         else:
-            change = EdgeDeletion(
-                id=_gen_id(), subject=e1, predicate=pred, object=alias
-            )
+            change = EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=alias)
             if yield_individual_changes:
                 changes.append(change)
             else:
@@ -633,10 +602,7 @@ def _parallely_get_relationship_changes(
     with multiprocessing.Pool() as pool:
         results = pool.starmap(
             _generate_relation_changes,
-            [
-                (e1, self_out_rels, other_out_rels, yield_individual_changes)
-                for e1 in self_entities
-            ],
+            [(e1, self_out_rels, other_out_rels, yield_individual_changes) for e1 in self_entities],
         )
         for result in results:
             if result:
