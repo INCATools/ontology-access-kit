@@ -19,7 +19,10 @@ class ChangeHandler:
 
     def write_markdown_table(self, title, header, rows):
         # Create the table header and separator lines
-        markdown_rows = [header, "|".join(["----"] * len(header.split("|")[1:-1]))]
+        markdown_rows = [
+            header,
+            "|".join(["----"] * len(header.split("|")[1:-1])) + "|",
+        ]
 
         # Add the table rows
         markdown_rows.extend(rows)
@@ -30,12 +33,12 @@ class ChangeHandler:
     def handle_new_synonym(self, value):
         # Create rows for the table
         rows = [
-            f"| {obj.about_node} | {self.oi.label(obj.about_node)} | {obj.new_value} | {obj.predicate} |"
+            f"| {self.oi.label(obj.about_node)} ({obj.about_node}) | {obj.new_value} | {obj.predicate} |"
             for obj in value
         ]
 
         # Define the header for the table
-        header = "| ID | Label | New Synonym | Predicate |"
+        header = "| Label (ID) | New Synonym | Predicate |"
 
         # Write the "New Synonyms Added" section as a collapsible markdown table
         self.write_markdown_table(f"Synonyms added: {len(rows)}", header, rows)
@@ -43,13 +46,14 @@ class ChangeHandler:
     def handle_edge_deletion(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.subject} | {self.oi.label(change.subject)} | {change.predicate} \
-                | {self.oi.label(change.predicate)} | {change.object} | {self.oi.label(change.object)} |"
+            f"| {self.oi.label(change.subject)} ({change.subject}) | \
+                {self.oi.label(change.predicate)} ({change.predicate}) |\
+                      {self.oi.label(change.object)} ({change.object})|"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| Subject ID | Subject Label | Predicate ID | Predicate Label | Object ID | Object Label |"
+        header = "| Subject Label (ID) | Predicate Label (ID) | Object Lal (ID)|"
 
         # Write the "Edges Deleted" section as a collapsible markdown table
         self.write_markdown_table(f"Edges deleted: {len(rows)}", header, rows)
@@ -57,16 +61,14 @@ class ChangeHandler:
     def handle_node_move(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_edge.subject} | {self.oi.label(change.about_edge.subject)} | \
-                {change.about_edge.predicate} | {self.oi.label(change.about_edge.predicate)} \
-                    |{change.about_edge.object} | {self.oi.label(change.about_edge.object)} | \
-                        {change.old_value} | {change.new_value} |"
+            f"| {self.oi.label(change.about_edge.subject)} ({change.about_edge.subject})| \
+             {self.oi.label(change.about_edge.predicate)} ( {change.about_edge.predicate})\
+                    | {self.oi.label(change.about_edge.object)} ({change.about_edge.object})"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| Subject ID | Subject Label | Predicate ID | Predicate label | Object ID | Object label\
-              | Old Predicate | New Predicate |"
+        header = "| Subject label (ID) |  Predicate label (ID) | Object label (ID)"
 
         # Write the "Nodes Moved" section as a collapsible markdown table
         self.write_markdown_table(f"Nodes moved: {len(rows)}", header, rows)
@@ -74,14 +76,15 @@ class ChangeHandler:
     def handle_predicate_change(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_edge.subject} | {self.oi.label(change.about_edge.subject)} \
-                | {change.old_value} | {change.new_value} | {change.about_edge.object} \
-                    | {self.oi.label(change.about_edge.object)} |"
+            f"| {self.oi.label(change.about_edge.subject)} ({change.about_edge.subject}) \
+                | {self.oi.label(change.old_value)} ({change.old_value}) \
+                    | {self.oi.label(change.new_value)} ({change.new_value}) \
+                    | {self.oi.label(change.about_edge.object)} ({change.about_edge.object}) |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| Subject ID | Subject Label | Old Predicate | New Predicate | Object ID | Object Label |"
+        header = "| Subject Label (ID) | Old Predicate | New Predicate | Object Label (ID) |"
 
         # Write the "Predicate Changed" section as a collapsible markdown table
         self.write_markdown_table(f"Predicates changed: {len(rows)}", header, rows)
@@ -89,11 +92,11 @@ class ChangeHandler:
     def handle_node_rename(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {change.old_value} | {change.new_value} |" for change in value
+            f"| {change.old_value} ({change.about_node}) | {change.new_value} |" for change in value
         ]
 
         # Define the header for the table
-        header = "| ID | Old Label | New Label |"
+        header = "| Old Label (ID) | New Label |"
 
         # Write the "Node Renamed" section as a collapsible markdown table
         self.write_markdown_table(f"Nodes renamed: {len(rows)}", header, rows)
@@ -101,12 +104,12 @@ class ChangeHandler:
     def handle_remove_synonym(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} |"
+            f"| {self.oi.label(change.about_node)} ({change.about_node}) | {change.old_value} |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| ID | Label | Removed Synonym |"
+        header = "| Label (ID) | Removed Synonym |"
 
         # Write the "Synonyms Removed" section as a collapsible markdown table
         self.write_markdown_table(f"Synonyms removed: {len(rows)}", header, rows)
@@ -114,13 +117,13 @@ class ChangeHandler:
     def hand_synonym_predicate_change(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} \
+            f"| {self.oi.label(change.about_node)} ({change.about_node}) \
                 | {change.old_value} | {change.new_value} | {change.target} |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| ID | Label | Old Predicate | New Predicate | Synonym |"
+        header = "| Label (ID) | Old Predicate | New Predicate | Synonym |"
 
         # Write the "Synonym Predicate Changed" section as a markdown table
         self.write_markdown_table(f"Synonym predicates changed: {len(rows)}", header, rows)
@@ -128,13 +131,13 @@ class ChangeHandler:
     def handle_node_text_definition_change(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} \
+            f"| {self.oi.label(change.about_node)} ({change.about_node}) | {change.old_value} \
                 | {change.new_value} |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| ID | Label | Old Text Definition | New Text Definition |"
+        header = "| Label (ID) | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Changed" section as a markdown table
         self.write_markdown_table(f"Text definitions changed: {len(rows)}", header, rows)
@@ -142,53 +145,53 @@ class ChangeHandler:
     def handle_node_text_definition(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} \
+            f"| {self.oi.label(change.about_node)} ({change.about_node}) | {change.old_value} \
                 | {change.new_value} |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| ID | Label | Old Text Definition | New Text Definition |"
+        header = "| Label (ID) | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Added" section as a markdown table
         self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
 
     def handle_node_unobsoletion(self, value):
         # Create rows for the table
-        rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
+        rows = [f"| {self.oi.label(change.about_node)} ({change.about_node}) |" for change in value]
 
         # Define the header for the table
-        header = "| ID | Label |"
+        header = "| Label (ID) |"
 
         # Write the "Node Unobsoleted" section as a markdown table
         self.write_markdown_table(f"Nodes unobsoleted: {len(rows)}", header, rows)
 
     def handle_node_creation(self, value):
         # Create rows for the table
-        rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
+        rows = [f"| {self.oi.label(change.about_node)} ({change.about_node}) |" for change in value]
 
         # Define the header for the table
-        header = "| ID | Label |"
+        header = "| Label (ID) |"
 
         # Write the "Node Created" section as a markdown table
         self.write_markdown_table(f"Other nodes created: {len(rows)}", header, rows)
 
     def handle_class_creation(self, value):
         # Create rows for the table
-        rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
+        rows = [f"| {self.oi.label(change.about_node)} ({change.about_node}) |" for change in value]
 
         # Define the header for the table
-        header = "| ID | Label |"
+        header = "| Label (ID) |"
 
         # Write the "Class Created" section as a markdown table
         self.write_markdown_table(f"Classes created: {len(rows)}", header, rows)
 
     def handle_node_deletion(self, value):
         # Create rows for the table
-        rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
+        rows = [f"| {self.oi.label(change.about_node)} ({change.about_node}) |" for change in value]
 
         # Define the header for the table
-        header = "| ID | Label |"
+        header = "| Label (ID) |"
 
         # Write the "Nodes Deleted" section as a markdown table
         self.write_markdown_table(f"Nodes deleted: {len(rows)}", header, rows)
@@ -196,33 +199,33 @@ class ChangeHandler:
     def handle_new_text_definition(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.old_value} | {change.new_value} |"
+            f"| {self.oi.label(change.about_node)} ({change.about_node}) | {change.new_value} |"
             for change in value
         ]
-        header = "| ID | Label | Old Text Definition | New Text Definition |"
+        header = "| Label (ID) | New Text Definition |"
         self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
 
     def handle_node_obsoletion_with_direct_replacement(self, value):
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.has_direct_replacement} |\
-                  {self.oi.label(change.has_direct_replacement)} |"
+            f"| {self.oi.label(change.about_node)} ({change.about_node} ) |\
+                  {self.oi.label(change.has_direct_replacement)} ({change.has_direct_replacement}) |"
             for change in value
         ]
-        header = "| ID | Label | Replacement ID | Replacement Label |"
+        header = "| Label (ID) | Replacement label (ID) |"
         self.write_markdown_table(f"Nodes obsoleted with replacement: {len(rows)}", header, rows)
 
     def handle_node_obsoletion(self, value):
-        rows = [f"| {change.about_node} | {self.oi.label(change.about_node)} |" for change in value]
-        header = "| ID | Label |"
+        rows = [f"| {self.oi.label(change.about_node)} ({change.about_node}) |" for change in value]
+        header = "| Label (ID) |"
         self.write_markdown_table(f"Nodes obsoleted without replacement: {len(rows)}", header, rows)
 
     def handle_node_direct_merge(self, value):
         rows = [
-            f"| {change.about_node} | {self.oi.label(change.about_node)} | {change.has_direct_replacement} |\
-                  {self.oi.label(change.has_direct_replacement)} |"
+            f"| {self.oi.label(change.about_node)} ({change.about_node}) |\
+                  {self.oi.label(change.has_direct_replacement)} ({change.has_direct_replacement}) |"
             for change in value
         ]
-        header = "| ID | Label | Replacement ID | Replacement Label |"
+        header = "| Label (ID) | Replacement Label (ID) |"
         self.write_markdown_table(f"Nodes merged: {len(rows)}", header, rows)
 
     # def handle_datatype_or_language_tag_change(self, value):

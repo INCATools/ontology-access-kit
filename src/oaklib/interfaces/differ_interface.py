@@ -309,14 +309,14 @@ class DifferInterface(BasicOntologyInterface, ABC):
         # ! Synonyms
         self_aliases = {
             entity: set(self.alias_relationships(entity, exclude_labels=True))
-            for entity in self_ontology_without_obsoletes
+            for entity in intersection_of_entities
         }
         other_aliases = {
             entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
-            for entity in self_ontology_without_obsoletes
+            for entity in intersection_of_entities
         }
         synonyms_generator = _generate_synonym_changes(
-            self_ontology_without_obsoletes, self_aliases, other_aliases
+            intersection_of_entities, self_aliases, other_aliases
         )
         synonym_changes = defaultdict(list)
         if configuration.yield_individual_changes:
@@ -581,7 +581,7 @@ def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individu
     for rel in e2_rels.difference(e1_rels):
         pred, alias = rel
         edge = Edge(subject=e1, predicate=pred, object=alias)
-        change = NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
+        change = NodeMove(id=_gen_id(), about_edge=edge)
         if yield_individual_changes:
             changes.append(change)
         else:
