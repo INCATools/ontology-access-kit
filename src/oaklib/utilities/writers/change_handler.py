@@ -118,12 +118,13 @@ class ChangeHandler:
         # Create rows for the table
         rows = [
             f"| {self.oi.label(change.about_node)} ({change.about_node}) \
-                | {change.old_value} | {change.new_value} | {change.target} |"
+                | {self.oi.label(change.old_value)} ({change.old_value}) \
+                | {self.oi.label(change.new_value)} ({change.new_value}) | {change.target} |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| Label (ID) | Old Predicate | New Predicate | Synonym |"
+        header = "| Label (ID) | Old Predicate (ID) | New Predicate (ID) | Synonym |"
 
         # Write the "Synonym Predicate Changed" section as a markdown table
         self.write_markdown_table(f"Synonym predicates changed: {len(rows)}", header, rows)
