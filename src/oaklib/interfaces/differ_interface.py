@@ -35,10 +35,9 @@ from oaklib.constants import (
     NODE_RENAME,
     NODE_TEXT_DEFINITION_CHANGE,
 )
-from oaklib.datamodels.vocabulary import (
+from oaklib.datamodels.vocabulary import (  # OIO_SYNONYM_TYPE_PROPERTY,
     DEPRECATED_PREDICATE,
     HAS_OBSOLESCENCE_REASON,
-    OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
     TERM_REPLACED_BY,
     TERMS_MERGED,
