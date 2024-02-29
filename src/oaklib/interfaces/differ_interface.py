@@ -38,6 +38,7 @@ from oaklib.constants import (
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
     HAS_OBSOLESCENCE_REASON,
+    OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
     TERM_REPLACED_BY,
     TERMS_MERGED,
@@ -126,8 +127,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 types = other_ontology.owl_type(entity)
                 if OWL_CLASS in types:
                     yield ClassCreation(id=_gen_id(), about_node=entity)
+                elif OIO_SYNONYM_TYPE_PROPERTY in types:
+                    yield NodeCreation(id=_gen_id(), about_node=OIO_SYNONYM_TYPE_PROPERTY)
                 else:
-                    yield [NodeCreation(id=_gen_id(), about_node=type) for type in types]
+                    yield NodeCreation(id=_gen_id(), about_node=entity)
         else:
             # Collect creations and yield at the end
             class_creations = []
@@ -137,10 +140,12 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 types = other_ontology.owl_type(entity)
                 if OWL_CLASS in types:
                     class_creations.append(ClassCreation(id=_gen_id(), about_node=entity))
-                else:
-                    node_creations.extend(
-                        [NodeCreation(id=_gen_id(), about_node=type) for type in types]
+                elif OIO_SYNONYM_TYPE_PROPERTY in types:
+                    node_creations.append(
+                        NodeCreation(id=_gen_id(), about_node=OIO_SYNONYM_TYPE_PROPERTY)
                     )
+                else:
+                    node_creations.append(NodeCreation(id=_gen_id(), about_node=entity))
 
             # Yield collected changes as a dictionary if there are any
             changes = {}
