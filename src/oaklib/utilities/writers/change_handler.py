@@ -63,12 +63,12 @@ class ChangeHandler:
         rows = [
             f"| {self.oi.label(change.about_edge.subject)} ({change.about_edge.subject})| \
              {self.oi.label(change.about_edge.predicate)} ( {change.about_edge.predicate})\
-                    | {self.oi.label(change.about_edge.object)} ({change.about_edge.object})"
+                    | {self.oi.label(change.about_edge.object)} ({change.about_edge.object}) |"
             for change in value
         ]
 
         # Define the header for the table
-        header = "| Subject label (ID) |  Predicate label (ID) | Object label (ID)"
+        header = "| Subject label (ID) |  Predicate label (ID) | Object label (ID) |"
 
         # Write the "Nodes Moved" section as a collapsible markdown table
         self.write_markdown_table(f"Nodes moved: {len(rows)}", header, rows)
