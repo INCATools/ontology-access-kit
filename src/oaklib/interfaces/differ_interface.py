@@ -10,6 +10,8 @@ from kgcl_schema.datamodel.kgcl import (
     Change,
     ClassCreation,
     Edge,
+    EdgeChange,
+    EdgeCreation,
     EdgeDeletion,
     NewSynonym,
     NewTextDefinition,
@@ -27,17 +29,14 @@ from kgcl_schema.datamodel.kgcl import (
     SynonymPredicateChange,
 )
 
-from oaklib.constants import (
-    CLASS_CREATION,
-    NEW_TEXT_DEFINITION,
-    NODE_CREATION,
-    NODE_DELETION,
-    NODE_RENAME,
-    NODE_TEXT_DEFINITION_CHANGE,
-)
 from oaklib.datamodels.vocabulary import (  # OIO_SYNONYM_TYPE_PROPERTY,
+    CLASS_CREATION,
     DEPRECATED_PREDICATE,
     HAS_OBSOLESCENCE_REASON,
+    MAPPING_EDGE_DELETION,
+    NODE_CREATION,
+    NODE_DELETION,
+    NODE_TEXT_DEFINITION_CHANGE,
     OWL_CLASS,
     TERM_REPLACED_BY,
     TERMS_MERGED,
@@ -223,10 +222,23 @@ class DifferInterface(BasicOntologyInterface, ABC):
             other_ontology_entities_without_obsoletes
         )
 
-        # ! Label changes
+        # Initialize variables for label changes, definition changes, new definitions, and synonyms
         if not configuration.yield_individual_changes:
             label_change_list = []
+            definition_changes = defaultdict(list)
+            new_definition_list = []
+            synonym_changes = defaultdict(list)
+            edge_creation_list = []
+            edge_deletion_list = []
+            # edge_change_list = []
+
+        self_aliases = {}
+        other_aliases = {}
+
+        # Loop through each entity once and process
+        # ! label changes, definition changes, new definitions, and synonyms
         for entity in intersection_of_entities:
+            # Label change
             if self.label(entity) != other_ontology.label(entity):
                 node_rename = NodeRename(
                     id=_gen_id(),
@@ -235,27 +247,13 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     new_value=other_ontology.label(entity),
                 )
                 if configuration.yield_individual_changes:
-                    # Yield NodeRename objects individually if the flag is True
                     yield node_rename
                 else:
-                    # Collect NodeRename objects in a list if the flag is False
                     label_change_list.append(node_rename)
 
-        # If the flag is False and there are collected changes, yield them as a dictionary
-        if not configuration.yield_individual_changes and label_change_list:
-            yield {NODE_RENAME: label_change_list}
-
-        # ! Definition changes
-        # Definition changes
-        definition_changes = (
-            defaultdict(list) if not configuration.yield_individual_changes else None
-        )
-
-        for entity in intersection_of_entities:
+            # Definition changes
             old_value = self.definition(entity)
             new_value = other_ontology.definition(entity)
-
-            # Check if there is a change and both values are not None
             if old_value != new_value and old_value is not None and new_value is not None:
                 change = NodeTextDefinitionChange(
                     id=_gen_id(),
@@ -263,72 +261,106 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     new_value=new_value,
                     old_value=old_value,
                 )
-
                 if configuration.yield_individual_changes:
                     yield change
                 else:
                     definition_changes[NODE_TEXT_DEFINITION_CHANGE].append(change)
 
-        if (
-            not configuration.yield_individual_changes
-            and definition_changes[NODE_TEXT_DEFINITION_CHANGE]
-        ):
-            # Yield the collected changes as a dictionary after processing all entities
-            yield definition_changes
-
-        # ! New definitions
-        if configuration.yield_individual_changes:
-            # Yield each NewTextDefinition object individually
-            for entity in intersection_of_entities:
-                if (
-                    self.definition(entity) is None
-                    and other_ontology.definition(entity) is not None
-                ):
-                    yield NewTextDefinition(
-                        id=_gen_id(),
-                        about_node=entity,
-                        new_value=other_ontology.definition(entity),
-                        old_value=self.definition(entity),
-                    )
-        else:
-            # Collect all NewTextDefinition objects in a list and yield them at once
-            new_definition_list = [
-                NewTextDefinition(
+            # New definitions
+            if self.definition(entity) is None and other_ontology.definition(entity) is not None:
+                new_def = NewTextDefinition(
                     id=_gen_id(),
                     about_node=entity,
                     new_value=other_ontology.definition(entity),
                     old_value=self.definition(entity),
                 )
-                for entity in intersection_of_entities
-                if self.definition(entity) is None and other_ontology.definition(entity) is not None
-            ]
+                if configuration.yield_individual_changes:
+                    yield new_def
+                else:
+                    new_definition_list.append(new_def)
 
+            # Synonyms - compute both sets of aliases
+            self_aliases[entity] = set(self.alias_relationships(entity, exclude_labels=True))
+            other_aliases[entity] = set(
+                other_ontology.alias_relationships(entity, exclude_labels=True)
+            )
+            #  ! Mappings
+            # TODO - mappings diffs
+            self_mappings = set(self.simple_mappings_by_curie(entity))
+            other_mappings = set(other_ontology.simple_mappings_by_curie(entity))
+            mappings_added_set = other_mappings - self_mappings
+            mappings_removed_set = self_mappings - other_mappings
+            mapping_changed_set = _find_mapping_changes(self_mappings, other_mappings)
+            if mappings_added_set:
+                for mapping in mappings_added_set:
+                    predicate, xref = mapping
+                    edge_created = EdgeCreation(
+                        id=_gen_id(),
+                        subject=entity,
+                        predicate=predicate,
+                        object=xref,
+                    )
+                    if configuration.yield_individual_changes:
+                        yield edge_created
+                    else:
+                        edge_creation_list.append(edge_created)
+            if mappings_removed_set:
+                for mapping in mappings_removed_set:
+                    predicate, xref = mapping
+                    deleted_edge = EdgeDeletion(
+                        id=_gen_id(),
+                        subject=entity,
+                        predicate=predicate,
+                        object=xref,
+                    )
+                    if configuration.yield_individual_changes:
+                        yield deleted_edge
+                    else:
+                        edge_deletion_list.append(deleted_edge)
+            if mapping_changed_set:
+                for changes in mapping_changed_set:
+                    predicate, old_xref, new_xref = changes
+                    edge_change = EdgeChange(
+                        id=_gen_id(),
+                        about_edge=Edge(subject=entity, predicate=predicate, object=old_xref),
+                        old_value=old_xref,
+                        new_value=new_xref,
+                    )
+
+                    if configuration.yield_individual_changes:
+                        yield edge_change
+                    # TODO - mappings changes need discussion
+                    # else:
+                    #     edge_change_list.append(edge_change)
+
+        # Yield collected changes after processing all entities
+        if not configuration.yield_individual_changes:
+            if label_change_list:
+                yield {NodeRename.__name__: label_change_list}
+            if definition_changes[NodeTextDefinitionChange.__name__]:
+                yield definition_changes
             if new_definition_list:
-                yield {NEW_TEXT_DEFINITION: new_definition_list}
+                yield {NewTextDefinition.__name__: new_definition_list}
+            if edge_creation_list:
+                yield {EdgeCreation.__name__: edge_creation_list}
+            if edge_deletion_list:
+                yield {MAPPING_EDGE_DELETION: edge_deletion_list}
+            # TODO - mappings changes need discussion
+            # if edge_change_list:
+            #     yield {EdgeChange.__name__: edge_change_list}
 
-        # ! Synonyms
-        self_aliases = {
-            entity: set(self.alias_relationships(entity, exclude_labels=True))
-            for entity in intersection_of_entities
-        }
-        other_aliases = {
-            entity: set(other_ontology.alias_relationships(entity, exclude_labels=True))
-            for entity in intersection_of_entities
-        }
+        # Process synonyms changes after collecting all aliases
         synonyms_generator = _generate_synonym_changes(
             intersection_of_entities, self_aliases, other_aliases
         )
-        synonym_changes = defaultdict(list)
         if configuration.yield_individual_changes:
             # Yield each synonyms_change object individually
             for synonyms_change in synonyms_generator:
                 yield synonyms_change
         else:
             # Collect all changes in a defaultdict and yield them at the end
-            synonym_changes = defaultdict(list)
             for synonyms_change in synonyms_generator:
                 synonym_changes[synonyms_change.__class__.__name__].append(synonyms_change)
-
             if synonym_changes:
                 yield synonym_changes
 
@@ -360,9 +392,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         if not configuration.yield_individual_changes:
             yield list_of_changes  # Yield the collected changes once at the end
-
-        #  ! Mappings
-        # TODO - mappings diff
 
     def diff_summary(
         self,
@@ -491,7 +520,6 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
                     new_value=switches.pop(),
                 )
             else:
-                # ! Remove obsoletes
                 synonym_change = RemoveSynonym(id=_gen_id(), about_node=e1, old_value=alias)
 
             yield synonym_change
@@ -606,3 +634,17 @@ def _parallely_get_relationship_changes(
         for result in results:
             if result:
                 yield result
+
+
+def _find_mapping_changes(set1, set2):
+    # Convert sets to dictionaries for easier lookup
+    dict1 = {t[0]: t[1] for t in set1}
+    dict2 = {t[0]: t[1] for t in set2}
+
+    # Find changes
+    changes = []
+    for key in dict1:
+        if key in dict2 and dict1[key] != dict2[key]:
+            changes.append((key, dict1[key], dict2[key]))
+
+    return changes
