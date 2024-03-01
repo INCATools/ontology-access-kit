@@ -113,7 +113,7 @@ class ChangeHandler:
         header = "| Subject | Predicate | Object |"
 
         # Write the "Nodes Moved" section as a collapsible markdown table
-        self.write_markdown_table(f"Nodes moved: {len(rows)}", header, rows)
+        self.write_markdown_table(f"New relationships added: {len(rows)}", header, rows)
 
     def handle_predicate_change(self, value):
         # Create rows for the table
