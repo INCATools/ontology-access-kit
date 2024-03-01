@@ -55,7 +55,7 @@ class ChangeHandler:
         header = "| Subject| Predicate| Object|"
 
         # Write the "Edges Deleted" section as a collapsible markdown table
-        self.write_markdown_table(f"Edges deleted: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Edges removed: {len(rows)}", header, rows)
 
     def handle_edge_creation(self, value):
         # Create rows for the table
@@ -69,7 +69,7 @@ class ChangeHandler:
         header = "| Subject | Predicate | Object|"
 
         # Write the "Edges Created" section as a collapsible markdown table
-        self.write_markdown_table(f"Mappings created: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Mappings added: {len(rows)}", header, rows)
 
     def handle_edge_change(self, value):
         # Create rows for the table
@@ -98,7 +98,7 @@ class ChangeHandler:
         header = "| Subject | Predicate | Object |"
 
         # Write the "Edges Deleted" section as a collapsible markdown table
-        self.write_markdown_table(f"Mappings deleted: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Mappings removed: {len(rows)}", header, rows)
 
     def handle_node_move(self, value):
         # Create rows for the table
@@ -216,7 +216,7 @@ class ChangeHandler:
         header = "| Term |"
 
         # Write the "Node Created" section as a markdown table
-        self.write_markdown_table(f"Other nodes created: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Other nodes added: {len(rows)}", header, rows)
 
     def handle_class_creation(self, value):
         # Create rows for the table
@@ -226,7 +226,7 @@ class ChangeHandler:
         header = "| Term |"
 
         # Write the "Class Created" section as a markdown table
-        self.write_markdown_table(f"Classes created: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Classes added: {len(rows)}", header, rows)
 
     def handle_node_deletion(self, value):
         # Create rows for the table
@@ -236,7 +236,7 @@ class ChangeHandler:
         header = "| Term |"
 
         # Write the "Nodes Deleted" section as a markdown table
-        self.write_markdown_table(f"Nodes deleted: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Nodes removed: {len(rows)}", header, rows)
 
     def handle_new_text_definition(self, value):
         # Create rows for the table

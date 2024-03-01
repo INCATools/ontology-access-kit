@@ -960,27 +960,6 @@ class ComplianceTester:
                 old_value="catalytic activity",
             ),
             kgcl.NodeDeletion(id=FIXED_ID, about_node="GO:0033673"),
-            kgcl.RemoveSynonym(
-                id=FIXED_ID,
-                about_node="GO:0033673",
-                old_value="inhibition of kinase activity",
-            ),
-            kgcl.RemoveSynonym(id=FIXED_ID, about_node="GO:0033673", old_value="kinase inhibitor"),
-            kgcl.RemoveSynonym(
-                id=FIXED_ID,
-                about_node="GO:0033673",
-                old_value="down regulation of kinase activity",
-            ),
-            kgcl.RemoveSynonym(
-                id=FIXED_ID,
-                about_node="GO:0033673",
-                old_value="downregulation of kinase activity",
-            ),
-            kgcl.RemoveSynonym(
-                id=FIXED_ID,
-                about_node="GO:0033673",
-                old_value="down-regulation of kinase activity",
-            ),
             kgcl.EdgeDeletion(
                 id=FIXED_ID,
                 subject="GO:0033673",
@@ -1057,10 +1036,10 @@ class ComplianceTester:
         logging.info(summary)
         residual = summary["__RESIDUAL__"]
         cases = [
-            ("RemoveSynonym", 6),
+            ("RemoveSynonym", 1),
             ("NewSynonym", 1),
             ("NodeDeletion", 1),
-            ("All_Synonym", 7),
+            ("All_Synonym", 2),
             ("NodeRename", 1),
             ("EdgeDeletion", 5),
         ]

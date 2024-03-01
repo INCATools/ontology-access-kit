@@ -1490,16 +1490,9 @@ class TestCommandLineInterface(unittest.TestCase):
 
             # Check for Nodes Created section
             self.assertIn("<details>", contents)
-            self.assertIn("<summary>Other nodes created: 1</summary>", contents)
-            self.assertIn("| ID | Label |", contents)
-            self.assertIn("----|----", contents)
-            self.assertIn("| RO:0000053 | has characteristic |", contents)
-            self.assertIn("</details>", contents)
+            self.assertIn("<summary>Other nodes added: 1</summary>", contents)
+            self.assertIn("| has characteristic (RO:0000053) |", contents)
 
             # Check for Classes Created section
-            self.assertIn("<details>", contents)
-            self.assertIn("<summary>Classes created: 1</summary>", contents)
-            self.assertIn("| ID | Label |", contents)
-            self.assertIn("----|----", contents)
-            self.assertIn("| PATO:0001735 | liquid configuration |", contents)
-            self.assertIn("</details>", contents)
+            self.assertIn("<summary>Classes added: 1</summary>", contents)
+            self.assertIn("| liquid configuration (PATO:0001735) |", contents)
