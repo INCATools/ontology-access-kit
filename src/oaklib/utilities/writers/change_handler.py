@@ -134,8 +134,7 @@ class ChangeHandler:
     def handle_node_rename(self, value):
         # Create rows for the table
         rows = [
-            f"| {change.about_node} | {change.old_value} | {change.new_value} |"
-            for change in value
+            f"| {change.about_node} | {change.old_value} | {change.new_value} |" for change in value
         ]
 
         # Define the header for the table
@@ -169,9 +168,7 @@ class ChangeHandler:
         header = "| Term | Old Predicate | New Predicate | Synonym |"
 
         # Write the "Synonym Predicate Changed" section as a markdown table
-        self.write_markdown_table(
-            f"Synonym predicates changed: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Synonym predicates changed: {len(rows)}", header, rows)
 
     def handle_node_text_definition_change(self, value):
         # Create rows for the table
@@ -185,9 +182,7 @@ class ChangeHandler:
         header = "| Term | Old Text Definition | New Text Definition |"
 
         # Write the "Node Text Definition Changed" section as a markdown table
-        self.write_markdown_table(
-            f"Text definitions changed: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Text definitions changed: {len(rows)}", header, rows)
 
     def handle_node_text_definition(self, value):
         # Create rows for the table
@@ -205,9 +200,7 @@ class ChangeHandler:
 
     def handle_node_unobsoletion(self, value):
         # Create rows for the table
-        rows = [
-            f"| {self._format_entity_labels(change.about_node)} |" for change in value
-        ]
+        rows = [f"| {self._format_entity_labels(change.about_node)} |" for change in value]
 
         # Define the header for the table
         header = "| Term |"
@@ -217,9 +210,7 @@ class ChangeHandler:
 
     def handle_node_creation(self, value):
         # Create rows for the table
-        rows = [
-            f"| {self._format_entity_labels(change.about_node)} |" for change in value
-        ]
+        rows = [f"| {self._format_entity_labels(change.about_node)} |" for change in value]
 
         # Define the header for the table
         header = "| Term |"
@@ -229,9 +220,7 @@ class ChangeHandler:
 
     def handle_class_creation(self, value):
         # Create rows for the table
-        rows = [
-            f"| {self._format_entity_labels(change.about_node)} |" for change in value
-        ]
+        rows = [f"| {self._format_entity_labels(change.about_node)} |" for change in value]
 
         # Define the header for the table
         header = "| Term |"
@@ -241,9 +230,7 @@ class ChangeHandler:
 
     def handle_node_deletion(self, value):
         # Create rows for the table
-        rows = [
-            f"| {self._format_entity_labels(change.about_node)} |" for change in value
-        ]
+        rows = [f"| {self._format_entity_labels(change.about_node)} |" for change in value]
 
         # Define the header for the table
         header = "| Term |"
@@ -267,18 +254,12 @@ class ChangeHandler:
             for change in value
         ]
         header = "| Term | Replacement |"
-        self.write_markdown_table(
-            f"Nodes obsoleted with replacement: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Nodes obsoleted with replacement: {len(rows)}", header, rows)
 
     def handle_node_obsoletion(self, value):
-        rows = [
-            f"| {self._format_entity_labels(change.about_node)} |" for change in value
-        ]
+        rows = [f"| {self._format_entity_labels(change.about_node)} |" for change in value]
         header = "| Term |"
-        self.write_markdown_table(
-            f"Nodes obsoleted without replacement: {len(rows)}", header, rows
-        )
+        self.write_markdown_table(f"Nodes obsoleted without replacement: {len(rows)}", header, rows)
 
     def handle_node_direct_merge(self, value):
         rows = [
