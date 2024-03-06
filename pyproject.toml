@@ -35,7 +35,6 @@ pysolr = "^3.9.0"
 eutils = ">=0.6.0"
 requests-cache = "^1.0.1"
 click = "*"
-semsimian = "^0.2.1"
 urllib3 = {version = "< 2", optional = true}
 pydantic = "*"
 
@@ -54,6 +53,10 @@ coverage = "^6.3.2"
 
 [tool.poetry.group.dev.dependencies]
 seaborn = "^0.12.2"
+
+
+[tool.poetry.group.semsimian.dependencies]
+semsimian = "^0.2.12"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
