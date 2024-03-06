@@ -67,9 +67,10 @@ try:
     from oaklib.implementations.semsimian.semsimian_implementation import (
         SemSimianImplementation,
     )
+
     SEMSIMIAN_AVAILABLE = True
 except ImportError:
-     pass
+    pass
 
 
 __all__ = [
@@ -145,8 +146,8 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
     }
 
     if not SEMSIMIAN_AVAILABLE:
-        skip_classes.add('SemSimianImplementation')
-        resolver_synonyms['semsimian'] = SemSimianImplementation
+        skip_classes.add("SemSimianImplementation")
+        resolver_synonyms["semsimian"] = SemSimianImplementation
 
     implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
         OntologyInterface,
@@ -156,7 +157,6 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
     # if an implementation uses a shorthand name that is
     # different from the class name (minus Implementation), then
     # it should be added here
-    
 
     implementation_resolver.synonyms.update(resolver_synonyms)
 
