@@ -56,7 +56,7 @@ seaborn = "^0.12.2"
 
 
 [tool.poetry.group.semsimian.dependencies]
-semsimian = "^0.2.12"
+semsimian = "^0.2.13"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
