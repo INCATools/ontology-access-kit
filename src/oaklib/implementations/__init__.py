@@ -104,7 +104,9 @@ __all__ = [
     "UniprotImplementation",
     "TranslatorImplementation",
     "OakMetaModelImplementation",
-] + (["SemSimianImplementation"] if SEMSIMIAN_AVAILABLE else [])
+]
+if SEMSIMIAN_AVAILABLE:
+    __all__.append("SemSimianImplementation")
 
 
 @cache
