@@ -9,7 +9,9 @@ from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Un
 try:
     from semsimian import Semsimian
 except ImportError:
-    raise ImportError("The 'semsimian' package is not installed. Please install it to continue.")
+    raise ImportError(
+        "The 'semsimian' package (optional) is not installed. Please install it to continue."
+    )
 
 
 from oaklib.datamodels.similarity import (
