@@ -170,7 +170,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         PomBase:SPAC1142.02c sgt2
         ...
 
-        When determinining a match on `objects`, the predicates in ``object_closure_predicates`` is used.
+        When determining a match on `objects`, the predicates in ``object_closure_predicates`` is used.
         We recommend you always explicitly provide this. A good choice is typically IS_A and PART_OF for
         ontologies like GO, Uberon, CL, ENVO.
 

@@ -264,7 +264,7 @@ def expand(config: str, schema: str, value_set_names: List[str], output: str):
     """
     Expand a value set. EXPERIMENTAL.
 
-    This will expand an *intensional value set* (aka *dynamic enum*), running a query against
+    This will expand an *intentional value set* (aka *dynamic enum*), running a query against
     an ontology backend or backends to materialize the value set (permissible values).
 
     Currently the value set must be specified as LinkML, but in future this will be

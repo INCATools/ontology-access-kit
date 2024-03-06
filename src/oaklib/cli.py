@@ -1264,7 +1264,7 @@ def statistics(
     For bundled ontologies, we recommend some kind of partitioning, such as via
     defined roots, or via the CURIE prefix, using the ``--group-by-prefix`` option.
 
-    Ouput formats:
+    Output formats:
 
     The recommended output types for this command are yaml, json, or csv.
     The default output type is yaml, following the SummaryStatistics data model.
@@ -1558,6 +1558,11 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
+    "--match-column",
+    "-A",
+    help="name of column to match on (if the input is tsv/csv)",
+)
+@click.option(
     "--model",
     "-m",
     required=False,
@@ -1573,12 +1578,12 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
 @click.option(
     "--rules-file",
     "-R",
-    help="path to rules file. Conforms to https://w3id.org/oak/mapping-rules-datamodel",
+    help="path to rules file. Conforms to https://w3id.org/oak/mapping-rules",
 )
 @click.option(
     "--configuration-file",
     "-C",
-    help="path to config file. Conforms to https://w3id.org/oak/test-annotation",
+    help="path to config file. Conforms to https://w3id.org/oak/text-annotator",
 )
 @output_option
 @output_type_option
@@ -1592,18 +1597,32 @@ def annotate(
     rules_file: str,
     configuration_file: str,
     text_file: TextIO,
+    match_column: str,
     model: str,
     output_type: str,
 ):
     """
-    Annotate a piece of text using a Named Entity Recognition annotation
+    Annotate a piece of text using a Named Entity Recognition annotation.
+
+    Some endpoints such as BioPortal have built-in support for annotation;
+    in these cases the endpoint functionality is used:
 
     Example:
 
         runoak -i bioportal: annotate "enlarged nucleus in T-cells from peripheral blood"
 
-    See the ontorunner framework for plugins for SciSpacy and OGER - these will
-    later become plugins.
+    For other endpoints, the built-in OAK annotator is used. This currently uses a basic
+    algorithm based on lexical matching.
+
+     Example:
+
+        runoak -i sqlite:obo:cl annotate "enlarged nucleus in T-cells from peripheral blood"
+
+    Using the builtin annotator can be slow, as the lexical index is re-built every time.
+    To preserve this, use the ``--lexical-index-file`` (``-L``) option to specify a file to save.
+    On subsequent iterations the file is reused.
+
+    You can also use ``--text-file`` to pass in a text file to be parsed one line at a time
 
     If gilda is installed as an extra, it can be used,
     but ``--matches-whole-text`` (``-W``) must be specified,
@@ -1671,8 +1690,16 @@ def annotate(
     if words and text_file:
         raise ValueError("Specify EITHER text-file OR a list of words as arguments")
     if text_file:
-        for ann in impl.annotate_file(text_file, configuration):
-            writer.emit(ann)
+        if match_column:
+            writer = _get_writer(output_type, impl, StreamingCsvWriter)
+            writer.output = output
+            for row in impl.annotate_tabular_file(
+                text_file, configuration=configuration, match_column=match_column
+            ):
+                writer.emit(row)
+        else:
+            for ann in impl.annotate_file(text_file, configuration):
+                writer.emit(ann)
     else:
         logging.info(f"Annotating: {words}")
         for ann in impl.annotate_text(" ".join(list(words)), configuration):
@@ -2043,7 +2070,7 @@ def ancestors(
 
     This will show ancestry over the full relationship graph. Like any relational
     OAK command, this can be filtered by relationship type (predicate), using --predicate (-p).
-    For exampple, constrained to is-a and part-of:
+    For example, constrained to is-a and part-of:
 
         runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050
 

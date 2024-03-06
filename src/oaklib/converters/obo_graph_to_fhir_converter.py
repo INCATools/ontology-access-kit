@@ -159,7 +159,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
                                             will attempt to construct CURIEs. (not implemented)
         :param predicate_period_replacement: Predicates URIs populated into `CodeSystem.concept.property.packages`
                                              and `CodeSystem.concept.property.packages`, but the HAPI FHIR server
-                                             has a bug in whih periods '.' cause errors. If this flag is present,
+                                             has a bug in which periods '.' cause errors. If this flag is present,
                                              periods will be replaced with underscores '_'.
         :return: FHIR CodeSystem object
         """

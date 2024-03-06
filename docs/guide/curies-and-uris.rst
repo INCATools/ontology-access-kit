@@ -117,7 +117,7 @@ can understand. These can be used in the same way:
     subject	subject_label	predicate	predicate_label	object	object_label
     schema:Person	Person	rdfs:subClassOf	None	schema:Thing	Thing
 
-Futher reading
+Further reading
 --------------
 
 * `OBO Foundry Identifiers <https://obofoundry.org/id-policy>`_

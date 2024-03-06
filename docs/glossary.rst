@@ -195,7 +195,7 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
    Ancestor
     The :term:`Ancestor` of an entity is the set of all entities that are reachable by following
     all :term:`Relationship`s, from :term:`subject` or :term:`object`. Ancestor traversal is frequently
-    paramaterized by a set of :term:`Predicates<Predicate>`. The concept of :term:`Ancestor` and
+    parameterized by a set of :term:`Predicates<Predicate>`. The concept of :term:`Ancestor` and
     graph traversal is closely related to the concept of :term:`Entailment<Entailed Axiom>` in :term:`OWL`.
 
     - See also :ref:`relationships_and_graphs` in the Guide.

@@ -67,7 +67,7 @@ concepts that are not native to that CodeSystem. In cases where they do appear, 
 references, unless this flag is present, in which case the converter will attempt to construct CURIEs.
 
 predicate_period_replacement (default=False): _Predicates URIs populated into `CodeSystem.
-concept.property.code` and `CodeSystem.concept.property.code`, but the popular FHIR server "HAPI" has a bug in whih
+concept.property.code` and `CodeSystem.concept.property.code`, but the popular FHIR server "HAPI" has a bug in which
 periods '.' cause errors. If this flag is present, periods will be replaced with underscores '_'.
 
 Example:
