@@ -41,9 +41,6 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.implementations.semsimian.semsimian_implementation import (
-    SemSimianImplementation,
-)
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
@@ -64,6 +61,16 @@ from oaklib.implementations.wikidata.wikidata_implementation import (
     WikidataImplementation,
 )
 from oaklib.interfaces import OntologyInterface
+
+SEMSIMIAN_AVAILABLE = False
+try:
+    from oaklib.implementations.semsimian.semsimian_implementation import (
+        SemSimianImplementation,
+    )
+    SEMSIMIAN_AVAILABLE = True
+except ImportError:
+     pass
+
 
 __all__ = [
     "get_implementation_resolver",
@@ -96,8 +103,7 @@ __all__ = [
     "UniprotImplementation",
     "TranslatorImplementation",
     "OakMetaModelImplementation",
-    "SemSimianImplementation",
-]
+] + (["SemSimianImplementation"] if SEMSIMIAN_AVAILABLE else [])
 
 
 @cache
@@ -122,30 +128,37 @@ def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
 
     :return: A ClassResolver capable of resolving an OntologyInterface implementation
     """
+    skip_classes = {
+        OntoPortalImplementationBase,
+        BaseOlsImplementation,
+    }
+
+    resolver_synonyms = {
+        "obolibrary": ProntoImplementation,
+        "prontolib": ProntoImplementation,
+        "simpleobo": SimpleOboImplementation,
+        "sqlite": SqlImplementation,
+        "rdflib": SparqlImplementation,
+        "oak": OakMetaModelImplementation,
+        "cx": CXImplementation,
+        "ndexbio": CXImplementation,
+    }
+
+    if not SEMSIMIAN_AVAILABLE:
+        skip_classes.add('SemSimianImplementation')
+        resolver_synonyms['semsimian'] = SemSimianImplementation
+
     implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
         OntologyInterface,
         suffix="Implementation",
-        skip={
-            OntoPortalImplementationBase,
-            BaseOlsImplementation,
-        },
+        skip=skip_classes,
     )
     # if an implementation uses a shorthand name that is
     # different from the class name (minus Implementation), then
     # it should be added here
-    implementation_resolver.synonyms.update(
-        {
-            "obolibrary": ProntoImplementation,
-            "prontolib": ProntoImplementation,
-            "simpleobo": SimpleOboImplementation,
-            "sqlite": SqlImplementation,
-            "rdflib": SparqlImplementation,
-            "oak": OakMetaModelImplementation,
-            "cx": CXImplementation,
-            "ndexbio": CXImplementation,
-            "semsimian": SemSimianImplementation,
-        }
-    )
+    
+
+    implementation_resolver.synonyms.update(resolver_synonyms)
 
     # Plugins which want to register an implementation should use
     # the entrypoint group "oaklib.plugins". The name of the entry

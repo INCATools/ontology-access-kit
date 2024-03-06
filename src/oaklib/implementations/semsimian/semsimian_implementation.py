@@ -6,7 +6,11 @@ import math
 from dataclasses import dataclass, field
 from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from semsimian import Semsimian
+try:
+    from semsimian import Semsimian
+except ImportError:
+    raise ImportError("The 'semsimian' package is not installed. Please install it to continue.")
+
 
 from oaklib.datamodels.similarity import (
     BestMatch,
