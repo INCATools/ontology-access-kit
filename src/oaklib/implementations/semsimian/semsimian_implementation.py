@@ -4,14 +4,10 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass, field
-from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-try:
+if TYPE_CHECKING:
     from semsimian import Semsimian
-except ImportError:
-    raise ImportError(
-        "The 'semsimian' package (optional) is not installed. Please install it to continue."
-    )
 
 
 from oaklib.datamodels.similarity import (
