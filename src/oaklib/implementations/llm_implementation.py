@@ -141,8 +141,9 @@ class LLMImplementation(
         yield from self.wrapped_adapter.basic_search(*args, **kwargs)
 
     def descendants(
-            self,
-            *args, **kwargs,
+        self,
+        *args,
+        **kwargs,
     ) -> Iterable[CURIE]:
         if not isinstance(self.wrapped_adapter, OboGraphInterface):
             raise NotImplementedError(
@@ -398,7 +399,11 @@ class LLMImplementation(
                 "low": 0.1,
                 "none": 0.0,
             }
-            mods = str(obj.get("subject_modifications", "")) + "; " + str(obj.get("object_modifications", ""))
+            mods = (
+                str(obj.get("subject_modifications", ""))
+                + "; "
+                + str(obj.get("object_modifications", ""))
+            )
             yield MappingValidationResult(
                 subject_id=m.subject_id,
                 subject_info=sd,

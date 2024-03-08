@@ -430,7 +430,7 @@ stylemap_configure_option = click.option(
 configuration_file_option = click.option(
     "-C",
     "--configuration-file",
-    help='Path to a configuration file. This is typically a YAML file, but may be a JSON file',
+    help="Path to a configuration file. This is typically a YAML file, but may be a JSON file",
 )
 pivot_languages = click.option(
     "--pivot-languages/--no-pivot-languages",
@@ -5161,7 +5161,9 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
 @output_option
 @configuration_file_option
 @click.argument("terms", nargs=-1)
-def validate_mappings(terms, autolabel, adapter_mapping, output: str, output_type: str, configuration_file: str):
+def validate_mappings(
+    terms, autolabel, adapter_mapping, output: str, output_type: str, configuration_file: str
+):
     """
     Validates mappings in ontology using additional ontologies.
 
