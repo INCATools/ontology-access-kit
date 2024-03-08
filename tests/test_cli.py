@@ -563,6 +563,55 @@ class TestCommandLineInterface(unittest.TestCase):
             else:
                 raise AssertionError(f"Unexpected output format: {output_format}")
 
+    def test_transform(self):
+        cases = [
+            (TEST_ONT, "obo", None),
+            (TEST_ONT, "obojson", None),
+        ]
+        transformers = [
+            ("SEPTransformer", {}, (413, None)),
+            ("EdgeFilterTransformer", {}, (176, None)),
+            ("EdgeFilterTransformer", {"include_predicates": [IS_A]}, (176, None)),
+        ]
+        for transformer, conf_object, (expected_n_terms, expected_n_edges) in transformers:
+            for input, output_format, _ in cases:
+                if conf_object:
+                    conf_path = INPUT_DIR / f"{output_format}_conf.yaml"
+                    with open(conf_path, "w", encoding="utf-8") as f:
+                        yaml.dump(conf_object, f)
+                else:
+                    conf_path = None
+                output_path = str(OUTPUT_DIR / f"test_transform-{output_format}.out")
+                logging.info(f"input={input}, output_format={output_format}")
+                cmd = [
+                    "-i",
+                    str(input),
+                    "transform",
+                    "-t",
+                    transformer,
+                    "-o",
+                    output_path,
+                    "-O",
+                    output_format,
+                ]
+                if conf_path:
+                    cmd.extend(["-c", conf_path])
+                result = self.runner.invoke(main, cmd)
+                self.assertEqual(
+                    0, result.exit_code, f"input={input}, output_format={output_format}"
+                )
+                if output_format == "obo":
+                    output_path = f"simpleobo:{output_path}"
+                elif output_format == "obojson":
+                    output_path = f"obograph:{output_path}"
+                adapter = get_adapter(output_path)
+                terms = list(adapter.entities())
+                edges = list(adapter.relationships())
+                if expected_n_terms is not None:
+                    assert len(terms) == expected_n_terms
+                if expected_n_edges is not None:
+                    assert len(edges) == expected_n_edges
+
     def test_extract(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"
         cases = [
