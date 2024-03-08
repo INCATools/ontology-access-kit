@@ -63,7 +63,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         SemanticSimilarityInterface.information_content_scores,
     ]
 
-    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Semsimian] = field(default_factory=dict) # type: ignore
+    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Semsimian] = field(default_factory=dict)  # type: ignore
 
     def __post_init__(self):
         slug = self.resource.slug
