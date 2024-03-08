@@ -247,6 +247,13 @@ def _is_quoted_url(curie: CURIE):
     return curie.startswith("<")
 
 
+def _remove_uri_quotes(curie: CURIE):
+    if _is_quoted_url(curie):
+        return curie[1:-1]
+    else:
+        return curie
+
+
 @dataclass
 class SqlImplementation(
     RelationGraphInterface,
@@ -2689,6 +2696,7 @@ class SqlImplementation(
                         f"Ad-hoc repair of literal value for contributor: {contributor_id}"
                     )
                     contributor_id = string_as_base64_curie(contributor_id)
+            contributor_id = _remove_uri_quotes(contributor_id)
             if contributor_id not in ssc.contributor_summary:
                 ssc.contributor_summary[contributor_id] = ContributorStatistics(
                     contributor_id=contributor_id, contributor_name=contributor_name
