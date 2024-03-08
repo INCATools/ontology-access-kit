@@ -16,6 +16,7 @@ from typing import (
     Union,
 )
 
+Semsimian: Optional["Semsimian"] = None
 if TYPE_CHECKING:
     from semsimian import Semsimian
 
