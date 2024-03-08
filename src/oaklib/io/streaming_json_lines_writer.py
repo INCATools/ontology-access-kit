@@ -1,42 +1,26 @@
-import json
 from dataclasses import dataclass
 from typing import Any, Type, Union
 
-from linkml_runtime import CurieNamespace
+import jsonlines
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib.io.streaming_writer import StreamingWriter
-from oaklib.types import CURIE
-
-
-def _keyval(x: Any) -> str:
-    if isinstance(x, CurieNamespace):
-        return str(x.curie())
-    # if isinstance(x, EnumDefinitionImpl):
-    #    if x.curie:
-    #        return str(x.curie)
-    return str(x)
 
 
 @dataclass
 class StreamingJsonLinesWriter(StreamingWriter):
     """
     A writer that emits one document at a time in one stream
-
-    TODO: use jsonlines library
-    https://jsonlines.readthedocs.io/en/latest/
     """
 
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
-        if isinstance(obj, dict):
-            self.file.write(json.dumps(obj, indent=4, sort_keys=True))
-        else:
-            self.file.write(json_dumper.dumps(obj))
-        self.file.write("\n")
-
-    def emit_curie(self, curie: CURIE, label=None):
-        raise NotImplementedError
+        with jsonlines.Writer(self.file) as writer:
+            if isinstance(obj, dict):
+                writer.write(obj)
+            else:
+                writer.write(json_dumper.dumps(obj))
 
     def emit_dict(self, obj: dict, object_type: Type = None):
-        self.file.write(json.dumps(obj, indent=4, sort_keys=True))
+        with jsonlines.Writer(self.file) as writer:
+            writer.write(obj)
