@@ -1197,7 +1197,7 @@ class ComplianceTester:
             ),
             (
                 kgcl.AddNodeToSubset(
-                    id=generate_change_id(), about_node=NUCLEAR_ENVELOPE, new_value="goslim_agr"
+                    id=generate_change_id(), about_node=NUCLEAR_ENVELOPE, in_subset="goslim_agr"
                 ),
                 False,
                 lambda oi: test.assertIn(

@@ -857,7 +857,7 @@ class SimpleOboImplementation(
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.AddNodeToSubset):
             t = self._stanza(patch.about_node, strict=True)
-            t.add_tag_value(TAG_SUBSET, patch.new_value)
+            t.add_tag_value(TAG_SUBSET, patch.in_subset)
             modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NewTextDefinition):
             t = self._stanza(patch.about_node, strict=True)

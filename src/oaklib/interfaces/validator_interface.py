@@ -1,7 +1,5 @@
 from abc import ABC
-from typing import Dict, Iterable, Optional, Tuple
-
-from sssom_schema import Mapping
+from typing import Dict, Iterable
 
 from oaklib.datamodels.validation_datamodel import (
     MappingValidationResult,
@@ -9,7 +7,6 @@ from oaklib.datamodels.validation_datamodel import (
     RepairOperation,
     ValidationConfiguration,
     ValidationResult,
-    ValidationResultType,
 )
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface

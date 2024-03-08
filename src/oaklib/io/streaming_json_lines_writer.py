@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Type, Union
+from typing import Type, Union
 
 import jsonlines
 from linkml_runtime.dumpers import json_dumper

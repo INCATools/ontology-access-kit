@@ -110,6 +110,14 @@ class DifferInterface(BasicOntologyInterface, ABC):
                                 )
                         else:
                             yield kgcl.NodeObsoletion(id=_gen_id(), about_node=e1)
+            # check for subset changes
+            e1_subsets = set([t[1] for t in self.terms_subsets([e1])])
+            e2_subsets = set([t[1] for t in other_ontology.terms_subsets([e1])])
+            if e1_subsets != e2_subsets:
+                for s in e1_subsets.difference(e2_subsets):
+                    yield kgcl.RemoveNodeFromSubset(id=_gen_id(), about_node=e1, in_subset=s)
+                for s in e2_subsets.difference(e1_subsets):
+                    yield kgcl.AddNodeToSubset(id=_gen_id(), about_node=e1, in_subset=s)
             # Check for definition change/addition
             if self.definition(e1) != other_ontology.definition(e1):
                 if self.definition(e1) is None or other_ontology.definition(e1) is None:

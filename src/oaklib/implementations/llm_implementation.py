@@ -4,7 +4,7 @@ import json
 import logging
 import re
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
 
@@ -14,7 +14,6 @@ from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfi
 from oaklib.datamodels.validation_datamodel import (
     MappingValidationResult,
     ValidationConfiguration,
-    ValidationResult,
 )
 from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_EXACT_MATCH
 from oaklib.interfaces import (
@@ -53,7 +52,7 @@ would always be wrong.
 
 Return a JSON object with the following structure:
 
-{{"problem": true | false, 
+{{"problem": true | false,
  "confidence": "high" | "medium" | "low",
  "comment": "Your comment here",
  "subject_modifications": "<any modifications to the SUBJECT",
@@ -390,7 +389,11 @@ class LLMImplementation(
                 try:
                     obj = json.loads(response)
                 except json.JSONDecodeError as e:
-                    logger.error(f"Failed to parse JSON for 2nd time: {response}")
+                    logger.error(
+                        "Failed to parse JSON for 2nd time:\n"
+                        f"You provided: {response}\n"
+                        f"This resulted in: {e}\n"
+                    )
                     # TODO: strict mode
                     obj = {"confidence": "none", "comment": "Failed to parse JSON"}
             cmap = {
