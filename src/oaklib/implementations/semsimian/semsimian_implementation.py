@@ -16,8 +16,7 @@ from typing import (
     Union,
 )
 
-if TYPE_CHECKING:
-    from semsimian import Semsimian
+from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import (
     BestMatch,
