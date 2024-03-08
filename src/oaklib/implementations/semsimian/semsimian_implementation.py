@@ -16,10 +16,6 @@ from typing import (
     Union,
 )
 
-Semsimian: Optional["Semsimian"] = None
-if TYPE_CHECKING:
-    from semsimian import Semsimian
-
 from oaklib.datamodels.similarity import (
     BestMatch,
     TermInfo,
@@ -33,6 +29,10 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
+
+Semsimian: Optional["Semsimian"] = None
+if TYPE_CHECKING:
+    from semsimian import Semsimian
 
 wrapped_adapter: BasicOntologyInterface = None
 
