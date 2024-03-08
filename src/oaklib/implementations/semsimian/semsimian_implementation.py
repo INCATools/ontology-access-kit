@@ -15,7 +15,6 @@ from typing import (
     Union,
 )
 
-
 from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import (
