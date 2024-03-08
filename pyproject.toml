@@ -72,7 +72,6 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid", "sphinx-copybutto
 gilda = ["scipy", "gilda", "urllib3"]
 llm = ["llm"]
 seaborn = ["seaborn"]
-semsimian = ["semsimian"]
 
 [tool.black]
 line-length = 100
