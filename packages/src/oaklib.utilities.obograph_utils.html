@@ -161,11 +161,17 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_info</span></code>(graph)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_image</span></code>(graph[, seeds, configure, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_d3viz_objects</span></code>(graph[, predicates, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_image</span></code>(graph[, seeds, configure, ...])</p></td>
 <td><p>Renders a graph to png using obographviz.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_tree_display</span></code>(graph[, predicates, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_tree_display</span></code>(graph[, predicates, ...])</p></td>
 <td><p>Translate a graph to a textual tree representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_tree_structure</span></code>(graph[, predicates, ...])</p></td>
+<td><p>Linearizes a graph to a list of trees.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_graph_edges_by_object</span></code>(graph)</p></td>
 <td><p>Returns an index of lists of edges keyed by object id</p></td>
@@ -209,7 +215,10 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">topological_sort</span></code>(graph, predicates)</p></td>
 <td><p>Returns a topological sort of the graph.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trim_graph</span></code>(graph, seeds[, distance, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_node_to_d3viz_object</span></code>(tree_node[, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trim_graph</span></code>(graph, seeds[, distance, ...])</p></td>
 <td><p>Remove all nodes more than a specified distance from a set of seed nodes</p></td>
 </tr>
 </tbody>
@@ -219,6 +228,9 @@
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeFormatEnum</span></code>(value)</p></td>
 <td><p>An enumeration.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeNode</span></code>(*[, id, lbl, meta, children, ...])</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>

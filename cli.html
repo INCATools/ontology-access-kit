@@ -125,6 +125,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-term-subsets">term-subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-terms">terms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-termset-similarity">termset-similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-transform">transform</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-tree">tree</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-validate">validate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-validate-definitions">validate-definitions</a></li>
@@ -1806,20 +1807,6 @@ disjoint unions, and disjoints involving simple class expressions.</p>
 <section id="runoak-dump">
 <h4>dump<a class="headerlink" href="#runoak-dump" title="Link to this heading"></a></h4>
 <p>Exports (dumps) the entire contents of an ontology.</p>
-<dl class="field-list simple">
-<dt class="field-odd">param terms<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of terms to dump. If not specified, the entire ontology will be dumped.</p>
-</dd>
-<dt class="field-even">param output<span class="colon">:</span></dt>
-<dd class="field-even"><p>Path to output file</p>
-</dd>
-<dt class="field-odd">param output_type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl</p>
-</dd>
-<dt class="field-even">param config_file<span class="colon">:</span></dt>
-<dd class="field-even"><p>Path to a configuration JSON file for additional params (which may be required for some formats)</p>
-</dd>
-</dl>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i pato.obo dump -o pato.json -O json</p>
@@ -5077,6 +5064,67 @@ when there is typically one value (e.g. rdfs:label)</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-termset-similarity-arg-TERMS">
 <span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-arg-TERMS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-transform">
+<h4>transform<a class="headerlink" href="#runoak-transform" title="Link to this heading"></a></h4>
+<p>Transforms an ontology</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i pato.obo dump -o pato.json -O json</p>
+</div></blockquote>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i pato.owl dump -o pato.ttl -O turtle</p>
+</div></blockquote>
+<p>You can also pass in a JSON configuration file to parameterize the dump process.</p>
+<p>Currently this is only used for fhirjson dumps, the configuration options are specified here:</p>
+<p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html">https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html</a></p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json</p>
+</div></blockquote>
+<p>Currently each implementation only supports a subset of formats.</p>
+<p>The dump command is also blocked for remote endpoints such as Ubergraph,
+to avoid killer queries.</p>
+<p>Python API:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>transform<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-transform-o">
+<span id="cmdoption-runoak-transform-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-transform-o" title="Link to this definition"></a></dt>
+<dd><p>Path to output file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-transform-O">
+<span id="cmdoption-runoak-transform-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-transform-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-transform-c">
+<span id="cmdoption-runoak-transform-config-file"></span><span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--config-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;config_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-transform-c" title="Link to this definition"></a></dt>
+<dd><p>Config file for additional transform params.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-transform-t">
+<span id="cmdoption-runoak-transform-transform"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--transform</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;transform&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-transform-t" title="Link to this definition"></a></dt>
+<dd><p><strong>Required</strong> Name of transformation to apply.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-transform-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-transform-arg-TERMS" title="Link to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 

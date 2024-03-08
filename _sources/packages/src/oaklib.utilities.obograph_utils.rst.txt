@@ -28,8 +28,10 @@
       graph_id_iterator
       graph_ids
       graph_info
+      graph_to_d3viz_objects
       graph_to_image
       graph_to_tree_display
+      graph_to_tree_structure
       index_graph_edges_by_object
       index_graph_edges_by_predicate
       index_graph_edges_by_subject
@@ -44,6 +46,7 @@
       remove_nodes_from_graph
       shortest_paths
       topological_sort
+      tree_node_to_d3viz_object
       trim_graph
    
    
@@ -55,6 +58,7 @@
    .. autosummary::
    
       TreeFormatEnum
+      TreeNode
    
    
 

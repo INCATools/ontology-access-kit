@@ -332,6 +332,13 @@
     <span class="k">return</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">)</span>
 
 
+<span class="k">def</span> <span class="nf">_remove_uri_quotes</span><span class="p">(</span><span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">_is_quoted_url</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">curie</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">curie</span>
+
+
 <div class="viewcode-block" id="SqlImplementation">
 <a class="viewcode-back" href="../../../../packages/implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a>
 <span class="nd">@dataclass</span>
@@ -2776,6 +2783,7 @@
                         <span class="sa">f</span><span class="s2">&quot;Ad-hoc repair of literal value for contributor: </span><span class="si">{</span><span class="n">contributor_id</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="p">)</span>
                     <span class="n">contributor_id</span> <span class="o">=</span> <span class="n">string_as_base64_curie</span><span class="p">(</span><span class="n">contributor_id</span><span class="p">)</span>
+            <span class="n">contributor_id</span> <span class="o">=</span> <span class="n">_remove_uri_quotes</span><span class="p">(</span><span class="n">contributor_id</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">contributor_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ssc</span><span class="o">.</span><span class="n">contributor_summary</span><span class="p">:</span>
                 <span class="n">ssc</span><span class="o">.</span><span class="n">contributor_summary</span><span class="p">[</span><span class="n">contributor_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContributorStatistics</span><span class="p">(</span>
                     <span class="n">contributor_id</span><span class="o">=</span><span class="n">contributor_id</span><span class="p">,</span> <span class="n">contributor_name</span><span class="o">=</span><span class="n">contributor_name</span>
