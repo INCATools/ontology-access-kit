@@ -5,6 +5,7 @@ import logging
 import math
 from dataclasses import dataclass, field
 from typing import (
+    TYPE_CHECKING,
     ClassVar,
     Dict,
     Iterable,
@@ -14,7 +15,6 @@ from typing import (
     Tuple,
     Union,
 )
-
 
 from oaklib.datamodels.similarity import (
     BestMatch,
@@ -30,7 +30,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 
-Semsimian: Optional["Semsimian"] = None
+Semsimian: Optional["Semsimian"] = None  # type: ignore
 if TYPE_CHECKING:
     from semsimian import Semsimian
 
