@@ -100,7 +100,7 @@ jobs:
       #----------------------------------------------
       - name: Generate coverage results
         run: |
-          poetry run pip install -U pytest
+          poetry run pip install -U pytest semsimian
           poetry run coverage run -p -m pytest tests/
           poetry run coverage combine
           poetry run coverage xml
