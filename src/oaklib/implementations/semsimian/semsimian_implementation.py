@@ -4,16 +4,7 @@ import inspect
 import logging
 import math
 from dataclasses import dataclass, field
-from typing import (
-    ClassVar,
-    Dict,
-    Iterable,
-    Iterator,
-    List,
-    Optional,
-    Tuple,
-    Union,
-)
+from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from semsimian import Semsimian
 
