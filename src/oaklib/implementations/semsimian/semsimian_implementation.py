@@ -5,7 +5,6 @@ import logging
 import math
 from dataclasses import dataclass, field
 from typing import (
-    TYPE_CHECKING,
     ClassVar,
     Dict,
     Iterable,
@@ -16,8 +15,8 @@ from typing import (
     Union,
 )
 
-if TYPE_CHECKING:
-    from semsimian import Semsimian
+
+from semsimian import Semsimian
 
 from oaklib.datamodels.similarity import (
     BestMatch,
