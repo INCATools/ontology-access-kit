@@ -6500,8 +6500,9 @@ docs = []
 gilda = ["gilda", "urllib3"]
 llm = ["llm"]
 seaborn = []
+semsimian = []
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "92a86269b9d388365b0c594a84d6d4b1d483265f133bcb0007f6978779177c08"
+content-hash = "b4ed410508a38afde0e6ed636db83feae0bfec82133cf62bc26cbfc652ec5118"
