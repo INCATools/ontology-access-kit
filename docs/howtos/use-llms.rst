@@ -116,3 +116,74 @@ Validating Mappings
 
     runoak --stacktrace -i llm:{gpt-4}:sqlite:obo:go validate-mappings \
        .desc//p=i molecular_function -o out.jsonl -O jsonl
+
+Selecting alternative models
+----------------------------
+
+If you are using the :ref:`llm_implementation` then by default it will use a model such
+as `gpt-4` or `gpt-4-turbo` (this may change in the future).
+
+You can specify different models by using the `{}` syntax:
+
+.. code-block:: bash
+
+    runoak -i llm:{gpt-3.5-turbo}:sqlite:obo:cl generate-definitions .descendant//p=i "T cell"
+
+We are using `Datasette LLM package <https://llm.datasette.io/en/stable/>`_ which provides a *plugin*
+mechanism for adding new models. See `Plugin index <https://llm.datasette.io/en/stable/plugins/index.html>`_.
+
+However, LLM can sometimes be slow to add new models, so here it can be useful to the awesome
+`LiteLLM <https://github.com/BerriAI/litellm/>`_ package, which provides a proxy to a wide range of models.
+
+Mixtral via Ollama and LiteLLM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+    ollama run mixtral
+
+.. code-block:: bash
+
+    pipx install litellm
+    litellm -m ollama/mixtral
+
+Next edit your extra-openai-models.yaml as detailed in the llm
+[other model docs](https://llm.datasette.io/en/stable/other-models.html):
+
+.. code-block:: yaml
+
+    - model_name: ollama/mixtral
+      model_id: litellm-mixtral
+      api_base: "http://0.0.0.0:8000"
+
+Then you can use the model in OAK:
+
+.. code-block:: bash
+
+    runoak -i llm:{litellm-mixtral}:sqlite:obo:cl generate-definitions .descendant//p=i "T cell"
+
+Mixtral via groq and LiteLLM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`groq <https://groq.com/>` provides an API over souped-up hardware running Llama2 and Mixtral.
+You can configure in a similar way to ollama above, but here we are proxying to a remote server:
+
+. code-block:: bash
+
+    pipx install litellm
+    litellm -m groq/mixtral-8x7b-32768
+
+Next edit your extra-openai-models.yaml as detailed in the llm
+[other model docs](https://llm.datasette.io/en/stable/other-models.html):
+
+.. code-block:: yaml
+
+    - model_name: litellm-groq-mixtral
+      model_id: litellm-groq-mixtral
+      api_base: "http://0.0.0.0:8000"
+
+Then you can use the model in OAK:
+
+.. code-block:: bash
+
+    runoak -i llm:{litellm-groq-mixtral}:sqlite:obo:cl validate-mappings .descendant//p=i "T cell"
