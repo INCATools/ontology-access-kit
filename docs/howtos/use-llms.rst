@@ -33,7 +33,7 @@ and editing tool that uses LLMs for enhanced search and autosuggestions.
 Talisman
 ~~~~~~~~
 
-`Talisman <https://github.com/monarch-initiative/talisma>`_ allows for an LLM analog of the
+`Talisman <https://github.com/monarch-initiative/talisman>`_ allows for an LLM analog of the
 OAK `enrichment` command. It summarizes collections of terms or descriptions of genes.
 
 Using OAK in conjunction with existing LLM tools
