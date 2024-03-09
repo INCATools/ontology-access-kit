@@ -17,7 +17,7 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
     class TextAnnotationResultSet
       TextAnnotationResultSet : annotations
         
-          TextAnnotationResultSet --|> TextAnnotation : annotations
+          TextAnnotationResultSet --> TextAnnotation : annotations
         
       
 ```
@@ -88,6 +88,8 @@ attributes:
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
+    domain_of:
+    - TextAnnotationResultSet
     range: TextAnnotation
     inlined: true
 

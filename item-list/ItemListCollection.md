@@ -17,7 +17,7 @@ URI: [itemList:ItemListCollection](https://w3id.org/linkml/item-list/ItemListCol
     class ItemListCollection
       ItemListCollection : itemLists
         
-          ItemListCollection --|> ItemList : itemLists
+          ItemListCollection --> ItemList : itemLists
         
       
 ```
@@ -100,6 +100,8 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     multivalued: true
+    domain_of:
+    - ItemListCollection
     range: ItemList
     inlined: true
 

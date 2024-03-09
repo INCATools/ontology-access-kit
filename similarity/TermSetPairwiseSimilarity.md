@@ -25,19 +25,19 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
         
       TermSetPairwiseSimilarity : object_best_matches
         
-          TermSetPairwiseSimilarity --|> BestMatch : object_best_matches
+          TermSetPairwiseSimilarity --> BestMatch : object_best_matches
         
       TermSetPairwiseSimilarity : object_termset
         
-          TermSetPairwiseSimilarity --|> TermInfo : object_termset
+          TermSetPairwiseSimilarity --> TermInfo : object_termset
         
       TermSetPairwiseSimilarity : subject_best_matches
         
-          TermSetPairwiseSimilarity --|> BestMatch : subject_best_matches
+          TermSetPairwiseSimilarity --> BestMatch : subject_best_matches
         
       TermSetPairwiseSimilarity : subject_termset
         
-          TermSetPairwiseSimilarity --|> TermInfo : subject_termset
+          TermSetPairwiseSimilarity --> TermInfo : subject_termset
         
       
 ```

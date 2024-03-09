@@ -25,19 +25,19 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
         
       SubjectTerm : never_in
         
-          SubjectTerm --|> TaxonConstraint : never_in
+          SubjectTerm --> TaxonConstraint : never_in
         
       SubjectTerm : only_in
         
-          SubjectTerm --|> TaxonConstraint : only_in
+          SubjectTerm --> TaxonConstraint : only_in
         
       SubjectTerm : present_in
         
-          SubjectTerm --|> TaxonConstraint : present_in
+          SubjectTerm --> TaxonConstraint : present_in
         
       SubjectTerm : present_in_ancestor_of
         
-          SubjectTerm --|> TaxonConstraint : present_in_ancestor_of
+          SubjectTerm --> TaxonConstraint : present_in_ancestor_of
         
       SubjectTerm : unsatisfiable
         
@@ -130,12 +130,16 @@ attributes:
     description: A description of the term
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
+    domain_of:
+    - SubjectTerm
   unsatisfiable:
     name: unsatisfiable
     description: If true then some combination of taxon constraints plus ontology
       lead to contradictions
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
+    domain_of:
+    - SubjectTerm
     range: boolean
   only_in:
     name: only_in
@@ -151,6 +155,8 @@ attributes:
     rank: 1000
     slot_uri: RO:0002160
     multivalued: true
+    domain_of:
+    - SubjectTerm
     range: TaxonConstraint
   never_in:
     name: never_in
@@ -163,6 +169,8 @@ attributes:
     rank: 1000
     slot_uri: RO:0002161
     multivalued: true
+    domain_of:
+    - SubjectTerm
     range: TaxonConstraint
   present_in:
     name: present_in
@@ -174,12 +182,16 @@ attributes:
     rank: 1000
     slot_uri: RO:0002175
     multivalued: true
+    domain_of:
+    - SubjectTerm
     range: TaxonConstraint
   present_in_ancestor_of:
     name: present_in_ancestor_of
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     multivalued: true
+    domain_of:
+    - SubjectTerm
     range: TaxonConstraint
 
 ```

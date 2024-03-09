@@ -21,15 +21,15 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
         
       MappingRule : postconditions
         
-          MappingRule --|> Postcondition : postconditions
+          MappingRule --> Postcondition : postconditions
         
       MappingRule : preconditions
         
-          MappingRule --|> Precondition : preconditions
+          MappingRule --> Precondition : preconditions
         
       MappingRule : synonymizer
         
-          MappingRule --|> Synonymizer : synonymizer
+          MappingRule --> Synonymizer : synonymizer
         
       
 ```
@@ -110,12 +110,16 @@ attributes:
     name: description
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
   oneway:
     name: oneway
     description: if true then subject and object can be switched and predicate inverted
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     ifabsent: 'False'
+    domain_of:
+    - MappingRule
     range: boolean
   preconditions:
     name: preconditions
@@ -123,18 +127,24 @@ attributes:
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     slot_uri: sh:condition
+    domain_of:
+    - MappingRule
     range: Precondition
   postconditions:
     name: postconditions
     description: conditions that apply if preconditions match
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
     range: Postcondition
   synonymizer:
     name: synonymizer
     description: Normalizing rules to labels.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
     range: Synonymizer
 
 ```

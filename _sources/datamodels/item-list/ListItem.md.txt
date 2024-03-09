@@ -21,13 +21,13 @@ URI: [schema:ListItem](http://schema.org/ListItem)
         
       ListItem : item
         
-          ListItem --|> Thing : item
+          ListItem --> Thing : item
         
       ListItem : position
         
       ListItem : previousItem
         
-          ListItem --|> ListItem : previousItem
+          ListItem --> ListItem : previousItem
         
       
 ```
@@ -114,6 +114,8 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     key: true
+    domain_of:
+    - ListItem
     range: string
     required: true
   idType:
@@ -126,6 +128,8 @@ attributes:
     - value: schema:identifier
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
+    domain_of:
+    - ListItem
     range: uriorcurie
   item:
     name: item
@@ -133,6 +137,8 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: schema:item
+    domain_of:
+    - ListItem
     range: Thing
     inlined: true
   position:
@@ -141,6 +147,8 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: schema:position
+    domain_of:
+    - ListItem
     range: integer
   previousItem:
     name: previousItem
@@ -148,6 +156,8 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: schema:previousItem
+    domain_of:
+    - ListItem
     range: ListItem
 class_uri: schema:ListItem
 

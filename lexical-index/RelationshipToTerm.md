@@ -21,7 +21,7 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
         
       RelationshipToTerm : pipeline
         
-          RelationshipToTerm --|> LexicalTransformationPipeline : pipeline
+          RelationshipToTerm --> LexicalTransformationPipeline : pipeline
         
       RelationshipToTerm : predicate
         
@@ -108,32 +108,44 @@ attributes:
     name: predicate
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   element:
     name: element
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   element_term:
     name: element_term
     description: the original term used in the element
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
   source:
     name: source
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   pipeline:
     name: pipeline
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - RelationshipToTerm
     range: LexicalTransformationPipeline
   synonymized:
     name: synonymized
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: boolean
 
 ```

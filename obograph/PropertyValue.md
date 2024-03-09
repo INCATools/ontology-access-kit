@@ -26,7 +26,7 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
         
       PropertyValue : meta
         
-          PropertyValue --|> Meta : meta
+          PropertyValue --> Meta : meta
         
       PropertyValue : pred
         

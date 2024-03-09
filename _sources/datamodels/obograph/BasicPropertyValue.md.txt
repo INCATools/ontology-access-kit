@@ -21,7 +21,7 @@ URI: [obographs:BasicPropertyValue](https://github.com/geneontology/obographs/Ba
         
       BasicPropertyValue : meta
         
-          BasicPropertyValue --|> Meta : meta
+          BasicPropertyValue --> Meta : meta
         
       BasicPropertyValue : pred
         

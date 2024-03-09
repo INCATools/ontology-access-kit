@@ -19,7 +19,7 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
       
       RepairReport : results
         
-          RepairReport --|> RepairOperation : results
+          RepairReport --> RepairOperation : results
         
       
 ```

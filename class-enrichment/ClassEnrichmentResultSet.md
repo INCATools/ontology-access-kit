@@ -17,7 +17,7 @@ URI: [ontoenrich:ClassEnrichmentResultSet](https://w3id.org/oak/class-enrichment
     class ClassEnrichmentResultSet
       ClassEnrichmentResultSet : results
         
-          ClassEnrichmentResultSet --|> ClassEnrichmentResult : results
+          ClassEnrichmentResultSet --> ClassEnrichmentResult : results
         
       
 ```
@@ -88,6 +88,8 @@ attributes:
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
     multivalued: true
+    domain_of:
+    - ClassEnrichmentResultSet
     range: ClassEnrichmentResult
 
 ```

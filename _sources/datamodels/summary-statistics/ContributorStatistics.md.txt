@@ -23,7 +23,7 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
         
       ContributorStatistics : role_counts
         
-          ContributorStatistics --|> FacetedCount : role_counts
+          ContributorStatistics --> FacetedCount : role_counts
         
       
 ```
@@ -104,6 +104,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     key: true
+    domain_of:
+    - ContributorStatistics
     range: uriorcurie
     required: true
   contributor_name:
@@ -111,18 +113,24 @@ attributes:
     description: the name of the contributor
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
+    domain_of:
+    - ContributorStatistics
     range: string
   normalization_comments:
     name: normalization_comments
     description: if contributor name normalization was applied, provide details here
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
+    domain_of:
+    - ContributorStatistics
     range: string
   role_counts:
     name: role_counts
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
+    domain_of:
+    - ContributorStatistics
     range: FacetedCount
     inlined: true
 

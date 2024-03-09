@@ -17,7 +17,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : broadMatch
         
-          Class --|> Class : broadMatch
+          Class --> Class : broadMatch
         
       Class : cardinality
         
@@ -25,7 +25,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : closeMatch
         
-          Class --|> Class : closeMatch
+          Class --> Class : closeMatch
         
       Class : comment
         
@@ -33,15 +33,15 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : conformsTo
         
-          Class --|> Thing : conformsTo
+          Class --> Thing : conformsTo
         
       Class : consider
         
-          Class --|> Any : consider
+          Class --> Any : consider
         
       Class : contributor
         
-          Class --|> Agent : contributor
+          Class --> Agent : contributor
         
       Class : created
         
@@ -51,7 +51,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : creator
         
-          Class --|> Agent : creator
+          Class --> Agent : creator
         
       Class : curator_note
         
@@ -65,13 +65,13 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : depicted_by
         
-          Class --|> Image : depicted_by
+          Class --> Image : depicted_by
         
       Class : deprecated
         
       Class : disconnected_from
         
-          Class --|> Class : disconnected_from
+          Class --> Class : disconnected_from
         
       Class : disjointWith
         
@@ -81,21 +81,21 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : equivalentClass
         
-          Class --|> ClassExpression : equivalentClass
+          Class --> ClassExpression : equivalentClass
         
       Class : exactMatch
         
-          Class --|> Class : exactMatch
+          Class --> Class : exactMatch
         
       Class : example_of_usage
         
       Class : excluded_from_QC_check
         
-          Class --|> Thing : excluded_from_QC_check
+          Class --> Thing : excluded_from_QC_check
         
       Class : excluded_subClassOf
         
-          Class --|> Class : excluded_subClassOf
+          Class --> Class : excluded_subClassOf
         
       Class : excluded_synonym
         
@@ -115,7 +115,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : has_rank
         
-          Class --|> Thing : has_rank
+          Class --> Thing : has_rank
         
       Class : has_related_synonym
         
@@ -125,41 +125,41 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : image
         
-          Class --|> Thing : image
+          Class --> Thing : image
         
       Class : imported_from
         
-          Class --|> NamedIndividual : imported_from
+          Class --> NamedIndividual : imported_from
         
       Class : in_subset
         
-          Class --|> Subset : in_subset
+          Class --> Subset : in_subset
         
       Class : intersectionOf
         
-          Class --|> ClassExpression : intersectionOf
+          Class --> ClassExpression : intersectionOf
         
       Class : ISA_alternative_term
         
       Class : isDefinedBy
         
-          Class --|> Ontology : isDefinedBy
+          Class --> Ontology : isDefinedBy
         
       Class : label
         
       Class : narrowMatch
         
-          Class --|> Class : narrowMatch
+          Class --> Class : narrowMatch
         
       Class : never_in_taxon
         
-          Class --|> Class : never_in_taxon
+          Class --> Class : never_in_taxon
         
       Class : OBO_foundry_unique_label
         
       Class : oneOf
         
-          Class --|> ClassExpression : oneOf
+          Class --> ClassExpression : oneOf
         
       Class : ontology_term_requester
         
@@ -167,21 +167,21 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
         
       Class : seeAlso
         
-          Class --|> Thing : seeAlso
+          Class --> Thing : seeAlso
         
       Class : should_conform_to
         
-          Class --|> Thing : should_conform_to
+          Class --> Thing : should_conform_to
         
       Class : subClassOf
         
-          Class --|> Class : subClassOf
+          Class --> Class : subClassOf
         
       Class : term_editor
         
       Class : term_replaced_by
         
-          Class --|> Any : term_replaced_by
+          Class --> Any : term_replaced_by
         
       Class : term_tracker_item
         

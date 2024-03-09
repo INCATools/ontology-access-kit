@@ -91,6 +91,8 @@ attributes:
       narrow
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Postcondition
   weight:
     name: weight
     description: Weighting of the rule, positive increases the confidence, negative
@@ -100,6 +102,8 @@ attributes:
     - https://en.wikipedia.org/wiki/Logit
     - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
     rank: 1000
+    domain_of:
+    - Postcondition
     range: float
 
 ```

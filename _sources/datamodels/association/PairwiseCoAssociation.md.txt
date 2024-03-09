@@ -17,7 +17,7 @@ URI: [ontoassoc:PairwiseCoAssociation](https://w3id.org/oak/association/Pairwise
     class PairwiseCoAssociation
       PairwiseCoAssociation : associations_for_subjects_in_common
         
-          PairwiseCoAssociation --|> Association : associations_for_subjects_in_common
+          PairwiseCoAssociation --> Association : associations_for_subjects_in_common
         
       PairwiseCoAssociation : number_subject_unique_to_entity1
         
@@ -29,17 +29,17 @@ URI: [ontoassoc:PairwiseCoAssociation](https://w3id.org/oak/association/Pairwise
         
       PairwiseCoAssociation : object1_label
         
-          PairwiseCoAssociation --|> None : object1_label
+          PairwiseCoAssociation --> None : object1_label
         
       PairwiseCoAssociation : object2
         
       PairwiseCoAssociation : object2_label
         
-          PairwiseCoAssociation --|> None : object2_label
+          PairwiseCoAssociation --> None : object2_label
         
       PairwiseCoAssociation : subjects_in_common
         
-          PairwiseCoAssociation --|> None : subjects_in_common
+          PairwiseCoAssociation --> None : subjects_in_common
         
       
 ```

@@ -2366,7 +2366,28 @@
                         <span class="p">)</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
-
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">AddNodeToSubset</span><span class="p">):</span>
+                <span class="c1"># TODO: implement deterministic subset mapping</span>
+                <span class="n">pfx</span> <span class="o">=</span> <span class="n">about</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">subset_curie</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;obo:</span><span class="si">{</span><span class="n">pfx</span><span class="si">}</span><span class="s2">#</span><span class="si">{</span><span class="n">patch</span><span class="o">.</span><span class="n">in_subset</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span>
+                    <span class="n">insert</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
+                        <span class="n">subject</span><span class="o">=</span><span class="n">about</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">IN_SUBSET</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">subset_curie</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">RemoveNodeFromSubset</span><span class="p">):</span>
+                <span class="c1"># TODO: implement deterministic subset mapping</span>
+                <span class="n">pfx</span> <span class="o">=</span> <span class="n">about</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">subset_curie</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;obo:</span><span class="si">{</span><span class="n">pfx</span><span class="si">}</span><span class="s2">#</span><span class="si">{</span><span class="n">patch</span><span class="o">.</span><span class="n">in_subset</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span>
+                    <span class="n">delete</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                        <span class="n">and_</span><span class="p">(</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">about</span><span class="p">,</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">IN_SUBSET</span><span class="p">,</span>
+                            <span class="n">Statements</span><span class="o">.</span><span class="n">object</span> <span class="o">==</span> <span class="n">subset_curie</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletion</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">check_node_exists</span><span class="p">(</span><span class="n">about</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_set_predicate_value</span><span class="p">(</span>

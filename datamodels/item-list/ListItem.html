@@ -96,13 +96,13 @@
         
       ListItem : item
         
-          ListItem --|&gt; Thing : item
+          ListItem --&gt; Thing : item
         
       ListItem : position
         
       ListItem : previousItem
         
-          ListItem --|&gt; ListItem : previousItem
+          ListItem --&gt; ListItem : previousItem
         
       
         </div><!-- no inheritance hierarchy -->
@@ -220,6 +220,8 @@ attributes:
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 key: true
+domain_of:
+- ListItem
 range: string
 required: true
 </pre></div>
@@ -234,6 +236,8 @@ examples:
 - value: schema:identifier
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
+domain_of:
+- ListItem
 range: uriorcurie
 item:
 name: item
@@ -241,6 +245,8 @@ description: The item represented by the list item
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 slot_uri: schema:item
+domain_of:
+- ListItem
 range: Thing
 inlined: true
 position:
@@ -249,6 +255,8 @@ description: The position of the item in the list
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 slot_uri: schema:position
+domain_of:
+- ListItem
 range: integer
 previousItem:
 name: previousItem
@@ -256,6 +264,8 @@ description: The previous item in the list
 from_schema: https://w3id.org/oak/item-list
 rank: 1000
 slot_uri: schema:previousItem
+domain_of:
+- ListItem
 range: ListItem
 class_uri: schema:ListItem</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;

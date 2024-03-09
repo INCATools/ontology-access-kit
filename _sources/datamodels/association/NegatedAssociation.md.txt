@@ -41,7 +41,7 @@ URI: [ontoassoc:NegatedAssociation](https://w3id.org/oak/association/NegatedAsso
         
       NegatedAssociation : property_values
         
-          NegatedAssociation --|> PropertyValue : property_values
+          NegatedAssociation --> PropertyValue : property_values
         
       NegatedAssociation : publications
         

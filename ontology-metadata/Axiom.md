@@ -17,19 +17,19 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
     class Axiom
       Axiom : annotatedProperty
         
-          Axiom --|> AnnotationProperty : annotatedProperty
+          Axiom --> AnnotationProperty : annotatedProperty
         
       Axiom : annotatedSource
         
-          Axiom --|> NamedObject : annotatedSource
+          Axiom --> NamedObject : annotatedSource
         
       Axiom : annotatedTarget
         
-          Axiom --|> Any : annotatedTarget
+          Axiom --> Any : annotatedTarget
         
       Axiom : annotations
         
-          Axiom --|> Annotation : annotations
+          Axiom --> Annotation : annotations
         
       Axiom : comment
         
@@ -45,13 +45,13 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
         
       Axiom : has_axiom_label
         
-          Axiom --|> Thing : has_axiom_label
+          Axiom --> Thing : has_axiom_label
         
       Axiom : has_exact_synonym
         
       Axiom : has_synonym_type
         
-          Axiom --|> AnnotationProperty : has_synonym_type
+          Axiom --> AnnotationProperty : has_synonym_type
         
       Axiom : is_a_defining_property_chain_axiom
         
@@ -65,7 +65,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
         
       Axiom : seeAlso
         
-          Axiom --|> Thing : seeAlso
+          Axiom --> Thing : seeAlso
         
       Axiom : source
         

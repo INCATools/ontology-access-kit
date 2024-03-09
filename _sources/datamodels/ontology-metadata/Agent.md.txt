@@ -16,27 +16,27 @@ URI: [prov:Agent](http://www.w3.org/ns/prov-o#Agent)
         
       Agent : broadMatch
         
-          Agent --|> Thing : broadMatch
+          Agent --> Thing : broadMatch
         
       Agent : category
         
       Agent : closeMatch
         
-          Agent --|> Thing : closeMatch
+          Agent --> Thing : closeMatch
         
       Agent : comment
         
       Agent : conformsTo
         
-          Agent --|> Thing : conformsTo
+          Agent --> Thing : conformsTo
         
       Agent : consider
         
-          Agent --|> Any : consider
+          Agent --> Any : consider
         
       Agent : contributor
         
-          Agent --|> Agent : contributor
+          Agent --> Agent : contributor
         
       Agent : created
         
@@ -46,7 +46,7 @@ URI: [prov:Agent](http://www.w3.org/ns/prov-o#Agent)
         
       Agent : creator
         
-          Agent --|> Agent : creator
+          Agent --> Agent : creator
         
       Agent : curator_note
         
@@ -60,7 +60,7 @@ URI: [prov:Agent](http://www.w3.org/ns/prov-o#Agent)
         
       Agent : depicted_by
         
-          Agent --|> Image : depicted_by
+          Agent --> Image : depicted_by
         
       Agent : deprecated
         
@@ -70,17 +70,17 @@ URI: [prov:Agent](http://www.w3.org/ns/prov-o#Agent)
         
       Agent : exactMatch
         
-          Agent --|> Thing : exactMatch
+          Agent --> Thing : exactMatch
         
       Agent : example_of_usage
         
       Agent : excluded_from_QC_check
         
-          Agent --|> Thing : excluded_from_QC_check
+          Agent --> Thing : excluded_from_QC_check
         
       Agent : excluded_subClassOf
         
-          Agent --|> Class : excluded_subClassOf
+          Agent --> Class : excluded_subClassOf
         
       Agent : excluded_synonym
         
@@ -106,27 +106,27 @@ URI: [prov:Agent](http://www.w3.org/ns/prov-o#Agent)
         
       Agent : image
         
-          Agent --|> Thing : image
+          Agent --> Thing : image
         
       Agent : imported_from
         
-          Agent --|> NamedIndividual : imported_from
+          Agent --> NamedIndividual : imported_from
         
       Agent : in_subset
         
-          Agent --|> Subset : in_subset
+          Agent --> Subset : in_subset
         
       Agent : ISA_alternative_term
         
       Agent : isDefinedBy
         
-          Agent --|> Ontology : isDefinedBy
+          Agent --> Ontology : isDefinedBy
         
       Agent : label
         
       Agent : narrowMatch
         
-          Agent --|> Thing : narrowMatch
+          Agent --> Thing : narrowMatch
         
       Agent : OBO_foundry_unique_label
         
@@ -136,17 +136,17 @@ URI: [prov:Agent](http://www.w3.org/ns/prov-o#Agent)
         
       Agent : seeAlso
         
-          Agent --|> Thing : seeAlso
+          Agent --> Thing : seeAlso
         
       Agent : should_conform_to
         
-          Agent --|> Thing : should_conform_to
+          Agent --> Thing : should_conform_to
         
       Agent : term_editor
         
       Agent : term_replaced_by
         
-          Agent --|> Any : term_replaced_by
+          Agent --> Any : term_replaced_by
         
       Agent : term_tracker_item
         

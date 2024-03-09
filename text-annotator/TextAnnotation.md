@@ -51,7 +51,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
         
       TextAnnotation : subject_text_id
         
-          TextAnnotation --|> TextualElement : subject_text_id
+          TextAnnotation --> TextualElement : subject_text_id
         
       
 ```
@@ -149,6 +149,8 @@ attributes:
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:predicate_id
+    domain_of:
+    - TextAnnotation
   object_id:
     name: object_id
     from_schema: https://w3id.org/oak/text_annotator
@@ -156,6 +158,8 @@ attributes:
     - bpa:annotatedClass.id
     rank: 1000
     slot_uri: sssom:object_id
+    domain_of:
+    - TextAnnotation
   object_label:
     name: object_label
     from_schema: https://w3id.org/oak/text_annotator
@@ -163,49 +167,70 @@ attributes:
     - bpa:annotatedClass.prefLabel
     rank: 1000
     slot_uri: sssom:object_label
+    domain_of:
+    - TextAnnotation
   object_categories:
     name: object_categories
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
+    domain_of:
+    - TextAnnotation
   object_source:
     name: object_source
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:object_source
+    domain_of:
+    - TextAnnotation
   confidence:
     name: confidence
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:confidence
+    domain_of:
+    - TextAnnotation
     range: float
   match_string:
     name: match_string
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     slot_uri: sssom:match_string
+    domain_of:
+    - TextAnnotation
   is_longest_match:
     name: is_longest_match
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
+    domain_of:
+    - TextAnnotation
     range: boolean
   matches_whole_text:
     name: matches_whole_text
     from_schema: https://w3id.org/oak/text_annotator
+    domain_of:
+    - TextAnnotationConfiguration
+    - TextAnnotation
     range: boolean
   match_type:
     name: match_type
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
+    domain_of:
+    - TextAnnotation
   info:
     name: info
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
+    domain_of:
+    - TextAnnotation
   object_aliases:
     name: object_aliases
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
     multivalued: true
+    domain_of:
+    - TextAnnotation
 class_uri: oa:Annotation
 
 ```

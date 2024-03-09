@@ -101,6 +101,8 @@ attributes:
     rank: 1000
     slot_uri: sh:prefix
     key: true
+    domain_of:
+    - PrefixDeclaration
     range: string
     required: true
   namespace:
@@ -109,6 +111,8 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     slot_uri: sh:namespace
+    domain_of:
+    - PrefixDeclaration
     range: uri
 class_uri: sh:PrefixDeclaration
 

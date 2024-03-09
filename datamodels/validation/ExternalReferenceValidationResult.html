@@ -98,35 +98,35 @@
         
       ExternalReferenceValidationResult : instantiates
         
-          ExternalReferenceValidationResult --|&gt; Node : instantiates
+          ExternalReferenceValidationResult --&gt; Node : instantiates
         
       ExternalReferenceValidationResult : number_of_attempts
         
       ExternalReferenceValidationResult : object
         
-          ExternalReferenceValidationResult --|&gt; Node : object
+          ExternalReferenceValidationResult --&gt; Node : object
         
       ExternalReferenceValidationResult : object_str
         
       ExternalReferenceValidationResult : predicate
         
-          ExternalReferenceValidationResult --|&gt; Node : predicate
+          ExternalReferenceValidationResult --&gt; Node : predicate
         
       ExternalReferenceValidationResult : severity
         
-          ExternalReferenceValidationResult --|&gt; severity_options : severity
+          ExternalReferenceValidationResult --&gt; severity_options : severity
         
       ExternalReferenceValidationResult : source
         
       ExternalReferenceValidationResult : subject
         
-          ExternalReferenceValidationResult --|&gt; Node : subject
+          ExternalReferenceValidationResult --&gt; Node : subject
         
       ExternalReferenceValidationResult : time_checked
         
       ExternalReferenceValidationResult : type
         
-          ExternalReferenceValidationResult --|&gt; ConstraintComponent : type
+          ExternalReferenceValidationResult --&gt; ConstraintComponent : type
         
       ExternalReferenceValidationResult : url
         
@@ -268,19 +268,27 @@ attributes:
     name: url
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - ExternalReferenceValidationResult
   time_checked:
     name: time_checked
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - ExternalReferenceValidationResult
   number_of_attempts:
     name: number_of_attempts
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - ExternalReferenceValidationResult
     range: integer
   http_response_code:
     name: http_response_code
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - ExternalReferenceValidationResult
     range: integer
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -431,6 +439,7 @@ attributes:
     owner: ExternalReferenceValidationResult
     domain_of:
     - ValidationResult
+    - MappingValidationResult
     - RepairOperation
     range: string
 

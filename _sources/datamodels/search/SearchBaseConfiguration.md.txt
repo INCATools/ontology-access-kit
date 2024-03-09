@@ -33,13 +33,13 @@ URI: [ontosearch:SearchBaseConfiguration](https://w3id.org/oak/search-datamodel/
         
       SearchBaseConfiguration : properties
         
-          SearchBaseConfiguration --|> SearchProperty : properties
+          SearchBaseConfiguration --> SearchProperty : properties
         
       SearchBaseConfiguration : search_terms
         
       SearchBaseConfiguration : syntax
         
-          SearchBaseConfiguration --|> SearchTermSyntax : syntax
+          SearchBaseConfiguration --> SearchTermSyntax : syntax
         
       
 ```
@@ -141,12 +141,16 @@ attributes:
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - SearchBaseConfiguration
     range: SearchTerm
   syntax:
     name: syntax
     description: Determines how the search term is interpreted
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
     range: SearchTermSyntax
   properties:
     name: properties
@@ -154,12 +158,16 @@ attributes:
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - SearchBaseConfiguration
     range: SearchProperty
   limit:
     name: limit
     description: the maximum number of search results to be returned in one batch
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
     range: integer
   cursor:
     name: cursor
@@ -167,29 +175,40 @@ attributes:
       to iterate through results
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
+    - SearchResultSet
     range: integer
   is_partial:
     name: is_partial
     description: allows matches where the search term is a subset of the full span
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   is_complete:
     name: is_complete
     deprecated: use is_partial
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   include_obsoletes_in_results:
     name: include_obsoletes_in_results
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   is_fuzzy:
     name: is_fuzzy
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   categories:
     name: categories
@@ -197,12 +216,16 @@ attributes:
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - SearchBaseConfiguration
     range: uriorcurie
   force_case_insensitive:
     name: force_case_insensitive
     description: force case insensitive matching
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
 
 ```

@@ -36,27 +36,27 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
         
       Term : broadMatch
         
-          Term --|> Thing : broadMatch
+          Term --> Thing : broadMatch
         
       Term : category
         
       Term : closeMatch
         
-          Term --|> Thing : closeMatch
+          Term --> Thing : closeMatch
         
       Term : comment
         
       Term : conformsTo
         
-          Term --|> Thing : conformsTo
+          Term --> Thing : conformsTo
         
       Term : consider
         
-          Term --|> Any : consider
+          Term --> Any : consider
         
       Term : contributor
         
-          Term --|> Agent : contributor
+          Term --> Agent : contributor
         
       Term : created
         
@@ -66,7 +66,7 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
         
       Term : creator
         
-          Term --|> Agent : creator
+          Term --> Agent : creator
         
       Term : curator_note
         
@@ -80,7 +80,7 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
         
       Term : depicted_by
         
-          Term --|> Image : depicted_by
+          Term --> Image : depicted_by
         
       Term : deprecated
         
@@ -90,17 +90,17 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
         
       Term : exactMatch
         
-          Term --|> Thing : exactMatch
+          Term --> Thing : exactMatch
         
       Term : example_of_usage
         
       Term : excluded_from_QC_check
         
-          Term --|> Thing : excluded_from_QC_check
+          Term --> Thing : excluded_from_QC_check
         
       Term : excluded_subClassOf
         
-          Term --|> Class : excluded_subClassOf
+          Term --> Class : excluded_subClassOf
         
       Term : excluded_synonym
         
@@ -126,27 +126,27 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
         
       Term : image
         
-          Term --|> Thing : image
+          Term --> Thing : image
         
       Term : imported_from
         
-          Term --|> NamedIndividual : imported_from
+          Term --> NamedIndividual : imported_from
         
       Term : in_subset
         
-          Term --|> Subset : in_subset
+          Term --> Subset : in_subset
         
       Term : ISA_alternative_term
         
       Term : isDefinedBy
         
-          Term --|> Ontology : isDefinedBy
+          Term --> Ontology : isDefinedBy
         
       Term : label
         
       Term : narrowMatch
         
-          Term --|> Thing : narrowMatch
+          Term --> Thing : narrowMatch
         
       Term : OBO_foundry_unique_label
         
@@ -156,17 +156,17 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/omo/schema/Term)
         
       Term : seeAlso
         
-          Term --|> Thing : seeAlso
+          Term --> Thing : seeAlso
         
       Term : should_conform_to
         
-          Term --|> Thing : should_conform_to
+          Term --> Thing : should_conform_to
         
       Term : term_editor
         
       Term : term_replaced_by
         
-          Term --|> Any : term_replaced_by
+          Term --> Any : term_replaced_by
         
       Term : term_tracker_item
         

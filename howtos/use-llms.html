@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use Large Language Models (LLMs) with OAK &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How to use Large Language Models (LLMs) with OAK</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/howtos/use-llms.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-use-large-language-models-llms-with-oak">
+<h1>How to use Large Language Models (LLMs) with OAK<a class="headerlink" href="#how-to-use-large-language-models-llms-with-oak" title="Link to this heading"></a></h1>
+<p>Large Language Models (LLMs) such as ChatGPT have powerful text pattern matching and processing abilities,
+and general question answering capabilities. LLMs can be used in conjunction with ontologies for a number
+of tasks, including:</p>
+<ul class="simple">
+<li><p>Summarizing lists of ontology terms and other OAK outputs</p></li>
+<li><p>Annotating text using ontology terms</p></li>
+<li><p>Reviewing ontology branches or different kinds of ontology axioms</p></li>
+</ul>
+<p>This guide is in 3 sections:</p>
+<ul class="simple">
+<li><p>Summary of ontology-LLM tools that directly leverage OAK, but are not part of the OAK framework</p></li>
+<li><p>How to use OAK in conjunction with existing generic LLM tools</p></li>
+<li><p>The OAK LLM implementation</p></li>
+</ul>
+<section id="llm-frameworks-that-use-oak">
+<h2>LLM frameworks that use OAK<a class="headerlink" href="#llm-frameworks-that-use-oak" title="Link to this heading"></a></h2>
+<section id="ontogpt">
+<h3>OntoGPT<a class="headerlink" href="#ontogpt" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/monarch-initiative/ontogpt">OntoGPT</a> extracts knowledge from text according
+to a LinkML schema and LinkML dynamic value set specifications. OAK is used for grounding ontology terms.</p>
+</section>
+<section id="curategpt">
+<h3>CurateGPT<a class="headerlink" href="#curategpt" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/monarch-initiative/curate-gpt">CurateGPT</a> is a general purpose knowledge management
+and editing tool that uses LLMs for enhanced search and autosuggestions.</p>
+</section>
+<section id="talisman">
+<h3>Talisman<a class="headerlink" href="#talisman" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/monarch-initiative/talisman">Talisman</a> allows for an LLM analog of the
+OAK <cite>enrichment</cite> command. It summarizes collections of terms or descriptions of genes.</p>
+</section>
+</section>
+<section id="using-oak-in-conjunction-with-existing-llm-tools">
+<h2>Using OAK in conjunction with existing LLM tools<a class="headerlink" href="#using-oak-in-conjunction-with-existing-llm-tools" title="Link to this heading"></a></h2>
+<p>LLMs such as ChatGPT can take any kind of textual output, including outputs of OAK.</p>
+<p>For example, you could query all T-cell types:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>labels<span class="w"> </span>.descendant//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;T cell&quot;</span>
+</pre></div>
+</div>
+<p>And then copy the results into the ChatGPT window and ask “give me detailed descriptions of these T-cell types”.</p>
+<p>This kind of workflow is not very automatable. OAK is designed in part for the Command Line, so
+LLM CLI tools such as the datasette <code class="docutils literal notranslate"><span class="pre">llm</span></code> tool pair naturally</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipx<span class="w"> </span>install<span class="w"> </span>llm
+runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>labels<span class="w"> </span>.descendant//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;T cell&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>llm<span class="w"> </span>--system<span class="w"> </span><span class="s2">&quot;summarize the following terms&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="oak-llm-adapter">
+<h2>OAK LLM Adapter<a class="headerlink" href="#oak-llm-adapter" title="Link to this heading"></a></h2>
+<p>OAK provides a number of different adapters (implementations) for each of its interfaces.
+Some adapters provide direct access to an ontology or collection of ontologies; others act as <em>wrappers</em>
+onto another adapter, and inject additional functionality.</p>
+<p>The OAK LLM adapter is one such adapter. It provides a number of implementations of a subset of OAK
+commands and interfaces.</p>
+<p>See <a class="reference internal" href="../packages/implementations/llm.html#llm-implementation"><span class="std std-ref">LLM Adapter</span></a> for details on the OAK LLM adapter.</p>
+<p>The basic idea is that you can prefix any existing adapter with <code class="docutils literal notranslate"><span class="pre">llm:</span></code>; for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:my-ont.json<span class="w"> </span>...
+</pre></div>
+</div>
+<p>If can specify the model which you wish to use within <a href="#id4"><span class="problematic" id="id5">`</span></a>{}`s, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:<span class="o">{</span>litellm-groq-mixtral<span class="o">}</span>:sqlite:obo:cl<span class="w"> </span>...
+</pre></div>
+</div>
+<p>We recommend the LiteLLM package to allow for access of a broad range of models through a proxy.</p>
+<p>Examples are provided here on the command line, but this can also be done programmatically.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;llm:sqlite:obo:cl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the output of LLMs is non-deterministic and unpredictable, so the LLM adapter should
+not be used for tasks where precision is required.</p>
+<section id="annotation">
+<h3>Annotation<a class="headerlink" href="#annotation" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:sqlite:obo:hp<span class="w"> </span>annotate<span class="w"> </span><span class="s2">&quot;abnormalities were found in the eye and the liver&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="suggesting-definitions">
+<h3>Suggesting Definitions<a class="headerlink" href="#suggesting-definitions" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:sqlite:obo:uberon<span class="w"> </span>generate-definitions<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>finger<span class="w"> </span>toe<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--style-hints<span class="w"> </span><span class="s2">&quot;write definitions in formal genus-differentia form&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="validating-mappings">
+<h3>Validating Mappings<a class="headerlink" href="#validating-mappings" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--stacktrace<span class="w"> </span>-i<span class="w"> </span>llm:<span class="o">{</span>gpt-4<span class="o">}</span>:sqlite:obo:go<span class="w"> </span>validate-mappings<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>.desc//p<span class="o">=</span>i<span class="w"> </span>molecular_function<span class="w"> </span>-o<span class="w"> </span>out.jsonl<span class="w"> </span>-O<span class="w"> </span>jsonl
+</pre></div>
+</div>
+</section>
+</section>
+<section id="selecting-alternative-models">
+<h2>Selecting alternative models<a class="headerlink" href="#selecting-alternative-models" title="Link to this heading"></a></h2>
+<p>If you are using the <a class="reference internal" href="../packages/implementations/llm.html#llm-implementation"><span class="std std-ref">LLM Adapter</span></a> then by default it will use a model such
+as <cite>gpt-4</cite> or <cite>gpt-4-turbo</cite> (this may change in the future).</p>
+<p>You can specify different models by using the <cite>{}</cite> syntax:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:<span class="o">{</span>gpt-3.5-turbo<span class="o">}</span>:sqlite:obo:cl<span class="w"> </span>generate-definitions<span class="w"> </span>.descendant//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;T cell&quot;</span>
+</pre></div>
+</div>
+<p>We are using <a class="reference external" href="https://llm.datasette.io/en/stable/">Datasette LLM package</a> which provides a <em>plugin</em>
+mechanism for adding new models. See <a class="reference external" href="https://llm.datasette.io/en/stable/plugins/index.html">Plugin index</a>.</p>
+<p>However, LLM can sometimes be slow to add new models, so here it can be useful to the awesome
+<a class="reference external" href="https://github.com/BerriAI/litellm/">LiteLLM</a> package, which provides a proxy to a wide range of models.</p>
+<section id="mixtral-via-ollama-and-litellm">
+<h3>Mixtral via Ollama and LiteLLM<a class="headerlink" href="#mixtral-via-ollama-and-litellm" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ollama<span class="w"> </span>run<span class="w"> </span>mixtral
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipx<span class="w"> </span>install<span class="w"> </span>litellm
+litellm<span class="w"> </span>-m<span class="w"> </span>ollama/mixtral
+</pre></div>
+</div>
+<p>Next edit your extra-openai-models.yaml as detailed in the llm
+[other model docs](<a class="reference external" href="https://llm.datasette.io/en/stable/other-models.html">https://llm.datasette.io/en/stable/other-models.html</a>):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama/mixtral</span>
+<span class="w">  </span><span class="nt">model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">litellm-mixtral</span>
+<span class="w">  </span><span class="nt">api_base</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://0.0.0.0:8000&quot;</span>
+</pre></div>
+</div>
+<p>Then you can use the model in OAK:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:<span class="o">{</span>litellm-mixtral<span class="o">}</span>:sqlite:obo:cl<span class="w"> </span>generate-definitions<span class="w"> </span>.descendant//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;T cell&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="mixtral-via-groq-and-litellm">
+<h3>Mixtral via groq and LiteLLM<a class="headerlink" href="#mixtral-via-groq-and-litellm" title="Link to this heading"></a></h3>
+<p><cite>groq &lt;https://groq.com/&gt;</cite> provides an API over souped-up hardware running Llama2 and Mixtral.
+You can configure in a similar way to ollama above, but here we are proxying to a remote server:</p>
+<p>. code-block:: bash</p>
+<blockquote>
+<div><p>pipx install litellm
+litellm -m groq/mixtral-8x7b-32768</p>
+</div></blockquote>
+<p>Next edit your extra-openai-models.yaml as detailed in the llm
+[other model docs](<a class="reference external" href="https://llm.datasette.io/en/stable/other-models.html">https://llm.datasette.io/en/stable/other-models.html</a>):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">litellm-groq-mixtral</span>
+<span class="w">  </span><span class="nt">model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">litellm-groq-mixtral</span>
+<span class="w">  </span><span class="nt">api_base</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://0.0.0.0:8000&quot;</span>
+</pre></div>
+</div>
+<p>Then you can use the model in OAK:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:<span class="o">{</span>litellm-groq-mixtral<span class="o">}</span>:sqlite:obo:cl<span class="w"> </span>validate-mappings<span class="w"> </span>.descendant//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;T cell&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

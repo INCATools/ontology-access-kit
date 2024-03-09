@@ -21,27 +21,27 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
         
       TransitiveProperty : broadMatch
         
-          TransitiveProperty --|> Property : broadMatch
+          TransitiveProperty --> Property : broadMatch
         
       TransitiveProperty : category
         
       TransitiveProperty : closeMatch
         
-          TransitiveProperty --|> Property : closeMatch
+          TransitiveProperty --> Property : closeMatch
         
       TransitiveProperty : comment
         
       TransitiveProperty : conformsTo
         
-          TransitiveProperty --|> Thing : conformsTo
+          TransitiveProperty --> Thing : conformsTo
         
       TransitiveProperty : consider
         
-          TransitiveProperty --|> Any : consider
+          TransitiveProperty --> Any : consider
         
       TransitiveProperty : contributor
         
-          TransitiveProperty --|> Agent : contributor
+          TransitiveProperty --> Agent : contributor
         
       TransitiveProperty : created
         
@@ -51,7 +51,7 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
         
       TransitiveProperty : creator
         
-          TransitiveProperty --|> Agent : creator
+          TransitiveProperty --> Agent : creator
         
       TransitiveProperty : curator_note
         
@@ -65,7 +65,7 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
         
       TransitiveProperty : depicted_by
         
-          TransitiveProperty --|> Image : depicted_by
+          TransitiveProperty --> Image : depicted_by
         
       TransitiveProperty : deprecated
         
@@ -79,21 +79,21 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
         
       TransitiveProperty : equivalentProperty
         
-          TransitiveProperty --|> Property : equivalentProperty
+          TransitiveProperty --> Property : equivalentProperty
         
       TransitiveProperty : exactMatch
         
-          TransitiveProperty --|> Property : exactMatch
+          TransitiveProperty --> Property : exactMatch
         
       TransitiveProperty : example_of_usage
         
       TransitiveProperty : excluded_from_QC_check
         
-          TransitiveProperty --|> Thing : excluded_from_QC_check
+          TransitiveProperty --> Thing : excluded_from_QC_check
         
       TransitiveProperty : excluded_subClassOf
         
-          TransitiveProperty --|> Class : excluded_subClassOf
+          TransitiveProperty --> Class : excluded_subClassOf
         
       TransitiveProperty : excluded_synonym
         
@@ -119,19 +119,19 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
         
       TransitiveProperty : image
         
-          TransitiveProperty --|> Thing : image
+          TransitiveProperty --> Thing : image
         
       TransitiveProperty : imported_from
         
-          TransitiveProperty --|> NamedIndividual : imported_from
+          TransitiveProperty --> NamedIndividual : imported_from
         
       TransitiveProperty : in_subset
         
-          TransitiveProperty --|> Subset : in_subset
+          TransitiveProperty --> Subset : in_subset
         
       TransitiveProperty : inverseOf
         
-          TransitiveProperty --|> Property : inverseOf
+          TransitiveProperty --> Property : inverseOf
         
       TransitiveProperty : is_class_level
         
@@ -145,13 +145,13 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
         
       TransitiveProperty : isDefinedBy
         
-          TransitiveProperty --|> Ontology : isDefinedBy
+          TransitiveProperty --> Ontology : isDefinedBy
         
       TransitiveProperty : label
         
       TransitiveProperty : narrowMatch
         
-          TransitiveProperty --|> Property : narrowMatch
+          TransitiveProperty --> Property : narrowMatch
         
       TransitiveProperty : OBO_foundry_unique_label
         
@@ -165,23 +165,23 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/omo/schema/Tr
         
       TransitiveProperty : seeAlso
         
-          TransitiveProperty --|> Thing : seeAlso
+          TransitiveProperty --> Thing : seeAlso
         
       TransitiveProperty : shorthand
         
       TransitiveProperty : should_conform_to
         
-          TransitiveProperty --|> Thing : should_conform_to
+          TransitiveProperty --> Thing : should_conform_to
         
       TransitiveProperty : temporal_interpretation
         
-          TransitiveProperty --|> NamedIndividual : temporal_interpretation
+          TransitiveProperty --> NamedIndividual : temporal_interpretation
         
       TransitiveProperty : term_editor
         
       TransitiveProperty : term_replaced_by
         
-          TransitiveProperty --|> Any : term_replaced_by
+          TransitiveProperty --> Any : term_replaced_by
         
       TransitiveProperty : term_tracker_item
         

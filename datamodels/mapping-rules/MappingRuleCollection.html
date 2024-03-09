@@ -94,7 +94,7 @@
         
       MappingRuleCollection : rules
         
-          MappingRuleCollection --|&gt; MappingRule : rules
+          MappingRuleCollection --&gt; MappingRule : rules
         
       
         </div><!-- no inheritance hierarchy -->
@@ -166,12 +166,16 @@ attributes:
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - MappingRuleCollection
     range: MappingRule
     inlined: true
   minimum_confidence:
     name: minimum_confidence
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRuleCollection
     range: float
 tree_root: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;

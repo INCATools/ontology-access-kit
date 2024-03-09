@@ -92,7 +92,7 @@
     class LexicalGrouping
       LexicalGrouping : relationships
         
-          LexicalGrouping --|&gt; RelationshipToTerm : relationships
+          LexicalGrouping --&gt; RelationshipToTerm : relationships
         
       LexicalGrouping : term
         
@@ -185,6 +185,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    domain_of:
+    - LexicalGrouping
     required: true
   relationships:
     name: relationships
@@ -193,6 +195,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalGrouping
     range: RelationshipToTerm
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

@@ -103,6 +103,9 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     slot_uri: schema:identifier
     identifier: true
+    domain_of:
+    - ItemList
+    - Thing
     range: uriorcurie
     required: true
   name:
@@ -110,12 +113,17 @@ attributes:
     description: The name of the item
     from_schema: https://w3id.org/oak/item-list
     slot_uri: rdfs:label
+    domain_of:
+    - ItemList
+    - Thing
     range: string
   url:
     name: url
     description: A URL for the item
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
+    domain_of:
+    - Thing
     range: uri
   identifiers:
     name: identifiers
@@ -124,11 +132,16 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     multivalued: true
+    domain_of:
+    - Thing
     range: uriorcurie
   description:
     name: description
     description: A description of the item
     from_schema: https://w3id.org/oak/item-list
+    domain_of:
+    - ItemList
+    - Thing
     range: string
   type:
     name: type
@@ -138,6 +151,8 @@ attributes:
     - value: schema:Person
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
+    domain_of:
+    - Thing
     range: uriorcurie
 class_uri: schema:Thing
 

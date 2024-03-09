@@ -23,7 +23,7 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
         
       RepairOperation : repairs
         
-          RepairOperation --|> ValidationResult : repairs
+          RepairOperation --> ValidationResult : repairs
         
       RepairOperation : successful
         
@@ -115,20 +115,30 @@ attributes:
     name: repairs
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - RepairOperation
     range: ValidationResult
   modified:
     name: modified
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - RepairOperation
     range: boolean
   successful:
     name: successful
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - RepairOperation
     range: boolean
   info:
     name: info
     from_schema: https://w3id.org/linkml/validation_results
+    domain_of:
+    - ValidationResult
+    - MappingValidationResult
+    - RepairOperation
     range: string
 
 ```
@@ -179,6 +189,7 @@ attributes:
     owner: RepairOperation
     domain_of:
     - ValidationResult
+    - MappingValidationResult
     - RepairOperation
     range: string
 

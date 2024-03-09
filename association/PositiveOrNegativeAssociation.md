@@ -39,7 +39,7 @@ URI: [ontoassoc:PositiveOrNegativeAssociation](https://w3id.org/oak/association/
         
       PositiveOrNegativeAssociation : property_values
         
-          PositiveOrNegativeAssociation --|> PropertyValue : property_values
+          PositiveOrNegativeAssociation --> PropertyValue : property_values
         
       PositiveOrNegativeAssociation : publications
         

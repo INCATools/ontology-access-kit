@@ -91,13 +91,13 @@
     class RollupGroup
       RollupGroup : associations
         
-          RollupGroup --|&gt; Association : associations
+          RollupGroup --&gt; Association : associations
         
       RollupGroup : group_object
         
       RollupGroup : sub_groups
         
-          RollupGroup --|&gt; RollupGroup : sub_groups
+          RollupGroup --&gt; RollupGroup : sub_groups
         
       
         </div><!-- no inheritance hierarchy -->

@@ -94,25 +94,25 @@
       
       GroupedStatistics : agents
         
-          GroupedStatistics --|&gt; Agent : agents
+          GroupedStatistics --&gt; Agent : agents
         
       GroupedStatistics : compared_with
         
-          GroupedStatistics --|&gt; Ontology : compared_with
+          GroupedStatistics --&gt; Ontology : compared_with
         
       GroupedStatistics : id
         
       GroupedStatistics : ontologies
         
-          GroupedStatistics --|&gt; Ontology : ontologies
+          GroupedStatistics --&gt; Ontology : ontologies
         
       GroupedStatistics : partitions
         
-          GroupedStatistics --|&gt; UngroupedStatistics : partitions
+          GroupedStatistics --&gt; UngroupedStatistics : partitions
         
       GroupedStatistics : was_generated_by
         
-          GroupedStatistics --|&gt; SummaryStatisticsCalculationActivity : was_generated_by
+          GroupedStatistics --&gt; SummaryStatisticsCalculationActivity : was_generated_by
         
       
         </div><section id="inheritance">
@@ -216,6 +216,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
+    domain_of:
+    - GroupedStatistics
     range: UngroupedStatistics
     inlined: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;

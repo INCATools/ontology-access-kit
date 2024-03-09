@@ -96,7 +96,7 @@
         
       LexicalTransformationPipeline : transformations
         
-          LexicalTransformationPipeline --|&gt; LexicalTransformation : transformations
+          LexicalTransformationPipeline --&gt; LexicalTransformation : transformations
         
       
         </div><section id="inheritance">
@@ -202,12 +202,16 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    domain_of:
+    - LexicalTransformationPipeline
     required: true
   transformations:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalTransformationPipeline
     range: LexicalTransformation
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

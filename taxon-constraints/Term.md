@@ -103,6 +103,8 @@ attributes:
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     identifier: true
+    domain_of:
+    - Term
     range: uriorcurie
     required: true
   label:
@@ -111,6 +113,8 @@ attributes:
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
     slot_uri: rdfs:label
+    domain_of:
+    - Term
     range: string
 class_uri: owl:Class
 

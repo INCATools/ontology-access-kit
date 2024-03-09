@@ -100,19 +100,19 @@
         
       SubjectTerm : never_in
         
-          SubjectTerm --|&gt; TaxonConstraint : never_in
+          SubjectTerm --&gt; TaxonConstraint : never_in
         
       SubjectTerm : only_in
         
-          SubjectTerm --|&gt; TaxonConstraint : only_in
+          SubjectTerm --&gt; TaxonConstraint : only_in
         
       SubjectTerm : present_in
         
-          SubjectTerm --|&gt; TaxonConstraint : present_in
+          SubjectTerm --&gt; TaxonConstraint : present_in
         
       SubjectTerm : present_in_ancestor_of
         
-          SubjectTerm --|&gt; TaxonConstraint : present_in_ancestor_of
+          SubjectTerm --&gt; TaxonConstraint : present_in_ancestor_of
         
       SubjectTerm : unsatisfiable
         
@@ -250,12 +250,16 @@ attributes:
     description: A description of the term
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
+    domain_of:
+    - SubjectTerm
   unsatisfiable:
     name: unsatisfiable
     description: If true then some combination of taxon constraints plus ontology
       lead to contradictions
     from_schema: https://w3id.org/oak/taxon_constraints
     rank: 1000
+    domain_of:
+    - SubjectTerm
     range: boolean
   only_in:
     name: only_in
@@ -270,6 +274,8 @@ from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002160
 multivalued: true
+domain_of:
+- SubjectTerm
 range: TaxonConstraint
 </pre></div>
 </div>
@@ -283,6 +289,8 @@ from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002161
 multivalued: true
+domain_of:
+- SubjectTerm
 range: TaxonConstraint
 </pre></div>
 </div>
@@ -295,6 +303,8 @@ from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 slot_uri: RO:0002175
 multivalued: true
+domain_of:
+- SubjectTerm
 range: TaxonConstraint
 </pre></div>
 </div>
@@ -303,6 +313,8 @@ name: present_in_ancestor_of
 from_schema: https://w3id.org/oak/taxon_constraints
 rank: 1000
 multivalued: true
+domain_of:
+- SubjectTerm
 range: TaxonConstraint</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

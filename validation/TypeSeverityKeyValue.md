@@ -17,7 +17,7 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
     class TypeSeverityKeyValue
       TypeSeverityKeyValue : severity
         
-          TypeSeverityKeyValue --|> severity_options : severity
+          TypeSeverityKeyValue --> severity_options : severity
         
       TypeSeverityKeyValue : type
         
@@ -98,11 +98,17 @@ attributes:
     name: type
     from_schema: https://w3id.org/linkml/validation_results
     key: true
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: uriorcurie
     required: true
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: severity_options
 
 ```

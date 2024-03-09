@@ -87,6 +87,8 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     identifier: true
+    domain_of:
+    - NamedResource
     range: uriorcurie
     required: true
 

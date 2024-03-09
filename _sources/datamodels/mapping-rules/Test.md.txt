@@ -92,15 +92,22 @@ attributes:
     description: Input string for the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Test
   output:
     name: output
     description: Output based on the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Test
   prefix:
     name: prefix
     description: The prefix that qualifies for the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    domain_of:
+    - Synonymizer
+    - Test
 
 ```
 </details>

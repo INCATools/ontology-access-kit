@@ -93,10 +93,14 @@ attributes:
   predicate:
     name: predicate
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    domain_of:
+    - Annotation
     relational_role: PREDICATE
   object:
     name: object
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    domain_of:
+    - Annotation
     relational_role: OBJECT
 represents_relationship: true
 

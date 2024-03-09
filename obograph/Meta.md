@@ -17,13 +17,13 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
     class Meta
       Meta : basicPropertyValues
         
-          Meta --|> BasicPropertyValue : basicPropertyValues
+          Meta --> BasicPropertyValue : basicPropertyValues
         
       Meta : comments
         
       Meta : definition
         
-          Meta --|> DefinitionPropertyValue : definition
+          Meta --> DefinitionPropertyValue : definition
         
       Meta : deprecated
         
@@ -31,13 +31,13 @@ URI: [obographs:Meta](https://github.com/geneontology/obographs/Meta)
         
       Meta : synonyms
         
-          Meta --|> SynonymPropertyValue : synonyms
+          Meta --> SynonymPropertyValue : synonyms
         
       Meta : version
         
       Meta : xrefs
         
-          Meta --|> XrefPropertyValue : xrefs
+          Meta --> XrefPropertyValue : xrefs
         
       
 ```

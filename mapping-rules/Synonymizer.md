@@ -22,7 +22,7 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
         
       Synonymizer : tests
         
-          Synonymizer --|> Test : tests
+          Synonymizer --> Test : tests
         
       Synonymizer : the_rule
         
@@ -106,42 +106,57 @@ attributes:
     description: Description of the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Synonymizer
     range: string
   match:
     name: match
     description: Reg-ex rule to match substrings in labels.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Synonymizer
     range: string
   match_scope:
     name: match_scope
     description: Scope of the reg-ex rule
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Synonymizer
     range: string
   replacement:
     name: replacement
     description: Reg-ex rule to replace substrings in labels
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Synonymizer
     range: string
   qualifier:
     name: qualifier
     description: Type of match for the new synonym generated.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Synonymizer
     range: string
   prefix:
     name: prefix
     description: The rule applies to nodes of a specific prefix.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Synonymizer
+    - Test
     range: string
   tests:
     name: tests
     description: Unit tests for each rules.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - Synonymizer
     range: Test
 
 ```

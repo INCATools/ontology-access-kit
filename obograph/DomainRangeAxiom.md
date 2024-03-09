@@ -19,13 +19,13 @@ URI: [obographs:DomainRangeAxiom](https://github.com/geneontology/obographs/Doma
       
       DomainRangeAxiom : allValuesFromEdges
         
-          DomainRangeAxiom --|> Edge : allValuesFromEdges
+          DomainRangeAxiom --> Edge : allValuesFromEdges
         
       DomainRangeAxiom : domainClassIds
         
       DomainRangeAxiom : meta
         
-          DomainRangeAxiom --|> Meta : meta
+          DomainRangeAxiom --> Meta : meta
         
       DomainRangeAxiom : predicateId
         

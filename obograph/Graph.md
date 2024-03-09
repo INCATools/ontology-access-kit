@@ -17,19 +17,19 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
     class Graph
       Graph : allValuesFromEdges
         
-          Graph --|> Edge : allValuesFromEdges
+          Graph --> Edge : allValuesFromEdges
         
       Graph : domainRangeAxioms
         
-          Graph --|> DomainRangeAxiom : domainRangeAxioms
+          Graph --> DomainRangeAxiom : domainRangeAxioms
         
       Graph : edges
         
-          Graph --|> Edge : edges
+          Graph --> Edge : edges
         
       Graph : equivalentNodesSets
         
-          Graph --|> EquivalentNodesSet : equivalentNodesSets
+          Graph --> EquivalentNodesSet : equivalentNodesSets
         
       Graph : id
         
@@ -37,31 +37,31 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
         
       Graph : logicalDefinitionAxioms
         
-          Graph --|> LogicalDefinitionAxiom : logicalDefinitionAxioms
+          Graph --> LogicalDefinitionAxiom : logicalDefinitionAxioms
         
       Graph : meta
         
-          Graph --|> Meta : meta
+          Graph --> Meta : meta
         
       Graph : nodes
         
-          Graph --|> Node : nodes
+          Graph --> Node : nodes
         
       Graph : prefixes
         
-          Graph --|> PrefixDeclaration : prefixes
+          Graph --> PrefixDeclaration : prefixes
         
       Graph : propertyChainAxioms
         
-          Graph --|> PropertyChainAxiom : propertyChainAxioms
+          Graph --> PropertyChainAxiom : propertyChainAxioms
         
       Graph : subsetDefinitions
         
-          Graph --|> SubsetDefinition : subsetDefinitions
+          Graph --> SubsetDefinition : subsetDefinitions
         
       Graph : synonymTypeDefinitions
         
-          Graph --|> SynonymTypeDefinition : synonymTypeDefinitions
+          Graph --> SynonymTypeDefinition : synonymTypeDefinitions
         
       
 ```

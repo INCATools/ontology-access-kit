@@ -90,12 +90,16 @@ attributes:
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
     identifier: true
+    domain_of:
+    - TermInfo
     required: true
   label:
     name: label
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
     slot_uri: rdfs:label
+    domain_of:
+    - TermInfo
 
 ```
 </details>

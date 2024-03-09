@@ -20,6 +20,7 @@ Name: validaton-results
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RepairReport](RepairReport.md) | A report that consists of repair operation results |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ValidationReport](ValidationReport.md) | A report that consists of validation results |
 | [Result](Result.md) | Abstract base class for any individual report result |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RepairOperation](RepairOperation.md) | The result of performing an individual repair |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid |
@@ -32,6 +33,8 @@ Name: validaton-results
 
 | Slot | Description |
 | --- | --- |
+| [category](category.md) | The category of the validation issue |
+| [confidence](confidence.md) |  |
 | [dry_run](dry_run.md) |  |
 | [http_response_code](http_response_code.md) |  |
 | [id](id.md) |  |
@@ -41,15 +44,24 @@ Name: validaton-results
 | [modified](modified.md) |  |
 | [number_of_attempts](number_of_attempts.md) |  |
 | [object](object.md) |  |
+| [object_id](object_id.md) |  |
+| [object_info](object_info.md) |  |
 | [object_str](object_str.md) |  |
 | [predicate](predicate.md) | The predicate or property of the subject which the result is about |
+| [predicate_id](predicate_id.md) |  |
+| [problem](problem.md) |  |
+| [prompt_info](prompt_info.md) | for AI agents, this allows passing through of additional info to the prompt |
 | [repairs](repairs.md) |  |
 | [results](results.md) | collection of results |
 | [schema_path](schema_path.md) | allows overriding the default OMO schema |
 | [severity](severity.md) | the severity of the issue |
 | [source](source.md) |  |
 | [subject](subject.md) | The instance which the result is about |
+| [subject_id](subject_id.md) |  |
+| [subject_info](subject_info.md) |  |
 | [successful](successful.md) |  |
+| [suggested_modifications](suggested_modifications.md) |  |
+| [suggested_predicate](suggested_predicate.md) |  |
 | [time_checked](time_checked.md) |  |
 | [type](type.md) | The type of validation result |
 | [type_severity_map](type_severity_map.md) | Allows overriding of severity of a particular type |

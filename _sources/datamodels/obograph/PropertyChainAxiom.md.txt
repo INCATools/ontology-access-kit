@@ -21,7 +21,7 @@ URI: [obographs:PropertyChainAxiom](https://github.com/geneontology/obographs/Pr
         
       PropertyChainAxiom : meta
         
-          PropertyChainAxiom --|> Meta : meta
+          PropertyChainAxiom --> Meta : meta
         
       PropertyChainAxiom : predicateId
         

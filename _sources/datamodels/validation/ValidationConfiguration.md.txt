@@ -17,11 +17,13 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
     class ValidationConfiguration
       ValidationConfiguration : max_number_results_per_type
         
+      ValidationConfiguration : prompt_info
+        
       ValidationConfiguration : schema_path
         
       ValidationConfiguration : type_severity_map
         
-          ValidationConfiguration --|> TypeSeverityKeyValue : type_severity_map
+          ValidationConfiguration --> TypeSeverityKeyValue : type_severity_map
         
       
 ```
@@ -39,6 +41,7 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
 | [max_number_results_per_type](max_number_results_per_type.md) | 0..1 <br/> [Integer](Integer.md) | if set then truncate results such that no more than this number of results ar... | direct |
 | [type_severity_map](type_severity_map.md) | 0..* <br/> [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | Allows overriding of severity of a particular type | direct |
 | [schema_path](schema_path.md) | 0..1 <br/> [String](String.md) | allows overriding the default OMO schema | direct |
+| [prompt_info](prompt_info.md) | 0..1 <br/> [String](String.md) | for AI agents, this allows passing through of additional info to the prompt | direct |
 
 
 
@@ -101,6 +104,8 @@ attributes:
       results are reported per type
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - ValidationConfiguration
     range: integer
   type_severity_map:
     name: type_severity_map
@@ -108,6 +113,8 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     multivalued: true
+    domain_of:
+    - ValidationConfiguration
     range: TypeSeverityKeyValue
     inlined: true
   schema_path:
@@ -115,6 +122,17 @@ attributes:
     description: allows overriding the default OMO schema
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - ValidationConfiguration
+    range: string
+  prompt_info:
+    name: prompt_info
+    description: for AI agents, this allows passing through of additional info to
+      the prompt
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    domain_of:
+    - ValidationConfiguration
     range: string
 
 ```
@@ -157,6 +175,17 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     alias: schema_path
+    owner: ValidationConfiguration
+    domain_of:
+    - ValidationConfiguration
+    range: string
+  prompt_info:
+    name: prompt_info
+    description: for AI agents, this allows passing through of additional info to
+      the prompt
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    alias: prompt_info
     owner: ValidationConfiguration
     domain_of:
     - ValidationConfiguration

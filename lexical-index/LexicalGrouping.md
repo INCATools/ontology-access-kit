@@ -17,7 +17,7 @@ URI: [ontolexindex:LexicalGrouping](https://w3id.org/oak/lexical-index/LexicalGr
     class LexicalGrouping
       LexicalGrouping : relationships
         
-          LexicalGrouping --|> RelationshipToTerm : relationships
+          LexicalGrouping --> RelationshipToTerm : relationships
         
       LexicalGrouping : term
         
@@ -98,6 +98,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    domain_of:
+    - LexicalGrouping
     required: true
   relationships:
     name: relationships
@@ -106,6 +108,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalGrouping
     range: RelationshipToTerm
 
 ```

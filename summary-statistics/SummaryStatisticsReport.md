@@ -22,21 +22,21 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
       
       SummaryStatisticsReport : agents
         
-          SummaryStatisticsReport --|> Agent : agents
+          SummaryStatisticsReport --> Agent : agents
         
       SummaryStatisticsReport : compared_with
         
-          SummaryStatisticsReport --|> Ontology : compared_with
+          SummaryStatisticsReport --> Ontology : compared_with
         
       SummaryStatisticsReport : id
         
       SummaryStatisticsReport : ontologies
         
-          SummaryStatisticsReport --|> Ontology : ontologies
+          SummaryStatisticsReport --> Ontology : ontologies
         
       SummaryStatisticsReport : was_generated_by
         
-          SummaryStatisticsReport --|> SummaryStatisticsCalculationActivity : was_generated_by
+          SummaryStatisticsReport --> SummaryStatisticsCalculationActivity : was_generated_by
         
       
 ```
@@ -116,6 +116,11 @@ attributes:
     description: Unique handle for this report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
+    domain_of:
+    - SummaryStatisticsReport
+    - Ontology
+    - Agent
+    - ContributorRole
     required: true
   ontologies:
     name: ontologies
@@ -123,6 +128,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
+    domain_of:
+    - SummaryStatisticsReport
     range: Ontology
     inlined: true
     inlined_as_list: true
@@ -132,6 +139,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
+    domain_of:
+    - SummaryStatisticsReport
     range: Ontology
     inlined: true
     inlined_as_list: true
@@ -140,6 +149,8 @@ attributes:
     description: The process that generated the report
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
+    domain_of:
+    - SummaryStatisticsReport
     range: SummaryStatisticsCalculationActivity
   agents:
     name: agents
@@ -147,6 +158,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     multivalued: true
+    domain_of:
+    - SummaryStatisticsReport
     range: Agent
     inlined: true
     inlined_as_list: true

@@ -19,7 +19,7 @@ URI: [mappingrules:MappingRuleCollection](https://w3id.org/oak/mapping-rules-dat
         
       MappingRuleCollection : rules
         
-          MappingRuleCollection --|> MappingRule : rules
+          MappingRuleCollection --> MappingRule : rules
         
       
 ```
@@ -91,12 +91,16 @@ attributes:
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - MappingRuleCollection
     range: MappingRule
     inlined: true
   minimum_confidence:
     name: minimum_confidence
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRuleCollection
     range: float
 tree_root: true
 

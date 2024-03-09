@@ -21,7 +21,7 @@ URI: [mappingrules:LexicalTransformationPipeline](https://w3id.org/oak/mapping-r
         
       LexicalTransformationPipeline : transformations
         
-          LexicalTransformationPipeline --|> LexicalTransformation : transformations
+          LexicalTransformationPipeline --> LexicalTransformation : transformations
         
       
 ```
@@ -106,12 +106,16 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     key: true
+    domain_of:
+    - LexicalTransformationPipeline
     required: true
   transformations:
     name: transformations
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalTransformationPipeline
     range: LexicalTransformation
 
 ```

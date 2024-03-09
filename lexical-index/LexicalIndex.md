@@ -17,11 +17,11 @@ URI: [ontolexindex:LexicalIndex](https://w3id.org/oak/lexical-index/LexicalIndex
     class LexicalIndex
       LexicalIndex : groupings
         
-          LexicalIndex --|> LexicalGrouping : groupings
+          LexicalIndex --> LexicalGrouping : groupings
         
       LexicalIndex : pipelines
         
-          LexicalIndex --|> LexicalTransformationPipeline : pipelines
+          LexicalIndex --> LexicalTransformationPipeline : pipelines
         
       
 ```
@@ -93,6 +93,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalIndex
     range: LexicalGrouping
     inlined: true
   pipelines:
@@ -101,6 +103,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalIndex
     range: LexicalTransformationPipeline
     inlined: true
 

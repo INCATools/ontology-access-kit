@@ -180,6 +180,8 @@ comments:
 - Note that to be defensive most applications should leave the default as false
 from_schema: https://w3id.org/oak/association
 rank: 1000
+domain_of:
+- ParserConfiguration
 range: boolean
 </pre></div>
 </div>
@@ -190,6 +192,8 @@ attributes.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  This may result in slower parsing&#39;
 from_schema: https://w3id.org/oak/association
 rank: 1000
+domain_of:
+- ParserConfiguration
 range: boolean
 </pre></div>
 </div>
@@ -199,6 +203,10 @@ description: The default primary knowledge source for all associations in this
 resource.
 from_schema: https://w3id.org/oak/association
 slot_uri: biolink:primary_knowledge_source
+domain_of:
+- PositiveOrNegativeAssociation
+- ParserConfiguration
+- AssociationChange
 range: uriorcurie
 aggregator_knowledge_source:
 name: aggregator_knowledge_source
@@ -206,6 +214,10 @@ description: The default aggregator knowledge source for all associations in thi
 resource.
 from_schema: https://w3id.org/oak/association
 slot_uri: biolink:aggregator_knowledge_source
+domain_of:
+- PositiveOrNegativeAssociation
+- ParserConfiguration
+- AssociationChange
 range: uriorcurie</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

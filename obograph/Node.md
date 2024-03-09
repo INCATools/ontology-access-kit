@@ -21,11 +21,11 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
         
       Node : meta
         
-          Node --|> Meta : meta
+          Node --> Meta : meta
         
       Node : propertyType
         
-          Node --|> PropertyTypeEnum : propertyType
+          Node --> PropertyTypeEnum : propertyType
         
       Node : type
         

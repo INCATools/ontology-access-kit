@@ -95,11 +95,17 @@ attributes:
     description: the facet used to group the counts
     from_schema: https://w3id.org/oak/summary_statistics
     key: true
+    domain_of:
+    - FacetedCount
+    - ChangeTypeStatistic
     required: true
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
     from_schema: https://w3id.org/oak/summary_statistics
+    domain_of:
+    - FacetedCount
+    - ChangeTypeStatistic
     range: integer
     required: true
 

@@ -19,7 +19,7 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
         
       RepairConfiguration : validation_configuration
         
-          RepairConfiguration --|> ValidationConfiguration : validation_configuration
+          RepairConfiguration --> ValidationConfiguration : validation_configuration
         
       
 ```
@@ -90,11 +90,15 @@ attributes:
     description: repair configurations include validation configurations
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - RepairConfiguration
     range: ValidationConfiguration
   dry_run:
     name: dry_run
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - RepairConfiguration
     range: boolean
 
 ```

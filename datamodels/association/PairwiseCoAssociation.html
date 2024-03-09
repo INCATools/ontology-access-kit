@@ -92,7 +92,7 @@
     class PairwiseCoAssociation
       PairwiseCoAssociation : associations_for_subjects_in_common
         
-          PairwiseCoAssociation --|&gt; Association : associations_for_subjects_in_common
+          PairwiseCoAssociation --&gt; Association : associations_for_subjects_in_common
         
       PairwiseCoAssociation : number_subject_unique_to_entity1
         
@@ -104,17 +104,17 @@
         
       PairwiseCoAssociation : object1_label
         
-          PairwiseCoAssociation --|&gt; None : object1_label
+          PairwiseCoAssociation --&gt; None : object1_label
         
       PairwiseCoAssociation : object2
         
       PairwiseCoAssociation : object2_label
         
-          PairwiseCoAssociation --|&gt; None : object2_label
+          PairwiseCoAssociation --&gt; None : object2_label
         
       PairwiseCoAssociation : subjects_in_common
         
-          PairwiseCoAssociation --|&gt; None : subjects_in_common
+          PairwiseCoAssociation --&gt; None : subjects_in_common
         
       
         </div><!-- no inheritance hierarchy -->

@@ -25,11 +25,11 @@ URI: [schema:ItemList](http://schema.org/ItemList)
         
       ItemList : itemListElements
         
-          ItemList --|> ListItem : itemListElements
+          ItemList --> ListItem : itemListElements
         
       ItemList : itemMetadataMap
         
-          ItemList --|> ListItem : itemMetadataMap
+          ItemList --> ListItem : itemMetadataMap
         
       ItemList : keywords
         
@@ -37,7 +37,7 @@ URI: [schema:ItemList](http://schema.org/ItemList)
         
       ItemList : numberOfItems
         
-          ItemList --|> ItemListOrderType : numberOfItems
+          ItemList --> ItemListOrderType : numberOfItems
         
       ItemList : wasGeneratedBy
         
@@ -137,6 +137,9 @@ attributes:
     - this is optional and hence declared as an identifier
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
+    domain_of:
+    - ItemList
+    - Thing
     range: uriorcurie
   name:
     name: name
@@ -146,6 +149,9 @@ attributes:
     - description: my-shopping-list
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
+    domain_of:
+    - ItemList
+    - Thing
     range: string
     recommended: true
   description:
@@ -156,6 +162,9 @@ attributes:
     - description: A list of items to buy at the supermarket
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
+    domain_of:
+    - ItemList
+    - Thing
     range: string
     recommended: true
   itemListElements:
@@ -166,6 +175,8 @@ attributes:
     singular_name: itemListElement
     slot_uri: schema:itemListElement
     multivalued: true
+    domain_of:
+    - ItemList
     range: ListItem
     inlined: false
   numberOfItems:
@@ -174,6 +185,8 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     slot_uri: schema:numberOfItems
+    domain_of:
+    - ItemList
     range: ItemListOrderType
   itemMetadataMap:
     name: itemMetadataMap
@@ -181,6 +194,8 @@ attributes:
     from_schema: https://w3id.org/oak/item-list
     rank: 1000
     multivalued: true
+    domain_of:
+    - ItemList
     range: ListItem
     inlined: true
   categories:
@@ -194,6 +209,8 @@ attributes:
     singular_name: category
     slot_uri: dcterms:subject
     multivalued: true
+    domain_of:
+    - ItemList
     range: uriorcurie
   keywords:
     name: keywords
@@ -203,6 +220,8 @@ attributes:
     singular_name: keyword
     slot_uri: schema:keywords
     multivalued: true
+    domain_of:
+    - ItemList
     range: string
   additionalType:
     name: additionalType
@@ -216,6 +235,8 @@ attributes:
     rank: 1000
     slot_uri: schema:additionalType
     multivalued: true
+    domain_of:
+    - ItemList
     range: uriorcurie
   wasGeneratedBy:
     name: wasGeneratedBy
@@ -225,6 +246,8 @@ attributes:
     rank: 1000
     slot_uri: prov:wasGeneratedBy
     multivalued: true
+    domain_of:
+    - ItemList
     range: uriorcurie
 class_uri: schema:ItemList
 

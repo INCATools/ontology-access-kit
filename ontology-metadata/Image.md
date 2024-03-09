@@ -16,27 +16,27 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
         
       Image : broadMatch
         
-          Image --|> Thing : broadMatch
+          Image --> Thing : broadMatch
         
       Image : category
         
       Image : closeMatch
         
-          Image --|> Thing : closeMatch
+          Image --> Thing : closeMatch
         
       Image : comment
         
       Image : conformsTo
         
-          Image --|> Thing : conformsTo
+          Image --> Thing : conformsTo
         
       Image : consider
         
-          Image --|> Any : consider
+          Image --> Any : consider
         
       Image : contributor
         
-          Image --|> Agent : contributor
+          Image --> Agent : contributor
         
       Image : created
         
@@ -46,7 +46,7 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
         
       Image : creator
         
-          Image --|> Agent : creator
+          Image --> Agent : creator
         
       Image : curator_note
         
@@ -60,7 +60,7 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
         
       Image : depicted_by
         
-          Image --|> Image : depicted_by
+          Image --> Image : depicted_by
         
       Image : deprecated
         
@@ -70,17 +70,17 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
         
       Image : exactMatch
         
-          Image --|> Thing : exactMatch
+          Image --> Thing : exactMatch
         
       Image : example_of_usage
         
       Image : excluded_from_QC_check
         
-          Image --|> Thing : excluded_from_QC_check
+          Image --> Thing : excluded_from_QC_check
         
       Image : excluded_subClassOf
         
-          Image --|> Class : excluded_subClassOf
+          Image --> Class : excluded_subClassOf
         
       Image : excluded_synonym
         
@@ -106,27 +106,27 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
         
       Image : image
         
-          Image --|> Thing : image
+          Image --> Thing : image
         
       Image : imported_from
         
-          Image --|> NamedIndividual : imported_from
+          Image --> NamedIndividual : imported_from
         
       Image : in_subset
         
-          Image --|> Subset : in_subset
+          Image --> Subset : in_subset
         
       Image : ISA_alternative_term
         
       Image : isDefinedBy
         
-          Image --|> Ontology : isDefinedBy
+          Image --> Ontology : isDefinedBy
         
       Image : label
         
       Image : narrowMatch
         
-          Image --|> Thing : narrowMatch
+          Image --> Thing : narrowMatch
         
       Image : OBO_foundry_unique_label
         
@@ -136,17 +136,17 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
         
       Image : seeAlso
         
-          Image --|> Thing : seeAlso
+          Image --> Thing : seeAlso
         
       Image : should_conform_to
         
-          Image --|> Thing : should_conform_to
+          Image --> Thing : should_conform_to
         
       Image : term_editor
         
       Image : term_replaced_by
         
-          Image --|> Any : term_replaced_by
+          Image --> Any : term_replaced_by
         
       Image : term_tracker_item
         

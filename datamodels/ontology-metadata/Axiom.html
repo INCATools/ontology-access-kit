@@ -92,19 +92,19 @@
     class Axiom
       Axiom : annotatedProperty
         
-          Axiom --|&gt; AnnotationProperty : annotatedProperty
+          Axiom --&gt; AnnotationProperty : annotatedProperty
         
       Axiom : annotatedSource
         
-          Axiom --|&gt; NamedObject : annotatedSource
+          Axiom --&gt; NamedObject : annotatedSource
         
       Axiom : annotatedTarget
         
-          Axiom --|&gt; Any : annotatedTarget
+          Axiom --&gt; Any : annotatedTarget
         
       Axiom : annotations
         
-          Axiom --|&gt; Annotation : annotations
+          Axiom --&gt; Annotation : annotations
         
       Axiom : comment
         
@@ -120,13 +120,13 @@
         
       Axiom : has_axiom_label
         
-          Axiom --|&gt; Thing : has_axiom_label
+          Axiom --&gt; Thing : has_axiom_label
         
       Axiom : has_exact_synonym
         
       Axiom : has_synonym_type
         
-          Axiom --|&gt; AnnotationProperty : has_synonym_type
+          Axiom --&gt; AnnotationProperty : has_synonym_type
         
       Axiom : is_a_defining_property_chain_axiom
         
@@ -140,7 +140,7 @@
         
       Axiom : seeAlso
         
-          Axiom --|&gt; Thing : seeAlso
+          Axiom --&gt; Thing : seeAlso
         
       Axiom : source
         

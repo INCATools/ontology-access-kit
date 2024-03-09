@@ -21,7 +21,7 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
         
       DefinitionPropertyValue : meta
         
-          DefinitionPropertyValue --|> Meta : meta
+          DefinitionPropertyValue --> Meta : meta
         
       DefinitionPropertyValue : pred
         

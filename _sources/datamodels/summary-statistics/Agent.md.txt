@@ -99,6 +99,11 @@ attributes:
     description: the unique identifier for the agent
     from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
+    domain_of:
+    - SummaryStatisticsReport
+    - Ontology
+    - Agent
+    - ContributorRole
     range: string
     required: true
   label:
@@ -107,6 +112,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: rdfs:label
+    domain_of:
+    - Agent
     range: string
 class_uri: prov:Agent
 

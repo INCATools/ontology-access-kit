@@ -18,17 +18,17 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
       
       HasLifeCycle : consider
         
-          HasLifeCycle --|> Any : consider
+          HasLifeCycle --> Any : consider
         
       HasLifeCycle : deprecated
         
       HasLifeCycle : excluded_from_QC_check
         
-          HasLifeCycle --|> Thing : excluded_from_QC_check
+          HasLifeCycle --> Thing : excluded_from_QC_check
         
       HasLifeCycle : excluded_subClassOf
         
-          HasLifeCycle --|> Class : excluded_subClassOf
+          HasLifeCycle --> Class : excluded_subClassOf
         
       HasLifeCycle : excluded_synonym
         
@@ -38,11 +38,11 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
         
       HasLifeCycle : should_conform_to
         
-          HasLifeCycle --|> Thing : should_conform_to
+          HasLifeCycle --> Thing : should_conform_to
         
       HasLifeCycle : term_replaced_by
         
-          HasLifeCycle --|> Any : term_replaced_by
+          HasLifeCycle --> Any : term_replaced_by
         
       
 ```

@@ -12,13 +12,13 @@ URI: [ontoassoc:RollupGroup](https://w3id.org/oak/association/RollupGroup)
     class RollupGroup
       RollupGroup : associations
         
-          RollupGroup --|> Association : associations
+          RollupGroup --> Association : associations
         
       RollupGroup : group_object
         
       RollupGroup : sub_groups
         
-          RollupGroup --|> RollupGroup : sub_groups
+          RollupGroup --> RollupGroup : sub_groups
         
       
 ```

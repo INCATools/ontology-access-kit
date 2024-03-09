@@ -17,7 +17,7 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
     class Edge
       Edge : meta
         
-          Edge --|> Meta : meta
+          Edge --> Meta : meta
         
       Edge : obj
         

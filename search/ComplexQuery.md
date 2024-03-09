@@ -12,19 +12,19 @@ URI: [ontosearch:ComplexQuery](https://w3id.org/oak/search-datamodel/ComplexQuer
     class ComplexQuery
       ComplexQuery : all_of
         
-          ComplexQuery --|> ComplexQuery : all_of
+          ComplexQuery --> ComplexQuery : all_of
         
       ComplexQuery : any_of
         
-          ComplexQuery --|> ComplexQuery : any_of
+          ComplexQuery --> ComplexQuery : any_of
         
       ComplexQuery : atom
         
-          ComplexQuery --|> SearchBaseConfiguration : atom
+          ComplexQuery --> SearchBaseConfiguration : atom
         
       ComplexQuery : none_of
         
-          ComplexQuery --|> ComplexQuery : none_of
+          ComplexQuery --> ComplexQuery : none_of
         
       ComplexQuery : path_to
         
@@ -108,27 +108,37 @@ attributes:
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - ComplexQuery
     range: ComplexQuery
   any_of:
     name: any_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - ComplexQuery
     range: ComplexQuery
   none_of:
     name: none_of
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - ComplexQuery
     range: ComplexQuery
   path_to:
     name: path_to
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - ComplexQuery
   atom:
     name: atom
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - ComplexQuery
     range: SearchBaseConfiguration
 
 ```

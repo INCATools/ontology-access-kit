@@ -12,7 +12,7 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
     class SearchResultSet
       SearchResultSet : configuration
         
-          SearchResultSet --|> SearchBaseConfiguration : configuration
+          SearchResultSet --> SearchBaseConfiguration : configuration
         
       SearchResultSet : cursor
         
@@ -20,7 +20,7 @@ URI: [ontosearch:SearchResultSet](https://w3id.org/oak/search-datamodel/SearchRe
         
       SearchResultSet : results
         
-          SearchResultSet --|> SearchResult : results
+          SearchResultSet --> SearchResult : results
         
       
 ```
@@ -91,21 +91,30 @@ attributes:
     name: configuration
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchResultSet
     range: SearchBaseConfiguration
   results:
     name: results
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - SearchResultSet
     range: SearchResult
   result_count:
     name: result_count
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchResultSet
     range: integer
   cursor:
     name: cursor
     from_schema: https://w3id.org/oak/search-datamodel
+    domain_of:
+    - SearchBaseConfiguration
+    - SearchResultSet
     range: integer
 
 ```

@@ -94,11 +94,11 @@
       
       LexicalTransformation : params
         
-          LexicalTransformation --|&gt; Any : params
+          LexicalTransformation --&gt; Any : params
         
       LexicalTransformation : type
         
-          LexicalTransformation --|&gt; TransformationType : type
+          LexicalTransformation --&gt; TransformationType : type
         
       
         </div><section id="inheritance">
@@ -199,6 +199,8 @@ attributes:
     description: The type of transformation
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - LexicalTransformation
     range: TransformationType
   params:
     name: params
@@ -206,6 +208,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalTransformation
     range: Any
     inlined: true
     inlined_as_list: true

@@ -23,11 +23,11 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
         
       Ontology : creator
         
-          Ontology --|> Agent : creator
+          Ontology --> Agent : creator
         
       Ontology : has_ontology_root_term
         
-          Ontology --|> Class : has_ontology_root_term
+          Ontology --> Class : has_ontology_root_term
         
       Ontology : id
         
@@ -35,7 +35,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
         
       Ontology : license
         
-          Ontology --|> Thing : license
+          Ontology --> Thing : license
         
       Ontology : source
         

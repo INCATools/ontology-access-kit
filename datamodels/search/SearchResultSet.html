@@ -91,7 +91,7 @@
     class SearchResultSet
       SearchResultSet : configuration
         
-          SearchResultSet --|&gt; SearchBaseConfiguration : configuration
+          SearchResultSet --&gt; SearchBaseConfiguration : configuration
         
       SearchResultSet : cursor
         
@@ -99,7 +99,7 @@
         
       SearchResultSet : results
         
-          SearchResultSet --|&gt; SearchResult : results
+          SearchResultSet --&gt; SearchResult : results
         
       
         </div><!-- no inheritance hierarchy -->
@@ -178,21 +178,30 @@ attributes:
     name: configuration
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchResultSet
     range: SearchBaseConfiguration
   results:
     name: results
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - SearchResultSet
     range: SearchResult
   result_count:
     name: result_count
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - SearchResultSet
     range: integer
   cursor:
     name: cursor
     from_schema: https://w3id.org/oak/search-datamodel
+    domain_of:
+    - SearchBaseConfiguration
+    - SearchResultSet
     range: integer
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

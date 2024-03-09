@@ -65,7 +65,7 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
     class RelationalDiff
       RelationalDiff : category
         
-          RelationalDiff --|> DiffCategory : category
+          RelationalDiff --> DiffCategory : category
         
       RelationalDiff : left_object_id
         
@@ -85,7 +85,7 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
         
       RelationalDiff : object_mapping_cardinality
         
-          RelationalDiff --|> MappingCardinalityEnum : object_mapping_cardinality
+          RelationalDiff --> MappingCardinalityEnum : object_mapping_cardinality
         
       RelationalDiff : object_mapping_predicate
         
@@ -105,7 +105,7 @@ URI: [xodiff:RelationalDiff](https://w3id.org/oak/cross-ontology-diff/Relational
         
       RelationalDiff : subject_mapping_cardinality
         
-          RelationalDiff --|> MappingCardinalityEnum : subject_mapping_cardinality
+          RelationalDiff --> MappingCardinalityEnum : subject_mapping_cardinality
         
       RelationalDiff : subject_mapping_predicate
         
@@ -218,6 +218,8 @@ attributes:
     description: Each match (or lack of match) is placed into exactly one category
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
+    domain_of:
+    - RelationalDiff
     range: DiffCategory
   left_subject_id:
     name: left_subject_id
@@ -227,6 +229,8 @@ attributes:
     mixins:
     - left_side
     - subject
+    domain_of:
+    - RelationalDiff
     range: EntityReference
     required: true
   left_object_id:
@@ -237,6 +241,8 @@ attributes:
     mixins:
     - left_side
     - object
+    domain_of:
+    - RelationalDiff
     range: EntityReference
     required: true
   left_predicate_id:
@@ -247,6 +253,8 @@ attributes:
     mixins:
     - left_side
     - predicate
+    domain_of:
+    - RelationalDiff
     range: EntityReference
     required: true
   left_subject_label:
@@ -258,6 +266,8 @@ attributes:
     - left_side
     - subject
     - label
+    domain_of:
+    - RelationalDiff
     range: Label
   left_object_label:
     name: left_object_label
@@ -268,6 +278,8 @@ attributes:
     - left_side
     - object
     - label
+    domain_of:
+    - RelationalDiff
     range: Label
   left_predicate_label:
     name: left_predicate_label
@@ -278,6 +290,8 @@ attributes:
     - left_side
     - predicate
     - label
+    domain_of:
+    - RelationalDiff
     range: Label
   right_subject_id:
     name: right_subject_id
@@ -287,6 +301,8 @@ attributes:
     mixins:
     - right_side
     - subject
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_object_id:
     name: right_object_id
@@ -296,6 +312,8 @@ attributes:
     mixins:
     - right_side
     - object
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_predicate_ids:
     name: right_predicate_ids
@@ -311,6 +329,8 @@ attributes:
     - right_side
     - predicate
     multivalued: true
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_subject_label:
     name: right_subject_label
@@ -321,6 +341,8 @@ attributes:
     - right_side
     - subject
     - label
+    domain_of:
+    - RelationalDiff
     range: Label
   right_object_label:
     name: right_object_label
@@ -331,6 +353,8 @@ attributes:
     - right_side
     - object
     - label
+    domain_of:
+    - RelationalDiff
     range: Label
   right_predicate_labels:
     name: right_predicate_labels
@@ -342,6 +366,8 @@ attributes:
     - predicate
     - label
     multivalued: true
+    domain_of:
+    - RelationalDiff
     range: Label
   left_subject_is_functional:
     name: left_subject_is_functional
@@ -352,6 +378,8 @@ attributes:
     mixins:
     - left_side
     - is_functional
+    domain_of:
+    - RelationalDiff
   left_object_is_functional:
     name: left_object_is_functional
     description: True if an object mapping is present, and maps uniquely within the
@@ -361,6 +389,8 @@ attributes:
     mixins:
     - left_side
     - is_functional
+    domain_of:
+    - RelationalDiff
   subject_mapping_predicate:
     name: subject_mapping_predicate
     description: The mapping predicate that holds between left_subject_id and right_subject_id
@@ -369,6 +399,8 @@ attributes:
     mixins:
     - subject
     - predicate
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   object_mapping_predicate:
     name: object_mapping_predicate
@@ -378,24 +410,32 @@ attributes:
     mixins:
     - subject
     - predicate
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_intermediate_ids:
     name: right_intermediate_ids
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     multivalued: true
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   subject_mapping_cardinality:
     name: subject_mapping_cardinality
     description: The mapping cardinality of the subject pair
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
+    domain_of:
+    - RelationalDiff
     range: MappingCardinalityEnum
   object_mapping_cardinality:
     name: object_mapping_cardinality
     description: The mapping cardinality of the object pair
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
+    domain_of:
+    - RelationalDiff
     range: MappingCardinalityEnum
 
 ```

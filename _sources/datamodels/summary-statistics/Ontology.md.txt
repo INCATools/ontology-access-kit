@@ -112,6 +112,11 @@ attributes:
     description: the unique identifier for the resource
     from_schema: https://w3id.org/oak/summary_statistics
     identifier: true
+    domain_of:
+    - SummaryStatisticsReport
+    - Ontology
+    - Agent
+    - ContributorRole
     range: string
     required: true
   description:
@@ -120,6 +125,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: dcterms:description
+    domain_of:
+    - Ontology
     range: string
   title:
     name: title
@@ -127,6 +134,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: dcterms:title
+    domain_of:
+    - Ontology
     range: string
   prefix:
     name: prefix
@@ -134,6 +143,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: sh:prefix
+    domain_of:
+    - Ontology
     range: string
   version:
     name: version
@@ -141,6 +152,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: owl:versionIRI
+    domain_of:
+    - Ontology
     range: string
   version_info:
     name: version_info
@@ -148,6 +161,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: owl:versionInfo
+    domain_of:
+    - Ontology
     range: string
 class_uri: owl:Ontology
 

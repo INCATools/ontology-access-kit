@@ -84,14 +84,16 @@
              
   <h1>Source code for oaklib.interfaces.validator_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.validation_datamodel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MappingValidationResult</span><span class="p">,</span>
     <span class="n">RepairConfiguration</span><span class="p">,</span>
     <span class="n">RepairOperation</span><span class="p">,</span>
     <span class="n">ValidationConfiguration</span><span class="p">,</span>
     <span class="n">ValidationResult</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 
@@ -149,6 +151,36 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="ValidatorInterface.validate_mappings">
+<a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate_mappings">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate_mappings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">adapters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BasicOntologyInterface</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">configuration</span><span class="p">:</span> <span class="n">ValidationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">MappingValidationResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate mappings for a set of entities.</span>
+
+<span class="sd">        :param entities:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.mapping_validation</span> <span class="kn">import</span> <span class="n">validate_mappings</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot validate mappings on </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">mappings</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sssom_mappings</span><span class="p">(</span><span class="n">entities</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">errors</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">validate_mappings</span><span class="p">(</span><span class="n">mappings</span><span class="p">,</span> <span class="n">adapters</span><span class="o">=</span><span class="n">adapters</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">MappingValidationResult</span><span class="p">(</span>
+                    <span class="n">subject_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span>
+                    <span class="n">object_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">object_id</span><span class="p">,</span>
+                    <span class="n">predicate_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">predicate_id</span><span class="p">,</span>
+                    <span class="n">info</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">yield</span> <span class="n">result</span></div>
 
 
 <div class="viewcode-block" id="ValidatorInterface.repair">

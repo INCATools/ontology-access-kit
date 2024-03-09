@@ -21,7 +21,7 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
         
       XrefPropertyValue : meta
         
-          XrefPropertyValue --|> Meta : meta
+          XrefPropertyValue --> Meta : meta
         
       XrefPropertyValue : pred
         

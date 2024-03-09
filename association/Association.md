@@ -41,7 +41,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
         
       Association : property_values
         
-          Association --|> PropertyValue : property_values
+          Association --> PropertyValue : property_values
         
       Association : publications
         

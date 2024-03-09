@@ -94,11 +94,11 @@
         
       PathExpression : search_term
         
-          PathExpression --|&gt; SearchBaseConfiguration : search_term
+          PathExpression --&gt; SearchBaseConfiguration : search_term
         
       PathExpression : traversal
         
-          PathExpression --|&gt; GraphFunction : traversal
+          PathExpression --&gt; GraphFunction : traversal
         
       
         </div><!-- no inheritance hierarchy -->
@@ -173,17 +173,23 @@ attributes:
     name: traversal
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - PathExpression
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - PathExpression
     range: uriorcurie
   search_term:
     name: search_term
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - PathExpression
     range: SearchBaseConfiguration
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

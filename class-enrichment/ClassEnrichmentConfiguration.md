@@ -85,6 +85,8 @@ attributes:
     description: p-value cutoff for enrichment
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentConfiguration
     range: float
     required: true
 

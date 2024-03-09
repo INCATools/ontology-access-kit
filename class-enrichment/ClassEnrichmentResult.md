@@ -131,6 +131,8 @@ attributes:
     description: The class id
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: uriorcurie
     required: true
   class_label:
@@ -138,12 +140,16 @@ attributes:
     description: The class label
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: string
   rank:
     name: rank
     description: The rank of this result
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: integer
   p_value:
     name: p_value
@@ -151,6 +157,8 @@ attributes:
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
     slot_uri: OBI:0000175
+    domain_of:
+    - ClassEnrichmentResult
     range: float
     required: true
   p_value_adjusted:
@@ -158,24 +166,32 @@ attributes:
     description: The adjusted p-value
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: float
   false_discovery_rate:
     name: false_discovery_rate
     description: The false discovery rate
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: float
   fold_enrichment:
     name: fold_enrichment
     description: The fold enrichment
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: float
   probability:
     name: probability
     description: The probability, as estimated by model-based approaches
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: float
     minimum_value: 0
     maximum_value: 1
@@ -184,36 +200,48 @@ attributes:
     description: The number of entities in the sample with this class
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: integer
   sample_total:
     name: sample_total
     description: The total number of entities in the sample
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: integer
   background_count:
     name: background_count
     description: The background count
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: integer
   background_total:
     name: background_total
     description: The background total
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: integer
   ancestor_of_more_informative_result:
     name: ancestor_of_more_informative_result
     description: This term is more general than a previously reported result
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: boolean
   descendant_of_more_informative_result:
     name: descendant_of_more_informative_result
     description: This term is more specific than a previously reported result
     from_schema: https://w3id.org/oak/class-enrichment
     rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
     range: boolean
 
 ```

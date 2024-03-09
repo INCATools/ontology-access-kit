@@ -96,15 +96,15 @@
         
       MappingRule : postconditions
         
-          MappingRule --|&gt; Postcondition : postconditions
+          MappingRule --&gt; Postcondition : postconditions
         
       MappingRule : preconditions
         
-          MappingRule --|&gt; Precondition : preconditions
+          MappingRule --&gt; Precondition : preconditions
         
       MappingRule : synonymizer
         
-          MappingRule --|&gt; Synonymizer : synonymizer
+          MappingRule --&gt; Synonymizer : synonymizer
         
       
         </div><!-- no inheritance hierarchy -->
@@ -209,12 +209,16 @@ attributes:
     name: description
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
   oneway:
     name: oneway
     description: if true then subject and object can be switched and predicate inverted
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     ifabsent: 'False'
+    domain_of:
+    - MappingRule
     range: boolean
   preconditions:
     name: preconditions
@@ -222,18 +226,24 @@ attributes:
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     slot_uri: sh:condition
+    domain_of:
+    - MappingRule
     range: Precondition
   postconditions:
     name: postconditions
     description: conditions that apply if preconditions match
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
     range: Postcondition
   synonymizer:
     name: synonymizer
     description: Normalizing rules to labels.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
     range: Synonymizer
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

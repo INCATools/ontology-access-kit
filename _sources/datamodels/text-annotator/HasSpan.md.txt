@@ -22,7 +22,7 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
         
       HasSpan : subject_text_id
         
-          HasSpan --|> TextualElement : subject_text_id
+          HasSpan --> TextualElement : subject_text_id
         
       
 ```
@@ -104,6 +104,8 @@ attributes:
     exact_mappings:
     - bpa:from
     rank: 1000
+    domain_of:
+    - HasSpan
     range: Position
   subject_end:
     name: subject_end
@@ -111,6 +113,8 @@ attributes:
     exact_mappings:
     - bpa:to
     rank: 1000
+    domain_of:
+    - HasSpan
     range: Position
   subject_label:
     name: subject_label
@@ -120,6 +124,8 @@ attributes:
     exact_mappings:
     - bpa:text
     rank: 1000
+    domain_of:
+    - HasSpan
   subject_source:
     name: subject_source
     from_schema: https://w3id.org/oak/text_annotator
@@ -127,10 +133,14 @@ attributes:
     - oa:hasBody
     rank: 1000
     slot_uri: sssom:subject_source
+    domain_of:
+    - HasSpan
   subject_text_id:
     name: subject_text_id
     from_schema: https://w3id.org/oak/text_annotator
     rank: 1000
+    domain_of:
+    - HasSpan
     range: TextualElement
 
 ```

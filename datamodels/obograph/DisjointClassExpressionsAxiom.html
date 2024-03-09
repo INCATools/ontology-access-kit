@@ -94,23 +94,23 @@
       
       DisjointClassExpressionsAxiom : classExpressions
         
-          DisjointClassExpressionsAxiom --|&gt; ExistentialRestrictionExpression : classExpressions
+          DisjointClassExpressionsAxiom --&gt; ExistentialRestrictionExpression : classExpressions
         
       DisjointClassExpressionsAxiom : classIds
         
-          DisjointClassExpressionsAxiom --|&gt; None : classIds
+          DisjointClassExpressionsAxiom --&gt; None : classIds
         
       DisjointClassExpressionsAxiom : meta
         
-          DisjointClassExpressionsAxiom --|&gt; Meta : meta
+          DisjointClassExpressionsAxiom --&gt; Meta : meta
         
       DisjointClassExpressionsAxiom : unionEquivalentTo
         
-          DisjointClassExpressionsAxiom --|&gt; None : unionEquivalentTo
+          DisjointClassExpressionsAxiom --&gt; None : unionEquivalentTo
         
       DisjointClassExpressionsAxiom : unionEquivalentToExpression
         
-          DisjointClassExpressionsAxiom --|&gt; ExistentialRestrictionExpression : unionEquivalentToExpression
+          DisjointClassExpressionsAxiom --&gt; ExistentialRestrictionExpression : unionEquivalentToExpression
         
       
         </div><section id="inheritance">
@@ -217,6 +217,8 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
+    domain_of:
+    - DisjointClassExpressionsAxiom
   classExpressions:
     name: classExpressions
     description: The set of class expressions that are mutually disjoint.
@@ -225,18 +227,24 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
+    domain_of:
+    - DisjointClassExpressionsAxiom
     range: ExistentialRestrictionExpression
   unionEquivalentTo:
     name: unionEquivalentTo
     description: If present, this equates to an OWL DisjointUnion expression.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    domain_of:
+    - DisjointClassExpressionsAxiom
   unionEquivalentToExpression:
     name: unionEquivalentToExpression
     description: if present, this class expression is equivalent ot the (disjoint)
       union of the classIds and classExpressions.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    domain_of:
+    - DisjointClassExpressionsAxiom
     range: ExistentialRestrictionExpression
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

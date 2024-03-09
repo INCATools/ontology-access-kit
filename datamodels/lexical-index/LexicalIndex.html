@@ -92,11 +92,11 @@
     class LexicalIndex
       LexicalIndex : groupings
         
-          LexicalIndex --|&gt; LexicalGrouping : groupings
+          LexicalIndex --&gt; LexicalGrouping : groupings
         
       LexicalIndex : pipelines
         
-          LexicalIndex --|&gt; LexicalTransformationPipeline : pipelines
+          LexicalIndex --&gt; LexicalTransformationPipeline : pipelines
         
       
         </div><!-- no inheritance hierarchy -->
@@ -168,6 +168,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalIndex
     range: LexicalGrouping
     inlined: true
   pipelines:
@@ -176,6 +178,8 @@ attributes:
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
     multivalued: true
+    domain_of:
+    - LexicalIndex
     range: LexicalTransformationPipeline
     inlined: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;

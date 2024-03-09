@@ -19,7 +19,7 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
       
       EquivalentNodesSet : meta
         
-          EquivalentNodesSet --|> Meta : meta
+          EquivalentNodesSet --> Meta : meta
         
       EquivalentNodesSet : nodeIds
         

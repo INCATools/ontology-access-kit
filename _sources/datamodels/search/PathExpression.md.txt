@@ -19,11 +19,11 @@ URI: [ontosearch:PathExpression](https://w3id.org/oak/search-datamodel/PathExpre
         
       PathExpression : search_term
         
-          PathExpression --|> SearchBaseConfiguration : search_term
+          PathExpression --> SearchBaseConfiguration : search_term
         
       PathExpression : traversal
         
-          PathExpression --|> GraphFunction : traversal
+          PathExpression --> GraphFunction : traversal
         
       
 ```
@@ -94,17 +94,23 @@ attributes:
     name: traversal
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - PathExpression
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
     multivalued: true
+    domain_of:
+    - PathExpression
     range: uriorcurie
   search_term:
     name: search_term
     from_schema: https://w3id.org/oak/search-datamodel
     rank: 1000
+    domain_of:
+    - PathExpression
     range: SearchBaseConfiguration
 
 ```

@@ -18,6 +18,7 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
  classDiagram
     class Result
       Result <|-- ValidationResult
+      Result <|-- MappingValidationResult
       Result <|-- RepairOperation
       
       
@@ -30,6 +31,7 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 ## Inheritance
 * **Result**
     * [ValidationResult](ValidationResult.md)
+    * [MappingValidationResult](MappingValidationResult.md)
     * [RepairOperation](RepairOperation.md)
 
 

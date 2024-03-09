@@ -18,21 +18,21 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
       
       HasMappings : broadMatch
         
-          HasMappings --|> Thing : broadMatch
+          HasMappings --> Thing : broadMatch
         
       HasMappings : closeMatch
         
-          HasMappings --|> Thing : closeMatch
+          HasMappings --> Thing : closeMatch
         
       HasMappings : database_cross_reference
         
       HasMappings : exactMatch
         
-          HasMappings --|> Thing : exactMatch
+          HasMappings --> Thing : exactMatch
         
       HasMappings : narrowMatch
         
-          HasMappings --|> Thing : narrowMatch
+          HasMappings --> Thing : narrowMatch
         
       
 ```

@@ -17,7 +17,7 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
     class SummaryStatisticsCalculationActivity
       SummaryStatisticsCalculationActivity : acted_on_behalf_of
         
-          SummaryStatisticsCalculationActivity --|> Agent : acted_on_behalf_of
+          SummaryStatisticsCalculationActivity --> Agent : acted_on_behalf_of
         
       SummaryStatisticsCalculationActivity : ended_at_time
         
@@ -25,7 +25,7 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
         
       SummaryStatisticsCalculationActivity : was_associated_with
         
-          SummaryStatisticsCalculationActivity --|> Agent : was_associated_with
+          SummaryStatisticsCalculationActivity --> Agent : was_associated_with
         
       
 ```
@@ -108,6 +108,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: prov:startedAtTime
+    domain_of:
+    - SummaryStatisticsCalculationActivity
     range: datetime
   ended_at_time:
     name: ended_at_time
@@ -115,6 +117,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: prov:endedAtTime
+    domain_of:
+    - SummaryStatisticsCalculationActivity
     range: datetime
   was_associated_with:
     name: was_associated_with
@@ -122,6 +126,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: prov:wasAssociatedWith
+    domain_of:
+    - SummaryStatisticsCalculationActivity
     range: Agent
   acted_on_behalf_of:
     name: acted_on_behalf_of
@@ -129,6 +135,8 @@ attributes:
     from_schema: https://w3id.org/oak/summary_statistics
     rank: 1000
     slot_uri: prov:actedOnBehalfOf
+    domain_of:
+    - SummaryStatisticsCalculationActivity
     range: Agent
 
 ```

@@ -22,7 +22,7 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
       
       Report : results
         
-          Report --|> Result : results
+          Report --> Result : results
         
       
 ```

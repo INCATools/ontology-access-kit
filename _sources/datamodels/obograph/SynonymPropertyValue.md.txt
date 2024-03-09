@@ -23,11 +23,11 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
         
       SynonymPropertyValue : meta
         
-          SynonymPropertyValue --|> Meta : meta
+          SynonymPropertyValue --> Meta : meta
         
       SynonymPropertyValue : pred
         
-          SynonymPropertyValue --|> ScopeEnum : pred
+          SynonymPropertyValue --> ScopeEnum : pred
         
       SynonymPropertyValue : synonymType
         

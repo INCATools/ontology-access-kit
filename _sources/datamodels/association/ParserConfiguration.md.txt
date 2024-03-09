@@ -98,6 +98,8 @@ attributes:
     - Note that to be defensive most applications should leave the default as false
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    domain_of:
+    - ParserConfiguration
     range: boolean
   include_association_attributes:
     name: include_association_attributes
@@ -107,6 +109,8 @@ attributes:
       This may result in slower parsing'
     from_schema: https://w3id.org/oak/association
     rank: 1000
+    domain_of:
+    - ParserConfiguration
     range: boolean
   primary_knowledge_source:
     name: primary_knowledge_source
@@ -114,6 +118,10 @@ attributes:
       resource.
     from_schema: https://w3id.org/oak/association
     slot_uri: biolink:primary_knowledge_source
+    domain_of:
+    - PositiveOrNegativeAssociation
+    - ParserConfiguration
+    - AssociationChange
     range: uriorcurie
   aggregator_knowledge_source:
     name: aggregator_knowledge_source
@@ -121,6 +129,10 @@ attributes:
       resource.
     from_schema: https://w3id.org/oak/association
     slot_uri: biolink:aggregator_knowledge_source
+    domain_of:
+    - PositiveOrNegativeAssociation
+    - ParserConfiguration
+    - AssociationChange
     range: uriorcurie
 
 ```

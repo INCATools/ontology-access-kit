@@ -19,7 +19,7 @@ URI: [xodiff:StructureDiffResultSet](https://w3id.org/oak/cross-ontology-diff/St
         
       StructureDiffResultSet : results
         
-          StructureDiffResultSet --|> RelationalDiff : results
+          StructureDiffResultSet --> RelationalDiff : results
         
       StructureDiffResultSet : right_source
         
@@ -94,6 +94,8 @@ attributes:
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
     multivalued: true
+    domain_of:
+    - StructureDiffResultSet
     range: RelationalDiff
     inlined: true
   left_source:
@@ -101,12 +103,16 @@ attributes:
     description: Ontology source for left entities
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
+    domain_of:
+    - StructureDiffResultSet
     range: Source
   right_source:
     name: right_source
     description: Ontology source for right entities
     from_schema: https://w3id.org/oak/cross-ontology-diff
     rank: 1000
+    domain_of:
+    - StructureDiffResultSet
     range: Source
 
 ```

@@ -26,7 +26,7 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
         
       BestMatch : similarity
         
-          BestMatch --|> TermPairwiseSimilarity : similarity
+          BestMatch --> TermPairwiseSimilarity : similarity
         
       
 ```
@@ -112,38 +112,54 @@ attributes:
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
     identifier: true
+    domain_of:
+    - BestMatch
     required: true
   match_source_label:
     name: match_source_label
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
+    domain_of:
+    - BestMatch
   match_target:
     name: match_target
     description: the entity matches
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
+    domain_of:
+    - BestMatch
   match_target_label:
     name: match_target_label
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
+    domain_of:
+    - BestMatch
   score:
     name: score
     from_schema: https://w3id.org/oak/similarity
+    domain_of:
+    - BestMatch
     range: float
     required: true
   match_subsumer:
     name: match_subsumer
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
+    domain_of:
+    - BestMatch
     range: uriorcurie
   match_subsumer_label:
     name: match_subsumer_label
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
+    domain_of:
+    - BestMatch
   similarity:
     name: similarity
     from_schema: https://w3id.org/oak/similarity
     rank: 1000
+    domain_of:
+    - BestMatch
     range: TermPairwiseSimilarity
     required: true
 

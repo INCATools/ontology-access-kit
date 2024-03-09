@@ -94,7 +94,7 @@
         
       RepairConfiguration : validation_configuration
         
-          RepairConfiguration --|&gt; ValidationConfiguration : validation_configuration
+          RepairConfiguration --&gt; ValidationConfiguration : validation_configuration
         
       
         </div><!-- no inheritance hierarchy -->
@@ -165,11 +165,15 @@ attributes:
     description: repair configurations include validation configurations
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - RepairConfiguration
     range: ValidationConfiguration
   dry_run:
     name: dry_run
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - RepairConfiguration
     range: boolean
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 

@@ -92,15 +92,15 @@
     class GraphDocument
       GraphDocument : graphs
         
-          GraphDocument --|&gt; Graph : graphs
+          GraphDocument --&gt; Graph : graphs
         
       GraphDocument : meta
         
-          GraphDocument --|&gt; Meta : meta
+          GraphDocument --&gt; Meta : meta
         
       GraphDocument : prefixes
         
-          GraphDocument --|&gt; PrefixDeclaration : prefixes
+          GraphDocument --&gt; PrefixDeclaration : prefixes
         
       
         </div><!-- no inheritance hierarchy -->

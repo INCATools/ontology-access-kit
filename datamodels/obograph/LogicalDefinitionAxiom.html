@@ -94,19 +94,19 @@
       
       LogicalDefinitionAxiom : definedClassId
         
-          LogicalDefinitionAxiom --|&gt; None : definedClassId
+          LogicalDefinitionAxiom --&gt; None : definedClassId
         
       LogicalDefinitionAxiom : genusIds
         
-          LogicalDefinitionAxiom --|&gt; None : genusIds
+          LogicalDefinitionAxiom --&gt; None : genusIds
         
       LogicalDefinitionAxiom : meta
         
-          LogicalDefinitionAxiom --|&gt; Meta : meta
+          LogicalDefinitionAxiom --&gt; Meta : meta
         
       LogicalDefinitionAxiom : restrictions
         
-          LogicalDefinitionAxiom --|&gt; ExistentialRestrictionExpression : restrictions
+          LogicalDefinitionAxiom --&gt; ExistentialRestrictionExpression : restrictions
         
       
         </div><section id="inheritance">
@@ -244,6 +244,8 @@ attributes:
     description: The class that is defined by this axiom
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    domain_of:
+    - LogicalDefinitionAxiom
     required: true
   genusIds:
     name: genusIds
@@ -255,6 +257,8 @@ attributes:
     - https://github.com/geneontology/obographs/issues/89
     rank: 1000
     multivalued: true
+    domain_of:
+    - LogicalDefinitionAxiom
     recommended: true
   restrictions:
     name: restrictions
@@ -270,6 +274,8 @@ attributes:
     rank: 1000
     slot_uri: owl:someValuesFrom
     multivalued: true
+    domain_of:
+    - LogicalDefinitionAxiom
     range: ExistentialRestrictionExpression
     recommended: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
