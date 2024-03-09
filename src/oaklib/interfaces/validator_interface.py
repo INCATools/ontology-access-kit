@@ -1,12 +1,14 @@
 from abc import ABC
-from typing import Iterable
+from typing import Dict, Iterable
 
 from oaklib.datamodels.validation_datamodel import (
+    MappingValidationResult,
     RepairConfiguration,
     RepairOperation,
     ValidationConfiguration,
     ValidationResult,
 )
+from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 
@@ -57,6 +59,33 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def validate_mappings(
+        self,
+        entities: Iterable[CURIE] = None,
+        adapters: Dict[str, BasicOntologyInterface] = None,
+        configuration: ValidationConfiguration = None,
+    ) -> Iterable[MappingValidationResult]:
+        """
+        Validate mappings for a set of entities.
+
+        :param entities:
+        :return:
+        """
+        from oaklib.utilities.mapping.mapping_validation import validate_mappings
+
+        if not isinstance(self, MappingProviderInterface):
+            raise ValueError(f"Cannot validate mappings on {self}")
+        mappings = list(self.sssom_mappings(entities))
+        for errors, m in validate_mappings(mappings, adapters=adapters):
+            for error in errors:
+                result = MappingValidationResult(
+                    subject_id=m.subject_id,
+                    object_id=m.object_id,
+                    predicate_id=m.predicate_id,
+                    info=error,
+                )
+                yield result
 
     def repair(
         self, configuration: RepairConfiguration = None, dry_run=False

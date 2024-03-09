@@ -128,6 +128,7 @@ from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_fhir_writer import StreamingFHIRWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
+from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_kgcl_writer import StreamingKGCLWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
@@ -241,7 +242,7 @@ WRITERS = {
     OBOJSON_FORMAT: StreamingOboJsonWriter,
     CSV_FORMAT: StreamingCsvWriter,
     JSON_FORMAT: StreamingJsonWriter,
-    JSONL_FORMAT: StreamingJsonWriter,
+    JSONL_FORMAT: StreamingJsonLinesWriter,
     YAML_FORMAT: StreamingYamlWriter,
     SSSOM_FORMAT: StreamingSssomWriter,
     FHIR_JSON_FORMAT: StreamingFHIRWriter,
@@ -425,6 +426,11 @@ stylemap_configure_option = click.option(
     "-C",
     "--configure",
     help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
+)
+configuration_file_option = click.option(
+    "-C",
+    "--configuration-file",
+    help="Path to a configuration file. This is typically a YAML file, but may be a JSON file",
 )
 pivot_languages = click.option(
     "--pivot-languages/--no-pivot-languages",
@@ -5153,8 +5159,11 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     help="Multiple prefix=selector pairs, e.g. --adapter-mapping uberon=db/uberon.db",
 )
 @output_option
+@configuration_file_option
 @click.argument("terms", nargs=-1)
-def validate_mappings(terms, autolabel, adapter_mapping, output: str, output_type: str):
+def validate_mappings(
+    terms, autolabel, adapter_mapping, output: str, output_type: str, configuration_file: str
+):
     """
     Validates mappings in ontology using additional ontologies.
 
@@ -5180,22 +5189,27 @@ def validate_mappings(terms, autolabel, adapter_mapping, output: str, output_typ
         runoak validate-mappings -i db/uberon.db --adapter-mapping "*"=db/merged.db"
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.output = output
     writer.autolabel = autolabel
-    if not isinstance(impl, MappingProviderInterface):
+    if not isinstance(impl, ValidatorInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    mappings = list(impl.sssom_mappings())
-    logging.info(f"Loaded {len(mappings)} mappings")
-    import oaklib.utilities.mapping.mapping_validation as mapping_validation
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
 
     adapters = {}
     for am in adapter_mapping:
         prefix, selector = am.split("=")
         adapters[prefix] = get_adapter(selector)
         logging.info(f"Loaded adapter for {prefix} => {selector}")
-    for _, mapping in mapping_validation.validate_mappings(mappings, adapters=adapters):
-        writer.emit(mapping)
+    for result in impl.validate_mappings(entities, adapters=adapters, configuration=config):
+        writer.emit_obj(result)
     writer.finish()
 
 

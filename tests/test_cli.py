@@ -970,6 +970,16 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn(ATOM, out)
             self.assertEqual("", err)
 
+    @unittest.skip("includes network dependency")
+    def test_validate_mappings(self):
+        for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
+            logging.info(f"INPUT={input_arg}")
+            result = self.runner.invoke(main, ["-i", input_arg, "validate-mappings"])
+            err = result.stderr
+            logging.info(f"ERR={err}")
+            self.assertEqual(0, result.exit_code)
+            # self.assertIn(ATOM, out)
+
     # LEXICAL
 
     def test_lexmatch(self):

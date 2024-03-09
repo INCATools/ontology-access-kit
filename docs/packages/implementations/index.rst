@@ -22,3 +22,4 @@ Implementations (also known as *adapters*) implement one or more :ref:`interface
    ols
    gilda
    aggregator
+   llm
