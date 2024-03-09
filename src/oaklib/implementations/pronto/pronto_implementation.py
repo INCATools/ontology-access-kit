@@ -896,6 +896,12 @@ class ProntoImplementation(
             # rather than forcing all synonyms to be related.
             scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             t.add_synonym(description=patch.new_value, scope=scope)
+        elif isinstance(patch, kgcl.AddNodeToSubset):
+            t = self._entity(patch.about_node, strict=True)
+            t.subsets = t.subsets.union({patch.in_subset})
+        elif isinstance(patch, kgcl.RemoveNodeFromSubset):
+            t = self._entity(patch.about_node, strict=True)
+            t.subsets = t.subsets.difference({patch.in_subset})
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
         elif isinstance(patch, kgcl.EdgeDeletion):
