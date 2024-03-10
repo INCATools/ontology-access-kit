@@ -77,7 +77,7 @@ def obographs_java_is_on_path():
 def split_compiled_obo():
     """
     Split the compiled OBO file into individual files,
-    adding additional metdata files
+    adding additional metadata files
 
     The compiled OBO file is a concatenation of multiple different ontologies,
     separated by yaml metadata after !! characters (obo format comments).
@@ -176,7 +176,7 @@ def test_generate_canonical_files(split_compiled_obo, output_format):
     for which we use ogger (part of the obographs java package). These
     are both called on the command line (if they are not found then
     no canonical file will be generated). Again, this is a temporary
-    measure, and for now this unit test is intended for exectution
+    measure, and for now this unit test is intended for execution
     by a small subset of the OAK team. It is expected that the person
     running this will use the appropriate version of each.
 
