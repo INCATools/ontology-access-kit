@@ -3,6 +3,7 @@ Utilities for working with formats
 
 See https://github.com/INCATools/ontology-access-kit/issues/687
 """
+
 from enum import Enum
 
 
