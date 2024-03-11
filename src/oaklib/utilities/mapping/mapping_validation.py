@@ -1,13 +1,16 @@
 import logging
 from collections import defaultdict
 from copy import deepcopy
-from typing import Dict, Iterator, List, Optional, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping, MappingCardinalityEnum
 
+import oaklib.datamodels.obograph as og
 from oaklib import get_adapter
 from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_EXACT_MATCH
-from oaklib.interfaces import BasicOntologyInterface, MappingProviderInterface
+from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE
 from oaklib.utilities.mapping.cross_ontology_diffs import (
     group_mappings_by_source_pairs,
@@ -132,14 +135,21 @@ obsoletes = {}
 
 def _obsoletes(prefix: str, adapters: Optional[Dict[str, BasicOntologyInterface]]) -> List[CURIE]:
     if prefix not in obsoletes:
-        adapter = _adapter(prefix, adapters)
+        adapter = lookup_mapping_adapter(prefix, adapters)
         obsoletes[prefix] = list(adapter.obsoletes(include_merged=True))
     return obsoletes[prefix]
 
 
-def _adapter(
+def lookup_mapping_adapter(
     curie: CURIE, adapters: Optional[Dict[str, BasicOntologyInterface]]
 ) -> Optional[BasicOntologyInterface]:
+    """
+    Look up an adapter for a given CURIE using a Dict of adapters.
+
+    :param curie:
+    :param adapters:
+    :return:
+    """
     prefix = _prefix(curie)
     if "*" in adapters:
         adapters[prefix] = adapters["*"]
@@ -156,6 +166,38 @@ def _adapter(
             return None
         obsoletes[prefix] = list(adapters[prefix].obsoletes(include_merged=True))
     return adapters[prefix]
+
+
+def lookup_mapping_entities(
+    mappings: Iterable[Mapping], adapters: Dict[str, OboGraphInterface], **kwargs
+) -> og.Graph:
+    """
+    Look up entities for a list of mappings.
+
+    :param mappings:
+    :param adapters:
+    :param kwargs:
+    :return:
+    """
+    graph = og.Graph(id="mappings")
+    entities = set()
+    for m in mappings:
+        entities.add(m.subject_id)
+        entities.add(m.object_id)
+    nmap = {}
+    for entity in entities:
+        if entity in nmap:
+            continue
+        prefix = _prefix(entity)
+        adapter = lookup_mapping_adapter(entity, adapters)
+        if not isinstance(adapter, OboGraphInterface):
+            raise ValueError(f"no adapter for {prefix}")
+        n = adapter.node(entity, **kwargs)
+        nmap[entity] = n
+        for rel in adapter.relationships(entity):
+            graph.edges.append(og.Edge(subject=rel[0], predicate=rel[1], object=rel[2]))
+        graph.nodes.append(n)
+    return graph
 
 
 def validate_mappings(
@@ -177,8 +219,7 @@ def validate_mappings(
     <BLANKLINE>
     ...
 
-
-    The current validation checks involve:
+    The current validation checks include:
 
     - cardinality checks
     - mappings to obsoletes
@@ -217,8 +258,8 @@ def validate_mappings(
         object_prefix = _prefix(m.object_id)
         if subject_prefix == "_" or object_prefix == "_":
             continue
-        subject_adapter = _adapter(m.subject_id, adapters)
-        object_adapter = _adapter(m.object_id, adapters)
+        subject_adapter = lookup_mapping_adapter(m.subject_id, adapters)
+        object_adapter = lookup_mapping_adapter(m.object_id, adapters)
         comments = []
         if m.subject_id in _obsoletes(subject_prefix, adapters):
             comments.append("subject is obsolete")

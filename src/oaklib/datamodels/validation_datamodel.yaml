@@ -60,6 +60,9 @@ classes:
       schema_path:
         range: string
         description: allows overriding the default OMO schema
+      prompt_info:
+        range: string
+        description: for AI agents, this allows passing through of additional info to the prompt
 
   RepairConfiguration:
     description: Configuration parameters for execution of validation repairs
@@ -122,6 +125,35 @@ classes:
       - object_str
       - source
       - info
+
+  MappingValidationResult:
+    is_a: Result
+    description: A validation result where the check is to determine if a mapping is correct
+    attributes:
+      subject_id:
+        range: string
+      subject_info:
+        range: string
+      object_id:
+        range: string
+      object_info:
+        range: string
+      predicate_id:
+        range: string
+      category:
+        range: string
+        description: The category of the validation issue
+      problem:
+        range: boolean
+      info:
+        range: string
+      confidence:
+        range: float
+      suggested_predicate:
+        range: string
+      suggested_modifications:
+        range: string
+
 
   RepairOperation:
     is_a: Result

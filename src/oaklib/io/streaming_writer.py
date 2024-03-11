@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Type, Union
 
 from linkml_runtime import SchemaView
+from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib import BasicOntologyInterface
@@ -101,7 +102,8 @@ class StreamingWriter(ABC):
         raise NotImplementedError
 
     def emit_obj(self, obj: YAMLRoot):
-        raise NotImplementedError
+        obj_as_dict = json_dumper.to_dict(obj)
+        return self.emit(obj_as_dict)
 
     def close(self):
         pass

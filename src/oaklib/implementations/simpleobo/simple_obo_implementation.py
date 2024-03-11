@@ -856,6 +856,14 @@ class SimpleOboImplementation(
             if not n:
                 raise ValueError(f"Failed to find synonym {patch.old_value} for {t.id}")
             modified_entities.append(patch.about_node)
+        elif isinstance(patch, kgcl.AddNodeToSubset):
+            t = self._stanza(patch.about_node, strict=True)
+            t.add_tag_value(TAG_SUBSET, patch.in_subset)
+            modified_entities.append(patch.about_node)
+        elif isinstance(patch, kgcl.RemoveNodeFromSubset):
+            t = self._stanza(patch.about_node, strict=True)
+            t.remove_simple_tag_value(TAG_SUBSET, patch.in_subset)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NewTextDefinition):
             t = self._stanza(patch.about_node, strict=True)
             t.add_quoted_tag_value(TAG_DEFINITION, patch.new_value.strip("'"), xrefs=[])

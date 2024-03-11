@@ -1285,6 +1285,37 @@ class ComplianceTester:
                 ],
             ),
             (
+                kgcl.NewSynonym(id=generate_change_id(), about_node=FUNGI, new_value="shroom"),
+                False,
+                lambda oi: test.assertCountEqual(
+                    ["shroom", "fungi", "Fungi", "Mycota"],
+                    oi.entity_aliases(FUNGI),
+                ),
+                None,
+            ),
+            (
+                kgcl.AddNodeToSubset(
+                    id=generate_change_id(), about_node=NUCLEAR_ENVELOPE, in_subset="goslim_agr"
+                ),
+                False,
+                lambda oi: test.assertIn(
+                    NUCLEAR_ENVELOPE,
+                    oi.subset_members("goslim_agr"),
+                ),
+                None,
+            ),
+            (
+                kgcl.RemoveNodeFromSubset(
+                    id=generate_change_id(), about_node=NUCLEAR_ENVELOPE, in_subset="goslim_generic"
+                ),
+                False,
+                lambda oi: test.assertNotIn(
+                    NUCLEAR_ENVELOPE,
+                    oi.subset_members("goslim_generic"),
+                ),
+                None,
+            ),
+            (
                 kgcl.RemoveSynonym(
                     id=generate_change_id(),
                     about_node=OPISTHOKONTA,

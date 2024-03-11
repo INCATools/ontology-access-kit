@@ -128,6 +128,7 @@ from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_fhir_writer import StreamingFHIRWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
+from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_kgcl_writer import StreamingKGCLWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
@@ -142,6 +143,10 @@ from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter, get_resource_from_shorthand
+from oaklib.transformers.transformers_factory import (
+    apply_ontology_transformation,
+    get_ontology_transformer,
+)
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
@@ -180,6 +185,7 @@ from oaklib.utilities.ner_utilities import get_exclusion_token_list
 from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
     default_stylemap_path,
+    graph_to_d3viz_objects,
     graph_to_image,
     graph_to_tree_display,
     shortest_paths,
@@ -239,7 +245,7 @@ WRITERS = {
     CSV_FORMAT: StreamingCsvWriter,
     TSV_FORMAT: StreamingCsvWriter,
     JSON_FORMAT: StreamingJsonWriter,
-    JSONL_FORMAT: StreamingJsonWriter,
+    JSONL_FORMAT: StreamingJsonLinesWriter,
     YAML_FORMAT: StreamingYamlWriter,
     SSSOM_FORMAT: StreamingSssomWriter,
     FHIR_JSON_FORMAT: StreamingFHIRWriter,
@@ -423,6 +429,11 @@ stylemap_configure_option = click.option(
     "-C",
     "--configure",
     help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
+)
+configuration_file_option = click.option(
+    "-C",
+    "--configuration-file",
+    help="Path to a configuration file. This is typically a YAML file, but may be a JSON file",
 )
 pivot_languages = click.option(
     "--pivot-languages/--no-pivot-languages",
@@ -1980,42 +1991,54 @@ def tree(
     impl = settings.impl
     if configure:
         logging.warning("Configure is not yet supported")
-    if isinstance(impl, OboGraphInterface):
-        curies = list(query_terms_iterator(terms, impl))
-        if stylemap is None:
-            stylemap = default_stylemap_path()
-        actual_predicates = _process_predicates_arg(predicates)
-        if add_mrcas:
-            if isinstance(impl, SemanticSimilarityInterface):
-                curies_to_add = [
-                    lca
-                    for s, o, lca in impl.multiset_most_recent_common_ancestors(
-                        curies, predicates=actual_predicates
-                    )
-                ]
-                curies = list(set(curies + curies_to_add))
-                logging.info(f"Expanded CURIEs = {curies}")
-            else:
-                raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
-        if down:
-            graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
-        elif gap_fill:
-            logging.info("Using gap-fill strategy")
-            if isinstance(impl, SubsetterInterface):
-                rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
-                if isinstance(impl, OboGraphInterface):
-                    graph = impl.relationships_to_graph(rels)
-                else:
-                    raise AssertionError(f"{impl} needs to be of type OboGraphInterface")
-            else:
-                raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    if stylemap is None:
+        stylemap = default_stylemap_path()
+    actual_predicates = _process_predicates_arg(predicates)
+    if add_mrcas:
+        if isinstance(impl, SemanticSimilarityInterface):
+            curies_to_add = [
+                lca
+                for s, o, lca in impl.multiset_most_recent_common_ancestors(
+                    curies, predicates=actual_predicates
+                )
+            ]
+            curies = list(set(curies + curies_to_add))
+            logging.info(f"Expanded CURIEs = {curies}")
         else:
-            graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-        logging.info(
-            f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
+            raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
+    if down:
+        graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
+    elif gap_fill:
+        logging.info("Using gap-fill strategy")
+        if isinstance(impl, SubsetterInterface):
+            rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+            if isinstance(impl, OboGraphInterface):
+                graph = impl.relationships_to_graph(rels)
+            else:
+                raise AssertionError(f"{impl} needs to be of type OboGraphInterface")
+        else:
+            raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    else:
+        graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+    logging.info(
+        f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
+    )
+    if max_hops is not None:
+        graph = trim_graph(graph, curies, distance=max_hops)
+    if output_type in ["d3viz", "d3viz_relational"]:
+        trees = graph_to_d3viz_objects(
+            graph,
+            predicates=actual_predicates,
+            start_curies=list(root) if root else None,
+            relations_as_nodes=output_type == "d3viz_relational",
+            max_paths=None,
         )
-        if max_hops is not None:
-            graph = trim_graph(graph, curies, distance=max_hops)
+        json_dump = json.dumps(trees, indent=2)
+        output.write(json_dump)
+    else:
         graph_to_tree_display(
             graph,
             seeds=curies,
@@ -2027,8 +2050,6 @@ def tree(
             display_options=display.split(","),
             output=output,
         )
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -2453,11 +2474,6 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     """
     Exports (dumps) the entire contents of an ontology.
 
-    :param terms: A list of terms to dump. If not specified, the entire ontology will be dumped.
-    :param output: Path to output file
-    :param output_type: The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl
-    :param config_file: Path to a configuration JSON file for additional params (which may be required for some formats)
-
     Example:
 
         runoak -i pato.obo dump -o pato.json -O json
@@ -2488,14 +2504,73 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     if terms:
         raise NotImplementedError("Currently dump for a subset of terms is not supported")
     impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        logging.info(f"Out={output} syntax={output_type}")
-        if config_file:
-            with open(config_file) as file:
-                kwargs |= json.load(file)
-        impl.dump(output, syntax=output_type, **kwargs)
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError
+    logging.info(f"Out={output} syntax={output_type}")
+    if config_file:
+        with open(config_file) as file:
+            kwargs |= json.load(file)
+    impl.dump(output, syntax=output_type, **kwargs)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option("-o", "--output", help="Path to output file")
+@output_type_option
+@click.option(
+    "-c",
+    "--config-file",
+    help="""Config file for additional transform params.""",
+)
+@click.option(
+    "-t",
+    "--transform",
+    required=True,
+    help="""Name of transformation to apply.""",
+)
+def transform(terms, transform, output, output_type: str, config_file: str = None, **kwargs):
+    """
+    Transforms an ontology
+
+    Example:
+
+        runoak -i pato.obo dump -o pato.json -O json
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O turtle
+
+    You can also pass in a JSON configuration file to parameterize the dump process.
+
+    Currently this is only used for fhirjson dumps, the configuration options are specified here:
+
+    https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
+
+    Currently each implementation only supports a subset of formats.
+
+    The dump command is also blocked for remote endpoints such as Ubergraph,
+    to avoid killer queries.
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
+    """
+    if terms:
+        raise NotImplementedError("Currently transform for a subset of terms is not supported")
+    impl = settings.impl
+    if not isinstance(impl, BasicOntologyInterface):
+        raise NotImplementedError
+    logging.info(f"Out={output} syntax={output_type}")
+    if config_file:
+        with open(config_file) as file:
+            kwargs |= yaml.safe_load(file)
+    transformer = get_ontology_transformer(transform, **kwargs)
+    new_impl = apply_ontology_transformation(impl, transformer)
+    new_impl.dump(output, syntax=output_type)
 
 
 @main.command()
@@ -5087,8 +5162,11 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     help="Multiple prefix=selector pairs, e.g. --adapter-mapping uberon=db/uberon.db",
 )
 @output_option
+@configuration_file_option
 @click.argument("terms", nargs=-1)
-def validate_mappings(terms, autolabel, adapter_mapping, output: str, output_type: str):
+def validate_mappings(
+    terms, autolabel, adapter_mapping, output: str, output_type: str, configuration_file: str
+):
     """
     Validates mappings in ontology using additional ontologies.
 
@@ -5114,22 +5192,27 @@ def validate_mappings(terms, autolabel, adapter_mapping, output: str, output_typ
         runoak validate-mappings -i db/uberon.db --adapter-mapping "*"=db/merged.db"
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.output = output
     writer.autolabel = autolabel
-    if not isinstance(impl, MappingProviderInterface):
+    if not isinstance(impl, ValidatorInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    mappings = list(impl.sssom_mappings())
-    logging.info(f"Loaded {len(mappings)} mappings")
-    import oaklib.utilities.mapping.mapping_validation as mapping_validation
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
 
     adapters = {}
     for am in adapter_mapping:
         prefix, selector = am.split("=")
         adapters[prefix] = get_adapter(selector)
         logging.info(f"Loaded adapter for {prefix} => {selector}")
-    for _, mapping in mapping_validation.validate_mappings(mappings, adapters=adapters):
-        writer.emit(mapping)
+    for result in impl.validate_mappings(entities, adapters=adapters, configuration=config):
+        writer.emit_obj(result)
     writer.finish()
 
 
