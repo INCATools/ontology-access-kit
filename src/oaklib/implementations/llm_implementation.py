@@ -3,10 +3,12 @@
 import json
 import logging
 import re
+import time
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_random_exponential
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import DefinitionPropertyValue
@@ -69,6 +71,26 @@ def _prefix(curie: CURIE) -> str:
     return curie.split(":")[0].lower()
 
 
+def is_rate_limit_error(exception):
+    # List of fully qualified names of RateLimitError exceptions from various libraries
+    rate_limit_errors = [
+        "openai.error.RateLimitError",
+        "anthropic.error.RateLimitError",
+        # Add more as needed
+    ]
+    exception_full_name = f"{exception.__class__.__module__}.{exception.__class__.__name__}"
+    logger.warning(f"Exception_full_name: {exception_full_name}")
+    logger.warning(f"Exception: {exception}")
+    return exception_full_name in rate_limit_errors
+
+@retry(
+    retry=retry_if_exception(is_rate_limit_error),
+    wait=wait_random_exponential(multiplier=1, max=40),
+    stop=stop_after_attempt(3),
+)
+def query_model(model, *args, **kwargs):
+    return model.prompt(*args, **kwargs)
+
 @dataclass
 class LLMImplementation(
     OboGraphInterface,
@@ -104,6 +126,8 @@ class LLMImplementation(
 
     max_recursion_depth: int = 0
 
+    throttle_time: float = 0.0
+
     def __post_init__(self):
         slug = self.resource.slug
         if not slug:
@@ -125,8 +149,13 @@ class LLMImplementation(
             self.wrapped_adapter = get_adapter(slug)
         if self.model_id is not None:
             import llm
-
             self.model = llm.get_model(self.model_id)
+            if "claude" in self.model_id or "openrouter" in self.model_id:
+                # TODO: claude API seems to have its own rate limiting
+                # TODO: openrouter just seems very flaky
+                # but it is too conservative
+                self.throttle_time = 10
+
 
     def entities(self, **kwargs) -> Iterator[CURIE]:
         """Return all entities in the ontology."""
@@ -374,7 +403,9 @@ class LLMImplementation(
             )
             logger.debug(f"System: {system_prompt}")
             logger.info(f"Prompt: {main_prompt}")
-            response = model.prompt(main_prompt, system=system_prompt).text()
+            time.sleep(self.throttle_time)
+            response = query_model(model, main_prompt, system=system_prompt).text()
+            # response = model.prompt(main_prompt, system=system_prompt).text()
             logger.info(f"Response: {response}")
             try:
                 obj = json.loads(response)
@@ -385,7 +416,8 @@ class LLMImplementation(
                 extra += f"This resulted in: {e}\n"
                 extra += "Please try again, WITH VALID JSON."
                 extra += "Do not apologize or give more verbiage, JUST JSON."
-                response = model.prompt(main_prompt + extra, system=system_prompt).text()
+                logger.info(f"New Prompt: {main_prompt + extra}")
+                response = query_model(model,main_prompt + extra, system=system_prompt).text()
                 try:
                     obj = json.loads(response)
                 except json.JSONDecodeError as e:
