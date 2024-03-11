@@ -23,7 +23,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Jupyter Notebooks" href="../notebooks.html" />
+    <link rel="prev" title="FHIR Conversions" href="fhir-conversions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,14 +48,40 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html">How to write a plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fhir-conversions.html">FHIR Conversions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to use Large Language Models (LLMs) with OAK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#llm-frameworks-that-use-oak">LLM frameworks that use OAK</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ontogpt">OntoGPT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#curategpt">CurateGPT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#talisman">Talisman</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#using-oak-in-conjunction-with-existing-llm-tools">Using OAK in conjunction with existing LLM tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oak-llm-adapter">OAK LLM Adapter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#annotation">Annotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#suggesting-definitions">Suggesting Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validating-mappings">Validating Mappings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#selecting-alternative-models">Selecting alternative models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mixtral-via-ollama-and-litellm">Mixtral via Ollama and LiteLLM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mixtral-via-groq-and-litellm">Mixtral via groq and LiteLLM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
@@ -73,6 +101,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How-To Guides</a></li>
       <li class="breadcrumb-item active">How to use Large Language Models (LLMs) with OAK</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/howtos/use-llms.rst.txt" rel="nofollow"> View page source</a>
@@ -238,7 +267,10 @@ litellm -m groq/mixtral-8x7b-32768</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fhir-conversions.html" class="btn btn-neutral float-left" title="FHIR Conversions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../notebooks.html" class="btn btn-neutral float-right" title="Jupyter Notebooks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
