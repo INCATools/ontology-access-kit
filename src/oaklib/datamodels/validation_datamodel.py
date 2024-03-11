@@ -1,5 +1,5 @@
-# Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-11-18T17:10:52
+# Auto generated from validation_datamodel.yaml by pythongen.py version: 0.0.1
+# Generation date: 2024-03-07T21:21:02
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
@@ -7,6 +7,7 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -16,7 +17,13 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
+from linkml_runtime.linkml_model.types import (
+    Boolean,
+    Float,
+    Integer,
+    String,
+    Uriorcurie,
+)
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
@@ -83,7 +90,7 @@ class TypeSeverityKeyValueType(URIorCURIE):
 class NamedResource(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.NamedResource
+    class_class_uri: ClassVar[URIRef] = VM["NamedResource"]
     class_class_curie: ClassVar[str] = "vm:NamedResource"
     class_name: ClassVar[str] = "NamedResource"
     class_model_uri: ClassVar[URIRef] = VM.NamedResource
@@ -103,7 +110,7 @@ class NamedResource(YAMLRoot):
 class ConstraintComponent(NamedResource):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.ConstraintComponent
+    class_class_uri: ClassVar[URIRef] = VM["ConstraintComponent"]
     class_class_curie: ClassVar[str] = "vm:ConstraintComponent"
     class_name: ClassVar[str] = "ConstraintComponent"
     class_model_uri: ClassVar[URIRef] = VM.ConstraintComponent
@@ -123,7 +130,7 @@ class ConstraintComponent(NamedResource):
 class Node(NamedResource):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.Node
+    class_class_uri: ClassVar[URIRef] = VM["Node"]
     class_class_curie: ClassVar[str] = "vm:Node"
     class_name: ClassVar[str] = "Node"
     class_model_uri: ClassVar[URIRef] = VM.Node
@@ -147,7 +154,7 @@ class ValidationConfiguration(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.ValidationConfiguration
+    class_class_uri: ClassVar[URIRef] = VM["ValidationConfiguration"]
     class_class_curie: ClassVar[str] = "vm:ValidationConfiguration"
     class_name: ClassVar[str] = "ValidationConfiguration"
     class_model_uri: ClassVar[URIRef] = VM.ValidationConfiguration
@@ -160,6 +167,7 @@ class ValidationConfiguration(YAMLRoot):
         ]
     ] = empty_dict()
     schema_path: Optional[str] = None
+    prompt_info: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.max_number_results_per_type is not None and not isinstance(
@@ -177,6 +185,9 @@ class ValidationConfiguration(YAMLRoot):
         if self.schema_path is not None and not isinstance(self.schema_path, str):
             self.schema_path = str(self.schema_path)
 
+        if self.prompt_info is not None and not isinstance(self.prompt_info, str):
+            self.prompt_info = str(self.prompt_info)
+
         super().__post_init__(**kwargs)
 
 
@@ -188,7 +199,7 @@ class RepairConfiguration(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.RepairConfiguration
+    class_class_uri: ClassVar[URIRef] = VM["RepairConfiguration"]
     class_class_curie: ClassVar[str] = "vm:RepairConfiguration"
     class_name: ClassVar[str] = "RepairConfiguration"
     class_model_uri: ClassVar[URIRef] = VM.RepairConfiguration
@@ -218,7 +229,7 @@ class TypeSeverityKeyValue(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.TypeSeverityKeyValue
+    class_class_uri: ClassVar[URIRef] = VM["TypeSeverityKeyValue"]
     class_class_curie: ClassVar[str] = "vm:TypeSeverityKeyValue"
     class_name: ClassVar[str] = "TypeSeverityKeyValue"
     class_model_uri: ClassVar[URIRef] = VM.TypeSeverityKeyValue
@@ -246,7 +257,7 @@ class Report(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.Report
+    class_class_uri: ClassVar[URIRef] = VM["Report"]
     class_class_curie: ClassVar[str] = "vm:Report"
     class_name: ClassVar[str] = "Report"
     class_model_uri: ClassVar[URIRef] = VM.Report
@@ -269,7 +280,7 @@ class ValidationReport(Report):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SH.ValidationReport
+    class_class_uri: ClassVar[URIRef] = SH["ValidationReport"]
     class_class_curie: ClassVar[str] = "sh:ValidationReport"
     class_name: ClassVar[str] = "ValidationReport"
     class_model_uri: ClassVar[URIRef] = VM.ValidationReport
@@ -297,7 +308,7 @@ class RepairReport(Report):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.RepairReport
+    class_class_uri: ClassVar[URIRef] = VM["RepairReport"]
     class_class_curie: ClassVar[str] = "vm:RepairReport"
     class_name: ClassVar[str] = "RepairReport"
     class_model_uri: ClassVar[URIRef] = VM.RepairReport
@@ -324,7 +335,7 @@ class Result(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.Result
+    class_class_uri: ClassVar[URIRef] = VM["Result"]
     class_class_curie: ClassVar[str] = "vm:Result"
     class_name: ClassVar[str] = "Result"
     class_model_uri: ClassVar[URIRef] = VM.Result
@@ -338,7 +349,7 @@ class ValidationResult(Result):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SH.ValidationResult
+    class_class_uri: ClassVar[URIRef] = SH["ValidationResult"]
     class_class_curie: ClassVar[str] = "sh:ValidationResult"
     class_name: ClassVar[str] = "ValidationResult"
     class_model_uri: ClassVar[URIRef] = VM.ValidationResult
@@ -389,6 +400,70 @@ class ValidationResult(Result):
 
 
 @dataclass
+class MappingValidationResult(Result):
+    """
+    A validation result where the check is to determine if a mapping is correct
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = VM["MappingValidationResult"]
+    class_class_curie: ClassVar[str] = "vm:MappingValidationResult"
+    class_name: ClassVar[str] = "MappingValidationResult"
+    class_model_uri: ClassVar[URIRef] = VM.MappingValidationResult
+
+    subject_id: Optional[str] = None
+    subject_info: Optional[str] = None
+    object_id: Optional[str] = None
+    object_info: Optional[str] = None
+    predicate_id: Optional[str] = None
+    category: Optional[str] = None
+    problem: Optional[Union[bool, Bool]] = None
+    info: Optional[str] = None
+    confidence: Optional[float] = None
+    suggested_predicate: Optional[str] = None
+    suggested_modifications: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.subject_id is not None and not isinstance(self.subject_id, str):
+            self.subject_id = str(self.subject_id)
+
+        if self.subject_info is not None and not isinstance(self.subject_info, str):
+            self.subject_info = str(self.subject_info)
+
+        if self.object_id is not None and not isinstance(self.object_id, str):
+            self.object_id = str(self.object_id)
+
+        if self.object_info is not None and not isinstance(self.object_info, str):
+            self.object_info = str(self.object_info)
+
+        if self.predicate_id is not None and not isinstance(self.predicate_id, str):
+            self.predicate_id = str(self.predicate_id)
+
+        if self.category is not None and not isinstance(self.category, str):
+            self.category = str(self.category)
+
+        if self.problem is not None and not isinstance(self.problem, Bool):
+            self.problem = Bool(self.problem)
+
+        if self.info is not None and not isinstance(self.info, str):
+            self.info = str(self.info)
+
+        if self.confidence is not None and not isinstance(self.confidence, float):
+            self.confidence = float(self.confidence)
+
+        if self.suggested_predicate is not None and not isinstance(self.suggested_predicate, str):
+            self.suggested_predicate = str(self.suggested_predicate)
+
+        if self.suggested_modifications is not None and not isinstance(
+            self.suggested_modifications, str
+        ):
+            self.suggested_modifications = str(self.suggested_modifications)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
 class RepairOperation(Result):
     """
     The result of performing an individual repair
@@ -396,7 +471,7 @@ class RepairOperation(Result):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.RepairOperation
+    class_class_uri: ClassVar[URIRef] = VM["RepairOperation"]
     class_class_curie: ClassVar[str] = "vm:RepairOperation"
     class_name: ClassVar[str] = "RepairOperation"
     class_model_uri: ClassVar[URIRef] = VM.RepairOperation
@@ -430,7 +505,7 @@ class ExternalReferenceValidationResult(ValidationResult):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = VM.ExternalReferenceValidationResult
+    class_class_uri: ClassVar[URIRef] = VM["ExternalReferenceValidationResult"]
     class_class_curie: ClassVar[str] = "vm:ExternalReferenceValidationResult"
     class_name: ClassVar[str] = "ExternalReferenceValidationResult"
     class_model_uri: ClassVar[URIRef] = VM.ExternalReferenceValidationResult
@@ -460,10 +535,11 @@ class ExternalReferenceValidationResult(ValidationResult):
 
 # Enumerations
 class SeverityOptions(EnumDefinitionImpl):
+
     FATAL = PermissibleValue(text="FATAL")
-    ERROR = PermissibleValue(text="ERROR", meaning=SH.Violation)
-    WARNING = PermissibleValue(text="WARNING", meaning=SH.Warning)
-    INFO = PermissibleValue(text="INFO", meaning=SH.Info)
+    ERROR = PermissibleValue(text="ERROR", meaning=SH["Violation"])
+    WARNING = PermissibleValue(text="WARNING", meaning=SH["Warning"])
+    INFO = PermissibleValue(text="INFO", meaning=SH["Info"])
 
     _defn = EnumDefinition(
         name="SeverityOptions",
@@ -471,45 +547,46 @@ class SeverityOptions(EnumDefinitionImpl):
 
 
 class ValidationResultType(EnumDefinitionImpl):
+
     DatatypeConstraintComponent = PermissibleValue(
         text="DatatypeConstraintComponent",
         description="constraint in which the range is a type, and the slot value must conform to the type",
-        meaning=SH.DatatypeConstraintComponent,
+        meaning=SH["DatatypeConstraintComponent"],
     )
     MinCountConstraintComponent = PermissibleValue(
         text="MinCountConstraintComponent",
         description="cardinality constraint where the slot value must be greater or equal to a specified minimum",
-        meaning=SH.MinCountConstraintComponent,
+        meaning=SH["MinCountConstraintComponent"],
     )
     MaxCountConstraintComponent = PermissibleValue(
         text="MaxCountConstraintComponent",
         description="cardinality constraint where the slot value must be less than or equal to a specified maximum",
-        meaning=SH.MaxCountConstraintComponent,
+        meaning=SH["MaxCountConstraintComponent"],
     )
     DeprecatedPropertyComponent = PermissibleValue(
         text="DeprecatedPropertyComponent",
         description="constraint where the instance slot should not be deprecated",
-        meaning=VM.DeprecatedPropertyComponent,
+        meaning=VM["DeprecatedPropertyComponent"],
     )
     MaxLengthConstraintComponent = PermissibleValue(
         text="MaxLengthConstraintComponent",
         description="constraint where the slot value must have a length equal to or less than a specified maximum",
-        meaning=SH.MaxLengthConstraintComponent,
+        meaning=SH["MaxLengthConstraintComponent"],
     )
     MinLengthConstraintComponent = PermissibleValue(
         text="MinLengthConstraintComponent",
         description="constraint where the slot value must have a length equal to or less than a specified maximum",
-        meaning=SH.MinLengthConstraintComponent,
+        meaning=SH["MinLengthConstraintComponent"],
     )
     PatternConstraintComponent = PermissibleValue(
         text="PatternConstraintComponent",
         description="constraint where the slot value must match a given regular expression pattern",
-        meaning=SH.PatternConstraintComponent,
+        meaning=SH["PatternConstraintComponent"],
     )
     ClosedConstraintComponent = PermissibleValue(
         text="ClosedConstraintComponent",
         description="constraint where the slot value must be allowable for the type of an instance",
-        meaning=SH.ClosedConstraintComponent,
+        meaning=SH["ClosedConstraintComponent"],
     )
     RuleConstraintComponent = PermissibleValue(
         text="RuleConstraintComponent",
@@ -657,6 +734,15 @@ slots.validationConfiguration__schema_path = Slot(
     range=Optional[str],
 )
 
+slots.validationConfiguration__prompt_info = Slot(
+    uri=VM.prompt_info,
+    name="validationConfiguration__prompt_info",
+    curie=VM.curie("prompt_info"),
+    model_uri=VM.validationConfiguration__prompt_info,
+    domain=None,
+    range=Optional[str],
+)
+
 slots.repairConfiguration__validation_configuration = Slot(
     uri=VM.validation_configuration,
     name="repairConfiguration__validation_configuration",
@@ -691,6 +777,105 @@ slots.typeSeverityKeyValue__severity = Slot(
     model_uri=VM.typeSeverityKeyValue__severity,
     domain=None,
     range=Optional[Union[str, "SeverityOptions"]],
+)
+
+slots.mappingValidationResult__subject_id = Slot(
+    uri=VM.subject_id,
+    name="mappingValidationResult__subject_id",
+    curie=VM.curie("subject_id"),
+    model_uri=VM.mappingValidationResult__subject_id,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__subject_info = Slot(
+    uri=VM.subject_info,
+    name="mappingValidationResult__subject_info",
+    curie=VM.curie("subject_info"),
+    model_uri=VM.mappingValidationResult__subject_info,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__object_id = Slot(
+    uri=VM.object_id,
+    name="mappingValidationResult__object_id",
+    curie=VM.curie("object_id"),
+    model_uri=VM.mappingValidationResult__object_id,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__object_info = Slot(
+    uri=VM.object_info,
+    name="mappingValidationResult__object_info",
+    curie=VM.curie("object_info"),
+    model_uri=VM.mappingValidationResult__object_info,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__predicate_id = Slot(
+    uri=VM.predicate_id,
+    name="mappingValidationResult__predicate_id",
+    curie=VM.curie("predicate_id"),
+    model_uri=VM.mappingValidationResult__predicate_id,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__category = Slot(
+    uri=VM.category,
+    name="mappingValidationResult__category",
+    curie=VM.curie("category"),
+    model_uri=VM.mappingValidationResult__category,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__problem = Slot(
+    uri=VM.problem,
+    name="mappingValidationResult__problem",
+    curie=VM.curie("problem"),
+    model_uri=VM.mappingValidationResult__problem,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.mappingValidationResult__info = Slot(
+    uri=VM.info,
+    name="mappingValidationResult__info",
+    curie=VM.curie("info"),
+    model_uri=VM.mappingValidationResult__info,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__confidence = Slot(
+    uri=VM.confidence,
+    name="mappingValidationResult__confidence",
+    curie=VM.curie("confidence"),
+    model_uri=VM.mappingValidationResult__confidence,
+    domain=None,
+    range=Optional[float],
+)
+
+slots.mappingValidationResult__suggested_predicate = Slot(
+    uri=VM.suggested_predicate,
+    name="mappingValidationResult__suggested_predicate",
+    curie=VM.curie("suggested_predicate"),
+    model_uri=VM.mappingValidationResult__suggested_predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.mappingValidationResult__suggested_modifications = Slot(
+    uri=VM.suggested_modifications,
+    name="mappingValidationResult__suggested_modifications",
+    curie=VM.curie("suggested_modifications"),
+    model_uri=VM.mappingValidationResult__suggested_modifications,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.repairOperation__repairs = Slot(

@@ -2279,7 +2279,28 @@ class SqlImplementation(
                         )
                     )
                 )
-
+            elif isinstance(patch, kgcl.AddNodeToSubset):
+                # TODO: implement deterministic subset mapping
+                pfx = about.split(":")[0].lower()
+                subset_curie = f"obo:{pfx}#{patch.in_subset}"
+                self._execute(
+                    insert(Statements).values(
+                        subject=about, predicate=IN_SUBSET, object=subset_curie
+                    )
+                )
+            elif isinstance(patch, kgcl.RemoveNodeFromSubset):
+                # TODO: implement deterministic subset mapping
+                pfx = about.split(":")[0].lower()
+                subset_curie = f"obo:{pfx}#{patch.in_subset}"
+                self._execute(
+                    delete(Statements).where(
+                        and_(
+                            Statements.subject == about,
+                            Statements.predicate == IN_SUBSET,
+                            Statements.object == subset_curie,
+                        )
+                    )
+                )
             elif isinstance(patch, kgcl.NodeObsoletion):
                 self.check_node_exists(about)
                 self._set_predicate_value(
