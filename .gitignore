@@ -30,3 +30,5 @@ tests/input/fhirjson_conf.json
 oak_hp.profile
 oak_semsimian_hp.profile
 notebooks/demo.tsv
+tests/input/obo_conf.yaml
+tests/input/obojson_conf.yaml
