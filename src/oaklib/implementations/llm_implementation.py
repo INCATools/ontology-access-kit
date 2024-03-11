@@ -8,7 +8,12 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from sssom_schema import Mapping
-from tenacity import retry, retry_if_exception, stop_after_attempt, wait_random_exponential
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_random_exponential,
+)
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import DefinitionPropertyValue
@@ -83,6 +88,7 @@ def is_rate_limit_error(exception):
     logger.warning(f"Exception: {exception}")
     return exception_full_name in rate_limit_errors
 
+
 @retry(
     retry=retry_if_exception(is_rate_limit_error),
     wait=wait_random_exponential(multiplier=1, max=40),
@@ -90,6 +96,7 @@ def is_rate_limit_error(exception):
 )
 def query_model(model, *args, **kwargs):
     return model.prompt(*args, **kwargs)
+
 
 @dataclass
 class LLMImplementation(
@@ -149,13 +156,13 @@ class LLMImplementation(
             self.wrapped_adapter = get_adapter(slug)
         if self.model_id is not None:
             import llm
+
             self.model = llm.get_model(self.model_id)
             if "claude" in self.model_id or "openrouter" in self.model_id:
                 # TODO: claude API seems to have its own rate limiting
                 # TODO: openrouter just seems very flaky
                 # but it is too conservative
                 self.throttle_time = 10
-
 
     def entities(self, **kwargs) -> Iterator[CURIE]:
         """Return all entities in the ontology."""
@@ -417,7 +424,7 @@ class LLMImplementation(
                 extra += "Please try again, WITH VALID JSON."
                 extra += "Do not apologize or give more verbiage, JUST JSON."
                 logger.info(f"New Prompt: {main_prompt + extra}")
-                response = query_model(model,main_prompt + extra, system=system_prompt).text()
+                response = query_model(model, main_prompt + extra, system=system_prompt).text()
                 try:
                     obj = json.loads(response)
                 except json.JSONDecodeError as e:
