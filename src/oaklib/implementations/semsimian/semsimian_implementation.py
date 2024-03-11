@@ -31,8 +31,6 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 
 Semsimian: Optional["Semsimian"] = None  # type: ignore
-if TYPE_CHECKING:
-    from semsimian import Semsimian
 
 wrapped_adapter: BasicOntologyInterface = None
 
@@ -100,6 +98,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         :param predicates: collection of predicates, defaults to None
         :return: A Semsimian object.
         """
+        global Semsimian
+        if Semsimian is None:
+            from semsimian import Semsimian
         predicates = tuple(sorted(predicates))
         if predicates not in self.semsimian_object_cache:
             # spo = [

@@ -22,6 +22,7 @@ semsql = ">=0.3.1"
 kgcl-schema = "^0.6.5"
 funowl = ">=0.2.0"
 gilda = {version = ">=1.0.0", optional = true}
+semsimian = {version = ">=0.1.0", optional = true}
 kgcl-rdflib = "0.5.0"
 llm = {version = "*", optional = true}
 aiohttp = {version = "*", optional = true}
@@ -57,10 +58,6 @@ tox = "*"
 [tool.poetry.group.dev.dependencies]
 seaborn = "^0.12.2"
 
-
-[tool.poetry.group.semsimian.dependencies]
-semsimian = "^0.2.13"
-
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -75,6 +72,7 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid", "sphinx-copybutto
 gilda = ["scipy", "gilda", "urllib3"]
 llm = ["llm", "aiohttp"]
 seaborn = ["seaborn"]
+semsimian = ["semsimian"]
 
 [tool.black]
 line-length = 100
