@@ -3885,7 +3885,7 @@ xmp = ["defusedxml"]
 name = "pip"
 version = "24.0"
 description = "The PyPA recommended tool for installing Python packages."
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "pip-24.0-py3-none-any.whl", hash = "sha256:ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc"},
@@ -6549,4 +6549,4 @@ semsimian = ["semsimian"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "f20c9dca2ff33ce80f395bb9e6346ab1df5a3af388483dd1c54424aee499fb52"
+content-hash = "713640c06be41afbef1ccf4af02e4fafc2cff9763382660a0e31be5cd7b54136"
