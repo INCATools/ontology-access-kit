@@ -74,6 +74,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#selecting-alternative-models">Selecting alternative models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installing-llm-plugins">Installing LLM plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#mixtral-via-ollama-and-litellm">Mixtral via Ollama and LiteLLM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#mixtral-via-groq-and-litellm">Mixtral via groq and LiteLLM</a></li>
 </ul>
@@ -121,6 +122,10 @@ of tasks, including:</p>
 <li><p>Summarizing lists of ontology terms and other OAK outputs</p></li>
 <li><p>Annotating text using ontology terms</p></li>
 <li><p>Reviewing ontology branches or different kinds of ontology axioms</p></li>
+</ul>
+<p>For more on LLMs, see:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ai.google.dev/docs/concepts">Google LLM guide</a></p></li>
 </ul>
 <p>This guide is in 3 sections:</p>
 <ul class="simple">
@@ -219,6 +224,25 @@ as <cite>gpt-4</cite> or <cite>gpt-4-turbo</cite> (this may change in the future
 mechanism for adding new models. See <a class="reference external" href="https://llm.datasette.io/en/stable/plugins/index.html">Plugin index</a>.</p>
 <p>However, LLM can sometimes be slow to add new models, so here it can be useful to the awesome
 <a class="reference external" href="https://github.com/BerriAI/litellm/">LiteLLM</a> package, which provides a proxy to a wide range of models.</p>
+<section id="installing-llm-plugins">
+<h3>Installing LLM plugins<a class="headerlink" href="#installing-llm-plugins" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llm</span></code> command line tool makes it easy to access other models via its
+<a class="reference external" href="https://llm.datasette.io/en/stable/plugins/index.html">extensible plugin system</a>.</p>
+<p>Normally, you would do something like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipx<span class="w"> </span>install<span class="w"> </span>llm
+llm<span class="w"> </span>install<span class="w"> </span>llm-gemini
+llm<span class="w"> </span>-m<span class="w"> </span>gemini-pro<span class="w"> </span><span class="s2">&quot;what is the best ontology?&quot;</span>
+</pre></div>
+</div>
+<p>However, this will install the plugin in a different environment from OAK. If you are running OAK
+as a developer, then you can do this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ontology-access-kit
+poetry<span class="w"> </span>run<span class="w"> </span>llm<span class="w"> </span>install<span class="w"> </span>llm-gemini
+</pre></div>
+</div>
+<p>This will install the plugin in the same environment as OAK.</p>
+<p>TODO: instructions for non-developers.</p>
+</section>
 <section id="mixtral-via-ollama-and-litellm">
 <h3>Mixtral via Ollama and LiteLLM<a class="headerlink" href="#mixtral-via-ollama-and-litellm" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ollama<span class="w"> </span>run<span class="w"> </span>mixtral

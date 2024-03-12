@@ -9,6 +9,10 @@ of tasks, including:
 - Annotating text using ontology terms
 - Reviewing ontology branches or different kinds of ontology axioms
 
+For more on LLMs, see:
+
+- `Google LLM guide <https://ai.google.dev/docs/concepts>`_
+
 This guide is in 3 sections:
 
 - Summary of ontology-LLM tools that directly leverage OAK, but are not part of the OAK framework
@@ -134,6 +138,33 @@ mechanism for adding new models. See `Plugin index <https://llm.datasette.io/en/
 
 However, LLM can sometimes be slow to add new models, so here it can be useful to the awesome
 `LiteLLM <https://github.com/BerriAI/litellm/>`_ package, which provides a proxy to a wide range of models.
+
+Installing LLM plugins
+~~~~~~~~~~~~~~~~~~~~~~
+
+The ``llm`` command line tool makes it easy to access other models via its
+`extensible plugin system <https://llm.datasette.io/en/stable/plugins/index.html>`_.
+
+Normally, you would do something like this:
+
+.. code-block:: bash
+
+    pipx install llm
+    llm install llm-gemini
+    llm -m gemini-pro "what is the best ontology?"
+
+However, this will install the plugin in a different environment from OAK. If you are running OAK
+as a developer, then you can do this:
+
+.. code-block:: bash
+
+    cd ontology-access-kit
+    poetry run llm install llm-gemini
+
+This will install the plugin in the same environment as OAK.
+
+TODO: instructions for non-developers.
+
 
 Mixtral via Ollama and LiteLLM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
