@@ -1304,6 +1304,7 @@ class ComplianceTester:
                 change_obj = _as_json_dict_no_id(diff)
                 if "old_value" in change_obj and "new_value" in change_obj:
                     del change_obj["old_value"]
+                print(f"LOOKING FOR xxx {change_obj}")
                 if change_obj in expected_changes:
                     expected_changes.remove(change_obj)
                 else:
