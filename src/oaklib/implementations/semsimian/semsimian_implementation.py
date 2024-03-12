@@ -20,8 +20,6 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 
-Semsimian: Optional["Semsimian"] = None  # type: ignore
-
 wrapped_adapter: BasicOntologyInterface = None
 
 __all__ = [
@@ -51,7 +49,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         SemanticSimilarityInterface.information_content_scores,
     ]
 
-    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Optional[Semsimian]] = field(default_factory=dict)  # type: ignore
+    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Optional["Semsimian"]] = field(default_factory=dict)  # type: ignore
 
     def __post_init__(self):
         slug = self.resource.slug
@@ -81,16 +79,15 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         attributes: List[str] = None,
         resource_path: str = None,
-    ) -> Semsimian:
+    ) -> "Semsimian": # type: ignore
         """
         Get Semsimian object from "semsimian_object_cache" or add a new one.
 
         :param predicates: collection of predicates, defaults to None
         :return: A Semsimian object.
         """
-        global Semsimian
-        if Semsimian is None:
-            from semsimian import Semsimian
+        from semsimian import Semsimian
+
         predicates = tuple(sorted(predicates))
         if predicates not in self.semsimian_object_cache:
             # spo = [
