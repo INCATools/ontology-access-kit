@@ -79,7 +79,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         attributes: List[str] = None,
         resource_path: str = None,
-    ) -> "Semsimian":  # type: ignore # noqa
+    ) -> "Semsimian": # type: ignore # noqa 
         """
         Get Semsimian object from "semsimian_object_cache" or add a new one.
 
