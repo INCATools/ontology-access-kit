@@ -319,12 +319,12 @@ class DifferInterface(BasicOntologyInterface, ABC):
                         edge_deletion_list.append(deleted_edge)
             if mapping_changed_set:
                 for changes in mapping_changed_set:
-                    predicate, old_xref, new_xref = changes
+                    object, new_predicate, old_predicate = changes
                     edge_change = EdgeChange(
                         id=_gen_id(),
-                        about_edge=Edge(subject=entity, predicate=predicate, object=old_xref),
-                        old_value=old_xref,
-                        new_value=new_xref,
+                        about_edge=Edge(subject=entity, predicate=old_predicate, object=object),
+                        old_value=old_predicate,
+                        new_value=new_predicate,
                     )
 
                     if configuration.yield_individual_changes:
@@ -638,13 +638,12 @@ def _parallely_get_relationship_changes(
 
 def _find_mapping_changes(set1, set2):
     # Convert sets to dictionaries for easier lookup
-    dict1 = {t[0]: t[1] for t in set1}
-    dict2 = {t[0]: t[1] for t in set2}
+    dict1 = {t[1]: t[0] for t in set1}
+    dict2 = {t[1]: t[0] for t in set2}
 
     # Find changes
     changes = []
     for key in dict1:
         if key in dict2 and dict1[key] != dict2[key]:
             changes.append((key, dict1[key], dict2[key]))
-
     return changes
