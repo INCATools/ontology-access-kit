@@ -1285,7 +1285,12 @@ class ComplianceTester:
                 ],
             ),
             (
-                kgcl.NewSynonym(id=generate_change_id(), about_node=FUNGI, new_value="shroom", predicate="oio:hasRelatedSynonym"),
+                kgcl.NewSynonym(
+                    id=generate_change_id(),
+                    about_node=FUNGI,
+                    new_value="shroom",
+                    predicate="oio:hasRelatedSynonym",
+                ),
                 False,
                 lambda oi: test.assertCountEqual(
                     ["shroom", "fungi", "Fungi", "Mycota"],
