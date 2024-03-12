@@ -285,6 +285,7 @@ def expand(config: str, schema: str, value_set_names: List[str], output: str):
 
         vskit expand -c config.yaml -s schema.yaml -o expanded.yaml my_value_set1 my_value_set2
     """
+    value_set_names = None if not value_set_names else value_set_names
     expander = ValueSetExpander()
     if config:
         expander.configuration = yaml_loader.load(config, target_class=ValueSetConfiguration)

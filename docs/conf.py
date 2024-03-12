@@ -13,12 +13,13 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+from datetime import date
 
 
 # -- Project information -----------------------------------------------------
 
 project = "oaklib"
-copyright = "2022, OAK developers"
+copyright = f"2022-{date.today().year}, OAK developers"
 author = "Chris Mungall"
 
 

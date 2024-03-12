@@ -41,6 +41,7 @@ semsimian = "^0.2.1"
 urllib3 = {version = "< 2", optional = true}
 pydantic = "*"
 jsonlines = "^4.0.0"
+tenacity = "^8.2.3"
 
 
 [tool.poetry.dev-dependencies]
