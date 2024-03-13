@@ -1,20 +1,24 @@
+"""PantherDB implementation for OAK."""
+
 import logging
-import time
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import requests_cache
 import sssom
 from sssom.constants import SEMAPV
 from sssom_schema import Mapping
 
-from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
 from oaklib.datamodels.item_list import ItemList
-from oaklib.datamodels.search import SearchConfiguration
-from oaklib.datamodels.vocabulary import IN_TAXON, IS_A, SKOS_EXACT_MATCH
+from oaklib.datamodels.vocabulary import (
+    BIOLOGICAL_PROCESS,
+    CELLULAR_COMPONENT,
+    MOLECULAR_FUNCTION,
+    SKOS_EXACT_MATCH,
+)
 from oaklib.interfaces import (
     MappingProviderInterface,
     OboGraphInterface,
@@ -23,7 +27,6 @@ from oaklib.interfaces import (
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
-from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
 from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
@@ -46,6 +49,31 @@ class PantherDBImplementation(
     AssociationProviderInterface,
     SearchInterface,
 ):
+    """
+    PantherDB implementation for OAK.
+
+    This implementation provides access to PantherDB data and services.
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("pantherdb:9606")
+    >>> for assoc in adapter.associations(["UniProtKB:P04217"]):
+    ...     print(assoc.object)
+    <BLANKLINE>
+    ...
+    GO:0005576
+    ...
+
+    In general this Adapter needs to be instantiated with a taxon_id,
+    which is the NCBI Taxon ID for the species of interest.
+
+    If your input IDs are all HGNC gene IDs, this is inferred automatically.
+
+    Note that currently the PantherDB API doesn't distinguish between HGNC and NCBIGene IDs.
+    Although you as the client will pass in CURIEs, only the numeric part is used, so matches
+    may be more permissive than expected.
+
+    """
+
     _requests_session: requests_cache.CachedSession = None
 
     requires_associations = False
@@ -99,6 +127,29 @@ class PantherDBImplementation(
         include_modified: bool = False,
         **kwargs,
     ) -> Iterator[Association]:
+        """
+        Get associations from PantherDB.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("pantherdb:9606")
+        >>> for assoc in adapter.associations(["UniProtKB:P04217"]):
+        ...     print(assoc.object)
+        <BLANKLINE>
+        ...
+        GO:0005576
+        ...
+
+        :param subjects:
+        :param predicates:
+        :param objects:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :param kwargs:
+        :return:
+        """
         if subjects and not isinstance(subjects, list):
             subjects = list(subjects)
         if objects and not isinstance(objects, list):
@@ -137,18 +188,35 @@ class PantherDBImplementation(
                 genes = [genes]
             for gene in genes:
                 subject = self._curie_from_accession(gene)
-
-                def gen_assoc(term: dict, predicate) -> Association:
-                    return Association(subject=subject, predicate=predicate, object=term["id"])
-
                 atl = gene["annotation_type_list"]
+                content = atl.get("content", None)
                 for adt in atl["annotation_data_type"]:
-                    anns = adt["annotation_list"]["annotation"]
+                    if "content" in adt:
+                        content = adt["content"]
+                    pfx = ""
+                    if content == BIOLOGICAL_PROCESS:
+                        predicate = "biolink:involved_in"
+                    elif content == MOLECULAR_FUNCTION:
+                        predicate = "biolink:has_function"
+                    elif content == CELLULAR_COMPONENT:
+                        predicate = "biolink:located_in"
+                    elif content == "ANNOT_TYPE_ID_REACTOME_PATHWAY":
+                        predicate = "biolink:involved_in"
+                        pfx = "REACT:"
+                    else:
+                        continue
+                    annlist = adt["annotation_list"]
+                    anns = annlist["annotation"]
                     if not isinstance(anns, list):
                         anns = [anns]
                     for ann in anns:
-                        print(ann)
-                        yield gen_assoc(ann, predicate="biolink:has_function")
+                        obj = pfx + ann["id"]
+                        yield Association(
+                            subject=subject,
+                            predicate=predicate,
+                            object=obj,
+                            object_label=ann["name"],
+                        )
 
     def _homologs(
         self,
