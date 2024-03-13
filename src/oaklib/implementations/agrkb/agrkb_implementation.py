@@ -48,6 +48,7 @@ class AGRKBImplementation(
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        **kwargs,
     ) -> Iterator[Association]:
         if subjects and not isinstance(subjects, list):
             subjects = list(subjects)

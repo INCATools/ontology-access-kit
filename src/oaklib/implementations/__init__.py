@@ -40,6 +40,9 @@ from oaklib.implementations.ontoportal.matportal_implementation import (
 from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
+from oaklib.implementations.pantherdb.pantherdb_implementation import (
+    PantherDBImplementation,
+)
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.semsimian.semsimian_implementation import (
     SemSimianImplementation,
@@ -88,6 +91,7 @@ __all__ = [
     "LovImplementation",
     "SparqlImplementation",
     "WikidataImplementation",
+    "PantherDBImplementation",
     "PubMedImplementation",
     "FunOwlImplementation",
     "GildaImplementation",

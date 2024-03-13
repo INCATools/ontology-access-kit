@@ -3,6 +3,8 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Iterable, Iterator, List, Optional
 
+from typing_extensions import ClassVar
+
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
 from oaklib.datamodels.item_list import ItemList
@@ -25,6 +27,8 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
     for example: to
     test for over representation of a disease in a set of genes.
     """
+
+    requires_associations: ClassVar[bool] = True
 
     def enriched_classes(
         self,

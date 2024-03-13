@@ -4022,9 +4022,10 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
     curies = query_terms_iterator(terms, impl)
     logging.info(f"Normalizing: {curies}")
     for mapping in impl.sssom_mappings(curies, source=maps_to_source):
-        if not mapping.object_id.startswith(f"{maps_to_source}:"):
-            continue
-        writer.emit_curie(mapping.object_id, mapping.object_label)
+        if mapping.object_id.startswith(f"{maps_to_source}:"):
+            writer.emit_curie(mapping.object_id, mapping.object_label)
+        if mapping.subject_id.startswith(f"{maps_to_source}:"):
+            writer.emit_curie(mapping.subject_id, mapping.subject_label)
     writer.finish()
 
 
@@ -4806,7 +4807,11 @@ def enrichment(
     background = list(curies_from_file(background_file)) if background_file else None
     if not isinstance(impl, ClassEnrichmentCalculationInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    if not ontology_only and not any(True for _ in impl.associations()):
+    if (
+        impl.requires_associations
+        and not ontology_only
+        and not any(True for _ in impl.associations())
+    ):
         raise click.UsageError("no associations -- specify --ontology-only or load associations")
     if ontology_only:
         impl.create_self_associations()
