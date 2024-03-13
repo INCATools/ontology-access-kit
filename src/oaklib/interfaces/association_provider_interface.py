@@ -426,6 +426,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        filter: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, int]]:
         """
         Yield objects together with the number of distinct associated subjects.
@@ -456,6 +458,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         :param include_modified:
         :return:
         """
+        if filter:
+            raise ValueError("filter not supported")
         association_it = self.associations(
             subjects=subjects,
             predicates=predicates,

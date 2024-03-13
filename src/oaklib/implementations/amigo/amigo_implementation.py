@@ -196,6 +196,7 @@ class AmiGOImplementation(
         **kwargs,
     ) -> Iterator[Association]:
         solr = self._solr
+        # TODO: use _association_query
         fq = {DOCUMENT_CATEGORY: ["annotation"]}
         if subjects:
             subjects = [_unnnormalize(s) for s in subjects]
@@ -231,6 +232,51 @@ class AmiGOImplementation(
                 assoc.subject_closure = doc[ISA_PARTOF_CLOSURE]
                 assoc.subject_closure_label = doc[ISA_PARTOF_CLOSURE_LABEL]
             yield assoc
+
+    def _association_query(
+            self,
+            subjects: Iterable[CURIE] = None,
+            predicates: Iterable[PRED_CURIE] = None,
+            property_filter: Dict[PRED_CURIE, Any] = None,
+            subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+            predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+            object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+            include_modified: bool = False,
+            filter: Optional[Dict[str, Any]] = None,
+            **kwargs,
+    ) -> Dict[str, Any]:
+        fq = {DOCUMENT_CATEGORY: ["annotation"]}
+        if subjects:
+            subjects = [_unnnormalize(s) for s in subjects]
+            fq[BIOENTITY] = subjects
+        if objects:
+            objects = list(objects)
+            fq[ISA_PARTOF_CLOSURE] = objects
+        if self._source:
+            fq[TAXON_CLOSURE] = [self._source]
+        return fq
+
+    def association_subject_counts(
+            self,
+            subjects: Iterable[CURIE] = None,
+            predicates: Iterable[PRED_CURIE] = None,
+            property_filter: Dict[PRED_CURIE, Any] = None,
+            subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+            predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+            object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+            include_modified: bool = False,
+            filter: Optional[Dict[str, Any]] = None,
+            **kwargs,
+    ) -> Iterator[Tuple[CURIE, int]]:
+        fq = self._association_query(
+            subjects=subjects,
+            predicates=predicates,
+            property_filter=property_filter,
+            subject_closure_predicates=subject_closure_predicates,
+            predicate_closure_predicates=predicate_closure_predicates,
+            object_closure_predicates=object_closure_predicates,
+            include_modified=include_modified,
+        )
 
     def relationships(
         self,

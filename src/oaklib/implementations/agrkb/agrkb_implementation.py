@@ -1,7 +1,7 @@
 import logging
 import time
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
 
 import requests_cache
 
@@ -13,7 +13,11 @@ from oaklib.interfaces import OboGraphInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
-from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
+from oaklib.interfaces.basic_ontology_interface import (
+    ALIAS_MAP,
+    LANGUAGE_TAG,
+    RELATIONSHIP,
+)
 from oaklib.types import CURIE, PRED_CURIE
 
 logger = logging.getLogger(__name__)
@@ -153,9 +157,28 @@ class AGRKBImplementation(
         return obograph.Node(id=curie, lbl=obj.get("symbol", None), type="CLASS", meta=meta)
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        try:
+            node = self.node(curie)
+            if node:
+                return node.lbl
+        except ValueError:
+            return None
+
+    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         node = self.node(curie)
-        if node:
-            return node.lbl
+        if node and node.meta and node.meta.xrefs:
+            for xref in node.meta.xrefs:
+                yield xref.val, curie
+
+    def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
+        node = self.node(curie)
+        if node and node.meta and node.meta.synonyms:
+            m = {}
+            for s in node.meta.synonyms:
+                if s.pred not in m:
+                    m[s.pred] = []
+                m[s.pred].append(s.val)
+            return m
 
     def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         node = self.node(curie)

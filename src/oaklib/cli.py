@@ -587,7 +587,9 @@ def _nest_list_of_terms(terms: List[str]) -> Tuple[NESTED_LIST, List[str]]:
     return nested, []
 
 
-def curies_from_file(file: IO) -> Iterator[CURIE]:
+def curies_from_file(
+    file: IO, adapter: Optional[BasicOntologyInterface] = None, allow_labels=False, strict=False
+) -> Iterator[CURIE]:
     """
     yield an iterator over CURIEs by parsing a file.
 
@@ -596,16 +598,29 @@ def curies_from_file(file: IO) -> Iterator[CURIE]:
     is ignored
 
     :param file:
+    :param adapter: if provided, will be used to resolve CURIEs
+    :param allow_labels: if true, will allow inputs to be labels
+    :param strict: if true, will raise an error if a CURIE cannot be resolved
     :return:
     """
     line_no = 0
+    if allow_labels and not adapter:
+        raise ValueError("Must provide an adapter to resolve labels")
     for line in file.readlines():
         line_no += 1
-        m = re.match(r"^(\S+)", line)
-        curie = m.group(1)
-        if curie == "id" and line_no == 1:
-            continue
-        yield curie
+        if ":" in line or not allow_labels:
+            m = re.match(r"^(\S+)", line)
+            curie = m.group(1)
+            if curie == "id" and line_no == 1:
+                continue
+            yield curie
+        elif allow_labels:
+            candidates = adapter.curies_by_label(line.strip())
+            if strict and len(candidates) != 1:
+                raise ValueError(
+                    f"Could not resolve label {line} to a single CURIE, got {candidates}"
+                )
+            yield from candidates
 
 
 def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
@@ -2755,21 +2770,23 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     """
     if len(terms) != 2:
         raise ValueError(f"Need exactly 2 terms: {terms}")
-    subject = terms[0]
-    object = terms[1]
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if isinstance(impl, SemanticSimilarityInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
-        if autolabel:
-            sim.subject_label = impl.label(sim.subject_id)
-            sim.object_label = impl.label(sim.object_id)
-            sim.ancestor_label = impl.label(sim.ancestor_id)
-        writer.emit(sim)
-    else:
+    subject = list(query_terms_iterator([terms[0]], impl))[0]
+    object = list(query_terms_iterator([terms[1]], impl))[0]
+    if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
+    if autolabel:
+        if not sim.subject_label:
+            sim.subject_label = impl.label(sim.subject_id)
+        if not sim.object_label:
+            sim.object_label = impl.label(sim.object_id)
+        if not sim.ancestor_label:
+            sim.ancestor_label = impl.label(sim.ancestor_id)
+    writer.emit(sim)
     writer.finish()
 
 
@@ -4756,6 +4773,11 @@ def rollup(
     default=False,
     help="If true, filter out redundant terms",
 )
+@click.option(
+    "--allow-labels/--no-allow-labels",
+    default=False,
+    help="If true, allow labels as well as CURIEs in the input files",
+)
 @click.argument("terms", nargs=-1)
 def enrichment(
     terms,
@@ -4768,6 +4790,7 @@ def enrichment(
     sample_file: TextIO,
     background_file: TextIO,
     ontology_only: bool,
+    allow_labels: bool,
     **kwargs,
 ):
     """
@@ -4802,8 +4825,12 @@ def enrichment(
     impl = settings.impl
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
-    subjects = list(curies_from_file(sample_file))
-    background = list(curies_from_file(background_file)) if background_file else None
+    subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
+    background = (
+        list(curies_from_file(background_file, adapter=impl, allow_labels=allow_labels))
+        if background_file
+        else None
+    )
     if not isinstance(impl, ClassEnrichmentCalculationInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     if not ontology_only and not any(True for _ in impl.associations()):
