@@ -10,7 +10,7 @@ import pysolr
 
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
-from oaklib.datamodels.vocabulary import RDFS_LABEL
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -70,7 +70,7 @@ def _fq_element(k, vs):
 
 
 def _query(
-    solr, fq, fields, q=None, start: int = None, limit: int = None, **kwargs
+    solr, fq, fields=None, q=None, start: int = None, limit: int = None, **kwargs
 ) -> Iterator[Dict]:
     if start is None:
         start = 0
@@ -90,6 +90,27 @@ def _query(
         else:
             start += limit
             sleep(0.1)
+
+
+def _faceted_query(
+    solr, fq, facet_field, fields=None, q=None, rows=0, facet_limit=10, min_facet_count=1, **kwargs
+) -> Iterator[Tuple[str, int]]:
+    fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
+    params = {
+        "facet": "true",
+        "fq": fq_list,
+        "facet.field": facet_field,
+        "facet.limit": facet_limit,
+        "facet.mincount": min_facet_count,
+        **kwargs,
+    }
+    if not q:
+        q = "*:*"
+    logging.info(f"QUERY: {q} PARAMS: {params}")
+    results = solr.search(q, rows=rows, **params)
+    ff = results.raw_response["facet_counts"]["facet_fields"][facet_field]
+    for i in range(0, len(ff), 2):
+        yield ff[i], ff[i + 1]
 
 
 def _unnnormalize(curie: CURIE) -> CURIE:
@@ -234,16 +255,16 @@ class AmiGOImplementation(
             yield assoc
 
     def _association_query(
-            self,
-            subjects: Iterable[CURIE] = None,
-            predicates: Iterable[PRED_CURIE] = None,
-            property_filter: Dict[PRED_CURIE, Any] = None,
-            subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
-            predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
-            object_closure_predicates: Optional[List[PRED_CURIE]] = None,
-            include_modified: bool = False,
-            filter: Optional[Dict[str, Any]] = None,
-            **kwargs,
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        **kwargs,
     ) -> Dict[str, Any]:
         fq = {DOCUMENT_CATEGORY: ["annotation"]}
         if subjects:
@@ -254,20 +275,45 @@ class AmiGOImplementation(
             fq[ISA_PARTOF_CLOSURE] = objects
         if self._source:
             fq[TAXON_CLOSURE] = [self._source]
+        if property_filter:
+            for k, v in property_filter.items():
+                fq[k] = [v]
         return fq
 
-    def association_subject_counts(
-            self,
-            subjects: Iterable[CURIE] = None,
-            predicates: Iterable[PRED_CURIE] = None,
-            property_filter: Dict[PRED_CURIE, Any] = None,
-            subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
-            predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
-            object_closure_predicates: Optional[List[PRED_CURIE]] = None,
-            include_modified: bool = False,
-            filter: Optional[Dict[str, Any]] = None,
-            **kwargs,
+    def association_counts(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        group_by: Optional[str] = "object",
+        limit: Optional[int] = None,
+        min_facet_count: Optional[int] = 1,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, int]]:
+        """
+        Return the number of associations for each subject or object.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("amigo:NCBITaxon:9606")
+        >>> for term, count in adapter.association_counts(group_by="object"):
+        ...    print(f"Term: {term}  Approx Count: {int(count / 1000) * 1000)}")
+        xxx
+
+        :param subjects:
+        :param predicates:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :param group_by:
+        :param kwargs:
+        :return:
+        """
         fq = self._association_query(
             subjects=subjects,
             predicates=predicates,
@@ -277,6 +323,34 @@ class AmiGOImplementation(
             object_closure_predicates=object_closure_predicates,
             include_modified=include_modified,
         )
+        solr = self._solr
+        if group_by == "object":
+            if object_closure_predicates:
+                if {IS_A, PART_OF}.difference(object_closure_predicates):
+                    raise ValueError("object_closure_predicates must include IS_A and PART_OF")
+                ff = ISA_PARTOF_CLOSURE
+            else:
+                ff = ANNOTATION_CLASS
+        elif group_by == "subject":
+            ff = BIOENTITY
+        else:
+            raise ValueError(f"Unknown group_by: {group_by}")
+        yield from _faceted_query(
+            solr, fq, facet_field=ff, rows=0, facet_limit=limit, min_facet_count=min_facet_count
+        )
+
+    def association_subject_counts(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, int]]:
+        raise NotImplementedError
 
     def relationships(
         self,

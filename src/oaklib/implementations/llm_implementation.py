@@ -1,4 +1,5 @@
 """An OAK implementation that wraps Large Language Models."""
+
 import base64
 import json
 import logging
@@ -87,7 +88,7 @@ Return results as a valid JSON list with the following structure:
 
 {{"terms": ["<TERM-NAME1>", "<TERM-NAME2>, ...],
   "description": "<NARRATIVE DESCRITPTION>"}}
-  
+
 Always return JSON in this structure. Only use the two keys "terms" and "description".
 "terms" is always a list of term names (not IDs). "description" is a narrative description
 of the commonalities in the input list. Do not escape JSON keys. No verbiage before
@@ -570,7 +571,9 @@ class LLMImplementation(
                     class_label=term,
                 )
 
-    def _term2ids(self, term: str, annotator: Optional[TextAnnotatorInterface]=None) -> List[CURIE]:
+    def _term2ids(
+        self, term: str, annotator: Optional[TextAnnotatorInterface] = None
+    ) -> List[CURIE]:
         """Convert a term to an ID."""
         if annotator is None:
             if isinstance(self.wrapped_adapter, TextAnnotatorInterface):
@@ -582,17 +585,17 @@ class LLMImplementation(
         if ids:
             return ids
         else:
-            e = base64.b64encode(term.encode('utf-8')).decode('utf-8')
+            e = base64.b64encode(term.encode("utf-8")).decode("utf-8")
             return [f"_:{e}"]
 
-    def _term2id(self, term: str, annotator: Optional[TextAnnotatorInterface]=None) -> CURIE:
+    def _term2id(self, term: str, annotator: Optional[TextAnnotatorInterface] = None) -> CURIE:
         return self._term2ids(term, annotator)[0]
 
     def pairwise_similarity(
-            self,
-            subject: CURIE,
-            object: CURIE,
-            **kwargs,
+        self,
+        subject: CURIE,
+        object: CURIE,
+        **kwargs,
     ) -> Optional[TermPairwiseSimilarity]:
         # Current implementation is naive and the MRCA returned is usually not in ontology
         logger.debug(f"Querying {subject} vs {object}")
@@ -602,13 +605,15 @@ class LLMImplementation(
             subject_label = subject
         if not object_label:
             object_label = object
-        sp = ("given two terms, estimate the most recent common subsumer/ancestor "
-              "as well as how similar the terms are (0..1.0). "
-              "return results as a JSON object with the following structure:\n\n"
-              '{"score": 0.95, "ancestor": "<term-name>"}'
-              "\nAlways return valid JSON. Only use the two keys 'score' and 'ancestor'. "
-              "the value of score is a float between 0 and 1.0.\n"
-              "the value of ancestor is a term label with the most recent common subsumer/ancestor.")
+        sp = (
+            "given two terms, estimate the most recent common subsumer/ancestor "
+            "as well as how similar the terms are (0..1.0). "
+            "return results as a JSON object with the following structure:\n\n"
+            '{"score": 0.95, "ancestor": "<term-name>"}'
+            "\nAlways return valid JSON. Only use the two keys 'score' and 'ancestor'. "
+            "the value of score is a float between 0 and 1.0.\n"
+            "the value of ancestor is a term label with the most recent common subsumer/ancestor."
+        )
         p = f'TERMS: {subject} "{subject_label}" vs {object} "{object_label}"'
         obj = query_model_to_json(self.model, system=sp, prompt=p)
         anc = obj["ancestor"]
@@ -624,4 +629,3 @@ class LLMImplementation(
         )
         logger.info(f"Pairwise similarity: {sim}")
         return sim
-

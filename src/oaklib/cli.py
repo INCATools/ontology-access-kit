@@ -4555,6 +4555,145 @@ def associations(
 @output_type_option
 @output_option
 @click.option(
+    "--add-closure-fields/--no-add-closure-fields",
+    default=False,
+    show_default=True,
+    help="Add closure fields to the output",
+)
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@click.option(
+    "--terms-role",
+    "-Q",
+    type=click.Choice([x.value for x in SubjectOrObjectRole]),
+    default=SubjectOrObjectRole.OBJECT.value,
+    show_default=True,
+    help="How to interpret query terms.",
+)
+@click.option(
+    "--limit",
+    "-L",
+    default=10,
+    show_default=True,
+    help="Limit the number of results",
+)
+@click.option(
+    "--filter",
+    "-F",
+    multiple=True,
+    help="Additional filters in K=V format",
+)
+@click.option(
+    "--min-facet-count",
+    default=1,
+    show_default=True,
+    help="Minimum count for a facet to be included",
+)
+@click.option(
+    "--group-by",
+    default="object",
+    show_default=True,
+    help="Group by subject or object",
+)
+@click.argument("terms", nargs=-1)
+def associations_counts(
+    terms,
+    predicates: str,
+    association_predicates: str,
+    terms_role: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    filter,
+    **kwargs,
+):
+    """
+    Count associations, grouped by subject or object
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts
+
+    This will default to summarzing by objects (HPO term), showing the number
+    of associations for each term.
+
+    This will be direct counts only. To include is-a closure, specify
+    the closure predicate(s), e.g.
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i
+
+    You can also group by other fields
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts --group-by subject
+
+    This will show the number of associations for each disease.
+
+    OAK also includes a number of specialized adapters that implement this method
+    for particular databases.
+
+    For example, to get the number of IEA associations for each GO term:
+
+        runoak -i amigo: associations-counts  --limit -1 -F evidence_type=IEA --no-autolabel
+
+    This can be constrained by species:
+
+        runoak -i amigo:NCBITaxon:9606 associations-counts  --limit -1 -F evidence_type=IEA --no-autolabel
+
+    Other options:
+
+    This command accepts many of the same options as the associations command, see
+    the docs for this command for details.
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    actual_predicates = _process_predicates_arg(predicates)
+    actual_association_predicates = _process_predicates_arg(association_predicates)
+    if not isinstance(impl, AssociationProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    filter_dict = {k: v for k, v in (x.split("=") for x in filter)}
+    kwargs["property_filter"] = filter_dict
+    qs_it = impl.association_counts(
+        curies,
+        predicates=actual_association_predicates,
+        subject_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    qo_it = impl.association_counts(
+        objects=curies,
+        predicates=actual_association_predicates,
+        object_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+        it = qs_it
+    elif terms_role == SubjectOrObjectRole.OBJECT.value:
+        it = qo_it
+    else:
+        logging.info("Using query terms to query both subject and object")
+        it = chain(qs_it, qo_it)
+    for term, count in it:
+        writer.emit(
+            {"term": term, "count": count},
+            label_fields=["term"],
+        )
+
+
+@main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@output_option
+@click.option(
     "--association-predicates",
     help="A comma-separated list of predicates for the association relation",
 )

@@ -22,3 +22,12 @@ class TestAmiGO(unittest.TestCase):
             raise TypeError("adapter is not an AssociationProviderInterface")
         assocs = list(adapter.associations(objects=["GO:0000082"]))
         self.assertGreater(len(assocs), 0)
+
+    def test_facet_counts(self):
+        """Test association_counts."""
+        adapter = self.adapter
+        if not isinstance(adapter, AssociationProviderInterface):
+            raise TypeError("adapter is not an AssociationProviderInterface")
+        facet_counts = adapter.association_counts()
+        for k, v in facet_counts:
+            print(k, v)
