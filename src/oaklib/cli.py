@@ -5176,17 +5176,29 @@ def validate_mappings(
         runoak validate-mappings -i db/uberon.db -o bad-mappings.sssom.tsv
 
     By default this will attempt to download and connect to
-    sqlite versions of different ontologies.
+    sqlite versions of different ontologies, when attempting to resolve a foreign
+    subject or object id.
 
-    You can customize this:
+    You can customize this mapping:
 
         runoak validate-mappings -i db/uberon.db --adapter-mapping uberon=db/uberon.db \
             --adapter-mapping zfa=db/zfa.db
+
+    This will use a local sqlite file for ZFA:nnnnnnn IDs.
 
     You can use "*" as a wildcard, in the case where you have an application ontology
     with many mapped entities merged in:
 
         runoak validate-mappings -i db/uberon.db --adapter-mapping "*"=db/merged.db"
+
+    The default behavior for this command is to perform deterministic rule-based
+    checks; for example, the mapped IDs should not be obsolete, and if the mapping
+    is skos:exactMatch, then the cardinality is expected to be 1:1.
+
+    Other adapters may choose to implement bespoke behaviors. In future there
+    might be a boomer adapter that will perform probabilistic reasoning on the
+    mappings. The experimental LLM backend will use an LLM to qualitatively
+    validate mappings (see the LLM how-to guide for more details).
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)

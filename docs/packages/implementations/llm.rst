@@ -3,6 +3,8 @@
 LLM Adapter
 =============
 
+See also :ref:`use_llms`
+
 Command Line Examples
 ----------------------
 
@@ -20,6 +22,6 @@ Annotation
 
 Code
 ----
-.. currentmodule:: oaklib.implementations.llm
+.. currentmodule:: oaklib.implementations.llm.llm_implementation
 
 .. autoclass:: LLMImplementation
