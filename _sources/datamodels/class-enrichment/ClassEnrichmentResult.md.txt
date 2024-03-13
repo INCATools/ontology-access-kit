@@ -27,6 +27,8 @@ URI: [ontoenrich:ClassEnrichmentResult](https://w3id.org/oak/class-enrichment/Cl
         
       ClassEnrichmentResult : descendant_of_more_informative_result
         
+      ClassEnrichmentResult : direction
+        
       ClassEnrichmentResult : false_discovery_rate
         
       ClassEnrichmentResult : fold_enrichment
@@ -70,6 +72,7 @@ URI: [ontoenrich:ClassEnrichmentResult](https://w3id.org/oak/class-enrichment/Cl
 | [background_total](background_total.md) | 0..1 <br/> [Integer](Integer.md) | The background total | direct |
 | [ancestor_of_more_informative_result](ancestor_of_more_informative_result.md) | 0..1 <br/> [Boolean](Boolean.md) | This term is more general than a previously reported result | direct |
 | [descendant_of_more_informative_result](descendant_of_more_informative_result.md) | 0..1 <br/> [Boolean](Boolean.md) | This term is more specific than a previously reported result | direct |
+| [direction](direction.md) | 0..1 <br/> [Integer](Integer.md) | The direction of the enrichment | direct |
 
 
 
@@ -243,6 +246,14 @@ attributes:
     domain_of:
     - ClassEnrichmentResult
     range: boolean
+  direction:
+    name: direction
+    description: The direction of the enrichment
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
 
 ```
 </details>
@@ -400,6 +411,16 @@ attributes:
     domain_of:
     - ClassEnrichmentResult
     range: boolean
+  direction:
+    name: direction
+    description: The direction of the enrichment
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: direction
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
 
 ```
 </details>

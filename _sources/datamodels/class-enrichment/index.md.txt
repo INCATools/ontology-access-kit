@@ -28,6 +28,7 @@ Name: class-enrichment
 | [class_id](class_id.md) | The class id |
 | [class_label](class_label.md) | The class label |
 | [descendant_of_more_informative_result](descendant_of_more_informative_result.md) | This term is more specific than a previously reported result |
+| [direction](direction.md) | The direction of the enrichment |
 | [false_discovery_rate](false_discovery_rate.md) | The false discovery rate |
 | [fold_enrichment](fold_enrichment.md) | The fold enrichment |
 | [p_value](p_value.md) | The p-value |

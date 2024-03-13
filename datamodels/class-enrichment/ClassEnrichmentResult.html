@@ -102,6 +102,8 @@
         
       ClassEnrichmentResult : descendant_of_more_informative_result
         
+      ClassEnrichmentResult : direction
+        
       ClassEnrichmentResult : false_discovery_rate
         
       ClassEnrichmentResult : fold_enrichment
@@ -199,6 +201,11 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="descendant_of_more_informative_result.html"><span class="std std-doc">descendant_of_more_informative_result</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
 <td><p>This term is more specific than a previously reported result</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="direction.html"><span class="std std-doc">direction</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Integer.html"><span class="std std-doc">Integer</span></a></p></td>
+<td><p>The direction of the enrichment</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -378,6 +385,14 @@ attributes:
     domain_of:
     - ClassEnrichmentResult
     range: boolean
+  direction:
+    name: direction
+    description: The direction of the enrichment
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -533,6 +548,16 @@ attributes:
     domain_of:
     - ClassEnrichmentResult
     range: boolean
+  direction:
+    name: direction
+    description: The direction of the enrichment
+    from_schema: https://w3id.org/oak/class-enrichment
+    rank: 1000
+    alias: direction
+    owner: ClassEnrichmentResult
+    domain_of:
+    - ClassEnrichmentResult
+    range: integer
 
 </pre></div>
 </div>
