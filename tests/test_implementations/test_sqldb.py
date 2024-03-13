@@ -642,6 +642,26 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
                     self.assertAlmostEquals(best_score, score)
             self.assertTrue(found)
 
+    def test_association_counts(self):
+        spec = InputSpecification(
+            ontology_resources={"go": {"selector": str(DB)}},
+            association_resources={"gaf": {"selector": str(INPUT_GAF)}},
+        )
+        adapter = get_adapter(spec)
+        cases = [
+            ({}, {NUCLEUS: 147, CELLULAR_COMPONENT: 202}),
+            ({"object_closure_predicates": []}, {NUCLEUS: 73, CELLULAR_COMPONENT: 0}),
+            ({"object_closure_predicates": [], "group_by": "subject"}, {"UniProtKB:O14733": 2}),
+        ]
+        for kwargs, expected in cases:
+            term_counts = list(adapter.association_counts(**kwargs))
+            for term, count in term_counts:
+                if term in expected:
+                    self.assertEqual(expected[term], count)
+                    expected.pop(term)
+            for _, count in expected.items():
+                self.assertEqual(0, count)
+
     def test_class_enrichment(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))

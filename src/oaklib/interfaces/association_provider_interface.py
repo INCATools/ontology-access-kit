@@ -454,7 +454,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             include_modified=include_modified,
             **kwargs,
         )
-        assoc_map = defaultdict(set)
+        assoc_map = defaultdict(list)
         cached = {}
         if isinstance(self, OboGraphInterface):
             for association in association_it:
@@ -470,7 +470,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                 else:
                     raise ValueError(f"Unknown group_by: {group_by}")
                 for grp in grps:
-                    assoc_map[grp].add(association)
+                    assoc_map[grp].append(association)
         for k, v in assoc_map.items():
             yield k, len(v)
 
