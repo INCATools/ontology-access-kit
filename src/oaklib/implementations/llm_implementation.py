@@ -87,7 +87,7 @@ of that set.
 Return results as a valid JSON list with the following structure:
 
 {{"terms": ["<TERM-NAME1>", "<TERM-NAME2>, ...],
-  "description": "<NARRATIVE DESCRITPTION>"}}
+  "description": "<NARRATIVE DESCRIPTION>"}}
 
 Always return JSON in this structure. Only use the two keys "terms" and "description".
 "terms" is always a list of term names (not IDs). "description" is a narrative description
