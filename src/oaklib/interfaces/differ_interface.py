@@ -7,6 +7,7 @@ from typing import Any, Dict, Iterator, Optional, Tuple
 
 import kgcl_schema.datamodel.kgcl as kgcl
 from kgcl_schema.datamodel.kgcl import (
+    AddNodeToSubset,
     Change,
     ClassCreation,
     Edge,
@@ -25,6 +26,7 @@ from kgcl_schema.datamodel.kgcl import (
     NodeTextDefinitionChange,
     NodeUnobsoletion,
     PredicateChange,
+    RemoveNodeFromSubset,
     RemoveSynonym,
     SynonymPredicateChange,
 )
@@ -89,6 +91,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
         - PredicateChange
         - NewTextDefinition
         - NodeTextDefinitionChange
+        - AddNodeToSubset
+        - RemoveNodeFromSubset
 
         Preferred sequence of changes:
         1. New classes
@@ -98,6 +102,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         5. Added synonyms
         6. Added definitions
         7. Changed relationships
+        8. Changed subsets
 
         :param other_ontology: Ontology to compare against
         :param configuration: Configuration for the differentiation
@@ -230,7 +235,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
             synonym_changes = defaultdict(list)
             edge_creation_list = []
             edge_deletion_list = []
-            # edge_change_list = []
+            edge_change_list = []
+            subset_addition_list = []
+            subset_removal_list = []
 
         self_aliases = {}
         other_aliases = {}
@@ -284,8 +291,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
             other_aliases[entity] = set(
                 other_ontology.alias_relationships(entity, exclude_labels=True)
             )
+
             #  ! Mappings
-            # TODO - mappings diffs
             self_mappings = set(self.simple_mappings_by_curie(entity))
             other_mappings = set(other_ontology.simple_mappings_by_curie(entity))
             mappings_added_set = other_mappings - self_mappings
@@ -329,9 +336,36 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
                     if configuration.yield_individual_changes:
                         yield edge_change
-                    # TODO - mappings changes need discussion
-                    # else:
-                    #     edge_change_list.append(edge_change)
+                    else:
+                        edge_change_list.append(edge_change)
+
+            # ! Subset changes
+            self_subsets = set(self.terms_subsets([entity]))
+            other_subsets = set(other_ontology.terms_subsets([entity]))
+            subsets_added_set = other_subsets - self_subsets
+            subsets_removed_set = self_subsets - other_subsets
+            if subsets_added_set:
+                for _, subset in subsets_added_set:
+                    change = AddNodeToSubset(
+                        id=_gen_id(),
+                        about_node=entity,
+                        in_subset=subset,
+                    )
+                    if configuration.yield_individual_changes:
+                        yield change
+                    else:
+                        subset_addition_list.append(change)
+            if subsets_removed_set:
+                for _, subset in subsets_removed_set:
+                    change = RemoveNodeFromSubset(
+                        id=_gen_id(),
+                        about_node=entity,
+                        in_subset=subset,
+                    )
+                    if configuration.yield_individual_changes:
+                        yield change
+                    else:
+                        subset_removal_list.append(change)
 
         # Yield collected changes after processing all entities
         if not configuration.yield_individual_changes:
@@ -345,9 +379,12 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 yield {EdgeCreation.__name__: edge_creation_list}
             if edge_deletion_list:
                 yield {MAPPING_EDGE_DELETION: edge_deletion_list}
-            # TODO - mappings changes need discussion
-            # if edge_change_list:
-            #     yield {EdgeChange.__name__: edge_change_list}
+            if edge_change_list:
+                yield {EdgeChange.__name__: edge_change_list}
+            if subset_addition_list:
+                yield {AddNodeToSubset.__name__: subset_addition_list}
+            if subset_removal_list:
+                yield {RemoveNodeFromSubset.__name__: subset_removal_list}
 
         # Process synonyms changes after collecting all aliases
         synonyms_generator = _generate_synonym_changes(

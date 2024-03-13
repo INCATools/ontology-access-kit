@@ -1,6 +1,9 @@
 """Change Handler Class."""
 
+from dataclasses import dataclass
 
+
+@dataclass
 class ChangeHandler:
     def __init__(self, oi, file):
         self.file = file
