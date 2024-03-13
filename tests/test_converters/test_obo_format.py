@@ -16,6 +16,7 @@ Currently these tests do two things:
 2. Test that conversion to and from .obo matches these files
     - generates files in tests/output/obo-compliance
 """
+
 import difflib
 import json
 import logging
