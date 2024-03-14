@@ -76,7 +76,6 @@ classes:
         slot_uri: OBI:0000175
         description: The p-value
         range: float
-        required: true
       p_value_adjusted:
         description: The adjusted p-value
         range: float
@@ -109,6 +108,9 @@ classes:
       descendant_of_more_informative_result:
         description: This term is more specific than a previously reported result
         range: boolean
+      direction:
+        description: The direction of the enrichment
+        range: integer
 
 enums:
   SortFieldEnum:

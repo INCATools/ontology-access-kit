@@ -210,6 +210,7 @@ MD_FORMAT = "md"
 HTML_FORMAT = "html"
 OBOJSON_FORMAT = "obojson"
 CSV_FORMAT = "csv"
+TSV_FORMAT = "tsv"
 JSON_FORMAT = "json"
 JSONL_FORMAT = "jsonl"
 YAML_FORMAT = "yaml"
@@ -230,6 +231,7 @@ ONT_FORMATS = [
     YAML_FORMAT,
     FHIR_JSON_FORMAT,
     CSV_FORMAT,
+    TSV_FORMAT,
     NL_FORMAT,
 ]
 
@@ -241,6 +243,7 @@ WRITERS = {
     HTML_FORMAT: HTMLWriter,
     OBOJSON_FORMAT: StreamingOboJsonWriter,
     CSV_FORMAT: StreamingCsvWriter,
+    TSV_FORMAT: StreamingCsvWriter,
     JSON_FORMAT: StreamingJsonWriter,
     JSONL_FORMAT: StreamingJsonLinesWriter,
     YAML_FORMAT: StreamingYamlWriter,
@@ -587,7 +590,9 @@ def _nest_list_of_terms(terms: List[str]) -> Tuple[NESTED_LIST, List[str]]:
     return nested, []
 
 
-def curies_from_file(file: IO) -> Iterator[CURIE]:
+def curies_from_file(
+    file: IO, adapter: Optional[BasicOntologyInterface] = None, allow_labels=False, strict=False
+) -> Iterator[CURIE]:
     """
     yield an iterator over CURIEs by parsing a file.
 
@@ -596,16 +601,29 @@ def curies_from_file(file: IO) -> Iterator[CURIE]:
     is ignored
 
     :param file:
+    :param adapter: if provided, will be used to resolve CURIEs
+    :param allow_labels: if true, will allow inputs to be labels
+    :param strict: if true, will raise an error if a CURIE cannot be resolved
     :return:
     """
     line_no = 0
+    if allow_labels and not adapter:
+        raise ValueError("Must provide an adapter to resolve labels")
     for line in file.readlines():
         line_no += 1
-        m = re.match(r"^(\S+)", line)
-        curie = m.group(1)
-        if curie == "id" and line_no == 1:
-            continue
-        yield curie
+        if ":" in line or not allow_labels:
+            m = re.match(r"^(\S+)", line)
+            curie = m.group(1)
+            if curie == "id" and line_no == 1:
+                continue
+            yield curie
+        elif allow_labels:
+            candidates = adapter.curies_by_label(line.strip())
+            if strict and len(candidates) != 1:
+                raise ValueError(
+                    f"Could not resolve label {line} to a single CURIE, got {candidates}"
+                )
+            yield from candidates
 
 
 def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
@@ -2755,21 +2773,23 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     """
     if len(terms) != 2:
         raise ValueError(f"Need exactly 2 terms: {terms}")
-    subject = terms[0]
-    object = terms[1]
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if isinstance(impl, SemanticSimilarityInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
-        if autolabel:
-            sim.subject_label = impl.label(sim.subject_id)
-            sim.object_label = impl.label(sim.object_id)
-            sim.ancestor_label = impl.label(sim.ancestor_id)
-        writer.emit(sim)
-    else:
+    subject = list(query_terms_iterator([terms[0]], impl))[0]
+    object = list(query_terms_iterator([terms[1]], impl))[0]
+    if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
+    if autolabel:
+        if not sim.subject_label:
+            sim.subject_label = impl.label(sim.subject_id)
+        if not sim.object_label:
+            sim.object_label = impl.label(sim.object_id)
+        if not sim.ancestor_label:
+            sim.ancestor_label = impl.label(sim.ancestor_id)
+    writer.emit(sim)
     writer.finish()
 
 
@@ -4022,9 +4042,10 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
     curies = query_terms_iterator(terms, impl)
     logging.info(f"Normalizing: {curies}")
     for mapping in impl.sssom_mappings(curies, source=maps_to_source):
-        if not mapping.object_id.startswith(f"{maps_to_source}:"):
-            continue
-        writer.emit_curie(mapping.object_id, mapping.object_label)
+        if mapping.object_id.startswith(f"{maps_to_source}:"):
+            writer.emit_curie(mapping.object_id, mapping.object_label)
+        if mapping.subject_id.startswith(f"{maps_to_source}:"):
+            writer.emit_curie(mapping.subject_id, mapping.subject_label)
     writer.finish()
 
 
@@ -4538,6 +4559,145 @@ def associations(
 @output_type_option
 @output_option
 @click.option(
+    "--add-closure-fields/--no-add-closure-fields",
+    default=False,
+    show_default=True,
+    help="Add closure fields to the output",
+)
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@click.option(
+    "--terms-role",
+    "-Q",
+    type=click.Choice([x.value for x in SubjectOrObjectRole]),
+    default=SubjectOrObjectRole.OBJECT.value,
+    show_default=True,
+    help="How to interpret query terms.",
+)
+@click.option(
+    "--limit",
+    "-L",
+    default=10,
+    show_default=True,
+    help="Limit the number of results",
+)
+@click.option(
+    "--filter",
+    "-F",
+    multiple=True,
+    help="Additional filters in K=V format",
+)
+@click.option(
+    "--min-facet-count",
+    default=1,
+    show_default=True,
+    help="Minimum count for a facet to be included",
+)
+@click.option(
+    "--group-by",
+    default="object",
+    show_default=True,
+    help="Group by subject or object",
+)
+@click.argument("terms", nargs=-1)
+def associations_counts(
+    terms,
+    predicates: str,
+    association_predicates: str,
+    terms_role: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    filter,
+    **kwargs,
+):
+    """
+    Count associations, grouped by subject or object
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts
+
+    This will default to summarzing by objects (HPO term), showing the number
+    of associations for each term.
+
+    This will be direct counts only. To include is-a closure, specify
+    the closure predicate(s), e.g.
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i
+
+    You can also group by other fields
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts --group-by subject
+
+    This will show the number of associations for each disease.
+
+    OAK also includes a number of specialized adapters that implement this method
+    for particular databases.
+
+    For example, to get the number of IEA associations for each GO term:
+
+        runoak -i amigo: associations-counts  --limit -1 -F evidence_type=IEA --no-autolabel
+
+    This can be constrained by species:
+
+        runoak -i amigo:NCBITaxon:9606 associations-counts  --limit -1 -F evidence_type=IEA --no-autolabel
+
+    Other options:
+
+    This command accepts many of the same options as the associations command, see
+    the docs for this command for details.
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    actual_predicates = _process_predicates_arg(predicates)
+    actual_association_predicates = _process_predicates_arg(association_predicates)
+    if not isinstance(impl, AssociationProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    filter_dict = {k: v for k, v in (x.split("=") for x in filter)}
+    kwargs["property_filter"] = filter_dict
+    qs_it = impl.association_counts(
+        curies,
+        predicates=actual_association_predicates,
+        subject_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    qo_it = impl.association_counts(
+        objects=curies,
+        predicates=actual_association_predicates,
+        object_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+        it = qs_it
+    elif terms_role == SubjectOrObjectRole.OBJECT.value:
+        it = qo_it
+    else:
+        logging.info("Using query terms to query both subject and object")
+        it = chain(qs_it, qo_it)
+    for term, count in it:
+        writer.emit(
+            {"term": term, "count": count},
+            label_fields=["term"],
+        )
+
+
+@main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@output_option
+@click.option(
     "--association-predicates",
     help="A comma-separated list of predicates for the association relation",
 )
@@ -4756,6 +4916,11 @@ def rollup(
     default=False,
     help="If true, filter out redundant terms",
 )
+@click.option(
+    "--allow-labels/--no-allow-labels",
+    default=False,
+    help="If true, allow labels as well as CURIEs in the input files",
+)
 @click.argument("terms", nargs=-1)
 def enrichment(
     terms,
@@ -4768,6 +4933,7 @@ def enrichment(
     sample_file: TextIO,
     background_file: TextIO,
     ontology_only: bool,
+    allow_labels: bool,
     **kwargs,
 ):
     """
@@ -4802,11 +4968,19 @@ def enrichment(
     impl = settings.impl
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
-    subjects = list(curies_from_file(sample_file))
-    background = list(curies_from_file(background_file)) if background_file else None
+    subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
+    background = (
+        list(curies_from_file(background_file, adapter=impl, allow_labels=allow_labels))
+        if background_file
+        else None
+    )
     if not isinstance(impl, ClassEnrichmentCalculationInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    if not ontology_only and not any(True for _ in impl.associations()):
+    if (
+        impl.requires_associations
+        and not ontology_only
+        and not any(True for _ in impl.associations())
+    ):
         raise click.UsageError("no associations -- specify --ontology-only or load associations")
     if ontology_only:
         impl.create_self_associations()
@@ -5176,17 +5350,29 @@ def validate_mappings(
         runoak validate-mappings -i db/uberon.db -o bad-mappings.sssom.tsv
 
     By default this will attempt to download and connect to
-    sqlite versions of different ontologies.
+    sqlite versions of different ontologies, when attempting to resolve a foreign
+    subject or object id.
 
-    You can customize this:
+    You can customize this mapping:
 
         runoak validate-mappings -i db/uberon.db --adapter-mapping uberon=db/uberon.db \
             --adapter-mapping zfa=db/zfa.db
+
+    This will use a local sqlite file for ZFA:nnnnnnn IDs.
 
     You can use "*" as a wildcard, in the case where you have an application ontology
     with many mapped entities merged in:
 
         runoak validate-mappings -i db/uberon.db --adapter-mapping "*"=db/merged.db"
+
+    The default behavior for this command is to perform deterministic rule-based
+    checks; for example, the mapped IDs should not be obsolete, and if the mapping
+    is skos:exactMatch, then the cardinality is expected to be 1:1.
+
+    Other adapters may choose to implement bespoke behaviors. In future there
+    might be a boomer adapter that will perform probabilistic reasoning on the
+    mappings. The experimental LLM backend will use an LLM to qualitatively
+    validate mappings (see the LLM how-to guide for more details).
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -5607,16 +5793,13 @@ def diff(
         else:
             writer.emit(summary)
     else:
-        for change in impl.diff(other_impl, configuration=config):
-            # TODO: when a complete type designator is added to KGCL
-            this_change_type = change.__class__.__name__
-            if change_type and this_change_type not in change_type:
-                continue
-            if isinstance(writer, (StreamingYamlWriter, StreamingCsvWriter)):
-                # TODO: when a complete type designator is added to KGCL
-                # we can remove this
-                change.type = this_change_type
-            writer.emit(change)
+        if isinstance(writer, StreamingMarkdownWriter):
+            config.yield_individual_changes = False
+            for change in impl.diff(other_impl, configuration=config):
+                writer.emit(change, other_impl=other_impl)
+        else:
+            for change in impl.diff(other_impl, configuration=config):
+                writer.emit(change)
     writer.finish()
 
 

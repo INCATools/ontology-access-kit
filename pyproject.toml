@@ -15,11 +15,12 @@ SQLAlchemy = ">=1.4.32"
 linkml-runtime = ">=1.5.3"
 linkml-renderer = ">=0.3.0"
 networkx = ">=2.7.1"
-sssom = "^0.4.0"
+sssom = "^0.4.4"
 ratelimit = ">=2.2.1"
 appdirs = ">=1.4.4"
 semsql = ">=0.3.1"
 kgcl-schema = "^0.6.5"
+
 funowl = ">=0.2.0"
 gilda = {version = ">=1.0.0", optional = true}
 semsimian = {version = ">=0.1.0", optional = true}
@@ -40,6 +41,8 @@ click = "*"
 urllib3 = {version = "< 2", optional = true}
 pydantic = "*"
 jsonlines = "^4.0.0"
+tenacity = "^8.2.3"
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
