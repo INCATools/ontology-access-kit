@@ -6562,8 +6562,4 @@ seaborn = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-<<<<<<< Updated upstream
-content-hash = "49ae7f23beb97dabd2dbd035f1129f95749a10be3cfef954571e1536c7c3f6ee"
-=======
 content-hash = "41e6786f6cae2c8436d2ea845e2693ae1b971bb8b16a04db06acbe5e814dd2b7"
->>>>>>> Stashed changes
