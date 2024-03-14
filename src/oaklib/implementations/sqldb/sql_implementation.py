@@ -1219,7 +1219,7 @@ class SqlImplementation(
                 )
                 assocs.append(association)
             subjects = {a.subject for a in assocs}
-            label_map = {s: l for s, l in self.labels(subjects)}
+            label_map = {s: name for s, name in self.labels(subjects)}
             for association in assocs:
                 if association.subject in label_map:
                     association.subject_label = label_map[association.subject]

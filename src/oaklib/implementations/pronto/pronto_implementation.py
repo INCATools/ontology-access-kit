@@ -249,7 +249,7 @@ class ProntoImplementation(
     @deprecated("Use this when we fix https://github.com/fastobo/fastobo/issues/42")
     def load_graph_using_jsondoc(self, graph: Graph, replace: True) -> None:
         tf = tempfile.NamedTemporaryFile()
-        tf_name = "/tmp/tf.json"
+        tf_name = "/tmp/tf.json"  # noqa
         gd = GraphDocument(graphs=[graph])
         json_dumper.dump(gd, to_file=tf_name)
         tf.flush()

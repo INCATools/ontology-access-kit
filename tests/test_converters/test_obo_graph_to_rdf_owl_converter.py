@@ -16,7 +16,6 @@ OUT = OUTPUT_DIR / "go-nucleus.ttl"
 
 
 class OboGraphToRdfOwlConverterTest(unittest.TestCase):
-
     """Tests OBO JSON -> RDF/OWL."""
 
     def setUp(self):

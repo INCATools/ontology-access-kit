@@ -26,6 +26,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional
 
 import requests
 
+from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.vocabulary import OWL_SAME_AS, RDF_SEE_ALSO
 from oaklib.implementations.sparql.abstract_sparql_implementation import (
@@ -304,7 +305,7 @@ class UniprotImplementation(
             params = {
                 "format": "json",
             }
-            response = requests.get(f"{UNIPROT_API_URL}/{acc}", params)
+            response = requests.get(f"{UNIPROT_API_URL}/{acc}", params, timeout=TIMEOUT_SECONDS)
             logging.info(f"URL: {response.url}")
             if response.status_code != 200:
                 raise ValueError(f"Could not find {subject}")

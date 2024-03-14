@@ -11,7 +11,6 @@ G2P_INPUT = INPUT_DIR / "test.hpoa_g2p.tsv"
 
 
 class HpoaG2PAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of hpoa g2p format."""
 
     def test_parser(self):

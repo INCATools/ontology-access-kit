@@ -14,7 +14,6 @@ GENE_PATH = INPUT_DIR / "ncbigene-1956.xml"
 
 # TODO: use mock tests
 class TestNCBIGene(unittest.TestCase):
-
     """
     Tests :ref:`NCBIGeneImplementation`
     """

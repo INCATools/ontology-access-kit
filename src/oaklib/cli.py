@@ -7,6 +7,7 @@ Executed using "runoak" command
 
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
+import ast
 import itertools
 import json
 import logging
@@ -767,7 +768,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
             # arbitrary python expression
             expr = query_terms[0]
             query_terms = query_terms[1:]
-            chain_results(eval(expr, {"impl": impl, "terms": results}))
+            chain_results(ast.literal_eval(expr, {"impl": impl, "terms": results}))
         elif term.startswith(".query"):
             # arbitrary SPARQL query
             params = _parse_params(term)

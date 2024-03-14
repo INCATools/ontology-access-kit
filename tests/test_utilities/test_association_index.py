@@ -14,7 +14,6 @@ GAF = INPUT_DIR / "test-uniprot.gaf"
 
 
 class AssociationIndexTest(unittest.TestCase):
-
     """Tests indexing associations in-memory."""
 
     def test_index(self):

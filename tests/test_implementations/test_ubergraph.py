@@ -24,7 +24,6 @@ from tests import (
 
 
 class TestUbergraphImplementation(unittest.TestCase):
-
     """
     Tests for the UbergraphImplementation class.
 

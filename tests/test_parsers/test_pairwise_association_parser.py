@@ -11,7 +11,6 @@ INPUT_TSV = INPUT_DIR / "test-pairwise-associations.tsv"
 
 
 class PairwiseAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of simple pairwise TSVs."""
 
     def test_parser(self):

@@ -10,7 +10,6 @@ G2D_INPUT = INPUT_DIR / "example-g2d.mim2gene.tsv"
 
 
 class MIM2GeneAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of medgen file."""
 
     def test_g2d_parser(self):

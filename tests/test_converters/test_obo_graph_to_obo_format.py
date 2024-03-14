@@ -18,7 +18,6 @@ OUT = OUTPUT_DIR / "go-nucleus-roundtrip.obo"
 
 
 class OboGraphToOboFormatTest(unittest.TestCase):
-
     """Tests OBO JSON -> RDF/OWL."""
 
     def setUp(self):

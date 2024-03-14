@@ -15,7 +15,6 @@ OUT = OUTPUT_DIR / "go-nucleus.ttl"
 
 
 class LogicalDefinitionFlattenerTest(unittest.TestCase):
-
     """Tests turning logical definition axioms into tuples."""
 
     def setUp(self):

@@ -15,6 +15,7 @@ from typing import Iterable, List, Mapping, Optional, Union
 import requests
 import sssom_schema.datamodel.sssom_schema as sssom
 
+from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import (
     HAS_RELATED_SYNONYM,
@@ -56,9 +57,17 @@ class TranslatorImplementation(
             curies = [curies]
         else:
             curies = list(curies)
-        r = requests.get(NODE_NORMALIZER_ENDPOINT, params={"curie": curies, "conflate": "false"})
+        r = requests.get(
+            NODE_NORMALIZER_ENDPOINT,
+            params={"curie": curies, "conflate": "false"},
+            timeout=TIMEOUT_SECONDS,
+        )
         non_conflated_results = r.json()
-        r = requests.get(NODE_NORMALIZER_ENDPOINT, params={"curie": curies, "conflate": "true"})
+        r = requests.get(
+            NODE_NORMALIZER_ENDPOINT,
+            params={"curie": curies, "conflate": "true"},
+            timeout=TIMEOUT_SECONDS,
+        )
         results = r.json()
         objects = set()
         subjects = set()
@@ -113,6 +122,7 @@ class TranslatorImplementation(
         r = requests.get(
             f"{NAME_NORMALIZER_ENDPOINT}/lookup",
             params={"string": search_term, "autocomplete": "true"},
+            timeout=TIMEOUT_SECONDS,
         )
         r.raise_for_status()
         results = r.json()
@@ -126,7 +136,11 @@ class TranslatorImplementation(
             raise NotImplementedError
         if self.property_cache.contains(curie, RDFS_LABEL):
             return self.property_cache.get(curie, RDFS_LABEL)
-        r = requests.get(f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup", params={"curies": curie})
+        r = requests.get(
+            f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup",
+            params={"curies": curie},
+            timeout=TIMEOUT_SECONDS,
+        )
         r.raise_for_status()
         results = r.json()
         if curie not in results:
@@ -134,7 +148,11 @@ class TranslatorImplementation(
         return results[curie]["preferred_name"]
 
     def entity_aliases(self, curie: CURIE) -> List[str]:
-        r = requests.get(f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup", params={"curies": curie})
+        r = requests.get(
+            f"{NAME_NORMALIZER_ENDPOINT}/reverse_lookup",
+            params={"curies": curie},
+            timeout=TIMEOUT_SECONDS,
+        )
         r.raise_for_status()
         results = r.json()
         if curie not in results:

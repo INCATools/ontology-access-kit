@@ -11,7 +11,6 @@ PHAF_INPUT = INPUT_DIR / "test.phaf.tsv"
 
 
 class PhafAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of PHAF formats."""
 
     def test_parser(self):

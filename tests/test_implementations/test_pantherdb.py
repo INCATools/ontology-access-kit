@@ -11,7 +11,6 @@ from oaklib.utilities.iterator_utils import chunk
 # TODO: use mock tests
 @pytest.mark.skip(reason="Network dependency")
 class TestPantherDB(unittest.TestCase):
-
     """
     Tests :ref:`PantherDBImplementation`
     """

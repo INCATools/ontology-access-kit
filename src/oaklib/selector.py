@@ -11,6 +11,7 @@ from linkml_runtime.loaders import yaml_loader
 
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
+from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.input_specification import InputSpecification, Normalizer
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
@@ -271,7 +272,7 @@ def add_associations(
 
 
 def file_from_gzip_url(url, is_compressed=False):
-    with requests.get(url, stream=True) as response:
+    with requests.get(url, stream=True, timeout=TIMEOUT_SECONDS) as response:
         response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
         # Wrap the response's raw stream in a binary file-like object
         binary_file_like_object = io.BytesIO(response.raw.read())
@@ -281,7 +282,7 @@ def file_from_gzip_url(url, is_compressed=False):
 
 
 def file_from_url(url):
-    response = requests.get(url)
+    response = requests.get(url, timeout=TIMEOUT_SECONDS)
     response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
     # Create a file-like object using the response content
     file_like_object = io.StringIO(response.text)

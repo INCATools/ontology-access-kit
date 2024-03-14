@@ -9,7 +9,6 @@ ONT = INPUT_DIR / "go-nucleus.json"
 
 
 class OboJsonParserTest(unittest.TestCase):
-
     """Tests parsing OBO JSON directly."""
 
     def test_parser(self):

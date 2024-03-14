@@ -69,7 +69,6 @@ def _outpath(test: str, fmt: str = "tmp") -> str:
 
 
 class TestCommandLineInterface(unittest.TestCase):
-
     """
     Tests all command-line subcommands
     """

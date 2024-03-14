@@ -97,6 +97,7 @@ ignore-words-list = 'ptd,ot,nd,ser,oger,gard,te,fo,fof,bu,ue,ois,processus,infar
 lint.extend-ignore = [
     "D211",  # `no-blank-line-before-class`
     "D212",  # `multi-line-summary-first-line`
+    "E731",  # Do not assign a `lambda` expression, use a `def`
     "B005",  # Using `.strip()` with multi-character strings is misleading the reader
     "S101",  # Use of `assert` detected
     "S607",  # Starting a process with a partial executable path
@@ -113,7 +114,7 @@ lint.fixable = ["ALL"]
 lint.select = [
     # "B",  # bugbear
     # "D",  # pydocstyle
-    # "E",  # pycodestyle errors
+    "E",  # pycodestyle errors
     "F",  # Pyflakes
     "I",  # isort 
     "S",  # flake8-bandit

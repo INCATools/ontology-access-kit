@@ -57,7 +57,6 @@ VALIDATION_REPORT_OUT = OUTPUT_DIR / "validation-results.tsv"
 
 
 class TestSqlDatabaseImplementation(unittest.TestCase):
-
     """Implementation tests for SqlDatabase adapter."""
 
     def setUp(self) -> None:

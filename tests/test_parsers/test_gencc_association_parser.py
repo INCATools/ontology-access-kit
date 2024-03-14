@@ -12,7 +12,6 @@ G2D_INPUT = INPUT_DIR / "example-g2d.gencc.csv"
 
 
 class GenCCAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of gencc format."""
 
     def test_parser(self):

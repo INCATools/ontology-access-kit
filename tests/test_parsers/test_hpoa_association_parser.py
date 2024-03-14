@@ -11,7 +11,6 @@ HPOA_INPUT = INPUT_DIR / "test.hpoa.tsv"
 
 
 class HpoaAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of hpoa formats."""
 
     def test_parser(self):

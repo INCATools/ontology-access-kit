@@ -142,7 +142,6 @@ def _as_json_dict_no_id(change: Change) -> dict:
 
 @dataclass
 class ComplianceTester:
-
     """
     Tests for compliance against expected behavior.
 

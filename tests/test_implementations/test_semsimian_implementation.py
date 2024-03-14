@@ -30,7 +30,6 @@ EXPECTED_ICS = {
 
 @unittest.skipIf(os.name == "nt", "DB path loading inconsistent on Windows")
 class TestSemSimianImplementation(unittest.TestCase):
-
     """Implementation tests for Rust-based semantic similarity."""
 
     def setUp(self) -> None:

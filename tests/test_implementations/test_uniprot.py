@@ -14,7 +14,6 @@ PROTEIN_PATH = INPUT_DIR / "uniprot-P12345.json"
 
 # TODO: use mock tests
 class TestUniprot(unittest.TestCase):
-
     """
     Tests :ref:`UniprotImplementation`
     """

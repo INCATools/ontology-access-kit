@@ -38,7 +38,6 @@ PREDS = [IS_A, PART_OF]
 
 
 class AssociationDiffsTest(unittest.TestCase):
-
     """Tests diffs."""
 
     def setUp(self) -> None:

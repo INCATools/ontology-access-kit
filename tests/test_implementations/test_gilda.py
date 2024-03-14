@@ -17,7 +17,6 @@ except ImportError:
 
 @unittest.skipUnless(HAS_GILDA, "requires Gilda")
 class TestGilda(unittest.TestCase):
-
     """Tests for the Gilda annotator."""
 
     def setUp(self) -> None:

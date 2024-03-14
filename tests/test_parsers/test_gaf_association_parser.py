@@ -11,7 +11,6 @@ INPUT_GAF = INPUT_DIR / "test-uniprot.gaf"
 
 
 class GafAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of GAF and GAF-like formats."""
 
     def test_parser(self):

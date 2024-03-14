@@ -12,7 +12,6 @@ G2D_INPUT = INPUT_DIR / "example-hpoa-g2d.tsv"
 
 
 class HpoaG2DAssociationParserTest(unittest.TestCase):
-
     """Tests parsing of hpoa g2d format."""
 
     def test_parser(self):

@@ -10,7 +10,6 @@ EXAMPLE = INPUT_DIR / "boomer-example.md"
 
 
 class BoomerParserTest(unittest.TestCase):
-
     """Tests parsing Boomer reports."""
 
     def setUp(self) -> None:
