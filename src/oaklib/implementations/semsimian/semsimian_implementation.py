@@ -226,6 +226,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         self,
         subjects: List[CURIE],
         objects: List[CURIE],
+        score_metric: str = None,
         predicates: List[PRED_CURIE] = None,
         labels=False,
     ) -> TermSetPairwiseSimilarity:
@@ -241,7 +242,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             predicates=predicates, attributes=self.termset_pairwise_similarity_attributes
         )
         sim = TermSetPairwiseSimilarity()
-        semsimian_tsps = semsimian.termset_pairwise_similarity(set(subjects), set(objects))
+        semsimian_tsps = semsimian.termset_pairwise_similarity(set(subjects), set(objects), score_metric)
 
         # Assuming all keys for the dict semsimian_tsps are attributes for the class TermSetPairwiseSimilarity,
         # populate the object `sim`
