@@ -137,7 +137,7 @@ EXPECTED = [
                     "label",
                     "label",
                     allow_missing_values=True,
-                    missing_value_token="not a label",
+                    missing_value_token="not a label", # noqa
                 )
             ]
         ),

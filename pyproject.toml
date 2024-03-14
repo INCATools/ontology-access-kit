@@ -98,6 +98,10 @@ lint.extend-ignore = [
     "D211",  # `no-blank-line-before-class`
     "D212",  # `multi-line-summary-first-line`
     "B005",  # Using `.strip()` with multi-character strings is misleading the reader
+    "S101",  # Use of `assert` detected
+    "S607",  # Starting a process with a partial executable path
+    "S608",  # Possible SQL injection vector through string-based query construction
+    "S603",  # `subprocess` call: check for execution of untrusted input
     ]
 lint.exclude = ["src/oaklib/datamodels/*"]
 line-length = 120
@@ -112,7 +116,7 @@ lint.select = [
     # "E",  # pycodestyle errors
     "F",  # Pyflakes
     "I",  # isort 
-    # "S",  # flake8-bandit
+    "S",  # flake8-bandit
     "W",  # Warning
 ]
 
