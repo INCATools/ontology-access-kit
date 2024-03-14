@@ -933,6 +933,10 @@ class TestCommandLineInterface(unittest.TestCase):
                     logging.error(f"INPUT: {input_arg} code = {result.exit_code}")
                     logging.error(f"OUTPUT={out}")
                     logging.error(f"ERR={err}")
+                if result.exit_code == 1:
+                    import pdb
+
+                    pdb.set_trace()
                 self.assertEqual(0, result.exit_code)
                 logging.info(f"OUTPUT={out}")
                 logging.info(f"ERR={err}")
