@@ -229,7 +229,7 @@ def add_associations(
         entry = ASSOCIATION_REGISTRY[scheme]
         params, format, url_template, compressed = entry
         if params:
-            param_vals = dict(zip(params, path.split("//")))
+            param_vals = dict(zip(params, path.split("//"), strict=False))
         else:
             param_vals = {}
         url = url_template.format(**param_vals)

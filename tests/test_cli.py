@@ -86,7 +86,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
-        result.stderr
+        print("STDERR", result.stderr)
         self.assertIn("search", out)
         self.assertIn("subset", out)
         self.assertIn("validate", out)
@@ -137,8 +137,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 main,
                 ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"],
             )
-            result.stdout
-            result.stderr
+            print("STDERR", result.stdout)
+            print("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -148,8 +148,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x"]
             )
-            result.stdout
-            result.stderr
+            print("STDERR", result.stdout)
+            print("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -382,8 +382,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_OUT,
             ],
         )
-        result.stdout
-        result.stderr
+        print("STDERR", result.stdout)
+        print("STDERR", result.stderr)
         self.assertEqual(0, result.exit_code)
         contents = self._out()
         self.assertIn(NUCLEUS, contents)
@@ -1037,8 +1037,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_validate_help(self):
         result = self.runner.invoke(main, ["validate", "--help"])
-        result.stdout
-        result.stderr
+        print("STDERR", result.stdout)
+        print("STDERR", result.stderr)
         self.assertEqual(0, result.exit_code)
 
     def test_validate_bad_ontology(self):
@@ -1170,7 +1170,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "--no-ensure-strict-prefixes",
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         with open(outfile) as stream:
@@ -1198,7 +1198,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "--no-ensure-strict-prefixes",
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -1401,7 +1401,6 @@ class TestCommandLineInterface(unittest.TestCase):
                 ".all",
             ],
         )
-
         self.assertEqual(0, result.exit_code)
         with open(patch_file, "r") as p, open(outfile, "r") as t:
             patch = p.readlines()
@@ -1503,7 +1502,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -1530,7 +1529,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)

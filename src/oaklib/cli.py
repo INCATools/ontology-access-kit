@@ -4819,7 +4819,7 @@ def rollup(
         split_ids = [o.split(",", 1) for o in object_group]
         primary_ids = (s[0] for s in split_ids)
         secondary_ids = (s[1].split(",") if len(s) > 1 else [] for s in split_ids)
-        objects_dict = dict(zip(primary_ids, secondary_ids))
+        objects_dict = dict(zip(primary_ids, secondary_ids, strict=False))
 
         object_closure_predicates = _process_predicates_arg(predicates)
 

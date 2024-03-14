@@ -105,7 +105,7 @@ class StreamingWriter(ABC):
         obj_as_dict = json_dumper.to_dict(obj)
         return self.emit(obj_as_dict)
 
-    def close(self):
+    def close(self):  # noqa
         pass
 
     def finish(self):
