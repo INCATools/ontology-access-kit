@@ -1,0 +1,717 @@
+!! #############
+!! # OBO Compliance Suite
+!! #############
+!! #
+!! # https://github.com/geneontology/obographs/issues/106
+!! # https://github.com/owlcollab/oboformat/issues/146
+!! #
+!! # #########
+!! # Term Tags
+!! # #########
+!!
+!! name: is_a
+!! description: test that is_a maps to subClassOf
+
+[Term]
+id: X:1
+is_a: Y:1
+
+!! name: relationship
+!! description: existential restrictions
+
+[Term]
+id: X:1
+relationship: R:1 Y:1
+
+!! name: relationship-annotated
+!! description: existential restrictions
+
+[Term]
+id: X:1
+relationship: R:1 Y:1 {source="PMID:123456"}
+
+[Typedef]
+id: R:1
+
+!! name: name
+!! description: rdfs:label
+
+[Term]
+id: X:1
+name: x1
+
+!! name: invalid-name-duplicate
+!! description: max 1 name
+!! invalid: true
+
+[Term]
+id: X:1
+name: x1
+name: x2
+
+!! name: namespace
+!! description: oio:namespace
+
+[Term]
+id: X:1
+namespace: NS1
+
+!! name: xref
+!! description: rdfs:label
+
+[Term]
+id: X:1
+xref: Y:1
+
+!! name: definition
+!! description: OIO
+
+[Term]
+id: X:1
+def: "x1 def" []
+
+!! name: definition-xref
+!! description: axiom annotation
+
+[Term]
+id: X:1
+def: "x1 def" [PMID:123456]
+
+!! name: intersection_of-genus-differentia
+!! description: Genus-differentia
+
+[Term]
+id: X:1
+intersection_of: X:2
+intersection_of: R:1 X:3
+
+!! name: intersection_of-genus-pair
+!! description: Genus-Genus
+
+[Term]
+id: X:1
+intersection_of: X:2
+intersection_of: X:3
+
+!! name: invalid-intersection_of-single-element
+!! description: Single elements disallowed
+!! invalid: true
+
+[Term]
+id: X:1
+intersection_of: X:2
+
+!! name: union_of
+!! description: Union Of Classes
+
+[Term]
+id: X:1
+union_of: X:2
+union_of: X:3
+
+!! name: equivalent_to
+!! description: Equivalent To Class
+
+[Term]
+id: X:1
+equivalent_to: X:2
+
+!! name: subset
+!! description: Test for subset attribute
+subsetdef: S "my subset"
+ontology: subset
+
+[Term]
+id: X:1
+subset: S
+
+!! name: disjoint_from
+!! description: Disjointness axiom
+
+[Term]
+id: X:1
+disjoint_from: X:2
+
+!! name: created_by
+!! description: Metadata for creator
+
+[Term]
+id: X:1
+created_by: username
+
+!! name: creation_date
+!! description: Metadata for creation date
+
+[Term]
+id: X:1
+creation_date: 2023-11-20
+
+!! name: obsolete
+!! description: Marking term as obsolete
+
+[Term]
+id: X:1
+is_obsolete: true
+
+!! name: replaced_by
+!! description: Indicating replacement for obsolete term
+
+[Term]
+id: X:1
+is_obsolete: true
+replaced_by: X:2
+
+!! name: consider
+!! description: Suggesting alternative for obsolete term
+
+[Term]
+id: X:1
+is_obsolete: true
+consider: X:3
+
+!! name: property_value-string
+!! description: property value with string datatype
+
+[Term]
+id: X:1
+property_value: R:1 "foo" xsd:string
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+!! name: property_value-id-tag
+!! description: property value with string datatype
+
+[Term]
+id: X:1
+property_value: id "X:1" xsd:string
+
+[Typedef]
+id: R:1
+xref: http://www.geneontology.org/formats/oboInOwl#id
+is_metadata_tag: true
+
+!! name: property_value-float
+!! description: property value with float datatype
+
+[Term]
+id: X:1
+property_value: R:1 "1.5" xsd:float
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+!! name: property_value-anyURI
+!! description: property value with anyURI datatype
+
+[Term]
+id: X:1
+property_value: R:1 "http://example.org" xsd:anyURI
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+!! name: property_value-object
+!! description: Annotation using PropertyValue
+!! non-canonical-form-of: relationship-non-logical
+!! issue: https://github.com/owlcollab/oboformat/issues/144
+
+[Term]
+id: X:1
+property_value: R:1 Y:1
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+!! name: relationship-non-logical
+!! description: relationship where the relation is metadata, maps to annotation
+!! issue: https://github.com/owlcollab/oboformat/issues/144
+
+[Term]
+id: X:1
+relationship: R:1 Y:1
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+
+!! name: property_value-skos-object
+!! description: SKOS mapping to an object
+!! non-canonical-form-of: relationship-skos-object
+!! unstable: true
+idspace: skos http://www.w3.org/2004/02/skos/core#
+
+[Term]
+id: X:1
+property_value: skos:exactMatch Y:1
+
+[Typedef]
+id: skos:exactMatch
+is_metadata_tag: true
+
+!! name: relationship-skos-object
+!! description: SKOS mapping to an object using relationship
+!! issue: https://github.com/geneontology/obographs/issues/102
+!! unstable: true
+idspace: skos http://www.w3.org/2004/02/skos/core#
+
+[Term]
+id: X:1
+relationship: skos:exactMatch Y:1
+
+[Typedef]
+id: skos:exactMatch
+is_metadata_tag: true
+
+!! name: alt_id
+!! description: Alternative ID for the term
+
+[Term]
+id: X:1
+alt_id: X:2
+
+!! name: comment
+!! description: Comment about the term
+
+[Term]
+id: X:1
+comment: "This is a comment about term X:1."
+
+!! name: exact_synonym
+!! description: Test for exact synonym type
+
+[Term]
+id: X:1
+name: example term
+synonym: "exact synonym" EXACT []
+
+!! name: narrow_synonym
+!! description: Test for narrow synonym type
+
+[Term]
+id: X:1
+name: example term
+synonym: "narrow synonym" NARROW []
+
+!! name: broad_synonym
+!! description: Test for broad synonym type
+
+[Term]
+id: X:1
+name: example term
+synonym: "broad synonym" BROAD []
+
+!! name: related_synonym
+!! description: Test for related synonym type
+
+[Term]
+id: X:1
+name: example term
+synonym: "related synonym" RELATED []
+
+!! name: synonym-with-xref
+!! description: Synonym with cross-reference
+
+[Term]
+id: X:1
+name: example term
+synonym: "synonym with xref" EXACT [PMID:1]
+
+!! name: synonym-with-scope-and-xref
+!! description: Synonym with scope and cross-reference
+
+[Term]
+id: X:1
+name: example term
+synonym: "synonym with scope and xref" RELATED [PMID:2]
+
+!! name: synonym-with-type
+!! description: Synonym with a specified type
+
+[Term]
+id: X:1
+name: example term
+synonym: "synonym with type" RELATED ST:1 []
+
+!! name: synonym-with-multiple_xrefs
+!! description: Synonym with multiple cross-references
+
+[Term]
+id: X:1
+name: example term
+synonym: "synonym with multiple xrefs" EXACT [PMID:3, PMID:4]
+
+!! name: synonym-without-scope
+!! description: Synonym without specified scope
+!! invalid: true
+
+[Term]
+id: X:1
+name: example term
+synonym: "synonym without scope" []
+
+!! name: synonymtypedef-definition
+!! description: Definition of a new synonym type
+synonymtypedef: S:1 "example"
+ontology: synonymtypedef-definition
+
+!! # #########
+!! # Typedef Tags
+!! # #########
+!!
+!! name: typedef-is_a
+!! description: test that is_a on Typedef maps to subObjectPropertyOf
+
+[Typedef]
+id: R:1
+is_a: R:2
+
+!! name: typedef-is_a-metadata
+!! description: test that is_a on a metadata Typedef maps to subAnnotationPropertyOf
+!! issue: https://github.com/owlcollab/oboformat/issues/147
+!! unstable: true
+
+[Typedef]
+id: R:1
+is_a: R:2
+is_metadata_tag: true
+
+!! name: typedef-declaration
+!! description: bare declaration
+
+[Typedef]
+id: R:1
+
+!! name: typedef-xref-ro
+!! description: maps to RO IRIs automatically
+
+[Typedef]
+id: R:1
+xref: RO:0000000
+
+!! name: typedef-xref-anyiri
+!! description: maps IRIs
+
+[Typedef]
+id: R:1
+xref: http://example.org/R/1
+
+!! name: typedef-xref-anyiri-ann
+!! description: maps IRIs
+
+[Typedef]
+id: R:1
+xref: http://example.org/R/1
+is_metadata_tag: true
+
+!! name: is_transitive
+!! description: transitivity
+
+[Typedef]
+id: R:1
+is_transitive: true
+
+!! name: is_anti_symmetric
+
+[Typedef]
+id: R:1
+is_anti_symmetric: true
+
+!! name: is_inverse_functional
+
+[Typedef]
+id: R:1
+is_inverse_functional: true
+
+!! name: is_functional
+
+[Typedef]
+id: R:1
+is_functional: true
+
+!! name: is_cyclic
+
+[Typedef]
+id: R:1
+is_cyclic: true
+
+!! name: is_symmetric
+
+[Typedef]
+id: R:1
+is_symmetric: true
+
+!! name: typedef-name
+!! description: rdfs:label
+
+[Typedef]
+id: R:1
+name: r1
+
+!! name: typedef-xref
+!! description: plain xref
+
+[Typedef]
+id: R:1
+xref: Y:1
+
+!! name: typedef-def
+!! description: test for def (definition) attribute
+
+[Typedef]
+id: R:1
+def: "An example definition." []
+
+!! name: typedef-domain
+!! description: test for domain attribute
+
+[Typedef]
+id: R:1
+domain: X:1
+
+!! name: typedef-range
+!! description: test for range attribute
+
+[Typedef]
+id: R:1
+range: Y:1
+
+!! name: typedef-inverse_of
+!! description: test for inverse_of attribute
+
+[Typedef]
+id: R:1
+inverse_of: R:2
+
+!! name: typedef-transitive_over
+!! description: test for transitive_over attribute
+
+[Typedef]
+id: R:1
+transitive_over: R:3
+
+!! name: typedef-is_metadata_tag
+!! description: ...
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+!! name: typedef-is_class_level
+!! description: ...
+
+[Typedef]
+id: R:1
+is_class_level: true
+
+!! name: typedef-is_metadata_tag-is_class_level
+!! description: both
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+is_class_level: true
+
+!! # #########
+!! # Prefixes
+!! # #########
+!!
+
+!! name: prefixes
+!! description: prefixes allow customization of IRIs
+!! issue: https://github.com/geneontology/obographs/issues/97
+!! unstable: true
+idspace: X http://example.org/X/
+
+[Term]
+id: X:1
+is_a: Y:1
+
+!! name: prefixes-xref
+!! description: prefix expansions and xrefs
+!! unstable: true
+idspace: Y http://example.org/Y/
+
+[Term]
+id: X:1
+xref: Y:1
+
+!! name: prefixes-created_by
+!! description: prefix expansions and author metadata
+!! unstable: true
+idspace: Y http://example.org/Y/
+
+[Term]
+id: X:1
+created_by: Y:1
+
+!! # #########
+!! # Headers
+!! # #########
+!!
+
+!! name: default-namespace
+!! description: terms auto-inject into default namespace
+default-namespace: NS1
+ontology: default-namespace
+
+[Term]
+id: X:1
+
+!! # ####
+!! # Axiom Annotations
+!! #
+
+!! name: is_a-annotated
+!! description: annotated variant of is_a
+
+[Term]
+id: X:1
+is_a: Y:1 {source="PMID:123456"}
+
+!! name: is_a-annotated-prefix
+!! description: annotated axiom using a prefix
+!! unstable: true
+idspace: dcterms http://purl.org/dc/terms/
+
+[Term]
+id: X:1
+is_a: Y:1 {dcterms:source="PMID:123456"}
+
+!! name: name-annotated
+!! description: rdfs:label with annotation
+
+[Term]
+id: X:1
+name: x1 {source="PMID:123457"}
+
+!! name: xref-annotated
+!! description: rdfs:label with annotation
+
+[Term]
+id: X:1
+xref: Y:1 {source="PMID:123458"}
+
+!! name: definition-annotated
+!! description: OIO with annotation
+
+[Term]
+id: X:1
+def: "x1 def" [PMID:123459]
+
+!! name: intersection_of-genus-differentia-annotated
+!! description: Genus-differentia with annotation
+
+[Term]
+id: X:1
+intersection_of: X:2 {source="PMID:123460"}
+intersection_of: R:1 X:3
+
+!! name: union_of-annotated
+!! description: Union Of Classes with annotation
+
+[Term]
+id: X:1
+union_of: X:2 {source="PMID:123462"}
+union_of: X:3
+
+!! name: equivalent_to-annotated
+!! description: Equivalent To Class with annotation
+
+[Term]
+id: X:1
+equivalent_to: X:2 {source="PMID:123463"}
+
+!! name: subset-annotated
+!! description: Test for subset attribute with annotation
+subsetdef: S "my subset"
+ontology: subset-annotated
+
+[Term]
+id: X:1
+subset: S {source="PMID:123464"}
+
+!! name: disjoint_from-annotated
+!! description: Disjointness axiom with annotation
+
+[Term]
+id: X:1
+disjoint_from: X:2 {source="PMID:123465"}
+
+!! name: created_by-annotated
+!! description: Metadata for creator with annotation
+
+[Term]
+id: X:1
+created_by: ORCID:1234 {source="PMID:123466"}
+
+!! name: creation_date-annotated
+!! description: Metadata for creation date with annotation
+
+[Term]
+id: X:1
+creation_date: 2023-11-20 {source="PMID:123467"}
+
+!! name: obsolete-annotated
+!! description: Marking term as obsolete with annotation
+
+[Term]
+id: X:1
+is_obsolete: true {source="PMID:123468"}
+
+!! name: replaced_by-annotated
+!! description: Indicating replacement for obsolete term with annotation
+
+[Term]
+id: X:1
+is_obsolete: true
+replaced_by: X:2 {source="PMID:123469"}
+
+!! name: consider-annotated
+!! description: Suggesting alternative for obsolete term with annotation
+
+[Term]
+id: X:1
+is_obsolete: true
+consider: X:3 {source="PMID:123470"}
+
+!! name: property_value-object-annotated
+!! description: Annotation using PropertyValue with annotation
+
+[Term]
+id: X:1
+property_value: R:1 Y:1 {source="PMID:123471"}
+
+[Typedef]
+id: R:1
+
+!! name: property_value-string-annotated
+!! description: Annotation using PropertyValue with annotation
+
+[Term]
+id: X:1
+property_value: R:1 "foo" xsd:string {source="PMID:123472"}
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+!! # #########
+!! # Generic OWL
+!! # #########
+!! # TODO: these tests should be seeded from an .ofn file
+
+!! name: owl-axioms-ObjectInverseOf
+!! description: OWL axioms header
+!! issue: https://github.com/owlcollab/oboformat/issues/145
+owl-axioms: Ontology(SubObjectPropertyOf(<http://purl.obolibrary.org/obo/RO_0002378> ObjectInverseOf(<http://purl.obolibrary.org/obo/RO_0002376>)))
+
+!! name: invalid-owl-axioms-owl-syntax
+!! description: Intentionally broken
+!! invalid: true
+owl-axioms: SubObjectPropertyOf(

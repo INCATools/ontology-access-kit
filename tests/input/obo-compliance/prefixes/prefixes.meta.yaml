@@ -1,0 +1,5 @@
+name: prefixes
+name: prefixes
+description: prefixes allow customization of IRIs
+issue: https://github.com/geneontology/obographs/issues/97
+unstable: true

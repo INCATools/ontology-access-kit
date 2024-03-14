@@ -1,0 +1,8 @@
+format-version: 1.4
+ontology: replaced_by-annotated
+
+[Term]
+id: X:1
+is_obsolete: true
+replaced_by: X:2 {source="PMID:123469"}
+

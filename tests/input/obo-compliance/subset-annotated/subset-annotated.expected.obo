@@ -1,0 +1,8 @@
+format-version: 1.2
+subsetdef: S "my subset"
+ontology: subset-annotated
+
+[Term]
+id: X:1
+subset: S {source="PMID:123464"}
+

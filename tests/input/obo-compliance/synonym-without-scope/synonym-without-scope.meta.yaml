@@ -1,0 +1,4 @@
+name: synonym-without-scope
+name: synonym-without-scope
+description: Synonym without specified scope
+invalid: true

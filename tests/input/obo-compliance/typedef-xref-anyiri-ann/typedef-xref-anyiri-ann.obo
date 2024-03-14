@@ -1,0 +1,8 @@
+format-version: 1.4
+ontology: typedef-xref-anyiri-ann
+
+[Typedef]
+id: R:1
+xref: http://example.org/R/1
+is_metadata_tag: true
+

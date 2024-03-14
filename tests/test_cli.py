@@ -607,6 +607,9 @@ class TestCommandLineInterface(unittest.TestCase):
             if conf_path:
                 cmd.extend(["-c", conf_path])
             result = self.runner.invoke(main, cmd)
+            if result.exit_code != 0:
+                print("STDOUT", result.stdout)
+                print("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code, f"input={input}, output_format={output_format}")
             if output_format == "obojson":
                 obj: obograph.GraphDocument

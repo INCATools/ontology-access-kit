@@ -1,0 +1,4 @@
+name: invalid-name-duplicate
+name: invalid-name-duplicate
+description: max 1 name
+invalid: true

@@ -1,0 +1,12 @@
+format-version: 1.4
+ontology: property_value-id-tag
+
+[Term]
+id: X:1
+property_value: id "X:1" xsd:string
+
+[Typedef]
+id: R:1
+xref: http://www.geneontology.org/formats/oboInOwl#id
+is_metadata_tag: true
+

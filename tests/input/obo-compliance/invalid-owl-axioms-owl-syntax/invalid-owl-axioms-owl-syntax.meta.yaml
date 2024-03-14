@@ -1,0 +1,4 @@
+name: invalid-owl-axioms-owl-syntax
+name: invalid-owl-axioms-owl-syntax
+description: Intentionally broken
+invalid: true

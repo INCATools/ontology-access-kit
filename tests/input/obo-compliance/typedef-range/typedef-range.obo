@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: typedef-range
+
+[Typedef]
+id: R:1
+range: Y:1
+

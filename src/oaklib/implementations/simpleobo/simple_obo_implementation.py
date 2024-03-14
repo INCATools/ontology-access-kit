@@ -644,7 +644,7 @@ class SimpleOboImplementation(
             else:
                 self.obo_document.dump(path)
         else:
-            super().dump(path, syntax)
+            super().dump(path, syntax=syntax)
 
     def save(
         self,
@@ -707,6 +707,8 @@ class SimpleOboImplementation(
                     meta.definition = obograph.DefinitionPropertyValue(val=defn)
                 for _, syn in self.synonym_property_values([curie]):
                     meta.synonyms.append(syn)
+                for _, subset in self.terms_subsets([curie]):
+                    meta.subsets.append(subset)
             return obograph.Node(id=curie, lbl=self.label(curie), type=typ, meta=meta)
 
     def as_obograph(self, expand_curies=False) -> Graph:

@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: typedef-xref-ro
+
+[Typedef]
+id: R:1
+xref: RO:0000000
+

@@ -25,6 +25,7 @@ OBOGRAPH_CONVERTERS = {
     "rdfxml": (OboGraphToRdfOwlConverter, {"format": "xml"}),
     "cx": OboGraphToCXConverter,
     "obojson": None,
+    "json": None,
 }
 
 FORMAT_SYNONYMS = {
@@ -61,7 +62,8 @@ class DumperInterface(BasicOntologyInterface, ABC):
             raise ValueError(f"Cannot handle interface: {self}")
         og = self.as_obograph()
         ogdoc = GraphDocument(graphs=[og])
-        if syntax == "obojson":
+        converter_class = OBOGRAPH_CONVERTERS.get(syntax, None)
+        if not converter_class:
             json_str = json_dumper.dumps(ogdoc, inject_type=False)
             if path:
                 with open(path, "w", encoding="utf-8") as f:
@@ -69,7 +71,6 @@ class DumperInterface(BasicOntologyInterface, ABC):
             else:
                 print(json_str)
         else:
-            converter_class = OBOGRAPH_CONVERTERS[syntax]
             if isinstance(converter_class, tuple):
                 converter_class, converter_kwargs = converter_class
                 kwargs.update(converter_kwargs)
@@ -78,4 +79,6 @@ class DumperInterface(BasicOntologyInterface, ABC):
             logging.info(f"Using {converter}, kwargs={kwargs}")
             converter.curie_converter = self.converter
             kwargs = {k: v for k, v in kwargs.items() if v is not None}
+            if "format" not in kwargs:
+                kwargs["format"] = syntax
             converter.dump(ogdoc, target=path, **kwargs)
