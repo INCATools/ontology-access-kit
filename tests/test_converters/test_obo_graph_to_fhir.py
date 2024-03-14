@@ -30,7 +30,7 @@ class OboGraphToFHIRTest(unittest.TestCase):
     def _load_ontology(url: str, download_path: str, use_cache: bool = True) -> GraphDocument:
         """Downloads ontology if needed, and loads it."""
         if not os.path.exists(download_path) and use_cache:
-            r = requests.get(url, timeout=10)
+            r = requests.get(url, timeout=30)
             with open(download_path, "wb") as f:
                 f.write(r.content)
             return json_loader.load(str(download_path), target_class=GraphDocument)
