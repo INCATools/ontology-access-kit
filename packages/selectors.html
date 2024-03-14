@@ -233,24 +233,28 @@ for example, <span class="xref std std-ref">SQLImplementation</span> and <span c
 A descriptor combines a <em>scheme</em> followed by a colon symbol, and then
 optionally additional information that specifies how to access a particular
 resource or ontology within that scheme.</p>
-<p>Example:</p>
+<section id="example">
+<h3>Example:<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
 <p>If you omit the scheme then OAK will try to guess the scheme based on the
 suffix of the descriptor</p>
 <p>If you want to pass extra information through to the implementation
 class, you can do so with keyword arguments:</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>descriptor</strong> – The input specification, path to a YAML describing an input specification,
-or a shorthand string for instantiating an ontology interface</p></li>
-<li><p><strong>format</strong> – file format/syntax, e.g obo, turtle</p></li>
-<li><p><strong>kwargs</strong> – Keyword arguments to pass through to the implementation class</p></li>
-</ul>
+<dt class="field-odd">param descriptor<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The input specification, path to a YAML describing an input specification,
+or a shorthand string for instantiating an ontology interface</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">param format<span class="colon">:</span></dt>
+<dd class="field-even"><p>file format/syntax, e.g obo, turtle</p>
+</dd>
+<dt class="field-odd">param kwargs<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Keyword arguments to pass through to the implementation class</p>
+</dd>
+<dt class="field-even">return<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instantiated interface</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py function">

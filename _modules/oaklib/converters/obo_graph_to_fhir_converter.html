@@ -83,7 +83,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.converters.obo_graph_to_fhir_converter</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;OboGraph to FHIR Converter</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">OboGraph to FHIR Converter</span>
 
 <span class="sd">Resources</span>
 <span class="sd">- Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369</span>
@@ -141,7 +142,8 @@
 <a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">OboGraphToFHIRConverter</span><span class="p">(</span><span class="n">DataModelConverter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from OboGraph to FHIR.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts from OboGraph to FHIR.</span>
 
 <span class="sd">    - An ontology is mapped to a FHIR `CodeSystem &lt;https://build.fhir.org/codesystem.html&gt;`_.</span>
 <span class="sd">    - Each node in the OboGraph is converted to a _FHIR Concept_.</span>
@@ -279,7 +281,8 @@
 <div class="viewcode-block" id="OboGraphToFHIRConverter.code">
 <a class="viewcode-back" href="../../../packages/converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">[docs]</a>
     <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a packages.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a packages.</span>
 
 <span class="sd">        This is a wrapper onto curie_converter.compress</span>
 

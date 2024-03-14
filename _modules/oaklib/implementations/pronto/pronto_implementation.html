@@ -216,7 +216,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; from oaklib.implementations import ProntoImplementation</span>
 <span class="sd">    &gt;&gt;&gt; resource = OntologyResource(slug=&#39;go-nucleus.obo&#39;, directory=&#39;tests/input&#39;, local=True)</span>
 <span class="sd">    &gt;&gt;&gt; adapter = ProntoImplementation(resource)</span>
@@ -336,7 +335,7 @@
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use this when we fix https://github.com/fastobo/fastobo/issues/42&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">load_graph_using_jsondoc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">tf</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
-        <span class="n">tf_name</span> <span class="o">=</span> <span class="s2">&quot;/tmp/tf.json&quot;</span>
+        <span class="n">tf_name</span> <span class="o">=</span> <span class="s2">&quot;/tmp/tf.json&quot;</span>  <span class="c1"># noqa</span>
         <span class="n">gd</span> <span class="o">=</span> <span class="n">GraphDocument</span><span class="p">(</span><span class="n">graphs</span><span class="o">=</span><span class="p">[</span><span class="n">graph</span><span class="p">])</span>
         <span class="n">json_dumper</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="n">to_file</span><span class="o">=</span><span class="n">tf_name</span><span class="p">)</span>
         <span class="n">tf</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>

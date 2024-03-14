@@ -91,6 +91,7 @@
 <span class="kn">from</span> <span class="nn">ols_client</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">EBIClient</span><span class="p">,</span> <span class="n">TIBClient</span>
 <span class="kn">from</span> <span class="nn">sssom_schema</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.constants</span> <span class="kn">import</span> <span class="n">TIMEOUT_SECONDS</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">oxo</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.oxo</span> <span class="kn">import</span> <span class="n">ScopeEnum</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchProperty</span>
@@ -226,7 +227,7 @@
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
     <span class="k">def</span> <span class="nf">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">fromId</span><span class="o">=</span><span class="n">curie</span><span class="p">))</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">fromId</span><span class="o">=</span><span class="n">curie</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_SECONDS</span><span class="p">)</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="n">container</span> <span class="o">=</span> <span class="n">load_oxo_payload</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_payload</span><span class="p">(</span><span class="n">container</span><span class="p">)</span>

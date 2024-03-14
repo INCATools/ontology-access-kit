@@ -404,7 +404,8 @@ You should get the same results by running:</p>
 <section id="runoak-aliases">
 <h4>aliases<a class="headerlink" href="#runoak-aliases" title="Link to this heading"></a></h4>
 <p>List aliases for a term or set of terms.</p>
-<p>Example:</p>
+<section id="example">
+<h5>Example:<a class="headerlink" href="#example" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i ubergraph:uberon aliases UBERON:0001988</p>
 </div></blockquote>
@@ -450,12 +451,14 @@ richer data if present in the ontology, including synonym categories/types, syno
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-ancestors">
 <h4>ancestors<a class="headerlink" href="#runoak-ancestors" title="Link to this heading"></a></h4>
 <p>List all ancestors of a given term or terms.</p>
 <p>Here ancestor means the transitive closure of the parent relationship, where
 a parent includes all relationship types, not just is-a.</p>
-<p>Example:</p>
+<section id="id1">
+<h5>Example:<a class="headerlink" href="#id1" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl ancestors CL:4023094</p>
 </div></blockquote>
@@ -533,22 +536,24 @@ For example, constrained to is-a and part-of:</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-annotate">
 <h4>annotate<a class="headerlink" href="#runoak-annotate" title="Link to this heading"></a></h4>
 <p>Annotate a piece of text using a Named Entity Recognition annotation.</p>
 <p>Some endpoints such as BioPortal have built-in support for annotation;
 in these cases the endpoint functionality is used:</p>
-<p>Example:</p>
+<section id="id2">
+<h5>Example:<a class="headerlink" href="#id2" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i bioportal: annotate “enlarged nucleus in T-cells from peripheral blood”</p>
 </div></blockquote>
 <p>For other endpoints, the built-in OAK annotator is used. This currently uses a basic
 algorithm based on lexical matching.</p>
-<blockquote>
-<div><p>Example:</p>
+</section>
+<section id="id3">
+<h5>Example:<a class="headerlink" href="#id3" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:cl annotate “enlarged nucleus in T-cells from peripheral blood”</p>
-</div></blockquote>
 </div></blockquote>
 <p>Using the builtin annotator can be slow, as the lexical index is re-built every time.
 To preserve this, use the <code class="docutils literal notranslate"><span class="pre">--lexical-index-file</span></code> (<code class="docutils literal notranslate"><span class="pre">-L</span></code>) option to specify a file to save.
@@ -557,7 +562,9 @@ On subsequent iterations the file is reused.</p>
 <p>If gilda is installed as an extra, it can be used,
 but <code class="docutils literal notranslate"><span class="pre">--matches-whole-text</span></code> (<code class="docutils literal notranslate"><span class="pre">-W</span></code>) must be specified,
 as gilda only performs grounding.</p>
-<p>Example:</p>
+</section>
+<section id="id4">
+<h5>Example:<a class="headerlink" href="#id4" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i gilda: annotate -W BRCA2</p>
 </div></blockquote>
@@ -676,11 +683,13 @@ subject_start: 0</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-apply">
 <h4>apply<a class="headerlink" href="#runoak-apply" title="Link to this heading"></a></h4>
 <p>Applies a patch to an ontology. The patch should be specified using KGCL syntax, see
 <a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a></p>
-<p>Example:</p>
+<section id="id5">
+<h5>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl.ttl apply “rename CL:0000561 to ‘amacrine neuron’”  -o cl.owl.ttl -O ttl</p>
 </div></blockquote>
@@ -692,7 +701,9 @@ subject_start: 0</p>
 <blockquote>
 <div><p>runoak -i cl.owl.ttl apply           “rename &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/CL_0000561">http://purl.obolibrary.org/obo/CL_0000561</a>&gt; from ‘amacrine cell’ to ‘amacrine neuron’”            -o cl.owl.ttl -O ttl</p>
 </div></blockquote>
-<p>WARNING:</p>
+</section>
+<section id="warning">
+<h5>Warning:<a class="headerlink" href="#warning" title="Link to this heading"></a></h5>
 <p>This command is still experimental. Some things to bear in mind:</p>
 <ul class="simple">
 <li><p>for some ontologies, CURIEs may not work, instead specify a full URI surrounded by &lt;&gt;s</p></li>
@@ -784,10 +795,12 @@ subject_start: 0</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-apply-obsolete">
 <h4>apply-obsolete<a class="headerlink" href="#runoak-apply-obsolete" title="Link to this heading"></a></h4>
 <p>Sets an ontology element to be obsolete</p>
-<p>Example:</p>
+<section id="id6">
+<h5>Example:<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i my.obo apply-obsolete MY:0002200 -o my-modified.obo</p>
 </div></blockquote>
@@ -846,12 +859,14 @@ obsolete them all:</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-apply-taxon-constraints">
 <h4>apply-taxon-constraints<a class="headerlink" href="#runoak-apply-taxon-constraints" title="Link to this heading"></a></h4>
 <p>Test candidate taxon constraints</p>
 <p>Multiple candidate constraints can be passed as arguments. these are in the form of triples
 separated by periods.</p>
-<p>Example:</p>
+<section id="id7">
+<h5>Example:<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak  -i db/go.db apply-taxon-constraints -p i,p <a class="reference external" href="GO:0005743">GO:0005743</a> only NCBITaxon:2759
 never NCBITaxon:2 . GO:0005634 only NCBITaxon:2</p>
@@ -862,7 +877,9 @@ This should follow the format used in <a class="reference external" href="https:
 <blockquote>
 <div><p><a class="reference external" href="GO:0000229">GO:0000229</a>,Gain|NCBITaxon:1(root);&gt;Loss|NCBITaxon:2759(Eukaryota);</p>
 </div></blockquote>
-<p>Example:</p>
+</section>
+<section id="id8">
+<h5>Example:<a class="headerlink" href="#id8" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv</p>
 </div></blockquote>
@@ -911,17 +928,21 @@ This should follow the format used in <a class="reference external" href="https:
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-associations">
 <h4>associations<a class="headerlink" href="#runoak-associations" title="Link to this heading"></a></h4>
 <p>Lookup associations from or to entities.</p>
-<p>Example:</p>
+<section id="id9">
+<h5>Example:<a class="headerlink" href="#id9" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations</p>
 </div></blockquote>
 <p>The above will show all associations</p>
 <p>To query using an ontology term, including is-a closure, specify one or more
 terms or term queries, plus the closure predicate(s), e.g.</p>
-<p>Example:</p>
+</section>
+<section id="id10">
+<h5>Example:<a class="headerlink" href="#id10" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i HP:0001392</p>
 </div></blockquote>
@@ -931,7 +952,9 @@ to is-a descendants.</p>
 <p>It can be awkward to specify both input ontology and association path and format. You
 can use input specifications to bundle common combinations of inputs together.</p>
 <p>For example, the go-dictybase-input-spec combines go plus dictybase associations.</p>
-<p>Example:</p>
+</section>
+<section id="id11">
+<h5>Example:<a class="headerlink" href="#id11" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak –i src/oaklib/conf/go-dictybase-input-spec.yaml associations -p i,p <a class="reference external" href="GO:0008104">GO:0008104</a></p>
 </div></blockquote>
@@ -1034,10 +1057,12 @@ can use input specifications to bundle common combinations of inputs together.</
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-associations-counts">
 <h4>associations-counts<a class="headerlink" href="#runoak-associations-counts" title="Link to this heading"></a></h4>
 <p>Count associations, grouped by subject or object</p>
-<p>Example:</p>
+<section id="id12">
+<h5>Example:<a class="headerlink" href="#id12" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts</p>
 </div></blockquote>
@@ -1045,12 +1070,16 @@ can use input specifications to bundle common combinations of inputs together.</
 of associations for each term.</p>
 <p>This will be direct counts only. To include is-a closure, specify
 the closure predicate(s), e.g.</p>
-<p>Example:</p>
+</section>
+<section id="id13">
+<h5>Example:<a class="headerlink" href="#id13" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i</p>
 </div></blockquote>
 <p>You can also group by other fields</p>
-<p>Example:</p>
+</section>
+<section id="id14">
+<h5>Example:<a class="headerlink" href="#id14" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts –group-by subject</p>
 </div></blockquote>
@@ -1185,12 +1214,14 @@ the docs for this command for details.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-associations-matrix">
 <h4>associations-matrix<a class="headerlink" href="#runoak-associations-matrix" title="Link to this heading"></a></h4>
 <p>Co-annotation matrix query.</p>
 <p>This queries for co-annotations between pairs of terms.</p>
 <p>See: Wood V., Carbon S., et al, <a class="reference external" href="https://royalsocietypublishing.org/doi/10.1098/rsob.200149">https://royalsocietypublishing.org/doi/10.1098/rsob.200149</a></p>
-<p>Example:</p>
+<section id="id15">
+<h5>Example:<a class="headerlink" href="#id15" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046</p>
 </div></blockquote>
@@ -1265,16 +1296,20 @@ the docs for this command for details.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-axioms">
 <h4>axioms<a class="headerlink" href="#runoak-axioms" title="Link to this heading"></a></h4>
 <p>Filters axioms</p>
-<p>Example:</p>
+<section id="id16">
+<h5>Example:<a class="headerlink" href="#id16" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.ofn axiom</p>
 </div></blockquote>
 <p>The above will write all axioms.</p>
 <p>You can filter by axiom type:</p>
-<p>Example:</p>
+</section>
+<section id="id17">
+<h5>Example:<a class="headerlink" href="#id17" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.ofn axiom –axiom-type SubClassOf</p>
 </div></blockquote>
@@ -1321,6 +1356,7 @@ the docs for this command for details.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-cache-clear">
 <h4>cache-clear<a class="headerlink" href="#runoak-cache-clear" title="Link to this heading"></a></h4>
 <p>Clear the contents of the pystow oaklib cache.</p>
@@ -1351,12 +1387,15 @@ the docs for this command for details.</p>
 <section id="runoak-definitions">
 <h4>definitions<a class="headerlink" href="#runoak-definitions" title="Link to this heading"></a></h4>
 <p>Show textual definitions for term or set of terms</p>
-<p>Example:</p>
+<section id="id18">
+<h5>Example:<a class="headerlink" href="#id18" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:envo definitions ‘tropical biome’ ‘temperate biome’</p>
 </div></blockquote>
 <p>You can use the “.all” selector to show all definitions for all terms in the ontology:</p>
-<p>Example:</p>
+</section>
+<section id="id19">
+<h5>Example:<a class="headerlink" href="#id19" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:envo definitions .all</p>
 </div></blockquote>
@@ -1442,14 +1481,18 @@ the docs for this command for details.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-descendants">
 <h4>descendants<a class="headerlink" href="#runoak-descendants" title="Link to this heading"></a></h4>
 <p>List all descendants of a term</p>
-<p>Example:</p>
+<section id="id20">
+<h5>Example:<a class="headerlink" href="#id20" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:obi descendants assay -p i</p>
 </div></blockquote>
-<p>Example:</p>
+</section>
+<section id="id21">
+<h5>Example:<a class="headerlink" href="#id21" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon descendants heart -p i,p</p>
 </div></blockquote>
@@ -1508,10 +1551,12 @@ predicates are not specified</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-diff">
 <h4>diff<a class="headerlink" href="#runoak-diff" title="Link to this heading"></a></h4>
 <p>Compute difference between two ontologies.</p>
-<p>Example:</p>
+<section id="id22">
+<h5>Example:<a class="headerlink" href="#id22" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i foo.obo diff -X bar.obo -o diff.yaml</p>
 </div></blockquote>
@@ -1535,7 +1580,9 @@ See <a class="reference external" href="https://incatools.github.io/ontology-acc
 <p>The –statistics option can be used to generate summary statistics for the changes.
 These are grouped according to the –group-by-property option. For example,
 the GO uses the oio:hasOBONamespace property to partition classes into 3 categories.</p>
-<p>Example:</p>
+</section>
+<section id="id23">
+<h5>Example:<a class="headerlink" href="#id23" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i go.obo diff -X go-new.obo -o diff.yaml –statistics –group-by-property oio:hasOBONamespace</p>
 </div></blockquote>
@@ -1637,10 +1684,12 @@ use ROBOT.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-diff-associations">
 <h4>diff-associations<a class="headerlink" href="#runoak-diff-associations" title="Link to this heading"></a></h4>
 <p>Diffs two association sources.</p>
-<p>Example:</p>
+<section id="id24">
+<h5>Example:<a class="headerlink" href="#id24" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go  -G gaf  diff-associations            –old-date ${date1} –new-date ${date2}            -g  “${download_dir}/${group}-${date1}.gaf”            -X “${download_dir}/${group}-${date2}.gaf”            –group-by publications -p i,p            -o “${group}-diff-${date1}-to-${date2}.tsv</p>
 </div></blockquote>
@@ -1716,6 +1765,7 @@ use ROBOT.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-diff-terms">
 <h4>diff-terms<a class="headerlink" href="#runoak-diff-terms" title="Link to this heading"></a></h4>
 <p>Compares a pair of terms in two ontologies</p>
@@ -1749,7 +1799,8 @@ use ROBOT.</p>
 <p>Calculates cross-ontology diff using mappings</p>
 <p>Given a pair of ontologies, and mappings that connect terms in both ontologies, this
 command will perform a structural comparison of all mapped pairs of terms</p>
-<p>Example:</p>
+<section id="id25">
+<h5>Example:<a class="headerlink" href="#id25" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon diff-via-mappings –other-input sqlite:obo:zfa  –source UBERON –source ZFA -O csv</p>
 </div></blockquote>
@@ -1877,28 +1928,32 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-disjoints">
 <h4>disjoints<a class="headerlink" href="#runoak-disjoints" title="Link to this heading"></a></h4>
 <p>Show all disjoints for a set of terms, or whole ontology.</p>
 <p>Leave off all arguments for defaults - all terms, YAML OboGraph model
 serialization:</p>
-<p>Example:</p>
+<section id="id26">
+<h5>Example:<a class="headerlink" href="#id26" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon disjoints</p>
 </div></blockquote>
 <p>Note that this will include pairwise disjoints, setwise disjoints,
 disjoint unions, and disjoints involving simple class expressions.</p>
 <p>A tabular format can be easier to browse, and includes labels by default:</p>
-<p>Example:</p>
+</section>
+<section id="id27">
+<h5>Example:<a class="headerlink" href="#id27" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon disjoints –autolabel -O csv</p>
 </div></blockquote>
 <p>To perform this on a subset:</p>
-<blockquote>
-<div><p>Example:</p>
+</section>
+<section id="id28">
+<h5>Example:<a class="headerlink" href="#id28" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:cl disjoints –autolabel -O csv  .desc//p=i “immune cell”</p>
-</div></blockquote>
 </div></blockquote>
 <p>Data model:</p>
 <blockquote>
@@ -1956,21 +2011,27 @@ disjoint unions, and disjoints involving simple class expressions.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-dump">
 <h4>dump<a class="headerlink" href="#runoak-dump" title="Link to this heading"></a></h4>
 <p>Exports (dumps) the entire contents of an ontology.</p>
-<p>Example:</p>
+<section id="id29">
+<h5>Example:<a class="headerlink" href="#id29" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i pato.obo dump -o pato.json -O json</p>
 </div></blockquote>
-<p>Example:</p>
+</section>
+<section id="id30">
+<h5>Example:<a class="headerlink" href="#id30" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i pato.owl dump -o pato.ttl -O turtle</p>
 </div></blockquote>
 <p>You can also pass in a JSON configuration file to parameterize the dump process.</p>
 <p>Currently this is only used for fhirjson dumps, the configuration options are specified here:</p>
 <p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html">https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html</a></p>
-<p>Example:</p>
+</section>
+<section id="id31">
+<h5>Example:<a class="headerlink" href="#id31" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json</p>
 </div></blockquote>
@@ -2022,12 +2083,14 @@ to avoid killer queries.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-enrichment">
 <h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Link to this heading"></a></h4>
 <p>Run class enrichment analysis.</p>
 <p>Given a sample file of identifiers (e.g. gene IDs), plus a set of associations (e.g. gene to term
 associations, return the terms that are over-represented in the sample set.</p>
-<p>Example:</p>
+<section id="id32">
+<h5>Example:<a class="headerlink" href="#id32" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon -g gene2anat.txt -G g2t enrichment -U my-genes.txt -O csv</p>
 </div></blockquote>
@@ -2145,10 +2208,12 @@ but note that P-values may not be meaningful.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-expand-subsets">
 <h4>expand-subsets<a class="headerlink" href="#runoak-expand-subsets" title="Link to this heading"></a></h4>
 <p>For each subset provide a mapping of each term in the ontology to a subset</p>
-<p>Example:</p>
+<section id="id33">
+<h5>Example:<a class="headerlink" href="#id33" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/pato.db expand-subsets attribute_slim value_slim</p>
 </div></blockquote>
@@ -2175,6 +2240,7 @@ but note that P-values may not be meaningful.</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
 </section>
 <section id="runoak-extract">
 <h4>extract<a class="headerlink" href="#runoak-extract" title="Link to this heading"></a></h4>
@@ -2272,7 +2338,8 @@ this will iterate through each row filling in each missing value by performing o
 then fill in the IDs</p>
 <p>In the most basic scenario, you have a table with two columns ‘id’ and ‘label’. These are the “conventional” column
 headers for a table of ontology elements (see later for configuration when you don’t follow conventions)</p>
-<p>Example:</p>
+<section id="id34">
+<h5>Example:<a class="headerlink" href="#id34" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl.ttl fill-table my-table.tsv</p>
 </div></blockquote>
@@ -2308,7 +2375,9 @@ label relation between id and name of a foo element.</p>
 </div></blockquote>
 <p>For the first method, you can pass in multiple relations using the –relation arg. For example,
 given a TSV with columns cl_identifier and cl_display_label you can say:</p>
-<p>Example:</p>
+</section>
+<section id="id35">
+<h5>Example:<a class="headerlink" href="#id35" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl.ttl fill-table           –relation “{primary_key: cl_identifier, dependent_column: cl_display_label, relation: label}”</p>
 </div></blockquote>
@@ -2429,16 +2498,20 @@ for now please file an issue on github with any questions</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-generate-definitions">
 <h4>generate-definitions<a class="headerlink" href="#runoak-generate-definitions" title="Link to this heading"></a></h4>
 <p>Generate definitions for a term or terms.</p>
 <p>Currently this only works with the llm extension.</p>
-<p>Example:</p>
+<section id="id36">
+<h5>Example:<a class="headerlink" href="#id36" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258</p>
 </div></blockquote>
 <p>The –style-hints option can be used to provide hints to the definition generator.</p>
-<p>Example:</p>
+</section>
+<section id="id37">
+<h5>Example:<a class="headerlink" href="#id37" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258           –style-hints “Write the definition in the style of a pretentious food critic”</p>
 </div></blockquote>
@@ -2500,10 +2573,12 @@ presents itself as a delectable disc of gastronomic delight…”</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-generate-disjoints">
 <h4>generate-disjoints<a class="headerlink" href="#runoak-generate-disjoints" title="Link to this heading"></a></h4>
 <p>Generate candidate disjointness axioms.</p>
-<p>Example:</p>
+<section id="id38">
+<h5>Example:<a class="headerlink" href="#id38" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:iao generate-disjoints -O obo</p>
 </div></blockquote>
@@ -2573,6 +2648,7 @@ presents itself as a delectable disc of gastronomic delight…”</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
 </section>
 <section id="runoak-generate-logical-definitions">
 <h4>generate-logical-definitions<a class="headerlink" href="#runoak-generate-logical-definitions" title="Link to this heading"></a></h4>
@@ -2678,12 +2754,15 @@ presents itself as a delectable disc of gastronomic delight…”</p>
 <p>Generate synonyms based on a set of synonymizer rules.</p>
 <p>If the <cite>–apply-patch</cite> flag is set, the output will be an ontology file with the changes
 applied. Pass the <cite>–patch</cite> argument to lso get the patch file in KGCL format.</p>
-<p>Example:</p>
+<section id="id39">
+<h5>Example:<a class="headerlink" href="#id39" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i foo.obo generate-synonyms -R foo_rules.yaml –patch patch.kgcl –apply-patch -o foo_syn.obo</p>
 </div></blockquote>
 <p>If the <cite>apply-patch</cite> flag is NOT set then the main input will be KGCL commands</p>
-<p>Example:</p>
+</section>
+<section id="id40">
+<h5>Example:<a class="headerlink" href="#id40" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl</p>
 </div></blockquote>
@@ -2741,10 +2820,12 @@ applied. Pass the <cite>–patch</cite> argument to lso get the patch file in KG
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-info">
 <h4>info<a class="headerlink" href="#runoak-info" title="Link to this heading"></a></h4>
 <p>Show information on term or set of terms</p>
-<p>Example:</p>
+<section id="id41">
+<h5>Example:<a class="headerlink" href="#id41" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:cl info CL:4023094</p>
 </div></blockquote>
@@ -2812,10 +2893,12 @@ as queries that can be combined using boolean logic</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-information-content">
 <h4>information-content<a class="headerlink" href="#runoak-information-content" title="Link to this heading"></a></h4>
 <p>Show information content for term or list of terms</p>
-<p>Example:</p>
+<section id="id42">
+<h5>Example:<a class="headerlink" href="#id42" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.db information-content -p i .all</p>
 </div></blockquote>
@@ -2868,15 +2951,19 @@ the number of reflexive is-a descendants of the term divided by total number of 
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-labels">
 <h4>labels<a class="headerlink" href="#runoak-labels" title="Link to this heading"></a></h4>
 <p>Show labels for term or list of terms</p>
-<p>Example:</p>
+<section id="id43">
+<h5>Example:<a class="headerlink" href="#id43" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl labels CL:4023093 CL:4023094</p>
 </div></blockquote>
 <p>You can use the “.all” selector to show all labels:</p>
-<p>Example:</p>
+</section>
+<section id="id44">
+<h5>Example:<a class="headerlink" href="#id44" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl labels .all</p>
 </div></blockquote>
@@ -2889,12 +2976,16 @@ the number of reflexive is-a descendants of the term divided by total number of 
 <p>Multilingual support: if the adapter supports multilingual querying
 (currently only SQL) <em>and</em> the ontology has multilingual support, you can restrict results to
 a particular language.</p>
-<p>Example:</p>
+</section>
+<section id="id45">
+<h5>Example:<a class="headerlink" href="#id45" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak –preferred-language fr -i sqlite:obo:hpinternational labels .ancestors HP:0020110</p>
 </div></blockquote>
 <p>You can also query for all languages, and see these pivoted:</p>
-<p>Example:</p>
+</section>
+<section id="id46">
+<h5>Example:<a class="headerlink" href="#id46" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak  -i sqlite:obo:hpinternational labels .ancestors HP:0020110 –pivot-languages</p>
 </div></blockquote>
@@ -2966,10 +3057,12 @@ a particular language.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-languages">
 <h4>languages<a class="headerlink" href="#runoak-languages" title="Link to this heading"></a></h4>
 <p>Show available languages</p>
-<p>Example:</p>
+<section id="id47">
+<h5>Example:<a class="headerlink" href="#id47" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak languages</p>
 </div></blockquote>
@@ -2977,12 +3070,14 @@ a particular language.</p>
 </pre></div>
 </div>
 </section>
+</section>
 <section id="runoak-leafs">
 <h4>leafs<a class="headerlink" href="#runoak-leafs" title="Link to this heading"></a></h4>
 <p>List all leaf nodes in the ontology</p>
 <p>Like all OAK relational commands, this is parameterized by –predicates (-p).
 Note that the default is to return the roots of the relation graph over <em>all</em> predicates</p>
-<p>Example:</p>
+<section id="id48">
+<h5>Example:<a class="headerlink" href="#id48" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/cob.db leafs</p>
 </div></blockquote>
@@ -3019,10 +3114,12 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-lexmatch">
 <h4>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Link to this heading"></a></h4>
 <p>Performs lexical matching between pairs of terms in one more more ontologies.</p>
-<p>Examples:</p>
+<section id="examples">
+<h5>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i foo.obo lexmatch -o foo.sssom.tsv</p>
 </div></blockquote>
@@ -3128,6 +3225,7 @@ will be reused.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-lint">
 <h4>lint<a class="headerlink" href="#runoak-lint" title="Link to this heading"></a></h4>
 <p>Lints an ontology, applying changes in place.</p>
@@ -3136,7 +3234,8 @@ linting of syntactic patterns (chains of whitespace, trailing whitespace)
 in labels and definitions.</p>
 <p>The output is a list of changes, in a KCGL-compliant syntax.</p>
 <p>By default, changes will be applied</p>
-<p>Example:</p>
+<section id="id49">
+<h5>Example:<a class="headerlink" href="#id49" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i my.obo lint</p>
 </div></blockquote>
@@ -3180,6 +3279,7 @@ runoak -i my.obo apply –changes-input changes.kgcl</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-logical-definitions">
 <h4>logical-definitions<a class="headerlink" href="#runoak-logical-definitions" title="Link to this heading"></a></h4>
 <p>Show all logical definitions for a term or terms.</p>
@@ -3215,19 +3315,24 @@ restrictions:
 </dl>
 </div></blockquote>
 <p>You can also specify CSV to generate a flattened form of this.</p>
-<p>Example:</p>
+<section id="id50">
+<h5>Example:<a class="headerlink" href="#id50" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>pato logical-definitions .all –output-type csv</p>
 </div></blockquote>
 <p>You can optionally choose to “–matrix-axes” to transform the output to a matrix form.
 This is a comma-separated pair of axes, where each element is a logical definition element
 type: “f” for filler, “p” for predicate, “g” for genus, “d” for defined class.</p>
-<p>Example:</p>
+</section>
+<section id="id51">
+<h5>Example:<a class="headerlink" href="#id51" title="Link to this heading"></a></h5>
 <ul class="simple">
 <li><p>Each property/predicate is a column</p></li>
 <li><p>For repeated properties, columns of the form prop_1, prop_2, … are generated</p></li>
 </ul>
-<p>Example:</p>
+</section>
+<section id="id52">
+<h5>Example:<a class="headerlink" href="#id52" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>pato logical-definitions .all  –matrix-axes d,p –output-type csv</p>
 </div></blockquote>
@@ -3324,10 +3429,12 @@ which is what is currently represented in the OboGraph datamodel.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-mappings">
 <h4>mappings<a class="headerlink" href="#runoak-mappings" title="Link to this heading"></a></h4>
 <p>List all mappings encoded in the ontology</p>
-<p>Example:</p>
+<section id="id53">
+<h5>Example:<a class="headerlink" href="#id53" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:envo mappings</p>
 </div></blockquote>
@@ -3399,13 +3506,15 @@ that if the label is not in the source ontology, then no label will be retrieved
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-migrate-curies">
 <h4>migrate-curies<a class="headerlink" href="#runoak-migrate-curies" title="Link to this heading"></a></h4>
 <p>Rewires an ontology replacing all instances of an ID or IDs</p>
 <p>Note: the specified ontology is modified in place</p>
 <p>The input for this command is a list equals-separated pairs, specifying the
 source and the target</p>
-<p>Example:</p>
+<section id="id54">
+<h5>Example:<a class="headerlink" href="#id54" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/uberon.db migrate-curies –replace SRC1=TGT1 SRC2=TGT2</p>
 </div></blockquote>
@@ -3449,10 +3558,12 @@ source and the target</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-normalize">
 <h4>normalize<a class="headerlink" href="#runoak-normalize" title="Link to this heading"></a></h4>
 <p>Normalize all input identifiers.</p>
-<p>Example:</p>
+<section id="id55">
+<h5>Example:<a class="headerlink" href="#id55" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i translator: normalize HGNC:1 HGNC:2 -M NCBIGene</p>
 </div></blockquote>
@@ -3505,25 +3616,33 @@ source and the target</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-obsoletes">
 <h4>obsoletes<a class="headerlink" href="#runoak-obsoletes" title="Link to this heading"></a></h4>
 <p>Shows all obsolete entities.</p>
-<p>Example:</p>
+<section id="id56">
+<h5>Example:<a class="headerlink" href="#id56" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes</p>
 </div></blockquote>
 <p>To exclude <em>merged terms</em>, use the <code class="docutils literal notranslate"><span class="pre">--no-include-merged</span></code> flag</p>
-<p>Example:</p>
+</section>
+<section id="id57">
+<h5>Example:<a class="headerlink" href="#id57" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes –no-include-merged</p>
 </div></blockquote>
 <p>To show migration relationships, use the <code class="docutils literal notranslate"><span class="pre">--show-migration-relationships</span></code> flag</p>
-<p>Example:</p>
+</section>
+<section id="id58">
+<h5>Example:<a class="headerlink" href="#id58" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes –show-migration-relationships</p>
 </div></blockquote>
 <p>You can also specify terms to show obsoletes for:</p>
-<p>Example:</p>
+</section>
+<section id="id59">
+<h5>Example:<a class="headerlink" href="#id59" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes –show-migration-relationships GO:0000187 GO:0000188</p>
 </div></blockquote>
@@ -3586,6 +3705,7 @@ source and the target</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-ontologies">
 <h4>ontologies<a class="headerlink" href="#runoak-ontologies" title="Link to this heading"></a></h4>
 <p>Shows all ontologies</p>
@@ -3614,17 +3734,22 @@ a single line, with the name of the input ontology</p>
 <section id="runoak-ontology-metadata">
 <h4>ontology-metadata<a class="headerlink" href="#runoak-ontology-metadata" title="Link to this heading"></a></h4>
 <p>Shows ontology metadata</p>
-<p>Example:</p>
+<section id="id60">
+<h5>Example:<a class="headerlink" href="#id60" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i bioportal: ontology-metadata obi uberon foodon</p>
 </div></blockquote>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">--all</span></code> option to show all ontologies</p>
-<p>Example:</p>
+</section>
+<section id="id61">
+<h5>Example:<a class="headerlink" href="#id61" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i bioportal: ontology-metadata –all</p>
 </div></blockquote>
 <p>By default the output is YAML. You can get the results as TSV:</p>
-<p>Example:</p>
+</section>
+<section id="id62">
+<h5>Example:<a class="headerlink" href="#id62" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i bioportal: ontology-metadata –all -O csv</p>
 </div></blockquote>
@@ -3671,11 +3796,13 @@ a single line, with the name of the input ontology</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-ontology-versions">
 <h4>ontology-versions<a class="headerlink" href="#runoak-ontology-versions" title="Link to this heading"></a></h4>
 <p>Shows ontology versions</p>
 <p>Currently only implemented for BioPortal</p>
-<p>Example:</p>
+<section id="id63">
+<h5>Example:<a class="headerlink" href="#id63" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i bioportal: ontology-versions mp</p>
 </div></blockquote>
@@ -3716,20 +3843,26 @@ a single line, with the name of the input ontology</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-paths">
 <h4>paths<a class="headerlink" href="#runoak-paths" title="Link to this heading"></a></h4>
 <p>List all paths between one or more start curies.</p>
-<p>Example:</p>
+<section id="id64">
+<h5>Example:<a class="headerlink" href="#id64" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p ‘nuclear membrane’</p>
 </div></blockquote>
 <p>This shows all shortest paths from nuclear membrane to all ancestors</p>
-<p>Example:</p>
+</section>
+<section id="id65">
+<h5>Example:<a class="headerlink" href="#id65" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p ‘nuclear membrane’ –target cytoplasm</p>
 </div></blockquote>
 <p>This shows shortest paths between two nodes</p>
-<p>Example:</p>
+</section>
+<section id="id66">
+<h5>Example:<a class="headerlink" href="#id66" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p ‘nuclear membrane’ ‘thylakoid’ –target cytoplasm ‘thylakoid membrane’</p>
 </div></blockquote>
@@ -3741,14 +3874,18 @@ then you can do this:</p>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p .idfile START_NODES.txt &#64; .idfile END_NODES.txt</p>
 </div></blockquote>
 <p>You can also pass in weights for each predicate, used when calculating shortest paths.</p>
-<p>Example:</p>
+</section>
+<section id="id67">
+<h5>Example:<a class="headerlink" href="#id67" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p ‘nuclear membrane’ –target cytoplasm                 –predicate-weights “{i: 0.0001, p: 999}”</p>
 </div></blockquote>
 <p>This shows all shortest paths after weighting relations</p>
 <p>(Note: you can use the same shorthands as in the <cite>–predicates</cite> option)</p>
 <p>This command can be combined with others to visualize the paths.</p>
-<p>Example:</p>
+</section>
+<section id="id68">
+<h5>Example:<a class="headerlink" href="#id68" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>alias go=”runoak -i sqlite:obo:go”
 go paths  -p i,p ‘nuclear membrane’ –target cytoplasm –narrow | go viz –fill-gaps -</p>
@@ -3857,7 +3994,7 @@ results to viz, using the fill-gaps option.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-paths-C">
 <span id="cmdoption-runoak-paths-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-paths-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id69"><span class="problematic" id="id70">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -3873,6 +4010,7 @@ results to viz, using the fill-gaps option.</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
 </section>
 <section id="runoak-prefixes">
 <h4>prefixes<a class="headerlink" href="#runoak-prefixes" title="Link to this heading"></a></h4>
@@ -3899,7 +4037,7 @@ simple dictionaries:</p>
 <p>For RDF exports, the prefix declaration should appear in BOTH prefix declarations, AND also as
 instances of SHACL PrefixDeclarations, e.g.</p>
 <blockquote>
-<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id7"><span class="problematic" id="id8">CL_</span></a>&gt; .
+<div><p>&#64;prefix CL: &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/">http://purl.obolibrary.org/obo/</a><a href="#id113"><span class="problematic" id="id114">CL_</span></a>&gt; .
 …
 [] a sh:PrefixDeclaration ;</p>
 <blockquote>
@@ -3909,7 +4047,8 @@ sh:prefix “CL” .</p>
 </div></blockquote>
 <p>The default prefixmap is always used, unless options are passed specifying additional
 prefix maps.</p>
-<p>Example:</p>
+<section id="id71">
+<h5>Example:<a class="headerlink" href="#id71" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak –named-prefix-map prefixcc prefixes</p>
 </div></blockquote>
@@ -3951,6 +4090,7 @@ prefixes for entities in that ontology</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
 </section>
 <section id="runoak-query">
 <h4>query<a class="headerlink" href="#runoak-query" title="Link to this heading"></a></h4>
@@ -4006,22 +4146,29 @@ prefixes for entities in that ontology</p>
 <h4>relationships<a class="headerlink" href="#runoak-relationships" title="Link to this heading"></a></h4>
 <p>Show all relationships for a term or terms</p>
 <p>By default, this shows all relationships where the input term(s) are the <em>subjects</em></p>
-<p>Example:</p>
+<section id="id72">
+<h5>Example:<a class="headerlink" href="#id72" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.db relationships CL:4023094</p>
 </div></blockquote>
 <p>Like all OAK commands, a label can be passed instead of a CURIE</p>
-<p>Example:</p>
+</section>
+<section id="id73">
+<h5>Example:<a class="headerlink" href="#id73" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.db relationships neuron</p>
 </div></blockquote>
 <p>To reverse the direction, and query where the search term(s) are <em>objects</em>, use the –direction flag:</p>
-<p>Example:</p>
+</section>
+<section id="id74">
+<h5>Example:<a class="headerlink" href="#id74" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.db relationships –direction down neuron</p>
 </div></blockquote>
 <p>Multiple terms can be passed</p>
-<p>Example:</p>
+</section>
+<section id="id75">
+<h5>Example:<a class="headerlink" href="#id75" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i uberon.db relationships heart liver lung</p>
 </div></blockquote>
@@ -4152,6 +4299,7 @@ prefixes for entities in that ontology</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-rollup">
 <h4>rollup<a class="headerlink" href="#runoak-rollup" title="Link to this heading"></a></h4>
 <p>Produce an association rollup report.</p>
@@ -4160,7 +4308,8 @@ associations will be grouped by any provided –object-group options. This optio
 provided multiple times. If the value is a comma separated list of object IDs, the first
 will be used as a primary grouping dimension and the remainder will be used to create
 sub-groups.</p>
-<p>Example:</p>
+<section id="id76">
+<h5>Example:<a class="headerlink" href="#id76" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:go.db -g wb.gaf -G gaf rollup             –object-group GO:0032502,GO:0007568,GO:0048869,GO:0098727             –object-group GO:0008152,GO:0009056,GO:0044238,GO:1901275             –object-group GO:0050896,GO:0051716,GO:0051606,GO:0051606,GO:0014823             –object-group=GO:0023052             –output rollup.html             WB:WBGene00000417 WB:WBGene00000912 WB:WBGene00000898 WB:WBGene00006752</p>
 </div></blockquote>
@@ -4213,6 +4362,7 @@ Use the -p/–predicates option to change this behavior.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-roots">
 <h4>roots<a class="headerlink" href="#runoak-roots" title="Link to this heading"></a></h4>
 <p>List all root nodes in the ontology</p>
@@ -4220,7 +4370,8 @@ Use the -p/–predicates option to change this behavior.</p>
 Note that the default is to return the roots of the relation graph over <em>all</em> predicates.
 This can sometimes give unintuitive results, so we recommend always being explicit
 and parameterizing</p>
-<p>Example:</p>
+<section id="id77">
+<h5>Example:<a class="headerlink" href="#id77" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/cob.db roots</p>
 </div></blockquote>
@@ -4269,10 +4420,12 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-search">
 <h4>search<a class="headerlink" href="#runoak-search" title="Link to this heading"></a></h4>
 <p>Searches ontology for entities that have a label, alias, or other property matching a search term.</p>
-<p>Example:</p>
+<section id="id78">
+<h5>Example:<a class="headerlink" href="#id78" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i uberon.obo search limb</p>
 </div></blockquote>
@@ -4349,13 +4502,15 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-set-apikey">
 <h4>set-apikey<a class="headerlink" href="#runoak-set-apikey" title="Link to this heading"></a></h4>
 <p>Sets an API key</p>
-<dl class="simple">
-<dt>Example:</dt><dd><p>oak set-apikey -e bioportal MY-KEY-VALUE</p>
-</dd>
-</dl>
+<section id="id79">
+<h5>Example:<a class="headerlink" href="#id79" title="Link to this heading"></a></h5>
+<blockquote>
+<div><p>oak set-apikey -e bioportal MY-KEY-VALUE</p>
+</div></blockquote>
 <p>This is stored in an OS-dependent path</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>set-apikey<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>KEYVAL
 </pre></div>
@@ -4375,10 +4530,12 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-siblings">
 <h4>siblings<a class="headerlink" href="#runoak-siblings" title="Link to this heading"></a></h4>
 <p>List all siblings of a specified term or terms</p>
-<p>Example:</p>
+<section id="id80">
+<h5>Example:<a class="headerlink" href="#id80" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl siblings CL:4023094</p>
 </div></blockquote>
@@ -4419,6 +4576,7 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-similarity">
 <h4>similarity<a class="headerlink" href="#runoak-similarity" title="Link to this heading"></a></h4>
 <p>All by all similarity.</p>
@@ -4428,18 +4586,23 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 <li><p>via a file</p></li>
 <li><p>via explicit lists of terms or queries</p></li>
 </ul>
-<p>Example:</p>
+<section id="id81">
+<h5>Example:<a class="headerlink" href="#id81" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i hp.db similarity -p i –set1-file HPO-TERMS1 –set2-file HPO-TERMS2 -O csv</p>
 </div></blockquote>
 <p>This will compare every term in TERMS1 vs TERMS2</p>
 <p>Alternatively standard OAK term queries can be used, with “&#64;” separating the two lists</p>
-<p>Example:</p>
+</section>
+<section id="id82">
+<h5>Example:<a class="headerlink" href="#id82" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i hp.db similarity -p i TERM_1 TERM_2 … TERM_N &#64; TERM_N+1 … TERM_M</p>
 </div></blockquote>
 <p>The .all term syntax can be used to select all terms in an ontology</p>
-<p>Example:</p>
+</section>
+<section id="id83">
+<h5>Example:<a class="headerlink" href="#id83" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i ma.db similarity -p i,p .all &#64; .all</p>
 </div></blockquote>
@@ -4548,12 +4711,14 @@ vs all terms in CL:</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-similarity-pair">
 <h4>similarity-pair<a class="headerlink" href="#runoak-similarity-pair" title="Link to this heading"></a></h4>
 <p>Determine pairwise similarity between two terms using a variety of metrics</p>
 <p>NOTE: this command may be deprecated, consider using similarity</p>
 <p>Note: We recommend always specifying explicit predicate lists</p>
-<p>Example:</p>
+<section id="id84">
+<h5>Example:<a class="headerlink" href="#id84" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i ubergraph: similarity-pair -p i,p CL:0000540 CL:0000000</p>
 </div></blockquote>
@@ -4618,13 +4783,15 @@ the MRCA</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-singletons">
 <h4>singletons<a class="headerlink" href="#runoak-singletons" title="Link to this heading"></a></h4>
 <p>List all singleton nodes in the ontology</p>
 <p>Like all OAK relational commands, this is parameterized by –predicates (-p).
 Note that the default is to return the singletons of the relation graph over <em>all</em> predicates</p>
 <p>Obsoletes are filtered by default</p>
-<p>Example:</p>
+<section id="id85">
+<h5>Example:<a class="headerlink" href="#id85" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/cob.db singletons</p>
 </div></blockquote>
@@ -4661,10 +4828,12 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-statistics">
 <h4>statistics<a class="headerlink" href="#runoak-statistics" title="Link to this heading"></a></h4>
 <p>Shows all descriptive/summary statistics</p>
-<p>Example:</p>
+<section id="id86">
+<h5>Example:<a class="headerlink" href="#id86" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:pr statistics</p>
 </div></blockquote>
@@ -4675,7 +4844,9 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 <li><p>by a metadata property (e.g. oio:hasOBONamespace, rdfs:isDefinedBy)</p></li>
 <li><p>by prefix (e.g. GO, PR, CL, OBI)</p></li>
 </ul>
-<p>Example:</p>
+</section>
+<section id="id87">
+<h5>Example:<a class="headerlink" href="#id87" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace</p>
 </div></blockquote>
@@ -4702,7 +4873,9 @@ column names.</p>
 <p>You can optionally combine the ontology statistics with a change
 summary relative to another ontology, using the <code class="docutils literal notranslate"><span class="pre">--compare-with</span></code>
 option.</p>
-<p>Example:</p>
+</section>
+<section id="id88">
+<h5>Example:<a class="headerlink" href="#id88" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i v2.obo statistics –group-by-obo-namespace –compare-with v1.obo</p>
 </div></blockquote>
@@ -4802,21 +4975,27 @@ a group-by option is specified, these will be grouped accordingly.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-subsets">
 <h4>subsets<a class="headerlink" href="#runoak-subsets" title="Link to this heading"></a></h4>
 <p>Shows information on subsets</p>
-<p>Example:</p>
+<section id="id89">
+<h5>Example:<a class="headerlink" href="#id89" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo subsets</p>
 </div></blockquote>
-<p>Example:</p>
+</section>
+<section id="id90">
+<h5>Example:<a class="headerlink" href="#id90" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i cl.owl subsets</p>
 </div></blockquote>
 <p>For background on subsets, see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/concepts.html#subsets">https://incatools.github.io/ontology-access-kit/concepts.html#subsets</a></p>
 <p>Note you can use subsets in selector queries for other commands; e.g. to fetch all
 terms (directly) in goslim_generic in GO:</p>
-<p>Example:</p>
+</section>
+<section id="id91">
+<h5>Example:<a class="headerlink" href="#id91" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go info .in goslim_generic</p>
 </div></blockquote>
@@ -4824,7 +5003,9 @@ terms (directly) in goslim_generic in GO:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a></p>
 </div></blockquote>
-<p>See also:</p>
+</section>
+<section id="see-also">
+<h5>See Also:<a class="headerlink" href="#see-also" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>term-subsets command, which shows relationships of terms to subsets</p>
 </div></blockquote>
@@ -4838,6 +5019,7 @@ terms (directly) in goslim_generic in GO:</p>
 <dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
+</section>
 </section>
 <section id="runoak-synonymize">
 <h4>synonymize<a class="headerlink" href="#runoak-synonymize" title="Link to this heading"></a></h4>
@@ -4890,11 +5072,14 @@ terms (directly) in goslim_generic in GO:</p>
 ancestors/descendants of taxon terms.</p>
 <p>The input ontology MUST include both the taxon constraint relationships AND the relevant portion
 of NCBI Taxonomy</p>
-<p>Example:</p>
+<section id="id92">
+<h5>Example:<a class="headerlink" href="#id92" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/go.db taxon-constraints <a class="reference external" href="GO:0034357">GO:0034357</a> –include-redundant -p i,p</p>
 </div></blockquote>
-<p>Example:</p>
+</section>
+<section id="id93">
+<h5>Example:<a class="headerlink" href="#id93" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p</p>
 </div></blockquote>
@@ -4980,6 +5165,7 @@ of NCBI Taxonomy</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-term-categories">
 <h4>term-categories<a class="headerlink" href="#runoak-term-categories" title="Link to this heading"></a></h4>
 <p>List categories for a term or set of terms.</p>
@@ -5016,7 +5202,8 @@ of NCBI Taxonomy</p>
 <section id="runoak-term-metadata">
 <h4>term-metadata<a class="headerlink" href="#runoak-term-metadata" title="Link to this heading"></a></h4>
 <p>Shows term metadata.</p>
-<p>Example:</p>
+<section id="id94">
+<h5>Example:<a class="headerlink" href="#id94" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon term-metadata lung heart</p>
 </div></blockquote>
@@ -5076,10 +5263,12 @@ when there is typically one value (e.g. rdfs:label)</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-term-subsets">
 <h4>term-subsets<a class="headerlink" href="#runoak-term-subsets" title="Link to this heading"></a></h4>
 <p>List subsets for a term or set of terms.</p>
-<p>Example:</p>
+<section id="id95">
+<h5>Example:<a class="headerlink" href="#id95" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon term-subsets heart lung</p>
 </div></blockquote>
@@ -5111,10 +5300,12 @@ when there is typically one value (e.g. rdfs:label)</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-terms">
 <h4>terms<a class="headerlink" href="#runoak-terms" title="Link to this heading"></a></h4>
 <p>List all terms in the ontology</p>
-<p>Example:</p>
+<section id="id96">
+<h5>Example:<a class="headerlink" href="#id96" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/cob.db terms</p>
 </div></blockquote>
@@ -5163,11 +5354,13 @@ when there is typically one value (e.g. rdfs:label)</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-termset-similarity">
 <h4>termset-similarity<a class="headerlink" href="#runoak-termset-similarity" title="Link to this heading"></a></h4>
 <p>Termset similarity.</p>
 <p>This calculates a similarity matrix for two sets of terms.</p>
-<p>Example:</p>
+<section id="id97">
+<h5>Example:<a class="headerlink" href="#id97" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i go.db termset-similarity -p i,p nucleus membrane &#64; “nuclear membrane” vacuole -p i,p</p>
 </div></blockquote>
@@ -5226,21 +5419,27 @@ when there is typically one value (e.g. rdfs:label)</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-transform">
 <h4>transform<a class="headerlink" href="#runoak-transform" title="Link to this heading"></a></h4>
 <p>Transforms an ontology</p>
-<p>Example:</p>
+<section id="id98">
+<h5>Example:<a class="headerlink" href="#id98" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i pato.obo dump -o pato.json -O json</p>
 </div></blockquote>
-<p>Example:</p>
+</section>
+<section id="id99">
+<h5>Example:<a class="headerlink" href="#id99" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i pato.owl dump -o pato.ttl -O turtle</p>
 </div></blockquote>
 <p>You can also pass in a JSON configuration file to parameterize the dump process.</p>
 <p>Currently this is only used for fhirjson dumps, the configuration options are specified here:</p>
 <p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html">https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html</a></p>
-<p>Example:</p>
+</section>
+<section id="id100">
+<h5>Example:<a class="headerlink" href="#id100" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json</p>
 </div></blockquote>
@@ -5287,11 +5486,13 @@ to avoid killer queries.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-tree">
 <h4>tree<a class="headerlink" href="#runoak-tree" title="Link to this heading"></a></h4>
 <p>Display an ancestor graph as an ascii/markdown tree.</p>
 <p>For general instructions, see the viz command, which this is analogous too.</p>
-<p>Example:</p>
+<section id="id101">
+<h5>Example:<a class="headerlink" href="#id101" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i envo.db tree ENVO:00000372 -p i,p</p>
 </div></blockquote>
@@ -5306,14 +5507,18 @@ to avoid killer queries.</p>
 <p>Note: for many ontologies the tree view will explode, especially if no predicates are specified.
 You may wish to start with the is-a tree (-p i).</p>
 <p>You can use the –gap-fill option to create a minimal tree:</p>
-<p>Example:</p>
+</section>
+<section id="id102">
+<h5>Example:<a class="headerlink" href="#id102" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i envo.db tree –gap-fill ‘pyroclastic shield volcano’ ‘subglacial volcano’ volcano -p i</p>
 </div></blockquote>
 <p>This will show the tree containing only these terms, and the most direct inferred relationships between them.</p>
 <p>You can also give a list of leaf terms and specify –add-mrcas alongside –gap-fill to fill in
 the most informative intermediate classes:</p>
-<p>Example:</p>
+</section>
+<section id="id103">
+<h5>Example:<a class="headerlink" href="#id103" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i envo.db tree –add-mrcas –gap-fill ‘pyroclastic shield volcano’            ‘subglacial volcano’ ‘mud volcano’ -p i</p>
 </div></blockquote>
@@ -5397,7 +5602,7 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-C">
 <span id="cmdoption-runoak-tree-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id104"><span class="problematic" id="id105">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -5450,11 +5655,13 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-validate">
 <h4>validate<a class="headerlink" href="#runoak-validate" title="Link to this heading"></a></h4>
 <p>Validate an ontology against ontology metadata</p>
 <p>Implementation notes: Currently only works on SQLite</p>
-<p>Example:</p>
+<section id="id106">
+<h5>Example:<a class="headerlink" href="#id106" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak  -i db/ecto.db validate -o results.tsv</p>
 </div></blockquote>
@@ -5462,7 +5669,9 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <p>There is experimental support for additional ontology rules, which includes heuristic methods
 such as aligning text and logical definitions. These are off by default.</p>
 <p>To run these, pass –no-skip-ontology-rules</p>
-<p>Example:</p>
+</section>
+<section id="id107">
+<h5>Example:<a class="headerlink" href="#id107" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i db/uberon.db validate –skip-structural-validation –no-skip-ontology-rules</p>
 </div></blockquote>
@@ -5533,6 +5742,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="runoak-validate-definitions">
 <h4>validate-definitions<a class="headerlink" href="#runoak-validate-definitions" title="Link to this heading"></a></h4>
 <p>Checks presence and structure of text definitions.</p>
@@ -5544,14 +5754,17 @@ such as aligning text and logical definitions. These are off by default.</p>
 against machine actionable OBO text definition guideline rules.
 This can result in an initial lag - to skip this, and ONLY perform
 checks for presence of definitions, use –skip-text-annotation:</p>
-<p>Example:</p>
+<section id="id108">
+<h5>Example:<a class="headerlink" href="#id108" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak validate-definitions -i db/uberon.db –skip-text-annotation</p>
 </div></blockquote>
 <p>Like most OAK commands, this accepts lists of terms or term queries
 as arguments. You can pass in a CURIE list to selectively validate
 individual classes</p>
-<p>Example:</p>
+</section>
+<section id="id109">
+<h5>Example:<a class="headerlink" href="#id109" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak validate-definitions -i db/cl.db CL:0002053</p>
 </div></blockquote>
@@ -5568,7 +5781,9 @@ individual classes</p>
 See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels">https://incatools.github.io/ontology-access-kit/datamodels</a> for more
 on OAK datamodels.</p>
 <p>The default serialization of the datamodel is CSV.</p>
-<p>Notes:</p>
+</section>
+<section id="notes">
+<h5>Notes:<a class="headerlink" href="#notes" title="Link to this heading"></a></h5>
 <p>This command is largely redundant with the validate command, but is useful for
 targeted validation focused solely on definitions</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
@@ -5605,6 +5820,7 @@ targeted validation focused solely on definitions</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
 </section>
 <section id="runoak-validate-mappings">
 <h4>validate-mappings<a class="headerlink" href="#runoak-validate-mappings" title="Link to this heading"></a></h4>
@@ -5736,7 +5952,8 @@ see <a class="reference external" href="https://incatools.github.io/ontology-acc
 <p class="admonition-title">Note</p>
 <p>This requires that <a class="reference external" href="https://github.com/INCATools/obographviz">obographviz</a> is installed.</p>
 </div>
-<p>Example:</p>
+<section id="id110">
+<h5>Example:<a class="headerlink" href="#id110" title="Link to this heading"></a></h5>
 <blockquote>
 <div><p>runoak -i sqlite:cl.db viz CL:4023094</p>
 </div></blockquote>
@@ -5831,7 +6048,7 @@ to a distance of 2:</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-viz-C">
 <span id="cmdoption-runoak-viz-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-C" title="Link to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id5"><span class="problematic" id="id6">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id111"><span class="problematic" id="id112">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
@@ -5876,6 +6093,7 @@ to a distance of 2:</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
 </section>
 </section>
 </section>

@@ -393,10 +393,11 @@
 <span class="sd">    - :class:`Statements`</span>
 <span class="sd">    - :class:`Edge`</span>
 
-<span class="sd">    See also:</span>
-
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
 <span class="sd">    - `Tutorial &lt;https://incatools.github.io/ontology-access-kit/intro/tutorial07.html&gt;`_</span>
 <span class="sd">    - `SQL Implementation &lt;https://incatools.github.io/ontology-access-kit/implementations/sqldb.html&gt;`_</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: use SQLA types</span>
@@ -1306,7 +1307,7 @@
                 <span class="p">)</span>
                 <span class="n">assocs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">association</span><span class="p">)</span>
             <span class="n">subjects</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assocs</span><span class="p">}</span>
-            <span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">l</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">subjects</span><span class="p">)}</span>
+            <span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">name</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">subjects</span><span class="p">)}</span>
             <span class="k">for</span> <span class="n">association</span> <span class="ow">in</span> <span class="n">assocs</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">association</span><span class="o">.</span><span class="n">subject</span> <span class="ow">in</span> <span class="n">label_map</span><span class="p">:</span>
                     <span class="n">association</span><span class="o">.</span><span class="n">subject_label</span> <span class="o">=</span> <span class="n">label_map</span><span class="p">[</span><span class="n">association</span><span class="o">.</span><span class="n">subject</span><span class="p">]</span>

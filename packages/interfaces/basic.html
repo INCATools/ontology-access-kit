@@ -504,7 +504,8 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">
 <span class="sig-name descname"><span class="pre">obsoletes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_merged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.obsoletes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes" title="Link to this definition"></a></dt>
 <dd><p>Yields all known entities that are obsolete.</p>
-<p>Example:</p>
+<section id="example">
+<h2>Example:<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cob&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">():</span>
@@ -535,7 +536,9 @@ that are:</p>
 <p>In OBO Format, merged terms do not get their own stanza, but
 instead show up as <code class="docutils literal notranslate"><span class="pre">alt_id</span></code> tags on the replacement term.</p>
 <p>To exclude merged terms, set <code class="docutils literal notranslate"><span class="pre">include_merged=False</span></code>:</p>
-<p>Example:</p>
+</section>
+<section id="id2">
+<h2>Example:<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cob&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">(</span><span class="n">include_merged</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -546,20 +549,22 @@ instead show up as <code class="docutils literal notranslate"><span class="pre">
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>include_merged</strong> – If True, merged terms will be included</p>
+<dt class="field-odd">param include_merged<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If True, merged terms will be included</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">return<span class="colon">:</span></dt>
 <dd class="field-even"><p>iterator over CURIEs</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships">
 <span class="sig-name descname"><span class="pre">obsoletes_migration_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.obsoletes_migration_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships" title="Link to this definition"></a></dt>
 <dd><p>Yields relationships between an obsolete entity and potential replacements.</p>
-<p>Example:</p>
+<section id="id3">
+<h2>Example:<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:cob&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">adapter</span><span class="o">.</span><span class="n">obsoletes_migration_relationships</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">()):</span>
@@ -573,10 +578,11 @@ instead show up as <code class="docutils literal notranslate"><span class="pre">
 <li><p>rdfs:seeAlso</p></li>
 </ul>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">return<span class="colon">:</span></dt>
 <dd class="field-odd"><p>iterator</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
@@ -591,7 +597,8 @@ instead show up as <code class="docutils literal notranslate"><span class="pre">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.dangling">
 <span class="sig-name descname"><span class="pre">dangling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.dangling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.dangling" title="Link to this definition"></a></dt>
 <dd><p>Yields all known entities in provided set that are dangling.</p>
-<p>Example:</p>
+<section id="id4">
+<h2>Example:<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p>This example is over an OBO file with one stanza:</p>
 <div class="highlight-obo notranslate"><div class="highlight"><pre><span></span>[Term]
 id: GO:0012505
@@ -612,13 +619,14 @@ relationship: has_part GO:0005773 ! vacuole
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>curies</strong> – CURIEs to check for dangling; if empty will check all</p>
+<dt class="field-odd">param curies<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CURIEs to check for dangling; if empty will check all</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">return<span class="colon">:</span></dt>
 <dd class="field-even"><p>iterator over CURIEs</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py method">

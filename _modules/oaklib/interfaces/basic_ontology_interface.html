@@ -284,7 +284,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">converter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a converter for this ontology interface&#39;s prefix map.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a converter for this ontology interface&#39;s prefix map.</span>
 
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&#39;tests/input/go-nucleus.db&#39;)</span>
@@ -578,7 +579,7 @@
 <span class="sd">        Yields all known entities that are obsolete.</span>
 
 <span class="sd">        Example:</span>
-
+<span class="sd">        -------</span>
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:cob&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; for entity in adapter.obsoletes():</span>
@@ -603,7 +604,7 @@
 <span class="sd">        To exclude merged terms, set ``include_merged=False``:</span>
 
 <span class="sd">        Example:</span>
-
+<span class="sd">        -------</span>
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:cob&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; for entity in adapter.obsoletes(include_merged=False):</span>
@@ -614,6 +615,7 @@
 
 <span class="sd">        :param include_merged: If True, merged terms will be included</span>
 <span class="sd">        :return: iterator over CURIEs</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
@@ -627,7 +629,7 @@
 <span class="sd">        Yields relationships between an obsolete entity and potential replacements.</span>
 
 <span class="sd">        Example:</span>
-
+<span class="sd">        -------</span>
 <span class="sd">        &gt;&gt;&gt; from oaklib import get_adapter</span>
 <span class="sd">        &gt;&gt;&gt; adapter = get_adapter(&quot;sqlite:obo:cob&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; for rel in adapter.obsoletes_migration_relationships(adapter.obsoletes()):</span>
@@ -640,6 +642,7 @@
 <span class="sd">        - rdfs:seeAlso</span>
 
 <span class="sd">        :return: iterator</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -662,7 +665,7 @@
 <span class="sd">        Yields all known entities in provided set that are dangling.</span>
 
 <span class="sd">        Example:</span>
-
+<span class="sd">        -------</span>
 <span class="sd">        This example is over an OBO file with one stanza:</span>
 
 <span class="sd">        .. code-block:: obo</span>
@@ -687,6 +690,7 @@
 
 <span class="sd">        :param curies: CURIEs to check for dangling; if empty will check all</span>
 <span class="sd">        :return: iterator over CURIEs</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">curies</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">curies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>

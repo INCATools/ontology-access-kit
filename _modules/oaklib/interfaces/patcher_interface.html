@@ -195,14 +195,15 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expand a complex change object to a list of atomic changes.</span>
 
-<span class="sd">        Examples:</span>
-
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
 <span class="sd">        - An obsoletion command may also generate a label change and removal or rewiring of edges</span>
 <span class="sd">        - A NameBecomesSynonym may generate a NewSynonym and a NodeRename</span>
 
 <span class="sd">        :param change:</span>
 <span class="sd">        :param configuration:</span>
 <span class="sd">        :return:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">changes</span> <span class="o">=</span> <span class="p">[</span><span class="n">change</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">NameBecomesSynonym</span><span class="p">):</span>
