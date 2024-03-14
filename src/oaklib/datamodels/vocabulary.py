@@ -168,6 +168,12 @@ ALL_CONTRIBUTOR_PREDICATES = [OIO_CREATED_BY, CONTRIBUTOR, CREATOR, IAO_TERM_EDI
 OWL_VERSION_INFO = "owl:versionInfo"
 OWL_VERSION_IRI = "owl:versionIRI"
 
+MAPPING_EDGE_DELETION = "MappingEdgeDeletion"
+CLASS_CREATION = "ClassCreation"
+NODE_CREATION = "NodeCreation"
+NODE_DELETION = "NodeDeletion"
+NODE_TEXT_DEFINITION_CHANGE = "NodeTextDefinitionChange"
+
 
 class SEMAPV(Enum):
     """SEMAPV Enum containing different mapping_justification."""

@@ -210,6 +210,7 @@ MD_FORMAT = "md"
 HTML_FORMAT = "html"
 OBOJSON_FORMAT = "obojson"
 CSV_FORMAT = "csv"
+TSV_FORMAT = "tsv"
 JSON_FORMAT = "json"
 JSONL_FORMAT = "jsonl"
 YAML_FORMAT = "yaml"
@@ -230,6 +231,7 @@ ONT_FORMATS = [
     YAML_FORMAT,
     FHIR_JSON_FORMAT,
     CSV_FORMAT,
+    TSV_FORMAT,
     NL_FORMAT,
 ]
 
@@ -241,6 +243,7 @@ WRITERS = {
     HTML_FORMAT: HTMLWriter,
     OBOJSON_FORMAT: StreamingOboJsonWriter,
     CSV_FORMAT: StreamingCsvWriter,
+    TSV_FORMAT: StreamingCsvWriter,
     JSON_FORMAT: StreamingJsonWriter,
     JSONL_FORMAT: StreamingJsonLinesWriter,
     YAML_FORMAT: StreamingYamlWriter,
@@ -5790,16 +5793,13 @@ def diff(
         else:
             writer.emit(summary)
     else:
-        for change in impl.diff(other_impl, configuration=config):
-            # TODO: when a complete type designator is added to KGCL
-            this_change_type = change.__class__.__name__
-            if change_type and this_change_type not in change_type:
-                continue
-            if isinstance(writer, (StreamingYamlWriter, StreamingCsvWriter)):
-                # TODO: when a complete type designator is added to KGCL
-                # we can remove this
-                change.type = this_change_type
-            writer.emit(change)
+        if isinstance(writer, StreamingMarkdownWriter):
+            config.yield_individual_changes = False
+            for change in impl.diff(other_impl, configuration=config):
+                writer.emit(change, other_impl=other_impl)
+        else:
+            for change in impl.diff(other_impl, configuration=config):
+                writer.emit(change)
     writer.finish()
 
 

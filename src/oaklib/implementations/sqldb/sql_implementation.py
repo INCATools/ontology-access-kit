@@ -2261,9 +2261,11 @@ class SqlImplementation(
                 self.set_label(patch.about_node, patch.new_value)
             elif isinstance(patch, kgcl.NewSynonym):
                 # TODO: synonym type
+                if not patch.predicate:
+                    patch.predicate = HAS_EXACT_SYNONYM
                 self._execute(
                     insert(Statements).values(
-                        subject=about, predicate=HAS_EXACT_SYNONYM, value=patch.new_value
+                        subject=about, predicate=patch.predicate, value=patch.new_value
                     )
                 )
             elif isinstance(patch, kgcl.RemoveSynonym):
