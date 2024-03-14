@@ -4,6 +4,7 @@ import unittest
 
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import GildaImplementation
+
 from tests import CELL_CORTEX
 
 try:
@@ -16,6 +17,7 @@ except ImportError:
 
 @unittest.skipUnless(HAS_GILDA, "requires Gilda")
 class TestGilda(unittest.TestCase):
+
     """Tests for the Gilda annotator."""
 
     def setUp(self) -> None:

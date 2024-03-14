@@ -12,8 +12,6 @@ import yaml
 from click.testing import CliRunner
 from kgcl_schema.datamodel.kgcl import NodeChange
 from linkml_runtime.loaders import json_loader, yaml_loader
-from sssom.parsers import parse_sssom_table, to_mapping_set_document
-
 from oaklib import get_adapter
 from oaklib.cli import clear_cli_settings, main
 from oaklib.datamodels import fhir, obograph, taxon_constraints
@@ -24,6 +22,8 @@ from oaklib.datamodels.vocabulary import (
     SKOS_EXACT_MATCH,
 )
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
+
 from tests import (
     ATOM,
     CATALYTIC_ACTIVITY,
@@ -69,6 +69,7 @@ def _outpath(test: str, fmt: str = "tmp") -> str:
 
 
 class TestCommandLineInterface(unittest.TestCase):
+
     """
     Tests all command-line subcommands
     """
@@ -463,7 +464,8 @@ class TestCommandLineInterface(unittest.TestCase):
                     self.assertNotIn(term, out)
 
     def test_obsoletes(self):
-        """Tests the obsoletes command using the obsoletion test ontology.
+        """
+        Tests the obsoletes command using the obsoletion test ontology.
 
         This should return
         """

@@ -4,10 +4,10 @@ import unittest
 import curies
 from linkml_runtime.loaders import json_loader
 from ndex2 import create_nice_cx_from_file
-
 from oaklib.converters.obo_graph_to_cx_converter import OboGraphToCXConverter
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
+
 from tests import INPUT_DIR, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
 
@@ -16,6 +16,7 @@ OUT = OUTPUT_DIR / "go-nucleus.cx"
 
 
 class OboGraphToCXTest(unittest.TestCase):
+
     """Tests OBO JSON -> RDF/OWL."""
 
     def setUp(self):

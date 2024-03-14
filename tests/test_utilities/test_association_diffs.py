@@ -3,13 +3,13 @@ import unittest
 
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib import OntologyResource
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.vocabulary import IS_A, LOCATED_IN, PART_OF
 from oaklib.implementations import ProntoImplementation
 from oaklib.utilities.associations.association_differ import AssociationDiffer
 from oaklib.utilities.basic_utils import powerset
+
 from tests import (
     IMBO,
     INPUT_DIR,
@@ -38,6 +38,7 @@ PREDS = [IS_A, PART_OF]
 
 
 class AssociationDiffsTest(unittest.TestCase):
+
     """Tests diffs."""
 
     def setUp(self) -> None:

@@ -6,6 +6,7 @@ from oaklib.implementations import NCBIGeneImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
+
 from tests import CYTOPLASM, INPUT_DIR
 
 GENE_PATH = INPUT_DIR / "ncbigene-1956.xml"
@@ -13,6 +14,7 @@ GENE_PATH = INPUT_DIR / "ncbigene-1956.xml"
 
 # TODO: use mock tests
 class TestNCBIGene(unittest.TestCase):
+
     """
     Tests :ref:`NCBIGeneImplementation`
     """

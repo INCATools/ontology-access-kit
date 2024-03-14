@@ -8,6 +8,7 @@ from oaklib.implementations.translator.translator_implementation import (
 
 # TODO: use mock tests
 class TestTranslatorImplementation(unittest.TestCase):
+
     """
     Tests :ref:`TranslatorImplementation`
     """

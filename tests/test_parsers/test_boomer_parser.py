@@ -2,14 +2,15 @@ import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.parsers.boomer_parser import BoomerParser
+
 from tests import INPUT_DIR
 
 EXAMPLE = INPUT_DIR / "boomer-example.md"
 
 
 class BoomerParserTest(unittest.TestCase):
+
     """Tests parsing Boomer reports."""
 
     def setUp(self) -> None:

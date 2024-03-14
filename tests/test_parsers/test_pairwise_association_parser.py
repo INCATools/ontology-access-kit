@@ -4,12 +4,14 @@ import unittest
 from oaklib.datamodels.association import Association
 from oaklib.parsers import G2T
 from oaklib.parsers.association_parser_factory import get_association_parser
+
 from tests import INPUT_DIR
 
 INPUT_TSV = INPUT_DIR / "test-pairwise-associations.tsv"
 
 
 class PairwiseAssociationParserTest(unittest.TestCase):
+
     """Tests parsing of simple pairwise TSVs."""
 
     def test_parser(self):

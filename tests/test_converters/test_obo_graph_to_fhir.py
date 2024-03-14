@@ -7,11 +7,11 @@ from typing import List
 import curies
 import requests
 from linkml_runtime.loaders import json_loader
-
 from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
 from oaklib.datamodels.fhir import CodeSystem
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
+
 from tests import IMBO, INPUT_DIR, NUCLEUS, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
 
@@ -19,9 +19,12 @@ DOWNLOAD_TESTS_ON = True
 
 
 class OboGraphToFHIRTest(unittest.TestCase):
-    """Tests OBO JSON -> FHIR.
 
-    Different ontologies have unique structures, so test some specifics for those."""
+    """
+    Tests OBO JSON -> FHIR.
+
+    Different ontologies have unique structures, so test some specifics for those.
+    """
 
     @staticmethod
     def _load_ontology(url: str, download_path: str, use_cache: bool = True) -> GraphDocument:

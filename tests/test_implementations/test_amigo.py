@@ -8,6 +8,7 @@ from oaklib.interfaces.association_provider_interface import (
 
 # TODO: use mock tests
 class TestAmiGO(unittest.TestCase):
+
     """
     Tests :ref:`AmiGOImplementation`
     """

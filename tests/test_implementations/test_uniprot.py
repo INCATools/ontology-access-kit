@@ -6,6 +6,7 @@ from oaklib.implementations import UniprotImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
+
 from tests import INPUT_DIR
 
 PROTEIN_PATH = INPUT_DIR / "uniprot-P12345.json"
@@ -13,6 +14,7 @@ PROTEIN_PATH = INPUT_DIR / "uniprot-P12345.json"
 
 # TODO: use mock tests
 class TestUniprot(unittest.TestCase):
+
     """
     Tests :ref:`UniprotImplementation`
     """

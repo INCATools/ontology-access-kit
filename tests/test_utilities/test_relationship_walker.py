@@ -5,6 +5,7 @@ from oaklib.datamodels.vocabulary import HAS_PART, IS_A
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
+
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"

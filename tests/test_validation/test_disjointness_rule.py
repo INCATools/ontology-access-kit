@@ -1,10 +1,10 @@
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib import get_adapter
 from oaklib.utilities.validation.disjointness_rule import DisjointnessRule
 from oaklib.utilities.validation.rule_runner import RuleRunner
+
 from tests import INPUT_DIR, OUTPUT_DIR, SUBATOMIC_PARTICLE
 
 TEST_OUT = OUTPUT_DIR / "lint-test-output.obo"

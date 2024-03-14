@@ -25,15 +25,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip install tox
-      - name: Check code quality with flake8
-        run: tox -e flake8
+      - name: Check code quality with ruff
+        run: tox -e lint
 
   test:
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        python-version: [ "3.9", "3.10" ]
+        python-version: [ "3.9", "3.10", "3.12" ]
         exclude:
           - os: windows-latest
             python-version: "3.9"

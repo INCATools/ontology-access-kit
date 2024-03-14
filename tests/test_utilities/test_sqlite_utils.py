@@ -7,6 +7,7 @@ from oaklib.implementations.sqldb.sqlite_utils import (
     sqlite_bulk_load,
     sqlite_bulk_load2,
 )
+
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TSV = INPUT_DIR / "foo.tsv"

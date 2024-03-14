@@ -7,6 +7,7 @@ TEST_PMID = "PMID:21873635"
 
 # TODO: use mock tests
 class TestPubMed(unittest.TestCase):
+
     """
     Tests :ref:`PubMedImplementation`
     """

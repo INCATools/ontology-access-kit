@@ -3,17 +3,18 @@ import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.implementations.ontoportal.bioportal_implementation import (
     BioPortalImplementation,
 )
 from oaklib.utilities.apikey_manager import get_apikey_value
+
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
 # TODO: use mock tests
 # @unittest.skip("Skipping bioportal tests")
 class TestBioportal(unittest.TestCase):
+
     """
     Tests :ref:`BioportalImplementation`
     """
