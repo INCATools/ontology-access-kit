@@ -6,8 +6,6 @@ import math
 from dataclasses import dataclass, field
 from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from semsimian import Semsimian
-
 from oaklib.datamodels.similarity import (
     BestMatch,
     TermInfo,
@@ -51,7 +49,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         SemanticSimilarityInterface.information_content_scores,
     ]
 
-    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Semsimian] = field(default_factory=dict)
+    semsimian_object_cache: Dict[Tuple[PRED_CURIE], Optional["Semsimian"]] = field(default_factory=dict)  # type: ignore # noqa
 
     def __post_init__(self):
         slug = self.resource.slug
@@ -81,13 +79,15 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         attributes: List[str] = None,
         resource_path: str = None,
-    ) -> Semsimian:
+    ) -> "Semsimian":  # type: ignore # noqa
         """
         Get Semsimian object from "semsimian_object_cache" or add a new one.
 
         :param predicates: collection of predicates, defaults to None
         :return: A Semsimian object.
         """
+        from semsimian import Semsimian
+
         predicates = tuple(sorted(predicates))
         if predicates not in self.semsimian_object_cache:
             # spo = [
