@@ -2,7 +2,6 @@ import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.wikidata.wikidata_implementation import (

@@ -6,6 +6,7 @@ from oaklib.implementations import UniprotImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
+
 from tests import INPUT_DIR
 
 PROTEIN_PATH = INPUT_DIR / "uniprot-P12345.json"

@@ -668,7 +668,8 @@ class OboDocument:
             s.normalize_order()
 
     def dump(self, file: TextIO, ensure_sorted=False, normalize_line_order=False) -> None:
-        """Export to a file
+        """
+        Export to a file
 
         :param file:
         :param ensure_sorted: Sort stanzas

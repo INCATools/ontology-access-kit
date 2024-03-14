@@ -2,6 +2,7 @@ import unittest
 
 from oaklib.implementations.cx.cx_implementation import CXImplementation
 from oaklib.resource import OntologyResource
+
 from tests import INPUT_DIR
 from tests.test_implementations import ComplianceTester
 

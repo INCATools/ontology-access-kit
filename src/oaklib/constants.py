@@ -7,3 +7,4 @@ __all__ = [
 ]
 
 OAKLIB_MODULE = pystow.module("oaklib")
+TIMEOUT_SECONDS = 30

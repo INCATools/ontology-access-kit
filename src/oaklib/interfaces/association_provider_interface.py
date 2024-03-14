@@ -204,7 +204,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         for assoc_it in chunk(association_iterator):
             associations = list(assoc_it)
             subjects = {a.subject for a in associations}
-            label_map = {s: l for s, l in self.labels(subjects)}
+            label_map = {s: name for s, name in self.labels(subjects)}
             logging.info(f"LABEL MAP: {label_map} for {subjects}")
             for association in associations:
                 if association.subject in label_map:

@@ -191,7 +191,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @property
     def converter(self) -> curies.Converter:
-        """Get a converter for this ontology interface's prefix map.
+        """
+        Get a converter for this ontology interface's prefix map.
 
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter('tests/input/go-nucleus.db')
@@ -462,7 +463,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields all known entities that are obsolete.
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("sqlite:obo:cob")
         >>> for entity in adapter.obsoletes():
@@ -487,7 +488,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         To exclude merged terms, set ``include_merged=False``:
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("sqlite:obo:cob")
         >>> for entity in adapter.obsoletes(include_merged=False):
@@ -498,6 +499,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :param include_merged: If True, merged terms will be included
         :return: iterator over CURIEs
+
         """
         raise NotImplementedError
 
@@ -508,7 +510,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields relationships between an obsolete entity and potential replacements.
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("sqlite:obo:cob")
         >>> for rel in adapter.obsoletes_migration_relationships(adapter.obsoletes()):
@@ -521,6 +523,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         - rdfs:seeAlso
 
         :return: iterator
+
         """
         for entity in entities:
             for prop, vals in self.entity_metadata_map(entity).items():
@@ -537,7 +540,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields all known entities in provided set that are dangling.
 
         Example:
-
+        -------
         This example is over an OBO file with one stanza:
 
         .. code-block:: obo
@@ -562,6 +565,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :param curies: CURIEs to check for dangling; if empty will check all
         :return: iterator over CURIEs
+
         """
         if curies is None:
             curies = self.entities(filter_obsoletes=False)

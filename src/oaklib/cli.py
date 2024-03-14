@@ -767,7 +767,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
             # arbitrary python expression
             expr = query_terms[0]
             query_terms = query_terms[1:]
-            chain_results(eval(expr, {"impl": impl, "terms": results}))
+            chain_results(eval(expr, {"impl": impl, "terms": results}))  # noqa
         elif term.startswith(".query"):
             # arbitrary SPARQL query
             params = _parse_params(term)
@@ -944,7 +944,8 @@ def main(
     import_depth: Optional[int],
     **kwargs,
 ):
-    """Run the oaklib Command Line.
+    """
+    Run the oaklib Command Line.
 
     A subcommand must be passed - for example: ancestors, terms, ...
 
@@ -1043,7 +1044,7 @@ def search(terms, output_type: str, autolabel, output: TextIO):
     Searches ontology for entities that have a label, alias, or other property matching a search term.
 
     Example:
-
+    -------
         runoak -i uberon.obo search limb
 
     This uses the Pronto implementation to load uberon from disk, and does a basic substring
@@ -1108,11 +1109,11 @@ def subsets(output: str):
     Shows information on subsets
 
     Example:
-
+    -------
         runoak -i obolibrary:go.obo subsets
 
     Example:
-
+    -------
         runoak -i cl.owl subsets
 
     For background on subsets, see https://incatools.github.io/ontology-access-kit/concepts.html#subsets
@@ -1121,16 +1122,17 @@ def subsets(output: str):
     terms (directly) in goslim_generic in GO:
 
     Example:
-
+    -------
         runoak -i sqlite:obo:go info .in goslim_generic
 
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
 
-    See also:
-
+    See Also:
+    --------
         term-subsets command, which shows relationships of terms to subsets
+
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -1163,25 +1165,25 @@ def obsoletes(
     Shows all obsolete entities.
 
     Example:
-
+    -------
         runoak -i obolibrary:go.obo obsoletes
 
     To exclude *merged terms*, use the ``--no-include-merged`` flag
 
     Example:
-
+    -------
         runoak -i obolibrary:go.obo obsoletes --no-include-merged
 
     To show migration relationships, use the ``--show-migration-relationships`` flag
 
     Example:
-
+    -------
         runoak -i obolibrary:go.obo obsoletes --show-migration-relationships
 
     You can also specify terms to show obsoletes for:
 
     Example:
-
+    -------
         runoak -i obolibrary:go.obo obsoletes --show-migration-relationships GO:0000187 GO:0000188
 
     More examples:
@@ -1191,6 +1193,7 @@ def obsoletes(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -1255,7 +1258,7 @@ def statistics(
     Shows all descriptive/summary statistics
 
     Example:
-
+    -------
         runoak -i sqlite:obo:pr statistics
 
     By default, this will show combined summary statistics for all terms
@@ -1269,7 +1272,7 @@ def statistics(
     - by prefix (e.g. GO, PR, CL, OBI)
 
     Example:
-
+    -------
         runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace
 
     Note: the oio:hasOBONamespace is *not* the same as the ID prefix, it is
@@ -1304,7 +1307,7 @@ def statistics(
     option.
 
     Example:
-
+    -------
         runoak -i v2.obo statistics --group-by-obo-namespace --compare-with v1.obo
 
     This will also include change stats broken down by KGCL change types. If
@@ -1317,6 +1320,7 @@ def statistics(
     Data model:
 
        https://w3id.org/oak/summary-statistics
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -1420,7 +1424,7 @@ def ontology_versions(ontologies, output: str, all: bool):
     Currently only implemented for BioPortal
 
     Example:
-
+    -------
         runoak -i bioportal: ontology-versions mp
 
     All ontologies:
@@ -1430,6 +1434,7 @@ def ontology_versions(ontologies, output: str, all: bool):
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
@@ -1457,19 +1462,19 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     Shows ontology metadata
 
     Example:
-
+    -------
         runoak -i bioportal: ontology-metadata obi uberon foodon
 
     Use the ``--all`` option to show all ontologies
 
     Example:
-
+    -------
         runoak -i bioportal: ontology-metadata --all
 
     By default the output is YAML. You can get the results as TSV:
 
     Example:
-
+    -------
         runoak -i bioportal: ontology-metadata --all -O csv
 
     .. warning::
@@ -1479,6 +1484,7 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     if output_type is None or output_type == "yaml":
@@ -1514,7 +1520,7 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     Shows term metadata.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon term-metadata lung heart
 
     You can filter the results for only selected predicates:
@@ -1532,6 +1538,7 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     Data model:
 
        https://w3id.org/oak/ontology-metadata
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -1632,14 +1639,14 @@ def annotate(
     in these cases the endpoint functionality is used:
 
     Example:
-
+    -------
         runoak -i bioportal: annotate "enlarged nucleus in T-cells from peripheral blood"
 
     For other endpoints, the built-in OAK annotator is used. This currently uses a basic
     algorithm based on lexical matching.
 
-     Example:
-
+    Example:
+    -------
         runoak -i sqlite:obo:cl annotate "enlarged nucleus in T-cells from peripheral blood"
 
     Using the builtin annotator can be slow, as the lexical index is re-built every time.
@@ -1653,7 +1660,7 @@ def annotate(
     as gilda only performs grounding.
 
     Example:
-
+    -------
         runoak -i gilda: annotate -W BRCA2
 
     Aliases can be listed in the output by setting the flag
@@ -1683,6 +1690,7 @@ def annotate(
     Data model:
 
        https://w3id.org/oak/text-annotator
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
@@ -1795,7 +1803,7 @@ def viz(
        This requires that `obographviz <https://github.com/INCATools/obographviz>`_ is installed.
 
     Example:
-
+    -------
         runoak -i sqlite:cl.db viz CL:4023094
 
     Same query on ubergraph:
@@ -1831,6 +1839,7 @@ def viz(
     Data model:
 
        https://w3id.org/oak/obograph
+
     """
     impl = settings.impl
     if not isinstance(impl, OboGraphInterface):
@@ -1947,7 +1956,7 @@ def tree(
     For general instructions, see the viz command, which this is analogous too.
 
     Example:
-
+    -------
         runoak -i envo.db tree ENVO:00000372 -p i,p
 
     This produces output like:
@@ -1966,7 +1975,7 @@ def tree(
     You can use the --gap-fill option to create a minimal tree:
 
     Example:
-
+    -------
         runoak -i envo.db tree --gap-fill 'pyroclastic shield volcano' 'subglacial volcano' volcano -p i
 
     This will show the tree containing only these terms, and the most direct inferred relationships between them.
@@ -1975,7 +1984,7 @@ def tree(
     the most informative intermediate classes:
 
     Example:
-
+    -------
         runoak -i envo.db tree --add-mrcas --gap-fill 'pyroclastic shield volcano'\
             'subglacial volcano' 'mud volcano' -p i
 
@@ -2002,6 +2011,7 @@ def tree(
     Data model:
 
        https://w3id.org/oak/obograph
+
     """
     impl = settings.impl
     if configure:
@@ -2089,7 +2099,7 @@ def ancestors(
     a parent includes all relationship types, not just is-a.
 
     Example:
-
+    -------
         runoak -i cl.owl ancestors CL:4023094
 
     This will show ancestry over the full relationship graph. Like any relational
@@ -2113,6 +2123,7 @@ def ancestors(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2212,19 +2223,19 @@ def paths(
     List all paths between one or more start curies.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane'
 
     This shows all shortest paths from nuclear membrane to all ancestors
 
     Example:
-
+    -------
         runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' --target cytoplasm
 
     This shows shortest paths between two nodes
 
     Example:
-
+    -------
         runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' 'thylakoid' --target cytoplasm 'thylakoid membrane'
 
     This shows all shortest paths between 4 combinations of starts and ends
@@ -2238,7 +2249,7 @@ def paths(
     You can also pass in weights for each predicate, used when calculating shortest paths.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' --target cytoplasm \
                 --predicate-weights "{i: 0.0001, p: 999}"
 
@@ -2249,7 +2260,7 @@ def paths(
     This command can be combined with others to visualize the paths.
 
     Example:
-
+    -------
         alias go="runoak -i sqlite:obo:go"
         go paths  -p i,p 'nuclear membrane' --target cytoplasm --narrow | go viz --fill-gaps -
 
@@ -2259,6 +2270,7 @@ def paths(
     More examples:
 
        https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Paths.ipynb
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2397,11 +2409,12 @@ def siblings(terms, predicates, output_type: str, output: str):
     List all siblings of a specified term or terms
 
     Example:
-
+    -------
         runoak -i cl.owl siblings CL:4023094
 
     Note that siblings is by default over ALL relationship types, so we recommend
     always being explicit and passing a predicate using -p (--predicates)
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -2437,11 +2450,11 @@ def descendants(
     List all descendants of a term
 
     Example:
-
+    -------
         runoak -i sqlite:obo:obi descendants assay -p i
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon descendants heart -p i,p
 
     This is the inverse of the 'ancestors' command; see the documentation for
@@ -2452,6 +2465,7 @@ def descendants(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -2490,11 +2504,11 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     Exports (dumps) the entire contents of an ontology.
 
     Example:
-
+    -------
         runoak -i pato.obo dump -o pato.json -O json
 
     Example:
-
+    -------
         runoak -i pato.owl dump -o pato.ttl -O turtle
 
     You can also pass in a JSON configuration file to parameterize the dump process.
@@ -2504,7 +2518,7 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
 
     Example:
-
+    -------
         runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
 
     Currently each implementation only supports a subset of formats.
@@ -2515,6 +2529,7 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     if terms:
         raise NotImplementedError("Currently dump for a subset of terms is not supported")
@@ -2548,11 +2563,11 @@ def transform(terms, transform, output, output_type: str, config_file: str = Non
     Transforms an ontology
 
     Example:
-
+    -------
         runoak -i pato.obo dump -o pato.json -O json
 
     Example:
-
+    -------
         runoak -i pato.owl dump -o pato.ttl -O turtle
 
     You can also pass in a JSON configuration file to parameterize the dump process.
@@ -2562,7 +2577,7 @@ def transform(terms, transform, output, output_type: str, config_file: str = Non
     https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
 
     Example:
-
+    -------
         runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
 
     Currently each implementation only supports a subset of formats.
@@ -2573,6 +2588,7 @@ def transform(terms, transform, output, output_type: str, config_file: str = Non
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     if terms:
         raise NotImplementedError("Currently transform for a subset of terms is not supported")
@@ -2636,7 +2652,7 @@ def prefixes(terms, used_only: bool, output, output_type: str):
     prefix maps.
 
     Example:
-
+    -------
         runoak --named-prefix-map prefixcc prefixes
 
     If an ontology is loaded, then --used-only can be used to restrict to
@@ -2746,7 +2762,7 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     Note: We recommend always specifying explicit predicate lists
 
     Example:
-
+    -------
         runoak -i ubergraph: similarity-pair -p i,p CL:0000540 CL:0000000
 
     You can omit predicates if you like but be warned this may yield
@@ -2770,6 +2786,7 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     Data model:
 
        https://w3id.org/oak/similarity
+
     """
     if len(terms) != 2:
         raise ValueError(f"Need exactly 2 terms: {terms}")
@@ -2851,7 +2868,7 @@ def similarity(
     - via explicit lists of terms or queries
 
     Example:
-
+    -------
         runoak -i hp.db similarity -p i --set1-file HPO-TERMS1 --set2-file HPO-TERMS2 -O csv
 
     This will compare every term in TERMS1 vs TERMS2
@@ -2859,13 +2876,13 @@ def similarity(
     Alternatively standard OAK term queries can be used, with "@" separating the two lists
 
     Example:
-
+    -------
         runoak -i hp.db similarity -p i TERM_1 TERM_2 ... TERM_N @ TERM_N+1 ... TERM_M
 
     The .all term syntax can be used to select all terms in an ontology
 
     Example:
-
+    -------
         runoak -i ma.db similarity -p i,p .all @ .all
 
     This can be mixed with other term selectors; for example to calculate the similarity of "neuron"
@@ -2892,6 +2909,7 @@ def similarity(
     Data model:
 
        https://w3id.org/oak/similarity
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
@@ -2967,7 +2985,7 @@ def termset_similarity(
     This calculates a similarity matrix for two sets of terms.
 
     Example:
-
+    -------
         runoak -i go.db termset-similarity -p i,p nucleus membrane @ "nuclear membrane" vacuole -p i,p
 
     Python API:
@@ -2977,6 +2995,7 @@ def termset_similarity(
     Data model:
 
        https://w3id.org/oak/similarity
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
@@ -3021,7 +3040,7 @@ def information_content(
     Show information content for term or list of terms
 
     Example:
-
+    -------
         runoak -i cl.db information-content -p i .all
 
     Like all OAK commands that operate over graphs, the graph traversal is controlled
@@ -3033,6 +3052,7 @@ def information_content(
     You can use an association file as the corpus:
 
         runoak -g hpoa.tsv -G hpoa -i hp.db information-content -p i --use-associations .all
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3069,7 +3089,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
     Show information on term or set of terms
 
     Example:
-
+    -------
         runoak -i sqlite:obo:cl info CL:4023094
 
     The default output is minimal, showing only ID and label
@@ -3110,6 +3130,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
     Info on all subtypes of "statistical hypothesis test" in STATO:
 
         runoak -i sqlite:obo:stato info .desc//p=i 'statistical hypothesis test'
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -3127,7 +3148,7 @@ def languages():
     Show available languages
 
     Example:
-
+    -------
         runoak languages
 
     """
@@ -3161,13 +3182,13 @@ def labels(
     Show labels for term or list of terms
 
     Example:
-
+    -------
         runoak -i cl.owl labels CL:4023093 CL:4023094
 
     You can use the ".all" selector to show all labels:
 
     Example:
-
+    -------
         runoak -i cl.owl labels .all
 
     (this may be blocked for remote endpoints)
@@ -3183,18 +3204,19 @@ def labels(
     a particular language.
 
     Example:
-
+    -------
         runoak --preferred-language fr -i sqlite:obo:hpinternational labels .ancestors HP:0020110
 
     You can also query for all languages, and see these pivoted:
 
     Example:
-
+    -------
         runoak  -i sqlite:obo:hpinternational labels .ancestors HP:0020110 --pivot-languages
 
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/labels
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3264,13 +3286,13 @@ def definitions(
     Show textual definitions for term or set of terms
 
     Example:
-
+    -------
         runoak -i sqlite:obo:envo definitions 'tropical biome' 'temperate biome'
 
     You can use the ".all" selector to show all definitions for all terms in the ontology:
 
     Example:
-
+    -------
         runoak -i sqlite:obo:envo definitions .all
 
     You can also include definition metadata, such as provenance and source:
@@ -3375,25 +3397,25 @@ def relationships(
     By default, this shows all relationships where the input term(s) are the *subjects*
 
     Example:
-
+    -------
         runoak -i cl.db relationships CL:4023094
 
     Like all OAK commands, a label can be passed instead of a CURIE
 
     Example:
-
+    -------
         runoak -i cl.db relationships neuron
 
     To reverse the direction, and query where the search term(s) are *objects*, use the --direction flag:
 
     Example:
-
+    -------
         runoak -i cl.db relationships --direction down neuron
 
     Multiple terms can be passed
 
     Example:
-
+    -------
         runoak -i uberon.db relationships heart liver lung
 
     And like all OAK commands, a query can be passed rather than an explicit term list
@@ -3411,6 +3433,7 @@ def relationships(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3542,7 +3565,7 @@ def logical_definitions(
     You can also specify CSV to generate a flattened form of this.
 
     Example:
-
+    -------
         pato logical-definitions .all --output-type csv
 
     You can optionally choose to "--matrix-axes" to transform the output to a matrix form.
@@ -3550,12 +3573,12 @@ def logical_definitions(
     type: "f" for filler, "p" for predicate, "g" for genus, "d" for defined class.
 
     Example:
-
+    -------
     - Each property/predicate is a column
     - For repeated properties, columns of the form prop_1, prop_2, ... are generated
 
     Example:
-
+    -------
         pato logical-definitions .all  --matrix-axes d,p --output-type csv
 
     This will generate a row for each defined class with a logical definition, with columns
@@ -3579,6 +3602,7 @@ def logical_definitions(
     Data model:
 
        https://w3id.org/oak/obograph
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -3678,7 +3702,7 @@ def disjoints(
     serialization:
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon disjoints
 
     Note that this will include pairwise disjoints, setwise disjoints,
@@ -3687,18 +3711,19 @@ def disjoints(
     A tabular format can be easier to browse, and includes labels by default:
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon disjoints --autolabel -O csv
 
     To perform this on a subset:
 
-     Example:
-
+    Example:
+    -------
         runoak -i sqlite:obo:cl disjoints --autolabel -O csv  .desc//p=i "immune cell"
 
     Data model:
 
        https://w3id.org/oak/obograph
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -3794,7 +3819,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
     List all terms in the ontology
 
     Example:
-
+    -------
         runoak -i db/cob.db terms
 
     All terms without obsoletes:
@@ -3814,6 +3839,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
     Annotation properties:
 
         runoak -i sqlite:obo:omo terms --owl-type owl:AnnotationProperty
+
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -3845,7 +3871,7 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
     and parameterizing
 
     Example:
-
+    -------
         runoak -i db/cob.db roots
 
     This command is a wrapper onto the "roots" command in the BasicOntologyInterface.
@@ -3882,13 +3908,14 @@ def leafs(output: str, predicates: str, filter_obsoletes: bool):
     Note that the default is to return the roots of the relation graph over *all* predicates
 
     Example:
-
+    -------
         runoak -i db/cob.db leafs
 
     This command is a wrapper onto the "leafs" command in the BasicOntologyInterface.
 
     - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
       oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs
+
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -3913,13 +3940,14 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
     Obsoletes are filtered by default
 
     Example:
-
+    -------
         runoak -i db/cob.db singletons
 
     This command is a wrapper onto the "singletons" command in the BasicOntologyInterface.
 
     - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
       oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons
+
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -3949,7 +3977,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
     List all mappings encoded in the ontology
 
     Example:
-
+    -------
         runoak -i sqlite:obo:envo mappings
 
     The default output is SSSOM YAML. To use the (canonical) csv format:
@@ -3972,6 +4000,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
     Data model:
 
        https://w3id.org/oak/mapping-provider
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
@@ -4020,7 +4049,7 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
     Normalize all input identifiers.
 
     Example:
-
+    -------
         runoak -i translator: normalize HGNC:1 HGNC:2 -M NCBIGene
 
     Python API:
@@ -4030,6 +4059,7 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
     Data model:
 
        https://w3id.org/oak/mapping-provider
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4062,7 +4092,7 @@ def aliases(terms, output, output_type, obo_model):
     List aliases for a term or set of terms.
 
     Example:
-
+    -------
         runoak -i ubergraph:uberon aliases UBERON:0001988
 
     TERMS should be either an explicit list of terms or queries, or can be a selector query,
@@ -4080,6 +4110,7 @@ def aliases(terms, output, output_type, obo_model):
     richer data if present in the ontology, including synonym categories/types, synonym provenance
 
     In future, this may become the default
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4119,7 +4150,7 @@ def term_subsets(terms, output, output_type):
     List subsets for a term or set of terms.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon term-subsets heart lung
 
     Python API:
@@ -4147,8 +4178,9 @@ def expand_subsets(subsets: list, output, predicates):
     For each subset provide a mapping of each term in the ontology to a subset
 
     Example:
-
+    -------
         runoak -i db/pato.db expand-subsets attribute_slim value_slim
+
     """
     impl = settings.impl
     # writer = StreamingCsvWriter(output)
@@ -4205,7 +4237,7 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
     Filters axioms
 
     Example:
-
+    -------
         runoak -i cl.ofn axiom
 
     The above will write all axioms.
@@ -4213,10 +4245,11 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
     You can filter by axiom type:
 
     Example:
-
+    -------
         runoak -i cl.ofn axiom --axiom-type SubClassOf
 
     Note this currently only works with the funowl adapter, on functional syntax files
+
     """
     impl = settings.impl
     writer = StreamingAxiomWriter(syntax=output_type, functional_writer=impl.functional_writer)
@@ -4283,11 +4316,11 @@ def taxon_constraints(
     of NCBI Taxonomy
 
     Example:
-
+    -------
         runoak -i db/go.db taxon-constraints GO:0034357 --include-redundant -p i,p
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p
 
     More examples:
@@ -4297,6 +4330,7 @@ def taxon_constraints(
     This command is a wrapper onto taxon_constraints_utils:
 
     - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils
+
     """
     impl = settings.impl
     writer = _get_writer(
@@ -4348,7 +4382,7 @@ def apply_taxon_constraints(
     separated by periods.
 
     Example:
-
+    -------
         runoak  -i db/go.db apply-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
         never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
 
@@ -4360,7 +4394,7 @@ def apply_taxon_constraints(
         GO:0000229,Gain|NCBITaxon:1(root);>Loss|NCBITaxon:2759(Eukaryota);
 
     Example:
-
+    -------
         runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv
 
     More examples:
@@ -4460,7 +4494,7 @@ def associations(
     Lookup associations from or to entities.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations
 
     The above will show all associations
@@ -4469,7 +4503,7 @@ def associations(
     terms or term queries, plus the closure predicate(s), e.g.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i HP:0001392
 
     This shows all annotations either to "Abnormality of the liver" (HP:0001392), or
@@ -4483,12 +4517,13 @@ def associations(
     For example, the go-dictybase-input-spec combines go plus dictybase associations.
 
     Example:
-
+    -------
         runoak --i src/oaklib/conf/go-dictybase-input-spec.yaml associations -p i,p GO:0008104
 
     More examples:
 
        https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Associations.ipynb
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4617,7 +4652,7 @@ def associations_counts(
     Count associations, grouped by subject or object
 
     Example:
-
+    -------
         runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts
 
     This will default to summarzing by objects (HPO term), showing the number
@@ -4627,13 +4662,13 @@ def associations_counts(
     the closure predicate(s), e.g.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i
 
     You can also group by other fields
 
     Example:
-
+    -------
         runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts --group-by subject
 
     This will show the number of associations for each disease.
@@ -4653,6 +4688,7 @@ def associations_counts(
 
     This command accepts many of the same options as the associations command, see
     the docs for this command for details.
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4727,12 +4763,13 @@ def associations_matrix(
     See: Wood V., Carbon S., et al, https://royalsocietypublishing.org/doi/10.1098/rsob.200149
 
     Example:
-
+    -------
         runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046
 
     As a heatmap:
 
         runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -o heatmap > /tmp/heatmap.png
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4793,7 +4830,7 @@ def rollup(
     sub-groups.
 
     Example:
-
+    -------
         runoak -i sqlite:go.db -g wb.gaf -G gaf rollup \
             --object-group GO:0032502,GO:0007568,GO:0048869,GO:0098727 \
             --object-group GO:0008152,GO:0009056,GO:0044238,GO:1901275 \
@@ -4818,7 +4855,7 @@ def rollup(
         split_ids = [o.split(",", 1) for o in object_group]
         primary_ids = (s[0] for s in split_ids)
         secondary_ids = (s[1].split(",") if len(s) > 1 else [] for s in split_ids)
-        objects_dict = dict(zip(primary_ids, secondary_ids))
+        objects_dict = dict(zip(primary_ids, secondary_ids, strict=False))
 
         object_closure_predicates = _process_predicates_arg(predicates)
 
@@ -4943,7 +4980,7 @@ def enrichment(
     associations, return the terms that are over-represented in the sample set.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon -g gene2anat.txt -G g2t enrichment -U my-genes.txt -O csv
 
     This runs an enrichment using Uberon on my-genes.txt, using the gene2anat.txt file as the
@@ -4964,6 +5001,7 @@ def enrichment(
     no associations and using --ontology-only. This creates a fake association set that is simply
     reflexive relations between each term and itself. This can be useful for summarizing term lists,
     but note that P-values may not be meaningful.
+
     """
     impl = settings.impl
     actual_predicates = _process_predicates_arg(predicates)
@@ -5031,7 +5069,7 @@ def diff_associations(
     Diffs two association sources.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:go  -G gaf  diff-associations \
            --old-date ${date1} --new-date ${date2} \
            -g  "${download_dir}/${group}-${date1}.gaf" \
@@ -5042,6 +5080,7 @@ def diff_associations(
     See https://w3id.org/oak/association for the diff data model.
 
     NOTE: This functionality may move out of core
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -5129,7 +5168,7 @@ def validate(
     Implementation notes: Currently only works on SQLite
 
     Example:
-
+    -------
         runoak  -i db/ecto.db validate -o results.tsv
 
     The default validation performed is structural (conformance to the ontology_metadata schema)
@@ -5140,12 +5179,13 @@ def validate(
     To run these, pass --no-skip-ontology-rules
 
     Example:
-
+    -------
         runoak -i db/uberon.db validate --skip-structural-validation --no-skip-ontology-rules
 
     For more information, see the OAK how-to guide:
 
     - https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html
+
     """
     impl = settings.impl
     writer = _get_writer(
@@ -5272,7 +5312,7 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     checks for presence of definitions, use --skip-text-annotation:
 
     Example:
-
+    -------
         runoak validate-definitions -i db/uberon.db --skip-text-annotation
 
     Like most OAK commands, this accepts lists of terms or term queries
@@ -5280,7 +5320,7 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     individual classes
 
     Example:
-
+    -------
          runoak validate-definitions -i db/cl.db CL:0002053
 
     Only on CL identifiers:
@@ -5300,9 +5340,10 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     The default serialization of the datamodel is CSV.
 
     Notes:
-
+    -----
     This command is largely redundant with the validate command, but is useful for
     targeted validation focused solely on definitions
+
     """
     impl = settings.impl
     writer = _get_writer(
@@ -5416,13 +5457,14 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
     source and the target
 
     Example:
-
+    -------
         runoak -i db/uberon.db migrate-curies --replace SRC1=TGT1 SRC2=TGT2
 
     This command is a wrapper onto the "migrate_curies" command in the PatcherInterface
 
     - https://incatools.github.io/ontology-access-kit/interfaces/patcher.html#
     oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies
+
     """
     impl = settings.impl
     curie_map = {}
@@ -5447,9 +5489,11 @@ def set_apikey(endpoint, keyval):
     Sets an API key
 
     Example:
+    -------
         oak set-apikey -e bioportal MY-KEY-VALUE
 
     This is stored in an OS-dependent path
+
     """
     set_apikey_value(endpoint, keyval)
 
@@ -5536,8 +5580,8 @@ def lexmatch(
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
-    Examples:
-
+    Examples
+    --------
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
 
     In this example, the input ontology file is assumed to contain all pairs of terms to be mapped.
@@ -5582,6 +5626,7 @@ def lexmatch(
 
     - https://incatools.github.io/ontology-access-kit/packages/src/oaklib.utilities.lexical.lexical_indexer.html#
     module-oaklib.utilities.lexical.lexical_indexer
+
     """
     impl = settings.impl
     if rules_file:
@@ -5714,7 +5759,7 @@ def diff(
     Compute difference between two ontologies.
 
     Example:
-
+    -------
         runoak -i foo.obo diff -X bar.obo -o diff.yaml
 
     This will produce a list of Changes that are required to go from the main input ontology (--input)
@@ -5742,7 +5787,7 @@ def diff(
     the GO uses the oio:hasOBONamespace property to partition classes into 3 categories.
 
     Example:
-
+    -------
         runoak -i go.obo diff -X go-new.obo -o diff.yaml --statistics --group-by-property oio:hasOBONamespace
 
     This will produce a YAML dictionary, with outer keys being the values of the oio:hasOBONamespace property,
@@ -5848,7 +5893,7 @@ def apply(
     https://github.com/INCATools/kgcl
 
     Example:
-
+    -------
         runoak -i cl.owl.ttl apply "rename CL:0000561 to 'amacrine neuron'"  -o cl.owl.ttl -O ttl
 
     On an obo format file:
@@ -5861,12 +5906,13 @@ def apply(
           "rename <http://purl.obolibrary.org/obo/CL_0000561> from 'amacrine cell' to 'amacrine neuron'" \
            -o cl.owl.ttl -O ttl
 
-    WARNING:
-
+    Warning:
+    -------
     This command is still experimental. Some things to bear in mind:
 
     - for some ontologies, CURIEs may not work, instead specify a full URI surrounded by <>s
     - only a subset of KGCL commands are supported by each backend
+
     """
     impl = settings.impl
     configuration = kgcl.Configuration()
@@ -5940,7 +5986,7 @@ def apply_obsolete(output, output_type, expand: bool, terms, **kwargs):
     Sets an ontology element to be obsolete
 
     Example:
-
+    -------
         runoak -i my.obo apply-obsolete MY:0002200 -o my-modified.obo
 
     Multiple terms can be passed, as labels, IDs, or using OAK queries:
@@ -5953,6 +5999,7 @@ def apply_obsolete(output, output_type, expand: bool, terms, **kwargs):
         runoak -i my.db search 'l/^Foo/` | runoak -i my.db --autosave apply-obsolete -
 
     This command is partially redundant with the more general "apply" command
+
     """
     impl = settings.impl
     if not isinstance(impl, PatcherInterface):
@@ -5994,7 +6041,7 @@ def lint(output, output_type, report_format, dry_run: bool):
     By default, changes will be applied
 
     Example:
-
+    -------
         runoak -i my.obo lint
 
     This can be executed in dry-run mode, in which case changes are not applied:
@@ -6083,7 +6130,7 @@ def diff_via_mappings(
     command will perform a structural comparison of all mapped pairs of terms
 
     Example:
-
+    -------
         runoak -i sqlite:obo:uberon diff-via-mappings --other-input sqlite:obo:zfa  --source UBERON --source ZFA -O csv
 
     Note the above command does not have any mapping file specified; the mappings that are distributed within
@@ -6105,6 +6152,7 @@ def diff_via_mappings(
     (https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html)
 
     This can be serialized in YAML or TSV form
+
     """
     oi = settings.impl
     writer = _get_writer(
@@ -6229,7 +6277,7 @@ def fill_table(
     headers for a table of ontology elements (see later for configuration when you don't follow conventions)
 
     Example:
-
+    -------
         runoak -i cl.owl.ttl fill-table my-table.tsv
 
     (any implementation can be used)
@@ -6269,7 +6317,7 @@ def fill_table(
     given a TSV with columns cl_identifier and cl_display_label you can say:
 
     Example:
-
+    -------
         runoak -i cl.owl.ttl fill-table \
           --relation "{primary_key: cl_identifier, dependent_column: cl_display_label, relation: label}"
 
@@ -6297,6 +6345,7 @@ def fill_table(
     - TODO: add an option to detect inconsistencies
     - TODO: add logical for obsoletion/replaced by
     - TODO: use most optimized method for whichever backend
+
     """
     tf = TableFiller(settings.impl)
     with open(table_file) as input_file:
@@ -6390,16 +6439,17 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
     applied. Pass the `--patch` argument to lso get the patch file in KGCL format.
 
     Example:
-
+    -------
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
 
     If the `apply-patch` flag is NOT set then the main input will be KGCL commands
 
     Example:
-
+    -------
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
 
     see https://github.com/INCATools/kgcl.
+
     """
     impl = settings.impl
     if apply_patch:
@@ -6486,13 +6536,13 @@ def generate_definitions(terms, apply_patch, patch, patch_format, output, output
     Currently this only works with the llm extension.
 
     Example:
-
+    -------
         runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258
 
     The --style-hints option can be used to provide hints to the definition generator.
 
     Example:
-
+    -------
         runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258 \
           --style-hints "Write the definition in the style of a pretentious food critic"
 
@@ -6676,12 +6726,13 @@ def generate_disjoints(
     Generate candidate disjointness axioms.
 
     Example:
-
+    -------
         runoak -i sqlite:obo:iao generate-disjoints -O obo
 
     To generate spatial disjointness axioms:
 
         runoak -i sqlite:obo:zfa generate-disjoints -O obo p i,p
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, kgcl)

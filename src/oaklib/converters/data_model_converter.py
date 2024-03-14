@@ -10,7 +10,8 @@ from oaklib.types import CURIE
 
 @dataclass(eq=False)
 class DataModelConverter(ABC):
-    """Base class for all inter-data model converters.
+    """
+    Base class for all inter-data model converters.
 
     Do not use this directly: use one of the subclasses.
     """

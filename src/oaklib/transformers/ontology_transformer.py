@@ -4,7 +4,7 @@ from typing import Any
 
 
 @dataclass
-class OntologyTransformer(ABC):
+class OntologyTransformer(ABC):  # noqa
     """
     A class for transforming ontologies
     """

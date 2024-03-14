@@ -331,7 +331,8 @@ def create_mapping(
     pred: PRED_CURIE = SKOS_CLOSE_MATCH,
     confidence: float = None,
 ) -> Mapping:
-    """Create mappings between a pair of entities.
+    """
+    Create mappings between a pair of entities.
 
     :param term: Match string
     :param r1: Term relationship 1
@@ -444,7 +445,8 @@ def inverse_logit(weight: float) -> float:
 
 
 def invert_mapping_predicate(pred: PRED_CURIE) -> Optional[PRED_CURIE]:
-    """Return the opposite of predicate passed.
+    """
+    Return the opposite of predicate passed.
 
     :param pred: Predicate.
     :return: Opposite of the predicate.
@@ -496,7 +498,8 @@ def apply_transformation(
 
 
 def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, str]:
-    """Apply synonymizer rules declared in the given match-rules.yaml file.
+    """
+    Apply synonymizer rules declared in the given match-rules.yaml file.
 
     The basic concept is looking for regex in labels and replacing the ones that match
     with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')

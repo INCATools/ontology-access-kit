@@ -1,7 +1,6 @@
 import unittest
 
 import yaml
-
 from oaklib.datamodels.vocabulary import (
     NEGATIVELY_REGULATES,
     PART_OF,
@@ -18,6 +17,7 @@ from oaklib.utilities.lexical.patternizer import (
     lexical_pattern_instances,
     load_pattern_collection,
 )
+
 from tests import INPUT_DIR, MEMBRANE, NUCLEAR_MEMBRANE, NUCLEUS, OUTPUT_DIR
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"

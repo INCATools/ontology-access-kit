@@ -6,6 +6,7 @@ from oaklib.implementations import NCBIGeneImplementation
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
+
 from tests import CYTOPLASM, INPUT_DIR
 
 GENE_PATH = INPUT_DIR / "ncbigene-1956.xml"

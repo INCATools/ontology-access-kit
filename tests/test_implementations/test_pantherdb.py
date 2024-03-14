@@ -1,7 +1,6 @@
 import unittest
 
 import pytest
-
 from oaklib import get_adapter
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,

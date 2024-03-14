@@ -31,7 +31,8 @@ def _check_identifier(s: str, expected_prefixes: List[str], must_be_curie: bool)
 
 @dataclass
 class XafAssociationParser(AssociationParser):
-    """Parsers for GAF and GAF-like formats.
+    """
+    Parsers for GAF and GAF-like formats.
 
     Note that implementations should use a subclass of this, and override ClassVars to
     determine behavior.

@@ -67,7 +67,7 @@ def load_information_content_map(path: str) -> Dict[CURIE, float]:
     Columns: id, information_content
 
     Example:
-
+    -------
     >>> from oaklib.utilities.semsim.similarity_utils import load_information_content_map
     >>> icmap = load_information_content_map("tests/input/go-nucleus.ic.tsv")
     >>> ic = icmap["GO:0016310"]
@@ -78,6 +78,7 @@ def load_information_content_map(path: str) -> Dict[CURIE, float]:
 
     :param path:
     :return: mapping from IDs to information content
+
     """
     with open(path) as f:
         dr = csv.DictReader(f, delimiter="\t")

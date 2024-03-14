@@ -181,7 +181,8 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         text_file: TextIOWrapper,
         configuration: TextAnnotationConfiguration = None,
     ) -> Iterator[TextAnnotation]:
-        """Annotate text in a file.
+        """
+        Annotate text in a file.
 
         :param text_file: Text file that is iterated line-by-line.
         :param configuration: Text annotation configuration, defaults to None.
@@ -203,7 +204,8 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         match_multiple=False,
         include_unmatched=True,
     ) -> Iterator[Dict[str, str]]:
-        """Annotate text in a file.
+        """
+        Annotate text in a file.
 
         :param text_file: Text file that is iterated line-by-line.
         :param configuration: Text annotation configuration, defaults to None.

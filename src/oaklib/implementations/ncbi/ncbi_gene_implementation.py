@@ -7,6 +7,7 @@ from xml.etree import ElementTree  # noqa S405
 
 import requests
 
+from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import RDFS_LABEL
@@ -105,7 +106,7 @@ class NCBIGeneImplementation(
                 "id": gene_id,
                 "retmode": "xml",
             }
-            response = requests.get(EFETCH_URL, params)
+            response = requests.get(EFETCH_URL, params, timeout=TIMEOUT_SECONDS)
 
             # Parsing the XML file
             root = ElementTree.fromstring(response.content)  # noqa S314
@@ -173,7 +174,7 @@ class NCBIGeneImplementation(
             "retmax": "10",  # Number of results to return (adjust as needed)
         }
 
-        response = requests.get(ESEARCH_URL, params=search_params)
+        response = requests.get(ESEARCH_URL, params=search_params, timeout=TIMEOUT_SECONDS)
         if response.status_code != 200:
             raise Exception(f"Failed to search for gene '{search_term}'")
 

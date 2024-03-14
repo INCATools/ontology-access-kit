@@ -3,11 +3,11 @@ import timeit
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.selector import get_adapter
+
 from tests import (
     ENDOMEMBRANE_SYSTEM,
     FUNGI,

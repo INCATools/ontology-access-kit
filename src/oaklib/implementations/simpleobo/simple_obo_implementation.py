@@ -885,7 +885,7 @@ class SimpleOboImplementation(
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
             # rather than forcing all synonyms to be related.
-            if type(patch.qualifier) == str:
+            if isinstance(patch.qualifier, str):
                 scope = patch.qualifier.upper()
             else:
                 scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"

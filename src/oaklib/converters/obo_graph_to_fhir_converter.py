@@ -1,4 +1,5 @@
-"""OboGraph to FHIR Converter
+"""
+OboGraph to FHIR Converter
 
 Resources
 - Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369
@@ -54,7 +55,8 @@ SCOPE_DISPLAY = {
 
 @dataclass
 class OboGraphToFHIRConverter(DataModelConverter):
-    """Converts from OboGraph to FHIR.
+    """
+    Converts from OboGraph to FHIR.
 
     - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
     - Each node in the OboGraph is converted to a _FHIR Concept_.
@@ -184,7 +186,8 @@ class OboGraphToFHIRConverter(DataModelConverter):
         return target
 
     def code(self, uri: CURIE) -> str:
-        """Convert a packages.
+        """
+        Convert a packages.
 
         This is a wrapper onto curie_converter.compress
 

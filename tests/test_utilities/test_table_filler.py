@@ -2,13 +2,12 @@ import logging
 import unittest
 from copy import deepcopy
 
+import oaklib.datamodels.ontology_metadata as om
 import yaml
 from linkml.utils.schema_builder import SchemaBuilder
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.linkml_model import SlotDefinition
 from linkml_runtime.utils.introspection import package_schemaview
-
-import oaklib.datamodels.ontology_metadata as om
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations import SqlImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
@@ -20,6 +19,7 @@ from oaklib.utilities.table_filler import (
     parse_table,
     write_table,
 )
+
 from tests import IMBO, INPUT_DIR, NUCLEAR_ENVELOPE, NUCLEUS, OUTPUT_DIR
 
 DB = INPUT_DIR / "go-nucleus.db"
@@ -137,7 +137,7 @@ EXPECTED = [
                     "label",
                     "label",
                     allow_missing_values=True,
-                    missing_value_token="not a label",
+                    missing_value_token="not a label",  # noqa
                 )
             ]
         ),

@@ -27,7 +27,7 @@ class EdgeFilterTransformer(GraphTransformer):
         Filters edges from a graph.
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> from oaklib.transformers.transformers_factory import get_ontology_transformer
         >>> from oaklib.datamodels.vocabulary import IS_A
@@ -40,6 +40,7 @@ class EdgeFilterTransformer(GraphTransformer):
 
         :param graph:
         :return:
+
         """
         include_predicates = self.include_predicates
         exclude_predicates = self.exclude_predicates

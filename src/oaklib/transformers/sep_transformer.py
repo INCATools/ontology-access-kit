@@ -68,7 +68,7 @@ class SEPTransformer(GraphTransformer):
         Filters edges from a graph.
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> from oaklib.transformers.sep_transformer import SEPTransformer
         >>> from oaklib.datamodels.vocabulary import PART_OF
@@ -86,6 +86,7 @@ class SEPTransformer(GraphTransformer):
 
         :param source_ontology:
         :return:
+
         """
         subsumption_pred = "is_a"
         make_entity_top_node = self.make_entity_top_node
