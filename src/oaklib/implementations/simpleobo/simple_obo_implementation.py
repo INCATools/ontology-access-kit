@@ -643,7 +643,7 @@ class SimpleOboImplementation(
             else:
                 self.obo_document.dump(path)
         else:
-            super().dump(path, syntax)
+            super().dump(path, syntax=syntax)
 
     def save(
         self,
