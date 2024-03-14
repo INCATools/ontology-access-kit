@@ -125,7 +125,7 @@
 <p>This uses the KGCL datamodel, see <span class="xref std std-ref">kgcl-datamodel</span> for more information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.differ_interface.DifferInterface.diff">
-<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_ontology</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DiffConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Change</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/differ_interface.html#DifferInterface.diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.differ_interface.DifferInterface.diff" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_ontology</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DiffConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/differ_interface.html#DifferInterface.diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.differ_interface.DifferInterface.diff" title="Link to this definition"></a></dt>
 <dd><p>Diffs two ontologies.</p>
 <p>The changes that are yielded describe transitions from the current ontology to the other ontology.</p>
 <p>Note that this is not guaranteed to diff every axiom in both ontologies. Only a subset of KGCL change
@@ -138,16 +138,27 @@ types are supported:</p>
 <li><p>PredicateChange</p></li>
 <li><p>NewTextDefinition</p></li>
 <li><p>NodeTextDefinitionChange</p></li>
+<li><p>AddNodeToSubset</p></li>
+<li><p>RemoveNodeFromSubset</p></li>
 </ul>
+<p>Preferred sequence of changes:
+1. New classes
+2. Label changes
+3. Definition changes
+4. Obsoletions
+5. Added synonyms
+6. Added definitions
+7. Changed relationships
+8. Changed subsets</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>other_ontology</strong> – </p></li>
-<li><p><strong>configuration</strong> – </p></li>
+<li><p><strong>other_ontology</strong> – Ontology to compare against</p></li>
+<li><p><strong>configuration</strong> – Configuration for the differentiation</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>KGCL change object</p>
+<dd class="field-even"><p>A sequence of changes in the form of a dictionary</p>
 </dd>
 </dl>
 </dd></dl>

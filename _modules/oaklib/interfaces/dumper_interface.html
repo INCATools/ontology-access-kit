@@ -110,6 +110,7 @@
     <span class="s2">&quot;rdfxml&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">OboGraphToRdfOwlConverter</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;xml&quot;</span><span class="p">}),</span>
     <span class="s2">&quot;cx&quot;</span><span class="p">:</span> <span class="n">OboGraphToCXConverter</span><span class="p">,</span>
     <span class="s2">&quot;obojson&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">FORMAT_SYNONYMS</span> <span class="o">=</span> <span class="p">{</span>
@@ -150,7 +151,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot handle interface: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">og</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_obograph</span><span class="p">()</span>
         <span class="n">ogdoc</span> <span class="o">=</span> <span class="n">GraphDocument</span><span class="p">(</span><span class="n">graphs</span><span class="o">=</span><span class="p">[</span><span class="n">og</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">syntax</span> <span class="o">==</span> <span class="s2">&quot;obojson&quot;</span><span class="p">:</span>
+        <span class="n">converter_class</span> <span class="o">=</span> <span class="n">OBOGRAPH_CONVERTERS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">syntax</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">converter_class</span><span class="p">:</span>
             <span class="n">json_str</span> <span class="o">=</span> <span class="n">json_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">ogdoc</span><span class="p">,</span> <span class="n">inject_type</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -158,7 +160,6 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">converter_class</span> <span class="o">=</span> <span class="n">OBOGRAPH_CONVERTERS</span><span class="p">[</span><span class="n">syntax</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">converter_class</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
                 <span class="n">converter_class</span><span class="p">,</span> <span class="n">converter_kwargs</span> <span class="o">=</span> <span class="n">converter_class</span>
                 <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">converter_kwargs</span><span class="p">)</span>
@@ -167,6 +168,8 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">converter</span><span class="si">}</span><span class="s2">, kwargs=</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">converter</span><span class="o">.</span><span class="n">curie_converter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converter</span>
             <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="k">if</span> <span class="s2">&quot;format&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">syntax</span>
             <span class="n">converter</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">ogdoc</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </div>
 
