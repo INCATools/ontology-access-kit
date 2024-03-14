@@ -61,7 +61,7 @@ URI: [ontoenrich:ClassEnrichmentResult](https://w3id.org/oak/class-enrichment/Cl
 | [class_id](class_id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | The class id | direct |
 | [class_label](class_label.md) | 0..1 <br/> [String](String.md) | The class label | direct |
 | [rank](rank.md) | 0..1 <br/> [Integer](Integer.md) | The rank of this result | direct |
-| [p_value](p_value.md) | 1..1 <br/> [Float](Float.md) | The p-value | direct |
+| [p_value](p_value.md) | 0..1 <br/> [Float](Float.md) | The p-value | direct |
 | [p_value_adjusted](p_value_adjusted.md) | 0..1 <br/> [Float](Float.md) | The adjusted p-value | direct |
 | [false_discovery_rate](false_discovery_rate.md) | 0..1 <br/> [Float](Float.md) | The false discovery rate | direct |
 | [fold_enrichment](fold_enrichment.md) | 0..1 <br/> [Float](Float.md) | The fold enrichment | direct |
@@ -163,7 +163,6 @@ attributes:
     domain_of:
     - ClassEnrichmentResult
     range: float
-    required: true
   p_value_adjusted:
     name: p_value_adjusted
     description: The adjusted p-value
@@ -308,7 +307,6 @@ attributes:
     domain_of:
     - ClassEnrichmentResult
     range: float
-    required: true
   p_value_adjusted:
     name: p_value_adjusted
     description: The adjusted p-value

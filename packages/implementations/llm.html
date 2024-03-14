@@ -117,6 +117,7 @@
              
   <section id="llm-adapter">
 <span id="llm-implementation"></span><h1>LLM Adapter<a class="headerlink" href="#llm-adapter" title="Link to this heading"></a></h1>
+<p>See also <span class="xref std std-ref">use_llms</span></p>
 <section id="command-line-examples">
 <h2>Command Line Examples<a class="headerlink" href="#command-line-examples" title="Link to this heading"></a></h2>
 <p>Use the <code class="code docutils literal notranslate"><span class="pre">llm</span></code> selector, wrapping an existing source</p>
@@ -128,6 +129,19 @@
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:sqlite:obo:hp<span class="w"> </span>annotate<span class="w"> </span><span class="s2">&quot;abnormalities were found in the eye and the liver&quot;</span>
 </pre></div>
 </div>
+</section>
+<section id="validation-of-mappings">
+<h3>Validation of Mappings<a class="headerlink" href="#validation-of-mappings" title="Link to this heading"></a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>llm:sqlite:obo:go<span class="w"> </span>validate-mappings<span class="w"> </span>.desc//p<span class="o">=</span>i<span class="w"> </span><span class="s2">&quot;molecular_function&quot;</span>
+</pre></div>
+</div>
+<p>See:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/2310.03666">MapperGPT</a></p></li>
+<li><p><a class="reference external" href="https://github.com/cmungall/rhea-go-llm-analysis">GO RHEA Analysis</a></p></li>
+</ul>
+</div></blockquote>
 </section>
 </section>
 <section id="code">

@@ -30,8 +30,6 @@ URI: [OBI:0000175](http://purl.obolibrary.org/obo/OBI_0000175)
 
 * Range: [Float](Float.md)
 
-* Required: True
-
 
 
 
@@ -66,7 +64,6 @@ owner: ClassEnrichmentResult
 domain_of:
 - ClassEnrichmentResult
 range: float
-required: true
 
 ```
 </details>

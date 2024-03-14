@@ -69,6 +69,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply-obsolete">apply-obsolete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply-taxon-constraints">apply-taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-associations">associations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-associations-counts">associations-counts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-associations-matrix">associations-matrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-cache-clear">cache-clear</a></li>
@@ -1033,6 +1034,157 @@ can use input specifications to bundle common combinations of inputs together.</
 </dd></dl>
 
 </section>
+<section id="runoak-associations-counts">
+<h4>associations-counts<a class="headerlink" href="#runoak-associations-counts" title="Link to this heading"></a></h4>
+<p>Count associations, grouped by subject or object</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts</p>
+</div></blockquote>
+<p>This will default to summarzing by objects (HPO term), showing the number
+of associations for each term.</p>
+<p>This will be direct counts only. To include is-a closure, specify
+the closure predicate(s), e.g.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i</p>
+</div></blockquote>
+<p>You can also group by other fields</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts –group-by subject</p>
+</div></blockquote>
+<p>This will show the number of associations for each disease.</p>
+<p>OAK also includes a number of specialized adapters that implement this method
+for particular databases.</p>
+<p>For example, to get the number of IEA associations for each GO term:</p>
+<blockquote>
+<div><p>runoak -i amigo: associations-counts  –limit -1 -F evidence_type=IEA –no-autolabel</p>
+</div></blockquote>
+<p>This can be constrained by species:</p>
+<blockquote>
+<div><p>runoak -i amigo:NCBITaxon:9606 associations-counts  –limit -1 -F evidence_type=IEA –no-autolabel</p>
+</div></blockquote>
+<p>Other options:</p>
+<p>This command accepts many of the same options as the associations command, see
+the docs for this command for details.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations-counts<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-o">
+<span id="cmdoption-runoak-associations-counts-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-o" title="Link to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-p">
+<span id="cmdoption-runoak-associations-counts-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-p" title="Link to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates. This may be a shorthand (i, p) or CURIE</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-autolabel">
+<span id="cmdoption-runoak-associations-counts-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-autolabel" title="Link to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-O">
+<span id="cmdoption-runoak-associations-counts-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-O" title="Link to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-0">
+<span id="cmdoption-runoak-associations-counts-1"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-0" title="Link to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-add-closure-fields">
+<span id="cmdoption-runoak-associations-counts-no-add-closure-fields"></span><span class="sig-name descname"><span class="pre">--add-closure-fields</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-add-closure-fields</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-add-closure-fields" title="Link to this definition"></a></dt>
+<dd><p>Add closure fields to the output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-association-predicates">
+<span class="sig-name descname"><span class="pre">--association-predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;association_predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-association-predicates" title="Link to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates for the association relation</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-Q">
+<span id="cmdoption-runoak-associations-counts-terms-role"></span><span class="sig-name descname"><span class="pre">-Q</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--terms-role</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;terms_role&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-Q" title="Link to this definition"></a></dt>
+<dd><p>How to interpret query terms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd>
+<dt class="field-even">Options<span class="colon">:</span></dt>
+<dd class="field-even"><p>subject | object | both</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-L">
+<span id="cmdoption-runoak-associations-counts-limit"></span><span class="sig-name descname"><span class="pre">-L</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--limit</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;limit&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-L" title="Link to this definition"></a></dt>
+<dd><p>Limit the number of results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-F">
+<span id="cmdoption-runoak-associations-counts-filter"></span><span class="sig-name descname"><span class="pre">-F</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--filter</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;filter&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-F" title="Link to this definition"></a></dt>
+<dd><p>Additional filters in K=V format</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-min-facet-count">
+<span class="sig-name descname"><span class="pre">--min-facet-count</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;min_facet_count&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-min-facet-count" title="Link to this definition"></a></dt>
+<dd><p>Minimum count for a facet to be included</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-group-by">
+<span class="sig-name descname"><span class="pre">--group-by</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;group_by&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-group-by" title="Link to this definition"></a></dt>
+<dd><p>Group by subject or object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-associations-counts-arg-TERMS">
+<span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-associations-counts-arg-TERMS" title="Link to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-associations-matrix">
 <h4>associations-matrix<a class="headerlink" href="#runoak-associations-matrix" title="Link to this heading"></a></h4>
 <p>Co-annotation matrix query.</p>
@@ -1977,6 +2129,12 @@ but note that P-values may not be meaningful.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-enrichment-filter-redundant">
 <span id="cmdoption-runoak-enrichment-no-filter-redundant"></span><span class="sig-name descname"><span class="pre">--filter-redundant</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-filter-redundant</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-filter-redundant" title="Link to this definition"></a></dt>
 <dd><p>If true, filter out redundant terms</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-allow-labels">
+<span id="cmdoption-runoak-enrichment-no-allow-labels"></span><span class="sig-name descname"><span class="pre">--allow-labels</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-allow-labels</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-allow-labels" title="Link to this definition"></a></dt>
+<dd><p>If true, allow labels as well as CURIEs in the input files</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -5460,16 +5618,25 @@ targeted validation focused solely on definitions</p>
 <div><p>runoak validate-mappings -i db/uberon.db -o bad-mappings.sssom.tsv</p>
 </div></blockquote>
 <p>By default this will attempt to download and connect to
-sqlite versions of different ontologies.</p>
-<p>You can customize this:</p>
+sqlite versions of different ontologies, when attempting to resolve a foreign
+subject or object id.</p>
+<p>You can customize this mapping:</p>
 <blockquote>
 <div><p>runoak validate-mappings -i db/uberon.db –adapter-mapping uberon=db/uberon.db             –adapter-mapping zfa=db/zfa.db</p>
 </div></blockquote>
+<p>This will use a local sqlite file for ZFA:nnnnnnn IDs.</p>
 <p>You can use “*” as a wildcard, in the case where you have an application ontology
 with many mapped entities merged in:</p>
 <blockquote>
 <div><p>runoak validate-mappings -i db/uberon.db –adapter-mapping “*”=db/merged.db”</p>
 </div></blockquote>
+<p>The default behavior for this command is to perform deterministic rule-based
+checks; for example, the mapped IDs should not be obsolete, and if the mapping
+is skos:exactMatch, then the cardinality is expected to be 1:1.</p>
+<p>Other adapters may choose to implement bespoke behaviors. In future there
+might be a boomer adapter that will perform probabilistic reasoning on the
+mappings. The experimental LLM backend will use an LLM to qualitatively
+validate mappings (see the LLM how-to guide for more details).</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-mappings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
