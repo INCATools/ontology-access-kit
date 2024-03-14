@@ -60,6 +60,7 @@ tox = "*"
 
 [tool.poetry.group.dev.dependencies]
 seaborn = "^0.12.2"
+pip = "^24.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
