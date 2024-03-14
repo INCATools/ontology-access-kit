@@ -22,7 +22,7 @@ class NodeFilterTransformer(GraphTransformer):
         Filters Nodes from a graph.
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> from oaklib.transformers.node_filter_transformer import NodeFilterTransformer
         >>> from oaklib.datamodels.vocabulary import IS_A
@@ -37,8 +37,8 @@ class NodeFilterTransformer(GraphTransformer):
 
         :param graph:
         :return:
-        """
 
+        """
         new_nodes = []
         for node in source_ontology.nodes:
             if self.filter_function is not None:

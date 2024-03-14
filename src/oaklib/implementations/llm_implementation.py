@@ -364,7 +364,8 @@ class LLMImplementation(
     def generate_definitions(
         self, curies: List[CURIE], style_hints="", **kwargs
     ) -> Iterator[Tuple[CURIE, DefinitionPropertyValue]]:
-        """Suggest definitions for the given curies.
+        """
+        Suggest definitions for the given curies.
 
         Wraps the LLM to suggest definitions for the given curies.
 

@@ -90,7 +90,7 @@ def get_adapter(
     resource or ontology within that scheme.
 
     Example:
-
+    -------
     .. packages :: python
 
         >>> from oaklib import get_adapter
@@ -141,6 +141,7 @@ def get_adapter(
     :param format: file format/syntax, e.g obo, turtle
     :param kwargs: Keyword arguments to pass through to the implementation class
     :return: An instantiated interface
+
     """
     if isinstance(descriptor, InputSpecification):
         return _get_adapter_from_specification(descriptor)

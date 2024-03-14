@@ -230,7 +230,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         labels=False,
     ) -> TermSetPairwiseSimilarity:
-        """Return TermSetPairwiseSimilarity object.
+        """
+        Return TermSetPairwiseSimilarity object.
 
         :param subjects: List of subject nodes.
         :param objects: List of object nodes.

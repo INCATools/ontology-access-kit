@@ -306,10 +306,11 @@ class SqlImplementation(
     - :class:`Statements`
     - :class:`Edge`
 
-    See also:
-
+    See Also
+    --------
     - `Tutorial <https://incatools.github.io/ontology-access-kit/intro/tutorial07.html>`_
     - `SQL Implementation <https://incatools.github.io/ontology-access-kit/implementations/sqldb.html>`_
+
     """
 
     # TODO: use SQLA types

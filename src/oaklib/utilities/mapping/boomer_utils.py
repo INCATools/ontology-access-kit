@@ -267,12 +267,13 @@ def mappings(input_report, **kwargs):
     Exports mappings from a boomer report.
 
     Example:
-
+    -------
         boomerang mappings tests/input/boomer-example.md
 
     To filter by confidence:
 
         boomerang mappings tests/input/boomer-example.md -L 0.8
+
     """
     ben = BoomerEngine()
     ben.load(input_report, prefix_map=global_prefix_map)
@@ -296,13 +297,13 @@ def report(input_report, output, output_type, **kwargs):
     Passing no options will just generate the input report in the desired format.
 
     Example:
-
+    -------
         boomerang report tests/input/boomer-example.md  report.yaml
 
     The generic LinkML rendered can be used:
 
     Example:
-
+    -------
         boomerang report tests/input/boomer-example.md -O html -o report.html
 
     To show the lowest confidence first:
@@ -345,7 +346,7 @@ def compare(input_report, input_ontology: str, **kwargs):
     Pass in as an argument the same ontology used in the boomer run.
 
     Example:
-
+    -------
         boomerang compare foo-boomer.md -i foo.db
 
     For any mapping marked NEW, this can be incorporated into the ontology.
@@ -356,7 +357,7 @@ def compare(input_report, input_ontology: str, **kwargs):
     To customize, e.g. stringent:
 
     Example:
-
+    -------
         boomerang compare foo-boomer.md -i foo.db -L 0.999
 
     For each high confidence boomer mapping, this is compared against current mappings and
@@ -371,7 +372,7 @@ def compare(input_report, input_ontology: str, **kwargs):
     boomer mapping FOR ANYTHING OTHER THAN exactMatch (including SiblingOf)
 
     Example:
-
+    -------
         boomerang compare foo-boomer.md -i foo.db -L 0.999 --reject-non-exact --promote-xref-to-exact
 
     The results here are straightforward, either REJECT, NEW, or OK
@@ -380,6 +381,7 @@ def compare(input_report, input_ontology: str, **kwargs):
     the interpretation you state is different from the interpretation in
 
     See https://github.com/INCATools/boomer/issues/334
+
     """
     writer = StreamingCsvWriter()
     adapter = get_implementation_from_shorthand(input_ontology)

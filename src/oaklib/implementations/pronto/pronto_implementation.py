@@ -129,7 +129,6 @@ class ProntoImplementation(
 
     Examples
     --------
-
     >>> from oaklib.implementations import ProntoImplementation
     >>> resource = OntologyResource(slug='go-nucleus.obo', directory='tests/input', local=True)
     >>> adapter = ProntoImplementation(resource)

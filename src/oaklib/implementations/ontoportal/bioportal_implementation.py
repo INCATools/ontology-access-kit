@@ -13,7 +13,7 @@ class BioPortalImplementation(OntoPortalImplementationBase):
     A :ref:`OntoPortal` implementation that connects to a bioportal endpoint.
 
     Example:
-
+    -------
     .. packages :: python
 
         >>> from oaklib.implementations.ontoportal.bioportal_implementation import BioPortalImplementation
@@ -31,6 +31,7 @@ class BioPortalImplementation(OntoPortalImplementationBase):
         ...
 
     See `<https://data.bioontology.org/documentation>`_
+
     """
 
     ontoportal_client_class = BioPortalClient

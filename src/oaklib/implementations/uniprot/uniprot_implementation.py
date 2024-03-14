@@ -158,7 +158,6 @@ class UniprotImplementation(
         :param include_entailed: TODO
         :return:
         """
-
         exclude_predicates = [
             "up:mappedCitation",
             "up:mappedAnnotation",
