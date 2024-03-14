@@ -1,3 +1,5 @@
+.. _use_llms
+
 How to use Large Language Models (LLMs) with OAK
 ===============================================
 

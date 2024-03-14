@@ -417,6 +417,63 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         self._association_index.populate(associations)
         return True
 
+    def association_counts(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        group_by: Optional[str] = "object",
+        limit: Optional[int] = None,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, int]]:
+        """
+        Yield objects together with the number of distinct associations.
+
+        :param subjects:
+        :param predicates:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :param group_by:
+        :param limit:
+        :param kwargs:
+        :return:
+        """
+        association_it = self.associations(
+            subjects=subjects,
+            predicates=predicates,
+            property_filter=property_filter,
+            subject_closure_predicates=subject_closure_predicates,
+            predicate_closure_predicates=predicate_closure_predicates,
+            include_modified=include_modified,
+            **kwargs,
+        )
+        assoc_map = defaultdict(list)
+        cached = {}
+        if isinstance(self, OboGraphInterface):
+            for association in association_it:
+                if group_by == "object":
+                    grp = association.object
+                    if grp not in cached:
+                        grps = list(self.ancestors([grp], predicates=object_closure_predicates))
+                        cached[grp] = grps
+                    else:
+                        grps = cached[grp]
+                elif group_by == "subject":
+                    grps = [association.subject]
+                else:
+                    raise ValueError(f"Unknown group_by: {group_by}")
+                for grp in grps:
+                    assoc_map[grp].append(association)
+        for k, v in assoc_map.items():
+            yield k, len(v)
+
     def association_subject_counts(
         self,
         subjects: Iterable[CURIE] = None,
@@ -426,6 +483,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, int]]:
         """
         Yield objects together with the number of distinct associated subjects.
@@ -445,15 +503,17 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         GO:0051668 3
         ...
 
-        This shows that GO:0051668 (localization within membrane) is used for all 3 input subjects
+        This shows that GO:0051668 (localization within membrane) is used for all 3 input subjects.
+        If subjects is empty, this is calculated for all subjects in the association set.
 
-        :param subjects:
-        :param predicates:
-        :param property_filter:
-        :param subject_closure_predicates:
-        :param predicate_closure_predicates:
-        :param object_closure_predicates:
-        :param include_modified:
+        :param subjects: constrain to these subjects (e.g. genes in a gene association)
+        :param predicates: constrain to these predicates (e.g. involved-in for a gene to pathway association)
+        :param property_filter: generic filter
+        :param subject_closure_predicates: subjects is treated as descendant via these predicates
+        :param predicate_closure_predicates: predicates is treated as descendant via these predicates
+        :param object_closure_predicates: object is treated as descendant via these predicates
+        :param include_modified: include modified associations
+        :param kwargs: additional arguments
         :return:
         """
         association_it = self.associations(
@@ -463,6 +523,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             subject_closure_predicates=subject_closure_predicates,
             predicate_closure_predicates=predicate_closure_predicates,
             include_modified=include_modified,
+            **kwargs,
         )
         object_to_subject_map = defaultdict(set)
         cached = {}
@@ -496,16 +557,16 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         """
         Maps matching associations to a subset (map2slim, rollup).
 
-        :param subjects:
-        :param predicates:
-        :param objects:
-        :param subset:
-        :param subset_entities:
-        :param property_filter:
-        :param subject_closure_predicates:
-        :param predicate_closure_predicates:
-        :param object_closure_predicates:
-        :param include_modified:
+        :param subjects: constrain to these subjects
+        :param predicates: constrain to these predicates (e.g. involved-in for a gene to pathway association)
+        :param objects: constrain to these objects (e.g. terms)
+        :param subset: subset to map to
+        :param subset_entities: subset entities to map to
+        :param property_filter: generic filter
+        :param subject_closure_predicates: subjects is treated as descendant via these predicates
+        :param predicate_closure_predicates: predicates is treated as descendant via these predicates
+        :param object_closure_predicates: object is treated as descendant via these predicates
+        :param include_modified: include modified associations
         :return:
         """
         # Default implementation: this may be overridden for efficiency

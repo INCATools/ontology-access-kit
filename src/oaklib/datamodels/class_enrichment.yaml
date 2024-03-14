@@ -76,7 +76,6 @@ classes:
         slot_uri: OBI:0000175
         description: The p-value
         range: float
-        required: true
       p_value_adjusted:
         description: The adjusted p-value
         range: float
