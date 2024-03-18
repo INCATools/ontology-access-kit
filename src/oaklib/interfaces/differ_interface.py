@@ -3,7 +3,7 @@ import multiprocessing
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Dict, Iterator, Optional, Tuple, List
+from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 import kgcl_schema.datamodel.kgcl as kgcl
 from kgcl_schema.datamodel.kgcl import (
@@ -32,13 +32,8 @@ from kgcl_schema.datamodel.kgcl import (
 )
 
 from oaklib.datamodels.vocabulary import (  # OIO_SYNONYM_TYPE_PROPERTY,
-    CLASS_CREATION,
     DEPRECATED_PREDICATE,
     HAS_OBSOLESCENCE_REASON,
-    MAPPING_EDGE_DELETION,
-    NODE_CREATION,
-    NODE_DELETION,
-    NODE_TEXT_DEFINITION_CHANGE,
     OWL_CLASS,
     TERM_REPLACED_BY,
     TERMS_MERGED,
@@ -51,6 +46,7 @@ TERM_LIST_DIFF = Tuple[CURIE, CURIE]
 RESIDUAL_KEY = "__RESIDUAL__"
 
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class DiffConfiguration:
@@ -73,7 +69,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
     """
 
     def changed_nodes(
-            self,
+        self,
         other_ontology: BasicOntologyInterface,
         configuration: DiffConfiguration = None,
         **kwargs,
@@ -81,9 +77,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def grouped_diff(
-            self,
-            *args,
-            **kwargs,
+        self,
+        *args,
+        **kwargs,
     ) -> Iterator[Tuple[str, List[Change]]]:
         """
         Yields changes grouped by type.
@@ -323,7 +319,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     )
                     yield change
 
-
         logger.info("Process synonyms changes after collecting all aliases")
         synonyms_generator = _generate_synonym_changes(
             intersection_of_entities, self_aliases, other_aliases
@@ -343,10 +338,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         # Process the entities in parallel using a generator
         yield from _parallely_get_relationship_changes(
-            self_ontology_without_obsoletes,
-            self_out_rels,
-            other_out_rels,
-            True
+            self_ontology_without_obsoletes, self_out_rels, other_out_rels, True
         )
 
     def diff_summary(

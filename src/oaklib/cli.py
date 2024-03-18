@@ -976,10 +976,10 @@ def main(
     if quiet:
         logger.setLevel(logging.ERROR)
     if profile:
-        import cProfile
-        import pstats
-        import io
         import atexit
+        import cProfile
+        import io
+        import pstats
 
         print("Profiling...")
         pr = cProfile.Profile()
@@ -5864,7 +5864,7 @@ def diff(
             writer.emit(summary)
     else:
         if isinstance(writer, StreamingMarkdownWriter):
-            #config.yield_individual_changes = False
+            # config.yield_individual_changes = False
             for change_type, changes in impl.grouped_diff(other_impl, configuration=config):
                 print(change_type, changes)
                 writer.emit({change_type: changes}, other_impl=other_impl)

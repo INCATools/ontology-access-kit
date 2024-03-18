@@ -268,7 +268,9 @@ def validate_mappings(
         if object_is_obsolete and not subject_is_obsolete:
             comments.append("object is obsolete")
         if subject_is_obsolete and object_is_obsolete:
-            logging.info(f"both {m.subject_id} and {m.object_id} are obsolete, but this is not a violation")
+            logging.info(
+                f"both {m.subject_id} and {m.object_id} are obsolete, but this is not a violation"
+            )
         if m.mapping_cardinality != MappingCardinalityEnum(MappingCardinalityEnum["1:1"]):
             if m.predicate_id == SKOS_EXACT_MATCH or (
                 m.predicate_id == HAS_DBXREF and xref_is_bijective

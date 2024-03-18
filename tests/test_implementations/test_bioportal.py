@@ -76,7 +76,9 @@ class TestBioportal(unittest.TestCase):
         self.assertIn("5.0.0", versions)
         self.assertIn("v3.2.1", versions)
 
-    @mock.patch("oaklib.implementations.ontoportal.bioportal_implementation.BioPortalImplementation")
+    @mock.patch(
+        "oaklib.implementations.ontoportal.bioportal_implementation.BioPortalImplementation"
+    )
     def test_ontology_metadata(self, mock_impl):
         mock_impl.return_value = {
             "id": "OBI",

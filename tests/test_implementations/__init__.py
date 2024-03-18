@@ -17,7 +17,6 @@ from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
-
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association

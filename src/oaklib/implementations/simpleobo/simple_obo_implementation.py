@@ -57,11 +57,12 @@ from oaklib.datamodels.vocabulary import (
     OWL_VERSION_IRI,
     RDFS_DOMAIN,
     RDFS_RANGE,
+    SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
     SUBPROPERTY_OF,
     TERM_REPLACED_BY,
-    TERMS_MERGED, SCOPE_TO_SYNONYM_PRED_MAP,
+    TERMS_MERGED,
 )
 from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_ALT_ID,
@@ -105,7 +106,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
-from oaklib.interfaces.differ_interface import DifferInterface, DiffConfiguration
+from oaklib.interfaces.differ_interface import DiffConfiguration, DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeInterface
@@ -124,7 +125,7 @@ from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
-from oaklib.utilities.kgcl_utilities import tidy_change_object, generate_change_id
+from oaklib.utilities.kgcl_utilities import generate_change_id, tidy_change_object
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 
@@ -772,10 +773,10 @@ class SimpleOboImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def diff(
-            self,
-            other_ontology: DifferInterface,
-            configuration: DiffConfiguration = None,
-            **kwargs,
+        self,
+        other_ontology: DifferInterface,
+        configuration: DiffConfiguration = None,
+        **kwargs,
     ) -> Iterator[kgcl.Change]:
         if configuration is None:
             configuration = DiffConfiguration()
@@ -787,7 +788,9 @@ class SimpleOboImplementation(
         for id in all_ids:
             yield from self._diff_stanzas(stanzas1.get(id, None), stanzas2.get(id, None))
 
-    def _diff_stanzas(self, stanza1: Optional[Stanza], stanza2: Optional[Stanza]) -> Iterator[kgcl.Change]:
+    def _diff_stanzas(
+        self, stanza1: Optional[Stanza], stanza2: Optional[Stanza]
+    ) -> Iterator[kgcl.Change]:
         def _id():
             return generate_change_id()
 
@@ -822,6 +825,7 @@ class SimpleOboImplementation(
             for tv in stanza.tag_values:
                 d[tv.tag].add(tv.value)
             return d
+
         tv_dict1 = _tv_dict(stanza1)
         tv_dict2 = _tv_dict(stanza2)
         all_tags = set(tv_dict1.keys()).union(tv_dict2.keys())
@@ -839,7 +843,9 @@ class SimpleOboImplementation(
                 if node_is_deleted:
                     continue
                 if vals1 and vals2:
-                    yield kgcl.NodeRename(id=_id(), about_node=t1id, new_value=vals2list[0], old_value=vals1list[0])
+                    yield kgcl.NodeRename(
+                        id=_id(), about_node=t1id, new_value=vals2list[0], old_value=vals1list[0]
+                    )
                 elif vals1:
                     yield kgcl.NodeDeletion(id=_id(), about_node=t1id)
                 else:
@@ -851,7 +857,9 @@ class SimpleOboImplementation(
                 td1 = stanza1.quoted_value(TAG_DEFINITION)
                 td2 = stanza2.quoted_value(TAG_DEFINITION)
                 if vals1 and vals2:
-                    yield kgcl.NodeTextDefinitionChange(id=_id(), about_node=t1id, new_value=td2, old_value=td1)
+                    yield kgcl.NodeTextDefinitionChange(
+                        id=_id(), about_node=t1id, new_value=td2, old_value=td1
+                    )
                 elif vals1:
                     yield kgcl.RemoveTextDefinition(id=_id(), about_node=t1id)
                 else:
@@ -864,7 +872,9 @@ class SimpleOboImplementation(
                 elif not vals1 and vals2:
                     replaced_by = stanza2.simple_values(TAG_REPLACED_BY)
                     if replaced_by:
-                        yield kgcl.NodeObsoletionWithDirectReplacement(id=_id(), about_node=t2id, has_direct_replacement=replaced_by[0])
+                        yield kgcl.NodeObsoletionWithDirectReplacement(
+                            id=_id(), about_node=t2id, has_direct_replacement=replaced_by[0]
+                        )
                     else:
                         yield kgcl.NodeObsoletion(id=_id(), about_node=t2id)
             elif tag == TAG_SUBSET:
@@ -910,8 +920,9 @@ class SimpleOboImplementation(
                 for syn in syns2:
                     if syn not in syns1:
                         pred = SCOPE_TO_SYNONYM_PRED_MAP[syn[1]]
-                        yield kgcl.NewSynonym(id=_id(), about_node=t2id, new_value=syn[0], predicate=pred)
-
+                        yield kgcl.NewSynonym(
+                            id=_id(), about_node=t2id, new_value=syn[0], predicate=pred
+                        )
 
     def different_from(self, entity: CURIE, other_ontology: DifferInterface) -> bool:
         t1 = self._stanza(entity, strict=False)
