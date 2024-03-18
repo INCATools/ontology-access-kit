@@ -61,7 +61,7 @@ from oaklib.datamodels.vocabulary import (
     SKOS_CLOSE_MATCH,
     SUBPROPERTY_OF,
     TERM_REPLACED_BY,
-    TERMS_MERGED,
+    TERMS_MERGED, SCOPE_TO_SYNONYM_PRED_MAP,
 )
 from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_ALT_ID,
@@ -105,7 +105,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
-from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.differ_interface import DifferInterface, DiffConfiguration
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeInterface
@@ -124,7 +124,7 @@ from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
-from oaklib.utilities.kgcl_utilities import tidy_change_object
+from oaklib.utilities.kgcl_utilities import tidy_change_object, generate_change_id
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 
@@ -322,6 +322,13 @@ class SimpleOboImplementation(
         for s in od.stanzas.values():
             if subset in s.simple_values(TAG_SUBSET):
                 yield s.id
+
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        for curie in curies:
+            s = self._stanza(curie, False)
+            if s:
+                for subset in s.simple_values(TAG_SUBSET):
+                    yield curie, subset
 
     def ontologies(self) -> Iterable[CURIE]:
         od = self.obo_document
@@ -761,8 +768,150 @@ class SimpleOboImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    # Implements: PatcherInterface
+    # Implements: DifferInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def diff(
+            self,
+            other_ontology: DifferInterface,
+            configuration: DiffConfiguration = None,
+            **kwargs,
+    ) -> Iterator[kgcl.Change]:
+        if configuration is None:
+            configuration = DiffConfiguration()
+        if not isinstance(other_ontology, SimpleOboImplementation):
+            raise ValueError("Can only diff SimpleOboImplementation")
+        stanzas1 = self.obo_document.stanzas
+        stanzas2 = other_ontology.obo_document.stanzas
+        all_ids = set(stanzas1.keys()).union(stanzas2.keys())
+        for id in all_ids:
+            yield from self._diff_stanzas(stanzas1.get(id, None), stanzas2.get(id, None))
+
+    def _diff_stanzas(self, stanza1: Optional[Stanza], stanza2: Optional[Stanza]) -> Iterator[kgcl.Change]:
+        def _id():
+            return generate_change_id()
+
+        node_is_deleted = False
+        if stanza1 is None and stanza2 is None:
+            raise ValueError("Both stanzas are None")
+        if stanza1 is None:
+            stanza1 = Stanza(id=stanza2.id, type=stanza2.type)
+            if stanza2.type == "Term":
+                yield kgcl.ClassCreation(id=_id(), about_node=stanza2.id)
+            elif stanza2.type == "Typedef":
+                yield kgcl.NodeCreation(id=_id(), about_node=stanza2.id)
+            else:
+                raise ValueError(f"Unknown stanza type: {stanza2.type}")
+        if stanza2 is None:
+            stanza2 = Stanza(id=stanza1.id, type=stanza1.type)
+            if stanza1.type == "Term":
+                yield kgcl.NodeDeletion(id=_id(), about_node=stanza1.id)
+            else:
+                yield kgcl.NodeDeletion(id=_id(), about_node=stanza1.id)
+            node_is_deleted = True
+        if stanza1 == stanza2:
+            return
+        if stanza1.type != stanza2.type:
+            raise ValueError(f"Stanza types differ: {stanza1.type} vs {stanza2.type}")
+        t1id = stanza1.id
+        t2id = stanza2.id
+        logging.info(f"Diffing: {t1id} vs {t2id}")
+
+        def _tv_dict(stanza: Stanza) -> Dict[str, List[str]]:
+            d = defaultdict(set)
+            for tv in stanza.tag_values:
+                d[tv.tag].add(tv.value)
+            return d
+        tv_dict1 = _tv_dict(stanza1)
+        tv_dict2 = _tv_dict(stanza2)
+        all_tags = set(tv_dict1.keys()).union(tv_dict2.keys())
+        for tag in all_tags:
+            vals1 = tv_dict1.get(tag, [])
+            vals2 = tv_dict2.get(tag, [])
+            vals1list = list(vals1)
+            vals2list = list(vals2)
+            tvs1 = [tv for tv in stanza1.tag_values if tv.tag == tag]
+            tvs2 = [tv for tv in stanza2.tag_values if tv.tag == tag]
+            if vals1 == vals2:
+                continue
+            logging.info(f"Difference in {tag}: {vals1} vs {vals2}")
+            if tag == TAG_NAME:
+                if node_is_deleted:
+                    continue
+                if vals1 and vals2:
+                    yield kgcl.NodeRename(id=_id(), about_node=t1id, new_value=vals2list[0], old_value=vals1list[0])
+                elif vals1:
+                    yield kgcl.NodeDeletion(id=_id(), about_node=t1id)
+                else:
+                    yield kgcl.ClassCreation(id=_id(), about_node=t2id, name=vals2list[0])
+            elif tag == TAG_DEFINITION:
+                if node_is_deleted:
+                    continue
+                # TODO: provenance changes
+                td1 = stanza1.quoted_value(TAG_DEFINITION)
+                td2 = stanza2.quoted_value(TAG_DEFINITION)
+                if vals1 and vals2:
+                    yield kgcl.NodeTextDefinitionChange(id=_id(), about_node=t1id, new_value=td2, old_value=td1)
+                elif vals1:
+                    yield kgcl.RemoveTextDefinition(id=_id(), about_node=t1id)
+                else:
+                    yield kgcl.NewTextDefinition(id=_id(), about_node=t2id, new_value=td2)
+            elif tag == TAG_IS_OBSOLETE:
+                if node_is_deleted:
+                    continue
+                if vals1 and not vals2:
+                    yield kgcl.NodeUnobsoletion(id=_id(), about_node=t1id)
+                elif not vals1 and vals2:
+                    replaced_by = stanza2.simple_values(TAG_REPLACED_BY)
+                    if replaced_by:
+                        yield kgcl.NodeObsoletionWithDirectReplacement(id=_id(), about_node=t2id, has_direct_replacement=replaced_by[0])
+                    else:
+                        yield kgcl.NodeObsoletion(id=_id(), about_node=t2id)
+            elif tag == TAG_SUBSET:
+                if node_is_deleted:
+                    continue
+                subsets1 = stanza1.simple_values(TAG_SUBSET)
+                subsets2 = stanza2.simple_values(TAG_SUBSET)
+                for subset in subsets1:
+                    if subset not in subsets2:
+                        yield kgcl.RemoveNodeFromSubset(id=_id(), about_node=t1id, in_subset=subset)
+                for subset in subsets2:
+                    if subset not in subsets1:
+                        yield kgcl.AddNodeToSubset(id=_id(), about_node=t2id, in_subset=subset)
+            elif tag == TAG_IS_A:
+                isas1 = stanza1.simple_values(TAG_IS_A)
+                isas2 = stanza2.simple_values(TAG_IS_A)
+                for isa in isas1:
+                    if isa not in isas2:
+                        yield kgcl.EdgeDeletion(id=_id(), subject=t1id, predicate=IS_A, object=isa)
+                for isa in isas2:
+                    if isa not in isas1:
+                        yield kgcl.EdgeCreation(id=_id(), subject=t2id, predicate=IS_A, object=isa)
+            elif tag == TAG_RELATIONSHIP:
+                rels1 = stanza1.pair_values(TAG_RELATIONSHIP)
+                rels2 = stanza2.pair_values(TAG_RELATIONSHIP)
+                for p, v in rels1:
+                    p_curie = self.map_shorthand_to_curie(p)
+                    if (p, v) not in rels2:
+                        yield kgcl.EdgeDeletion(id=_id(), subject=t1id, predicate=p_curie, object=v)
+                for p, v in rels2:
+                    p_curie = self.map_shorthand_to_curie(p)
+                    if (p, v) not in rels1:
+                        yield kgcl.EdgeCreation(id=_id(), subject=t2id, predicate=p_curie, object=v)
+            elif tag == TAG_SYNONYM:
+                if node_is_deleted:
+                    continue
+                # TODO: make this sensitive to annotation changes; for now we truncate the tuple
+                syns1 = [tv.as_synonym()[0:2] for tv in tvs1]
+                syns2 = [tv.as_synonym()[0:2] for tv in tvs2]
+                for syn in syns1:
+                    if syn not in syns2:
+                        yield kgcl.RemoveSynonym(id=_id(), about_node=t1id, old_value=syn[0])
+                for syn in syns2:
+                    if syn not in syns1:
+                        pred = SCOPE_TO_SYNONYM_PRED_MAP[syn[1]]
+                        yield kgcl.NewSynonym(id=_id(), about_node=t2id, new_value=syn[0], predicate=pred)
+
 
     def different_from(self, entity: CURIE, other_ontology: DifferInterface) -> bool:
         t1 = self._stanza(entity, strict=False)
@@ -771,6 +920,10 @@ class SimpleOboImplementation(
             if t2:
                 return str(t1) != str(t2)
         return True
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: PatcherInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def migrate_curies(self, curie_map: Mapping[CURIE, CURIE]) -> None:
         od = self.obo_document

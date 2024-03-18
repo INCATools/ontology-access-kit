@@ -261,10 +261,14 @@ def validate_mappings(
         subject_adapter = lookup_mapping_adapter(m.subject_id, adapters)
         object_adapter = lookup_mapping_adapter(m.object_id, adapters)
         comments = []
-        if m.subject_id in _obsoletes(subject_prefix, adapters):
+        subject_is_obsolete = m.subject_id in _obsoletes(subject_prefix, adapters)
+        object_is_obsolete = m.object_id in _obsoletes(object_prefix, adapters)
+        if subject_is_obsolete and not object_is_obsolete:
             comments.append("subject is obsolete")
-        if m.object_id in _obsoletes(object_prefix, adapters):
+        if object_is_obsolete and not subject_is_obsolete:
             comments.append("object is obsolete")
+        if subject_is_obsolete and object_is_obsolete:
+            logging.info(f"both {m.subject_id} and {m.object_id} are obsolete, but this is not a violation")
         if m.mapping_cardinality != MappingCardinalityEnum(MappingCardinalityEnum["1:1"]):
             if m.predicate_id == SKOS_EXACT_MATCH or (
                 m.predicate_id == HAS_DBXREF and xref_is_bijective
