@@ -122,34 +122,50 @@
 <dt class="sig sig-object py" id="oaklib.interfaces.differ_interface.DifferInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.differ_interface.</span></span><span class="sig-name descname"><span class="pre">DifferInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/differ_interface.html#DifferInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.differ_interface.DifferInterface" title="Link to this definition"></a></dt>
 <dd><p>Generates Change objects between one ontology and another.</p>
-<p>This uses the KGCL datamodel, see <span class="xref std std-ref">kgcl-datamodel</span> for more information.</p>
+<p>This uses the KGCL datamodel, see <a class="reference external" href="https://w3id.org/kgcl/">https://w3id.org/kgcl/</a> for more information.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.differ_interface.DifferInterface.grouped_diff">
+<span class="sig-name descname"><span class="pre">grouped_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Change</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/differ_interface.html#DifferInterface.grouped_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.differ_interface.DifferInterface.grouped_diff" title="Link to this definition"></a></dt>
+<dd><p>Yields changes grouped by type.</p>
+<p>This wraps the <a class="reference internal" href="#oaklib.interfaces.differ_interface.DifferInterface.diff" title="oaklib.interfaces.differ_interface.DifferInterface.diff"><code class="xref py py-meth docutils literal notranslate"><span class="pre">diff()</span></code></a> method and groups the changes by type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – </p></li>
+<li><p><strong>kwargs</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.differ_interface.DifferInterface.diff">
-<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_ontology</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DiffConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/differ_interface.html#DifferInterface.diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.differ_interface.DifferInterface.diff" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_ontology</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DiffConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Change</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/differ_interface.html#DifferInterface.diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.differ_interface.DifferInterface.diff" title="Link to this definition"></a></dt>
 <dd><p>Diffs two ontologies.</p>
 <p>The changes that are yielded describe transitions from the current ontology to the other ontology.</p>
-<p>Note that this is not guaranteed to diff every axiom in both ontologies. Only a subset of KGCL change
-types are supported:</p>
-<ul class="simple">
-<li><p>NodeCreation</p></li>
-<li><p>NodeDeletion</p></li>
-<li><p>NodeMove</p></li>
-<li><p>NodeRename</p></li>
-<li><p>PredicateChange</p></li>
-<li><p>NewTextDefinition</p></li>
-<li><p>NodeTextDefinitionChange</p></li>
-<li><p>AddNodeToSubset</p></li>
-<li><p>RemoveNodeFromSubset</p></li>
-</ul>
-<p>Preferred sequence of changes:
-1. New classes
-2. Label changes
-3. Definition changes
-4. Obsoletions
-5. Added synonyms
-6. Added definitions
-7. Changed relationships
-8. Changed subsets</p>
+<p>Note that this is not guaranteed to diff every axiom in both ontologies. Different implementations
+may implement different subsets.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">yaml_dumper</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path1</span> <span class="o">=</span> <span class="s2">&quot;simpleobo:tests/input/go-nucleus.obo&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path2</span> <span class="o">=</span> <span class="s2">&quot;simpleobo:tests/input/go-nucleus-modified.obo&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ont1</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">path1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ont2</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">path2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">ont1</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ont2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">yaml_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">change</span><span class="p">))</span>
+
+<span class="go">...</span>
+<span class="go">type: NodeRename</span>
+<span class="go">old_value: catalytic activity</span>
+<span class="go">new_value: enzyme activity</span>
+<span class="go">about_node: GO:0003824</span>
+<span class="go">...</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

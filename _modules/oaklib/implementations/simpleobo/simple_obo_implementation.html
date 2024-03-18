@@ -142,6 +142,7 @@
     <span class="n">OWL_VERSION_IRI</span><span class="p">,</span>
     <span class="n">RDFS_DOMAIN</span><span class="p">,</span>
     <span class="n">RDFS_RANGE</span><span class="p">,</span>
+    <span class="n">SCOPE_TO_SYNONYM_PRED_MAP</span><span class="p">,</span>
     <span class="n">SEMAPV</span><span class="p">,</span>
     <span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
     <span class="n">SUBPROPERTY_OF</span><span class="p">,</span>
@@ -190,7 +191,7 @@
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
     <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DiffConfiguration</span><span class="p">,</span> <span class="n">DifferInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.dumper_interface</span> <span class="kn">import</span> <span class="n">DumperInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.merge_interface</span> <span class="kn">import</span> <span class="n">MergeInterface</span>
@@ -209,7 +210,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.utilities.axioms.logical_definition_utilities</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">logical_definition_matches</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.utilities.kgcl_utilities</span> <span class="kn">import</span> <span class="n">tidy_change_object</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.kgcl_utilities</span> <span class="kn">import</span> <span class="n">generate_change_id</span><span class="p">,</span> <span class="n">tidy_change_object</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.sssom_utils</span> <span class="kn">import</span> <span class="n">inject_mapping_sources</span>
 
 
@@ -409,6 +410,13 @@
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">od</span><span class="o">.</span><span class="n">stanzas</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_SUBSET</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">s</span><span class="o">.</span><span class="n">id</span>
+
+    <span class="k">def</span> <span class="nf">terms_subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span><span class="p">]]:</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_SUBSET</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">subset</span>
 
     <span class="k">def</span> <span class="nf">ontologies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">od</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span>
@@ -848,8 +856,160 @@
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
-    <span class="c1"># Implements: PatcherInterface</span>
+    <span class="c1"># Implements: DifferInterface</span>
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">other_ontology</span><span class="p">:</span> <span class="n">DifferInterface</span><span class="p">,</span>
+        <span class="n">configuration</span><span class="p">:</span> <span class="n">DiffConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">configuration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">configuration</span> <span class="o">=</span> <span class="n">DiffConfiguration</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other_ontology</span><span class="p">,</span> <span class="n">SimpleOboImplementation</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can only diff SimpleOboImplementation&quot;</span><span class="p">)</span>
+        <span class="n">stanzas1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span><span class="o">.</span><span class="n">stanzas</span>
+        <span class="n">stanzas2</span> <span class="o">=</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">obo_document</span><span class="o">.</span><span class="n">stanzas</span>
+        <span class="n">all_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stanzas1</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">stanzas2</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">all_ids</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_stanzas</span><span class="p">(</span><span class="n">stanzas1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">stanzas2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_diff_stanzas</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">stanza1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Stanza</span><span class="p">],</span> <span class="n">stanza2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Stanza</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">]:</span>
+        <span class="k">def</span> <span class="nf">_id</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">generate_change_id</span><span class="p">()</span>
+
+        <span class="n">node_is_deleted</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">stanza1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stanza2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both stanzas are None&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stanza1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stanza1</span> <span class="o">=</span> <span class="n">Stanza</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">stanza2</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">stanza2</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Term&quot;</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">ClassCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">stanza2</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Typedef&quot;</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">stanza2</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown stanza type: </span><span class="si">{</span><span class="n">stanza2</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stanza2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stanza2</span> <span class="o">=</span> <span class="n">Stanza</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">stanza1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">stanza1</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Term&quot;</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeDeletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">stanza1</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeDeletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">stanza1</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">node_is_deleted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">stanza1</span> <span class="o">==</span> <span class="n">stanza2</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">type</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stanza types differ: </span><span class="si">{</span><span class="n">stanza1</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">stanza2</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">t1id</span> <span class="o">=</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">t2id</span> <span class="o">=</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diffing: </span><span class="si">{</span><span class="n">t1id</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">t2id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_tv_dict</span><span class="p">(</span><span class="n">stanza</span><span class="p">:</span> <span class="n">Stanza</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">tv</span> <span class="ow">in</span> <span class="n">stanza</span><span class="o">.</span><span class="n">tag_values</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">tv</span><span class="o">.</span><span class="n">tag</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tv</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">d</span>
+
+        <span class="n">tv_dict1</span> <span class="o">=</span> <span class="n">_tv_dict</span><span class="p">(</span><span class="n">stanza1</span><span class="p">)</span>
+        <span class="n">tv_dict2</span> <span class="o">=</span> <span class="n">_tv_dict</span><span class="p">(</span><span class="n">stanza2</span><span class="p">)</span>
+        <span class="n">all_tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tv_dict1</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">tv_dict2</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">all_tags</span><span class="p">:</span>
+            <span class="n">vals1</span> <span class="o">=</span> <span class="n">tv_dict1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">vals2</span> <span class="o">=</span> <span class="n">tv_dict2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">vals1list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vals1</span><span class="p">)</span>
+            <span class="n">vals2list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vals2</span><span class="p">)</span>
+            <span class="n">tvs1</span> <span class="o">=</span> <span class="p">[</span><span class="n">tv</span> <span class="k">for</span> <span class="n">tv</span> <span class="ow">in</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">tag_values</span> <span class="k">if</span> <span class="n">tv</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">tag</span><span class="p">]</span>
+            <span class="n">tvs2</span> <span class="o">=</span> <span class="p">[</span><span class="n">tv</span> <span class="k">for</span> <span class="n">tv</span> <span class="ow">in</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">tag_values</span> <span class="k">if</span> <span class="n">tv</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">tag</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">vals1</span> <span class="o">==</span> <span class="n">vals2</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Difference in </span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">vals1</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">vals2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_NAME</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node_is_deleted</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">vals1</span> <span class="ow">and</span> <span class="n">vals2</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeRename</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t1id</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">vals2list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">old_value</span><span class="o">=</span><span class="n">vals1list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="n">vals1</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeDeletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t1id</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">ClassCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t2id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">vals2list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_DEFINITION</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node_is_deleted</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># TODO: provenance changes</span>
+                <span class="n">td1</span> <span class="o">=</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">quoted_value</span><span class="p">(</span><span class="n">TAG_DEFINITION</span><span class="p">)</span>
+                <span class="n">td2</span> <span class="o">=</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">quoted_value</span><span class="p">(</span><span class="n">TAG_DEFINITION</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">vals1</span> <span class="ow">and</span> <span class="n">vals2</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeTextDefinitionChange</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t1id</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">td2</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">td1</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="n">vals1</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">RemoveTextDefinition</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t1id</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NewTextDefinition</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t2id</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">td2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_IS_OBSOLETE</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node_is_deleted</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">vals1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">vals2</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeUnobsoletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t1id</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">vals1</span> <span class="ow">and</span> <span class="n">vals2</span><span class="p">:</span>
+                    <span class="n">replaced_by</span> <span class="o">=</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_REPLACED_BY</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">replaced_by</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletionWithDirectReplacement</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t2id</span><span class="p">,</span> <span class="n">has_direct_replacement</span><span class="o">=</span><span class="n">replaced_by</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t2id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_SUBSET</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node_is_deleted</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">subsets1</span> <span class="o">=</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_SUBSET</span><span class="p">)</span>
+                <span class="n">subsets2</span> <span class="o">=</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_SUBSET</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">subsets1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">subsets2</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">RemoveNodeFromSubset</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t1id</span><span class="p">,</span> <span class="n">in_subset</span><span class="o">=</span><span class="n">subset</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">subsets2</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">subsets1</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">AddNodeToSubset</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t2id</span><span class="p">,</span> <span class="n">in_subset</span><span class="o">=</span><span class="n">subset</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_IS_A</span><span class="p">:</span>
+                <span class="n">isas1</span> <span class="o">=</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_IS_A</span><span class="p">)</span>
+                <span class="n">isas2</span> <span class="o">=</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">simple_values</span><span class="p">(</span><span class="n">TAG_IS_A</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">isa</span> <span class="ow">in</span> <span class="n">isas1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">isa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">isas2</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeDeletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">t1id</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">IS_A</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">isa</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">isa</span> <span class="ow">in</span> <span class="n">isas2</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">isa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">isas1</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">t2id</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">IS_A</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">isa</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_RELATIONSHIP</span><span class="p">:</span>
+                <span class="n">rels1</span> <span class="o">=</span> <span class="n">stanza1</span><span class="o">.</span><span class="n">pair_values</span><span class="p">(</span><span class="n">TAG_RELATIONSHIP</span><span class="p">)</span>
+                <span class="n">rels2</span> <span class="o">=</span> <span class="n">stanza2</span><span class="o">.</span><span class="n">pair_values</span><span class="p">(</span><span class="n">TAG_RELATIONSHIP</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rels1</span><span class="p">:</span>
+                    <span class="n">p_curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_shorthand_to_curie</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rels2</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeDeletion</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">t1id</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">p_curie</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rels2</span><span class="p">:</span>
+                    <span class="n">p_curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_shorthand_to_curie</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rels1</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeCreation</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">t2id</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">p_curie</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">TAG_SYNONYM</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node_is_deleted</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># TODO: make this sensitive to annotation changes; for now we truncate the tuple</span>
+                <span class="n">syns1</span> <span class="o">=</span> <span class="p">[</span><span class="n">tv</span><span class="o">.</span><span class="n">as_synonym</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">tv</span> <span class="ow">in</span> <span class="n">tvs1</span><span class="p">]</span>
+                <span class="n">syns2</span> <span class="o">=</span> <span class="p">[</span><span class="n">tv</span><span class="o">.</span><span class="n">as_synonym</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">tv</span> <span class="ow">in</span> <span class="n">tvs2</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">syns1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">syn</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">syns2</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">RemoveSynonym</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t1id</span><span class="p">,</span> <span class="n">old_value</span><span class="o">=</span><span class="n">syn</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">syns2</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">syn</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">syns1</span><span class="p">:</span>
+                        <span class="n">pred</span> <span class="o">=</span> <span class="n">SCOPE_TO_SYNONYM_PRED_MAP</span><span class="p">[</span><span class="n">syn</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                        <span class="k">yield</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NewSynonym</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="n">_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">t2id</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">syn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">predicate</span><span class="o">=</span><span class="n">pred</span>
+                        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">different_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">other_ontology</span><span class="p">:</span> <span class="n">DifferInterface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">t1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -858,6 +1018,10 @@
             <span class="k">if</span> <span class="n">t2</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1"># Implements: PatcherInterface</span>
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
     <span class="k">def</span> <span class="nf">migrate_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie_map</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">od</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span>
