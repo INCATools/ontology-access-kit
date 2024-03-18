@@ -54,7 +54,6 @@ class DiffConfiguration:
 
     simple: bool = False
     group_by_property: PRED_CURIE = None
-    yield_individual_changes: bool = True
 
 
 def _gen_id():
@@ -65,7 +64,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
     """
     Generates Change objects between one ontology and another.
 
-    This uses the KGCL datamodel, see :ref:`kgcl-datamodel` for more information.
+    This uses the KGCL datamodel, see `<https://w3id.org/kgcl/>`_ for more information.
     """
 
     def changed_nodes(
@@ -83,6 +82,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
     ) -> Iterator[Tuple[str, List[Change]]]:
         """
         Yields changes grouped by type.
+
+        This wraps the :meth:`diff` method and groups the changes by type.
 
         :param args:
         :param kwargs:
@@ -106,28 +107,27 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         The changes that are yielded describe transitions from the current ontology to the other ontology.
 
-        Note that this is not guaranteed to diff every axiom in both ontologies. Only a subset of KGCL change
-        types are supported:
+        Note that this is not guaranteed to diff every axiom in both ontologies. Different implementations
+        may implement different subsets.
 
-        - NodeCreation
-        - NodeDeletion
-        - NodeMove
-        - NodeRename
-        - PredicateChange
-        - NewTextDefinition
-        - NodeTextDefinitionChange
-        - AddNodeToSubset
-        - RemoveNodeFromSubset
+        Example usage:
 
-        Preferred sequence of changes:
-        1. New classes
-        2. Label changes
-        3. Definition changes
-        4. Obsoletions
-        5. Added synonyms
-        6. Added definitions
-        7. Changed relationships
-        8. Changed subsets
+        >>> from oaklib import get_adapter
+        >>> from linkml_runtime.dumpers import yaml_dumper
+        >>> path1 = "simpleobo:tests/input/go-nucleus.obo"
+        >>> path2 = "simpleobo:tests/input/go-nucleus-modified.obo"
+        >>> ont1 = get_adapter(path1)
+        >>> ont2 = get_adapter(path2)
+        >>> for change in ont1.diff(ont2):
+        ...     print(yaml_dumper.dumps(change))
+        <BLANKLINE>
+        ...
+        type: NodeRename
+        old_value: catalytic activity
+        new_value: enzyme activity
+        about_node: GO:0003824
+        ...
+
 
         :param other_ontology: Ontology to compare against
         :param configuration: Configuration for the differentiation
@@ -135,8 +135,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
         """
         if configuration is None:
             configuration = DiffConfiguration()
-        if not configuration.yield_individual_changes:
-            raise NotImplementedError("Grouped changes are not yet supported")
         logging.info(f"Configuration: {configuration}")
         # * self => old ontology
         # * other_ontology => latest ontology
@@ -168,7 +166,6 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 yield NodeCreation(id=_gen_id(), about_node=entity)
 
         logger.info("finding Deletions")
-        # Node Deletion with consideration for yield_individual_changes flag
         nodes_to_delete = self_entities - other_ontology_entities
 
         if nodes_to_delete:
@@ -338,7 +335,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         # Process the entities in parallel using a generator
         yield from _parallely_get_relationship_changes(
-            self_ontology_without_obsoletes, self_out_rels, other_out_rels, True
+            self_ontology_without_obsoletes, self_out_rels, other_out_rels,
         )
 
     def diff_summary(
@@ -446,7 +443,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
 
 # ! Helper functions for the diff method
-def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
+def _generate_synonym_changes(self_entities, self_aliases, other_aliases) -> Iterator[Change]:
     for e1 in self_entities:
         e1_arels = self_aliases[e1]
         e2_arels = other_aliases[e1]
@@ -481,7 +478,7 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
             yield synonym_change
 
 
-def _process_deprecation_data(deprecation_data_item):
+def _process_deprecation_data(deprecation_data_item) -> Iterator[Change]:
     e1, e1_dep, e2_dep, e2_meta = deprecation_data_item
     if e1_dep != e2_dep:
         if not e1_dep and e2_dep:
@@ -529,12 +526,10 @@ def _generate_obsoletion_changes(
                 yield result
 
 
-def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individual_changes):
-    if not yield_individual_changes:
-        raise NotImplementedError
+def _generate_relation_changes(e1, self_out_rels, other_out_rels) -> List[Change]:
     e1_rels = self_out_rels[e1]
     e2_rels = other_out_rels[e1]
-    changes = [] if yield_individual_changes else defaultdict(list)
+    changes = []
 
     for rel in e1_rels.difference(e2_rels):
         pred, alias = rel
@@ -561,16 +556,15 @@ def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individu
 
 
 def _parallely_get_relationship_changes(
-    self_entities, self_out_rels, other_out_rels, yield_individual_changes
-):
+    self_entities, self_out_rels, other_out_rels
+) -> Iterator[Change]:
     with multiprocessing.Pool() as pool:
         results = pool.starmap(
             _generate_relation_changes,
-            [(e1, self_out_rels, other_out_rels, yield_individual_changes) for e1 in self_entities],
+            [(e1, self_out_rels, other_out_rels) for e1 in self_entities],
         )
         for result in results:
-            if result:
-                yield result
+            yield from result
 
 
 def _find_mapping_changes(set1, set2):

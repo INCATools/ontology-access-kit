@@ -993,6 +993,8 @@ class ComplianceTester:
             ),
         ]
         for ch in diff:
+            if isinstance(ch, list):
+                raise ValueError(f"Unexpected list: {[type(x) for x in ch]}")
             ch.id = FIXED_ID
             if ch in expected:
                 expected.remove(ch)

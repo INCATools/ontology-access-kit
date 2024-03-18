@@ -5864,9 +5864,7 @@ def diff(
             writer.emit(summary)
     else:
         if isinstance(writer, StreamingMarkdownWriter):
-            # config.yield_individual_changes = False
             for change_type, changes in impl.grouped_diff(other_impl, configuration=config):
-                print(change_type, changes)
                 writer.emit({change_type: changes}, other_impl=other_impl)
         else:
             for change in impl.diff(other_impl, configuration=config):
