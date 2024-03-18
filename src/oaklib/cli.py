@@ -924,6 +924,12 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
     show_default=True,
     help="Merge all inputs specified using --add",
 )
+@click.option(
+    "--profile/--no-profile",
+    default=False,
+    show_default=True,
+    help="If set, will profile the command",
+)
 def main(
     verbose: int,
     quiet: bool,
@@ -941,6 +947,7 @@ def main(
     metamodel_mappings,
     requests_cache_db,
     prefix,
+    profile: bool,
     import_depth: Optional[int],
     **kwargs,
 ):
@@ -968,6 +975,24 @@ def main(
         logger.setLevel(logging.WARNING)
     if quiet:
         logger.setLevel(logging.ERROR)
+    if profile:
+        import atexit
+        import cProfile
+        import io
+        import pstats
+
+        print("Profiling...")
+        pr = cProfile.Profile()
+        pr.enable()
+
+        def exit():
+            pr.disable()
+            print("Profiling completed")
+            s = io.StringIO()
+            pstats.Stats(pr, stream=s).sort_stats("cumulative").print_stats()
+            print(s.getvalue())
+
+        atexit.register(exit)
     if requests_cache_db:
         import requests_cache
 
@@ -5839,9 +5864,8 @@ def diff(
             writer.emit(summary)
     else:
         if isinstance(writer, StreamingMarkdownWriter):
-            config.yield_individual_changes = False
-            for change in impl.diff(other_impl, configuration=config):
-                writer.emit(change, other_impl=other_impl)
+            for change_type, changes in impl.grouped_diff(other_impl, configuration=config):
+                writer.emit({change_type: changes}, other_impl=other_impl)
         else:
             for change in impl.diff(other_impl, configuration=config):
                 writer.emit(change)

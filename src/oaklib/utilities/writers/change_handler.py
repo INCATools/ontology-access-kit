@@ -1,6 +1,9 @@
 """Change Handler Class."""
 
 from dataclasses import dataclass
+from typing import Dict
+
+from kgcl_schema.datamodel.kgcl import Change
 
 
 @dataclass
@@ -317,7 +320,7 @@ class ChangeHandler:
     #     # Implement place under handling logic here
     #     logging.info("Place under handling not yet implemented.")
 
-    def process_changes(self, curie_or_change):
+    def process_changes(self, curie_or_change: Dict[str, Change]):
         # Write overview and summary at the beginning of the document
         # self.write_markdown_overview_and_summary(curie_or_change)
         dispatch_table = {

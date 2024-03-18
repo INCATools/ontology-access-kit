@@ -3,7 +3,7 @@ import multiprocessing
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Dict, Iterator, Optional, Tuple
+from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 import kgcl_schema.datamodel.kgcl as kgcl
 from kgcl_schema.datamodel.kgcl import (
@@ -32,13 +32,8 @@ from kgcl_schema.datamodel.kgcl import (
 )
 
 from oaklib.datamodels.vocabulary import (  # OIO_SYNONYM_TYPE_PROPERTY,
-    CLASS_CREATION,
     DEPRECATED_PREDICATE,
     HAS_OBSOLESCENCE_REASON,
-    MAPPING_EDGE_DELETION,
-    NODE_CREATION,
-    NODE_DELETION,
-    NODE_TEXT_DEFINITION_CHANGE,
     OWL_CLASS,
     TERM_REPLACED_BY,
     TERMS_MERGED,
@@ -50,6 +45,8 @@ from oaklib.utilities.kgcl_utilities import generate_change_id
 TERM_LIST_DIFF = Tuple[CURIE, CURIE]
 RESIDUAL_KEY = "__RESIDUAL__"
 
+logger = logging.getLogger(__name__)
+
 
 @dataclass
 class DiffConfiguration:
@@ -57,7 +54,6 @@ class DiffConfiguration:
 
     simple: bool = False
     group_by_property: PRED_CURIE = None
-    yield_individual_changes: bool = True
 
 
 def _gen_id():
@@ -68,41 +64,70 @@ class DifferInterface(BasicOntologyInterface, ABC):
     """
     Generates Change objects between one ontology and another.
 
-    This uses the KGCL datamodel, see :ref:`kgcl-datamodel` for more information.
+    This uses the KGCL datamodel, see `<https://w3id.org/kgcl/>`_ for more information.
     """
+
+    def changed_nodes(
+        self,
+        other_ontology: BasicOntologyInterface,
+        configuration: DiffConfiguration = None,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, str]]:
+        raise NotImplementedError
+
+    def grouped_diff(
+        self,
+        *args,
+        **kwargs,
+    ) -> Iterator[Tuple[str, List[Change]]]:
+        """
+        Yields changes grouped by type.
+
+        This wraps the :meth:`diff` method and groups the changes by type.
+
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        changes = list(self.diff(*args, **kwargs))
+        change_map = defaultdict(list)
+        for change in changes:
+            change_map[change.type].append(change)
+        for k, vs in change_map.items():
+            yield k, vs
 
     def diff(
         self,
         other_ontology: BasicOntologyInterface,
         configuration: DiffConfiguration = None,
-    ) -> Iterator[Dict[str, Any]]:
+        **kwargs,
+    ) -> Iterator[Change]:
         """
         Diffs two ontologies.
 
         The changes that are yielded describe transitions from the current ontology to the other ontology.
 
-        Note that this is not guaranteed to diff every axiom in both ontologies. Only a subset of KGCL change
-        types are supported:
+        Note that this is not guaranteed to diff every axiom in both ontologies. Different implementations
+        may implement different subsets.
 
-        - NodeCreation
-        - NodeDeletion
-        - NodeMove
-        - NodeRename
-        - PredicateChange
-        - NewTextDefinition
-        - NodeTextDefinitionChange
-        - AddNodeToSubset
-        - RemoveNodeFromSubset
+        Example usage:
 
-        Preferred sequence of changes:
-        1. New classes
-        2. Label changes
-        3. Definition changes
-        4. Obsoletions
-        5. Added synonyms
-        6. Added definitions
-        7. Changed relationships
-        8. Changed subsets
+        >>> from oaklib import get_adapter
+        >>> from linkml_runtime.dumpers import yaml_dumper
+        >>> path1 = "simpleobo:tests/input/go-nucleus.obo"
+        >>> path2 = "simpleobo:tests/input/go-nucleus-modified.obo"
+        >>> ont1 = get_adapter(path1)
+        >>> ont2 = get_adapter(path2)
+        >>> for change in ont1.diff(ont2):
+        ...     print(yaml_dumper.dumps(change))
+        <BLANKLINE>
+        ...
+        type: NodeRename
+        old_value: catalytic activity
+        new_value: enzyme activity
+        about_node: GO:0003824
+        ...
+
 
         :param other_ontology: Ontology to compare against
         :param configuration: Configuration for the differentiation
@@ -110,10 +135,13 @@ class DifferInterface(BasicOntologyInterface, ABC):
         """
         if configuration is None:
             configuration = DiffConfiguration()
+        logging.info(f"Configuration: {configuration}")
         # * self => old ontology
         # * other_ontology => latest ontology
         other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
+        logger.info(f"other_ontology_entities = {len(other_ontology_entities)}")
         self_entities = set(list(self.entities(filter_obsoletes=False)))
+        logger.info(f"self_entities = {len(self_entities)}")
         intersection_of_entities = self_entities.intersection(other_ontology_entities)
         obsolete_nodes = set()
 
@@ -123,61 +151,28 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         # Node/Class Creation
         created_entities = other_ontology_entities - self_entities
+        logger.info(f"Created = {len(created_entities)}")
 
-        if configuration.yield_individual_changes:
-            # Yield each creation individually
-            for entity in created_entities:
-                types = other_ontology.owl_type(entity)
-                if OWL_CLASS in types:
-                    yield ClassCreation(id=_gen_id(), about_node=entity)
-                # elif OIO_SYNONYM_TYPE_PROPERTY in types:
-                #     yield NodeCreation(
-                #         id=_gen_id(), about_node=OIO_SYNONYM_TYPE_PROPERTY
-                #     )
-                else:
-                    yield NodeCreation(id=_gen_id(), about_node=entity)
-        else:
-            # Collect creations and yield at the end
-            class_creations = []
-            node_creations = []
+        logger.info("finding Creations")
+        for entity in created_entities:
+            types = other_ontology.owl_type(entity)
+            if OWL_CLASS in types:
+                yield ClassCreation(id=_gen_id(), about_node=entity)
+            # elif OIO_SYNONYM_TYPE_PROPERTY in types:
+            #     yield NodeCreation(
+            #         id=_gen_id(), about_node=OIO_SYNONYM_TYPE_PROPERTY
+            #     )
+            else:
+                yield NodeCreation(id=_gen_id(), about_node=entity)
 
-            for entity in created_entities:
-                types = other_ontology.owl_type(entity)
-                if OWL_CLASS in types:
-                    class_creations.append(ClassCreation(id=_gen_id(), about_node=entity))
-                # elif OIO_SYNONYM_TYPE_PROPERTY in types:
-                #     node_creations.append(
-                #         NodeCreation(id=_gen_id(), about_node=OIO_SYNONYM_TYPE_PROPERTY)
-                #     )
-                else:
-                    node_creations.append(NodeCreation(id=_gen_id(), about_node=entity))
-
-            # Yield collected changes as a dictionary if there are any
-            changes = {}
-            if class_creations:
-                changes[CLASS_CREATION] = class_creations
-            if node_creations:
-                changes[NODE_CREATION] = node_creations
-            if changes:
-                yield changes
-
-        # Node Deletion with consideration for yield_individual_changes flag
+        logger.info("finding Deletions")
         nodes_to_delete = self_entities - other_ontology_entities
 
         if nodes_to_delete:
-            if configuration.yield_individual_changes:
-                # Yield each deletion individually
-                for node in nodes_to_delete:
-                    yield NodeDeletion(id=_gen_id(), about_node=node)
-            else:
-                # Yield all deletions at once in a dictionary
-                yield {
-                    NODE_DELETION: [
-                        NodeDeletion(id=_gen_id(), about_node=node) for node in nodes_to_delete
-                    ]
-                }
+            for node in nodes_to_delete:
+                yield NodeDeletion(id=_gen_id(), about_node=node)
 
-        # ! Obsoletions
+        logger.info("finding Obsoletions")
         other_ontology_entities_with_obsoletes = set(
             other_ontology.entities(filter_obsoletes=False)
         )
@@ -194,7 +189,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         self_ontology_without_obsoletes = set(list(self.entities(filter_obsoletes=True)))
         self_ontology_obsoletes = self_entities - self_ontology_without_obsoletes
 
-        # Find NodeUnobsoletions
+        logger.info("finding Unsoletions")
         possible_unobsoletes = self_ontology_obsoletes.intersection(
             other_ontology_unobsolete_entities
         )
@@ -205,45 +200,23 @@ class DifferInterface(BasicOntologyInterface, ABC):
             other_ontology.entity_metadata_map,
         )
 
-        if configuration.yield_individual_changes:
-            # Yield each obsoletion_change object individually
-            for obsoletion_change in obsoletion_generator:
-                obsolete_nodes.add(obsoletion_change.about_node)
-                yield obsoletion_change
-        else:
-            # Collect all obsoletion_change objects in a dictionary and yield them at the end
-            obsoletion_changes = defaultdict(list)
-            for obsoletion_change in obsoletion_generator:
-                if obsoletion_change:
-                    class_name = obsoletion_change.type
-                    obsolete_nodes.add(obsoletion_change.about_node)
-                    obsoletion_changes.setdefault(class_name, []).append(obsoletion_change)
+        logger.info("Remaining...")
+        for obsoletion_change in obsoletion_generator:
+            obsolete_nodes.add(obsoletion_change.about_node)
+            yield obsoletion_change
 
-            if obsoletion_changes:
-                yield obsoletion_changes
-
-        # ! Remove obsolete nodes from relevant sets
+        logger.info("Remove obsolete nodes from relevant sets")
         intersection_of_entities = self_ontology_without_obsoletes.intersection(
             other_ontology_entities_without_obsoletes
         )
 
-        # Initialize variables for label changes, definition changes, new definitions, and synonyms
-        if not configuration.yield_individual_changes:
-            label_change_list = []
-            definition_changes = defaultdict(list)
-            new_definition_list = []
-            synonym_changes = defaultdict(list)
-            edge_creation_list = []
-            edge_deletion_list = []
-            edge_change_list = []
-            subset_addition_list = []
-            subset_removal_list = []
+        logger.info("finding remaining changes")
 
         self_aliases = {}
         other_aliases = {}
 
         # Loop through each entity once and process
-        # ! label changes, definition changes, new definitions, and synonyms
+        logger.info("label changes, definition changes, new definitions, and synonyms")
         for entity in intersection_of_entities:
             # Label change
             if self.label(entity) != other_ontology.label(entity):
@@ -253,10 +226,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     old_value=self.label(entity),
                     new_value=other_ontology.label(entity),
                 )
-                if configuration.yield_individual_changes:
-                    yield node_rename
-                else:
-                    label_change_list.append(node_rename)
+                yield node_rename
 
             # Definition changes
             old_value = self.definition(entity)
@@ -268,10 +238,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     new_value=new_value,
                     old_value=old_value,
                 )
-                if configuration.yield_individual_changes:
-                    yield change
-                else:
-                    definition_changes[NODE_TEXT_DEFINITION_CHANGE].append(change)
+                yield change
 
             # New definitions
             if self.definition(entity) is None and other_ontology.definition(entity) is not None:
@@ -281,10 +248,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     new_value=other_ontology.definition(entity),
                     old_value=self.definition(entity),
                 )
-                if configuration.yield_individual_changes:
-                    yield new_def
-                else:
-                    new_definition_list.append(new_def)
+                yield new_def
 
             # Synonyms - compute both sets of aliases
             self_aliases[entity] = set(self.alias_relationships(entity, exclude_labels=True))
@@ -307,10 +271,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                         predicate=predicate,
                         object=xref,
                     )
-                    if configuration.yield_individual_changes:
-                        yield edge_created
-                    else:
-                        edge_creation_list.append(edge_created)
+                    yield edge_created
             if mappings_removed_set:
                 for mapping in mappings_removed_set:
                     predicate, xref = mapping
@@ -320,10 +281,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                         predicate=predicate,
                         object=xref,
                     )
-                    if configuration.yield_individual_changes:
-                        yield deleted_edge
-                    else:
-                        edge_deletion_list.append(deleted_edge)
+                    yield deleted_edge
             if mapping_changed_set:
                 for changes in mapping_changed_set:
                     object, new_predicate, old_predicate = changes
@@ -334,10 +292,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                         new_value=new_predicate,
                     )
 
-                    if configuration.yield_individual_changes:
-                        yield edge_change
-                    else:
-                        edge_change_list.append(edge_change)
+                    yield edge_change
 
             # ! Subset changes
             self_subsets = set(self.terms_subsets([entity]))
@@ -351,10 +306,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                         about_node=entity,
                         in_subset=subset,
                     )
-                    if configuration.yield_individual_changes:
-                        yield change
-                    else:
-                        subset_addition_list.append(change)
+                    yield change
             if subsets_removed_set:
                 for _, subset in subsets_removed_set:
                     change = RemoveNodeFromSubset(
@@ -362,46 +314,16 @@ class DifferInterface(BasicOntologyInterface, ABC):
                         about_node=entity,
                         in_subset=subset,
                     )
-                    if configuration.yield_individual_changes:
-                        yield change
-                    else:
-                        subset_removal_list.append(change)
+                    yield change
 
-        # Yield collected changes after processing all entities
-        if not configuration.yield_individual_changes:
-            if label_change_list:
-                yield {NodeRename.__name__: label_change_list}
-            if definition_changes[NodeTextDefinitionChange.__name__]:
-                yield definition_changes
-            if new_definition_list:
-                yield {NewTextDefinition.__name__: new_definition_list}
-            if edge_creation_list:
-                yield {EdgeCreation.__name__: edge_creation_list}
-            if edge_deletion_list:
-                yield {MAPPING_EDGE_DELETION: edge_deletion_list}
-            if edge_change_list:
-                yield {EdgeChange.__name__: edge_change_list}
-            if subset_addition_list:
-                yield {AddNodeToSubset.__name__: subset_addition_list}
-            if subset_removal_list:
-                yield {RemoveNodeFromSubset.__name__: subset_removal_list}
-
-        # Process synonyms changes after collecting all aliases
+        logger.info("Process synonyms changes after collecting all aliases")
         synonyms_generator = _generate_synonym_changes(
             intersection_of_entities, self_aliases, other_aliases
         )
-        if configuration.yield_individual_changes:
-            # Yield each synonyms_change object individually
-            for synonyms_change in synonyms_generator:
-                yield synonyms_change
-        else:
-            # Collect all changes in a defaultdict and yield them at the end
-            for synonyms_change in synonyms_generator:
-                synonym_changes[synonyms_change.__class__.__name__].append(synonyms_change)
-            if synonym_changes:
-                yield synonym_changes
+        for synonyms_change in synonyms_generator:
+            yield synonyms_change
 
-        # ! Relationships
+        logger.info("Relationships")
         self_out_rels = {
             entity: set(self.outgoing_relationships(entity))
             for entity in self_ontology_without_obsoletes
@@ -412,23 +334,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
         }
 
         # Process the entities in parallel using a generator
-        list_of_changes = defaultdict(list) if not configuration.yield_individual_changes else []
-        for relationship_changes in _parallely_get_relationship_changes(
-            self_ontology_without_obsoletes,
-            self_out_rels,
-            other_out_rels,
-            configuration.yield_individual_changes,
-        ):
-            for change in relationship_changes:
-                if configuration.yield_individual_changes:
-                    yield change
-                else:
-                    # Collect all changes in a defaultdict
-                    for change_type, change_list in change.items():
-                        list_of_changes.setdefault(change_type, []).extend(change_list)
-
-        if not configuration.yield_individual_changes:
-            yield list_of_changes  # Yield the collected changes once at the end
+        yield from _parallely_get_relationship_changes(
+            self_ontology_without_obsoletes, self_out_rels, other_out_rels,
+        )
 
     def diff_summary(
         self,
@@ -485,7 +393,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     if len(v) == 1:
                         partition = v[0]
                     else:
-                        logging.warning(
+                        logger.warning(
                             f"Multiple values for {configuration.group_by_property} = {v}"
                         )
             if partition not in summary:
@@ -529,12 +437,13 @@ class DifferInterface(BasicOntologyInterface, ABC):
         other_ontology: BasicOntologyInterface,
         curie: CURIE,
         other_curie: CURIE = None,
+        **kwargs,
     ) -> Any:
         raise NotImplementedError
 
 
 # ! Helper functions for the diff method
-def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
+def _generate_synonym_changes(self_entities, self_aliases, other_aliases) -> Iterator[Change]:
     for e1 in self_entities:
         e1_arels = self_aliases[e1]
         e2_arels = other_aliases[e1]
@@ -569,7 +478,7 @@ def _generate_synonym_changes(self_entities, self_aliases, other_aliases):
             yield synonym_change
 
 
-def _process_deprecation_data(deprecation_data_item):
+def _process_deprecation_data(deprecation_data_item) -> Iterator[Change]:
     e1, e1_dep, e2_dep, e2_meta = deprecation_data_item
     if e1_dep != e2_dep:
         if not e1_dep and e2_dep:
@@ -617,10 +526,10 @@ def _generate_obsoletion_changes(
                 yield result
 
 
-def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individual_changes):
+def _generate_relation_changes(e1, self_out_rels, other_out_rels) -> List[Change]:
     e1_rels = self_out_rels[e1]
     e2_rels = other_out_rels[e1]
-    changes = [] if yield_individual_changes else defaultdict(list)
+    changes = []
 
     for rel in e1_rels.difference(e2_rels):
         pred, alias = rel
@@ -632,45 +541,30 @@ def _generate_relation_changes(e1, self_out_rels, other_out_rels, yield_individu
                 change = PredicateChange(
                     id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
                 )
-                if yield_individual_changes:
-                    changes.append(change)
-                else:
-                    changes.setdefault(PredicateChange.__name__, []).append(change)
+                changes.append(change)
         else:
             change = EdgeDeletion(id=_gen_id(), subject=e1, predicate=pred, object=alias)
-            if yield_individual_changes:
-                changes.append(change)
-            else:
-                changes.setdefault(EdgeDeletion.__name__, []).append(change)
+            changes.append(change)
 
     for rel in e2_rels.difference(e1_rels):
         pred, alias = rel
         edge = Edge(subject=e1, predicate=pred, object=alias)
         change = NodeMove(id=_gen_id(), about_edge=edge)
-        if yield_individual_changes:
-            changes.append(change)
-        else:
-            changes.setdefault(NodeMove.__name__, []).append(change)
+        changes.append(change)
 
-    # If not yielding individual changes and there are changes, return them as a dictionary
-    if not yield_individual_changes and changes:
-        return [changes]
-
-    # Otherwise, return the list of changes
     return changes
 
 
 def _parallely_get_relationship_changes(
-    self_entities, self_out_rels, other_out_rels, yield_individual_changes
-):
+    self_entities, self_out_rels, other_out_rels
+) -> Iterator[Change]:
     with multiprocessing.Pool() as pool:
         results = pool.starmap(
             _generate_relation_changes,
-            [(e1, self_out_rels, other_out_rels, yield_individual_changes) for e1 in self_entities],
+            [(e1, self_out_rels, other_out_rels) for e1 in self_entities],
         )
         for result in results:
-            if result:
-                yield result
+            yield from result
 
 
 def _find_mapping_changes(set1, set2):
