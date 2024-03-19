@@ -861,7 +861,7 @@ class SimpleOboImplementation(
                         id=_id(), about_node=t1id, new_value=td2, old_value=td1
                     )
                 elif vals1:
-                    yield kgcl.RemoveTextDefinition(id=_id(), about_node=t1id, old_value=vals1.pop())
+                    yield kgcl.RemoveTextDefinition(id=_id(), about_node=t1id, old_value=td1)
                 else:
                     yield kgcl.NewTextDefinition(id=_id(), about_node=t2id, new_value=td2)
             elif tag == TAG_IS_OBSOLETE:
