@@ -335,7 +335,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         # Process the entities in parallel using a generator
         yield from _parallely_get_relationship_changes(
-            self_ontology_without_obsoletes, self_out_rels, other_out_rels,
+            self_ontology_without_obsoletes,
+            self_out_rels,
+            other_out_rels,
         )
 
     def diff_summary(

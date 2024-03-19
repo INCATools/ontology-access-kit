@@ -252,7 +252,7 @@ class ChangeHandler:
         ]
         header = "| Term | New Text Definition |"
         self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
-    
+
     def handle_remove_text_definition(self, value):
         # Create rows for the table
         rows = [
