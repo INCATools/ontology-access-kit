@@ -255,8 +255,11 @@ class ChangeHandler:
 
     def handle_remove_text_definition(self, value):
         # Create rows for the table
-        rows = [f"| {self._format_entity_labels(change.about_node)} |" for change in value]
-        header = "| Term |"
+        rows = [
+            f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |"
+            for change in value
+        ]
+        header = "| Term | Removed Text Definition |"
         self.write_markdown_table(f"Text definitions removed: {len(rows)}", header, rows)
 
     def handle_node_obsoletion_with_direct_replacement(self, value):
