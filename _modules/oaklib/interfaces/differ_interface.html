@@ -113,6 +113,7 @@
     <span class="n">PredicateChange</span><span class="p">,</span>
     <span class="n">RemoveNodeFromSubset</span><span class="p">,</span>
     <span class="n">RemoveSynonym</span><span class="p">,</span>
+    <span class="n">RemoveTextDefinition</span><span class="p">,</span>
     <span class="n">SynonymPredicateChange</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -342,6 +343,15 @@
                 <span class="p">)</span>
                 <span class="k">yield</span> <span class="n">new_def</span>
 
+            <span class="c1"># definition removal</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">RemoveTextDefinition</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">_gen_id</span><span class="p">(),</span>
+                    <span class="n">about_node</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span>
+                    <span class="n">old_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
+                    <span class="n">new_value</span><span class="o">=</span><span class="n">other_ontology</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
+                <span class="p">)</span>
+
             <span class="c1"># Synonyms - compute both sets of aliases</span>
             <span class="n">self_aliases</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">exclude_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
             <span class="n">other_aliases</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
@@ -427,7 +437,9 @@
 
         <span class="c1"># Process the entities in parallel using a generator</span>
         <span class="k">yield from</span> <span class="n">_parallely_get_relationship_changes</span><span class="p">(</span>
-            <span class="n">self_ontology_without_obsoletes</span><span class="p">,</span> <span class="n">self_out_rels</span><span class="p">,</span> <span class="n">other_out_rels</span><span class="p">,</span>
+            <span class="n">self_ontology_without_obsoletes</span><span class="p">,</span>
+            <span class="n">self_out_rels</span><span class="p">,</span>
+            <span class="n">other_out_rels</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
