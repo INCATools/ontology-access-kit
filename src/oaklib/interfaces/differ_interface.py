@@ -28,6 +28,7 @@ from kgcl_schema.datamodel.kgcl import (
     PredicateChange,
     RemoveNodeFromSubset,
     RemoveSynonym,
+    RemoveTextDefinition,
     SynonymPredicateChange,
 )
 
@@ -250,6 +251,15 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 )
                 yield new_def
 
+            # definition removal
+            if self.definition(entity) is not None and other_ontology.definition(entity) is None:
+                yield RemoveTextDefinition(
+                    id=_gen_id(),
+                    about_node=entity,
+                    old_value=self.definition(entity),
+                    new_value=other_ontology.definition(entity),
+                )
+
             # Synonyms - compute both sets of aliases
             self_aliases[entity] = set(self.alias_relationships(entity, exclude_labels=True))
             other_aliases[entity] = set(
@@ -335,7 +345,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
         # Process the entities in parallel using a generator
         yield from _parallely_get_relationship_changes(
-            self_ontology_without_obsoletes, self_out_rels, other_out_rels,
+            self_ontology_without_obsoletes,
+            self_out_rels,
+            other_out_rels,
         )
 
     def diff_summary(
