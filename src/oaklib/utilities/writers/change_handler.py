@@ -252,6 +252,15 @@ class ChangeHandler:
         ]
         header = "| Term | New Text Definition |"
         self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
+    
+    def handle_remove_text_definition(self, value):
+        # Create rows for the table
+        rows = [
+            f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |"
+            for change in value
+        ]
+        header = "| Term | Removed Text Definition |"
+        self.write_markdown_table(f"Text definitions removed: {len(rows)}", header, rows)
 
     def handle_node_obsoletion_with_direct_replacement(self, value):
         rows = [
@@ -338,6 +347,7 @@ class ChangeHandler:
             "ClassCreation": self.handle_class_creation,
             "NodeDeletion": self.handle_node_deletion,
             "NewTextDefinition": self.handle_new_text_definition,  # ! same as NodeTextDefinition
+            "RemoveTextDefinition": self.handle_remove_text_definition,
             "NodeObsoletionWithDirectReplacement": self.handle_node_obsoletion_with_direct_replacement,
             "NodeObsoletion": self.handle_node_obsoletion,
             "NodeDirectMerge": self.handle_node_direct_merge,
