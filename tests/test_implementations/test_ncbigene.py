@@ -9,7 +9,7 @@ from oaklib.interfaces.association_provider_interface import (
 )
 
 from tests import CYTOPLASM, INPUT_DIR
-from tests.test_implementations.test_mock_objects import NCBI_ASSOCIATIONS
+from tests.input.mock_ncbi_objects import NCBI_ASSOCIATIONS
 
 GENE_PATH = INPUT_DIR / "ncbigene-1956.xml"
 
