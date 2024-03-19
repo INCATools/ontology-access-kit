@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import MagicMock
 from xml.etree import ElementTree  # noqa S405
 
 from oaklib import get_adapter
@@ -8,6 +9,7 @@ from oaklib.interfaces.association_provider_interface import (
 )
 
 from tests import CYTOPLASM, INPUT_DIR
+from tests.test_implementations.test_mock_objects import NCBI_ASSOCIATIONS
 
 GENE_PATH = INPUT_DIR / "ncbigene-1956.xml"
 
@@ -20,14 +22,19 @@ class TestNCBIGene(unittest.TestCase):
 
     def setUp(self) -> None:
         self.adapter = get_adapter("NCBIGene:")
+        self.mock_assocs = NCBI_ASSOCIATIONS
 
     def test_query(self):
         """Tests basic query."""
-        adapter = self.adapter
+        adapter = MagicMock(spec=AssociationProviderInterface)
+        adapter.associations.return_value = iter(self.mock_assocs)
+
         if not isinstance(adapter, AssociationProviderInterface):
             raise TypeError("adapter is not an AssociationProviderInterface")
         assocs = list(adapter.associations(subjects=["NCBIGene:1956"]))
+        self.assertEqual(assocs, self.mock_assocs)
         self.assertGreater(len(assocs), 0)
+        adapter.associations.assert_called_once_with(subjects=["NCBIGene:1956"])
 
     def test_parse_gene_xml(self):
         """Tests parsing gene XML."""
