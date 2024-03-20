@@ -1,4 +1,5 @@
 import logging
+import re
 from dataclasses import dataclass
 from typing import (
     Any,
@@ -14,12 +15,24 @@ from typing import (
 )
 
 from kgcl_schema.datamodel import kgcl
+from pydantic import BaseModel
 
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.datamodels.vocabulary import (
+    HAS_DEFINITION_CURIE,
+    IAO_ALTERNATIVE_LABEL,
+    IDENTIFIER_PREDICATE,
+    RDF_TYPE,
+    RDFS_LABEL,
+)
 from oaklib.implementations.tabular.tabular_implementation import TabularImplementation
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
+    ALIAS_MAP,
     DEFINITION,
     LANGUAGE_TAG,
+    METADATA_MAP,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
@@ -41,6 +54,7 @@ from oaklib.utilities.kgcl_utilities import tidy_change_object
 ROBOT_CV_ID = "ID"
 ROBOT_CV_LABEL = "LABEL"
 ROBOT_CV_DEFINITION = "A definition"
+ROBOT_CV_ALTERNATIVE_LABEL = "A alternative term"
 ROBOT_CV_TYPE = "TYPE"
 ROBOT_CV_C_PCT = "C %"
 ROBOT_CV_SUBCLASS = "SC %"
@@ -50,7 +64,51 @@ ALIASES = {
     "A IAO:0000115": ROBOT_CV_DEFINITION,
 }
 
+URI_MAP = {
+    ROBOT_CV_ID: IDENTIFIER_PREDICATE,
+    ROBOT_CV_LABEL: RDFS_LABEL,
+    ROBOT_CV_DEFINITION: HAS_DEFINITION_CURIE,
+    ROBOT_CV_TYPE: RDF_TYPE,
+    ROBOT_CV_ALTERNATIVE_LABEL: IAO_ALTERNATIVE_LABEL,
+}
+
 SPEC_COL = str
+
+SPLIT_TOKEN = " SPLIT="  # noqa S105
+
+
+class TemplateString(BaseModel):
+    """
+    A robot template string
+
+    https://robot.obolibrary.org/template
+    """
+
+    value: str
+    """the verbatim value"""
+
+    predicate: Optional[str] = None
+    """E.g. ID, LABEL, SC"""
+
+    argument: Optional[str] = None
+
+    split_delimiter: Optional[str] = None
+
+    def parse(self):
+        """
+        Parse the template string
+        """
+        v = self.value
+        if SPLIT_TOKEN in v:
+            v, self.split_delimiter = v.split(SPLIT_TOKEN, 1)
+        if " " in v:
+            # e.g. "A alternative term"
+            # the A should be interpreted as a predicate
+            # the rest as an argument
+            self.predicate, self.argument = v.split(" ", 1)
+        else:
+            self.predicate = v
+            self.argument = None
 
 
 def template_slice(
@@ -80,13 +138,29 @@ def template_slice(
     >>> template_slice(template, rows, spec_cols)
     [{'LABEL': 'foo'}, {'LABEL': 'bar'}]
 
+    >>> template = {"id": "ID", "name": "A rdfs:label SPLIT=|", "definition": "A DEFINITION"}
+    >>> template_slice(template, rows, spec_cols)
+    [{'LABEL': ['foo']}, {'LABEL': ['bar']}]
+
     :param self:
     :param spec_cols:
     :param template:
     :param rows:
     :return:
     """
-    rev_aliases = {v: k for k, v in ALIASES.items()}
+    split_aliases = {}
+    canonical_to_local_map = {}
+    split_by_col = {}
+    for k, v in template.items():
+        norm_v = v
+        if SPLIT_TOKEN in v:
+            truncated, sep = v.split(SPLIT_TOKEN, 1)
+            split_aliases[truncated] = v
+            split_by_col[k] = sep
+            norm_v = truncated
+        if norm_v in ALIASES:
+            norm_v = ALIASES[norm_v]
+        canonical_to_local_map[norm_v] = v
     spec2col = {spec: col for col, spec in template.items()}
     if spec_cols is None:
         spec_cols = [ALIASES.get(spec, spec) for spec in spec2col.keys()]
@@ -94,14 +168,17 @@ def template_slice(
         if any(spec in ALIASES for spec in spec_cols):
             raise ValueError(f"Alias in spec_cols: {spec_cols}")
 
-    def lookup_value_in_row(row: Dict[str, Any], spec: str):
-        if spec in spec2col:
-            return row.get(spec2col[spec], None)
-        if spec in rev_aliases:
-            col = spec2col.get(rev_aliases[spec], None)
-            if col:
-                return row.get(col, None)
-        return None
+    def lookup_value_in_row(row: Dict[str, Any], spec: str) -> Optional[Any]:
+        norm_spec = canonical_to_local_map.get(spec, spec)
+        spec = spec2col.get(norm_spec, norm_spec)
+        if spec:
+            rv = row.get(spec, None)
+            if rv is not None and spec in split_by_col:
+                sep_token = split_by_col[spec]
+                rv = rv.split(sep_token)
+            return rv
+        else:
+            return None
 
     return [{spec: lookup_value_in_row(row, spec) for spec in spec_cols} for row in rows]
 
@@ -169,9 +246,9 @@ def template_slice_as_map(
     :return:
     """
     m = {}
-    if spec_cols is None:
-        spec_cols = list(template.values())
-    if ROBOT_CV_ID not in spec_cols:
+    # if spec_cols is None:
+    #    spec_cols = list(template.values())
+    if spec_cols is not None and ROBOT_CV_ID not in spec_cols:
         spec_cols = [ROBOT_CV_ID] + spec_cols
     for row in template_slice(template, rows, spec_cols):
         curie = row[ROBOT_CV_ID]
@@ -254,6 +331,7 @@ class RobotTemplateImplementation(
 
     _curie2label_map: Optional[Dict[CURIE, str]] = None
     _label2curie_map: Optional[Dict[str, CURIE]] = None
+    _row_by_curie: Optional[Dict[CURIE, Tuple[str, Dict[str, Any]]]] = None
 
     @property
     def curie2label_map(self) -> Dict[CURIE, str]:
@@ -326,6 +404,24 @@ class RobotTemplateImplementation(
                     raise ValueError(f"Duplicate curie: {curie}: {rows} plus {m[curie]}")
                 m[curie] = rows
         return m
+
+    @property
+    def row_by_curie(self) -> Tuple[str, Dict[str, Any]]:
+        """
+        Return the row for the curie.
+
+        :param curie:
+        :return:
+        """
+        if self._row_by_curie is None:
+            self._row_by_curie = {}
+            for tf in self.tabfile_map.values():
+                data = tf.rows
+                tmpl = data[0]
+                all_rows = data[1:]
+                for curie, row in template_slice_as_map(tmpl, all_rows).items():
+                    self._row_by_curie[curie] = (tf.name, row)
+        return self._row_by_curie
 
     def entities(self, filter_obsoletes=True, owl_type=None, **kwargs) -> Iterable[CURIE]:
         """
@@ -422,6 +518,80 @@ class RobotTemplateImplementation(
         if len(defns) == 0:
             return None
         return defns[0][1]
+
+    def entity_metadata_map(self, curie: CURIE, **kwargs) -> METADATA_MAP:
+        """
+        Return the metadata for the entity.
+
+        :param curie:
+        :param kwargs:
+        :return:
+        """
+        name, row = self.row_by_curie[curie]
+        metadata = {"source": name}
+        for k, v in row.items():
+            p = URI_MAP.get(k, None)
+            if not p:
+                if k.startswith("A "):
+                    p = k[2:]
+            if not p:
+                # URL-encode k using urllib.parse.quote_plus
+                p = f"_:{k}"
+            metadata[p] = v
+        return metadata
+
+    def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
+        """
+        Return the aliases for the entity.
+
+        :param curie:
+        :return:
+        """
+        # This hardcodes use of IAO as label vocabulary
+        m = self._slice_as_map([ROBOT_CV_ID, ROBOT_CV_ALTERNATIVE_LABEL])
+        if curie in m:
+            alts = m[curie].get(ROBOT_CV_ALTERNATIVE_LABEL, [])
+            if not isinstance(alts, list):
+                alts = [alts]
+            return {IAO_ALTERNATIVE_LABEL: alts}
+
+    def basic_search(
+        self, search_term: str, config: Optional[SearchConfiguration] = None
+    ) -> Iterable[CURIE]:
+        if config is None:
+            config = SearchConfiguration()
+        matches = []
+        # TODO: DRY
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            mfunc = lambda label: str(label).startswith(search_term)
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+            prog = re.compile(search_term)
+            mfunc = lambda label: prog.search(label)
+        elif config.is_partial:
+            mfunc = lambda label: search_term in str(label)
+        else:
+            mfunc = lambda label: label == search_term
+        search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
+        logging.info(f"SEARCH={search_term}")
+        for t in self.entities(filter_obsoletes=False):
+            lbl = self.label(t)
+            logging.debug(f"T={t} // {config}")
+            if (
+                search_all
+                or SearchProperty(SearchProperty.LABEL)
+                or config.properties not in config.properties
+            ):
+                if lbl and mfunc(lbl):
+                    matches.append(t)
+                    logging.info(f"Name match to {t}")
+                    continue
+            if search_all or SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
+                if mfunc(t):
+                    matches.append(t)
+                    logging.info(f"identifier match to {t}")
+                    continue
+        for m in matches:
+            yield m
 
     def dump(self, path: Union[str, TextIO] = None, syntax: str = None, **kwargs):
         if syntax is None:
