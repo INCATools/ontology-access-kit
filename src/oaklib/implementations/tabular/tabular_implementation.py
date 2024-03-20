@@ -83,16 +83,24 @@ class TabularImplementation(
                 reader = csv.DictReader(f, delimiter=tabfile.delimiter)
                 tabfile.rows = list(reader)
 
-    def dump(self, path: str = None, syntax: str = None, **kwargs):
+    def dump(self, path: str = None, syntax: str = None, clean=False, **kwargs):
         """
         Dump the tabular files to a folder.
 
         :param path: path to the folder.
         :param syntax: syntax of the file.
         :param kwargs: additional arguments.
+        :param clean: clean the folder before dumping.
         :return:
         """
         path = Path(path)
+        if clean and path.exists():
+            # walk the directory and remove all files
+            for root, _dirs, files in os.walk(path):
+                for file in files:
+                    fullpath = Path(root) / file
+                    fullpath.unlink()
+            path.rmdir()
         path.mkdir(exist_ok=True, parents=True)
         for name, tabfile in self.tabfile_map.items():
             outpath = path / f"{name}.tsv"

@@ -312,7 +312,19 @@ class RobotTemplateImplementation(
 
         runoak -i robottemplate:templates info OBI:0002516
 
-        OBI:0002516 ! brain specimen
+    Returns:
+
+    - OBI:0002516 ! brain specimen
+
+    Or limited search:
+
+        runoak -i robottemplate:templates info l~brain
+
+    Returns:
+
+    - OBI:0002516 ! brain specimen
+    - OBI:0003357 ! brain region atlas image data set
+    - ...
 
     You can also apply KGCL commands:
 
@@ -605,6 +617,17 @@ class RobotTemplateImplementation(
             raise NotImplementedError("Language tags not supported")
         return self._modify(curie, {ROBOT_CV_LABEL: label})
 
+    def set_definition(
+        self,
+        curie: CURIE,
+        value: str,
+        lang: Optional[LANGUAGE_TAG] = None,
+        sources: Optional[List] = None,
+    ) -> bool:
+        if lang:
+            raise NotImplementedError("Language tags not supported")
+        return self._modify(curie, {ROBOT_CV_DEFINITION: value})
+
     def apply_patch(
         self,
         patch: kgcl.Change,
@@ -619,5 +642,11 @@ class RobotTemplateImplementation(
             # self.set_label(patch.about_node, _clean(patch.new_value))
             self.set_label(patch.about_node, patch.new_value)
             modified_entities.append(patch.about_node)
+        elif isinstance(patch, kgcl.NewTextDefinition):
+            # self.set_label(patch.about_node, _clean(patch.new_value))
+            self.set_definition(patch.about_node, patch.new_value)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NodeCreation):
             raise NotImplementedError("NodeCreation not supported - don't know which template")
+        else:
+            raise NotImplementedError(f"Patch type {type(patch)} not supported")

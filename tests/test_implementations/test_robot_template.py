@@ -1,7 +1,12 @@
+import kgcl_schema.grammar.parser as kgcl_parser
 import pytest
+from kgcl_schema.datamodel import kgcl
+from linkml_runtime.dumpers import yaml_dumper
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.implementations.tabular.robot_template_implementation import template_slice
 from oaklib.interfaces.dumper_interface import DumperInterface
+from oaklib.interfaces.patcher_interface import PatcherInterface
+from oaklib.utilities.kgcl_utilities import tidy_change_object
 
 from tests import INPUT_DIR, OUTPUT_DIR
 
@@ -44,12 +49,36 @@ def test_basic_ontology_adapter(adapter):
     }
 
 
+@pytest.mark.skip("https://github.com/INCATools/kgcl/issues/64")
 def test_patcher(adapter):
-    adapter.set_label(BRAIN_SPECIMEN, "FOO")
+    changes = [f"rename {BRAIN_SPECIMEN} from 'brain specimen' to 'brain sample'"]
+    if not isinstance(adapter, PatcherInterface):
+        raise ValueError("Adapter does not support patching")
+    for change in changes:
+        print(f"Applying: {change}")
+        change_obj = kgcl_parser.parse_statement(change)
+        tidy_change_object(change_obj)
+        print(yaml_dumper.dumps(change_obj))
+        assert isinstance(change_obj, kgcl.NodeRename)
+        print("NEW:", change_obj.new_value)
+        adapter.apply_patch(change_obj)
+    # adapter.set_label(BRAIN_SPECIMEN, "FOO")
+    assert adapter.label(BRAIN_SPECIMEN) == "FOO"
     if not isinstance(adapter, DumperInterface):
         raise ValueError("Adapter does not support dumping")
+    adapter.dump(SAVED_TEMPLATES, clean=True)
+    adapter2 = get_adapter(f"robottemplate:{SAVED_TEMPLATES}")
+    assert adapter2.label(BRAIN_SPECIMEN) == "FOO"
+
+
+def test_set_label(adapter):
+    if not isinstance(adapter, PatcherInterface):
+        raise ValueError("Adapter does not support patching")
+    adapter.set_label(BRAIN_SPECIMEN, "FOO")
     assert adapter.label(BRAIN_SPECIMEN) == "FOO"
-    adapter.dump(SAVED_TEMPLATES)
+    if not isinstance(adapter, DumperInterface):
+        raise ValueError("Adapter does not support dumping")
+    adapter.dump(SAVED_TEMPLATES, clean=True)
     adapter2 = get_adapter(f"robottemplate:{SAVED_TEMPLATES}")
     assert adapter2.label(BRAIN_SPECIMEN) == "FOO"
 
