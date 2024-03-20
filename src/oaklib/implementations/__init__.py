@@ -56,6 +56,7 @@ from oaklib.implementations.sparql.oak_metamodel_implementation import (
 )
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.implementations.tabular.robot_template_implementation import RobotTemplateImplementation
 from oaklib.implementations.translator.translator_implementation import (
     TranslatorImplementation,
 )
@@ -97,6 +98,7 @@ __all__ = [
     "GildaImplementation",
     "LLMImplementation",
     "KGXImplementation",
+    "RobotTemplateImplementation",
     "UniprotImplementation",
     "TranslatorImplementation",
     "OakMetaModelImplementation",
