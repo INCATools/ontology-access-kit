@@ -283,62 +283,6 @@ class RobotTemplateImplementation(
     .. note::
 
         Highly incomplete!
-
-    This provides a minimal implementation of some interfaces using a collection of ROBOT tenplates as
-    a backend.
-
-    One of the main driving use cases here is to enable KGCL commands with ontologies that use ROBOT
-    templates.
-
-    For example, the `OBI templates folder on GitHub <https://github.com/obi-ontology/obi/tree/016ca67c7e6f31a048780cee56afde24d4af7125/src/ontology/templates>`_
-    contains a collection of ROBOT templates.
-
-    - assays.tsv
-    - biobank-specimens.tsv
-    - ...
-
-    Assuming these are in a local path ``templates``, you can use a selector:
-
-    .. code-block:: bash
-
-        runoak -i robottemplate:templates COMMAND ...
-
-    Note that this does NOT trigger compilation of the templates into OWL - this implementation works
-    on the templates as a collection of TSVs, facilitating update operations.
-
-    Currently very few operations are supported, but you can do basic things like:
-
-    .. code-block:: bash
-
-        runoak -i robottemplate:templates info OBI:0002516
-
-    Returns:
-
-    - OBI:0002516 ! brain specimen
-
-    Or limited search:
-
-        runoak -i robottemplate:templates info l~brain
-
-    Returns:
-
-    - OBI:0002516 ! brain specimen
-    - OBI:0003357 ! brain region atlas image data set
-    - ...
-
-    You can also apply KGCL commands:
-
-    .. code-block:: bash
-
-        runoak -i robottemplate:templates apply \
-          "rename OBI:0002516 from 'brain specimen' to 'brain sample'" -o new_templates
-
-    This will create a new copy of all templates in ``new_templates``, with the label
-    column modified in biobank-specimens.tsv
-
-    .. warning::
-
-        only a small subset of KGCL is implemented so far.
     """
 
     _curie2label_map: Optional[Dict[CURIE, str]] = None
@@ -396,8 +340,10 @@ class RobotTemplateImplementation(
             tmpl = data[0]
             rows = data[1:]
             success = template_modify(curie, tmpl, rows, update_map)
-            self._clear_cache()
-            return success
+            if success:
+                self._clear_cache()
+                return True
+        return False
 
     def _clear_cache(self):
         self._label2curie_map = None
