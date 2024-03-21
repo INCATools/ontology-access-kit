@@ -66,12 +66,12 @@ def test_patcher(adapter):
         print("NEW:", change_obj.new_value)
         adapter.apply_patch(change_obj)
     # adapter.set_label(BRAIN_SPECIMEN, "FOO")
-    assert adapter.label(BRAIN_SPECIMEN) == "FOO"
+    assert adapter.label(BRAIN_SPECIMEN) == "brain sample"
     if not isinstance(adapter, DumperInterface):
         raise ValueError("Adapter does not support dumping")
     adapter.dump(SAVED_TEMPLATES, clean=True)
     adapter2 = get_adapter(f"robottemplate:{SAVED_TEMPLATES}")
-    assert adapter2.label(BRAIN_SPECIMEN) == "FOO"
+    assert adapter2.label(BRAIN_SPECIMEN) == "brain sample"
 
 
 def test_set_label():
