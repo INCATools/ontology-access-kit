@@ -23,4 +23,5 @@ Implementations (also known as *adapters*) implement one or more :ref:`interface
    gilda
    aggregator
    pantherdb
+   robot-template
    llm

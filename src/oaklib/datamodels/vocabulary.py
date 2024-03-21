@@ -23,12 +23,14 @@ HAS_BROAD_SYNONYM = omd.slots.has_broad_synonym.curie
 HAS_NARROW_SYNONYM = omd.slots.has_narrow_synonym.curie
 HAS_RELATED_SYNONYM = omd.slots.has_related_synonym.curie
 SKOS_ALT_LABEL = "skos:altLabel"
+IAO_ALTERNATIVE_LABEL = "IAO:0000118"
 SYNONYM_PREDICATES = [
     HAS_RELATED_SYNONYM,
     HAS_NARROW_SYNONYM,
     HAS_EXACT_SYNONYM,
     HAS_BROAD_SYNONYM,
     SKOS_ALT_LABEL,
+    IAO_ALTERNATIVE_LABEL,
 ]
 
 SCOPE_TO_SYNONYM_PRED_MAP = {
