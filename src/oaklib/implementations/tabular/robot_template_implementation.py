@@ -395,7 +395,14 @@ class RobotTemplateImplementation(
             data = tf.rows
             tmpl = data[0]
             rows = data[1:]
-            return template_modify(curie, tmpl, rows, update_map)
+            success = template_modify(curie, tmpl, rows, update_map)
+            self._clear_cache()
+            return success
+
+    def _clear_cache(self):
+        self._label2curie_map = None
+        self._curie2label_map = None
+        self._row_by_curie = None
 
     def _slice_as_map(self, cols: Optional[List[str]] = None) -> Dict[CURIE, Dict[str, Any]]:
         """

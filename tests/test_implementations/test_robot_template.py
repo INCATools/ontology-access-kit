@@ -3,7 +3,10 @@ import pytest
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.implementations.tabular.robot_template_implementation import template_slice
+from oaklib.implementations.tabular.robot_template_implementation import (
+    template_modify,
+    template_slice,
+)
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.utilities.kgcl_utilities import tidy_change_object
@@ -71,10 +74,14 @@ def test_patcher(adapter):
     assert adapter2.label(BRAIN_SPECIMEN) == "FOO"
 
 
-def test_set_label(adapter):
+def test_set_label():
+    # do not use fixture, as we will mutate the contents
+    # (also: there appears to be a difference in fixtures between unix and osx?)
+    adapter = get_adapter(f"robottemplate:{TEMPLATES}")
     if not isinstance(adapter, PatcherInterface):
         raise ValueError("Adapter does not support patching")
-    adapter.set_label(BRAIN_SPECIMEN, "FOO")
+    assert adapter.label(BRAIN_SPECIMEN) == "brain specimen"
+    assert adapter.set_label(BRAIN_SPECIMEN, "FOO")
     assert adapter.label(BRAIN_SPECIMEN) == "FOO", "failed to update in-memory"
     if not isinstance(adapter, DumperInterface):
         raise ValueError("Adapter does not support dumping")
@@ -124,3 +131,13 @@ def test_set_label(adapter):
 def test_template_slice(spec_cols, template, expected):
     rows = [{"id": "X:1", "name": "foo"}, {"id": "X:2", "name": "bar", "definition": "A bar"}]
     assert template_slice(template, rows, spec_cols) == expected
+
+
+def test_modify_template():
+    template = {"id": "ID", "name": "LABEL", "definition": "A DEFINITION"}
+    rows = [{"id": "X:1", "name": "foo"}, {"id": "X:2", "name": "bar", "definition": "A bar"}]
+    assert template_modify("X:2", template, rows, {"LABEL": "baz"})
+    assert template_slice(template, rows) == [
+        {"ID": "X:1", "LABEL": "foo", "A DEFINITION": None},
+        {"ID": "X:2", "LABEL": "baz", "A DEFINITION": "A bar"},
+    ]
