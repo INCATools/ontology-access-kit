@@ -110,4 +110,5 @@ class TabularImplementation(
                 )
                 writer.writeheader()
                 writer.writerows(tabfile.rows)
+                f.flush()  # Explicit flush, usually redundant inside a with block
         return path
