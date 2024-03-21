@@ -75,12 +75,12 @@ def test_set_label(adapter):
     if not isinstance(adapter, PatcherInterface):
         raise ValueError("Adapter does not support patching")
     adapter.set_label(BRAIN_SPECIMEN, "FOO")
-    assert adapter.label(BRAIN_SPECIMEN) == "FOO"
+    assert adapter.label(BRAIN_SPECIMEN) == "FOO", "failed to update in-memory"
     if not isinstance(adapter, DumperInterface):
         raise ValueError("Adapter does not support dumping")
     adapter.dump(SAVED_TEMPLATES, clean=True)
     adapter2 = get_adapter(f"robottemplate:{SAVED_TEMPLATES}")
-    assert adapter2.label(BRAIN_SPECIMEN) == "FOO"
+    assert adapter2.label(BRAIN_SPECIMEN) == "FOO", "failed to update on disk"
 
 
 @pytest.mark.parametrize(
