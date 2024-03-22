@@ -64,7 +64,7 @@ def test_patcher(adapter):
         assert isinstance(change_obj, kgcl.NodeRename)
         print("NEW:", change_obj.new_value)
         adapter.apply_patch(change_obj)
-    adapter.set_label(BRAIN_SPECIMEN, "FOO")
+    # adapter.set_label(BRAIN_SPECIMEN, "FOO")
     assert adapter.label(BRAIN_SPECIMEN) == "FOO"
     if not isinstance(adapter, DumperInterface):
         raise ValueError("Adapter does not support dumping")
