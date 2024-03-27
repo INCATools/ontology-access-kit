@@ -16,8 +16,8 @@ class HpoaAssociationParser(XafAssociationParser):
 
     subject_column: ColumnReference = field(default_factory=lambda: ColumnReference(0))
     subject_label_column: ColumnReference = field(default_factory=lambda: ColumnReference(1))
-    predicate_column: ColumnReference = None
-    object_column: ColumnReference = field(default_factory=lambda: ColumnReference(3))
+    predicate_column: ColumnReference = field(default_factory=lambda: ColumnReference(5))
+    object_column: ColumnReference = field(default_factory=lambda: ColumnReference(6))
 
     def post_process(
         self, association: Association
