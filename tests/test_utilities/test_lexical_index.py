@@ -5,7 +5,7 @@ from oaklib.datamodels.lexical_index import (
     LexicalTransformationPipeline,
     TransformationType,
 )
-from oaklib.datamodels.mapping_rules_datamodel import Synonymizer
+from oaklib.datamodels.synonymizer_datamodel import Synonymizer
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
@@ -56,19 +56,19 @@ class TestLexicalIndex(unittest.TestCase):
         builder.build()
         syn_param = [
             Synonymizer(
-                the_rule="Remove parentheses bound info from the label.",
+                description="Remove parentheses bound info from the label.",
                 match=r"\([^)]*\)",  # noqa W605
                 match_scope="*",
                 replacement="",
             ),
             Synonymizer(
-                the_rule="Remove box brackets bound info from the label.",
+                description="Remove box brackets bound info from the label.",
                 match=r"\[[^)]*\]",  # noqa W605
                 match_scope="*",
                 replacement="",
             ),
             Synonymizer(
-                the_rule="Broad match terms with the term 'other' in them.",
+                description="Broad match terms with the term 'other' in them.",
                 match=r"(?i)^Other ",  # noqa W605
                 match_scope="*",
                 replacement="",
@@ -159,7 +159,7 @@ class TestLexicalIndex(unittest.TestCase):
         oi = SimpleOboImplementation(resource)
         syn_param = [
             Synonymizer(
-                the_rule="Broad match terms with the term 'other' in them.",
+                description="Broad match terms with the term 'other' in them.",
                 match="(?i)^Other ",  # noqa W605
                 match_scope="*",
                 replacement="",

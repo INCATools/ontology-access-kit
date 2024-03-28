@@ -1,0 +1,13 @@
+rules:
+  - description: Remove parentheses bound info from the label.
+    match: "\\([^)]*\\)"
+    match_scope: "*"
+    replacement: ""
+
+  - description: Remove box brackets bound info from the label.
+    match: "\\[[^)]*\\]"
+    match_scope: "*"
+    replacement: ""
+
+      
+  

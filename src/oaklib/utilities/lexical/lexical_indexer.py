@@ -34,8 +34,8 @@ from oaklib.datamodels.lexical_index import (
 from oaklib.datamodels.mapping_rules_datamodel import (
     MappingRuleCollection,
     Precondition,
-    Synonymizer,
 )
+from oaklib.datamodels.synonymizer_datamodel import Synonymizer
 from oaklib.datamodels.vocabulary import (
     IDENTIFIER_PREDICATE,
     SEMAPV,
@@ -47,6 +47,7 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.lexical.synonymizer import apply_synonymizer
 
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
 DEFAULT_QUALIFIER = "exact"
@@ -470,7 +471,7 @@ def precondition_holds(precondition: Precondition, mapping: Mapping) -> bool:
 
 def apply_transformation(
     term: str, transformation: LexicalTransformation
-) -> Union[str, List[Tuple[bool, str, str]]]:
+) -> Union[str, Tuple[bool, str, str]]:
     """
     Apply an individual transformation on a term
 
@@ -495,35 +496,6 @@ def apply_transformation(
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
         )
-
-
-def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, str]:
-    """
-    Apply synonymizer rules declared in the given match-rules.yaml file.
-
-    The basic concept is looking for regex in labels and replacing the ones that match
-    with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')
-    as to whether the replacement is an 'exact', 'broad', 'narrow', or 'related' synonym.
-
-    Note: This function "yields" all intermediate results (for each rule applied)
-    as opposed to a final result. The reason being we only want to return a "True"
-    synonymized result. If the term is not synonymized, then the result will be just
-    the term and a default qualifier. In the case of multiple synonyms, the actual result
-    will be the latest synonymized result.In other words, all the rules have been
-    implemented on the term to finally produce the result.
-
-    :param term: Original label.
-    :param rules: Synonymizer rules from match-rules.yaml file.
-    :yield: A Tuple stating [if the label changed, new label, qualifier]
-    """
-    for rule in rules:
-        tmp_term_2 = term
-        term = re.sub(rule.match, rule.replacement, term)
-
-        if tmp_term_2 != term:
-            yield True, term.strip(), rule.qualifier
-        else:
-            yield False, term.strip(), rule.qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):

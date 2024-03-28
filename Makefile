@@ -22,6 +22,11 @@ src/oaklib/datamodels/%.py: src/oaklib/datamodels/%.yaml
 #	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
 	$(RUN) gen-python $< > $@.tmp && mv $@.tmp $@
 	$(RUN) tox -e lint
+
+src/oaklib/datamodels/synonymizer.py: src/oaklib/datamodels/synonymizer.yaml
+	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
+
+
 src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-json-schema $< > $@.tmp && mv $@.tmp $@
 src/oaklib/datamodels/%.owl.ttl: src/oaklib/datamodels/%.yaml
