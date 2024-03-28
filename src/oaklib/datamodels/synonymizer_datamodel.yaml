@@ -1,0 +1,94 @@
+id: https://w3id.org/oak/synonymizer-datamodel
+title: Synonymizer Datamodel
+name: synonymizer_datamodel
+description: >-
+  A datamodel for specifying synonymization rules
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  synonymizer: https://w3id.org/oak/synonymizer-datamodel/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+
+default_prefix: synonymizer
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+  - lexical_index
+
+
+types:
+  RegularExpressionString:
+    typeof: string
+
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+
+  RuleSet:
+    description: A set of rules for generating synonyms or alternate lexical elements.
+    attributes:
+      rules:
+        description: A list of rules for generating synonyms or alternate lexical elements.
+        range: Synonymizer
+        multivalued: true
+      prefix:
+        description: The prefix that qualifies for the rule.
+        range: string
+
+  Synonymizer:
+   description: Specification of a rule for generating a synonym or alternate lexical element.
+   attributes:
+    description:
+      description: Description of the rule.
+      range: string
+    match:
+      description: Reg-ex rule to match substrings in labels.
+      range: RegularExpressionString
+    match_scope:
+      description: Synonym scope of the reg-ex rule, e.g. exact, narrow
+      range: string
+    replacement:
+      description: Reg-ex rule to replace substrings in labels
+      range: RegularExpressionString
+    qualifier:
+      description: Type of match for the new synonym generated.
+      range: string
+    prefix:
+      description: The rule applies to nodes of a specific prefix.
+      range: string
+    in_place:
+      description: Whether the rule is applied in place or not.
+      range: boolean
+    tests:
+      description: Unit tests for each rules.
+      range: Test
+      multivalued: true
+  
+  Test:
+   description: A unit test for a rule, specifies an intended output for an input
+   attributes:
+    input:
+     description: Input string for the rule.
+    output:
+     description: Output based on the rule.
+    prefix:
+      description: The prefix that qualifies for the rule.
+     

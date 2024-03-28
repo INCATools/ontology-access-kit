@@ -103,6 +103,8 @@ def tidy_change_object(change: kgcl.Change):
     Sometimes the main kgcl parser will leave quotes in place, URIs quoted, etc.
     As these are fixed in the main KCGL repo we can remove these here.
 
+    See `<https://github.com/INCATools/kgcl/issues/66>`_ for more information.
+
     :param change:
     :return:
     """
