@@ -6481,13 +6481,110 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
         writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
         writer.output = output
     ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
-    print(f"Ruleset: {ruleset}")
-    # if not isinstance(impl, OboGraphInterface):
-    #    raise NotImplementedError
-    # terms_to_synonymize = {}
     change_list = []
     curie_iter = query_terms_iterator(terms, impl)
     for change in synonymizer.apply_synonymizer_to_terms(impl, curie_iter, ruleset):
+        change_list.append(change)
+        writer.emit(change)
+
+    writer.finish()
+    if apply_patch and len(change_list) > 0:
+        if output:
+            impl.resource.slug = output
+        _apply_changes(impl, change_list)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.option(
+    "--rules-expression",
+    "-Y",
+    multiple=True,
+    help="YAML encoding of a rules expression",
+)
+@click.option(
+    "--apply-patch/--no-apply-patch",
+    default=False,
+    show_default=True,
+    help="Apply KGCL syntax generated based on the synonymizer rules file.",
+)
+@click.option(
+    "--patch",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="Path to where patch file will be written.",
+)
+@click.option(
+    "--patch-format",
+    help="Output syntax for patches.",
+)
+@output_option
+@output_type_option
+def generate_lexical_replacements(
+    terms, rules_file, rules_expression, apply_patch, patch, patch_format, output, output_type
+):
+    """
+    Generate lexical replacements based on a set of synonymizer rules.
+
+
+    If the `--apply-patch` flag is set, the output will be an ontology file with the changes
+    applied. Pass the `--patch` argument to lso get the patch file in KGCL format.
+
+    Example:
+    -------
+
+        runoak -i foo.obo generate-lexical-replacements -R foo_rules.yaml\
+           --patch patch.kgcl --apply-patch -o foo_syn.obo
+
+    If the `apply-patch` flag is NOT set then the main input will be KGCL commands
+
+    Example:
+    -------
+
+        runoak -i foo.obo generate-lexical-replacements -R foo_rules.yaml -o changes.kgcl
+
+
+    You can also pass the expressions directly as YAML
+
+    Example:
+    -------
+
+        runoak -i foo.obo generate-lexical-replacements \
+          -Y '{match: "nuclear (\\w+)", replacement: "\\1 nucleus"}' .all
+
+    see https://github.com/INCATools/kgcl.
+
+    Note: this command is very similar to generate-synonyms, but the main use case here
+    is replacing terms, and applying rules to other elements such as definitions
+
+    """
+    impl = settings.impl
+    if apply_patch:
+        writer = _get_writer(patch_format, impl, StreamingKGCLWriter, kgcl)
+        writer.output = patch
+    else:
+        writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
+        writer.output = output
+    if rules_file:
+        ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
+    elif rules_expression:
+        ruleset = synonymizer_datamodel.RuleSet()
+        for rule_expression in rules_expression:
+            rule = synonymizer_datamodel.Synonymizer(**yaml.safe_load(rule_expression))
+            ruleset.rules.append(rule)
+    else:
+        raise ValueError("Must specify either --rules-file or --rules-expression")
+    change_list = []
+    curie_iter = query_terms_iterator(terms, impl)
+    for change in synonymizer.apply_synonymizer_to_terms(
+        impl, curie_iter, ruleset, include_all=True
+    ):
         change_list.append(change)
         writer.emit(change)
 
