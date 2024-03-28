@@ -392,7 +392,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 if isinstance(change, kgcl.EdgeDeletion):
                     about = change.subject
                 else:
-                    about = change.about_edge.subject
+                    about = change.subject
             else:
                 about = None
             partition = RESIDUAL_KEY
