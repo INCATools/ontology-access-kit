@@ -86,6 +86,8 @@ classes:
       - object1_label
       - object2_label
       - number_subjects_in_common
+      - proportion_subjects_in_common
+      - number_subjects_in_union
       - number_subject_unique_to_entity1
       - number_subject_unique_to_entity2
       - subjects_in_common
@@ -392,6 +394,10 @@ slots:
   object1_label:
   object2_label:
   number_subjects_in_common:
+    range: integer
+  proportion_subjects_in_common:
+    range: float
+  number_subjects_in_union:
     range: integer
   number_subject_unique_to_entity1:
     range: integer

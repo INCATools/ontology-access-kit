@@ -365,8 +365,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         curies1 = list(curies1)
         curies2 = list(curies2)
         logging.info(f"Finding co-associations between {curies1} and {curies2}")
-        assocmap1 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies1}
-        assocmap2 = {c: list(self.associations(objects=[c], **kwargs)) for c in curies2}
+        assocmap = {c: list(self.associations(objects=[c], **kwargs)) for c in set(curies1+curies2)}
+        assocmap1 = {c: assocmap[c] for c in curies1}
+        assocmap2 = {c: assocmap[c] for c in curies2}
         for c1 in curies1:
             for c2 in curies2:
                 if c2 > c1 and not include_reciprocals:
@@ -383,9 +384,13 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                     object1=c1,
                     object2=c2,
                     number_subjects_in_common=len(common),
+                    number_subjects_in_union=len(elements1.union(elements2)),
                     number_subject_unique_to_entity1=len(elements1.difference(elements2)),
                     number_subject_unique_to_entity2=len(elements2.difference(elements1)),
                 )
+                if coassoc.number_subjects_in_union:
+                    coassoc.proportion_subjects_in_common = (coassoc.number_subjects_in_common /
+                                                             coassoc.number_subjects_in_union)
                 if include_entities:
                     coassoc.subjects_in_common = list(common)
                     coassoc.associations_for_subjects_in_common = assocs_to_common

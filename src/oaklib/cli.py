@@ -13,6 +13,7 @@ import logging
 import os
 import re
 import secrets
+import statistics as stats
 import sys
 from collections import defaultdict
 from enum import Enum, unique
@@ -4770,6 +4771,12 @@ def associations_counts(
     show_default=True,
     help="How to interpret query terms.",
 )
+@click.option(
+    "--include-entities/--no-include-entities",
+    default=True,
+    show_default=True,
+    help="Include entities (e.g. genes) in the output, otherwise just the counts",
+)
 @click.argument("terms", nargs=-1)
 def associations_matrix(
     terms,
@@ -4779,6 +4786,7 @@ def associations_matrix(
     autolabel: bool,
     output_type: str,
     output: str,
+    **kwargs,
 ):
     """
     Co-annotation matrix query.
@@ -4789,6 +4797,7 @@ def associations_matrix(
 
     Example:
     -------
+
         runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046
 
     As a heatmap:
@@ -4819,14 +4828,18 @@ def associations_matrix(
         curies2=curies2,
         predicates=actual_association_predicates,
         subject_closure_predicates=actual_predicates,
+        **kwargs,
     )
+    jaccards = []
     for pair in pairs_it:
         # TODO: more elegant way to handle this
         pair.associations_for_subjects_in_common = None
+        jaccards.append(pair.proportion_subjects_in_common)
         writer.emit(
             pair,
             label_fields=["object1", "object2"],
         )
+    logging.info(f"Average Jaccard index: {stats.mean(jaccards)}")
     writer.finish()
 
 
@@ -5951,6 +5964,7 @@ def apply(
             if command == "-":
                 files.append(sys.stdin)
             else:
+                logging.info(f"Parsing: {command}")
                 change = kgcl_parser.parse_statement(command)
                 logging.info(f"parsed {command} == {change}")
                 changes.append(change)
