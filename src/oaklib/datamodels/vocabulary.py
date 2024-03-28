@@ -41,6 +41,7 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 }
 SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 
+
 DEPRECATED_PREDICATE = omd.slots.deprecated.curie
 TERM_REPLACED_BY = omd.slots.term_replaced_by.curie
 CONSIDER_REPLACEMENT = omd.slots.consider.curie
@@ -175,6 +176,12 @@ CLASS_CREATION = "ClassCreation"
 NODE_CREATION = "NodeCreation"
 NODE_DELETION = "NodeDeletion"
 NODE_TEXT_DEFINITION_CHANGE = "NodeTextDefinitionChange"
+
+EXTENDED_SCOPE_TO_SYNONYM_PRED_MAP = {
+    "LABEL": LABEL_PREDICATE,
+    "DEFINITION": HAS_DEFINITION_CURIE,
+    **SYNONYM_PRED_TO_SCOPE_MAP,
+}
 
 
 class SEMAPV(Enum):

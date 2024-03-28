@@ -2,7 +2,7 @@ id: https://w3id.org/oak/mapping-rules-datamodel
 title: Mapping Rules Datamodel
 name: mapping-rules-datamodel
 description: >-
-  A datamodel for specifying lexical mapping rules.
+  A datamodel for specifying lexical mapping rules
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
@@ -30,6 +30,7 @@ emit_prefixes:
 imports:
   - linkml:types
   - lexical_index
+  - synonymizer_datamodel
 
 
 
@@ -86,7 +87,6 @@ classes:
       predicate_id_one_of:
         multivalued: true
 
-
   Postcondition:
     attributes:
       predicate_id:
@@ -101,7 +101,7 @@ classes:
 
   Synonymizer:
    attributes:
-    the_rule:
+    description:
       description: Description of the rule.
       range: string
     match:
