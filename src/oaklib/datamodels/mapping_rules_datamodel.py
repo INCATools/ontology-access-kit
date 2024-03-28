@@ -7,39 +7,33 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import JsonObj, as_dict
+from jsonasobj2 import as_dict
 from linkml_runtime.linkml_model.meta import (
     EnumDefinition,
     PermissibleValue,
-    PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, Float, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
 from linkml_runtime.utils.metamodelcore import (
     Bool,
     URIorCURIE,
-    bnode,
     empty_dict,
     empty_list,
 )
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.yamlutils import (
     YAMLRoot,
-    extended_float,
-    extended_int,
     extended_str,
 )
-from rdflib import Namespace, URIRef
+from rdflib import URIRef
+
+from oaklib.datamodels.synonymizer_datamodel import Synonymizer, Test
 
 metamodel_version = "1.7.0"
 version = None
@@ -249,74 +243,6 @@ class Postcondition(YAMLRoot):
 
         if self.weight is not None and not isinstance(self.weight, float):
             self.weight = float(self.weight)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class Synonymizer(YAMLRoot):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.Synonymizer
-    class_class_curie: ClassVar[str] = "mappingrules:Synonymizer"
-    class_name: ClassVar[str] = "Synonymizer"
-    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Synonymizer
-
-    the_rule: Optional[str] = None
-    match: Optional[str] = None
-    match_scope: Optional[str] = None
-    replacement: Optional[str] = None
-    qualifier: Optional[str] = None
-    prefix: Optional[str] = None
-    tests: Optional[Union[dict, "Test"]] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.the_rule is not None and not isinstance(self.the_rule, str):
-            self.the_rule = str(self.the_rule)
-
-        if self.match is not None and not isinstance(self.match, str):
-            self.match = str(self.match)
-
-        if self.match_scope is not None and not isinstance(self.match_scope, str):
-            self.match_scope = str(self.match_scope)
-
-        if self.replacement is not None and not isinstance(self.replacement, str):
-            self.replacement = str(self.replacement)
-
-        if self.qualifier is not None and not isinstance(self.qualifier, str):
-            self.qualifier = str(self.qualifier)
-
-        if self.prefix is not None and not isinstance(self.prefix, str):
-            self.prefix = str(self.prefix)
-
-        if self.tests is not None and not isinstance(self.tests, Test):
-            self.tests = Test(**as_dict(self.tests))
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class Test(YAMLRoot):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = MAPPINGRULES.Test
-    class_class_curie: ClassVar[str] = "mappingrules:Test"
-    class_name: ClassVar[str] = "Test"
-    class_model_uri: ClassVar[URIRef] = MAPPINGRULES.Test
-
-    input: Optional[str] = None
-    output: Optional[str] = None
-    prefix: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.input is not None and not isinstance(self.input, str):
-            self.input = str(self.input)
-
-        if self.output is not None and not isinstance(self.output, str):
-            self.output = str(self.output)
-
-        if self.prefix is not None and not isinstance(self.prefix, str):
-            self.prefix = str(self.prefix)
 
         super().__post_init__(**kwargs)
 

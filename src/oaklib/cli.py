@@ -51,9 +51,9 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
+from oaklib.datamodels import synonymizer_datamodel
 from oaklib.datamodels.association import RollupGroup
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
-from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType
 from oaklib.datamodels.obograph import (
     BasicPropertyValue,
     Edge,
@@ -166,11 +166,9 @@ from oaklib.utilities.kgcl_utilities import (
     parse_kgcl_files,
     write_kgcl,
 )
-from oaklib.utilities.lexical import patternizer
+from oaklib.utilities.lexical import patternizer, synonymizer
 from oaklib.utilities.lexical.lexical_indexer import (
-    DEFAULT_QUALIFIER,
     add_labels_from_uris,
-    apply_transformation,
     create_lexical_index,
     lexical_index_to_sssom,
     load_lexical_index,
@@ -6482,46 +6480,17 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
     else:
         writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
         writer.output = output
-    # TODO: Eventually get this from settings as above
-    if rules_file:
-        ruleset = load_mapping_rules(rules_file)
-    else:
-        ruleset = None
-    if not isinstance(impl, OboGraphInterface):
-        raise NotImplementedError
-    syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
-    terms_to_synonymize = {}
+    ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
+    print(f"Ruleset: {ruleset}")
+    # if not isinstance(impl, OboGraphInterface):
+    #    raise NotImplementedError
+    # terms_to_synonymize = {}
     change_list = []
-    for curie in query_terms_iterator(terms, impl):
-        # for rule in syn_rules:
-        for _, aliases in impl.entity_alias_map(curie).items():
-            matches = []
-            if aliases is not None:
-                # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
-                for alias in aliases:
-                    if alias:
-                        synonymized, new_alias, qualifier = apply_transformation(
-                            alias,
-                            LexicalTransformation(
-                                TransformationType.Synonymization, params=syn_rules
-                            ),
-                        )
-                        if synonymized:
-                            matches.append(new_alias)
+    curie_iter = query_terms_iterator(terms, impl)
+    for change in synonymizer.apply_synonymizer_to_terms(impl, curie_iter, ruleset):
+        change_list.append(change)
+        writer.emit(change)
 
-            if len(matches) > 0:
-                if qualifier is None or qualifier == "":
-                    qualifier = DEFAULT_QUALIFIER
-                terms_to_synonymize[curie] = matches
-                change = kgcl.NewSynonym(
-                    id="kgcl_change_id_" + str(len(terms_to_synonymize)),
-                    about_node=curie,
-                    old_value=alias,
-                    new_value=new_alias,
-                    qualifier=qualifier,
-                )
-                change_list.append(change)
-                writer.emit(change)
     writer.finish()
     if apply_patch and len(change_list) > 0:
         if output:
