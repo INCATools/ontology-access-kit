@@ -42,7 +42,7 @@ class HeatmapWriter(StreamingWriter):
             else:
                 t1 = obj.object1
                 t2 = obj.object2
-            v = obj.number_subjects_in_common
+            v = obj.proportion_subjects_in_common
             self.items.append({"term1": t1, "term2": t2, "score": v})
         else:
             raise ValueError(f"Cannot handle: {obj}")
