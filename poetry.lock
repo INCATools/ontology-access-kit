@@ -2470,13 +2470,13 @@ linkml-runtime = ">=1.1.24"
 
 [[package]]
 name = "kgcl-schema"
-version = "0.6.5"
+version = "0.6.6"
 description = "Schema for the KGCL project."
 optional = false
-python-versions = ">=3.9,<4.0"
+python-versions = "<4.0,>=3.9"
 files = [
-    {file = "kgcl_schema-0.6.5-py3-none-any.whl", hash = "sha256:5f8cbe938c1d5a203adbade94cb44729abd5f8f7d387d7bcdcb6c17adb906aab"},
-    {file = "kgcl_schema-0.6.5.tar.gz", hash = "sha256:e9d8a87036db0ed694ce8b2047f1deb919086e50581248000ffe351234233e99"},
+    {file = "kgcl_schema-0.6.6-py3-none-any.whl", hash = "sha256:5a8236e10308e838d76205e283b48299959ced25c9bffc48c3f92bd3805a169e"},
+    {file = "kgcl_schema-0.6.6.tar.gz", hash = "sha256:a28b3c944ad740096564283f8e6810bd8695b2d1db5a6951bec9b5b2644f397b"},
 ]
 
 [package.dependencies]
@@ -4435,6 +4435,7 @@ description = "A pure Python implementation of the trie data structure."
 optional = false
 python-versions = "*"
 files = [
+    {file = "PyTrie-0.4.0-py3-none-any.whl", hash = "sha256:f687c224ee8c66cda8e8628a903011b692635ffbb08d4b39c5f92b18eb78c950"},
     {file = "PyTrie-0.4.0.tar.gz", hash = "sha256:8f4488f402d3465993fb6b6efa09866849ed8cda7903b50647b7d0342b805379"},
 ]
 
@@ -6563,4 +6564,4 @@ semsimian = ["semsimian"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "1a7d5a135ecd6016d915620c07c4094acd2fc55b0a0e6d90db22d59953ceb16f"
+content-hash = "eff1226a19d3649749beb4366bb992aa61d895b1c4d5220a75d4585d203d74c8"

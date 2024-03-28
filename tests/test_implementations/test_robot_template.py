@@ -52,7 +52,6 @@ def test_basic_ontology_adapter(adapter):
     }
 
 
-@pytest.mark.skip("https://github.com/INCATools/kgcl/issues/64")
 def test_patcher(adapter):
     changes = [f"rename {BRAIN_SPECIMEN} from 'brain specimen' to 'brain sample'"]
     if not isinstance(adapter, PatcherInterface):
