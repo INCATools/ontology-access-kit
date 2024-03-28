@@ -66,6 +66,7 @@ Name: association
 | [number_subject_unique_to_entity1](number_subject_unique_to_entity1.md) |  |
 | [number_subject_unique_to_entity2](number_subject_unique_to_entity2.md) |  |
 | [number_subjects_in_common](number_subjects_in_common.md) |  |
+| [number_subjects_in_union](number_subjects_in_union.md) |  |
 | [object](object.md) | An ontology entity that is associated with the subject |
 | [object1](object1.md) |  |
 | [object1_label](object1_label.md) |  |
@@ -86,6 +87,7 @@ Name: association
 | [preserve_negated_associations](preserve_negated_associations.md) | If true, then the parser will keep negated associations in the output |
 | [primary_knowledge_source](primary_knowledge_source.md) | The primary knowledge source for the association |
 | [property_values](property_values.md) | Arbitrary key-value pairs with additional information about the association |
+| [proportion_subjects_in_common](proportion_subjects_in_common.md) |  |
 | [publication_is_added](publication_is_added.md) | True if the publication was not present in the old association set (and prese... |
 | [publication_is_deleted](publication_is_deleted.md) | True if the publication is not present in the new association set (and presen... |
 | [publications](publications.md) | The publications that support the association |

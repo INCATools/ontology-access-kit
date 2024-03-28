@@ -25,6 +25,8 @@ URI: [ontoassoc:PairwiseCoAssociation](https://w3id.org/oak/association/Pairwise
         
       PairwiseCoAssociation : number_subjects_in_common
         
+      PairwiseCoAssociation : number_subjects_in_union
+        
       PairwiseCoAssociation : object1
         
       PairwiseCoAssociation : object1_label
@@ -36,6 +38,8 @@ URI: [ontoassoc:PairwiseCoAssociation](https://w3id.org/oak/association/Pairwise
       PairwiseCoAssociation : object2_label
         
           PairwiseCoAssociation --> None : object2_label
+        
+      PairwiseCoAssociation : proportion_subjects_in_common
         
       PairwiseCoAssociation : subjects_in_common
         
@@ -59,6 +63,8 @@ URI: [ontoassoc:PairwiseCoAssociation](https://w3id.org/oak/association/Pairwise
 | [object1_label](object1_label.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [object2_label](object2_label.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [number_subjects_in_common](number_subjects_in_common.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
+| [proportion_subjects_in_common](proportion_subjects_in_common.md) | 0..1 <br/> [Float](Float.md) |  | direct |
+| [number_subjects_in_union](number_subjects_in_union.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 | [number_subject_unique_to_entity1](number_subject_unique_to_entity1.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 | [number_subject_unique_to_entity2](number_subject_unique_to_entity2.md) | 0..1 <br/> [Integer](Integer.md) |  | direct |
 | [subjects_in_common](subjects_in_common.md) | 0..* <br/> [String](String.md) |  | direct |
@@ -117,6 +123,8 @@ slots:
 - object1_label
 - object2_label
 - number_subjects_in_common
+- proportion_subjects_in_common
+- number_subjects_in_union
 - number_subject_unique_to_entity1
 - number_subject_unique_to_entity2
 - subjects_in_common
@@ -176,6 +184,24 @@ attributes:
     from_schema: https://w3id.org/oak/association
     rank: 1000
     alias: number_subjects_in_common
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: integer
+  proportion_subjects_in_common:
+    name: proportion_subjects_in_common
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: proportion_subjects_in_common
+    owner: PairwiseCoAssociation
+    domain_of:
+    - PairwiseCoAssociation
+    range: float
+  number_subjects_in_union:
+    name: number_subjects_in_union
+    from_schema: https://w3id.org/oak/association
+    rank: 1000
+    alias: number_subjects_in_union
     owner: PairwiseCoAssociation
     domain_of:
     - PairwiseCoAssociation
