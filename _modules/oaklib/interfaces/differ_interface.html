@@ -484,10 +484,7 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeChange</span><span class="p">):</span>
                 <span class="n">about</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">about_node</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeChange</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeDeletion</span><span class="p">):</span>
-                    <span class="n">about</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">subject</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">about</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">about_edge</span><span class="o">.</span><span class="n">subject</span>
+                <span class="n">about</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">subject</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">about</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">partition</span> <span class="o">=</span> <span class="n">RESIDUAL_KEY</span>
