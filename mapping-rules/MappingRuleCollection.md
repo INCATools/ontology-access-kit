@@ -93,6 +93,7 @@ attributes:
     multivalued: true
     domain_of:
     - MappingRuleCollection
+    - RuleSet
     range: MappingRule
     inlined: true
   minimum_confidence:
@@ -125,6 +126,7 @@ attributes:
     owner: MappingRuleCollection
     domain_of:
     - MappingRuleCollection
+    - RuleSet
     range: MappingRule
     inlined: true
   minimum_confidence:

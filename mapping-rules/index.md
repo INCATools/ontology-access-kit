@@ -1,6 +1,6 @@
 # Mapping Rules Datamodel
 
-A datamodel for specifying lexical mapping rules.
+A datamodel for specifying lexical mapping rules
 
 URI: https://w3id.org/oak/mapping-rules-datamodel
 
@@ -23,6 +23,7 @@ Name: mapping-rules-datamodel
 | [Postcondition](Postcondition.md) | None |
 | [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |
 | [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |
+| [RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements. |
 | [Synonymizer](Synonymizer.md) | None |
 | [Test](Test.md) | None |
 
@@ -66,7 +67,6 @@ Name: mapping-rules-datamodel
 | [synonymizer](synonymizer.md) | Normalizing rules to labels |
 | [term](term.md) | A normalized term that groups ontology elements |
 | [tests](tests.md) | Unit tests for each rules |
-| [the_rule](the_rule.md) | Description of the rule |
 | [transformations](transformations.md) |  |
 | [transformations_included_in](transformations_included_in.md) |  |
 | [type](type.md) | The type of transformation |
@@ -98,6 +98,7 @@ Name: mapping-rules-datamodel
 | [Ncname](Ncname.md) | Prefix part of CURIE |
 | [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
 | [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [RegularExpressionString](RegularExpressionString.md) |  |
 | [Sparqlpath](Sparqlpath.md) | A string encoding a SPARQL Property Path |
 | [String](String.md) | A character string |
 | [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |

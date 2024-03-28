@@ -15,6 +15,7 @@ URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
 | --- | --- | --- |
 [Synonymizer](Synonymizer.md) |  |  no  |
 [Test](Test.md) |  |  no  |
+[RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements |  no  |
 
 
 
@@ -48,6 +49,7 @@ alias: prefix
 domain_of:
 - Synonymizer
 - Test
+- RuleSet
 range: string
 
 ```

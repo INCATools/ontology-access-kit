@@ -89,6 +89,8 @@
 <div class="mermaid">
              classDiagram
     class Synonymizer
+      Synonymizer : description
+        
       Synonymizer : match
         
       Synonymizer : match_scope
@@ -103,8 +105,6 @@
         
           Synonymizer --&gt; Test : tests
         
-      Synonymizer : the_rule
-        
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -118,7 +118,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="the_rule.html"><span class="std std-doc">the_rule</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="std std-doc">description</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>Description of the rule</p></td>
 <td><p>direct</p></td>
@@ -172,6 +172,11 @@
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="std std-doc">Synonymizer</span></a></p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="RuleSet.html"><span class="std std-doc">RuleSet</span></a></p></td>
+<td><p><a class="reference internal" href="rules.html"><span class="std std-doc">rules</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="std std-doc">Synonymizer</span></a></p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -212,12 +217,12 @@
 name: Synonymizer
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
-  the_rule:
-    name: the_rule
+  description:
+    name: description
     description: Description of the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
     domain_of:
+    - MappingRule
     - Synonymizer
     range: string
   match:
@@ -260,6 +265,7 @@ attributes:
     domain_of:
     - Synonymizer
     - Test
+    - RuleSet
     range: string
   tests:
     name: tests
@@ -278,14 +284,14 @@ attributes:
 name: Synonymizer
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
-  the_rule:
-    name: the_rule
+  description:
+    name: description
     description: Description of the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    alias: the_rule
+    alias: description
     owner: Synonymizer
     domain_of:
+    - MappingRule
     - Synonymizer
     range: string
   match:
@@ -338,6 +344,7 @@ attributes:
     domain_of:
     - Synonymizer
     - Test
+    - RuleSet
     range: string
   tests:
     name: tests

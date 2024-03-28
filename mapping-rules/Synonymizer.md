@@ -10,6 +10,8 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 ```{mermaid}
  classDiagram
     class Synonymizer
+      Synonymizer : description
+        
       Synonymizer : match
         
       Synonymizer : match_scope
@@ -24,8 +26,6 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
         
           Synonymizer --> Test : tests
         
-      Synonymizer : the_rule
-        
       
 ```
 
@@ -39,7 +39,7 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [the_rule](the_rule.md) | 0..1 <br/> [String](String.md) | Description of the rule | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | Description of the rule | direct |
 | [match](match.md) | 0..1 <br/> [String](String.md) | Reg-ex rule to match substrings in labels | direct |
 | [match_scope](match_scope.md) | 0..1 <br/> [String](String.md) | Scope of the reg-ex rule | direct |
 | [replacement](replacement.md) | 0..1 <br/> [String](String.md) | Reg-ex rule to replace substrings in labels | direct |
@@ -56,6 +56,7 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [MappingRule](MappingRule.md) | [synonymizer](synonymizer.md) | range | [Synonymizer](Synonymizer.md) |
+| [RuleSet](RuleSet.md) | [rules](rules.md) | range | [Synonymizer](Synonymizer.md) |
 
 
 
@@ -101,12 +102,12 @@ URI: [mappingrules:Synonymizer](https://w3id.org/oak/mapping-rules-datamodel/Syn
 name: Synonymizer
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
-  the_rule:
-    name: the_rule
+  description:
+    name: description
     description: Description of the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
     domain_of:
+    - MappingRule
     - Synonymizer
     range: string
   match:
@@ -149,6 +150,7 @@ attributes:
     domain_of:
     - Synonymizer
     - Test
+    - RuleSet
     range: string
   tests:
     name: tests
@@ -169,14 +171,14 @@ attributes:
 name: Synonymizer
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
-  the_rule:
-    name: the_rule
+  description:
+    name: description
     description: Description of the rule.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    alias: the_rule
+    alias: description
     owner: Synonymizer
     domain_of:
+    - MappingRule
     - Synonymizer
     range: string
   match:
@@ -229,6 +231,7 @@ attributes:
     domain_of:
     - Synonymizer
     - Test
+    - RuleSet
     range: string
   tests:
     name: tests

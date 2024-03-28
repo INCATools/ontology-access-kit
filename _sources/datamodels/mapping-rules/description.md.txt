@@ -14,6 +14,7 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+[Synonymizer](Synonymizer.md) |  |  no  |
 
 
 
@@ -37,25 +38,16 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 
 
 
-### Schema Source
-
-
-* from schema: https://w3id.org/oak/mapping-rules-datamodel
-
-
-
 
 ## LinkML Source
 
 <details>
 ```yaml
 name: description
-from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 alias: description
-owner: MappingRule
 domain_of:
 - MappingRule
+- Synonymizer
 range: string
 
 ```

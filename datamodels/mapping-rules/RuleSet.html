@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: MappingRuleCollection &mdash; oaklib  documentation</title>
+  <title>Class: RuleSet &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -73,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Class: MappingRuleCollection</li>
+      <li class="breadcrumb-item active">Class: RuleSet</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/mapping-rules/MappingRuleCollection.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/mapping-rules/RuleSet.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,18 +83,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-mappingrulecollection">
-<h1>Class: MappingRuleCollection<a class="headerlink" href="#class-mappingrulecollection" title="Link to this heading"></a></h1>
-<p><em>A collection of mapping rules</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/MappingRuleCollection">mappingrules:MappingRuleCollection</a></p>
+  <section id="class-ruleset">
+<h1>Class: RuleSet<a class="headerlink" href="#class-ruleset" title="Link to this heading"></a></h1>
+<p><em>A set of rules for generating synonyms or alternate lexical elements.</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/RuleSet">mappingrules:RuleSet</a></p>
 <div class="mermaid">
              classDiagram
-    class MappingRuleCollection
-      MappingRuleCollection : minimum_confidence
+    class RuleSet
+      RuleSet : prefix
         
-      MappingRuleCollection : rules
+      RuleSet : rules
         
-          MappingRuleCollection --&gt; MappingRule : rules
+          RuleSet --&gt; Synonymizer : rules
         
       
         </div><!-- no inheritance hierarchy -->
@@ -110,13 +110,13 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="rules.html"><span class="std std-doc">rules</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="MappingRule.html"><span class="std std-doc">MappingRule</span></a></p></td>
-<td><p>all rules</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Synonymizer.html"><span class="std std-doc">Synonymizer</span></a></p></td>
+<td><p>A list of rules for generating synonyms or alternate lexical elements</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="minimum_confidence.html"><span class="std std-doc">minimum_confidence</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="prefix.html"><span class="std std-doc">prefix</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>The prefix that qualifies for the rule</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -141,10 +141,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>mappingrules:MappingRuleCollection</p></td>
+<td><p>mappingrules:RuleSet</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>mappingrules:MappingRuleCollection</p></td>
+<td><p>mappingrules:RuleSet</p></td>
 </tr>
 </tbody>
 </table>
@@ -156,62 +156,60 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Link to this heading"></a></h3>
 <details>
 ```yaml
-name: MappingRuleCollection
-description: A collection of mapping rules
+name: RuleSet
+description: A set of rules for generating synonyms or alternate lexical elements.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   rules:
     name: rules
-    description: all rules
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
+    description: A list of rules for generating synonyms or alternate lexical elements.
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     multivalued: true
     domain_of:
     - MappingRuleCollection
     - RuleSet
-    range: MappingRule
-    inlined: true
-  minimum_confidence:
-    name: minimum_confidence
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
+    range: Synonymizer
+  prefix:
+    name: prefix
+    description: The prefix that qualifies for the rule.
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     domain_of:
-    - MappingRuleCollection
-    range: float
-tree_root: true
+    - Synonymizer
+    - Test
+    - RuleSet
+    range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: MappingRuleCollection
-description: A collection of mapping rules
+name: RuleSet
+description: A set of rules for generating synonyms or alternate lexical elements.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   rules:
     name: rules
-    description: all rules
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
+    description: A list of rules for generating synonyms or alternate lexical elements.
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     multivalued: true
     alias: rules
-    owner: MappingRuleCollection
+    owner: RuleSet
     domain_of:
     - MappingRuleCollection
     - RuleSet
-    range: MappingRule
-    inlined: true
-  minimum_confidence:
-    name: minimum_confidence
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
-    alias: minimum_confidence
-    owner: MappingRuleCollection
+    range: Synonymizer
+  prefix:
+    name: prefix
+    description: The prefix that qualifies for the rule.
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
+    alias: prefix
+    owner: RuleSet
     domain_of:
-    - MappingRuleCollection
-    range: float
-tree_root: true
+    - Synonymizer
+    - Test
+    - RuleSet
+    range: string
 
 </pre></div>
 </div>

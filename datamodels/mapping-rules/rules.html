@@ -85,7 +85,6 @@
              
   <section id="slot-rules">
 <h1>Slot: rules<a class="headerlink" href="#slot-rules" title="Link to this heading"></a></h1>
-<p><em>all rules</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/rules">mappingrules:rules</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -102,40 +101,32 @@
 <td><p>A collection of mapping rules</p></td>
 <td><p>no</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="RuleSet.html"><span class="std std-doc">RuleSet</span></a></p></td>
+<td><p>A set of rules for generating synonyms or alternate lexical elements</p></td>
+<td><p>no</p></td>
+</tr>
 </tbody>
 </table>
 </section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="MappingRule.html"><span class="std std-doc">MappingRule</span></a></p></li>
-<li><p>Multivalued: True</p></li>
+<li><p>Range: <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Link to this heading"></a></h2>
-<section id="schema-source">
-<h3>Schema Source<a class="headerlink" href="#schema-source" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p>from schema: https://w3id.org/oak/mapping-rules-datamodel</p></li>
-</ul>
-</section>
 </section>
 <section id="linkml-source">
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Link to this heading"></a></h2>
 <details>
 ```yaml
 name: rules
-description: all rules
-from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
-multivalued: true
 alias: rules
-owner: MappingRuleCollection
 domain_of:
 - MappingRuleCollection
-range: MappingRule
-inlined: true
+- RuleSet
+range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>
