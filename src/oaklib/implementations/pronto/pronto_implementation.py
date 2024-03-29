@@ -491,7 +491,7 @@ class ProntoImplementation(
 
     def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         e = self._entity(curie)
-        return e.definition if e else None
+        return str(e.definition) if e else None
 
     def definitions(
         self,
