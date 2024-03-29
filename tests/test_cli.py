@@ -62,6 +62,7 @@ MAPPING_DIFF_TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
+SYNONYMIZER_RULES_FILE = INPUT_DIR / "cli-synonymizer-rules.yaml"
 
 
 def _outpath(test: str, fmt: str = "tmp") -> str:
@@ -1392,7 +1393,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_SYNONYMIZER_OBO,
                 "generate-synonyms",
                 "-R",
-                RULES_FILE,
+                SYNONYMIZER_RULES_FILE,
                 "--patch",
                 patch_file,
                 "--apply-patch",
@@ -1419,7 +1420,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_SYNONYMIZER_OBO,
                 "generate-synonyms",
                 "-R",
-                RULES_FILE,
+                SYNONYMIZER_RULES_FILE,
                 "-o",
                 patch_file,
                 ".all",

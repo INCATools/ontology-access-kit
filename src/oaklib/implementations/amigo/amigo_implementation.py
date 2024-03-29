@@ -21,7 +21,7 @@ __all__ = [
 ]
 
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
-from oaklib.types import CURIE, PRED_CURIE
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.iterator_utils import chunk
 
 AMIGO_ENDPOINT = "http://golr.geneontology.org/solr/"
@@ -43,6 +43,7 @@ ISA_PARTOF_CLOSURE_LABEL = "isa_partof_closure_label"
 TAXON_CLOSURE = "taxon_closure"
 ASSIGNED_BY = "assigned_by"
 REFERENCE = "reference"
+SUBSET = "subset"
 
 NEIGHBORHOOD_GRAPH_JSON = "neighborhood_graph_json"
 TOPOLOGY_GRAPH_JSON = "topology_graph_json"
@@ -65,7 +66,7 @@ DEFAULT_SELECT_FIELDS = [
 
 
 def _fq_element(k, vs):
-    v = " OR ".join([f'"{v}"' for v in vs])
+    v = " OR ".join([f'"{v}"' for v in vs]) if isinstance(vs, list) else f'"{vs}"'
     return f"{k}:({v})"
 
 
@@ -203,6 +204,14 @@ class AmiGOImplementation(
             for doc in results:
                 yield doc[ENTITY], doc[ENTITY_LABEL]
 
+    def subset_members(self, subset: SUBSET_CURIE, **kwargs) -> Iterable[CURIE]:
+        fq = {DOCUMENT_CATEGORY: [ONTOLOGY_CLASS_CATEGORY], SUBSET: [subset]}
+        solr = self._solr
+        results = _query(solr, fq, [ANNOTATION_CLASS])
+        for doc in results:
+            yield doc[ANNOTATION_CLASS]
+
+
     def associations(
         self,
         subjects: Iterable[CURIE] = None,
@@ -339,6 +348,49 @@ class AmiGOImplementation(
             solr, fq, facet_field=ff, rows=0, facet_limit=limit, min_facet_count=min_facet_count
         )
 
+
+    # def association_pairwise_coassociations(
+    #         self,
+    #         curies1: Iterable[CURIE],
+    #         curies2: Iterable[CURIE],
+    #         inputs_are_subjects=False,
+    #         include_reciprocals=False,
+    #         include_diagonal=True,
+    #         include_entities=True,
+    #         **kwargs,
+    # ) -> Iterator[PairwiseCoAssociation]:
+    #     if include_entities or inputs_are_subjects:
+    #         return super().association_pairwise_coassociations(
+    #             curies1=curies1,
+    #             curies2=curies2,
+    #             inputs_are_subjects=inputs_are_subjects,
+    #             include_reciprocals=include_reciprocals,
+    #             include_diagonal=include_diagonal,
+    #             include_entities=include_entities,
+    #             **kwargs,
+    #         )
+    #     fq = {DOCUMENT_CATEGORY: ["annotation"]}
+    #     if self._source:
+    #         fq[TAXON_CLOSURE] = [self._source]
+    #     params = {
+    #         "facet": "true",
+    #         "facet.field": BIOENTITY,
+    #         "facet.limit": -1,
+    #         "facet.mincount": 1,
+    #     }
+    #     params["facet.query"] = [f"{ISA_PARTOF_CLOSURE}:\"{c}\"" for c in curies1]
+    #     solr = self._solr
+    #     q = "*:*"
+    #     fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
+    #     results = solr.search(q, rows=0, fq=fq_list, **params)
+    #     print(results)
+    #     ff = results.raw_response["facet_counts"]["facet_fields"][BIOENTITY]
+    #     for i in range(0, len(ff), 2):
+    #         yield ff[i], ff[i + 1]
+    #
+
+
+
     def association_subject_counts(
         self,
         subjects: Iterable[CURIE] = None,
@@ -393,6 +445,10 @@ class AmiGOImplementation(
                 s, p, o = edge["sub"], edge["pred"], edge["obj"]
                 self._cache_nodes(nodes, [s, p, o])
                 yield s, p, o
+
+
+
+
 
     def basic_search(
         self, search_term: str, config: Optional[SearchConfiguration] = None
