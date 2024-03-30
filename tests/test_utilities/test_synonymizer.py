@@ -77,10 +77,10 @@ def test_synonymizer(rule, input, expected):
             [CYTOPLASM],
             [
                 (
-                    "change definition of GO:0005737 from All of the contents of a cell excluding "
-                    "the plasma membrane and nucleus, but including other subcellular structures. "
-                    "to All of the contents of a cell excluding the plasma membrane and "
-                    "NUCLEUS, but including other subcellular structures."
+                    "change definition of GO:0005737 from 'All of the contents of a cell excluding "
+                    "the plasma membrane and nucleus, but including other subcellular structures.' "
+                    "to 'All of the contents of a cell excluding the plasma membrane and "
+                    "NUCLEUS, but including other subcellular structures.'"
                 )
             ],
         ),
@@ -96,4 +96,5 @@ def test_syonymizer_on_terms(ruleset, include_all, terms, expected):
         change_str = render(change)
         print(change_str)
         changes_strs.append(change_str)
+
     assert set(changes_strs) == set(expected)

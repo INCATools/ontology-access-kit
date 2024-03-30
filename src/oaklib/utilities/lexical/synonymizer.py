@@ -2,6 +2,7 @@ import re
 from typing import Iterable, Iterator, List, Optional, Tuple
 
 from kgcl_schema.datamodel import kgcl
+from pronto import Definition
 
 from oaklib.datamodels.synonymizer_datamodel import RuleSet, Synonymizer
 from oaklib.datamodels.vocabulary import (
@@ -65,6 +66,8 @@ def apply_synonymizer_to_terms(
         if include_all:
             defn = adapter.definition(curie)
             if defn:
+                if isinstance(defn, Definition):
+                    defn = str(defn)
                 tvs.append(("definition", [defn]))
         for scope_pred, aliases in tvs:
             if aliases is not None:
