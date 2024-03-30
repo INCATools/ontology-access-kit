@@ -172,6 +172,7 @@ class ComplianceTester:
         """
         test = self.test
         tdef = oi.definition(NUCLEUS)
+        assert isinstance(tdef, str)
         test.assertTrue(tdef.startswith("A membrane-bounded organelle of eukaryotic cells"))
         test.assertIsNone(oi.definition(FAKE_ID))
         if include_metadata:

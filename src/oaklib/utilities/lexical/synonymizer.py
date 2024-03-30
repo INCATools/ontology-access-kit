@@ -54,12 +54,16 @@ def apply_synonymizer_to_terms(
     """
     Apply synonymizer rules to a list of terms.
 
+    Note synonymizer despite its name is not just for synonyms. It can be used to
+    replace definitions, labels, ...
+
     :param adapter:
     :param terms:
     :param ruleset:
     :param include_all:
     :return:
     """
+    pred_to_qual = {v: k for k, v in EXTENDED_SCOPE_TO_SYNONYM_PRED_MAP.items()}
     n = 0
     for curie in terms:
         tvs = list(adapter.entity_alias_map(curie).items())
@@ -79,7 +83,11 @@ def apply_synonymizer_to_terms(
                             ):
                                 if replaced:
                                     if qualifier is None or qualifier == "":
-                                        qualifier = "exact"
+                                        if rule.in_place or scope_pred == "definition":
+                                            # preserves the original synonym type
+                                            qualifier = pred_to_qual.get(scope_pred, scope_pred).lower()
+                                        else:
+                                            qualifier = "exact"
                                     n += 1
                                     change_id = f"kgcl_change_id_{n}"
                                     if qualifier == "label":
