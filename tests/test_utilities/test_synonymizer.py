@@ -77,17 +77,35 @@ def test_synonymizer(rule, input, expected):
             [CYTOPLASM],
             [
                 (
-                    "change definition of GO:0005737 from All of the contents of a cell excluding "
-                    "the plasma membrane and nucleus, but including other subcellular structures. "
-                    "to All of the contents of a cell excluding the plasma membrane and "
-                    "NUCLEUS, but including other subcellular structures."
+                    "change definition of GO:0005737 from 'All of the contents of a cell excluding "
+                    "the plasma membrane and nucleus, but including other subcellular structures.' "
+                    "to 'All of the contents of a cell excluding the plasma membrane and "
+                    "NUCLEUS, but including other subcellular structures.'"
+                )
+            ],
+        ),
+        (
+            Synonymizer(
+                match=r"All of the contents",
+                replacement="XYZ",
+                in_place=True,
+            ),
+            True,
+            [CYTOPLASM],
+            [
+                (
+                    "change definition of GO:0005737 from 'All of the contents of a cell excluding "
+                    "the plasma membrane and nucleus, but including other subcellular structures.' "
+                    "to 'XYZ of a cell excluding the plasma membrane and "
+                    "nucleus, but including other subcellular structures.'"
                 )
             ],
         ),
     ],
 )
 def test_syonymizer_on_terms(ruleset, include_all, terms, expected):
-    adapter = get_adapter(TEST_SIMPLE_ONT)
+    #adapter = get_adapter(f"simpleobo:{TEST_SIMPLE_ONT}")
+    adapter = get_adapter(f"{TEST_SIMPLE_ONT}")
     if isinstance(ruleset, Synonymizer):
         ruleset = RuleSet(rules=[ruleset])
     changes = list(apply_synonymizer_to_terms(adapter, terms, ruleset, include_all=include_all))

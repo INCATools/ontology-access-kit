@@ -19,7 +19,7 @@ sssom = "^0.4.4"
 ratelimit = ">=2.2.1"
 appdirs = ">=1.4.4"
 semsql = ">=0.3.1"
-kgcl-schema = "^0.6.5"
+kgcl-schema = "^0.6.8"
 
 funowl = ">=0.2.0"
 gilda = {version = ">=1.0.0", optional = true}
