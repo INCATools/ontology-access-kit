@@ -800,7 +800,8 @@ class SimpleOboImplementation(
         if stanza1 is None:
             stanza1 = Stanza(id=stanza2.id, type=stanza2.type)
             if stanza2.type == "Term":
-                yield kgcl.ClassCreation(id=_id(), about_node=stanza2.id)
+                # yield kgcl.ClassCreation(id=_id(), about_node=stanza2.id)
+                pass
             elif stanza2.type == "Typedef":
                 yield kgcl.NodeCreation(id=_id(), about_node=stanza2.id)
             else:
