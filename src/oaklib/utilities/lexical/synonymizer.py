@@ -85,7 +85,9 @@ def apply_synonymizer_to_terms(
                                     if qualifier is None or qualifier == "":
                                         if rule.in_place or scope_pred == "definition":
                                             # preserves the original synonym type
-                                            qualifier = pred_to_qual.get(scope_pred, scope_pred).lower()
+                                            qualifier = pred_to_qual.get(
+                                                scope_pred, scope_pred
+                                            ).lower()
                                         else:
                                             qualifier = "exact"
                                     n += 1
