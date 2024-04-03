@@ -211,7 +211,6 @@ class AmiGOImplementation(
         for doc in results:
             yield doc[ANNOTATION_CLASS]
 
-
     def associations(
         self,
         subjects: Iterable[CURIE] = None,
@@ -348,7 +347,6 @@ class AmiGOImplementation(
             solr, fq, facet_field=ff, rows=0, facet_limit=limit, min_facet_count=min_facet_count
         )
 
-
     # def association_pairwise_coassociations(
     #         self,
     #         curies1: Iterable[CURIE],
@@ -388,8 +386,6 @@ class AmiGOImplementation(
     #     for i in range(0, len(ff), 2):
     #         yield ff[i], ff[i + 1]
     #
-
-
 
     def association_subject_counts(
         self,
@@ -445,10 +441,6 @@ class AmiGOImplementation(
                 s, p, o = edge["sub"], edge["pred"], edge["obj"]
                 self._cache_nodes(nodes, [s, p, o])
                 yield s, p, o
-
-
-
-
 
     def basic_search(
         self, search_term: str, config: Optional[SearchConfiguration] = None

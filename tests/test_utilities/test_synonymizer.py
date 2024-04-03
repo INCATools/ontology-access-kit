@@ -81,7 +81,6 @@ def test_synonymizer(rule, input, expected):
                     "the plasma membrane and nucleus, but including other subcellular structures.' "
                     "to 'All of the contents of a cell excluding the plasma membrane and "
                     "NUCLEUS, but including other subcellular structures.'"
-
                 )
             ],
         ),
@@ -105,7 +104,7 @@ def test_synonymizer(rule, input, expected):
     ],
 )
 def test_syonymizer_on_terms(ruleset, include_all, terms, expected):
-    #adapter = get_adapter(f"simpleobo:{TEST_SIMPLE_ONT}")
+    # adapter = get_adapter(f"simpleobo:{TEST_SIMPLE_ONT}")
     adapter = get_adapter(f"{TEST_SIMPLE_ONT}")
     if isinstance(ruleset, Synonymizer):
         ruleset = RuleSet(rules=[ruleset])
