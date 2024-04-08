@@ -285,6 +285,14 @@ class ChangeHandler:
         header = "| Term | Replacement |"
         self.write_markdown_table(f"Nodes merged: {len(rows)}", header, rows)
 
+    def handle_add_node_to_subset(self, value):
+        rows = [
+            f"| {self._format_entity_labels(change.about_node)} | {change.in_subset} |"
+            for change in value
+        ]
+        header = "| Term | Subset |"
+        self.write_markdown_table(f"Nodes added to subset: {len(rows)}", header, rows)
+
     # def handle_datatype_or_language_tag_change(self, value):
     #     # Implement datatype or language tag change handling logic here
     #     logging.info("Datatype or language tag change handling not yet implemented.")
@@ -354,6 +362,7 @@ class ChangeHandler:
             "EdgeCreation": self.handle_edge_creation,
             "EdgeChange": self.handle_edge_change,
             "MappingEdgeDeletion": self.handle_mapping_edge_deletion,
+            "AddNodeToSubset": self.handle_add_node_to_subset,
             # "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
             # "LanguageTagChange": self.handle_language_tag_change,
             # "DatatypeChange": self.handle_datatype_change,
