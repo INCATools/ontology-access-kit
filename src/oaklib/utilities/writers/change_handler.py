@@ -75,7 +75,7 @@ class ChangeHandler:
         header = "| Subject | Predicate | Object|"
 
         # Write the "Edges Created" section as a collapsible markdown table
-        self.write_markdown_table(f"Mappings added: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Relationships added: {len(rows)}", header, rows)
 
     def handle_edge_change(self, value):
         # Create rows for the table
