@@ -1,7 +1,7 @@
 """Change Handler Class."""
 
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, List
 
 from kgcl_schema.datamodel.kgcl import Change
 
@@ -12,30 +12,21 @@ class ChangeHandler:
         self.file = file
         self.oi = oi
 
-    def write_markdown_collapsible(self, title, content_lines):
-        # Start with the details tag for a collapsible section
+    def write_markdown_collapsible(self, title: str, content_lines: List[str]) -> None:
         self.file.write(f"<details>\n<summary>{title}</summary>\n\n")
-
-        # Write the content lines within the collapsible section
-        content = "\n".join(content_lines)
-        self.file.write(content + "\n\n")
-
-        # Close the details tag
+        self.file.write("\n".join(content_lines) + "\n\n")
         self.file.write("</details>\n\n")
 
-    def write_markdown_table(self, title, header, rows):
-        # Create the table header and separator lines
-        markdown_rows = [
-            header,
-            "|".join(["----"] * len(header.split("|")[1:-1])) + "|",
-        ]
-
-        # Add the table rows
-        markdown_rows.extend(rows)
-
-        # Write the table as a collapsible section
+    def write_markdown_table(self, title: str, header: str, rows: List[str]) -> None:
+        separator = "|".join(["----"] * len(header.split("|")[1:-1])) + "|"
+        markdown_rows = [header, separator] + rows
         self.write_markdown_collapsible(title, markdown_rows)
 
+    def handle_generic_change(self, value: List[object], title: str, header: str, row_format: str) -> None:
+        rows = [row_format.format(change=change) for change in value]
+        self.write_markdown_table(f"{title}: {len(rows)}", header, rows)
+
+    
     def handle_new_synonym(self, value):
         # Create rows for the table
         rows = [
