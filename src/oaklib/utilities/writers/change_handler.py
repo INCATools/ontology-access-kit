@@ -22,11 +22,12 @@ class ChangeHandler:
         markdown_rows = [header, separator] + rows
         self.write_markdown_collapsible(title, markdown_rows)
 
-    def handle_generic_change(self, value: List[object], title: str, header: str, row_format: str) -> None:
+    def handle_generic_change(
+        self, value: List[object], title: str, header: str, row_format: str
+    ) -> None:
         rows = [row_format.format(change=change) for change in value]
         self.write_markdown_table(f"{title}: {len(rows)}", header, rows)
 
-    
     def handle_new_synonym(self, value):
         # Create rows for the table
         rows = [
