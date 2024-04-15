@@ -115,8 +115,50 @@ Suggesting Definitions
          finger toe \
          --style-hints "write definitions in formal genus-differentia form"
 
+Validating Definitions
+~~~~~~~~~~~~~~~~~~~~~~
+
+The LLM adapter currently interprets ``validate-definitions`` as comparing the specified definition
+against the abstracts of papers cited in the definition provenance, or by comparing the definition
+against the database objects that are cited as definition provenance.
+
+Here is an example of validating definitions for GO terms:
+
+.. code-block:: bash
+
+    runoak --stacktrace -i llm:sqlite:obo:go validate-definitions \
+      i^GO: -o out.jsonl -O jsonl
+
+The semsql version of GO has other ontologies merged in, so the ``i^GO:`` query only validates
+against actual GO terms.
+
+You can also pass in a configuration object.
+This should conform to the `Validation Data Model <https://w3id.org/oak/validation-datamodel>`_
+
+For example, this configuration yaml provides a specific prompt and also a URL for
+documentation aimed at ontology developers.
+
+.. code-block:: yaml
+
+    prompt_info: Please also use the following GO guidelines
+    documentation_objects:
+      - https://wiki.geneontology.org/Guidelines_for_GO_textual_definitions
+
+All specified URLs are downloaded and converted to text and included in the prompt.
+
+The configuration yaml is passed in as follows:
+
+.. code-block:: bash
+
+
+    runoak --stacktrace  -i llm:{claude-3-opus}:sqlite:obo:go validate-definitions \
+         -C src/oaklib/conf/go-definition-validation-llm-config.yaml i^GO: -O yaml
+
 Validating Mappings
 ~~~~~~~~~~~~~~~~~~~
+
+The LLM adapter validates mappings by looking up info on the mapped entity and
+comparing it with the main entity.
 
 .. code-block:: bash
 
@@ -165,8 +207,14 @@ as a developer, then you can do this:
 
 This will install the plugin in the same environment as OAK.
 
-TODO: instructions for non-developers.
+If you need to update this:
 
+.. code-block:: bash
+
+    cd ontology-access-kit
+    poetry run llm install -U llm-gemini
+
+TODO: instructions for non-developers.
 
 Mixtral via Ollama and LiteLLM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

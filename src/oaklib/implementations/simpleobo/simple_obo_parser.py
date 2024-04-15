@@ -19,6 +19,7 @@ from oaklib.types import CURIE, PRED_CURIE
 re_tag_value = re.compile(r"^(\S+):\s*(.*)$")
 re_stanza_type = re.compile(r"^\[(\w+)\]$")
 re_empty = re.compile(r"^\S*$")
+re_def = re.compile(r"^\"(.*)\"\s+\[(.*)\](?:\s+\{(.*)\})?$")
 re_synonym1 = re.compile(r"^\"(.*)\"\s+(\w+)\s+\[(.*)\](?:\s+\{(.*)\})?$")
 re_synonym2 = re.compile(r"^\"(.*)\"\s+(\w+)\s+(\S)+\s\[(.*)\](?:\s+\{(.*)\})?$")
 re_quoted_simple = re.compile(r'^"(.*)"\s+\[')
@@ -188,6 +189,23 @@ class TagValue:
             else:
                 raise ValueError(f"Bad synonym: {self.value}")
         return syn[0], syn[1], syn[2], _parse_list(syn[3])
+
+    def as_definition(self) -> Optional[Tuple[str, List[str]]]:
+        """
+        Cast a tag-value pair as a definition
+
+        Returns None if this is not a definition TV
+
+        :return: definition tuple structure
+        """
+        if self.tag != TAG_DEF:
+            return
+        m = re_def.match(self.value)
+        if m:
+            xrefs = _parse_list(m.group(2)) if m.group(2) else []
+            return m.group(1), xrefs
+        else:
+            raise ValueError(f"Bad definition: {self.value}")
 
     def as_property_value(self) -> Optional[PROPERTY_VALUE_TUPLE]:
         """

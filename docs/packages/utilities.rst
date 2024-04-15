@@ -17,5 +17,6 @@ being turned into :ref:`interfaces`.
    lexical.lexical_indexer
    subsets.slimmer_utils
    apikey_manager
-   taxon/taxon_constraint_utils
+   taxon.taxon_constraint_utils
    table_filler
+

@@ -5,12 +5,12 @@ from typing import Iterable, List, Type
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.validation_datamodel import ValidationResult
 from oaklib.utilities.validation.definition_ontology_rule import (
-    TextAndLogicalDefinitionMatchOntologyRule,
+    DefinitionOntologyRule,
 )
 from oaklib.utilities.validation.disjointness_rule import DisjointnessRule
 from oaklib.utilities.validation.ontology_rule import OntologyRule
 
-RULES = [TextAndLogicalDefinitionMatchOntologyRule, DisjointnessRule]
+RULES = [DefinitionOntologyRule, DisjointnessRule]
 
 
 @dataclass
