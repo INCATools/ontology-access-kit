@@ -498,11 +498,14 @@ class SimpleOboImplementation(
         if isinstance(subject, str):
             subject = [subject]
         for curie in subject:
-            for p, vs in self.entity_alias_map(curie).items():
-                if p == LABEL_PREDICATE:
-                    continue
-                for v in vs:
-                    yield curie, SynonymPropertyValue(pred=p.replace("oio:", ""), val=v)
+            s = self._stanza(curie, strict=False)
+            if not s:
+                continue
+            for syn in s.synonyms():
+                pred = _synonym_scope_pred(syn[1]).replace("oio:", "")
+                yield curie, SynonymPropertyValue(
+                    pred=pred, val=syn[0], synonymType=syn[2], xrefs=syn[3]
+                )
 
     def map_shorthand_to_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
         """

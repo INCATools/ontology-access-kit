@@ -1,9 +1,10 @@
 from abc import ABC
-from typing import Any, Dict, Iterable, List, Union
+from typing import Any, Dict, Iterable, List, Optional, Union
 
 from linkml_runtime.dumpers import json_dumper
 
 from oaklib.datamodels.ontology_metadata import DefinitionConstraintComponent
+from oaklib.datamodels.synonymizer_datamodel import RuleSet
 from oaklib.datamodels.validation_datamodel import (
     MappingValidationResult,
     RepairConfiguration,
@@ -17,6 +18,7 @@ from oaklib.interfaces import MappingProviderInterface, OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 from oaklib.utilities.iterator_utils import chunk
+from oaklib.utilities.lexical.synonymizer import apply_synonymizer
 from oaklib.utilities.publication_utils.pubmed_wrapper import PubmedWrapper
 
 
@@ -105,6 +107,72 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
                     info=error,
                 )
                 yield result
+
+    def validate_synonyms(
+        self,
+        entities: Iterable[CURIE] = None,
+        adapters: Dict[str, BasicOntologyInterface] = None,
+        configuration: ValidationConfiguration = None,
+        synonymizer_rules: Optional[RuleSet] = None,
+    ) -> Iterable[ValidationResult]:
+        """
+        Validate synonyms for a set of entities.
+
+        Different adapters may implement different aspects of synonym validation.
+
+        It includes:
+
+        - checking for duplicates
+        - looking up mapped entities to check they are not obsolete
+        - ensuring that a referenced synonym is still supported
+        - using AI to validate the content of mappings
+
+        :param entities: entities to validate mappings for (None=all)
+        :param adapters: adapter mapping to look up external entities
+        :param configuration: validation configuration
+        :return:
+        """
+
+        if not isinstance(self, OboGraphInterface):
+            raise ValueError(f"Cannot validate synonyms on {self}")
+        nodes = [self.node(n, include_metadata=True) for n in entities]
+        for node in nodes:
+            if node is None:
+                continue
+            syns = node.meta.synonyms
+            for syn in syns:
+                if syn.xrefs:
+                    for xref in syn.xrefs:
+                        from oaklib.utilities.mapping.mapping_validation import (
+                            lookup_mapping_adapter,
+                        )
+
+                        ext_adapter = lookup_mapping_adapter(xref, adapters)
+                        if ext_adapter is None:
+                            continue
+                        if not isinstance(ext_adapter, OboGraphInterface):
+                            raise ValueError(f"Cannot validate synonyms on {ext_adapter}")
+                        ext_node = ext_adapter.node(xref, include_metadata=True)
+                        ext_syns = ext_node.meta.synonyms
+                        # normalize to lower case for comparison
+                        # TODO: allow configurability of case rules
+                        synonym_forms = {syn.val}
+                        if synonymizer_rules:
+                            for _, syn_form, _ in apply_synonymizer(
+                                syn.val, synonymizer_rules.rules
+                            ):
+                                synonym_forms.add(syn_form.lower())
+                        ext_syn_vals = [x.val.lower() for x in ext_syns]
+                        if not synonym_forms.intersection(ext_syn_vals):
+                            yield ValidationResult(
+                                subject=node.id,
+                                predicate=syn.pred,
+                                object=xref,
+                                object_str=syn.val,
+                                severity=SeverityOptions(SeverityOptions.ERROR),
+                                type="oio:SynonymNotFound",
+                                info=f"synonym not found in {xref}",
+                            )
 
     def validate_definitions(
         self,

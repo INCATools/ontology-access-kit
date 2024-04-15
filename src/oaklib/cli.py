@@ -5519,6 +5519,104 @@ def validate_mappings(
 
 
 @main.command()
+@autolabel_option
+@output_type_option
+@adapter_mapping_option
+@output_option
+@configuration_file_option
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.argument("terms", nargs=-1)
+def validate_synonyms(
+    terms,
+    autolabel,
+    adapter_mapping,
+    output: str,
+    output_type: str,
+    rules_file: str,
+    configuration_file: str,
+):
+    """
+    Validates synonyms in ontology using additional ontologies.
+
+    To run:
+
+        runoak validate-synonyms -i db/uberon.db
+
+    You can customize this mapping:
+
+        runoak validate-synonyms -i db/uberon.db --adapter-mapping uberon=db/uberon.db \
+            --adapter-mapping zfa=sqlite:obo:zfa
+
+    This will use a remote sqlite file for ZFA:nnnnnnn IDs.
+
+    You can use "*" as a wildcard, in the case where you have an application ontology
+    with many mapped entities merged in:
+
+        runoak validate-synonyms -i db/uberon.db --adapter-mapping "*"=db/merged.db"
+
+    You can also pass synonymizer rules. For example:
+
+        runoak -i sqlite:obo:go  validate-synonyms \
+           -R go-strip-activity.synonymizer.yaml GO:0000010 \
+            --adapter-mapping ec=sqlite:obo:eccode
+
+    In this case if the synonymizer rule file contains:
+
+        \b
+        rules:
+          - match: " activity"
+            replacement: ""
+        \b
+
+    Then the GO synonyms will have the word "activity" stripped from them, prior to attempting
+    to match with EC.
+
+    The default behavior for this command is to perform deterministic rule-based
+    checks; for example, the mapped IDs should not be obsolete, and if the mapping
+    is skos:exactMatch, then the cardinality is expected to be 1:1.
+
+    Other adapters may choose to implement bespoke behaviors. In future there
+    might be a boomer adapter that will perform probabilistic reasoning on the
+    mappings. The experimental LLM backend will use an LLM to qualitatively
+    validate mappings (see the LLM how-to guide for more details).
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, ValidatorInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
+    if rules_file:
+        ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
+    else:
+        ruleset = None
+
+    adapters = {}
+    for am in adapter_mapping:
+        prefix, selector = am.split("=")
+        adapters[prefix] = get_adapter(selector)
+        logging.info(f"Loaded adapter for {prefix} => {selector}")
+    for result in impl.validate_synonyms(
+        entities, adapters=adapters, configuration=config, synonymizer_rules=ruleset
+    ):
+        writer.emit_obj(result)
+    writer.finish()
+
+
+@main.command()
 @click.argument("curie_pairs", nargs=-1)
 @click.option(
     "--replace/--no-replace", default=False, show_default=True, help="If true, will update in place"
@@ -6518,12 +6616,14 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 
     Example:
     -------
+
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
 
     If the `apply-patch` flag is NOT set then the main input will be KGCL commands
 
     Example:
     -------
+
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
 
     see https://github.com/INCATools/kgcl.

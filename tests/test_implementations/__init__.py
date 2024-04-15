@@ -151,12 +151,16 @@ class ComplianceTester:
     It is recommended that within the `setUp` method of the unit test,
     the following is performed.
 
-    >>> self.compliance_tester = ComplianceTester(self)
+    .. code-block:: python
+
+        self.compliance_tester = ComplianceTester(self)
 
     Then individual test can call this:
 
-    >>> def test_foo(self):
-    >>>    self.compliance_tester.test_foo(self.oi)
+    .. code-block:: python
+
+        def test_foo(self):
+            self.compliance_tester.test_foo(self.oi)
     """
 
     test: unittest.TestCase
