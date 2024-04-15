@@ -133,7 +133,7 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         from oaklib.utilities.validation.definition_ontology_rule import DefinitionOntologyRule
 
         definition_rule = DefinitionOntologyRule(skip_text_annotation=skip_text_annotation)
-        entities = list(entities)
+        entities = list(entities) if entities else self.entities(filter_obsoletes=True)
 
         def _contract(url):
             return url.replace("https://w3id.org/oak/ontology-metadata/DCC.", "oaklib.om:DCC#")
