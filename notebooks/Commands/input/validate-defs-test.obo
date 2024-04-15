@@ -1,0 +1,2796 @@
+format-version: 1.2
+synonymtypedef: systematic_synonym "Systematic synonym" EXACT
+subsetdef: gocheck_do_not_annotate "Term not to be used for direct annotation"
+subsetdef: gocheck_do_not_manually_annotate "Term not to be used for direct manual annotation"
+subsetdef: goslim_agr "AGR slim"
+subsetdef: goslim_aspergillus "Aspergillus GO slim"
+subsetdef: goslim_candida "Candida GO slim"
+subsetdef: goslim_chembl "ChEMBL protein targets summary"
+subsetdef: goslim_drosophila "Drosophila GO slim"
+subsetdef: goslim_flybase_ribbon "FlyBase Drosophila GO ribbon slim"
+subsetdef: goslim_generic "Generic GO slim"
+subsetdef: goslim_metagenomics "Metagenomics GO slim"
+subsetdef: goslim_mouse "Mouse GO slim"
+subsetdef: goslim_pir "PIR GO slim"
+subsetdef: goslim_plant "Plant GO slim"
+subsetdef: goslim_pombe "Fission yeast GO slim"
+subsetdef: goslim_synapse "synapse GO slim"
+subsetdef: goslim_yeast "Yeast GO slim"
+subsetdef: prokaryote_subset "GO subset for prokaryotes"
+ontology: go
+data-version: releases/2020-01-01/
+idspace: NCBITaxon_Union http://purl.obolibrary.org/obo/NCBITaxon_Union_
+idspace: SWEET http://identifiers.org/sweet/
+
+[Term]
+id: BFO:0000002
+name: continuant
+def: "An entity that exists in full at any time in which it exists at all, persists through time while maintaining its identity and has no temporal parts." []
+disjoint_from: BFO:0000003 ! occurrent
+relationship: part_of BFO:0000002 ! continuant
+
+[Term]
+id: BFO:0000003
+name: occurrent
+def: "An entity that has temporal parts and that happens, unfolds or develops through time." []
+relationship: part_of BFO:0000003 ! occurrent
+
+[Term]
+id: BFO:0000004
+name: independent continuant
+def: "A continuant that is a bearer of quality and realizable entity entities, in which other entities inhere and which itself cannot inhere in anything." []
+is_a: BFO:0000002 ! continuant
+disjoint_from: BFO:0000020 ! specifically dependent continuant
+relationship: part_of BFO:0000004 ! independent continuant
+
+[Term]
+id: BFO:0000015
+name: process
+def: "An occurrent that has temporal proper parts and for some time t, p s-depends_on some material entity at t." []
+is_a: BFO:0000003 ! occurrent
+
+[Term]
+id: BFO:0000017
+name: realizable entity
+def: "A specifically dependent continuant  that inheres in continuant  entities and are not exhibited in full at every time in which it inheres in an entity or group of entities. The exhibition or actualization of a realizable entity is a particular manifestation, functioning or process that occurs under certain circumstances." []
+is_a: BFO:0000020 ! specifically dependent continuant
+relationship: part_of BFO:0000017 ! realizable entity
+
+[Term]
+id: BFO:0000020
+name: specifically dependent continuant
+def: "A continuant that inheres in or is borne by other entities. Every instance of A requires some specific instance of B which must always be the same." []
+is_a: BFO:0000002 ! continuant
+relationship: part_of BFO:0000020 ! specifically dependent continuant
+
+[Term]
+id: BFO:0000023
+name: role
+def: "A realizable entity  the manifestation of which brings about some result or end that is not essential to a continuant  in virtue of the kind of thing that it is but that can be served or participated in by that kind of continuant  in some kinds of natural, social or institutional contexts." []
+is_a: BFO:0000017 ! realizable entity
+equivalent_to: CHEBI:50906 ! role
+
+[Term]
+id: BFO:0000040
+name: material entity
+def: "An independent continuant that is spatially extended whose identity is independent of that of other entities and can be maintained through time." []
+is_a: BFO:0000004 ! independent continuant
+
+[Term]
+id: CARO:0000000
+name: anatomical entity
+is_a: CARO:0030000 ! biological entity
+
+[Term]
+id: CARO:0000003
+name: connected anatomical structure
+is_a: CARO:0000006 ! material anatomical entity
+
+[Term]
+id: CARO:0000006
+name: material anatomical entity
+is_a: BFO:0000040 ! material entity
+is_a: CARO:0000000 ! anatomical entity
+
+[Term]
+id: CARO:0001010
+name: organism or virus or viroid
+is_a: BFO:0000040 ! material entity
+
+[Term]
+id: CARO:0030000
+name: biological entity
+is_a: BFO:0000004 ! independent continuant
+
+[Term]
+id: CHEBI:10545
+name: electron
+subset: chebi_ph7_3
+is_a: CHEBI:36338 ! lepton
+
+[Term]
+id: CHEBI:23367
+name: molecular entity
+is_a: CHEBI:24431 ! chemical entity
+
+[Term]
+id: CHEBI:24431
+name: chemical entity
+subset: chebi_ph7_3
+is_a: BFO:0000040 ! material entity
+
+[Term]
+id: CHEBI:24432
+name: biological role
+is_a: BFO:0000023 ! role
+is_a: CHEBI:50906 ! role
+
+[Term]
+id: CHEBI:24433
+name: group
+is_a: CHEBI:24431 ! chemical entity
+relationship: has_part CHEBI:33250 ! atom
+
+[Term]
+id: CHEBI:25585
+name: nonmetal atom
+is_a: CHEBI:33250 ! atom
+
+[Term]
+id: CHEBI:26020
+name: phosphate
+is_a: CHEBI:26079 ! phosphoric acid derivative
+
+[Term]
+id: CHEBI:26079
+name: phosphoric acid derivative
+is_a: CHEBI:36359 ! phosphorus oxoacid derivative
+
+[Term]
+id: CHEBI:26082
+name: phosphorus molecular entity
+is_a: CHEBI:33302 ! pnictogen molecular entity
+relationship: has_part CHEBI:28659 ! phosphorus atom
+
+[Term]
+id: CHEBI:28659
+name: phosphorus atom
+subset: chebi_ph7_3
+is_a: CHEBI:25585 ! nonmetal atom
+is_a: CHEBI:33300 ! pnictogen
+relationship: has_role CHEBI:33937 ! macronutrient
+
+[Term]
+id: CHEBI:33233
+name: fundamental particle
+is_a: CHEBI:36342 ! subatomic particle
+
+[Term]
+id: CHEBI:33241
+name: oxoacid derivative
+is_a: CHEBI:37577 ! heteroatomic molecular entity
+
+[Term]
+id: CHEBI:33250
+name: atom
+is_a: CHEBI:24431 ! chemical entity
+relationship: has_part CHEBI:10545 ! electron
+relationship: has_part CHEBI:33252 ! atomic nucleus
+
+[Term]
+id: CHEBI:33252
+name: atomic nucleus
+is_a: CHEBI:36347 ! nuclear particle
+relationship: has_part CHEBI:33253 ! nucleon
+
+[Term]
+id: CHEBI:33253
+name: nucleon
+is_a: CHEBI:36339 ! baryon
+is_a: CHEBI:36347 ! nuclear particle
+
+[Term]
+id: CHEBI:33284
+name: nutrient
+is_a: CHEBI:78295 ! food component
+
+[Term]
+id: CHEBI:33300
+name: pnictogen
+is_a: CHEBI:33560 ! p-block element atom
+
+[Term]
+id: CHEBI:33302
+name: pnictogen molecular entity
+is_a: CHEBI:33675 ! p-block molecular entity
+relationship: has_part CHEBI:33300 ! pnictogen
+
+[Term]
+id: CHEBI:33318
+name: main group element atom
+is_a: CHEBI:33250 ! atom
+
+[Term]
+id: CHEBI:33560
+name: p-block element atom
+is_a: CHEBI:33318 ! main group element atom
+
+[Term]
+id: CHEBI:33579
+name: main group molecular entity
+is_a: CHEBI:23367 ! molecular entity
+relationship: has_part CHEBI:33318 ! main group element atom
+
+[Term]
+id: CHEBI:33675
+name: p-block molecular entity
+is_a: CHEBI:33579 ! main group molecular entity
+relationship: has_part CHEBI:33560 ! p-block element atom
+
+[Term]
+id: CHEBI:33937
+name: macronutrient
+is_a: CHEBI:33284 ! nutrient
+
+[Term]
+id: CHEBI:36338
+name: lepton
+is_a: CHEBI:33233 ! fundamental particle
+is_a: CHEBI:36340 ! fermion
+property_value: skos:exactMatch SWEET:lepton
+
+[Term]
+id: CHEBI:36339
+name: baryon
+is_a: CHEBI:36340 ! fermion
+is_a: CHEBI:36344 ! hadron
+
+[Term]
+id: CHEBI:36340
+name: fermion
+is_a: CHEBI:36342 ! subatomic particle
+
+[Term]
+id: CHEBI:36342
+name: subatomic particle
+
+[Term]
+id: CHEBI:36343
+name: composite particle
+is_a: CHEBI:36342 ! subatomic particle
+
+[Term]
+id: CHEBI:36344
+name: hadron
+is_a: CHEBI:36343 ! composite particle
+
+[Term]
+id: CHEBI:36347
+name: nuclear particle
+is_a: CHEBI:36342 ! subatomic particle
+
+[Term]
+id: CHEBI:36357
+name: polyatomic entity
+is_a: CHEBI:23367 ! molecular entity
+relationship: has_part CHEBI:24433 ! group
+
+[Term]
+id: CHEBI:36359
+name: phosphorus oxoacid derivative
+is_a: CHEBI:33241 ! oxoacid derivative
+is_a: CHEBI:36360 ! phosphorus oxoacids and derivatives
+
+[Term]
+id: CHEBI:36360
+name: phosphorus oxoacids and derivatives
+is_a: CHEBI:26082 ! phosphorus molecular entity
+
+[Term]
+id: CHEBI:37577
+name: heteroatomic molecular entity
+is_a: CHEBI:36357 ! polyatomic entity
+
+[Term]
+id: CHEBI:50906
+name: role
+is_a: BFO:0000017 ! realizable entity
+
+[Term]
+id: CHEBI:52211
+name: physiological role
+is_a: CHEBI:24432 ! biological role
+
+[Term]
+id: CHEBI:78295
+name: food component
+is_a: CHEBI:52211 ! physiological role
+
+[Term]
+id: CL:0000000
+name: cell
+def: "A material entity of anatomical origin (part of or deriving from an organism) that has as its parts a maximally connected cell compartment surrounded by a plasma membrane." []
+is_a: CARO:0000003 ! connected anatomical structure
+disjoint_from: GO:0043226 ! organelle
+relationship: only_in_taxon NCBITaxon:131567 ! cellular organisms
+
+[Term]
+id: GO:0003674
+name: molecular_function
+namespace: molecular_function
+alt_id: GO:0005554
+def: "A molecular_function that is in GO." [OAK:FakeDefinitionForTesting]
+comment: Note that, in addition to forming the root of the molecular function ontology, this term is recommended for use for the annotation of gene products whose molecular function is unknown. When this term is used for annotation, it indicates that no information was available about the molecular function of the gene product annotated as of the date the annotation was made; the evidence code 'no data' (ND), is used to indicate this. Despite its name, this is not a type of 'function' in the sense typically defined by upper ontologies such as Basic Formal Ontology (BFO). It is instead a BFO:process carried out by a single gene product or complex.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "molecular function" EXACT []
+is_a: BFO:0000015 ! process
+disjoint_from: GO:0005575 ! cellular_component
+disjoint_from: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0003824
+name: catalytic activity
+namespace: molecular_function
+def: "Catalysis of a biochemical reaction at physiological temperatures. In biologically catalyzed reactions, the reactants are known as substrates, and the catalysts are naturally occurring macromolecular substances known as enzymes. Enzymes possess specific binding sites for substrates, and are usually composed wholly or largely of protein, but RNA that has catalytic activity (ribozyme) is often also regarded as enzymatic." [GOC:vw, ISBN:0198506732]
+subset: goslim_agr
+subset: goslim_chembl
+subset: goslim_flybase_ribbon
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+synonym: "enzyme activity" EXACT [GOC:dph, GOC:tb]
+xref: Wikipedia:Enzyme
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0004857
+name: enzyme inhibitor activity
+namespace: molecular_function
+alt_id: GO:0048551
+def: "Binds to and stops, prevents or reduces the activity of an enzyme." [GOC:ai, GOC:ebc]
+synonym: "metalloenzyme inhibitor activity" NARROW []
+is_a: GO:0003674 ! molecular_function
+intersection_of: GO:0003674 ! molecular_function
+intersection_of: negatively_regulates GO:0003824 ! catalytic activity
+relationship: negatively_regulates GO:0003824 ! catalytic activity
+relationship: part_of GO:0043086 ! negative regulation of catalytic activity
+
+[Term]
+id: GO:0000010
+name: trans-hexaprenyltranstransferase activity
+namespace: molecular_function
+alt_id: GO:0036422
+def: "Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl diphosphate = 4 diphosphate + all-trans-heptaprenyl diphosphate." [PMID:9708911, RHEA:27794]
+synonym: "all-trans-heptaprenyl-diphosphate synthase activity" RELATED [EC:2.5.1.30]
+synonym: "HepPP synthase activity" RELATED [EC:2.5.1.30]
+synonym: "heptaprenyl diphosphate synthase activity" RELATED []
+synonym: "heptaprenyl pyrophosphate synthase activity" RELATED [EC:2.5.1.30]
+synonym: "heptaprenyl pyrophosphate synthetase activity" RELATED [EC:2.5.1.30]
+xref: EC:2.5.1.30
+xref: MetaCyc:TRANS-HEXAPRENYLTRANSTRANSFERASE-RXN
+xref: RHEA:27794
+is_a: GO:0003824 ! catalytic activity
+
+[Term]
+id: GO:0005575
+name: cellular_component
+namespace: cellular_component
+alt_id: GO:0008372
+def: "A location, relative to cellular compartments and structures, occupied by a macromolecular machine when it carries out a molecular function. There are two ways in which the gene ontology describes locations of gene products: (1) relative to cellular structures (e.g., cytoplasmic side of plasma membrane) or compartments (e.g., mitochondrion), and (2) the stable macromolecular complexes of which they are parts (e.g., the ribosome)." [GOC:pdt, NIF_Subcellular:sao1337158144]
+comment: Note that, in addition to forming the root of the cellular component ontology, this term is recommended for use for the annotation of gene products whose cellular component is unknown. When this term is used for annotation, it indicates that no information was available about the cellular component of the gene product annotated as of the date the annotation was made; the evidence code 'no data' (ND), is used to indicate this.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "cell or subcellular entity" EXACT []
+synonym: "cellular component" EXACT []
+synonym: "subcellular entity" RELATED [NIF_Subcellular:nlx_subcell_100315]
+xref: NIF_Subcellular:sao1337158144
+is_a: BFO:0000040 ! material entity
+disjoint_from: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0005622
+name: intracellular anatomical structure
+namespace: cellular_component
+def: "A component of a cell contained within (but not including) the plasma membrane. In eukaryotes it includes the nucleus and cytoplasm." [ISBN:0198506732]
+subset: gocheck_do_not_annotate
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_plant
+synonym: "internal to cell" EXACT []
+synonym: "intracellular" EXACT []
+synonym: "nucleocytoplasm" RELATED [GOC:mah]
+synonym: "protoplasm" EXACT []
+synonym: "protoplast" RELATED [GOC:mah]
+xref: Wikipedia:Intracellular
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: part_of CL:0000000 ! cell
+property_value: term_tracker_item https://github.com/geneontology/go-ontology/issues/17776 xsd:anyURI
+
+[Term]
+id: GO:0005634
+name: nucleus
+namespace: cellular_component
+def: "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent." [GOC:go_curators]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_drosophila
+subset: goslim_flybase_ribbon
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_mouse
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "cell nucleus" EXACT systematic_synonym []
+synonym: "horsetail nucleus" NARROW [GOC:al, GOC:mah, GOC:vw, PMID:15030757]
+xref: NIF_Subcellular:sao1702920020
+xref: Wikipedia:Cell_nucleus
+is_a: GO:0043231 ! intracellular membrane-bounded organelle
+disjoint_from: GO:0005737 ! cytoplasm
+relationship: in_taxon NCBITaxon:2759 ! Eukaryota
+relationship: only_in_taxon NCBITaxon:2759 ! Eukaryota
+relationship: never_in_taxon NCBITaxon:2 ! Bacteria <prokaryote>
+
+[Term]
+id: GO:0005635
+name: nuclear envelope
+namespace: cellular_component
+alt_id: GO:0005636
+def: "A double lipid bilayer that is part of the nucleus. Separating its contents from the rest of the cytoplasm; includes the intermembrane space, a gap of width 20-40 nm (also called the perinuclear space)." [ISBN:0198547684]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_plant
+xref: Wikipedia:Nuclear_envelope
+is_a: GO:0031967 ! organelle envelope
+relationship: part_of GO:0005634 ! nucleus
+relationship: part_of GO:0012505 ! endomembrane system
+
+[Term]
+id: GO:0005737
+name: cytoplasm
+namespace: cellular_component
+def: "A cytoplasm that is a bit cytoplasmic." [OAK:FakeDefinitionForTesting]
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+xref: Wikipedia:Cytoplasm
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: part_of GO:0005622 ! intracellular anatomical structure
+
+[Term]
+id: GO:0009579
+name: thylakoid
+namespace: cellular_component
+def: "The structure in a plant cell that is known as thylakoid." [OAK:FakeDefinitionForTesting]
+comment: A thylakoid is not considered an organelle, but some thylakoids are part of organelles.
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+synonym: "photosynthetic membrane" RELATED []
+xref: Wikipedia:Thylakoid
+is_a: GO:0005622 ! intracellular anatomical structure
+relationship: only_in_taxon NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
+
+[Term]
+id: GO:0005773
+name: vacuole
+namespace: cellular_component
+def: "A vacuole is an intracellular membrane-bounded organelle that is completely surrounded by unit membrane and contains liquid material." [OAK:FakeDefinitionForTesting]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_drosophila
+subset: goslim_flybase_ribbon
+subset: goslim_generic
+subset: goslim_mouse
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "vacuolar carboxypeptidase Y" RELATED []
+xref: Wikipedia:Vacuole
+is_a: GO:0043231 ! intracellular membrane-bounded organelle
+relationship: part_of GO:0005737 ! cytoplasm
+
+[Term]
+id: GO:0005886
+name: plasma membrane
+namespace: cellular_component
+alt_id: GO:0005904
+def: "The membrane surrounding a cell that separates the cell from its external environment. It consists of a phospholipid bilayer and associated proteins." [ISBN:0716731363]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_drosophila
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_mouse
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "bacterial inner membrane" NARROW []
+synonym: "cell membrane" EXACT []
+synonym: "cellular membrane" EXACT [NIF_Subcellular:sao6433132645]
+synonym: "cytoplasmic membrane" EXACT []
+synonym: "inner endospore membrane" NARROW []
+synonym: "juxtamembrane" BROAD []
+synonym: "plasma membrane lipid bilayer" NARROW [GOC:mah]
+synonym: "plasmalemma" EXACT []
+xref: NIF_Subcellular:sao1663586795
+xref: Wikipedia:Cell_membrane
+is_a: GO:0016020 ! membrane
+relationship: part_of GO:0071944 ! cell periphery
+
+[Term]
+id: GO:0005938
+name: cell cortex
+namespace: cellular_component
+def: "The region of a cell that lies just beneath the plasma membrane and often, but not always, contains a network of actin filaments and associated proteins." [GOC:mah, ISBN:0815316194]
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_yeast
+synonym: "cell periphery" RELATED []
+synonym: "peripheral cytoplasm" RELATED []
+xref: Wikipedia:Cell_cortex
+is_a: GO:0005737 ! cytoplasm
+intersection_of: GO:0005737 ! cytoplasm
+intersection_of: part_of GO:0071944 ! cell periphery
+relationship: part_of GO:0071944 ! cell periphery
+
+[Term]
+id: GO:0006793
+name: phosphorus metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways involving the nonmetallic element phosphorus or compounds that contain phosphorus, usually in the form of a phosphate group (PO4)." [GOC:ai]
+subset: goslim_pir
+synonym: "phosphorus metabolism" EXACT []
+is_a: GO:0044237 ! cellular metabolic process
+intersection_of: GO:0008152 ! metabolic process
+intersection_of: has_primary_input_or_output CHEBI:26082 ! phosphorus molecular entity
+relationship: has_primary_input_or_output CHEBI:26082 ! phosphorus molecular entity
+
+[Term]
+id: GO:0015979
+name: photosynthesis
+namespace: biological_process
+def: "The synthesis by organisms of organic chemical compounds, especially carbohydrates, from carbon dioxide (CO2) using energy obtained from light rather than from the oxidation of chemical compounds." [ISBN:0198547684]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+xref: Wikipedia:Photosynthesis
+is_a: GO:0044237 ! cellular metabolic process
+relationship: only_in_taxon NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
+
+[Term]
+id: GO:0006796
+name: phosphate-containing compound metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways involving the phosphate group, the anion or salt of any phosphoric acid." [GOC:ai]
+synonym: "phosphate metabolic process" RELATED []
+synonym: "phosphate metabolism" EXACT []
+is_a: GO:0006793 ! phosphorus metabolic process
+intersection_of: GO:0008152 ! metabolic process
+intersection_of: has_primary_input_or_output CHEBI:26020 ! phosphate
+relationship: has_primary_input_or_output CHEBI:26020 ! phosphate
+
+[Term]
+id: GO:0008047
+name: enzyme activator activity
+namespace: molecular_function
+alt_id: GO:0010577
+synonym: "metalloenzyme activator activity" NARROW []
+is_a: GO:0003674 ! molecular_function
+intersection_of: GO:0003674 ! molecular_function
+intersection_of: positively_regulates GO:0003824 ! catalytic activity
+relationship: positively_regulates GO:0003824 ! catalytic activity
+
+[Term]
+id: GO:0008150
+name: biological_process
+namespace: biological_process
+alt_id: GO:0000004
+alt_id: GO:0007582
+alt_id: GO:0044699
+def: "A biological process represents a specific objective that the organism is genetically programmed to achieve. Biological processes are often described by their outcome or ending state, e.g., the biological process of cell division results in the creation of two daughter cells (a divided cell) from a single parent cell. A biological process is accomplished by a particular set of molecular functions carried out by specific gene products (or macromolecular complexes), often in a highly regulated manner and in a particular temporal sequence." [GOC:pdt]
+comment: Note that, in addition to forming the root of the biological process ontology, this term is recommended for use for the annotation of gene products whose biological process is unknown. When this term is used for annotation, it indicates that no information was available about the biological process of the gene product annotated as of the date the annotation was made; the evidence code 'no data' (ND), is used to indicate this.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_pombe
+subset: goslim_yeast
+synonym: "biological process" EXACT []
+synonym: "physiological process" EXACT []
+synonym: "single organism process" RELATED []
+synonym: "single-organism process" RELATED []
+xref: Wikipedia:Biological_process
+is_a: BFO:0000015 ! process
+created_by: jl
+creation_date: 2012-09-19T15:05:24Z
+
+[Term]
+id: GO:0008152
+name: metabolic process
+namespace: biological_process
+alt_id: GO:0044236
+alt_id: GO:0044710
+def: "The chemical reactions and pathways, including anabolism and catabolism, by which living organisms transform chemical substances. Metabolic processes typically transform small molecules, but also include macromolecular processes such as DNA repair and replication, and protein synthesis and degradation." [GOC:go_curators, ISBN:0198547684]
+comment: Note that metabolic processes do not include single functions or processes such as protein-protein interactions, protein-nucleic acids, nor receptor-ligand interactions.
+subset: gocheck_do_not_manually_annotate
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+synonym: "metabolic process resulting in cell growth" NARROW []
+synonym: "metabolism" EXACT []
+synonym: "metabolism resulting in cell growth" NARROW []
+synonym: "multicellular organism metabolic process" NARROW []
+synonym: "single-organism metabolic process" RELATED []
+xref: Wikipedia:Metabolism
+is_a: GO:0008150 ! biological_process
+created_by: jl
+creation_date: 2012-10-17T15:46:40Z
+
+[Term]
+id: GO:0009892
+name: negative regulation of metabolic process
+namespace: biological_process
+alt_id: GO:0044252
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism." [GOC:go_curators]
+synonym: "down regulation of metabolic process" EXACT []
+synonym: "down-regulation of metabolic process" EXACT []
+synonym: "downregulation of metabolic process" EXACT []
+synonym: "inhibition of metabolic process" NARROW []
+synonym: "inhibition of organismal metabolic process" NARROW []
+synonym: "negative regulation of metabolism" EXACT []
+synonym: "negative regulation of multicellular organismal metabolic process" NARROW []
+synonym: "negative regulation of organismal metabolism" EXACT []
+is_a: GO:0019222 ! regulation of metabolic process
+is_a: GO:0048519 ! negative regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0008152 ! metabolic process
+relationship: negatively_regulates GO:0008152 ! metabolic process
+
+[Term]
+id: GO:0009893
+name: positive regulation of metabolic process
+namespace: biological_process
+alt_id: GO:0044253
+def: "Any process that activates or increases the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism." [GOC:go_curators]
+synonym: "activation of metabolic process" NARROW []
+synonym: "positive regulation of metabolism" EXACT []
+synonym: "positive regulation of multicellular organismal metabolic process" NARROW []
+synonym: "positive regulation of organismal metabolism" NARROW []
+synonym: "stimulation of metabolic process" NARROW []
+synonym: "stimulation of organismal metabolic process" NARROW []
+synonym: "up regulation of metabolic process" EXACT []
+synonym: "up-regulation of metabolic process" EXACT []
+synonym: "up-regulation of organismal metabolic process" NARROW []
+synonym: "upregulation of metabolic process" EXACT []
+is_a: GO:0019222 ! regulation of metabolic process
+is_a: GO:0048518 ! positive regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0008152 ! metabolic process
+relationship: positively_regulates GO:0008152 ! metabolic process
+
+[Term]
+id: GO:0009987
+name: cellular process
+namespace: biological_process
+alt_id: GO:0008151
+alt_id: GO:0044763
+alt_id: GO:0050875
+def: "Any process that is carried out at the cellular level, but not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." [GOC:go_curators, GOC:isa_complete]
+subset: goslim_plant
+synonym: "cell growth and/or maintenance" NARROW []
+synonym: "cell physiology" EXACT []
+synonym: "cellular physiological process" EXACT []
+synonym: "single-organism cellular process" RELATED []
+is_a: GO:0008150 ! biological_process
+created_by: jl
+creation_date: 2012-12-11T16:56:55Z
+
+[Term]
+id: GO:0010562
+name: positive regulation of phosphorus metabolic process
+namespace: biological_process
+def: "Any process that increases the frequency, rate or extent of the chemical reactions and pathways involving phosphorus or compounds containing phosphorus." [GOC:dph, GOC:tb]
+is_a: GO:0031325 ! positive regulation of cellular metabolic process
+is_a: GO:0051174 ! regulation of phosphorus metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0006793 ! phosphorus metabolic process
+relationship: positively_regulates GO:0006793 ! phosphorus metabolic process
+
+[Term]
+id: GO:0010563
+name: negative regulation of phosphorus metabolic process
+namespace: biological_process
+def: "Any process that decreases the frequency, rate or extent of the chemical reactions and pathways involving phosphorus or compounds containing phosphorus." [GOC:dph, GOC:tb]
+is_a: GO:0031324 ! negative regulation of cellular metabolic process
+is_a: GO:0051174 ! regulation of phosphorus metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0006793 ! phosphorus metabolic process
+relationship: negatively_regulates GO:0006793 ! phosphorus metabolic process
+
+[Term]
+id: GO:0012505
+name: endomembrane system
+namespace: cellular_component
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_flybase_ribbon
+subset: goslim_yeast
+xref: Wikipedia:Endomembrane_system
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: has_part GO:0005773 ! vacuole
+relationship: has_part GO:0005886 ! plasma membrane
+relationship: part_of CL:0000000 ! cell
+
+[Term]
+id: GO:0016020
+name: membrane
+namespace: cellular_component
+alt_id: GO:0098589
+alt_id: GO:0098805
+def: "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it." [GOC:dos, GOC:mah, ISBN:0815316194]
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_flybase_ribbon
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "membrane region" NARROW []
+synonym: "region of membrane" NARROW []
+synonym: "whole membrane" NARROW []
+xref: Wikipedia:Biological_membrane
+is_a: GO:0110165 ! cellular anatomical entity
+creation_date: 2014-03-06T11:37:54Z
+
+[Term]
+id: GO:0016301
+name: kinase activity
+namespace: molecular_function
+def: "Catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." [ISBN:0198506732]
+comment: Note that this term encompasses all activities that transfer a single phosphate group; although ATP is by far the most common phosphate donor, reactions using other phosphate donors are included in this term.
+subset: goslim_chembl
+subset: goslim_drosophila
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "phosphokinase activity" EXACT []
+xref: Reactome:R-HSA-6788855 "FN3KRP phosphorylates PsiAm, RibAm"
+xref: Reactome:R-HSA-6788867 "FN3K phosphorylates ketosamines"
+is_a: GO:0016772 ! transferase activity, transferring phosphorus-containing groups
+relationship: part_of GO:0016310 ! phosphorylation
+
+[Term]
+id: GO:0016310
+name: phosphorylation
+namespace: biological_process
+def: "The process of introducing a phosphate group into a molecule, usually with the formation of a phosphoric ester, a phosphoric anhydride or a phosphoric amide." [ISBN:0198506732]
+subset: goslim_chembl
+subset: goslim_metagenomics
+xref: Wikipedia:Phosphorylation
+is_a: GO:0006796 ! phosphate-containing compound metabolic process
+
+[Term]
+id: GO:0016740
+name: transferase activity
+namespace: molecular_function
+def: "Catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from one compound (generally regarded as the donor) to another compound (generally regarded as the acceptor). Transferase is the systematic name for any enzyme of EC class 2." [ISBN:0198506732]
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_mouse
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+xref: EC:2.-.-.-
+xref: Reactome:R-HSA-1483089 "PE is converted to PS by PTDSS2"
+xref: Reactome:R-HSA-1483186 "PC is converted to PS by PTDSS1"
+xref: Reactome:R-HSA-5668414 "TRAF2 ubiquitinates cIAP1,2 in cIAP1,2:TRAF1:TRAF2:TRAF3:NIK"
+xref: Reactome:R-HSA-8868783 "TSR3 transfers aminocarboxypropyl group from S-adenosylmethionine to N(1)-methylpseudouridine-1248 of 18SE rRNA yielding N(1)-methyl-N(3)-aminocarboxypropylpseudouridine-1248"
+is_a: GO:0003824 ! catalytic activity
+
+[Term]
+id: GO:0016772
+name: transferase activity, transferring phosphorus-containing groups
+namespace: molecular_function
+def: "Catalysis of the transfer of a phosphorus-containing group from one compound (donor) to another (acceptor)." [GOC:jl, ISBN:0198506732]
+comment: Note that this term encompasses all kinase activities, as well as activities that transfer other phosphorus-containing groups such as diphosphate or nucleotides.
+subset: goslim_chembl
+xref: EC:2.7.-.-
+is_a: GO:0016740 ! transferase activity
+
+[Term]
+id: GO:0019207
+name: kinase regulator activity
+namespace: molecular_function
+def: "Modulates the activity of a kinase, an enzyme which catalyzes of the transfer of a phosphate group, usually from ATP, to a substrate molecule." [GOC:ai]
+is_a: GO:0003674 ! molecular_function
+intersection_of: GO:0003674 ! molecular_function
+intersection_of: regulates GO:0016301 ! kinase activity
+relationship: regulates GO:0016301 ! kinase activity
+
+[Term]
+id: GO:0019209
+name: kinase activator activity
+namespace: molecular_function
+def: "Binds to and increases the activity of a kinase, an enzyme which catalyzes of the transfer of a phosphate group, usually from ATP, to a substrate molecule." [GOC:ai]
+is_a: GO:0008047 ! enzyme activator activity
+is_a: GO:0019207 ! kinase regulator activity
+intersection_of: GO:0003674 ! molecular_function
+intersection_of: positively_regulates GO:0016301 ! kinase activity
+relationship: part_of GO:0033674 ! positive regulation of kinase activity
+relationship: part_of GO:0042327 ! positive regulation of phosphorylation
+relationship: positively_regulates GO:0016301 ! kinase activity
+
+[Term]
+id: GO:0019210
+name: kinase inhibitor activity
+namespace: molecular_function
+def: "Binds to and stops, prevents or reduces the activity of a kinase." [GOC:mah]
+is_a: GO:0004857 ! enzyme inhibitor activity
+is_a: GO:0019207 ! kinase regulator activity
+intersection_of: GO:0003674 ! molecular_function
+intersection_of: negatively_regulates GO:0016301 ! kinase activity
+relationship: negatively_regulates GO:0016301 ! kinase activity
+
+[Term]
+id: GO:0019220
+name: regulation of phosphate metabolic process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways involving phosphates." [GOC:go_curators]
+synonym: "regulation of phosphate metabolism" EXACT []
+is_a: GO:0051174 ! regulation of phosphorus metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0006796 ! phosphate-containing compound metabolic process
+relationship: regulates GO:0006796 ! phosphate-containing compound metabolic process
+
+[Term]
+id: GO:0019222
+name: regulation of metabolic process
+namespace: biological_process
+alt_id: GO:0044246
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism." [GOC:go_curators]
+subset: goslim_metagenomics
+synonym: "regulation of metabolism" EXACT []
+synonym: "regulation of multicellular organismal metabolic process" NARROW []
+synonym: "regulation of organismal metabolic process" NARROW [GOC:tb]
+is_a: GO:0050789 ! regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0008152 ! metabolic process
+relationship: regulates GO:0008152 ! metabolic process
+
+[Term]
+id: GO:0031090
+name: organelle membrane
+namespace: cellular_component
+def: "A membrane that is one of the two lipid bilayers of an organelle envelope or the outermost membrane of single membrane bound organelle." [GOC:dos, GOC:mah]
+synonym: "intracellular membrane" RELATED [NIF_Subcellular:sao830981606]
+xref: NIF_Subcellular:sao830981606
+is_a: GO:0016020 ! membrane
+intersection_of: GO:0016020 ! membrane
+intersection_of: part_of GO:0043227 ! membrane-bounded organelle
+relationship: part_of GO:0043227 ! membrane-bounded organelle
+
+[Term]
+id: GO:0031323
+name: regulation of cellular metabolic process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances." [GOC:mah]
+synonym: "regulation of cellular metabolism" EXACT []
+is_a: GO:0019222 ! regulation of metabolic process
+is_a: GO:0050794 ! regulation of cellular process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0044237 ! cellular metabolic process
+relationship: regulates GO:0044237 ! cellular metabolic process
+
+[Term]
+id: GO:0031324
+name: negative regulation of cellular metabolic process
+namespace: biological_process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances." [GOC:mah]
+synonym: "down regulation of cellular metabolic process" EXACT []
+synonym: "down-regulation of cellular metabolic process" EXACT []
+synonym: "downregulation of cellular metabolic process" EXACT []
+synonym: "inhibition of cellular metabolic process" NARROW []
+synonym: "negative regulation of cellular metabolism" EXACT []
+is_a: GO:0009892 ! negative regulation of metabolic process
+is_a: GO:0031323 ! regulation of cellular metabolic process
+is_a: GO:0048523 ! negative regulation of cellular process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0044237 ! cellular metabolic process
+relationship: negatively_regulates GO:0044237 ! cellular metabolic process
+
+[Term]
+id: GO:0031325
+name: positive regulation of cellular metabolic process
+namespace: biological_process
+def: "Any process that activates or increases the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances." [GOC:mah]
+synonym: "activation of cellular metabolic process" NARROW []
+synonym: "positive regulation of cellular metabolism" EXACT []
+synonym: "stimulation of cellular metabolic process" NARROW []
+synonym: "up regulation of cellular metabolic process" EXACT []
+synonym: "up-regulation of cellular metabolic process" EXACT []
+synonym: "upregulation of cellular metabolic process" EXACT []
+is_a: GO:0009893 ! positive regulation of metabolic process
+is_a: GO:0031323 ! regulation of cellular metabolic process
+is_a: GO:0048522 ! positive regulation of cellular process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0044237 ! cellular metabolic process
+relationship: positively_regulates GO:0044237 ! cellular metabolic process
+
+[Term]
+id: GO:0031965
+name: nuclear membrane
+namespace: cellular_component
+def: "An envelope that is part of a nucleus." [OAK:FakeDefinitionForTesting]
+xref: NIF_Subcellular:sao1687101204
+is_a: GO:0031090 ! organelle membrane
+intersection_of: GO:0016020 ! membrane
+intersection_of: part_of GO:0005634 ! nucleus
+relationship: part_of GO:0005634 ! nucleus
+relationship: part_of GO:0005635 ! nuclear envelope
+relationship: present_in_taxon NCBITaxon:9606 ! Homo sapiens
+relationship: present_in_taxon NCBITaxon:4751 ! Fungi
+
+[Term]
+id: GO:0031967
+name: organelle envelope
+namespace: cellular_component
+def: "A double membrane structure enclosing an organelle, including two lipid bilayers and the region between them. In some cases, an organelle envelope may have more than two membranes." [GOC:mah, GOC:pz]
+subset: goslim_mouse
+is_a: GO:0031975 ! envelope
+relationship: part_of GO:0043227 ! membrane-bounded organelle
+relationship: part_of GO:0043229 ! intracellular organelle
+
+[Term]
+id: GO:0031975
+name: envelope
+namespace: cellular_component
+def: "A multilayered structure surrounding all or part of a cell; encompasses one or more lipid bilayers, and may include a cell wall layer; also includes the space between layers." [GOC:mah, GOC:pz]
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: part_of CL:0000000 ! cell
+
+[Term]
+id: GO:0033673
+name: negative regulation of kinase activity
+namespace: biological_process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of kinase activity, the catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." [GOC:mah]
+synonym: "down regulation of kinase activity" EXACT []
+synonym: "down-regulation of kinase activity" EXACT []
+synonym: "downregulation of kinase activity" EXACT []
+synonym: "inhibition of kinase activity" NARROW []
+synonym: "kinase inhibitor" NARROW []
+is_a: GO:0042326 ! negative regulation of phosphorylation
+is_a: GO:0043549 ! regulation of kinase activity
+is_a: GO:0051348 ! negative regulation of transferase activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0016301 ! kinase activity
+relationship: negatively_regulates GO:0016301 ! kinase activity
+relationship: negatively_regulates GO:0016310 {http://purl.obolibrary.org/obo/IAO_0000233="https://github.com/geneontology/go-ontology/issues/13926"} ! phosphorylation
+
+[Term]
+id: GO:0033674
+name: positive regulation of kinase activity
+namespace: biological_process
+def: "Any process that activates or increases the frequency, rate or extent of kinase activity, the catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." [GOC:mah]
+synonym: "kinase activator" NARROW []
+synonym: "stimulation of kinase activity" NARROW []
+synonym: "up regulation of kinase activity" EXACT []
+synonym: "up-regulation of kinase activity" EXACT []
+synonym: "upregulation of kinase activity" EXACT []
+is_a: GO:0042327 ! positive regulation of phosphorylation
+is_a: GO:0043549 ! regulation of kinase activity
+is_a: GO:0051347 ! positive regulation of transferase activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0016301 ! kinase activity
+relationship: positively_regulates GO:0016301 ! kinase activity
+relationship: positively_regulates GO:0016310 {http://purl.obolibrary.org/obo/IAO_0000233="https://github.com/geneontology/go-ontology/issues/13926"} ! phosphorylation
+
+[Term]
+id: GO:0042325
+name: regulation of phosphorylation
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of addition of phosphate groups into a molecule." [GOC:jl]
+is_a: GO:0019220 ! regulation of phosphate metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0016310 ! phosphorylation
+relationship: regulates GO:0016310 ! phosphorylation
+
+[Term]
+id: GO:0042326
+name: negative regulation of phosphorylation
+namespace: biological_process
+def: "Any process that stops, prevents or decreases the rate of addition of phosphate groups to a molecule." [GOC:jl]
+synonym: "down regulation of phosphorylation" EXACT []
+synonym: "down-regulation of phosphorylation" EXACT []
+synonym: "downregulation of phosphorylation" EXACT []
+synonym: "inhibition of phosphorylation" NARROW []
+is_a: GO:0042325 ! regulation of phosphorylation
+is_a: GO:0045936 ! negative regulation of phosphate metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0016310 ! phosphorylation
+relationship: negatively_regulates GO:0016310 ! phosphorylation
+
+[Term]
+id: GO:0042327
+name: positive regulation of phosphorylation
+namespace: biological_process
+def: "Any process that activates or increases the frequency, rate or extent of addition of phosphate groups to a molecule." [GOC:jl]
+synonym: "activation of phosphorylation" NARROW []
+synonym: "stimulation of phosphorylation" NARROW []
+synonym: "up regulation of phosphorylation" EXACT []
+synonym: "up-regulation of phosphorylation" EXACT []
+synonym: "upregulation of phosphorylation" EXACT []
+is_a: GO:0042325 ! regulation of phosphorylation
+is_a: GO:0045937 ! positive regulation of phosphate metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0016310 ! phosphorylation
+relationship: positively_regulates GO:0016310 ! phosphorylation
+
+[Term]
+id: GO:0043085
+name: positive regulation of catalytic activity
+namespace: biological_process
+alt_id: GO:0048554
+def: "Any process that activates or increases the activity of an enzyme." [GOC:ebc, GOC:jl, GOC:tb, GOC:vw]
+subset: goslim_chembl
+synonym: "activation of enzyme activity" NARROW []
+synonym: "activation of metalloenzyme activity" NARROW []
+synonym: "positive regulation of enzyme activity" EXACT [GOC:tb]
+synonym: "positive regulation of metalloenzyme activity" NARROW []
+synonym: "stimulation of enzyme activity" NARROW []
+synonym: "stimulation of metalloenzyme activity" NARROW []
+synonym: "up regulation of enzyme activity" EXACT []
+synonym: "up regulation of metalloenzyme activity" NARROW []
+synonym: "up-regulation of enzyme activity" EXACT []
+synonym: "up-regulation of metalloenzyme activity" NARROW []
+synonym: "upregulation of enzyme activity" EXACT []
+synonym: "upregulation of metalloenzyme activity" NARROW []
+is_a: GO:0044093 ! positive regulation of molecular function
+is_a: GO:0050790 ! regulation of catalytic activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0003824 ! catalytic activity
+relationship: positively_regulates GO:0003824 ! catalytic activity
+
+[Term]
+id: GO:0043086
+name: negative regulation of catalytic activity
+namespace: biological_process
+alt_id: GO:0048553
+def: "Any process that stops or reduces the activity of an enzyme." [GOC:ebc, GOC:jl, GOC:tb, GOC:vw]
+synonym: "down regulation of enzyme activity" EXACT []
+synonym: "down regulation of metalloenzyme activity" NARROW []
+synonym: "down-regulation of enzyme activity" EXACT []
+synonym: "down-regulation of metalloenzyme activity" EXACT []
+synonym: "downregulation of enzyme activity" EXACT []
+synonym: "downregulation of metalloenzyme activity" NARROW []
+synonym: "inhibition of enzyme activity" NARROW []
+synonym: "inhibition of metalloenzyme activity" NARROW []
+synonym: "negative regulation of enzyme activity" EXACT [GOC:tb]
+synonym: "negative regulation of metalloenzyme activity" NARROW []
+is_a: GO:0044092 ! negative regulation of molecular function
+is_a: GO:0050790 ! regulation of catalytic activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0003824 ! catalytic activity
+relationship: negatively_regulates GO:0003824 ! catalytic activity
+
+[Term]
+id: GO:0043226
+name: organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton, and prokaryotic structures such as anammoxosomes and pirellulosomes. Excludes the plasma membrane." [GOC:go_curators]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_pir
+xref: NIF_Subcellular:sao1539965131
+xref: Wikipedia:Organelle
+is_a: GO:0110165 ! cellular anatomical entity
+
+[Term]
+id: GO:0043227
+name: membrane-bounded organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane." [GOC:go_curators]
+synonym: "membrane-enclosed organelle" EXACT []
+xref: NIF_Subcellular:sao414196390
+is_a: GO:0043226 ! organelle
+intersection_of: GO:0043226 ! organelle
+intersection_of: has_part GO:0016020 ! membrane
+relationship: has_part GO:0016020 ! membrane
+relationship: never_in_taxon NCBITaxon:2 ! Bacteria <prokaryote>
+
+[Term]
+id: GO:0043229
+name: intracellular organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function, occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton. Excludes the plasma membrane." [GOC:go_curators]
+subset: goslim_pir
+is_a: GO:0043226 ! organelle
+intersection_of: GO:0043226 ! organelle
+intersection_of: part_of GO:0005622 ! intracellular anatomical structure
+relationship: part_of GO:0005622 ! intracellular anatomical structure
+
+[Term]
+id: GO:0043231
+name: intracellular membrane-bounded organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane and occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane." [GOC:go_curators]
+subset: goslim_pir
+synonym: "intracellular membrane-enclosed organelle" EXACT []
+is_a: GO:0043227 ! membrane-bounded organelle
+is_a: GO:0043229 ! intracellular organelle
+intersection_of: GO:0043227 ! membrane-bounded organelle
+intersection_of: part_of GO:0005622 ! intracellular anatomical structure
+relationship: part_of GO:0005622 ! intracellular anatomical structure
+
+[Term]
+id: GO:0043549
+name: regulation of kinase activity
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of kinase activity, the catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." [GOC:bf]
+is_a: GO:0042325 ! regulation of phosphorylation
+is_a: GO:0051338 ! regulation of transferase activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0016301 ! kinase activity
+relationship: regulates GO:0016301 ! kinase activity
+relationship: regulates GO:0016310 {http://purl.obolibrary.org/obo/IAO_0000233="https://github.com/geneontology/go-ontology/issues/13926"} ! phosphorylation
+
+[Term]
+id: GO:0044092
+name: negative regulation of molecular function
+namespace: biological_process
+def: "Any process that stops or reduces the rate or extent of a molecular function, an elemental biological activity occurring at the molecular level, such as catalysis or binding." [GO:jl]
+is_a: GO:0065009 ! regulation of molecular function
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0003674 ! molecular_function
+relationship: negatively_regulates GO:0003674 ! molecular_function
+created_by: jl
+creation_date: 2009-04-21T04:07:27Z
+
+[Term]
+id: GO:0044093
+name: positive regulation of molecular function
+namespace: biological_process
+def: "Any process that activates or increases the rate or extent of a molecular function, an elemental biological activity occurring at the molecular level, such as catalysis or binding." [GO:jl]
+is_a: GO:0065009 ! regulation of molecular function
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0003674 ! molecular_function
+relationship: positively_regulates GO:0003674 ! molecular_function
+created_by: jl
+creation_date: 2009-04-21T04:11:06Z
+
+[Term]
+id: GO:0044237
+name: cellular metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways by which individual cells transform chemical substances." [GOC:go_curators]
+synonym: "cellular metabolism" EXACT []
+synonym: "intermediary metabolism" RELATED [GOC:mah]
+is_a: GO:0008152 ! metabolic process
+is_a: GO:0009987 ! cellular process
+relationship: only_in_taxon NCBITaxon:131567 ! cellular organisms
+
+[Term]
+id: GO:0034357
+name: photosynthetic membrane
+namespace: cellular_component
+def: "A membrane enriched in complexes formed of reaction centers, accessory pigments and electron carriers, in which photosynthetic reactions take place." [GOC:ds, GOC:mah]
+is_a: GO:0016020 ! membrane
+relationship: capable_of_part_of GO:0015979 ! photosynthesis
+relationship: part_of GO:0009579 ! thylakoid
+relationship: only_in_taxon NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
+
+[Term]
+id: GO:0045936
+name: negative regulation of phosphate metabolic process
+namespace: biological_process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of the chemical reactions and pathways involving phosphates." [GOC:go_curators]
+synonym: "down regulation of phosphate metabolic process" EXACT []
+synonym: "down-regulation of phosphate metabolic process" EXACT []
+synonym: "downregulation of phosphate metabolic process" EXACT []
+synonym: "inhibition of phosphate metabolic process" NARROW []
+synonym: "negative regulation of phosphate metabolism" EXACT []
+is_a: GO:0010563 ! negative regulation of phosphorus metabolic process
+is_a: GO:0019220 ! regulation of phosphate metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0006796 ! phosphate-containing compound metabolic process
+relationship: negatively_regulates GO:0006796 ! phosphate-containing compound metabolic process
+
+[Term]
+id: GO:0045937
+name: positive regulation of phosphate metabolic process
+namespace: biological_process
+def: "Any process that activates or increases the frequency, rate or extent of the chemical reactions and pathways involving phosphates." [GOC:go_curators]
+synonym: "activation of phosphate metabolic process" NARROW []
+synonym: "positive regulation of phosphate metabolism" EXACT []
+synonym: "stimulation of phosphate metabolic process" NARROW []
+synonym: "up regulation of phosphate metabolic process" EXACT []
+synonym: "up-regulation of phosphate metabolic process" EXACT []
+synonym: "upregulation of phosphate metabolic process" EXACT []
+is_a: GO:0010562 ! positive regulation of phosphorus metabolic process
+is_a: GO:0019220 ! regulation of phosphate metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0006796 ! phosphate-containing compound metabolic process
+relationship: positively_regulates GO:0006796 ! phosphate-containing compound metabolic process
+
+[Term]
+id: GO:0048518
+name: positive regulation of biological process
+namespace: biological_process
+alt_id: GO:0043119
+def: "Any process that activates or increases the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule." [GOC:jid]
+subset: gocheck_do_not_annotate
+synonym: "activation of biological process" NARROW []
+synonym: "positive regulation of physiological process" EXACT []
+synonym: "stimulation of biological process" NARROW []
+synonym: "up regulation of biological process" EXACT []
+synonym: "up-regulation of biological process" EXACT []
+synonym: "upregulation of biological process" EXACT []
+is_a: GO:0050789 ! regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0008150 ! biological_process
+relationship: positively_regulates GO:0008150 ! biological_process
+
+[Term]
+id: GO:0048519
+name: negative regulation of biological process
+namespace: biological_process
+alt_id: GO:0043118
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule." [GOC:jid]
+subset: gocheck_do_not_annotate
+synonym: "down regulation of biological process" EXACT []
+synonym: "down-regulation of biological process" EXACT []
+synonym: "downregulation of biological process" EXACT []
+synonym: "inhibition of biological process" NARROW []
+synonym: "negative regulation of physiological process" EXACT []
+is_a: GO:0050789 ! regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0008150 ! biological_process
+relationship: negatively_regulates GO:0008150 ! biological_process
+
+[Term]
+id: GO:0048522
+name: positive regulation of cellular process
+namespace: biological_process
+alt_id: GO:0051242
+def: "Any process that activates or increases the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." [GOC:jid]
+synonym: "activation of cellular process" NARROW []
+synonym: "positive regulation of cellular physiological process" EXACT []
+synonym: "stimulation of cellular process" NARROW []
+synonym: "up regulation of cellular process" EXACT []
+synonym: "up-regulation of cellular process" EXACT []
+synonym: "upregulation of cellular process" EXACT []
+is_a: GO:0048518 ! positive regulation of biological process
+is_a: GO:0050794 ! regulation of cellular process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0009987 ! cellular process
+relationship: positively_regulates GO:0009987 ! cellular process
+
+[Term]
+id: GO:0048523
+name: negative regulation of cellular process
+namespace: biological_process
+alt_id: GO:0051243
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." [GOC:jid]
+synonym: "down regulation of cellular process" EXACT []
+synonym: "down-regulation of cellular process" EXACT []
+synonym: "downregulation of cellular process" EXACT []
+synonym: "inhibition of cellular process" NARROW []
+synonym: "negative regulation of cellular physiological process" EXACT []
+is_a: GO:0048519 ! negative regulation of biological process
+is_a: GO:0050794 ! regulation of cellular process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0009987 ! cellular process
+relationship: negatively_regulates GO:0009987 ! cellular process
+
+[Term]
+id: GO:0050789
+name: regulation of biological process
+namespace: biological_process
+alt_id: GO:0050791
+def: "Any process that modulates the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule." [GOC:ai, GOC:go_curators]
+subset: gocheck_do_not_annotate
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_pir
+synonym: "regulation of physiological process" EXACT []
+is_a: GO:0065007 ! biological regulation
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0008150 ! biological_process
+relationship: regulates GO:0008150 ! biological_process
+
+[Term]
+id: GO:0050790
+name: regulation of catalytic activity
+namespace: biological_process
+alt_id: GO:0048552
+def: "Any process that modulates the activity of an enzyme." [GOC:ai, GOC:ebc, GOC:vw]
+subset: goslim_chembl
+synonym: "regulation of enzyme activity" EXACT []
+synonym: "regulation of metalloenzyme activity" NARROW []
+is_a: GO:0065009 ! regulation of molecular function
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0003824 ! catalytic activity
+relationship: regulates GO:0003824 ! catalytic activity
+
+[Term]
+id: GO:0050794
+name: regulation of cellular process
+namespace: biological_process
+alt_id: GO:0051244
+def: "Any process that modulates the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." [GOC:go_curators]
+synonym: "regulation of cellular physiological process" EXACT []
+is_a: GO:0050789 ! regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0009987 ! cellular process
+relationship: regulates GO:0009987 ! cellular process
+
+[Term]
+id: GO:0051174
+name: regulation of phosphorus metabolic process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways involving phosphorus or compounds containing phosphorus." [GOC:ai]
+synonym: "regulation of phosphorus metabolism" EXACT []
+is_a: GO:0031323 ! regulation of cellular metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0006793 ! phosphorus metabolic process
+relationship: regulates GO:0006793 ! phosphorus metabolic process
+
+[Term]
+id: GO:0051338
+name: regulation of transferase activity
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of transferase activity, the catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from one compound (generally regarded as the donor) to another compound (generally regarded as the acceptor). Transferase is the systematic name for any enzyme of EC class 2." [EC:2.-.-.-, GOC:ai]
+comment: This term is useful for grouping, but is too general for manual annotation. Please use a child term instead.
+subset: gocheck_do_not_manually_annotate
+synonym: "transferase regulator" EXACT []
+is_a: GO:0050790 ! regulation of catalytic activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0016740 ! transferase activity
+relationship: regulates GO:0016740 ! transferase activity
+
+[Term]
+id: GO:0051347
+name: positive regulation of transferase activity
+namespace: biological_process
+def: "Any process that activates or increases the frequency, rate or extent of transferase activity, the catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from a donor compound to an acceptor." [GOC:ai]
+comment: This term is useful for grouping, but is too general for manual annotation. Please use a child term instead.
+subset: gocheck_do_not_manually_annotate
+synonym: "activation of transferase activity" NARROW []
+synonym: "stimulation of transferase activity" NARROW []
+synonym: "transferase activator" EXACT []
+synonym: "up regulation of transferase activity" EXACT []
+synonym: "up-regulation of transferase activity" EXACT []
+synonym: "upregulation of transferase activity" EXACT []
+is_a: GO:0043085 ! positive regulation of catalytic activity
+is_a: GO:0051338 ! regulation of transferase activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: positively_regulates GO:0016740 ! transferase activity
+relationship: positively_regulates GO:0016740 ! transferase activity
+
+[Term]
+id: GO:0051348
+name: negative regulation of transferase activity
+namespace: biological_process
+def: "Any process that stops or reduces the rate of transferase activity, the catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from a donor compound to an acceptor." [GOC:ai]
+comment: This term is useful for grouping, but is too general for manual annotation. Please use a child term instead.
+subset: gocheck_do_not_manually_annotate
+synonym: "down regulation of transferase activity" EXACT []
+synonym: "down-regulation of transferase activity" EXACT []
+synonym: "downregulation of transferase activity" EXACT []
+synonym: "inhibition of transferase activity" NARROW []
+synonym: "transferase inhibitor" EXACT []
+is_a: GO:0043086 ! negative regulation of catalytic activity
+is_a: GO:0051338 ! regulation of transferase activity
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: negatively_regulates GO:0016740 ! transferase activity
+relationship: negatively_regulates GO:0016740 ! transferase activity
+
+[Term]
+id: GO:0065007
+name: biological regulation
+namespace: biological_process
+def: "Any process that modulates a measurable attribute of any biological process, quality or function." [GOC:dph, GOC:isa_complete, GOC:mah, GOC:pr, GOC:vw]
+subset: gocheck_do_not_annotate
+subset: goslim_pir
+synonym: "regulation" BROAD []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0065009
+name: regulation of molecular function
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of a molecular function, an elemental biological activity occurring at the molecular level, such as catalysis or binding." [GOC:isa_complete]
+subset: gocheck_do_not_annotate
+subset: goslim_pir
+subset: goslim_plant
+synonym: "regulation of a molecular function" EXACT []
+is_a: GO:0065007 ! biological regulation
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0003674 ! molecular_function
+relationship: regulates GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0071944
+name: cell periphery
+namespace: cellular_component
+def: "The part of a cell encompassing the cell cortex, the plasma membrane, and any external encapsulating structures." [GOC:mah]
+subset: goslim_flybase_ribbon
+is_a: GO:0110165 ! cellular anatomical entity
+created_by: mah
+creation_date: 2010-10-04T01:51:47Z
+
+[Term]
+id: GO:0098590
+name: plasma membrane region
+namespace: cellular_component
+def: "A membrane that is a (regional) part of the plasma membrane." [GOC:dos]
+comment: Note that this term should not be used for direct manual annotation as it should always be possible to choose a more specific subclass.
+subset: gocheck_do_not_manually_annotate
+synonym: "region of plasma membrane" EXACT []
+is_a: GO:0016020 ! membrane
+intersection_of: GO:0016020 ! membrane
+intersection_of: part_of GO:0005886 ! plasma membrane
+relationship: part_of GO:0005886 ! plasma membrane
+created_by: dos
+creation_date: 2014-03-06T11:55:32Z
+
+[Term]
+id: GO:0099568
+name: cytoplasmic region
+namespace: cellular_component
+def: "Any (proper) part of the cytoplasm of a single cell of sufficient size to still be considered cytoplasm." [GOC:dos]
+is_a: GO:0005737 ! cytoplasm
+intersection_of: GO:0005737 ! cytoplasm
+intersection_of: part_of GO:0005737 ! cytoplasm
+relationship: part_of GO:0005737 ! cytoplasm
+
+[Term]
+id: GO:0099738
+name: cell cortex region
+namespace: cellular_component
+def: "The complete extent of cell cortex that underlies some some region of the plasma membrane." [GOC:dos]
+synonym: "perimembrane region" EXACT []
+is_a: GO:0005938 ! cell cortex
+is_a: GO:0099568 ! cytoplasmic region
+intersection_of: GO:0005938 ! cell cortex
+intersection_of: part_of GO:0005938 ! cell cortex
+relationship: part_of GO:0005938 ! cell cortex
+
+[Term]
+id: GO:0110165
+name: cellular anatomical entity
+namespace: cellular_component
+def: "A part of a cellular organism that is either an immaterial entity or a material entity with granularity above the level of a protein complex but below that of an anatomical system. Or, a substance produced by a cellular organism with granularity above the level of a protein complex." [GOC:kmv]
+is_a: CARO:0000000 ! anatomical entity
+is_a: GO:0005575 ! cellular_component
+created_by: kmv
+creation_date: 2019-08-12T18:01:37Z
+
+[Term]
+id: GO:0031150
+name: sorocarp stalk development
+namespace: biological_process
+def: "The process whose specific outcome is the progression of the sorocarp stalk over time, from its formation to the mature structure. The sorocarp stalk is a tubular structure that consists of cellulose-covered cells stacked on top of each other and surrounded by an acellular stalk tube composed of cellulose and glycoprotein. An example of this process is found in Dictyostelium discoideum." [GOC:mtg_sensu, ISBN:0521583640, PMID:4338436]
+synonym: "sorophore development" EXACT []
+synonym: "stalk development" BROAD []
+synonym: "stalk formation" BROAD []
+is_a: GO:0008150 ! biological_process
+relationship: only_in_taxon NCBITaxon:5782 ! Dictyostelium
+
+[Term]
+id: GO:9999998
+name: fake term for testing pmid type
+is_a: GO:0005575 ! cellular_component
+def: "fake definition to test retracted typo in reference" [PMID:9999999999999]
+
+[Term]
+id: GO:9999999
+name: fake term for testing retraction
+is_a: GO:0005575 ! cellular_component
+def: "fake definition to test retracted reference" [PMID:19717156]
+
+
+[Term]
+id: NCBITaxon:1
+name: root
+synonym: "all" RELATED []
+relationship: in_taxon NCBITaxon:1 ! root
+
+[Term]
+id: NCBITaxon:10239
+name: Viruses
+synonym: "Vira" RELATED []
+synonym: "Viridae" RELATED []
+synonym: "viruses" RELATED []
+is_a: NCBITaxon_Union:0000030 ! cellular organisms or viruses
+disjoint_from: NCBITaxon:131567 ! cellular organisms
+relationship: in_taxon NCBITaxon:10239 ! Viruses
+
+[Term]
+id: NCBITaxon:1117
+name: Cyanobacteria
+synonym: "blue-green algae" EXACT []
+synonym: "blue-green bacteria" EXACT []
+synonym: "cyanobacteria" RELATED []
+synonym: "Cyanophyceae" RELATED []
+synonym: "Cyanophycota" RELATED []
+synonym: "Cyanophyta" RELATED []
+synonym: "cyanophytes" EXACT []
+synonym: "Oxygenic photosynthetic bacteria" RELATED []
+synonym: "Oxyphotobacteria" RELATED []
+is_a: NCBITaxon:1798711 ! Cyanobacteria/Melainabacteria group
+is_a: NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
+relationship: in_taxon NCBITaxon:1117 ! Cyanobacteria
+
+[Term]
+id: NCBITaxon:131567
+name: cellular organisms
+synonym: "biota" RELATED []
+is_a: NCBITaxon_Union:0000030 ! cellular organisms or viruses
+relationship: in_taxon NCBITaxon:131567 ! cellular organisms
+
+[Term]
+id: NCBITaxon:142796
+name: Eumycetozoa
+synonym: "Eumycetozoa Zopf, 1884" RELATED []
+synonym: "Mycetozoa" RELATED []
+synonym: "mycetozoans" RELATED []
+is_a: NCBITaxon:2605435 ! Evosea
+relationship: in_taxon NCBITaxon:142796 ! Eumycetozoa
+
+[Term]
+id: NCBITaxon:1783272
+name: Terrabacteria group
+is_a: NCBITaxon:2 ! Bacteria
+relationship: in_taxon NCBITaxon:1783272 ! Terrabacteria group
+
+[Term]
+id: NCBITaxon:1798711
+name: Cyanobacteria/Melainabacteria group
+is_a: NCBITaxon:1783272 ! Terrabacteria group
+relationship: in_taxon NCBITaxon:1798711 ! Cyanobacteria/Melainabacteria group
+
+[Term]
+id: NCBITaxon:2
+name: Bacteria
+synonym: "bacteria" RELATED []
+synonym: "eubacteria" EXACT []
+synonym: "Monera" RELATED []
+synonym: "Procaryotae" RELATED []
+synonym: "Prokaryota" RELATED []
+synonym: "Prokaryotae" RELATED []
+synonym: "prokaryote" RELATED []
+synonym: "prokaryotes" RELATED []
+is_a: NCBITaxon_Union:0000000 ! Viridiplantae or Bacteria
+is_a: NCBITaxon_Union:0000004 ! Prokaryota
+is_a: NCBITaxon_Union:0000020 ! Fungi or Bacteria
+disjoint_from: NCBITaxon:2157 ! Archaea
+disjoint_from: NCBITaxon:2759 ! Eukaryota
+relationship: in_taxon NCBITaxon:2 ! Bacteria
+
+[Term]
+id: NCBITaxon:2058185
+name: Dictyosteliaceae
+is_a: NCBITaxon:2058949 ! Dictyosteliales
+relationship: in_taxon NCBITaxon:2058185 ! Dictyosteliaceae
+
+[Term]
+id: NCBITaxon:2058949
+name: Dictyosteliales
+is_a: NCBITaxon:33083 ! Dictyostelia
+relationship: in_taxon NCBITaxon:2058949 ! Dictyosteliales
+
+[Term]
+id: NCBITaxon:2157
+name: Archaea
+synonym: "archaea" RELATED []
+synonym: "Archaebacteria" RELATED []
+synonym: "Mendosicutes" RELATED []
+synonym: "Metabacteria" RELATED []
+synonym: "Monera" RELATED []
+synonym: "Procaryotae" RELATED []
+synonym: "Prokaryota" RELATED []
+synonym: "Prokaryotae" RELATED []
+synonym: "prokaryote" RELATED []
+synonym: "prokaryotes" RELATED []
+is_a: NCBITaxon_Union:0000004 ! Prokaryota
+is_a: NCBITaxon_Union:0000025 ! Archaea or Eukaryota
+disjoint_from: NCBITaxon:2759 ! Eukaryota
+relationship: in_taxon NCBITaxon:2157 ! Archaea
+
+[Term]
+id: NCBITaxon:2605435
+name: Evosea
+is_a: NCBITaxon:554915 ! Amoebozoa
+relationship: in_taxon NCBITaxon:2605435 ! Evosea
+
+[Term]
+id: NCBITaxon:2611352
+name: Discoba
+is_a: NCBITaxon:2759 ! Eukaryota
+disjoint_from: NCBITaxon:33090 ! Viridiplantae
+disjoint_from: NCBITaxon:33154 ! Opisthokonta
+disjoint_from: NCBITaxon:554915 ! Amoebozoa
+relationship: in_taxon NCBITaxon:2611352 ! Discoba
+
+[Term]
+id: NCBITaxon:2759
+name: Eukaryota
+synonym: "Eucarya" RELATED []
+synonym: "Eucaryotae" RELATED []
+synonym: "eucaryotes" EXACT []
+synonym: "Eukarya" RELATED []
+synonym: "Eukaryotae" RELATED []
+synonym: "eukaryotes" EXACT []
+synonym: "eukaryotes" RELATED []
+is_a: NCBITaxon_Union:0000025 ! Archaea or Eukaryota
+relationship: in_taxon NCBITaxon:2759 ! Eukaryota
+
+[Term]
+id: NCBITaxon:33083
+name: Dictyostelia
+synonym: "cellular slime molds" RELATED []
+synonym: "dictyostelid cellular slime molds" EXACT []
+synonym: "Dictyostelida" RELATED []
+synonym: "Dictyostelids" RELATED []
+synonym: "Dictyosteliida" RELATED []
+is_a: NCBITaxon:142796 ! Eumycetozoa
+relationship: in_taxon NCBITaxon:33083 ! Dictyostelia
+
+[Term]
+id: NCBITaxon:33090
+name: Viridiplantae
+synonym: "Chlorobionta" RELATED []
+synonym: "Chlorophyta/Embryophyta group" EXACT []
+synonym: "chlorophyte/embryophyte group" EXACT []
+synonym: "Chloroplastida" RELATED []
+synonym: "green plants" EXACT []
+synonym: "green plants" RELATED []
+is_a: NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
+is_a: NCBITaxon_Union:0000008 ! Viridiplantae or Euglenozoa
+disjoint_from: NCBITaxon:33154 ! Opisthokonta
+disjoint_from: NCBITaxon:554915 ! Amoebozoa
+relationship: in_taxon NCBITaxon:33090 ! Viridiplantae
+
+[Term]
+id: NCBITaxon:33154
+name: Opisthokonta
+synonym: "Fungi/Metazoa group" RELATED []
+synonym: "opisthokonts" RELATED []
+is_a: NCBITaxon_Union:0000024 ! Unikonta
+disjoint_from: NCBITaxon:554915 ! Amoebozoa
+relationship: in_taxon NCBITaxon:33154 ! Opisthokonta
+
+[Term]
+id: NCBITaxon:33208
+name: Metazoa
+is_a: NCBITaxon:33154 ! Opisthokonta
+
+[Term]
+id: NCBITaxon:40674
+name: Mammalia
+is_a: NCBITaxon:33208 ! Metazoa
+
+[Term]
+id: NCBITaxon:9606
+name: Homo sapiens
+is_a: NCBITaxon:40674 ! Mammalia
+
+
+[Term]
+id: NCBITaxon:33682
+name: Euglenozoa
+synonym: "Euglenozoans" RELATED []
+is_a: NCBITaxon:2611352 ! Discoba
+is_a: NCBITaxon_Union:0000008 ! Viridiplantae or Euglenozoa
+relationship: in_taxon NCBITaxon:33682 ! Euglenozoa
+
+[Term]
+id: NCBITaxon:4751
+name: Fungi
+synonym: "fungi" RELATED []
+synonym: "Mycota" RELATED []
+is_a: NCBITaxon:33154 ! Opisthokonta
+is_a: NCBITaxon_Union:0000020 ! Fungi or Bacteria
+is_a: NCBITaxon_Union:0000022 ! Fungi or Dictyostelium
+relationship: in_taxon NCBITaxon:4751 ! Fungi
+
+[Term]
+id: NCBITaxon:554915
+name: Amoebozoa
+is_a: NCBITaxon_Union:0000024 ! Unikonta
+relationship: in_taxon NCBITaxon:554915 ! Amoebozoa
+
+[Term]
+id: NCBITaxon:5782
+name: Dictyostelium
+synonym: "Hyalostilbum" RELATED []
+is_a: NCBITaxon:2058185 ! Dictyosteliaceae
+is_a: NCBITaxon_Union:0000022 ! Fungi or Dictyostelium
+relationship: in_taxon NCBITaxon:5782 ! Dictyostelium
+
+[Term]
+id: NCBITaxon:44689
+name: Dictyostelium discoideum
+is_a: NCBITaxon:5782 ! Dictyostelium
+
+[Term]
+id: NCBITaxon_Union:0000000
+name: Viridiplantae or Bacteria
+is_a: NCBITaxon_Union:0000006 ! Viridiplantae or Archaea or Bacteria
+is_a: NCBITaxon_Union:0000007 ! Viridiplantae or Bacteria or Euglenozoa
+union_of: NCBITaxon:2 ! Bacteria
+union_of: NCBITaxon:33090 ! Viridiplantae
+created_by: Jennifer I Deegan
+creation_date: 2009-08-10T10:46:43Z
+
+[Term]
+id: NCBITaxon_Union:0000002
+name: Viridiplantae or Cyanobacteria
+def: "The union of the taxa Viridiplantae and Cyanobacteria." [GOC:mtg_go-taxon]
+is_a: NCBITaxon_Union:0000000 ! Viridiplantae or Bacteria
+union_of: NCBITaxon:1117 ! Cyanobacteria
+union_of: NCBITaxon:33090 ! Viridiplantae
+created_by: Jennifer Deegan
+creation_date: 2008-07-16T03:33:38Z
+
+[Term]
+id: NCBITaxon_Union:0000004
+name: Prokaryota
+is_a: NCBITaxon_Union:0000006 ! Viridiplantae or Archaea or Bacteria
+is_a: NCBITaxon_Union:0000023 ! Fungi or Bacteria or Archaea
+union_of: NCBITaxon:2 ! Bacteria
+union_of: NCBITaxon:2157 ! Archaea
+created_by: jdeegan
+creation_date: 2008-07-24T11:56:07Z
+
+[Term]
+id: NCBITaxon_Union:0000006
+name: Viridiplantae or Archaea or Bacteria
+is_a: NCBITaxon_Union:0000021 ! Viridiplantae or Bacteria or Euglenozoa or Archaea
+union_of: NCBITaxon:2 ! Bacteria
+union_of: NCBITaxon:2157 ! Archaea
+union_of: NCBITaxon:33090 ! Viridiplantae
+created_by: jdeegan
+creation_date: 2008-08-14T10:45:59Z
+
+[Term]
+id: NCBITaxon_Union:0000007
+name: Viridiplantae or Bacteria or Euglenozoa
+is_a: NCBITaxon_Union:0000021 ! Viridiplantae or Bacteria or Euglenozoa or Archaea
+union_of: NCBITaxon:2 ! Bacteria
+union_of: NCBITaxon:33090 ! Viridiplantae
+union_of: NCBITaxon:33682 ! Euglenozoa
+created_by: Jennifer I Deegan
+creation_date: 2009-08-10T10:46:43Z
+
+[Term]
+id: NCBITaxon_Union:0000008
+name: Viridiplantae or Euglenozoa
+is_a: NCBITaxon:2759 ! Eukaryota
+is_a: NCBITaxon_Union:0000007 ! Viridiplantae or Bacteria or Euglenozoa
+union_of: NCBITaxon:33090 ! Viridiplantae
+union_of: NCBITaxon:33682 ! Euglenozoa
+created_by: Jennifer I Deegan
+creation_date: 2009-08-10T10:46:43Z
+
+[Term]
+id: NCBITaxon_Union:0000020
+name: Fungi or Bacteria
+is_a: NCBITaxon_Union:0000023 ! Fungi or Bacteria or Archaea
+union_of: NCBITaxon:2 ! Bacteria
+union_of: NCBITaxon:4751 ! Fungi
+created_by: Jennifer Deegan
+creation_date: 2008-07-24T04:15:25Z
+
+[Term]
+id: NCBITaxon_Union:0000021
+name: Viridiplantae or Bacteria or Euglenozoa or Archaea
+is_a: NCBITaxon:131567 ! cellular organisms
+union_of: NCBITaxon:2 ! Bacteria
+union_of: NCBITaxon:2157 ! Archaea
+union_of: NCBITaxon:33090 ! Viridiplantae
+union_of: NCBITaxon:33682 ! Euglenozoa
+created_by: Jennifer I Deegan
+creation_date: 2009-08-10T10:46:43Z
+
+[Term]
+id: NCBITaxon_Union:0000022
+name: Fungi or Dictyostelium
+is_a: NCBITaxon_Union:0000024 ! Unikonta
+union_of: NCBITaxon:4751 ! Fungi
+union_of: NCBITaxon:5782 ! Dictyostelium
+
+[Term]
+id: NCBITaxon_Union:0000023
+name: Fungi or Bacteria or Archaea
+is_a: NCBITaxon:131567 ! cellular organisms
+union_of: NCBITaxon:2 ! Bacteria
+union_of: NCBITaxon:2157 ! Archaea
+union_of: NCBITaxon:4751 ! Fungi
+
+[Term]
+id: NCBITaxon_Union:0000024
+name: Unikonta
+def: "The unikonts have a triple-gene fusion that is lacking in the bikonts. The three genes that are fused together in the unikonts but not bacteria or bikonts encode enzymes for synthesis of the pyrimidine nucleotides: carbamoyl phosphate synthase, dihydroorotase, aspartate carbamoyltransferase. This must have involved a double fusion, a rare pair of events, supporting the shared ancestry of Opisthokonta and Amoebozoa." [http://en.wikipedia.org/wiki/Unikont]
+synonym: "unikonts" EXACT []
+is_a: NCBITaxon:2759 ! Eukaryota
+union_of: NCBITaxon:33154 ! Opisthokonta
+union_of: NCBITaxon:554915 ! Amoebozoa
+
+[Term]
+id: NCBITaxon_Union:0000025
+name: Archaea or Eukaryota
+synonym: "archaea-eukaryota" EXACT []
+is_a: NCBITaxon:131567 ! cellular organisms
+union_of: NCBITaxon:2157 ! Archaea
+union_of: NCBITaxon:2759 ! Eukaryota
+
+[Term]
+id: NCBITaxon_Union:0000030
+name: cellular organisms or viruses
+is_a: NCBITaxon:1 ! root
+union_of: NCBITaxon:10239 ! Viruses
+union_of: NCBITaxon:131567 ! cellular organisms
+
+[Term]
+id: PATO:0000001
+name: quality
+def: "A dependent entity that inheres in a bearer by virtue of how the bearer is related to other entities" []
+is_a: BFO:0000020 ! specifically dependent continuant
+
+[Term]
+id: PATO:0001241
+name: physical object quality
+def: "A quality which inheres in a continuant." []
+synonym: "monadic quality of a continuant" EXACT []
+synonym: "monadic quality of an object" NARROW []
+synonym: "monadic quality of continuant" NARROW []
+synonym: "multiply inhering quality of a physical entity" EXACT []
+synonym: "quality of a continuant" EXACT []
+synonym: "quality of a single physical entity" EXACT []
+synonym: "quality of an object" EXACT []
+synonym: "quality of continuant" EXACT []
+is_a: PATO:0000001 ! quality
+
+[Term]
+id: PATO:0001396
+name: cellular quality
+def: "A monadic quality of continuant that exists at the cellular level of organisation." []
+is_a: PATO:0001241 ! physical object quality
+
+[Term]
+id: PATO:0001404
+name: nucleate quality
+def: "A cellular quality inhering in a bearer by virtue of bearer's number of nuclei." []
+is_a: PATO:0001396 ! cellular quality
+
+[Term]
+id: PATO:0001405
+name: anucleate
+def: "A nucleate quality inhering in a bearer by virtue of the bearer's having no nucleus." []
+is_a: PATO:0001404 ! nucleate quality
+
+[Term]
+id: PATO:0001406
+name: binucleate
+def: "A nucleate quality inhering in a bearer by virtue of the bearer's having two nuclei." []
+is_a: PATO:0001908 ! multinucleate
+
+[Term]
+id: PATO:0001407
+name: mononucleate
+def: "A nucleate quality inhering in a bearer by virtue of the bearer's having one nucleus." []
+is_a: PATO:0002505 ! nucleated
+
+[Term]
+id: PATO:0001908
+name: multinucleate
+def: "A nucleate quality inhering in a bearer by virtue of the bearer's having more than one nucleus." []
+is_a: PATO:0002505 ! nucleated
+
+[Term]
+id: PATO:0002505
+name: nucleated
+def: "A nucleate quality inhering in a bearer by virtue of the bearer's having one or more nucleus." []
+is_a: PATO:0001404 ! nucleate quality
+
+[Typedef]
+id: acts_upstream_of
+name: acts upstream of
+def: "c acts upstream of p if and only if c enables some f that is involved in p' and p' occurs chronologically before p, is not part of p, and affects the execution of p. c is a material entity and f, p, p' are processes." []
+xref: RO:0002263
+holds_over_chain: enables causally_upstream_of
+is_a: acts_upstream_of_or_within ! acts upstream of or within
+
+[Typedef]
+id: acts_upstream_of,_negative_effect
+name: acts upstream of, negative effect
+def: "c 'acts upstream of, negative effect' p if c is enables f, and f is causally upstream of p, and the direction of f is negative" []
+xref: RO:0004035
+holds_over_chain: enables causally_upstream_of,_negative_effect
+is_a: acts_upstream_of ! acts upstream of
+is_a: acts_upstream_of_or_within,_negative_effect ! acts upstream of or within, negative effect
+
+[Typedef]
+id: acts_upstream_of,_positive_effect
+name: acts upstream of, positive effect
+def: "c 'acts upstream of, positive effect' p if c is enables f, and f is causally upstream of p, and the direction of f is positive" []
+xref: RO:0004034
+holds_over_chain: enables causally_upstream_of,_positive_effect
+is_a: acts_upstream_of ! acts upstream of
+is_a: acts_upstream_of_or_within,_positive_effect ! acts upstream of or within, positive effect
+
+[Typedef]
+id: acts_upstream_of_or_within
+name: acts upstream of or within
+def: "c acts upstream of or within p if c is enables f, and f is causally upstream of or within p. c is a material entity and p is an process." []
+synonym: "affects" RELATED []
+xref: RO:0002264
+holds_over_chain: enables causally_upstream_of_or_within
+is_a: causal_agent_in_process ! causal agent in process
+
+[Typedef]
+id: acts_upstream_of_or_within,_negative_effect
+name: acts upstream of or within, negative effect
+xref: RO:0004033
+holds_over_chain: enables causally_upstream_of_or_within,_negative_effect
+is_a: acts_upstream_of_or_within ! acts upstream of or within
+
+[Typedef]
+id: acts_upstream_of_or_within,_positive_effect
+name: acts upstream of or within, positive effect
+xref: RO:0004032
+holds_over_chain: enables causally_upstream_of_or_within,_positive_effect
+is_a: acts_upstream_of_or_within ! acts upstream of or within
+
+[Typedef]
+id: bearer_of
+name: bearer of
+namespace: external
+def: "a relation between an independent continuant (the bearer) and a specifically dependent continuant (the dependent), in which the dependent specifically depends on the bearer for its existence" []
+xref: RO:0000053
+range: BFO:0000020 ! specifically dependent continuant
+
+[Typedef]
+id: capable_of
+name: capable of
+name: capable_of
+namespace: external
+def: "A relation between a material entity (such as a cell) and a process, in which the material entity has the ability to carry out the process. " []
+xref: RO:0002215
+domain: BFO:0000004 ! independent continuant
+range: BFO:0000015 ! process
+is_a: capable_of_part_of ! capable of part of
+is_a: functionally_related_to ! functionally related to
+
+[Typedef]
+id: capable_of_negatively_regulating
+name: capable of negatively regulating
+def: "Holds between c and p if and only if c is capable of some activity a, and a negatively regulates p." []
+xref: RO:0002597
+holds_over_chain: capable_of negatively_regulates
+is_a: capable_of_regulating ! capable of regulating
+
+[Typedef]
+id: capable_of_part_of
+name: capable of part of
+namespace: external
+def: "c stands in this relationship to p if and only if there exists some p' such that c is capable_of p', and p' is part_of p." []
+xref: RO:0002216
+holds_over_chain: capable_of part_of
+is_a: causal_agent_in_process ! causal agent in process
+is_a: functionally_related_to ! functionally related to
+
+[Typedef]
+id: capable_of_positively_regulating
+name: capable of positively regulating
+def: "Holds between c and p if and only if c is capable of some activity a, and a positively regulates p." []
+xref: RO:0002598
+holds_over_chain: capable_of positively_regulates
+is_a: capable_of_regulating ! capable of regulating
+
+[Typedef]
+id: capable_of_regulating
+name: capable of regulating
+def: "Holds between c and p if and only if c is capable of some activity a, and a regulates p." []
+xref: RO:0002596
+holds_over_chain: capable_of regulates
+is_a: causal_agent_in_process ! causal agent in process
+
+[Typedef]
+id: causal_agent_in_process
+name: causal agent in process
+def: "A relationship between a material entity and a process where the material entity has some causal role that influences the process" []
+xref: RO:0002500
+is_a: causal_relation_between_material_entity_and_a_process ! causal relation between material entity and a process
+inverse_of: process_has_causal_agent ! process has causal agent
+
+[Typedef]
+id: causal_relation_between_entities
+name: causal relation between entities
+xref: RO:0002506
+domain: BFO:0000002 ! continuant
+range: BFO:0000002 ! continuant
+is_a: causally_related_to ! causally related to
+
+[Typedef]
+id: causal_relation_between_material_entity_and_a_process
+name: causal relation between material entity and a process
+def: "A relationship that holds between a material entity and a process in which causality is involved, with either the material entity or some part of the material entity exerting some influence over the process, or the process influencing some aspect of the material entity." []
+xref: RO:0002595
+domain: BFO:0000040 ! material entity
+range: BFO:0000015 ! process
+is_a: causally_related_to ! causally related to
+
+[Typedef]
+id: causal_relation_between_processes
+name: causal relation between processes
+def: "p is causally related to q if and only if p or any part of p and q or any part of q are linked by a chain of events where each event pair is one of direct activation or direct inhibition. p may be upstream, downstream, part of or a container of q." []
+xref: RO:0002501
+domain: BFO:0000003 ! occurrent
+range: BFO:0000003 ! occurrent
+is_a: causally_related_to ! causally related to
+
+[Typedef]
+id: causally_downstream_of
+name: causally downstream of
+namespace: external
+def: "inverse of upstream of" []
+xref: RO:0002404
+is_a: causally_downstream_of_or_within ! causally downstream of or within
+is_a: preceded_by ! preceded_by
+inverse_of: causally_upstream_of ! causally upstream of
+
+[Typedef]
+id: causally_downstream_of_or_within
+name: causally downstream of or within
+namespace: external
+def: "inverse of causally upstream of or within" []
+xref: RO:0002427
+is_transitive: true
+is_a: causal_relation_between_processes ! causal relation between processes
+
+[Typedef]
+id: causally_influenced_by
+name: causally influenced by
+xref: RO:0002559
+is_a: causal_relation_between_entities ! causal relation between entities
+inverse_of: causally_influences ! causally influences
+
+[Typedef]
+id: causally_influences
+name: causally influences
+def: "The entity or characteristic A is causally upstream of the entity or characteristic B, A having an effect on B. An entity corresponds to any biological type of entity as long as a mass is measurable. A characteristic corresponds to a particular specificity of an entity (e.g., phenotype, shape, size)." []
+xref: RO:0002566
+domain: BFO:0000002 ! continuant
+range: BFO:0000002 ! continuant
+is_a: causal_relation_between_entities ! causal relation between entities
+
+[Typedef]
+id: causally_related_to
+name: causally related to
+def: "This relation groups causal relations between material entities and causal relations between processes" []
+xref: RO:0002410
+
+[Typedef]
+id: causally_upstream_of
+name: causally upstream of
+namespace: external
+def: "p is causally upstream of q if and only if p precedes q and p and q are linked in a causal chain" []
+xref: RO:0002411
+is_transitive: true
+is_a: causally_upstream_of_or_within ! causally upstream of or within
+is_a: precedes ! precedes
+
+[Typedef]
+id: causally_upstream_of,_negative_effect
+name: causally upstream of, negative effect
+namespace: external
+xref: RO:0002305
+is_a: causally_upstream_of ! causally upstream of
+is_a: causally_upstream_of_or_within,_negative_effect ! causally upstream of or within, negative effect
+
+[Typedef]
+id: causally_upstream_of,_positive_effect
+name: causally upstream of, positive effect
+namespace: external
+xref: RO:0002304
+is_a: causally_upstream_of ! causally upstream of
+is_a: causally_upstream_of_or_within,_positive_effect ! causally upstream of or within, positive effect
+
+[Typedef]
+id: causally_upstream_of_or_within
+name: causally upstream of or within
+namespace: external
+def: "p 'causally upstream or within' q iff (1) the end of p is before the end of q and (2) the execution of p exerts some causal influence over the outputs of q; i.e. if p was abolished or the outputs of p were to be modified, this would necessarily affect q." []
+synonym: "affects" RELATED []
+xref: RO:0002418
+is_transitive: true
+is_a: causal_relation_between_processes ! causal relation between processes
+inverse_of: causally_downstream_of_or_within ! causally downstream of or within
+
+[Typedef]
+id: causally_upstream_of_or_within,_negative_effect
+name: causally upstream of or within, negative effect
+xref: RO:0004046
+is_a: causally_upstream_of_or_within ! causally upstream of or within
+
+[Typedef]
+id: causally_upstream_of_or_within,_positive_effect
+name: causally upstream of or within, positive effect
+xref: RO:0004047
+is_a: causally_upstream_of_or_within ! causally upstream of or within
+
+[Typedef]
+id: contains_process
+name: contains process
+def: "[copied from inverse property 'occurs in'] b occurs_in c =def b is a process and c is a material entity or immaterial entity& there exists a spatiotemporal region r and b occupies_spatiotemporal_region r.& forall(t) if b exists_at t then c exists_at t & there exist spatial regions s and s’ where & b spatially_projects_onto s at t& c is occupies_spatial_region s’ at t& s is a proper_continuant_part_of s’ at t" []
+xref: BFO:0000067
+
+[Typedef]
+id: depends_on
+name: depends on
+xref: RO:0002502
+
+[Typedef]
+id: directly_negatively_regulated_by
+name: directly negatively regulated by
+def: "Process(P2) is directly negatively regulated by process(P1) iff: P1 negatively regulates P2 via direct physical interaction between an agent executing P1 (or some part of P1) and an agent executing P2 (or some part of P2).  For example, if protein A has protein binding activity(P1) that targets protein B and this binding  negatively regulates the kinase activity (P2) of protein B then P2 directly negatively regulated by P1." []
+xref: RO:0002023
+is_a: directly_regulated_by ! directly regulated by
+inverse_of: directly_negatively_regulates ! directly negatively regulates
+
+[Typedef]
+id: directly_negatively_regulates
+name: directly negatively regulates
+def: "Process(P1) directly negatively regulates process(P2) iff: P1 negatively regulates P2 via direct physical interaction between an agent executing P1 (or some part of P1) and an agent executing P2 (or some part of P2).  For example, if protein A has protein binding activity(P1) that targets protein B and this binding  negatively regulates the kinase activity (P2) of protein B then P1 directly negatively regulates P2." []
+xref: RO:0002630
+is_a: directly_regulates ! directly regulates
+is_a: negatively_regulates ! negatively regulates
+
+[Typedef]
+id: directly_negatively_regulates_activity_of
+name: directly negatively regulates activity of
+def: "The entity A, immediately upstream of the entity B, has an activity that negatively regulates an activity performed by B. \nFor example, A and B may be gene products and binding of B by A negatively regulates the kinase activity of B." []
+synonym: "molecularly decreases activity of" EXACT []
+xref: RO:0002449
+domain: BFO:0000040 ! material entity
+range: BFO:0000040 ! material entity
+is_a: directly_regulates_activity_of ! directly regulates activity of
+
+[Typedef]
+id: directly_positively_regulated_by
+name: directly positively regulated by
+def: "Process(P2) is directly postively regulated by process(P1) iff: P1 positively regulates P2 via direct physical interaction between an agent executing P1 (or some part of P1) and an agent executing P2 (or some part of P2).  For example, if protein A has protein binding activity(P1) that targets protein B and this binding positively regulates the kinase activity (P2) of protein B then P2 is directly postively regulated by P1." []
+xref: RO:0002024
+is_a: directly_regulated_by ! directly regulated by
+inverse_of: directly_positively_regulates ! directly positively regulates
+
+[Typedef]
+id: directly_positively_regulates
+name: directly positively regulates
+def: "Process(P1) directly postively regulates process(P2) iff: P1 positively regulates P2 via direct physical interaction between an agent executing P1 (or some part of P1) and an agent executing P2 (or some part of P2).  For example, if protein A has protein binding activity(P1) that targets protein B and this binding positively regulates the kinase activity (P2) of protein B then P1 directly positively regulates P2." []
+xref: RO:0002629
+is_a: directly_regulates ! directly regulates
+is_a: positively_regulates ! positively regulates
+
+[Typedef]
+id: directly_positively_regulates_activity_of
+name: directly positively regulates activity of
+def: "The entity A, immediately upstream of the entity B, has an activity that positively regulates an activity performed by B. \nFor example, A and B may be gene products and binding of B by A positively regulates the kinase activity of B." []
+synonym: "molecularly increases activity of" EXACT []
+xref: RO:0002450
+domain: BFO:0000040 ! material entity
+range: BFO:0000040 ! material entity
+is_a: directly_regulates_activity_of ! directly regulates activity of
+
+[Typedef]
+id: directly_regulated_by
+name: directly regulated by
+xref: RO:0002022
+is_a: regulated_by ! regulated by
+inverse_of: directly_regulates ! directly regulates
+
+[Typedef]
+id: directly_regulates
+name: directly regulates
+def: "Process(P1) directly regulates process(P2) iff: P1 regulates P2 via direct physical interaction between an agent executing P1 (or some part of P1) and an agent executing P2 (or some part of P2).  For example, if protein A has protein binding activity(P1) that targets protein B and this binding  regulates the kinase activity (P2) of protein B then P1 directly regulates P2." []
+xref: RO:0002578
+is_a: immediately_causally_upstream_of ! immediately causally upstream of
+is_a: regulates ! regulates
+
+[Typedef]
+id: directly_regulates_activity_of
+name: directly regulates activity of
+def: "The entity A, immediately upstream of the entity B, has an activity that regulates an activity performed by B. For example, A and B may be gene products and binding of B by A regulates the kinase activity of B.\n\nA and B can be physically interacting but not necessarily. Immediately upstream means there are no intermediate entity between A and B." []
+synonym: "molecularly controls" EXACT []
+xref: RO:0002448
+domain: BFO:0000040 ! material entity
+range: BFO:0000040 ! material entity
+is_a: molecularly_interacts_with ! molecularly interacts with
+is_a: regulates_activity_of ! regulates activity of
+
+[Typedef]
+id: enabled_by
+name: enabled by
+def: "inverse of enables" []
+xref: RO:0002333
+is_a: functionally_related_to ! functionally related to
+is_a: has_participant ! has_participant
+
+[Typedef]
+id: enables
+name: enables
+xref: RO:0002327
+is_a: capable_of ! capable_of
+inverse_of: enabled_by ! enabled by
+transitive_over: has_component_activity ! has component activity
+transitive_over: has_part ! has part
+
+[Typedef]
+id: enables_subfunction
+name: enables subfunction
+def: "Holds between an entity and an process P where the entity enables some larger compound process, and that larger process has-part P." []
+xref: RO:0004031
+holds_over_chain: enables has_part
+is_a: functionally_related_to ! functionally related to
+
+[Typedef]
+id: ends_after
+name: ends after
+xref: RO:0002086
+is_transitive: true
+is_a: temporally_related_to ! temporally related to
+
+[Typedef]
+id: evolutionarily_related_to
+name: evolutionarily related to
+def: "A relationship that holds via some environmental process" []
+xref: RO:0002320
+
+[Typedef]
+id: functionally_related_to
+name: functionally related to
+def: "A grouping relationship for any relationship directly involving a function, or that holds because of a function of one of the related entities." []
+xref: RO:0002328
+
+[Typedef]
+id: has_component
+name: has component
+name: has_component
+namespace: external
+def: "w 'has component' p if w 'has part' p and w is such that it can be directly disassembled into into n parts p, p2, p3, ..., pn, where these parts are of similar type." []
+xref: RO:0002180
+is_a: has_part ! has part
+
+[Typedef]
+id: has_component_activity
+name: has component activity
+xref: RO:0002017
+is_a: has_component_process ! has component process
+
+[Typedef]
+id: has_component_process
+name: has component process
+def: "w 'has process component' p if p and w are processes,  w 'has part' p and w is such that it can be directly disassembled into into n parts p, p2, p3, ..., pn, where these parts are of similar type." []
+xref: RO:0002018
+domain: BFO:0000015 ! process
+range: BFO:0000015 ! process
+is_a: has_component ! has component
+
+[Typedef]
+id: has_effector_activity
+name: has effector activity
+def: "A 'has effector activity' B if A and B are GO molecular functions (GO_0003674),  A 'has component activity' B and B is the effector (output function) of B.  Each compound function has only one effector activity." []
+xref: RO:0002025
+is_functional: true
+is_a: has_component_activity ! has component activity
+
+[Typedef]
+id: has_input
+name: has input
+namespace: external
+def: "p has input c iff: p is a process, c is a material entity, c is a participant in p, c is present at the start of p, and the state of c is modified during p." []
+xref: RO:0002233
+domain: BFO:0000015 ! process
+is_a: has_participant ! has_participant
+inverse_of: input_of ! input of
+
+[Typedef]
+id: has_negative_regulatory_component_activity
+name: has negative regulatory component activity
+namespace: external
+def: "A relationship that holds between a GO molecular function and a component of that molecular function that negatively regulates the activity of the whole.  More formally, A 'has regulatory component activity' B iff :A and B are GO molecular functions (GO_0003674), A has_component B and A is negatively regulated by B." []
+xref: RO:0002014
+is_a: has_regulatory_component_activity ! has regulatory component activity
+is_a: negatively_regulated_by ! negatively regulated by
+
+[Typedef]
+id: has_part
+name: has part
+name: has_part
+namespace: external
+def: "a core relation that holds between a whole and its part" []
+def: "Q1 has_part Q2 if and only if: every instance of Q1 is a quality_of an entity that has_quality some Q2." []
+xref: BFO:0000051
+is_transitive: true
+is_a: overlaps ! overlaps
+
+[Typedef]
+id: has_part_structure_that_is_capable_of
+name: has part structure that is capable of
+def: "s 'has part structure that is capable of' p if and only if there exists some part x such that s 'has part' x and x 'capable of' p" []
+xref: RO:0002584
+holds_over_chain: has_part capable_of
+is_a: causal_relation_between_material_entity_and_a_process ! causal relation between material entity and a process
+is_a: functionally_related_to ! functionally related to
+
+[Typedef]
+id: has_part_that_occurs_in
+name: has part that occurs in
+def: "p has part that occurs in c if and only if there exists some p1, such that p has_part p1, and p1 occurs in c." []
+xref: RO:0002479
+domain: BFO:0000003 ! occurrent
+range: BFO:0000004 ! independent continuant
+holds_over_chain: has_part occurs_in
+
+[Typedef]
+id: has_participant
+name: has participant
+name: has_participant
+namespace: external
+def: "a relation between a process and a continuant, in which the continuant is somehow involved in the process" []
+xref: RO:0000057
+domain: BFO:0000003 ! occurrent
+range: BFO:0000002 ! continuant
+holds_over_chain: has_part has_participant
+
+[Typedef]
+id: has_positive_regulatory_component_activity
+name: has positive regulatory component activity
+def: "A relationship that holds between a GO molecular function and a component of that molecular function that positively regulates the activity of the whole.  More formally, A 'has regulatory component activity' B iff :A and B are GO molecular functions (GO_0003674), A has_component B and A is positively regulated by B." []
+xref: RO:0002015
+is_a: has_regulatory_component_activity ! has regulatory component activity
+is_a: positively_regulated_by ! positively regulated by
+
+[Typedef]
+id: has_primary_input_or_output
+name: has primary input or output
+namespace: external
+def: "p 'has primary input ot output' c iff either (a) p 'has primary input' c or (b) p 'has primary output' c." []
+xref: RO:0004007
+is_a: has_participant ! has_participant
+
+[Typedef]
+id: has_regulatory_component_activity
+name: has regulatory component activity
+namespace: external
+def: "A 'has regulatory component activity' B if A and B are GO molecular functions (GO_0003674), A has_component B and A is regulated by B." []
+xref: RO:0002013
+is_a: has_component_activity ! has component activity
+is_a: regulated_by ! regulated by
+
+[Typedef]
+id: has_role
+name: has role
+def: "a relation between an independent continuant (the bearer) and a role, in which the role specifically depends on the bearer for its existence" []
+xref: RO:0000087
+domain: BFO:0000004 ! independent continuant
+range: BFO:0000023 ! role
+is_a: bearer_of ! bearer of
+
+[Typedef]
+id: immediately_causally_downstream_of
+name: immediately causally downstream of
+namespace: external
+xref: RO:0002405
+is_a: causally_downstream_of ! causally downstream of
+is_a: immediately_preceded_by ! immediately preceded by
+inverse_of: immediately_causally_upstream_of ! immediately causally upstream of
+
+[Typedef]
+id: immediately_causally_upstream_of
+name: immediately causally upstream of
+namespace: external
+def: "p is immediately causally upstream of q iff both (a) p immediately precedes q and (b) p is causally upstream of q. In addition, the output of p  must be an input of q." []
+xref: RO:0002412
+is_a: causally_upstream_of ! causally upstream of
+is_a: immediately_precedes ! immediately_precedes
+
+[Typedef]
+id: immediately_preceded_by
+name: immediately preceded by
+name: immediately_preceded_by
+namespace: external
+def: "X immediately_preceded_by Y iff: end(X) simultaneous_with start(Y)" []
+synonym: "directly preceded by" EXACT []
+synonym: "is directly preceded by" EXACT []
+synonym: "is immediately preceded by" EXACT []
+synonym: "starts_at_end_of" EXACT []
+xref: RO:0002087
+is_a: preceded_by ! preceded_by
+inverse_of: immediately_precedes ! immediately_precedes
+
+[Typedef]
+id: immediately_precedes
+name: immediately precedes
+name: immediately_precedes
+namespace: external
+xref: RO:0002090
+is_a: precedes ! precedes
+
+[Typedef]
+id: in_taxon
+name: in taxon
+def: "x is in taxon y if an only if y is an organism, and the relationship between x and y is one of: part of (reflexive), developmentally preceded by, derives from, secreted by, expressed." []
+xref: RO:0002162
+range: CARO:0001010 ! organism or virus or viroid
+holds_over_chain: capable_of in_taxon
+holds_over_chain: has_part in_taxon
+holds_over_chain: overlaps in_taxon
+holds_over_chain: part_of in_taxon
+is_a: evolutionarily_related_to ! evolutionarily related to
+
+[Typedef]
+id: inheres_in
+name: inheres in
+def: "a relation between a specifically dependent continuant (the dependent) and an independent continuant (the bearer), in which the dependent specifically depends on the bearer for its existence" []
+xref: RO:0000052
+is_a: inheres_in_part_of ! inheres in part of
+inverse_of: bearer_of ! bearer of
+
+[Typedef]
+id: inheres_in_part_of
+name: inheres in part of
+def: "q inheres in part of w if and only if there exists some p such that q inheres in p and p part of w." []
+xref: RO:0002314
+holds_over_chain: inheres_in part_of
+is_a: depends_on ! depends on
+transitive_over: part_of ! part of
+
+[Typedef]
+id: input_of
+name: input of
+def: "inverse of has input" []
+xref: RO:0002352
+is_a: functionally_related_to ! functionally related to
+is_a: participates_in ! participates in
+
+[Typedef]
+id: interacts_with
+name: interacts with
+def: "A relationship that holds between two entities in which the processes executed by the two entities are causally connected." []
+synonym: "in pairwise interaction with" EXACT []
+xref: RO:0002434
+domain: BFO:0000040 ! material entity
+range: BFO:0000040 ! material entity
+is_symmetric: true
+
+[Typedef]
+id: involved_in
+name: involved in
+def: "c involved_in p if and only if c enables some process p', and p' is part of p" []
+xref: RO:0002331
+holds_over_chain: enables part_of
+is_a: involved_in_or_involved_in_regulation_of ! involved in or involved in regulation of
+is_a: participates_in ! participates in
+transitive_over: part_of ! part of
+
+[Typedef]
+id: involved_in_negative_regulation_of
+name: involved in negative regulation of
+def: "c involved in regulation of p if c is involved in some p' and p' negatively regulates some p" []
+xref: RO:0002430
+holds_over_chain: enables negatively_regulates
+holds_over_chain: involved_in negatively_regulates
+is_a: involved_in_regulation_of ! involved in regulation of
+
+[Typedef]
+id: involved_in_or_involved_in_regulation_of
+name: involved in or involved in regulation of
+def: "c involved in or regulates p if and only if either (i) c is involved in p or (ii) c is involved in regulation of p" []
+xref: RO:0002431
+is_a: acts_upstream_of_or_within ! acts upstream of or within
+is_a: causal_agent_in_process ! causal agent in process
+is_a: functionally_related_to ! functionally related to
+
+[Typedef]
+id: involved_in_positive_regulation_of
+name: involved in positive regulation of
+def: "c involved in regulation of p if c is involved in some p' and p' positively regulates some p" []
+xref: RO:0002429
+holds_over_chain: enables positively_regulates
+holds_over_chain: involved_in positively_regulates
+is_a: involved_in_regulation_of ! involved in regulation of
+
+[Typedef]
+id: involved_in_regulation_of
+name: involved in regulation of
+def: "c involved in regulation of p if c is involved in some p' and p' regulates some p" []
+xref: RO:0002428
+holds_over_chain: enables regulates
+holds_over_chain: involved_in regulates
+is_a: acts_upstream_of ! acts upstream of
+is_a: involved_in_or_involved_in_regulation_of ! involved in or involved in regulation of
+
+[Typedef]
+id: is_active_in
+name: is active in
+def: "c executes activity in d if and only if c enables p and p occurs_in d.  Assuming no action at a distance by gene products, if a gene product enables (is capable of) a process that occurs in some structure, it must have at least some part in that structure." []
+synonym: "enables activity in" EXACT []
+xref: RO:0002432
+holds_over_chain: enables occurs_in
+is_a: functionally_related_to ! functionally related to
+is_a: overlaps ! overlaps
+
+[Typedef]
+id: mereotopologically_related_to
+name: mereotopologically related to
+def: "A mereological relationship or a topological relationship" []
+xref: RO:0002323
+
+[Typedef]
+id: molecularly_interacts_with
+name: molecularly interacts with
+def: "An interaction relationship in which the two partners are molecular entities that directly physically interact with each other for example via a stable binding interaction or a brief interaction during which one modifies the other." []
+xref: RO:0002436
+is_symmetric: true
+is_a: interacts_with ! interacts with
+
+[Typedef]
+id: negatively_regulated_by
+name: negatively regulated by
+namespace: external
+def: "inverse of negatively regulates" []
+xref: RO:0002335
+is_a: regulated_by ! regulated by
+
+[Typedef]
+id: negatively_regulates
+name: negatively regulates
+namespace: external
+def: "Process(P1) negatively regulates process(P2) iff: P1 terminates P2, or P1 descreases the the frequency of initiation of P2 or the magnitude or rate of output of P2." []
+xref: RO:0002212
+is_a: causally_upstream_of,_negative_effect ! causally upstream of, negative effect
+is_a: regulates ! regulates
+inverse_of: negatively_regulated_by ! negatively regulated by
+
+[Typedef]
+id: never_in_taxon
+name: never_in_taxon
+def: "S never_in_taxon T iff: S SubClassOf in_taxon only not T." [PMID:20973947]
+xref: RO:0002161
+expand_assertion_to: "Class: <http://www.w3.org/2002/07/owl#Nothing> EquivalentTo: ?X and (RO_0002162 some ?Y)" []
+is_metadata_tag: true
+is_class_level: true
+
+[Typedef]
+id: occurs_in
+name: occurs in
+namespace: external
+def: "b occurs_in c =def b is a process and c is a material entity or immaterial entity& there exists a spatiotemporal region r and b occupies_spatiotemporal_region r.& forall(t) if b exists_at t then c exists_at t & there exist spatial regions s and s’ where & b spatially_projects_onto s at t& c is occupies_spatial_region s’ at t& s is a proper_continuant_part_of s’ at t" []
+xref: BFO:0000066
+domain: BFO:0000003 ! occurrent
+range: BFO:0000004 ! independent continuant
+holds_over_chain: part_of occurs_in
+inverse_of: contains_process ! contains process
+transitive_over: part_of ! part of
+
+[Typedef]
+id: only_in_taxon
+name: only in taxon
+name: only_in_taxon
+def: "S only_in_taxon T iff: S SubClassOf in_taxon only T" []
+def: "U only_in_taxon T: U is a feature found in only in organisms of species of taxon T. The feature cannot be found in an organism of any species outside of (not subsumed by) that taxon. Down-propagates in U hierarchy, up-propagates in T hierarchy (species taxonomy). Implies applicable_to_taxon." []
+def: "x only in taxon y if and only if x is in taxon y, and there is no other organism z such that y!=z a and x is in taxon z." []
+synonym: "never_outside_taxon" EXACT []
+synonym: "specific_to" EXACT []
+synonym: "specific_to_taxon" EXACT []
+xref: RO:0002160
+is_a: evolutionarily_related_to ! evolutionarily related to
+is_a: in_taxon ! in taxon
+
+[Typedef]
+id: overlaps
+name: overlaps
+namespace: external
+def: "A overlaps B if they share some part in common." []
+def: "x overlaps y if and only if there exists some z such that x has part z and z part of y" []
+xref: RO:0002131
+holds_over_chain: has_part overlaps
+holds_over_chain: has_part part_of
+holds_over_chain: part_of part_of
+is_a: mereotopologically_related_to ! mereotopologically related to
+transitive_over: part_of ! part of
+
+[Typedef]
+id: part_of
+name: part of
+name: part_of
+namespace: external
+def: "a core relation that holds between a part and its whole" []
+xref: BFO:0000050
+is_transitive: true
+is_a: overlaps ! overlaps
+inverse_of: has_part ! has part
+
+[Typedef]
+id: part_of_structure_that_is_capable_of
+name: part of structure that is capable of
+def: "this relation holds between c and p when c is part of some c', and c' is capable of p." []
+xref: RO:0002329
+holds_over_chain: part_of capable_of
+is_a: functionally_related_to ! functionally related to
+
+[Typedef]
+id: participates_in
+name: participates in
+name: participates_in
+namespace: external
+def: "a relation between a continuant and a process, in which the continuant is somehow involved in the process" []
+xref: RO:0000056
+domain: BFO:0000002 ! continuant
+range: BFO:0000003 ! occurrent
+inverse_of: has_participant ! has_participant
+
+[Typedef]
+id: phosphorylates
+name: phosphorylates
+xref: RO:0002447
+is_a: molecularly_interacts_with ! molecularly interacts with
+
+[Typedef]
+id: positively_regulated_by
+name: positively regulated by
+namespace: external
+def: "inverse of positively regulates" []
+xref: RO:0002336
+is_a: regulated_by ! regulated by
+
+[Typedef]
+id: positively_regulates
+name: positively regulates
+namespace: external
+def: "Process(P1) postively regulates process(P2) iff: P1 initiates P2, or P1 increases the the frequency of initiation of P2 or the magnitude or rate of output of P2." []
+xref: RO:0002213
+holds_over_chain: negatively_regulates negatively_regulates
+is_transitive: true
+is_a: causally_upstream_of,_positive_effect ! causally upstream of, positive effect
+is_a: regulates ! regulates
+inverse_of: positively_regulated_by ! positively regulated by
+
+[Typedef]
+id: preceded_by
+name: preceded by
+name: preceded_by
+namespace: external
+def: "The assertion P preceded_by P1 tells us something about Ps in general: that is, it tells us something about what happened earlier, given what we know about what happened later. Thus it does not provide information pointing in the opposite direction, concerning instances of P1 in general; that is, that each is such as to be succeeded by some instance of P." []
+def: "x is preceded by y if and only if the time point at which y ends is before or equivalent to the time point at which x starts. Formally: x preceded by y iff ω(y) <= α(x), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point." []
+def: "X preceded_by Y iff: end(Y) before_or_simultaneous_with start(X)" []
+synonym: "is preceded by" EXACT []
+synonym: "takes place after" EXACT []
+xref: BFO:0000062
+domain: BFO:0000003 ! occurrent
+range: BFO:0000003 ! occurrent
+holds_over_chain: part_of preceded_by
+is_transitive: true
+is_a: ends_after ! ends after
+inverse_of: precedes ! precedes
+
+[Typedef]
+id: precedes
+name: precedes
+namespace: external
+def: "x precedes y if and only if the time point at which x ends is before or equivalent to the time point at which y starts. Formally: x precedes y iff ω(x) <= α(y), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point." []
+xref: BFO:0000063
+domain: BFO:0000003 ! occurrent
+range: BFO:0000003 ! occurrent
+holds_over_chain: part_of precedes
+is_transitive: true
+is_a: temporally_related_to ! temporally related to
+
+[Typedef]
+id: process_has_causal_agent
+name: process has causal agent
+namespace: external
+def: "Inverse of 'causal agent in process'" []
+xref: RO:0002608
+is_a: causally_related_to ! causally related to
+
+[Typedef]
+id: regulated_by
+name: regulated by
+namespace: external
+def: "inverse of regulates" []
+xref: RO:0002334
+domain: BFO:0000015 ! process
+range: BFO:0000015 ! process
+is_transitive: true
+is_a: causally_downstream_of_or_within ! causally downstream of or within
+
+[Typedef]
+id: regulates
+name: regulates
+namespace: external
+def: "process(P1) regulates process(P2) iff: P1 results in the initiation or termination of P2 OR affects the frequency of its initiation or termination OR affects the magnitude or rate of output of P2." []
+xref: RO:0002211
+domain: BFO:0000015 ! process
+range: BFO:0000015 ! process
+holds_over_chain: directly_regulates directly_regulates
+is_transitive: true
+is_a: causally_upstream_of ! causally upstream of
+inverse_of: regulated_by ! regulated by
+transitive_over: has_effector_activity ! has effector activity
+
+[Typedef]
+id: regulates_activity_of
+name: regulates activity of
+def: "The entity A has an activity that regulates an activity of the entity B. For example, A and B are gene products where the catalytic activity of A regulates the kinase activity of B." []
+xref: RO:0011002
+domain: BFO:0000040 ! material entity
+range: BFO:0000040 ! material entity
+is_a: causally_influences ! causally influences
+
+[Typedef]
+id: role_of
+name: role of
+def: "a relation between a role and an independent continuant (the bearer), in which the role specifically depends on the bearer for its existence" []
+xref: RO:0000081
+is_a: inheres_in ! inheres in
+inverse_of: has_role ! has role
+
+[Typedef]
+id: temporally_related_to
+name: temporally related to
+xref: RO:0002222
+domain: BFO:0000003 ! occurrent
+range: BFO:0000003 ! occurrent
+
+[Typedef]
+id: term_tracker_item
+xref: IAO:0000233
+
+[Typedef]
+id: present_in_taxon
+name: present_in_taxon
+def: "S present_in_taxon T if some instance of T has some S. This does not means that all instances of T have an S - it may only be certain life stages or sexes that have S." [https://orcid.org/0000-0002-6601-2165]
+synonym: "applicable for taxon" EXACT []
+xref: RO:0002175
+is_metadata_tag: true
+is_class_level: true
