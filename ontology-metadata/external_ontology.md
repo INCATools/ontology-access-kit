@@ -1,3 +1,5 @@
+
+
 # Slot: external_ontology
 
 URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#external_ontology)
@@ -9,11 +11,12 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 
@@ -42,7 +45,7 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -53,7 +56,7 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 ```yaml
 name: external_ontology
 deprecated: deprecated oboInOwl property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:external_ontology
 multivalued: true

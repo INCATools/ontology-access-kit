@@ -33,7 +33,7 @@ URI: [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 

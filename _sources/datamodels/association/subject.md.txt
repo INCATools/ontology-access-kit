@@ -1,3 +1,5 @@
+
+
 # Slot: subject
 
 
@@ -14,14 +16,15 @@ URI: [rdf:subject](rdf:subject)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
-[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
 
 
 

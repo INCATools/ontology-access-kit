@@ -1,3 +1,5 @@
+
+
 # Slot: fold_enrichment
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:fold_enrichment](https://w3id.org/oak/class-enrichment/fold_enr
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+| [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
 
 
 

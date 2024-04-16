@@ -1,3 +1,5 @@
+
+
 # Slot: acted_on_behalf_of
 
 
@@ -14,11 +16,12 @@ URI: [prov:actedOnBehalfOf](http://www.w3.org/ns/prov#actedOnBehalfOf)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology |  no  |
+| [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | An activity that calculates summary statistics for an ontology |  no  |
 
 
 

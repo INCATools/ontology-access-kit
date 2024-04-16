@@ -1,3 +1,5 @@
+
+
 # Slot: closure_delta
 
 URI: [ontoassoc:closure_delta](https://w3id.org/oak/association/closure_delta)
@@ -9,11 +11,12 @@ URI: [ontoassoc:closure_delta](https://w3id.org/oak/association/closure_delta)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
 
 
 

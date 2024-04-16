@@ -1,3 +1,5 @@
+
+
 # Slot: contradicted_by
 
 
@@ -14,11 +16,12 @@ URI: [tc:contradicted_by](https://w3id.org/linkml/taxon_constraints/contradicted
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

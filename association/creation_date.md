@@ -1,3 +1,5 @@
+
+
 # Slot: creation_date
 
 
@@ -14,6 +16,7 @@ URI: [ontoassoc:creation_date](https://w3id.org/oak/association/creation_date)
 
 * [date](date.md)
     * **creation_date**
+
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: search_term
 
 URI: [ontosearch:search_term](https://w3id.org/oak/search-datamodel/search_term)
@@ -9,11 +11,12 @@ URI: [ontosearch:search_term](https://w3id.org/oak/search-datamodel/search_term)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PathExpression](PathExpression.md) | A path query |  no  |
+| [PathExpression](PathExpression.md) | A path query |  no  |
 
 
 

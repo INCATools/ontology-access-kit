@@ -1,3 +1,5 @@
+
+
 # Slot: id
 
 URI: [sim:id](https://w3id.org/linkml/similarity/id)
@@ -9,11 +11,12 @@ URI: [sim:id](https://w3id.org/linkml/similarity/id)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermInfo](TermInfo.md) |  |  no  |
+| [TermInfo](TermInfo.md) |  |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: filtered_count
 
 URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statistics.filtered_count)
@@ -9,12 +11,13 @@ URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statist
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[FacetedCount](FacetedCount.md) | Counts broken down by a facet |  no  |
-[ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff |  no  |
+| [ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff |  no  |
+| [FacetedCount](FacetedCount.md) | Counts broken down by a facet |  no  |
 
 
 

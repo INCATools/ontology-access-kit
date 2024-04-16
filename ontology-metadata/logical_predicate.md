@@ -1,6 +1,8 @@
+
+
 # Slot: logical_predicate
 
-URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/omo/schema/logical_predicate)
+URI: [omoschema:logical_predicate](https://w3id.org/oak/ontology-metadata/logical_predicate)
 
 
 
@@ -42,6 +44,7 @@ URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/omo/schema/log
 
 
 
+
 ## Properties
 
 * Range: [String](String.md)
@@ -61,7 +64,7 @@ URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/omo/schema/log
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -71,7 +74,7 @@ URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/omo/schema/log
 <details>
 ```yaml
 name: logical_predicate
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: logical_predicate

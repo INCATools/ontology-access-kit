@@ -1,3 +1,5 @@
+
+
 # Slot: right_intermediate_ids
 
 URI: [xodiff:right_intermediate_ids](https://w3id.org/oak/cross-ontology-diff/right_intermediate_ids)
@@ -9,11 +11,12 @@ URI: [xodiff:right_intermediate_ids](https://w3id.org/oak/cross-ontology-diff/ri
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+| [RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
 
 
 

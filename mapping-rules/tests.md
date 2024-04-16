@@ -1,3 +1,5 @@
+
+
 # Slot: tests
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
 
 
 

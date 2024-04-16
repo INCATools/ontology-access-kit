@@ -1,3 +1,5 @@
+
+
 # Slot: type_severity_map
 
 
@@ -14,11 +16,12 @@ URI: [vm:type_severity_map](https://w3id.org/linkml/validation-model/type_severi
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
+| [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
 
 
 

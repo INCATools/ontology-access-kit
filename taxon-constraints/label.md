@@ -1,3 +1,5 @@
+
+
 # Slot: label
 
 
@@ -14,14 +16,15 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Term](Term.md) | An ontology term |  no  |
-[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
-[Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |  no  |
-[PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |  no  |
+| [Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |  no  |
+| [PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |  no  |
+| [Term](Term.md) | An ontology term |  no  |
+| [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
 
 
 

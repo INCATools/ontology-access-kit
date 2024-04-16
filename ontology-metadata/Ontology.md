@@ -1,3 +1,5 @@
+
+
 # Class: Ontology
 
 
@@ -115,7 +117,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -142,7 +144,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 ```yaml
 name: Ontology
 description: An OWL ontology
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: NamedObject
 slots:
 - title
@@ -187,7 +189,7 @@ class_uri: owl:Ontology
 ```yaml
 name: Ontology
 description: An OWL ontology
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: NamedObject
 slot_usage:
   title:
@@ -213,7 +215,7 @@ slot_usage:
 attributes:
   title:
     name: title
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: dcterms:title
     alias: title
@@ -224,7 +226,7 @@ attributes:
     required: true
   has_ontology_root_term:
     name: has_ontology_root_term
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000700
@@ -236,7 +238,7 @@ attributes:
     range: Class
   license:
     name: license
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: dcterms:license
@@ -248,7 +250,7 @@ attributes:
     required: true
   source:
     name: source
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - http://purl.org/dc/terms/source
     - oio:source
@@ -264,7 +266,7 @@ attributes:
     range: string
   versionIRI:
     name: versionIRI
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: version_property
     slot_uri: owl:versionIRI
@@ -276,7 +278,7 @@ attributes:
     required: true
   versionInfo:
     name: versionInfo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: version_property
     slot_uri: owl:versionInfo
@@ -290,7 +292,7 @@ attributes:
     name: comment
     comments:
     - in obo format, a term cannot have more than one comment
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
@@ -304,7 +306,7 @@ attributes:
     range: string
   creator:
     name: creator
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - prov:wasAttributedTo
     rank: 1000
@@ -324,7 +326,7 @@ attributes:
   created:
     name: created
     description: when the term came into being
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - pav:createdOn
     rank: 1000
@@ -339,7 +341,7 @@ attributes:
     range: string
   imports:
     name: imports
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: owl:imports
     alias: imports
@@ -350,7 +352,7 @@ attributes:
   id:
     name: id
     description: this maps to the URI in RDF
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: core_property
     identifier: true
@@ -362,7 +364,7 @@ attributes:
     required: true
   type:
     name: type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type

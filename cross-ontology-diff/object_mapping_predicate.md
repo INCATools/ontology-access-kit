@@ -1,3 +1,5 @@
+
+
 # Slot: object_mapping_predicate
 
 
@@ -18,11 +20,12 @@ URI: [xodiff:object_mapping_predicate](https://w3id.org/oak/cross-ontology-diff/
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+| [RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
 
 
 

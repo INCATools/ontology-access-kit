@@ -1,3 +1,5 @@
+
+
 # Slot: include_association_attributes
 
 
@@ -16,11 +18,12 @@ URI: [ontoassoc:include_association_attributes](https://w3id.org/oak/association
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |  no  |
+| [ParserConfiguration](ParserConfiguration.md) | Settings that determine behavior when parsing associations |  no  |
 
 
 

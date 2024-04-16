@@ -1,3 +1,5 @@
+
+
 # Slot: max_number_results_per_type
 
 
@@ -14,11 +16,12 @@ URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/m
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
+| [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
 
 
 

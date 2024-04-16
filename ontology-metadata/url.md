@@ -1,3 +1,5 @@
+
+
 # Slot: url
 
 URI: [oio:url](http://www.geneontology.org/formats/oboInOwl#url)
@@ -9,11 +11,12 @@ URI: [oio:url](http://www.geneontology.org/formats/oboInOwl#url)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 
@@ -40,7 +43,7 @@ URI: [oio:url](http://www.geneontology.org/formats/oboInOwl#url)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -51,7 +54,7 @@ URI: [oio:url](http://www.geneontology.org/formats/oboInOwl#url)
 ```yaml
 name: url
 deprecated: deprecated oboInOwl property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:url
 alias: url

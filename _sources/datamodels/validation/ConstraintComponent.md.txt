@@ -1,3 +1,5 @@
+
+
 # Class: ConstraintComponent
 
 
@@ -42,6 +44,7 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [ValidationResult](ValidationResult.md) | [type](type.md) | range | [ConstraintComponent](ConstraintComponent.md) |
+| [DefinitionValidationResult](DefinitionValidationResult.md) | [type](type.md) | range | [ConstraintComponent](ConstraintComponent.md) |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | [type](type.md) | range | [ConstraintComponent](ConstraintComponent.md) |
 
 

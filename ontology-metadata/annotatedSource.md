@@ -1,3 +1,5 @@
+
+
 # Slot: annotatedSource
 
 URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
@@ -14,11 +16,12 @@ URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 
@@ -49,7 +52,7 @@ URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -61,7 +64,7 @@ URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
 name: annotatedSource
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - rdf:subject
 rank: 1000

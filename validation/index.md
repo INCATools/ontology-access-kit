@@ -1,4 +1,4 @@
-# Validation Results Datamodel
+# Validation Results Data Model
 
 A datamodel for data validation results.
 
@@ -23,6 +23,7 @@ Name: validaton-results
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RepairOperation](RepairOperation.md) | The result of performing an individual repair |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DefinitionValidationResult](DefinitionValidationResult.md) | None |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid |
 | [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for overriding default severity |
 | [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |
@@ -35,11 +36,15 @@ Name: validaton-results
 | --- | --- |
 | [category](category.md) | The category of the validation issue |
 | [confidence](confidence.md) |  |
+| [definition](definition.md) |  |
+| [definition_source](definition_source.md) |  |
+| [documentation_objects](documentation_objects.md) | paths or URLs to files containing best practice documentation, SOPs, etc |
 | [dry_run](dry_run.md) |  |
 | [http_response_code](http_response_code.md) |  |
 | [id](id.md) |  |
 | [info](info.md) | additional information about the issue |
 | [instantiates](instantiates.md) | The type of the subject |
+| [lookup_references](lookup_references.md) | if true, then look up references used as provenance (axiom annotation) |
 | [max_number_results_per_type](max_number_results_per_type.md) | if set then truncate results such that no more than this number of results ar... |
 | [modified](modified.md) |  |
 | [number_of_attempts](number_of_attempts.md) |  |
@@ -51,6 +56,7 @@ Name: validaton-results
 | [predicate_id](predicate_id.md) |  |
 | [problem](problem.md) |  |
 | [prompt_info](prompt_info.md) | for AI agents, this allows passing through of additional info to the prompt |
+| [proposed_new_definition](proposed_new_definition.md) |  |
 | [repairs](repairs.md) |  |
 | [results](results.md) | collection of results |
 | [schema_path](schema_path.md) | allows overriding the default OMO schema |

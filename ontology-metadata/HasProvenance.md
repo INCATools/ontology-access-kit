@@ -1,8 +1,10 @@
+
+
 # Class: HasProvenance
 
 
 
-URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProvenance)
+URI: [omoschema:HasProvenance](https://w3id.org/oak/ontology-metadata/HasProvenance)
 
 
 
@@ -107,7 +109,7 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -133,7 +135,7 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
 <details>
 ```yaml
 name: HasProvenance
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -159,14 +161,14 @@ slots:
 <details>
 ```yaml
 name: HasProvenance
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
   created_by:
     name: created_by
     deprecated: proposed obsoleted by OMO group 2022-04-12
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     deprecated_element_has_exact_replacement: creator
     rank: 1000
     is_a: provenance_property
@@ -182,7 +184,7 @@ attributes:
     deprecated: proposed obsoleted by OMO group 2022-04-12
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     deprecated_element_has_exact_replacement: created
     rank: 1000
     is_a: provenance_property
@@ -195,7 +197,7 @@ attributes:
     range: string
   contributor:
     name: contributor
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - prov:wasAttributedTo
     rank: 1000
@@ -213,7 +215,7 @@ attributes:
       partial_match: false
   creator:
     name: creator
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - prov:wasAttributedTo
     rank: 1000
@@ -233,7 +235,7 @@ attributes:
   created:
     name: created
     description: when the term came into being
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - pav:createdOn
     rank: 1000
@@ -249,7 +251,7 @@ attributes:
   date:
     name: date
     description: when the term was updated
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - pav:authoredOn
     rank: 1000
@@ -263,7 +265,7 @@ attributes:
     range: string
   isDefinedBy:
     name: isDefinedBy
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - pav:importedFrom
     - dcterms:publisher
@@ -276,7 +278,7 @@ attributes:
     range: Ontology
   editor_note:
     name: editor_note
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000116
@@ -288,7 +290,7 @@ attributes:
     range: narrative text
   term_editor:
     name: term_editor
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000117
@@ -304,7 +306,7 @@ attributes:
     - restrict range
     in_subset:
     - obi permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000119
@@ -316,7 +318,7 @@ attributes:
     range: string
   ontology_term_requester:
     name: ontology_term_requester
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000234
@@ -327,7 +329,7 @@ attributes:
     range: string
   imported_from:
     name: imported_from
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000412
@@ -341,7 +343,7 @@ attributes:
     name: term_tracker_item
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000233

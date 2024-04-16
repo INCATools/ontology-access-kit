@@ -1,3 +1,5 @@
+
+
 # Slot: modification_date
 
 
@@ -14,6 +16,7 @@ URI: [ontoassoc:modification_date](https://w3id.org/oak/association/modification
 
 * [date](date.md)
     * **modification_date**
+
 
 
 

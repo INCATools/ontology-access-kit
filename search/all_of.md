@@ -1,3 +1,5 @@
+
+
 # Slot: all_of
 
 URI: [ontosearch:all_of](https://w3id.org/oak/search-datamodel/all_of)
@@ -9,11 +11,12 @@ URI: [ontosearch:all_of](https://w3id.org/oak/search-datamodel/all_of)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ComplexQuery](ComplexQuery.md) |  |  no  |
+| [ComplexQuery](ComplexQuery.md) |  |  no  |
 
 
 

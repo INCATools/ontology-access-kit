@@ -1,3 +1,5 @@
+
+
 # Slot: description
 
 URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/description)
@@ -9,12 +11,13 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
-[Synonymizer](Synonymizer.md) |  |  no  |
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
 
 
 

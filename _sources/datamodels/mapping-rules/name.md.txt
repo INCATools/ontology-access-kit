@@ -1,3 +1,5 @@
+
+
 # Slot: name
 
 URI: [mappingrules:name](https://w3id.org/oak/mapping-rules-datamodel/name)
@@ -9,11 +11,12 @@ URI: [mappingrules:name](https://w3id.org/oak/mapping-rules-datamodel/name)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |  no  |
+| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |  no  |
 
 
 

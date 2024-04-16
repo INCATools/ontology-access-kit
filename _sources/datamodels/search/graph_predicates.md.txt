@@ -1,3 +1,5 @@
+
+
 # Slot: graph_predicates
 
 URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_predicates)
@@ -9,11 +11,12 @@ URI: [ontosearch:graph_predicates](https://w3id.org/oak/search-datamodel/graph_p
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PathExpression](PathExpression.md) | A path query |  no  |
+| [PathExpression](PathExpression.md) | A path query |  no  |
 
 
 

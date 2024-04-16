@@ -1,3 +1,5 @@
+
+
 # Slot: distinct_synonym_count
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:distinct_synonym_count](https://w3id.org/oaklib/summary
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

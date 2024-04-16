@@ -1,3 +1,5 @@
+
+
 # Slot: pipeline
 
 URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
@@ -9,11 +11,12 @@ URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
 
 
 

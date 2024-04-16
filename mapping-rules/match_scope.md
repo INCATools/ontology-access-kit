@@ -1,3 +1,5 @@
+
+
 # Slot: match_scope
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:match_scope](https://w3id.org/oak/mapping-rules-datamodel/mat
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
 
 
 

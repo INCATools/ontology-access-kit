@@ -1,3 +1,5 @@
+
+
 # Slot: synonym
 
 URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
@@ -12,6 +14,7 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
         * [has_exact_synonym](has_exact_synonym.md)
         * [has_narrow_synonym](has_narrow_synonym.md)
         * [has_broad_synonym](has_broad_synonym.md)
+
 
 
 
@@ -41,7 +44,7 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -51,7 +54,7 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 <details>
 ```yaml
 name: synonym
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: alternative_term
 abstract: true

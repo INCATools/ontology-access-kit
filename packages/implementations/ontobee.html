@@ -119,64 +119,6 @@
 <span id="ontobee-implementation"></span><h1>Ontobee Adapter<a class="headerlink" href="#ontobee-adapter" title="Link to this heading"></a></h1>
 <section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.ontobee.ontobee_implementation.</span></span><span class="sig-name descname"><span class="pre">OntobeeImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">~rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_list_of_named_graphs:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/implementations/ontobee/ontobee_implementation.html#OntobeeImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation" title="Link to this definition"></a></dt>
-<dd><p>An OAK adapter that standardizes access to the Ontobee sparql endpoint.</p>
-<p>Ontobee is the default linked data server for most OBO Foundry library ontologies.
-Ontobee has also been used for many non-OBO ontologies.</p>
-<p>To access this use the <code class="docutils literal notranslate"><span class="pre">ontobee:</span></code> <a class="reference internal" href="../../glossary.html#term-Input-Selector"><span class="xref std std-term">Input Selector</span></a>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ontobee:</span></code> - the default ontobee endpoint</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ontobee:uberon</span></code> - the uberon subgraph on ontobee</p></li>
-</ul>
-<p>This adapter implements:</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a></p></li>
-<li><p><a class="reference internal" href="../interfaces/search.html#search-interface"><span class="std std-ref">Search Interface</span></a></p></li>
-<li><p><a class="reference internal" href="../interfaces/mapping-provider.html#mapping-provider-interface"><span class="std std-ref">Mapping Provider Interface</span></a></p></li>
-<li><p><a class="reference internal" href="../interfaces/obograph.html#obograph-interface"><span class="std std-ref">OboGraph Interface</span></a></p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>To see the full range of methods implemented, see the documentation for the interfaces above.</p>
-</div>
-<p>An OntobeeImplementation can be initialized directly:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>The default ontobee endpoint will be assumed</p>
-<p>Alternatively, use a selector:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ontobee:&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Or to access a specific ontology, such as the Vaccine Ontology:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;ontobee:vo&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>After that you can use any of the methods that OntoBee implements; e.g.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># uncomment to test</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># for a in oi.ancestors(&quot;UBERON:0002398&quot;, predicates=[IS_A]):</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#    print(a)</span>
-</pre></div>
-</div>
-<section id="command-line">
-<h3>Command Line<a class="headerlink" href="#command-line" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>ontobee:uberon<span class="w"> </span>ancestors<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>UBERON:0002398
-</pre></div>
-</div>
-</section>
-<section id="notes">
-<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
-<p>This is a specialization the <span class="xref std std-ref">sparql</span> implementation to
-allow access for ontologies on the <a class="reference external" href="https://www.ontobee.org/">Ontobee</a> linked data server.</p>
-<p>See: <a class="reference external" href="https://www.ontobee.org/">https://www.ontobee.org/</a></p>
-</section>
-</dd></dl>
-
 </section>
 </section>
 

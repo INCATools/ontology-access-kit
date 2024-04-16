@@ -1,3 +1,5 @@
+
+
 # Slot: groupings
 
 
@@ -14,11 +16,12 @@ URI: [ontolexindex:groupings](https://w3id.org/oak/lexical-index/groupings)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
+| [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: categories
 
 
@@ -14,11 +16,12 @@ URI: [dcterms:subject](http://purl.org/dc/terms/subject)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
 
 
 

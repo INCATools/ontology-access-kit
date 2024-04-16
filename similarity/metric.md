@@ -1,3 +1,5 @@
+
+
 # Slot: metric
 
 URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
@@ -9,11 +11,12 @@ URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
+| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: changeNote
 
 URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
@@ -9,6 +11,7 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 
 * [informative_property](informative_property.md)
     * **changeNote**
+
 
 
 
@@ -38,7 +41,7 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -50,7 +53,7 @@ URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 name: changeNote
 in_subset:
 - allotrope permitted profile
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: informative_property
 slot_uri: skos:changeNote

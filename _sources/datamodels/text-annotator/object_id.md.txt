@@ -1,3 +1,5 @@
+
+
 # Slot: object_id
 
 URI: [sssom:object_id](http://w3id.org/sssom/object_id)
@@ -9,11 +11,12 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: source
 
 URI: [mappingrules:source](https://w3id.org/oak/mapping-rules-datamodel/source)
@@ -9,11 +11,12 @@ URI: [mappingrules:source](https://w3id.org/oak/mapping-rules-datamodel/source)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
 
 
 

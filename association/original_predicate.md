@@ -1,3 +1,5 @@
+
+
 # Slot: original_predicate
 
 
@@ -10,6 +12,7 @@ URI: [biolink:original_predicate](https://w3id.org/biolink/vocab/original_predic
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

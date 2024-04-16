@@ -1,3 +1,5 @@
+
+
 # Slot: number_subject_unique_to_entity1
 
 URI: [ontoassoc:number_subject_unique_to_entity1](https://w3id.org/oak/association/number_subject_unique_to_entity1)
@@ -9,11 +11,12 @@ URI: [ontoassoc:number_subject_unique_to_entity1](https://w3id.org/oak/associati
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
 
 
 

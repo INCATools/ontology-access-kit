@@ -1,3 +1,5 @@
+
+
 # Slot: definition
 
 
@@ -14,11 +16,12 @@ URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
 
 
 

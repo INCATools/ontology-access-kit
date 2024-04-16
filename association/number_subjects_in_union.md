@@ -1,3 +1,5 @@
+
+
 # Slot: number_subjects_in_union
 
 URI: [ontoassoc:number_subjects_in_union](https://w3id.org/oak/association/number_subjects_in_union)
@@ -9,11 +11,12 @@ URI: [ontoassoc:number_subjects_in_union](https://w3id.org/oak/association/numbe
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
 
 
 

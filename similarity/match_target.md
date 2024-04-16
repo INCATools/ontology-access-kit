@@ -1,3 +1,5 @@
+
+
 # Slot: match_target
 
 
@@ -14,11 +16,12 @@ URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[BestMatch](BestMatch.md) |  |  no  |
+| [BestMatch](BestMatch.md) |  |  no  |
 
 
 

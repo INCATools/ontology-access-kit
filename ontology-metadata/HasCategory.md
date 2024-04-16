@@ -1,8 +1,10 @@
+
+
 # Class: HasCategory
 
 
 
-URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCategory)
+URI: [omoschema:HasCategory](https://w3id.org/oak/ontology-metadata/HasCategory)
 
 
 
@@ -76,7 +78,7 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCatego
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -102,7 +104,7 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCatego
 <details>
 ```yaml
 name: HasCategory
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -119,13 +121,13 @@ slots:
 <details>
 ```yaml
 name: HasCategory
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
   has_obo_namespace:
     name: has_obo_namespace
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasOBONamespace
     multivalued: true
@@ -136,7 +138,7 @@ attributes:
     range: string
   category:
     name: category
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: biolink:category
@@ -148,7 +150,7 @@ attributes:
   in_subset:
     name: in_subset
     description: Maps an ontology element to a subset it belongs to
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:inSubset
     multivalued: true
@@ -159,7 +161,7 @@ attributes:
     range: Subset
   conformsTo:
     name: conformsTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: dcterms:conformsTo

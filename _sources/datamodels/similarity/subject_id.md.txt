@@ -1,3 +1,5 @@
+
+
 # Slot: subject_id
 
 
@@ -14,11 +16,12 @@ URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
 
 
 

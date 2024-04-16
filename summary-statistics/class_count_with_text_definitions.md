@@ -1,3 +1,5 @@
+
+
 # Slot: class_count_with_text_definitions
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:class_count_with_text_definitions](https://w3id.org/oak
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

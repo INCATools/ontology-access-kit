@@ -1,3 +1,5 @@
+
+
 # Slot: url
 
 
@@ -14,11 +16,12 @@ URI: [itemList:url](https://w3id.org/linkml/item-list/url)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Thing](Thing.md) |  |  no  |
+| [Thing](Thing.md) |  |  no  |
 
 
 

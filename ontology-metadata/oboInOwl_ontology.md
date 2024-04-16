@@ -1,3 +1,5 @@
+
+
 # Slot: oboInOwl_ontology
 
 URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
@@ -5,6 +7,7 @@ URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -31,7 +34,7 @@ URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -42,7 +45,7 @@ URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
 ```yaml
 name: oboInOwl_ontology
 deprecated: todo
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 deprecated_element_has_exact_replacement: ontology
 rank: 1000
 slot_uri: oio:ontology

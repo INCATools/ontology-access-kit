@@ -1,3 +1,5 @@
+
+
 # Slot: associations
 
 
@@ -14,11 +16,12 @@ URI: [ontoassoc:associations](https://w3id.org/oak/association/associations)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RollupGroup](RollupGroup.md) |  |  no  |
+| [RollupGroup](RollupGroup.md) |  |  no  |
 
 
 

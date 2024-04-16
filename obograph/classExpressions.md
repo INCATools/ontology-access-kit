@@ -1,3 +1,5 @@
+
+
 # Slot: classExpressions
 
 
@@ -14,11 +16,12 @@ URI: [obographs:classExpressions](https://github.com/geneontology/obographs/clas
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | An axiom that defines a set of classes or class expressions as being mutually... |  no  |
+| [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | An axiom that defines a set of classes or class expressions as being mutually... |  no  |
 
 
 

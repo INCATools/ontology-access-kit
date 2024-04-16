@@ -1,3 +1,5 @@
+
+
 # Slot: contributor_summary
 
 URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_statistics.contributor_summary)
@@ -9,11 +11,12 @@ URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_st
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

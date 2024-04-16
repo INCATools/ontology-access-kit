@@ -1,3 +1,5 @@
+
+
 # Slot: asserted
 
 
@@ -14,11 +16,12 @@ URI: [tc:asserted](https://w3id.org/linkml/taxon_constraints/asserted)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

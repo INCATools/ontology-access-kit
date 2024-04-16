@@ -1,3 +1,5 @@
+
+
 # Slot: publication_is_added
 
 
@@ -18,11 +20,12 @@ URI: [ontoassoc:publication_is_added](https://w3id.org/oak/association/publicati
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
 
 
 

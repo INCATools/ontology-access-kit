@@ -1,0 +1,29 @@
+﻿oaklib.utilities.taxon.taxon\_constraint\_utils
+===============================================
+
+.. automodule:: oaklib.utilities.taxon.taxon_constraint_utils
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      parse_gain_loss_file
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

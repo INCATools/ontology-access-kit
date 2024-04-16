@@ -1,3 +1,5 @@
+
+
 # Slot: url
 
 URI: [vm:url](https://w3id.org/linkml/validation-model/url)
@@ -9,11 +11,12 @@ URI: [vm:url](https://w3id.org/linkml/validation-model/url)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
 
 
 

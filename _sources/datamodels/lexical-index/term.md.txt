@@ -1,3 +1,5 @@
+
+
 # Slot: term
 
 
@@ -14,11 +16,12 @@ URI: [ontolexindex:term](https://w3id.org/oak/lexical-index/term)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |  no  |
+| [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |  no  |
 
 
 

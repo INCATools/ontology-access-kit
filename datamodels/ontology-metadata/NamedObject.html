@@ -86,7 +86,7 @@
   <section id="class-namedobject">
 <h1>Class: NamedObject<a class="headerlink" href="#class-namedobject" title="Link to this heading"></a></h1>
 <p><em>Anything with an IRI</em></p>
-<p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/omo/schema/NamedObject">omoschema:NamedObject</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/ontology-metadata/NamedObject">omoschema:NamedObject</a></p>
 <div class="mermaid">
              classDiagram
     class NamedObject
@@ -173,7 +173,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
+<li><p>from schema: https://w3id.org/oak/ontology-metadata</p></li>
 </ul>
 </section>
 </section>
@@ -204,7 +204,7 @@
 ```yaml
 name: NamedObject
 description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 aliases:
 - named entity
 - identified object
@@ -220,7 +220,7 @@ slots:
 ```yaml
 name: NamedObject
 description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 aliases:
 - named entity
 - identified object
@@ -230,7 +230,7 @@ attributes:
   id:
     name: id
     description: this maps to the URI in RDF
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: core_property
     identifier: true
@@ -242,7 +242,7 @@ attributes:
     required: true
   type:
     name: type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type

@@ -1,3 +1,5 @@
+
+
 # Slot: minimum_confidence
 
 URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamodel/minimum_confidence)
@@ -9,11 +11,12 @@ URI: [mappingrules:minimum_confidence](https://w3id.org/oak/mapping-rules-datamo
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules |  no  |
+| [MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules |  no  |
 
 
 

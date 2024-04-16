@@ -1,6 +1,8 @@
+
+
 # Slot: match
 
-URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
+URI: [omoschema:match](https://w3id.org/oak/ontology-metadata/match)
 
 
 
@@ -13,6 +15,7 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
     * [exactMatch](exactMatch.md)
     * [narrowMatch](narrowMatch.md)
     * [database_cross_reference](database_cross_reference.md)
+
 
 
 
@@ -40,7 +43,7 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -50,7 +53,7 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 <details>
 ```yaml
 name: match
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 mixins:

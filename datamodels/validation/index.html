@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Validation Results Datamodel &mdash; oaklib  documentation</title>
+  <title>Validation Results Data Model &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -64,7 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../similarity/index.html">Semantic Similarity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../summary-statistics/index.html">Summary Statistics Datamodel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../taxon-constraints/index.html">Taxon Constraints Reporting Datamodel</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Validation Results Datamodel</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Validation Results Data Model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a></li>
@@ -100,7 +100,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Datamodels</a></li>
-      <li class="breadcrumb-item active">Validation Results Datamodel</li>
+      <li class="breadcrumb-item active">Validation Results Data Model</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/datamodels/validation/index.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -110,8 +110,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="validation-results-datamodel">
-<h1>Validation Results Datamodel<a class="headerlink" href="#validation-results-datamodel" title="Link to this heading"></a></h1>
+  <section id="validation-results-data-model">
+<h1>Validation Results Data Model<a class="headerlink" href="#validation-results-data-model" title="Link to this heading"></a></h1>
 <p>A datamodel for data validation results.</p>
 <p>URI: https://w3id.org/linkml/validation_results</p>
 <p>Name: validaton-results</p>
@@ -157,13 +157,16 @@
 <tr class="row-even"><td><p>        <a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
 <td><p>An individual result arising from validation of a data instance using a particular rule</p></td>
 </tr>
-<tr class="row-odd"><td><p>                <a class="reference internal" href="ExternalReferenceValidationResult.html"><span class="std std-doc">ExternalReferenceValidationResult</span></a></p></td>
+<tr class="row-odd"><td><p>                <a class="reference internal" href="DefinitionValidationResult.html"><span class="std std-doc">DefinitionValidationResult</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p>                <a class="reference internal" href="ExternalReferenceValidationResult.html"><span class="std std-doc">ExternalReferenceValidationResult</span></a></p></td>
 <td><p>A validation result where the check is to determine if a link to an external resource is still valid</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="TypeSeverityKeyValue.html"><span class="std std-doc">TypeSeverityKeyValue</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="TypeSeverityKeyValue.html"><span class="std std-doc">TypeSeverityKeyValue</span></a></p></td>
 <td><p>key-value pair that maps a validation result type to a severity setting, for overriding default severity</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ValidationConfiguration.html"><span class="std std-doc">ValidationConfiguration</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ValidationConfiguration.html"><span class="std std-doc">ValidationConfiguration</span></a></p></td>
 <td><p>Configuration parameters for execution of a validation report</p></td>
 </tr>
 </tbody>
@@ -184,20 +187,32 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="confidence.html"><span class="std std-doc">confidence</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="dry_run.html"><span class="std std-doc">dry_run</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="definition.html"><span class="std std-doc">definition</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="http_response_code.html"><span class="std std-doc">http_response_code</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="std std-doc">definition_source</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="documentation_objects.html"><span class="std std-doc">documentation_objects</span></a></p></td>
+<td><p>paths or URLs to files containing best practice documentation, SOPs, etc</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="dry_run.html"><span class="std std-doc">dry_run</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="std std-doc">info</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="http_response_code.html"><span class="std std-doc">http_response_code</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="std std-doc">id</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="info.html"><span class="std std-doc">info</span></a></p></td>
 <td><p>additional information about the issue</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="instantiates.html"><span class="std std-doc">instantiates</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="instantiates.html"><span class="std std-doc">instantiates</span></a></p></td>
 <td><p>The type of the subject</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="lookup_references.html"><span class="std std-doc">lookup_references</span></a></p></td>
+<td><p>if true, then look up references used as provenance (axiom annotation)</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="max_number_results_per_type.html"><span class="std std-doc">max_number_results_per_type</span></a></p></td>
 <td><p>if set then truncate results such that no more than this number of results ar…</p></td>
@@ -232,52 +247,55 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="prompt_info.html"><span class="std std-doc">prompt_info</span></a></p></td>
 <td><p>for AI agents, this allows passing through of additional info to the prompt</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="repairs.html"><span class="std std-doc">repairs</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="proposed_new_definition.html"><span class="std std-doc">proposed_new_definition</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="results.html"><span class="std std-doc">results</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="repairs.html"><span class="std std-doc">repairs</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="results.html"><span class="std std-doc">results</span></a></p></td>
 <td><p>collection of results</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="schema_path.html"><span class="std std-doc">schema_path</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="schema_path.html"><span class="std std-doc">schema_path</span></a></p></td>
 <td><p>allows overriding the default OMO schema</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="severity.html"><span class="std std-doc">severity</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="severity.html"><span class="std std-doc">severity</span></a></p></td>
 <td><p>the severity of the issue</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
 <td><p>The instance which the result is about</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_id.html"><span class="std std-doc">subject_id</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_id.html"><span class="std std-doc">subject_id</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_info.html"><span class="std std-doc">subject_info</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_info.html"><span class="std std-doc">subject_info</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="successful.html"><span class="std std-doc">successful</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="successful.html"><span class="std std-doc">successful</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="suggested_modifications.html"><span class="std std-doc">suggested_modifications</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="suggested_modifications.html"><span class="std std-doc">suggested_modifications</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="suggested_predicate.html"><span class="std std-doc">suggested_predicate</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="suggested_predicate.html"><span class="std std-doc">suggested_predicate</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="time_checked.html"><span class="std std-doc">time_checked</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="time_checked.html"><span class="std std-doc">time_checked</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
 <td><p>The type of validation result</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="type_severity_map.html"><span class="std std-doc">type_severity_map</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="type_severity_map.html"><span class="std std-doc">type_severity_map</span></a></p></td>
 <td><p>Allows overriding of severity of a particular type</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="url.html"><span class="std std-doc">url</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="url.html"><span class="std std-doc">url</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="validation_configuration.html"><span class="std std-doc">validation_configuration</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="validation_configuration.html"><span class="std std-doc">validation_configuration</span></a></p></td>
 <td><p>repair configurations include validation configurations</p></td>
 </tr>
 </tbody>

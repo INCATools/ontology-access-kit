@@ -1,3 +1,5 @@
+
+
 # Slot: include_aliases
 
 
@@ -14,11 +16,12 @@ URI: [ann:include_aliases](https://w3id.org/linkml/text_annotator/include_aliase
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: configuration
 
 URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configuration)
@@ -9,11 +11,12 @@ URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configurat
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResultSet](SearchResultSet.md) |  |  no  |
+| [SearchResultSet](SearchResultSet.md) |  |  no  |
 
 
 

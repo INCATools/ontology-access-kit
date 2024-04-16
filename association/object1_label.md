@@ -1,3 +1,5 @@
+
+
 # Slot: object1_label
 
 URI: [ontoassoc:object1_label](https://w3id.org/oak/association/object1_label)
@@ -9,11 +11,12 @@ URI: [ontoassoc:object1_label](https://w3id.org/oak/association/object1_label)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
 
 
 

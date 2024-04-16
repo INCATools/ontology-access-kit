@@ -1,3 +1,5 @@
+
+
 # Slot: normalization_comments
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:normalization_comments](https://w3id.org/oaklib/summary
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
+| [ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
 
 
 

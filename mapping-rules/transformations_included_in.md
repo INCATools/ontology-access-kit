@@ -1,3 +1,5 @@
+
+
 # Slot: transformations_included_in
 
 URI: [mappingrules:transformations_included_in](https://w3id.org/oak/mapping-rules-datamodel/transformations_included_in)
@@ -9,11 +11,12 @@ URI: [mappingrules:transformations_included_in](https://w3id.org/oak/mapping-rul
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |  no  |
+| [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: match_target_label
 
 URI: [sim:match_target_label](https://w3id.org/linkml/similarity/match_target_label)
@@ -9,11 +11,12 @@ URI: [sim:match_target_label](https://w3id.org/linkml/similarity/match_target_la
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[BestMatch](BestMatch.md) |  |  no  |
+| [BestMatch](BestMatch.md) |  |  no  |
 
 
 

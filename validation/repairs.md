@@ -1,3 +1,5 @@
+
+
 # Slot: repairs
 
 URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
@@ -9,11 +11,12 @@ URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
+| [RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
 
 
 

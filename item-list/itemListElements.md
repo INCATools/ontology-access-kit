@@ -1,3 +1,5 @@
+
+
 # Slot: itemListElements
 
 
@@ -14,11 +16,12 @@ URI: [schema:itemListElement](http://schema.org/itemListElement)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
 
 
 

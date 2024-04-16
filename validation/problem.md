@@ -1,3 +1,5 @@
+
+
 # Slot: problem
 
 URI: [vm:problem](https://w3id.org/linkml/validation-model/problem)
@@ -9,11 +11,12 @@ URI: [vm:problem](https://w3id.org/linkml/validation-model/problem)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
+| [MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
 
 
 

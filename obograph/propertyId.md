@@ -1,3 +1,5 @@
+
+
 # Slot: propertyId
 
 
@@ -14,11 +16,12 @@ URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression |  no  |
+| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression |  no  |
 
 
 

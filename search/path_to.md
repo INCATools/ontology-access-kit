@@ -1,3 +1,5 @@
+
+
 # Slot: path_to
 
 URI: [ontosearch:path_to](https://w3id.org/oak/search-datamodel/path_to)
@@ -9,11 +11,12 @@ URI: [ontosearch:path_to](https://w3id.org/oak/search-datamodel/path_to)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ComplexQuery](ComplexQuery.md) |  |  no  |
+| [ComplexQuery](ComplexQuery.md) |  |  no  |
 
 
 

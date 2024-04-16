@@ -1,3 +1,5 @@
+
+
 # Slot: new_date
 
 
@@ -19,11 +21,12 @@ URI: [ontoassoc:new_date](https://w3id.org/oak/association/new_date)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
 
 
 

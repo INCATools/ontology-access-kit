@@ -1,3 +1,5 @@
+
+
 # Slot: subsets
 
 
@@ -14,11 +16,12 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
 
 
 

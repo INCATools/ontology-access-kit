@@ -1,3 +1,5 @@
+
+
 # Slot: right_side
 
 
@@ -14,6 +16,7 @@ URI: [xodiff:right_side](https://w3id.org/oak/cross-ontology-diff/right_side)
 
 * [side](side.md)
     * **right_side**
+
 
 
 

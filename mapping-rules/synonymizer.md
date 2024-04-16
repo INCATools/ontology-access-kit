@@ -1,3 +1,5 @@
+
+
 # Slot: synonymizer
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:synonymizer](https://w3id.org/oak/mapping-rules-datamodel/syn
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
 
 
 

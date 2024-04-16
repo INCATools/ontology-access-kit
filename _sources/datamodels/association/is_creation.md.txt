@@ -1,3 +1,5 @@
+
+
 # Slot: is_creation
 
 URI: [ontoassoc:is_creation](https://w3id.org/oak/association/is_creation)
@@ -13,11 +15,12 @@ URI: [ontoassoc:is_creation](https://w3id.org/oak/association/is_creation)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
 
 
 

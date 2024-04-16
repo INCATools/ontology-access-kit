@@ -1,3 +1,5 @@
+
+
 # Slot: rdf_triple_count
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:rdf_triple_count](https://w3id.org/oaklib/summary_stati
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: average_score
 
 URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
@@ -9,11 +11,12 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
+| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
 
 
 

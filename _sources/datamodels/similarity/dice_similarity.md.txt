@@ -1,3 +1,5 @@
+
+
 # Slot: dice_similarity
 
 URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
@@ -14,11 +16,12 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
 
 
 

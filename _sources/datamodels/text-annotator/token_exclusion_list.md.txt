@@ -1,3 +1,5 @@
+
+
 # Slot: token_exclusion_list
 
 
@@ -14,11 +16,12 @@ URI: [ann:token_exclusion_list](https://w3id.org/linkml/text_annotator/token_exc
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
 
 
 

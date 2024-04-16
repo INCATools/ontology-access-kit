@@ -1,3 +1,5 @@
+
+
 # Slot: position
 
 
@@ -14,11 +16,12 @@ URI: [schema:position](http://schema.org/position)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ListItem](ListItem.md) | an item in an item list |  no  |
+| [ListItem](ListItem.md) | an item in an item list |  no  |
 
 
 

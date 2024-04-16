@@ -1,3 +1,5 @@
+
+
 # Slot: limit
 
 
@@ -14,11 +16,12 @@ URI: [ann:limit](https://w3id.org/linkml/text_annotator/limit)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
 
 
 

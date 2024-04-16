@@ -1,3 +1,5 @@
+
+
 # Class: Restriction
 
 
@@ -100,7 +102,7 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -126,7 +128,7 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 <details>
 ```yaml
 name: Restriction
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnonymousClassExpression
 mixin: true
 mixins:
@@ -145,7 +147,7 @@ class_uri: owl:Restriction
 <details>
 ```yaml
 name: Restriction
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnonymousClassExpression
 mixin: true
 mixins:
@@ -153,7 +155,7 @@ mixins:
 attributes:
   onProperty:
     name: onProperty
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:onProperty
@@ -167,7 +169,7 @@ attributes:
     name: someValuesFrom
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:someValuesFrom
@@ -181,7 +183,7 @@ attributes:
     name: allValuesFrom
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:allValuesFrom
@@ -194,7 +196,7 @@ attributes:
     name: disjointWith
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
@@ -209,7 +211,7 @@ attributes:
     name: equivalentClass
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     mixins:
@@ -225,7 +227,7 @@ attributes:
     name: intersectionOf
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:intersectionOf
@@ -236,7 +238,7 @@ attributes:
     range: ClassExpression
   subClassOf:
     name: subClassOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdfs:subClassOf
@@ -248,7 +250,7 @@ attributes:
     range: ClassExpression
   cardinality:
     name: cardinality
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:cardinality
@@ -261,7 +263,7 @@ attributes:
     name: complementOf
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:complementOf
@@ -272,7 +274,7 @@ attributes:
     range: string
   oneOf:
     name: oneOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:oneOf
@@ -283,7 +285,7 @@ attributes:
     range: ClassExpression
   unionOf:
     name: unionOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:unionOf

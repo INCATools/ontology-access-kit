@@ -1,3 +1,5 @@
+
+
 # Slot: match_source
 
 URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
@@ -9,11 +11,12 @@ URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[BestMatch](BestMatch.md) |  |  no  |
+| [BestMatch](BestMatch.md) |  |  no  |
 
 
 

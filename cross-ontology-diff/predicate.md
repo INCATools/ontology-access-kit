@@ -1,3 +1,5 @@
+
+
 # Slot: predicate
 
 
@@ -10,6 +12,7 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

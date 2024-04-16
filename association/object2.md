@@ -1,3 +1,5 @@
+
+
 # Slot: object2
 
 URI: [ontoassoc:object2](https://w3id.org/oak/association/object2)
@@ -14,11 +16,12 @@ URI: [ontoassoc:object2](https://w3id.org/oak/association/object2)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
 
 
 

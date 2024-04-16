@@ -1,3 +1,5 @@
+
+
 # Slot: modified
 
 URI: [vm:modified](https://w3id.org/linkml/validation-model/modified)
@@ -9,11 +11,12 @@ URI: [vm:modified](https://w3id.org/linkml/validation-model/modified)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
+| [RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
 
 
 

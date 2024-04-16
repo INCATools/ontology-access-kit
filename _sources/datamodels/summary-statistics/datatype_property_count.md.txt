@@ -1,3 +1,5 @@
+
+
 # Slot: datatype_property_count
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:datatype_property_count](https://w3id.org/oaklib/summar
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: minCardinality
 
 URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
@@ -9,6 +11,7 @@ URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 
 * [logical_predicate](logical_predicate.md)
     * **minCardinality**
+
 
 
 
@@ -36,7 +39,7 @@ URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -46,7 +49,7 @@ URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 <details>
 ```yaml
 name: minCardinality
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:minCardinality

@@ -1,3 +1,5 @@
+
+
 # Slot: sample_count
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:sample_count](https://w3id.org/oak/class-enrichment/sample_coun
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+| [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
 
 
 

@@ -290,6 +290,32 @@
         <span class="n">graph_id</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
         <span class="k">return</span> <span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">graph_id</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">node_map</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
 
+<div class="viewcode-block" id="OboGraphInterface.direct_graph">
+<a class="viewcode-back" href="../../../packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.direct_graph">[docs]</a>
+    <span class="k">def</span> <span class="nf">direct_graph</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a graph object that consists of all the nodes specified in the curies list,</span>
+<span class="sd">        extended with all direct relationships</span>
+
+<span class="sd">        :param curies:</span>
+<span class="sd">        :return: direct graph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">curies</span><span class="p">]</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="n">curies</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">ldefs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logical_definitions</span><span class="p">(</span><span class="n">curies</span><span class="p">))</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">logicalDefinitionAxioms</span> <span class="o">=</span> <span class="n">ldefs</span>
+        <span class="k">return</span> <span class="n">g</span></div>
+
+
 <div class="viewcode-block" id="OboGraphInterface.ancestor_graph">
 <a class="viewcode-back" href="../../../packages/interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">[docs]</a>
     <span class="k">def</span> <span class="nf">ancestor_graph</span><span class="p">(</span>

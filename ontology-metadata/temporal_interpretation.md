@@ -1,3 +1,5 @@
+
+
 # Slot: temporal_interpretation
 
 URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
@@ -9,12 +11,13 @@ URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -41,7 +44,7 @@ URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -51,7 +54,7 @@ URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 <details>
 ```yaml
 name: temporal_interpretation
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: RO:0001900
 alias: temporal_interpretation

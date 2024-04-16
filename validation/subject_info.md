@@ -1,3 +1,5 @@
+
+
 # Slot: subject_info
 
 URI: [vm:subject_info](https://w3id.org/linkml/validation-model/subject_info)
@@ -9,11 +11,12 @@ URI: [vm:subject_info](https://w3id.org/linkml/validation-model/subject_info)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
+| [MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: allValuesFromEdges
 
 
@@ -14,12 +16,13 @@ URI: [obographs:allValuesFromEdges](https://github.com/geneontology/obographs/al
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
-[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+| [DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: prefix
 
 
@@ -14,11 +16,12 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Ontology](Ontology.md) | An ontology |  no  |
+| [Ontology](Ontology.md) | An ontology |  no  |
 
 
 

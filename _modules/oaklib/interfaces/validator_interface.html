@@ -84,25 +84,36 @@
              
   <h1>Source code for oaklib.interfaces.validator_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
+
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.ontology_metadata</span> <span class="kn">import</span> <span class="n">DefinitionConstraintComponent</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.synonymizer_datamodel</span> <span class="kn">import</span> <span class="n">RuleSet</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.validation_datamodel</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">MappingValidationResult</span><span class="p">,</span>
     <span class="n">RepairConfiguration</span><span class="p">,</span>
     <span class="n">RepairOperation</span><span class="p">,</span>
+    <span class="n">SeverityOptions</span><span class="p">,</span>
     <span class="n">ValidationConfiguration</span><span class="p">,</span>
     <span class="n">ValidationResult</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">HAS_DEFINITION_CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.iterator_utils</span> <span class="kn">import</span> <span class="n">chunk</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.lexical.synonymizer</span> <span class="kn">import</span> <span class="n">apply_synonymizer</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.publication_utils.pubmed_wrapper</span> <span class="kn">import</span> <span class="n">PubmedWrapper</span>
 
 
 <div class="viewcode-block" id="ValidatorInterface">
 <a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface">[docs]</a>
 <span class="k">class</span> <span class="nc">ValidatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Basic ontology QC</span>
+<span class="sd">    Multi-faceted ontology validator.</span>
+
+<span class="sd">    This interface defines a number of different validation processes</span>
 
 <span class="sd">    The overall goal is to support the following</span>
 
@@ -127,7 +138,7 @@
 <a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">[docs]</a>
     <span class="k">def</span> <span class="nf">term_curies_without_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        TODO: decide whether to write highly specific methods or use a generic validate method</span>
+<span class="sd">        Yields all entities that do not have a definition.</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -164,7 +175,17 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate mappings for a set of entities.</span>
 
-<span class="sd">        :param entities:</span>
+<span class="sd">        Different adapters may implement different aspects of mapping validation.</span>
+
+<span class="sd">        It includes:</span>
+
+<span class="sd">        - checking cardinality of mappings (e.g. skos:exactMatch should be 1:1)</span>
+<span class="sd">        - looking up mapped entities to check they are not obsolete</span>
+<span class="sd">        - using AI to validate the content of mappings</span>
+
+<span class="sd">        :param entities: entities to validate mappings for (None=all)</span>
+<span class="sd">        :param adapters: adapter mapping to look up external entities</span>
+<span class="sd">        :param configuration: validation configuration</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.mapping_validation</span> <span class="kn">import</span> <span class="n">validate_mappings</span>
@@ -181,6 +202,149 @@
                     <span class="n">info</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">yield</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="ValidatorInterface.validate_synonyms">
+<a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate_synonyms">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate_synonyms</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">adapters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BasicOntologyInterface</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">configuration</span><span class="p">:</span> <span class="n">ValidationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">synonymizer_rules</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RuleSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ValidationResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate synonyms for a set of entities.</span>
+
+<span class="sd">        Different adapters may implement different aspects of synonym validation.</span>
+
+<span class="sd">        It includes:</span>
+
+<span class="sd">        - checking for duplicates</span>
+<span class="sd">        - looking up mapped entities to check they are not obsolete</span>
+<span class="sd">        - ensuring that a referenced synonym is still supported</span>
+<span class="sd">        - using AI to validate the content of mappings</span>
+
+<span class="sd">        :param entities: entities to validate mappings for (None=all)</span>
+<span class="sd">        :param adapters: adapter mapping to look up external entities</span>
+<span class="sd">        :param configuration: validation configuration</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot validate synonyms on </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">syns</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">synonyms</span>
+            <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">syns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">syn</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">xref</span> <span class="ow">in</span> <span class="n">syn</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
+                        <span class="kn">from</span> <span class="nn">oaklib.utilities.mapping.mapping_validation</span> <span class="kn">import</span> <span class="p">(</span>
+                            <span class="n">lookup_mapping_adapter</span><span class="p">,</span>
+                        <span class="p">)</span>
+
+                        <span class="n">ext_adapter</span> <span class="o">=</span> <span class="n">lookup_mapping_adapter</span><span class="p">(</span><span class="n">xref</span><span class="p">,</span> <span class="n">adapters</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">ext_adapter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ext_adapter</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot validate synonyms on </span><span class="si">{</span><span class="n">ext_adapter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">ext_node</span> <span class="o">=</span> <span class="n">ext_adapter</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">xref</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">ext_syns</span> <span class="o">=</span> <span class="n">ext_node</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">synonyms</span>
+                        <span class="c1"># normalize to lower case for comparison</span>
+                        <span class="c1"># TODO: allow configurability of case rules</span>
+                        <span class="n">synonym_forms</span> <span class="o">=</span> <span class="p">{</span><span class="n">syn</span><span class="o">.</span><span class="n">val</span><span class="p">}</span>
+                        <span class="k">if</span> <span class="n">synonymizer_rules</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">syn_form</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">apply_synonymizer</span><span class="p">(</span>
+                                <span class="n">syn</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">synonymizer_rules</span><span class="o">.</span><span class="n">rules</span>
+                            <span class="p">):</span>
+                                <span class="n">synonym_forms</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">syn_form</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                        <span class="n">ext_syn_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ext_syns</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">synonym_forms</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">ext_syn_vals</span><span class="p">):</span>
+                            <span class="k">yield</span> <span class="n">ValidationResult</span><span class="p">(</span>
+                                <span class="n">subject</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                <span class="n">predicate</span><span class="o">=</span><span class="n">syn</span><span class="o">.</span><span class="n">pred</span><span class="p">,</span>
+                                <span class="nb">object</span><span class="o">=</span><span class="n">xref</span><span class="p">,</span>
+                                <span class="n">object_str</span><span class="o">=</span><span class="n">syn</span><span class="o">.</span><span class="n">val</span><span class="p">,</span>
+                                <span class="n">severity</span><span class="o">=</span><span class="n">SeverityOptions</span><span class="p">(</span><span class="n">SeverityOptions</span><span class="o">.</span><span class="n">ERROR</span><span class="p">),</span>
+                                <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;oio:SynonymNotFound&quot;</span><span class="p">,</span>
+                                <span class="n">info</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;synonym not found in </span><span class="si">{</span><span class="n">xref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ValidatorInterface.validate_definitions">
+<a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate_definitions">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate_definitions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">adapters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BasicOntologyInterface</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">configuration</span><span class="p">:</span> <span class="n">ValidationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">skip_text_annotation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ValidationResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate text definitions for a set of entities.</span>
+
+<span class="sd">        Different adapters may implement different aspects of mapping validation.</span>
+
+<span class="sd">        It includes:</span>
+
+<span class="sd">        - testing definitions are present</span>
+<span class="sd">        - validating the text definition against the SRS rubric</span>
+<span class="sd">        - using AI to align the definition against any references</span>
+
+<span class="sd">        :param entities:</span>
+<span class="sd">        :param configuration:</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">oaklib.utilities.validation.definition_ontology_rule</span> <span class="kn">import</span> <span class="n">DefinitionOntologyRule</span>
+
+        <span class="n">definition_rule</span> <span class="o">=</span> <span class="n">DefinitionOntologyRule</span><span class="p">(</span><span class="n">skip_text_annotation</span><span class="o">=</span><span class="n">skip_text_annotation</span><span class="p">)</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span> <span class="k">if</span> <span class="n">entities</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_contract</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;https://w3id.org/oak/ontology-metadata/DCC.&quot;</span><span class="p">,</span> <span class="s2">&quot;oaklib.om:DCC#&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">definition_rule</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">):</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">_contract</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">r</span>
+        <span class="k">if</span> <span class="n">configuration</span> <span class="ow">and</span> <span class="n">configuration</span><span class="o">.</span><span class="n">lookup_references</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">entity_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">entities</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">defn</span><span class="p">,</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">definitions</span><span class="p">(</span>
+                    <span class="n">entity_it</span><span class="p">,</span>
+                    <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">metadata</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">for</span> <span class="n">_k</span><span class="p">,</span> <span class="n">vs</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_references</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="n">adapters</span><span class="o">=</span><span class="n">adapters</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">ref</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">refs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">obj</span><span class="p">:</span>
+                                <span class="k">yield</span> <span class="n">ValidationResult</span><span class="p">(</span>
+                                    <span class="n">subject</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span>
+                                    <span class="n">predicate</span><span class="o">=</span><span class="n">HAS_DEFINITION_CURIE</span><span class="p">,</span>
+                                    <span class="nb">object</span><span class="o">=</span><span class="n">ref</span><span class="p">,</span>
+                                    <span class="n">object_str</span><span class="o">=</span><span class="n">defn</span><span class="p">,</span>
+                                    <span class="n">severity</span><span class="o">=</span><span class="n">SeverityOptions</span><span class="p">(</span><span class="n">SeverityOptions</span><span class="o">.</span><span class="n">ERROR</span><span class="p">),</span>
+                                    <span class="nb">type</span><span class="o">=</span><span class="n">_contract</span><span class="p">(</span>
+                                        <span class="n">DefinitionConstraintComponent</span><span class="o">.</span><span class="n">ReferenceNotFound</span><span class="o">.</span><span class="n">meaning</span>
+                                    <span class="p">),</span>
+                                    <span class="n">info</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;publication not found: </span><span class="si">{</span><span class="n">ref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                <span class="p">)</span>
+                                <span class="k">continue</span>
+                            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;retracted&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                                <span class="k">yield</span> <span class="n">ValidationResult</span><span class="p">(</span>
+                                    <span class="n">subject</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span>
+                                    <span class="n">predicate</span><span class="o">=</span><span class="n">HAS_DEFINITION_CURIE</span><span class="p">,</span>
+                                    <span class="nb">object</span><span class="o">=</span><span class="n">ref</span><span class="p">,</span>
+                                    <span class="n">severity</span><span class="o">=</span><span class="n">SeverityOptions</span><span class="p">(</span><span class="n">SeverityOptions</span><span class="o">.</span><span class="n">ERROR</span><span class="p">),</span>
+                                    <span class="nb">type</span><span class="o">=</span><span class="n">_contract</span><span class="p">(</span>
+                                        <span class="n">DefinitionConstraintComponent</span><span class="o">.</span><span class="n">ReferenceIsRetracted</span><span class="o">.</span><span class="n">meaning</span>
+                                    <span class="p">),</span>
+                                    <span class="n">info</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;publication is retracted: </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ValidatorInterface.repair">
@@ -224,6 +388,44 @@
 <span class="sd">        :return: class curie iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="ValidatorInterface.lookup_references">
+<a class="viewcode-back" href="../../../packages/interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.lookup_references">[docs]</a>
+    <span class="k">def</span> <span class="nf">lookup_references</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">references</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">adapters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BasicOntologyInterface</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lookup references in external ontologies.</span>
+
+<span class="sd">        :param references: list of CURIEs to look up</span>
+<span class="sd">        :param adapters: adapter mapping to look up external entities</span>
+<span class="sd">        :param kwargs: additional arguments</span>
+<span class="sd">        :return: mapping between CURIEs and pub objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pubmed_wrapper</span> <span class="o">=</span> <span class="n">PubmedWrapper</span><span class="p">()</span>
+        <span class="n">pub_prefixes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PMID&quot;</span><span class="p">,</span> <span class="s2">&quot;DOI&quot;</span><span class="p">,</span> <span class="s2">&quot;PMC&quot;</span><span class="p">,</span> <span class="s2">&quot;PMCID&quot;</span><span class="p">]</span>
+        <span class="n">publication_ids</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">references</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">pub_prefixes</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="n">pubmed_wrapper</span><span class="o">.</span><span class="n">objects_by_ids</span><span class="p">(</span><span class="n">publication_ids</span><span class="p">)</span>
+        <span class="c1"># seed with Nones</span>
+        <span class="n">obj_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">pmid</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">pmid</span> <span class="ow">in</span> <span class="n">references</span> <span class="k">if</span> <span class="n">pmid</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;PMID&quot;</span><span class="p">)}</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
+            <span class="n">obj_map</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">references</span><span class="p">:</span>
+            <span class="c1"># split out the prefix</span>
+            <span class="n">prefix</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">prefix</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">pub_prefixes</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">adapters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">adapters</span><span class="p">:</span>
+                    <span class="n">adapter</span> <span class="o">=</span> <span class="n">adapters</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="n">obj</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                    <span class="n">obj_map</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_dumper</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj_map</span></div>
 </div>
 
 </pre></div>

@@ -1,3 +1,5 @@
+
+
 # Slot: match_subsumer_label
 
 URI: [sim:match_subsumer_label](https://w3id.org/linkml/similarity/match_subsumer_label)
@@ -9,11 +11,12 @@ URI: [sim:match_subsumer_label](https://w3id.org/linkml/similarity/match_subsume
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[BestMatch](BestMatch.md) |  |  no  |
+| [BestMatch](BestMatch.md) |  |  no  |
 
 
 

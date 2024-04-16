@@ -1,3 +1,5 @@
+
+
 # Slot: via_terms
 
 
@@ -14,11 +16,12 @@ URI: [tc:via_terms](https://w3id.org/linkml/taxon_constraints/via_terms)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

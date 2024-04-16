@@ -1,3 +1,5 @@
+
+
 # Slot: unionOf
 
 URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
@@ -14,13 +16,14 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassExpression](ClassExpression.md) |  |  no  |
-[Class](Class.md) |  |  no  |
-[Restriction](Restriction.md) |  |  no  |
+| [Restriction](Restriction.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
@@ -47,7 +50,7 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -57,7 +60,7 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 <details>
 ```yaml
 name: unionOf
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:unionOf

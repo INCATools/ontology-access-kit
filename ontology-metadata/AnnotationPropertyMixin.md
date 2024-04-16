@@ -1,3 +1,5 @@
+
+
 # Class: AnnotationPropertyMixin
 
 
@@ -7,7 +9,7 @@ _Groups all annotation property bundles_
 
 
 
-URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/schema/AnnotationPropertyMixin)
+URI: [omoschema:AnnotationPropertyMixin](https://w3id.org/oak/ontology-metadata/AnnotationPropertyMixin)
 
 
 
@@ -72,7 +74,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -99,7 +101,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
 ```yaml
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```
@@ -111,7 +113,7 @@ mixin: true
 ```yaml
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```

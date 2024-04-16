@@ -1,3 +1,5 @@
+
+
 # Slot: output
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:output](https://w3id.org/oak/mapping-rules-datamodel/output)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Test](Test.md) |  |  no  |
+| [Test](Test.md) |  |  no  |
 
 
 

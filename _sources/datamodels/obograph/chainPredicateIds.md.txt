@@ -1,3 +1,5 @@
+
+
 # Slot: chainPredicateIds
 
 
@@ -14,11 +16,12 @@ URI: [obographs:chainPredicateIds](https://github.com/geneontology/obographs/cha
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e |  no  |
+| [PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e |  no  |
 
 
 

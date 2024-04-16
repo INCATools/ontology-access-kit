@@ -1,8 +1,10 @@
+
+
 # Class: AnonymousClassExpression
 
 
 
-URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/schema/AnonymousClassExpression)
+URI: [omoschema:AnonymousClassExpression](https://w3id.org/oak/ontology-metadata/AnonymousClassExpression)
 
 
 
@@ -54,7 +56,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -80,7 +82,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 <details>
 ```yaml
 name: AnonymousClassExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Anonymous
 
 ```
@@ -91,7 +93,7 @@ is_a: Anonymous
 <details>
 ```yaml
 name: AnonymousClassExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Anonymous
 
 ```

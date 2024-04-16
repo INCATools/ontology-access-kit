@@ -1,3 +1,5 @@
+
+
 # Slot: match_type
 
 URI: [ann:match_type](https://w3id.org/linkml/text_annotator/match_type)
@@ -9,11 +11,12 @@ URI: [ann:match_type](https://w3id.org/linkml/text_annotator/match_type)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

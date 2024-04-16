@@ -1,3 +1,5 @@
+
+
 # Slot: prefix
 
 URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
@@ -9,13 +11,14 @@ URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Synonymizer](Synonymizer.md) |  |  no  |
-[Test](Test.md) |  |  no  |
-[RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements |  no  |
+| [RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
+| [Test](Test.md) |  |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: left_source
 
 
@@ -14,11 +16,12 @@ URI: [xodiff:left_source](https://w3id.org/oak/cross-ontology-diff/left_source)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results |  no  |
+| [StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results |  no  |
 
 
 

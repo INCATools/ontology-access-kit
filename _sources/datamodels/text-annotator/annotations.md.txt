@@ -1,3 +1,5 @@
+
+
 # Slot: annotations
 
 
@@ -14,11 +16,12 @@ URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results |  no  |
+| [TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results |  no  |
 
 
 

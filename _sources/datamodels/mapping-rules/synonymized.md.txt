@@ -1,3 +1,5 @@
+
+
 # Slot: synonymized
 
 URI: [mappingrules:synonymized](https://w3id.org/oak/mapping-rules-datamodel/synonymized)
@@ -9,11 +11,12 @@ URI: [mappingrules:synonymized](https://w3id.org/oak/mapping-rules-datamodel/syn
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
 
 
 

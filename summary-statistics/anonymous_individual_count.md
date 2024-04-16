@@ -1,3 +1,5 @@
+
+
 # Slot: anonymous_individual_count
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:anonymous_individual_count](https://w3id.org/oaklib/sum
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

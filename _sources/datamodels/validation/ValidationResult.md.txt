@@ -1,3 +1,5 @@
+
+
 # Class: ValidationResult
 
 
@@ -18,6 +20,7 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
       Result <|-- ValidationResult
       
 
+      ValidationResult <|-- DefinitionValidationResult
       ValidationResult <|-- ExternalReferenceValidationResult
       
       
@@ -61,6 +64,7 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 ## Inheritance
 * [Result](Result.md)
     * **ValidationResult**
+        * [DefinitionValidationResult](DefinitionValidationResult.md)
         * [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md)
 
 

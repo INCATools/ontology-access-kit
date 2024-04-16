@@ -1,3 +1,5 @@
+
+
 # Slot: redundant_with
 
 
@@ -14,11 +16,12 @@ URI: [tc:redundant_with](https://w3id.org/linkml/taxon_constraints/redundant_wit
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

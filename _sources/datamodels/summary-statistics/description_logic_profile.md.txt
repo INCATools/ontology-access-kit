@@ -1,3 +1,5 @@
+
+
 # Slot: description_logic_profile
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:description_logic_profile](https://w3id.org/oaklib/summ
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: term
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:term](https://w3id.org/oak/mapping-rules-datamodel/term)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |  no  |
+| [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: predicate
 
 URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
@@ -9,11 +11,12 @@ URI: [ontolexindex:predicate](https://w3id.org/oak/lexical-index/predicate)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
 
 
 

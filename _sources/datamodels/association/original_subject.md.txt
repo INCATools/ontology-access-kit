@@ -1,3 +1,5 @@
+
+
 # Slot: original_subject
 
 
@@ -10,6 +12,7 @@ URI: [biolink:original_subject](https://w3id.org/biolink/vocab/original_subject)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

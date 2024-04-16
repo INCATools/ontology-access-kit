@@ -1,3 +1,5 @@
+
+
 # Slot: jaccard_similarity
 
 
@@ -19,11 +21,12 @@ URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similar
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
 
 
 

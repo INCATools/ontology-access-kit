@@ -1,3 +1,5 @@
+
+
 # Class: Node
 
 
@@ -45,6 +47,10 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 | [ValidationResult](ValidationResult.md) | [instantiates](instantiates.md) | range | [Node](Node.md) |
 | [ValidationResult](ValidationResult.md) | [predicate](predicate.md) | range | [Node](Node.md) |
 | [ValidationResult](ValidationResult.md) | [object](object.md) | range | [Node](Node.md) |
+| [DefinitionValidationResult](DefinitionValidationResult.md) | [subject](subject.md) | range | [Node](Node.md) |
+| [DefinitionValidationResult](DefinitionValidationResult.md) | [instantiates](instantiates.md) | range | [Node](Node.md) |
+| [DefinitionValidationResult](DefinitionValidationResult.md) | [predicate](predicate.md) | range | [Node](Node.md) |
+| [DefinitionValidationResult](DefinitionValidationResult.md) | [object](object.md) | range | [Node](Node.md) |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | [subject](subject.md) | range | [Node](Node.md) |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | [instantiates](instantiates.md) | range | [Node](Node.md) |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | [predicate](predicate.md) | range | [Node](Node.md) |

@@ -1,3 +1,5 @@
+
+
 # Slot: id
 
 URI: [itemList:id](https://w3id.org/linkml/item-list/id)
@@ -9,12 +11,13 @@ URI: [itemList:id](https://w3id.org/linkml/item-list/id)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
-[Thing](Thing.md) |  |  no  |
+| [Thing](Thing.md) |  |  no  |
+| [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
 
 
 

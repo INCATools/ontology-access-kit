@@ -1,3 +1,5 @@
+
+
 # Class: ObsoleteAspect
 
 
@@ -7,7 +9,7 @@ _Auto-classifies anything that is obsolete_
 
 
 
-URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/ObsoleteAspect)
+URI: [omoschema:ObsoleteAspect](https://w3id.org/oak/ontology-metadata/ObsoleteAspect)
 
 
 
@@ -108,7 +110,7 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -135,7 +137,7 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 ```yaml
 name: ObsoleteAspect
 description: Auto-classifies anything that is obsolete
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 slot_usage:
   label:
@@ -156,7 +158,7 @@ classification_rules:
 ```yaml
 name: ObsoleteAspect
 description: Auto-classifies anything that is obsolete
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 slot_usage:
   label:

@@ -1,3 +1,5 @@
+
+
 # Slot: present_in_ancestor_of
 
 URI: [tc:present_in_ancestor_of](https://w3id.org/linkml/taxon_constraints/present_in_ancestor_of)
@@ -9,11 +11,12 @@ URI: [tc:present_in_ancestor_of](https://w3id.org/linkml/taxon_constraints/prese
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
+| [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
 
 
 

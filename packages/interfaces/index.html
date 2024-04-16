@@ -240,15 +240,9 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="validator.html">Validator Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.term_curies_without_definitions()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.validate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.validate_mappings"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.validate_mappings()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.repair()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.is_coherent()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.unsatisfiable_classes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.autosave"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.autosave</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface.exclude_owl_top_and_bottom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="validator.html#schema-validation">Schema Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validator.html#llm-based-validation">LLM-based validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#oaklib.interfaces.validator_interface.ValidatorInterface"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -288,6 +282,7 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 <li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.nodes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.edges()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.synonym_map_for_curies"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.synonym_map_for_curies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.direct_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.direct_graph()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.ancestor_graph()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.descendant_graph()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors"><code class="docutils literal notranslate"><span class="pre">OboGraphInterface.ancestors()</span></code></a></li>
@@ -389,23 +384,8 @@ has the method <a class="reference internal" href="search.html#oaklib.interfaces
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.enriched_classes"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface.enriched_classes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface.create_self_associations"><code class="docutils literal notranslate"><span class="pre">ClassEnrichmentCalculationInterface.create_self_associations()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="dumper.html">Dumper Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface"><code class="docutils literal notranslate"><span class="pre">DumperInterface</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.dump"><code class="docutils literal notranslate"><span class="pre">DumperInterface.dump()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.autosave"><code class="docutils literal notranslate"><span class="pre">DumperInterface.autosave</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="dumper.html#oaklib.interfaces.dumper_interface.DumperInterface.exclude_owl_top_and_bottom"><code class="docutils literal notranslate"><span class="pre">DumperInterface.exclude_owl_top_and_bottom</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="class-enrichment.html">Class Enrichment Calculation Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dumper.html">Dumper Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="owl.html">OWL Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface"><code class="docutils literal notranslate"><span class="pre">OwlInterface</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms"><code class="docutils literal notranslate"><span class="pre">OwlInterface.subclass_axioms()</span></code></a></li>

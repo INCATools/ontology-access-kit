@@ -1,3 +1,5 @@
+
+
 # Slot: itemLists
 
 URI: [itemList:itemLists](https://w3id.org/linkml/item-list/itemLists)
@@ -9,11 +11,12 @@ URI: [itemList:itemLists](https://w3id.org/linkml/item-list/itemLists)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemListCollection](ItemListCollection.md) | a set of item lists |  no  |
+| [ItemListCollection](ItemListCollection.md) | a set of item lists |  no  |
 
 
 

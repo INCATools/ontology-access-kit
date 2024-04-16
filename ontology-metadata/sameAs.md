@@ -1,3 +1,5 @@
+
+
 # Slot: sameAs
 
 URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
@@ -9,6 +11,7 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 
 * [logical_predicate](logical_predicate.md)
     * **sameAs** [ [match_aspect](match_aspect.md)]
+
 
 
 
@@ -42,7 +45,7 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -54,7 +57,7 @@ URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 name: sameAs
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 mixins:

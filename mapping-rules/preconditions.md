@@ -1,3 +1,5 @@
+
+
 # Slot: preconditions
 
 
@@ -14,11 +16,12 @@ URI: [sh:condition](https://w3id.org/shacl/condition)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
 
 
 

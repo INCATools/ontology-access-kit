@@ -1,3 +1,5 @@
+
+
 # Slot: has_synonym_type
 
 URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynonymType)
@@ -9,11 +11,12 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 
@@ -42,7 +45,7 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -52,7 +55,7 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 <details>
 ```yaml
 name: has_synonym_type
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:hasSynonymType
 multivalued: true

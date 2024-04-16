@@ -1,3 +1,5 @@
+
+
 # Slot: object_match_field_one_of
 
 URI: [mappingrules:object_match_field_one_of](https://w3id.org/oak/mapping-rules-datamodel/object_match_field_one_of)
@@ -9,11 +11,12 @@ URI: [mappingrules:object_match_field_one_of](https://w3id.org/oak/mapping-rules
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |  no  |
+| [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |  no  |
 
 
 

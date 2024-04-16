@@ -1,3 +1,5 @@
+
+
 # Slot: results
 
 
@@ -14,13 +16,14 @@ URI: [sh:result](http://www.w3.org/ns/shacl#result)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Report](Report.md) | A report object that is a holder to multiple report results |  no  |
-[ValidationReport](ValidationReport.md) | A report that consists of validation results |  yes  |
-[RepairReport](RepairReport.md) | A report that consists of repair operation results |  yes  |
+| [RepairReport](RepairReport.md) | A report that consists of repair operation results |  yes  |
+| [Report](Report.md) | A report object that is a holder to multiple report results |  no  |
+| [ValidationReport](ValidationReport.md) | A report that consists of validation results |  yes  |
 
 
 

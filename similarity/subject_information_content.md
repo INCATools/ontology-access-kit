@@ -1,3 +1,5 @@
+
+
 # Slot: subject_information_content
 
 
@@ -20,11 +22,12 @@ URI: [sim:subject_information_content](https://w3id.org/linkml/similarity/subjec
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
 
 
 

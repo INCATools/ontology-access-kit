@@ -133,56 +133,6 @@ used for RDF/XML files but this is not guaranteed in future.</p>
 </section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.pronto.pronto_implementation.</span></span><span class="sig-name descname"><span class="pre">ProntoImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional_writer:</span> <span class="pre">&lt;module</span> <span class="pre">'funowl.writers.FunctionalWriter'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/funowl/writers/FunctionalWriter.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_association_index:</span> <span class="pre">~oaklib.utilities.associations.association_index.AssociationIndex</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalizers:</span> <span class="pre">~typing.List[~oaklib.interfaces.association_provider_interface.EntityNormalizer]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapped_ontology:</span> <span class="pre">~pronto.ontology.Ontology</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_relationship_index_cache:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.List[~typing.Tuple[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]]]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_alt_id_to_replacement_map:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.List[str]]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/implementations/pronto/pronto_implementation.html#ProntoImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation" title="Link to this definition"></a></dt>
-<dd><p>An adapter that standardizes access to OBO Format files by wrapping the Pronto library.</p>
-<p><a class="reference external" href="https://github.com/althonos/pronto/">Pronto</a> is a high-performance parsing library
-for parsing obo format 1.4 and other formats.</p>
-<section id="input-selector">
-<h3>Input Selector<a class="headerlink" href="#input-selector" title="Link to this heading"></a></h3>
-<p>This adapter uses the <code class="docutils literal notranslate"><span class="pre">pronto:</span></code> <a class="reference internal" href="../../glossary.html#term-Input-Selector"><span class="xref std std-term">Input Selector</span></a>; e.g.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pronto:path/to/my/file</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pronto:https://example.com/my/file</span></code></p></li>
-<li><p><a href="#id1"><span class="problematic" id="id2">``</span></a>prontolib:go`</p></li>
-</ul>
-</section>
-<section id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go-nucleus.obo&#39;</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s1">&#39;tests/input&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Or use a selector:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;pronto:tests/input/go-nucleus.obo&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Then you can use any of the methods implemented by pronto</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rels</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">_s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">rels</span><span class="p">:</span>
-<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">adapter</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="go">rdfs:subClassOf GO:0043231 ! intracellular membrane-bounded organelle</span>
-<span class="go">BFO:0000050 GO:0005737 ! cytoplasm</span>
-</pre></div>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>pronto uses the fastobo library for loading ontologies. This follows a strict
-interpretation of obo format, and some ontologies may fail to load.
-In these cases, consider an alternative implementation</p>
-</div>
-<p>Alternatives:</p>
-<ul class="simple">
-<li><p>use the <a class="reference internal" href="simple_obo.html#simple-obo-implementation"><span class="std std-ref">Simple OBO Adapter</span></a></p></li>
-<li><p>convert to an OWL representation using ROBOT</p></li>
-<li><p>convert to a JSON representation using ROBOT and use <span class="xref std std-ref">obograph_implementation</span></p></li>
-</ul>
-</section>
-</dd></dl>
-
 </section>
 </section>
 

@@ -1,3 +1,5 @@
+
+
 # Slot: edges
 
 
@@ -14,11 +16,12 @@ URI: [obographs:edges](https://github.com/geneontology/obographs/edges)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
 
 
 

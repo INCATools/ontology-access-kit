@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: DefinitionValidationResult &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=046fa432"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Class: DefinitionValidationResult</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/validation/DefinitionValidationResult.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-definitionvalidationresult">
+<h1>Class: DefinitionValidationResult<a class="headerlink" href="#class-definitionvalidationresult" title="Link to this heading"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/validation-model/DefinitionValidationResult">vm:DefinitionValidationResult</a></p>
+<div class="mermaid">
+             classDiagram
+    class DefinitionValidationResult
+      ValidationResult &lt;|-- DefinitionValidationResult
+      
+      DefinitionValidationResult : definition
+        
+      DefinitionValidationResult : definition_source
+        
+      DefinitionValidationResult : info
+        
+      DefinitionValidationResult : instantiates
+        
+          DefinitionValidationResult --&gt; Node : instantiates
+        
+      DefinitionValidationResult : object
+        
+          DefinitionValidationResult --&gt; Node : object
+        
+      DefinitionValidationResult : object_str
+        
+      DefinitionValidationResult : predicate
+        
+          DefinitionValidationResult --&gt; Node : predicate
+        
+      DefinitionValidationResult : proposed_new_definition
+        
+      DefinitionValidationResult : severity
+        
+          DefinitionValidationResult --&gt; severity_options : severity
+        
+      DefinitionValidationResult : source
+        
+      DefinitionValidationResult : subject
+        
+          DefinitionValidationResult --&gt; Node : subject
+        
+      DefinitionValidationResult : type
+        
+          DefinitionValidationResult --&gt; ConstraintComponent : type
+        
+      
+        </div><section id="inheritance">
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="Result.html"><span class="std std-doc">Result</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p>
+<ul>
+<li><p><strong>DefinitionValidationResult</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="definition.html"><span class="std std-doc">definition</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="std std-doc">definition_source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="proposed_new_definition.html"><span class="std std-doc">proposed_new_definition</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="ConstraintComponent.html"><span class="std std-doc">ConstraintComponent</span></a></p></td>
+<td><p>The type of validation result</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="severity.html"><span class="std std-doc">severity</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SeverityOptions.html"><span class="std std-doc">SeverityOptions</span></a></p></td>
+<td><p>the severity of the issue</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject.html"><span class="std std-doc">subject</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
+<td><p>The instance which the result is about</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="instantiates.html"><span class="std std-doc">instantiates</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
+<td><p>The type of the subject</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="std std-doc">predicate</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
+<td><p>The predicate or property of the subject which the result is about</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="std std-doc">object</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Node.html"><span class="std std-doc">Node</span></a></p></td>
+<td><p></p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_str.html"><span class="std std-doc">object_str</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p></p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="std std-doc">info</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>additional information about the issue</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="std std-doc">ValidationResult</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Link to this heading"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>from schema: https://w3id.org/linkml/validation_results</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>vm:DefinitionValidationResult</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>vm:DefinitionValidationResult</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Link to this heading"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Link to this heading"></a></h3>
+<details>
+```yaml
+name: DefinitionValidationResult
+from_schema: https://w3id.org/linkml/validation_results
+is_a: ValidationResult
+attributes:
+  definition:
+    name: definition
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    domain_of:
+    - DefinitionValidationResult
+    range: string
+  definition_source:
+    name: definition_source
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    domain_of:
+    - DefinitionValidationResult
+    range: string
+  proposed_new_definition:
+    name: proposed_new_definition
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    domain_of:
+    - DefinitionValidationResult
+    range: string
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: DefinitionValidationResult
+from_schema: https://w3id.org/linkml/validation_results
+is_a: ValidationResult
+attributes:
+  definition:
+    name: definition
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    alias: definition
+    owner: DefinitionValidationResult
+    domain_of:
+    - DefinitionValidationResult
+    range: string
+  definition_source:
+    name: definition_source
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    alias: definition_source
+    owner: DefinitionValidationResult
+    domain_of:
+    - DefinitionValidationResult
+    range: string
+  proposed_new_definition:
+    name: proposed_new_definition
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    alias: proposed_new_definition
+    owner: DefinitionValidationResult
+    domain_of:
+    - DefinitionValidationResult
+    range: string
+  type:
+    name: type
+    description: The type of validation result. SHACL validation vocabulary is recommended
+      for checks against a datamodel. For principle checks use the corresponding rule
+      or principle, e.g. GO RULE ID, OBO Principle ID
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    slot_uri: sh:sourceConstraintComponent
+    alias: type
+    owner: DefinitionValidationResult
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
+    range: ConstraintComponent
+    required: true
+  severity:
+    name: severity
+    description: the severity of the issue
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    slot_uri: sh:resultSeverity
+    alias: severity
+    owner: DefinitionValidationResult
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
+    range: severity_options
+  subject:
+    name: subject
+    description: The instance which the result is about
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    slot_uri: sh:focusNode
+    alias: subject
+    owner: DefinitionValidationResult
+    domain_of:
+    - ValidationResult
+    range: Node
+    required: true
+  instantiates:
+    name: instantiates
+    description: The type of the subject
+    from_schema: https://w3id.org/linkml/validation_results
+    exact_mappings:
+    - sh:sourceShape
+    rank: 1000
+    alias: instantiates
+    owner: DefinitionValidationResult
+    domain_of:
+    - ValidationResult
+    range: Node
+  predicate:
+    name: predicate
+    description: The predicate or property of the subject which the result is about
+    from_schema: https://w3id.org/linkml/validation_results
+    related_mappings:
+    - sh:resultPath
+    rank: 1000
+    alias: predicate
+    owner: DefinitionValidationResult
+    domain_of:
+    - ValidationResult
+    range: Node
+  object:
+    name: object
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    slot_uri: sh:value
+    alias: object
+    owner: DefinitionValidationResult
+    domain_of:
+    - ValidationResult
+    range: Node
+  object_str:
+    name: object_str
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    alias: object_str
+    owner: DefinitionValidationResult
+    domain_of:
+    - ValidationResult
+    range: string
+  source:
+    name: source
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    alias: source
+    owner: DefinitionValidationResult
+    domain_of:
+    - ValidationResult
+    range: string
+  info:
+    name: info
+    description: additional information about the issue
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    slot_uri: sh:resultMessage
+    alias: info
+    owner: DefinitionValidationResult
+    domain_of:
+    - ValidationResult
+    - MappingValidationResult
+    - RepairOperation
+    range: string
+
+</pre></div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

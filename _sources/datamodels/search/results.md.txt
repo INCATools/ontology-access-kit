@@ -1,3 +1,5 @@
+
+
 # Slot: results
 
 URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
@@ -9,11 +11,12 @@ URI: [ontosearch:results](https://w3id.org/oak/search-datamodel/results)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResultSet](SearchResultSet.md) |  |  no  |
+| [SearchResultSet](SearchResultSet.md) |  |  no  |
 
 
 

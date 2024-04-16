@@ -1,3 +1,5 @@
+
+
 # Slot: subject_start
 
 URI: [ann:subject_start](https://w3id.org/linkml/text_annotator/subject_start)
@@ -9,12 +11,13 @@ URI: [ann:subject_start](https://w3id.org/linkml/text_annotator/subject_start)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[HasSpan](HasSpan.md) |  |  no  |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [HasSpan](HasSpan.md) |  |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

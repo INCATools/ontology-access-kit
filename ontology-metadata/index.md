@@ -2,7 +2,7 @@
 
 Schema for ontology metadata
 
-URI: http://purl.obolibrary.org/obo/omo/schema
+URI: https://w3id.org/oak/ontology-metadata
 
 Name: Ontology-Metadata
 

@@ -1,6 +1,8 @@
+
+
 # Slot: has_rank
 
-URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/omo/schema/has_rank)
+URI: [omoschema:has_rank](https://w3id.org/oak/ontology-metadata/has_rank)
 
 
 
@@ -9,11 +11,12 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/omo/schema/has_rank)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Class](Class.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
 
 
 
@@ -40,7 +43,7 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/omo/schema/has_rank)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -50,7 +53,7 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/omo/schema/has_rank)
 <details>
 ```yaml
 name: has_rank
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - obo:ncbitaxon/subsets/taxslim#has_rank
 rank: 1000

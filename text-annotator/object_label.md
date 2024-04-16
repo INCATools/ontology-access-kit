@@ -1,3 +1,5 @@
+
+
 # Slot: object_label
 
 URI: [sssom:object_label](http://w3id.org/sssom/object_label)
@@ -9,11 +11,12 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

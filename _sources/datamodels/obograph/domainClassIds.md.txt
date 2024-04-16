@@ -1,3 +1,5 @@
+
+
 # Slot: domainClassIds
 
 URI: [obographs:domainClassIds](https://github.com/geneontology/obographs/domainClassIds)
@@ -9,11 +11,12 @@ URI: [obographs:domainClassIds](https://github.com/geneontology/obographs/domain
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
+| [DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
 
 
 

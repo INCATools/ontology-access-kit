@@ -1,3 +1,5 @@
+
+
 # Slot: snippet
 
 
@@ -14,11 +16,12 @@ URI: [ontosearch:snippet](https://w3id.org/oak/search-datamodel/snippet)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResult](SearchResult.md) | An individual search result |  no  |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
 
 
 

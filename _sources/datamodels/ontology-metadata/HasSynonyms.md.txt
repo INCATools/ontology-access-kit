@@ -1,3 +1,5 @@
+
+
 # Class: HasSynonyms
 
 
@@ -7,7 +9,7 @@ _a mixin for a class whose members can have synonyms_
 
 
 
-URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynonyms)
+URI: [omoschema:HasSynonyms](https://w3id.org/oak/ontology-metadata/HasSynonyms)
 
 
 
@@ -97,7 +99,7 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynony
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -128,7 +130,7 @@ comments:
 - the GO-style synonym model has four distinct scopes, with additional types as annotation
   axioms
 - the OBI synonym model is to use alternative_term, or potentially a subproperty
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -155,13 +157,13 @@ comments:
 - the GO-style synonym model has four distinct scopes, with additional types as annotation
   axioms
 - the OBI synonym model is to use alternative_term, or potentially a subproperty
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
   has_exact_synonym:
     name: has_exact_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasExactSynonym
@@ -176,7 +178,7 @@ attributes:
     range: label type
   has_narrow_synonym:
     name: has_narrow_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasNarrowSynonym
@@ -188,7 +190,7 @@ attributes:
     range: label type
   has_broad_synonym:
     name: has_broad_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasBroadSynonym
@@ -200,7 +202,7 @@ attributes:
     range: label type
   has_related_synonym:
     name: has_related_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasRelatedSynonym
     multivalued: true
@@ -213,7 +215,7 @@ attributes:
     name: alternative_term
     in_subset:
     - allotrope permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:altLabel
     rank: 1000
@@ -226,7 +228,7 @@ attributes:
     range: string
   ISA_alternative_term:
     name: ISA_alternative_term
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: OBI:0001847
@@ -238,7 +240,7 @@ attributes:
     range: string
   IEDB_alternative_term:
     name: IEDB_alternative_term
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: OBI:9991118
@@ -252,7 +254,7 @@ attributes:
     name: editor_preferred_term
     in_subset:
     - obi permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: IAO:0000111
@@ -266,7 +268,7 @@ attributes:
     name: OBO_foundry_unique_label
     todos:
     - add uniquekey
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: IAO:0000589

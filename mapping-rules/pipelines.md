@@ -1,3 +1,5 @@
+
+
 # Slot: pipelines
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:pipelines](https://w3id.org/oak/mapping-rules-datamodel/pipel
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
+| [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
 
 
 

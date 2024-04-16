@@ -1,3 +1,5 @@
+
+
 # Slot: object_aliases
 
 URI: [ann:object_aliases](https://w3id.org/linkml/text_annotator/object_aliases)
@@ -9,11 +11,12 @@ URI: [ann:object_aliases](https://w3id.org/linkml/text_annotator/object_aliases)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

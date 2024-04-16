@@ -1,3 +1,5 @@
+
+
 # Slot: individual_statistic_group
 
 URI: [summary_statistics:individual_statistic_group](https://w3id.org/oaklib/summary_statistics.individual_statistic_group)
@@ -5,6 +7,7 @@ URI: [summary_statistics:individual_statistic_group](https://w3id.org/oaklib/sum
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

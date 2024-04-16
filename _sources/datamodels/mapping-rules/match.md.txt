@@ -1,3 +1,5 @@
+
+
 # Slot: match
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:match](https://w3id.org/oak/mapping-rules-datamodel/match)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
 
 
 

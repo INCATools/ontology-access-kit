@@ -1,3 +1,5 @@
+
+
 # Slot: object_label
 
 
@@ -14,11 +16,12 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResult](SearchResult.md) | An individual search result |  no  |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
 
 
 

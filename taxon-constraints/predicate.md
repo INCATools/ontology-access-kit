@@ -1,3 +1,5 @@
+
+
 # Slot: predicate
 
 
@@ -14,11 +16,12 @@ URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

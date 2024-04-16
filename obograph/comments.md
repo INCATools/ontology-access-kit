@@ -1,3 +1,5 @@
+
+
 # Slot: comments
 
 
@@ -14,11 +16,12 @@ URI: [rdfs:comment](http://www.w3.org/2000/01/rdf-schema#comment)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
 
 
 

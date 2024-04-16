@@ -1,3 +1,5 @@
+
+
 # Slot: oboInOwl_id
 
 URI: [oio:id](http://www.geneontology.org/formats/oboInOwl#id)
@@ -5,6 +7,7 @@ URI: [oio:id](http://www.geneontology.org/formats/oboInOwl#id)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -31,7 +34,7 @@ URI: [oio:id](http://www.geneontology.org/formats/oboInOwl#id)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -41,7 +44,7 @@ URI: [oio:id](http://www.geneontology.org/formats/oboInOwl#id)
 <details>
 ```yaml
 name: oboInOwl_id
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:id
 alias: oboInOwl_id

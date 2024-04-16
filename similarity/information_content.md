@@ -1,3 +1,5 @@
+
+
 # Slot: information_content
 
 
@@ -17,6 +19,7 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
         * [subject_information_content](subject_information_content.md)
         * [object_information_content](object_information_content.md)
         * [ancestor_information_content](ancestor_information_content.md)
+
 
 
 

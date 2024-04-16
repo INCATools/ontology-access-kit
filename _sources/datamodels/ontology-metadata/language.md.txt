@@ -1,3 +1,5 @@
+
+
 # Slot: language
 
 URI: [dcterms:language](http://purl.org/dc/terms/language)
@@ -9,6 +11,7 @@ URI: [dcterms:language](http://purl.org/dc/terms/language)
 
 * [informative_property](informative_property.md)
     * **language**
+
 
 
 
@@ -36,7 +39,7 @@ URI: [dcterms:language](http://purl.org/dc/terms/language)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -46,7 +49,7 @@ URI: [dcterms:language](http://purl.org/dc/terms/language)
 <details>
 ```yaml
 name: language
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - dce:language
 rank: 1000

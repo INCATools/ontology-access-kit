@@ -1,3 +1,5 @@
+
+
 # Slot: core_property
 
 
@@ -5,7 +7,7 @@ _abstract grouping of core properties_
 
 
 
-URI: [omoschema:core_property](http://purl.obolibrary.org/obo/omo/schema/core_property)
+URI: [omoschema:core_property](https://w3id.org/oak/ontology-metadata/core_property)
 
 
 
@@ -16,6 +18,7 @@ URI: [omoschema:core_property](http://purl.obolibrary.org/obo/omo/schema/core_pr
     * [id](id.md)
     * [label](label.md)
     * [definition](definition.md)
+
 
 
 
@@ -43,7 +46,7 @@ URI: [omoschema:core_property](http://purl.obolibrary.org/obo/omo/schema/core_pr
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -54,7 +57,7 @@ URI: [omoschema:core_property](http://purl.obolibrary.org/obo/omo/schema/core_pr
 ```yaml
 name: core_property
 description: abstract grouping of core properties
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: core_property

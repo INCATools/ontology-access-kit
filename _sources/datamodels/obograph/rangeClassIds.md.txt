@@ -1,3 +1,5 @@
+
+
 # Slot: rangeClassIds
 
 URI: [obographs:rangeClassIds](https://github.com/geneontology/obographs/rangeClassIds)
@@ -9,11 +11,12 @@ URI: [obographs:rangeClassIds](https://github.com/geneontology/obographs/rangeCl
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
+| [DomainRangeAxiom](DomainRangeAxiom.md) | This groups potentially multiple axioms that constrain the usage of a propert... |  no  |
 
 
 

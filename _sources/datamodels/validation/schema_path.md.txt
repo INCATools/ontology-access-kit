@@ -1,3 +1,5 @@
+
+
 # Slot: schema_path
 
 
@@ -14,11 +16,12 @@ URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
+| [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
 
 
 

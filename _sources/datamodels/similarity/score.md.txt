@@ -1,3 +1,5 @@
+
+
 # Slot: score
 
 
@@ -28,11 +30,12 @@ URI: [sim:score](https://w3id.org/linkml/similarity/score)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[BestMatch](BestMatch.md) |  |  no  |
+| [BestMatch](BestMatch.md) |  |  no  |
 
 
 

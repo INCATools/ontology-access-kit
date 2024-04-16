@@ -1,3 +1,5 @@
+
+
 # Slot: contributor_id
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:contributor_id](https://w3id.org/oaklib/summary_statist
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
+| [ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
 
 
 

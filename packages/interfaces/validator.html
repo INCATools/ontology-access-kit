@@ -59,7 +59,8 @@
 <li class="toctree-l3"><a class="reference internal" href="search.html">Search Interface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Validator Interface</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#oaklib.interfaces.validator_interface.ValidatorInterface"><code class="docutils literal notranslate"><span class="pre">ValidatorInterface</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#schema-validation">Schema Validation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#llm-based-validation">LLM-based validation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
@@ -118,23 +119,42 @@
              
   <section id="validator-interface">
 <span id="id1"></span><h1>Validator Interface<a class="headerlink" href="#validator-interface" title="Link to this heading"></a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Currently the main validator methods are only implemented for <span class="xref std std-ref">SqlDatabaseImplementation</span></p>
-</div>
-<p>The validate method is configured using a <em>metadata schema</em>. The default one used is:</p>
+<p>The Validator Interface provides access to a number of different validation operations over ontologies.</p>
+<p>The notion of validation in OAK is intentionally very flexible, and may encompass:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Schema</em> validation, for example, checking definitions are strings and have 0..1 cardinality.</p></li>
+<li><p><em>Logical</em> validation, using a reasoner.</p></li>
+<li><p><em>Lexical</em> validation, for example, ensuring there are no spelling errors</p></li>
+<li><p><em>Stylistic</em> validation, against a style guide</p></li>
+<li><p><em>Content</em> validation, checking the content of the ontology against domain knowledge or other ontologies.</p></li>
+</ul>
+</div></blockquote>
+<p>Different adapters may implement different portions of this.</p>
+<section id="schema-validation">
+<h2>Schema Validation<a class="headerlink" href="#schema-validation" title="Link to this heading"></a></h2>
+<p>The core validate method is configured using a <em>metadata schema</em>. The default one used is:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/ontology-metadata/index.html">Ontology Metadata</a></p></li>
+<li><p><a class="reference external" href="https://w3id.org/oak/ontology-metadata">Ontology Metadata</a></p></li>
 </ul>
 <p>This is specified using LinkML which provides an expressive way to state constraints on metadata elements,
 such as <span class="xref std std-ref">AnnotationProperty</span> assertions in ontologies. For example, this schema states that definition
 is <em>recommended</em> (not required), and that it is single-valued.</p>
 <p>Different projects may wish to configure this - it is possible to pass in a different or modified schema</p>
 <p>For more details see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology">this howto guide</a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently only implemented for :ref`sql_implementation`</p>
+</div>
+</section>
+<section id="llm-based-validation">
+<h2>LLM-based validation<a class="headerlink" href="#llm-based-validation" title="Link to this heading"></a></h2>
+<p>See <span class="xref std std-ref">use_llms</span></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.validator_interface.</span></span><span class="sig-name descname"><span class="pre">ValidatorInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface" title="Link to this definition"></a></dt>
-<dd><p>Basic ontology QC</p>
+<dd><p>Multi-faceted ontology validator.</p>
+<p>This interface defines a number of different validation processes</p>
 <p>The overall goal is to support the following</p>
 <ul class="simple">
 <li><p>validating against OntologyMetadata schema</p></li>
@@ -156,7 +176,7 @@ this implements a generic property check using the OntologyMetadata datamodel</p
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">
 <span class="sig-name descname"><span class="pre">term_curies_without_definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.term_curies_without_definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions" title="Link to this definition"></a></dt>
-<dd><p>TODO: decide whether to write highly specific methods or use a generic validate method</p>
+<dd><p>Yields all entities that do not have a definition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p>
@@ -185,9 +205,71 @@ this implements a generic property check using the OntologyMetadata datamodel</p
 <dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.validate_mappings">
 <span class="sig-name descname"><span class="pre">validate_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ValidationConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">MappingValidationResult</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.validate_mappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.validate_mappings" title="Link to this definition"></a></dt>
 <dd><p>Validate mappings for a set of entities.</p>
+<p>Different adapters may implement different aspects of mapping validation.</p>
+<p>It includes:</p>
+<ul class="simple">
+<li><p>checking cardinality of mappings (e.g. skos:exactMatch should be 1:1)</p></li>
+<li><p>looking up mapped entities to check they are not obsolete</p></li>
+<li><p>using AI to validate the content of mappings</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>entities</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entities</strong> – entities to validate mappings for (None=all)</p></li>
+<li><p><strong>adapters</strong> – adapter mapping to look up external entities</p></li>
+<li><p><strong>configuration</strong> – validation configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.validate_synonyms">
+<span class="sig-name descname"><span class="pre">validate_synonyms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ValidationConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synonymizer_rules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RuleSet</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">ValidationResult</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.validate_synonyms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.validate_synonyms" title="Link to this definition"></a></dt>
+<dd><p>Validate synonyms for a set of entities.</p>
+<p>Different adapters may implement different aspects of synonym validation.</p>
+<p>It includes:</p>
+<ul class="simple">
+<li><p>checking for duplicates</p></li>
+<li><p>looking up mapped entities to check they are not obsolete</p></li>
+<li><p>ensuring that a referenced synonym is still supported</p></li>
+<li><p>using AI to validate the content of mappings</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entities</strong> – entities to validate mappings for (None=all)</p></li>
+<li><p><strong>adapters</strong> – adapter mapping to look up external entities</p></li>
+<li><p><strong>configuration</strong> – validation configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.validate_definitions">
+<span class="sig-name descname"><span class="pre">validate_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ValidationConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_text_annotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">ValidationResult</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.validate_definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.validate_definitions" title="Link to this definition"></a></dt>
+<dd><p>Validate text definitions for a set of entities.</p>
+<p>Different adapters may implement different aspects of mapping validation.</p>
+<p>It includes:</p>
+<ul class="simple">
+<li><p>testing definitions are present</p></li>
+<li><p>validating the text definition against the SRS rubric</p></li>
+<li><p>using AI to align the definition against any references</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entities</strong> – </p></li>
+<li><p><strong>configuration</strong> – </p></li>
+<li><p><strong>kwargs</strong> – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
@@ -239,6 +321,24 @@ this implements a generic property check using the OntologyMetadata datamodel</p
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.lookup_references">
+<span class="sig-name descname"><span class="pre">lookup_references</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">references</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">BasicOntologyInterface</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.lookup_references"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.lookup_references" title="Link to this definition"></a></dt>
+<dd><p>Lookup references in external ontologies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>references</strong> – list of CURIEs to look up</p></li>
+<li><p><strong>adapters</strong> – adapter mapping to look up external entities</p></li>
+<li><p><strong>kwargs</strong> – additional arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mapping between CURIEs and pub objects</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.autosave">
 <span class="sig-name descname"><span class="pre">autosave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.autosave" title="Link to this definition"></a></dt>
@@ -254,6 +354,7 @@ whether results should be auto-committed after each operation</p>
 
 </dd></dl>
 
+</section>
 </section>
 
 

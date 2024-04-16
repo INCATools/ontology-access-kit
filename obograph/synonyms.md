@@ -1,3 +1,5 @@
+
+
 # Slot: synonyms
 
 
@@ -14,11 +16,12 @@ URI: [obographs:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
 
 
 

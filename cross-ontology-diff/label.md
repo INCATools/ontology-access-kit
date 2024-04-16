@@ -1,3 +1,5 @@
+
+
 # Slot: label
 
 
@@ -10,6 +12,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

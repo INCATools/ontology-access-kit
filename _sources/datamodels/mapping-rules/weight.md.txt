@@ -1,3 +1,5 @@
+
+
 # Slot: weight
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Postcondition](Postcondition.md) |  |  no  |
+| [Postcondition](Postcondition.md) |  |  no  |
 
 
 

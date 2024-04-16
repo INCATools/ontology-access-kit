@@ -1,3 +1,5 @@
+
+
 # Slot: transformations
 
 URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transformations)
@@ -9,11 +11,12 @@ URI: [ontolexindex:transformations](https://w3id.org/oak/lexical-index/transform
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |  no  |
+| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: additionalType
 
 
@@ -14,11 +16,12 @@ URI: [schema:additionalType](http://schema.org/additionalType)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
 
 
 

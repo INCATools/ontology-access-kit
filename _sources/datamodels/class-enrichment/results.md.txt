@@ -1,3 +1,5 @@
+
+
 # Slot: results
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:results](https://w3id.org/oak/class-enrichment/results)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResultSet](ClassEnrichmentResultSet.md) | A collection of enrichemt results |  no  |
+| [ClassEnrichmentResultSet](ClassEnrichmentResultSet.md) | A collection of enrichemt results |  no  |
 
 
 

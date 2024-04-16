@@ -1,3 +1,5 @@
+
+
 # Slot: search_terms
 
 
@@ -14,11 +16,12 @@ URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_term
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
 
 
 

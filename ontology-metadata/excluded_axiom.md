@@ -1,6 +1,8 @@
+
+
 # Slot: excluded_axiom
 
-URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/excluded_axiom)
+URI: [omoschema:excluded_axiom](https://w3id.org/oak/ontology-metadata/excluded_axiom)
 
 
 
@@ -12,6 +14,7 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/exclud
     * [excluded_subClassOf](excluded_subClassOf.md)
     * [excluded_synonym](excluded_synonym.md)
     * [should_conform_to](should_conform_to.md)
+
 
 
 
@@ -39,7 +42,7 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/exclud
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -49,7 +52,7 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/exclud
 <details>
 ```yaml
 name: excluded_axiom
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: excluded_axiom

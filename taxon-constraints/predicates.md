@@ -1,3 +1,5 @@
+
+
 # Slot: predicates
 
 
@@ -14,11 +16,12 @@ URI: [tc:predicates](https://w3id.org/linkml/taxon_constraints/predicates)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

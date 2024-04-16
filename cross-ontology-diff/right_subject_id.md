@@ -1,3 +1,5 @@
+
+
 # Slot: right_subject_id
 
 
@@ -18,11 +20,12 @@ URI: [xodiff:right_subject_id](https://w3id.org/oak/cross-ontology-diff/right_su
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+| [RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: descendant_of_more_informative_result
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:descendant_of_more_informative_result](https://w3id.org/oak/cla
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+| [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: direction
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:direction](https://w3id.org/oak/class-enrichment/direction)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+| [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
 
 
 

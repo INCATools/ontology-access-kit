@@ -129,6 +129,26 @@
 <td><p>omoschema:DCC.S11</p></td>
 <td><p>Text definitions and logical forms should match</p></td>
 </tr>
+<tr class="row-even"><td><p>MatchTextAndLogicalGenusNotInText</p></td>
+<td><p>omoschema:DCC.S11.1</p></td>
+<td><p>The genus in the logical definition should be in the text definition</p></td>
+</tr>
+<tr class="row-odd"><td><p>MatchTextAndLogicalDifferentiaNotInText</p></td>
+<td><p>omoschema:DCC.S11.2</p></td>
+<td><p>The differentia in the logical definition should be in the text definition</p></td>
+</tr>
+<tr class="row-even"><td><p>MatchTextAndReference</p></td>
+<td><p>omoschema:DCC.S20</p></td>
+<td><p>Text definitions and cited references and provenance for the text definition …</p></td>
+</tr>
+<tr class="row-odd"><td><p>ReferenceNotFound</p></td>
+<td><p>omoschema:DCC.S20.1</p></td>
+<td><p>The citation for the reference cannot be found</p></td>
+</tr>
+<tr class="row-even"><td><p>ReferenceIsRetracted</p></td>
+<td><p>omoschema:DCC.S20.2</p></td>
+<td><p>The citation for the reference is retracted</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -143,7 +163,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
+<li><p>from schema: https://w3id.org/oak/ontology-metadata</p></li>
 </ul>
 </section>
 </section>
@@ -153,7 +173,7 @@
 ```yaml
 name: DefinitionConstraintComponent
 description: An extension of SHACL constraint component for constraining definitions
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 source: https://philpapers.org/archive/SEPGFW.pdf
 see_also:
 - https://github.com/INCATools/ontology-access-kit/issues/305
@@ -198,6 +218,32 @@ permissible_values:
     description: Text definitions and logical forms should match
     meaning: omoschema:DCC.S11
     is_a: DefinitionConstraint
+  MatchTextAndLogicalGenusNotInText:
+    text: MatchTextAndLogicalGenusNotInText
+    description: The genus in the logical definition should be in the text definition
+    meaning: omoschema:DCC.S11.1
+    is_a: DefinitionConstraint
+  MatchTextAndLogicalDifferentiaNotInText:
+    text: MatchTextAndLogicalDifferentiaNotInText
+    description: The differentia in the logical definition should be in the text definition
+    meaning: omoschema:DCC.S11.2
+    is_a: DefinitionConstraint
+  MatchTextAndReference:
+    text: MatchTextAndReference
+    description: Text definitions and cited references and provenance for the text
+      definition should match
+    meaning: omoschema:DCC.S20
+    is_a: DefinitionConstraint
+  ReferenceNotFound:
+    text: ReferenceNotFound
+    description: The citation for the reference cannot be found
+    meaning: omoschema:DCC.S20.1
+    is_a: MatchTextAndReference
+  ReferenceIsRetracted:
+    text: ReferenceIsRetracted
+    description: The citation for the reference is retracted
+    meaning: omoschema:DCC.S20.2
+    is_a: MatchTextAndReference
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

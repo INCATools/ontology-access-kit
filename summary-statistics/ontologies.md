@@ -1,3 +1,5 @@
+
+
 # Slot: ontologies
 
 
@@ -14,13 +16,14 @@ URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
-[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 
 

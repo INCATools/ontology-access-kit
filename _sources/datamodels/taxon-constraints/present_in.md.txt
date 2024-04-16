@@ -1,3 +1,5 @@
+
+
 # Slot: present_in
 
 
@@ -16,11 +18,12 @@ URI: [RO:0002175](http://purl.obolibrary.org/obo/RO_0002175)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
+| [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
 
 
 

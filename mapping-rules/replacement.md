@@ -1,3 +1,5 @@
+
+
 # Slot: replacement
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/rep
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
 
 
 

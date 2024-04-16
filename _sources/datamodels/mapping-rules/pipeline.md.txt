@@ -1,3 +1,5 @@
+
+
 # Slot: pipeline
 
 URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeline)
@@ -9,11 +11,12 @@ URI: [mappingrules:pipeline](https://w3id.org/oak/mapping-rules-datamodel/pipeli
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
 
 
 

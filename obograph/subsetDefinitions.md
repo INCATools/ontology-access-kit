@@ -1,3 +1,5 @@
+
+
 # Slot: subsetDefinitions
 
 URI: [obographs:subsetDefinitions](https://github.com/geneontology/obographs/subsetDefinitions)
@@ -9,11 +11,12 @@ URI: [obographs:subsetDefinitions](https://github.com/geneontology/obographs/sub
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
 
 
 

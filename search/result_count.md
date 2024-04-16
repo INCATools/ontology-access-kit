@@ -1,3 +1,5 @@
+
+
 # Slot: result_count
 
 URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_count)
@@ -9,11 +11,12 @@ URI: [ontosearch:result_count](https://w3id.org/oak/search-datamodel/result_coun
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResultSet](SearchResultSet.md) |  |  no  |
+| [SearchResultSet](SearchResultSet.md) |  |  no  |
 
 
 

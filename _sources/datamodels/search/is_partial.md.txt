@@ -1,3 +1,5 @@
+
+
 # Slot: is_partial
 
 
@@ -14,11 +16,12 @@ URI: [ontosearch:is_partial](https://w3id.org/oak/search-datamodel/is_partial)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
 
 
 

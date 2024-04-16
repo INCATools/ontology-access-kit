@@ -1,3 +1,5 @@
+
+
 # Slot: subject_mapping_cardinality
 
 
@@ -14,11 +16,12 @@ URI: [xodiff:subject_mapping_cardinality](https://w3id.org/oak/cross-ontology-di
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+| [RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
 
 
 

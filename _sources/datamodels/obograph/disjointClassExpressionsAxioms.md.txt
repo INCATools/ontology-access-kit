@@ -1,3 +1,5 @@
+
+
 # Slot: disjointClassExpressionsAxioms
 
 
@@ -10,6 +12,7 @@ URI: [obographs:disjointClassExpressionsAxioms](https://github.com/geneontology/
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

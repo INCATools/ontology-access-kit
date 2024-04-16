@@ -1,3 +1,5 @@
+
+
 # Slot: namespace
 
 
@@ -14,11 +16,12 @@ URI: [sh:namespace](https://w3id.org/shacl/namespace)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PrefixDeclaration](PrefixDeclaration.md) | A mapping between an individual prefix (e |  no  |
+| [PrefixDeclaration](PrefixDeclaration.md) | A mapping between an individual prefix (e |  no  |
 
 
 

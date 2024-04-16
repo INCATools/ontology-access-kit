@@ -1,3 +1,5 @@
+
+
 # Slot: confidence
 
 URI: [sssom:confidence](http://w3id.org/sssom/confidence)
@@ -9,11 +11,12 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

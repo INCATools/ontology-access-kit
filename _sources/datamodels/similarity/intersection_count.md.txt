@@ -1,3 +1,5 @@
+
+
 # Slot: intersection_count
 
 URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_count)
@@ -9,6 +11,7 @@ URI: [sim:intersection_count](https://w3id.org/linkml/similarity/intersection_co
 
 * [score](score.md)
     * **intersection_count**
+
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: sub_groups
 
 
@@ -14,11 +16,12 @@ URI: [ontoassoc:sub_groups](https://w3id.org/oak/association/sub_groups)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RollupGroup](RollupGroup.md) |  |  no  |
+| [RollupGroup](RollupGroup.md) |  |  no  |
 
 
 

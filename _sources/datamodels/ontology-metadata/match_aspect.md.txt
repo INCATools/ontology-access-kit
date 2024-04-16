@@ -1,10 +1,13 @@
+
+
 # Slot: match_aspect
 
-URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/omo/schema/match_aspect)
+URI: [omoschema:match_aspect](https://w3id.org/oak/ontology-metadata/match_aspect)
 
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -43,7 +46,7 @@ URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/omo/schema/match_as
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -53,7 +56,7 @@ URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/omo/schema/match_as
 <details>
 ```yaml
 name: match_aspect
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 mixin: true
 alias: match_aspect

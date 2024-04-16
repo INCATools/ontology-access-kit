@@ -1,3 +1,5 @@
+
+
 # Slot: description
 
 
@@ -14,11 +16,12 @@ URI: [dcterms:description](http://purl.org/dc/terms/description)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Ontology](Ontology.md) | An ontology |  no  |
+| [Ontology](Ontology.md) | An ontology |  no  |
 
 
 

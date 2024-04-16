@@ -1,3 +1,5 @@
+
+
 # Slot: p_value_adjusted
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:p_value_adjusted](https://w3id.org/oak/class-enrichment/p_value
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+| [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
 
 
 

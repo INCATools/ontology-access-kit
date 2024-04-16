@@ -1,3 +1,5 @@
+
+
 # Slot: idType
 
 
@@ -14,11 +16,12 @@ URI: [itemList:idType](https://w3id.org/linkml/item-list/idType)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ListItem](ListItem.md) | an item in an item list |  no  |
+| [ListItem](ListItem.md) | an item in an item list |  no  |
 
 
 

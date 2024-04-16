@@ -1,3 +1,5 @@
+
+
 # Slot: ancestor_id
 
 
@@ -14,11 +16,12 @@ URI: [sim:ancestor_id](https://w3id.org/linkml/similarity/ancestor_id)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
 
 
 

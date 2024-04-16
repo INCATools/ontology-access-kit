@@ -1,3 +1,5 @@
+
+
 # Slot: wasGeneratedBy
 
 
@@ -14,11 +16,12 @@ URI: [prov:wasGeneratedBy](http://www.w3.org/ns/prov#wasGeneratedBy)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
 
 
 

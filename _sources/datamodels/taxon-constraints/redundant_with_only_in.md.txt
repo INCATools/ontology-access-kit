@@ -1,3 +1,5 @@
+
+
 # Slot: redundant_with_only_in
 
 
@@ -14,11 +16,12 @@ URI: [tc:redundant_with_only_in](https://w3id.org/linkml/taxon_constraints/redun
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

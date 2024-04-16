@@ -1,3 +1,5 @@
+
+
 # Class: Any
 
 
@@ -74,7 +76,7 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -100,7 +102,7 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 <details>
 ```yaml
 name: Any
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 class_uri: linkml:Any
 
 ```
@@ -111,7 +113,7 @@ class_uri: linkml:Any
 <details>
 ```yaml
 name: Any
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 class_uri: linkml:Any
 
 ```

@@ -1,3 +1,5 @@
+
+
 # Slot: subject
 
 
@@ -14,11 +16,12 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: input
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:input](https://w3id.org/oak/mapping-rules-datamodel/input)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Test](Test.md) |  |  no  |
+| [Test](Test.md) |  |  no  |
 
 
 

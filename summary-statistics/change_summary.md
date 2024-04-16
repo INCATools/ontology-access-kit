@@ -1,3 +1,5 @@
+
+
 # Slot: change_summary
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:change_summary](https://w3id.org/oaklib/summary_statist
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

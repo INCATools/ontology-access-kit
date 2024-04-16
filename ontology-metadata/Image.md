@@ -1,3 +1,5 @@
+
+
 # Class: Image
 
 
@@ -262,7 +264,7 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -288,7 +290,7 @@ URI: [IAO:0000101](http://purl.obolibrary.org/obo/IAO_0000101)
 <details>
 ```yaml
 name: Image
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: NamedIndividual
 class_uri: IAO:0000101
 
@@ -300,12 +302,12 @@ class_uri: IAO:0000101
 <details>
 ```yaml
 name: Image
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: NamedIndividual
 attributes:
   has_exact_synonym:
     name: has_exact_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasExactSynonym
@@ -320,7 +322,7 @@ attributes:
     range: label type
   has_narrow_synonym:
     name: has_narrow_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasNarrowSynonym
@@ -332,7 +334,7 @@ attributes:
     range: label type
   has_broad_synonym:
     name: has_broad_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasBroadSynonym
@@ -344,7 +346,7 @@ attributes:
     range: label type
   has_related_synonym:
     name: has_related_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasRelatedSynonym
     multivalued: true
@@ -357,7 +359,7 @@ attributes:
     name: alternative_term
     in_subset:
     - allotrope permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:altLabel
     rank: 1000
@@ -370,7 +372,7 @@ attributes:
     range: string
   ISA_alternative_term:
     name: ISA_alternative_term
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: OBI:0001847
@@ -382,7 +384,7 @@ attributes:
     range: string
   IEDB_alternative_term:
     name: IEDB_alternative_term
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: OBI:9991118
@@ -396,7 +398,7 @@ attributes:
     name: editor_preferred_term
     in_subset:
     - obi permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: IAO:0000111
@@ -410,7 +412,7 @@ attributes:
     name: OBO_foundry_unique_label
     todos:
     - add uniquekey
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: alternative_term
     slot_uri: IAO:0000589
@@ -426,7 +428,7 @@ attributes:
     - allotrope permitted profile
     - go permitted profile
     - obi permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     aliases:
     - is obsolete
     rank: 1000
@@ -444,7 +446,7 @@ attributes:
     - restrict range
     comments:
     - '{''RULE'': ''subject must be deprecated''}'
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
@@ -462,7 +464,7 @@ attributes:
     - go permitted profile
     - obi permitted profile
     - allotrope permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - dcterms:isReplacedBy
     rank: 1000
@@ -480,7 +482,7 @@ attributes:
     - '{''RULE'': ''subject must be deprecated''}'
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
@@ -500,7 +502,7 @@ attributes:
     - '{''RULE'': ''object must NOT be deprecated''}'
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     see_also:
     - https://github.com/owlcs/owlapi/issues/317
     rank: 1000
@@ -515,7 +517,7 @@ attributes:
     range: uriorcurie
   excluded_from_QC_check:
     name: excluded_from_QC_check
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     alias: excluded_from_QC_check
@@ -525,7 +527,7 @@ attributes:
     range: Thing
   excluded_subClassOf:
     name: excluded_subClassOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     multivalued: true
@@ -536,7 +538,7 @@ attributes:
     range: Class
   excluded_synonym:
     name: excluded_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:hiddenSynonym
     rank: 1000
@@ -549,7 +551,7 @@ attributes:
     range: string
   should_conform_to:
     name: should_conform_to
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     alias: should_conform_to
@@ -560,7 +562,7 @@ attributes:
   created_by:
     name: created_by
     deprecated: proposed obsoleted by OMO group 2022-04-12
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     deprecated_element_has_exact_replacement: creator
     rank: 1000
     is_a: provenance_property
@@ -576,7 +578,7 @@ attributes:
     deprecated: proposed obsoleted by OMO group 2022-04-12
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     deprecated_element_has_exact_replacement: created
     rank: 1000
     is_a: provenance_property
@@ -589,7 +591,7 @@ attributes:
     range: string
   contributor:
     name: contributor
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - prov:wasAttributedTo
     rank: 1000
@@ -607,7 +609,7 @@ attributes:
       partial_match: false
   creator:
     name: creator
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - prov:wasAttributedTo
     rank: 1000
@@ -627,7 +629,7 @@ attributes:
   created:
     name: created
     description: when the term came into being
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - pav:createdOn
     rank: 1000
@@ -643,7 +645,7 @@ attributes:
   date:
     name: date
     description: when the term was updated
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - pav:authoredOn
     rank: 1000
@@ -657,7 +659,7 @@ attributes:
     range: string
   isDefinedBy:
     name: isDefinedBy
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     close_mappings:
     - pav:importedFrom
     - dcterms:publisher
@@ -670,7 +672,7 @@ attributes:
     range: Ontology
   editor_note:
     name: editor_note
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000116
@@ -682,7 +684,7 @@ attributes:
     range: narrative text
   term_editor:
     name: term_editor
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000117
@@ -698,7 +700,7 @@ attributes:
     - restrict range
     in_subset:
     - obi permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000119
@@ -710,7 +712,7 @@ attributes:
     range: string
   ontology_term_requester:
     name: ontology_term_requester
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000234
@@ -721,7 +723,7 @@ attributes:
     range: string
   imported_from:
     name: imported_from
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000412
@@ -735,7 +737,7 @@ attributes:
     name: term_tracker_item
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000233
@@ -747,7 +749,7 @@ attributes:
     range: string
   broadMatch:
     name: broadMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:broadMatch
@@ -759,7 +761,7 @@ attributes:
     range: Thing
   closeMatch:
     name: closeMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:closeMatch
@@ -771,7 +773,7 @@ attributes:
     range: Thing
   exactMatch:
     name: exactMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:exactMatch
@@ -783,7 +785,7 @@ attributes:
     range: Thing
   narrowMatch:
     name: narrowMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:narrowMatch
@@ -795,7 +797,7 @@ attributes:
     range: Thing
   database_cross_reference:
     name: database_cross_reference
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: oio:hasDbXref
@@ -808,7 +810,7 @@ attributes:
     range: CURIELiteral
   has_obo_namespace:
     name: has_obo_namespace
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasOBONamespace
     multivalued: true
@@ -819,7 +821,7 @@ attributes:
     range: string
   category:
     name: category
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: biolink:category
@@ -831,7 +833,7 @@ attributes:
   in_subset:
     name: in_subset
     description: Maps an ontology element to a subset it belongs to
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:inSubset
     multivalued: true
@@ -842,7 +844,7 @@ attributes:
     range: Subset
   conformsTo:
     name: conformsTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: dcterms:conformsTo
@@ -856,7 +858,7 @@ attributes:
     name: comment
     comments:
     - in obo format, a term cannot have more than one comment
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
@@ -872,7 +874,7 @@ attributes:
     name: seeAlso
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: rdfs:seeAlso
     multivalued: true
@@ -884,7 +886,7 @@ attributes:
     range: Thing
   image:
     name: image
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: sdo:image
@@ -897,7 +899,7 @@ attributes:
     name: example_of_usage
     in_subset:
     - allotrope permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:example
     rank: 1000
@@ -911,7 +913,7 @@ attributes:
     range: string
   curator_note:
     name: curator_note
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000232
@@ -923,7 +925,7 @@ attributes:
     range: string
   has_curation_status:
     name: has_curation_status
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000114
@@ -934,7 +936,7 @@ attributes:
     range: string
   depicted_by:
     name: depicted_by
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:depicted_by
@@ -946,7 +948,7 @@ attributes:
     range: Image
   page:
     name: page
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:page
@@ -966,7 +968,7 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:prefLabel
     rank: 1000
@@ -987,7 +989,7 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:definition
     rank: 1000
@@ -1002,7 +1004,7 @@ attributes:
   id:
     name: id
     description: this maps to the URI in RDF
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: core_property
     identifier: true
@@ -1014,7 +1016,7 @@ attributes:
     required: true
   type:
     name: type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type

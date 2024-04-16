@@ -70,6 +70,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#oak-llm-adapter">OAK LLM Adapter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#annotation">Annotation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#suggesting-definitions">Suggesting Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validating-definitions">Validating Definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#validating-mappings">Validating Mappings</a></li>
 </ul>
 </li>
@@ -204,8 +205,38 @@ not be used for tasks where precision is required.</p>
 </pre></div>
 </div>
 </section>
+<section id="validating-definitions">
+<h3>Validating Definitions<a class="headerlink" href="#validating-definitions" title="Link to this heading"></a></h3>
+<p>The LLM adapter currently interprets <code class="docutils literal notranslate"><span class="pre">validate-definitions</span></code> as comparing the specified definition
+against the abstracts of papers cited in the definition provenance, or by comparing the definition
+against the database objects that are cited as definition provenance.</p>
+<p>Here is an example of validating definitions for GO terms:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--stacktrace<span class="w"> </span>-i<span class="w"> </span>llm:sqlite:obo:go<span class="w"> </span>validate-definitions<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>i^GO:<span class="w"> </span>-o<span class="w"> </span>out.jsonl<span class="w"> </span>-O<span class="w"> </span>jsonl
+</pre></div>
+</div>
+<p>The semsql version of GO has other ontologies merged in, so the <code class="docutils literal notranslate"><span class="pre">i^GO:</span></code> query only validates
+against actual GO terms.</p>
+<p>You can also pass in a configuration object.
+This should conform to the <a class="reference external" href="https://w3id.org/oak/validation-datamodel">Validation Data Model</a></p>
+<p>For example, this configuration yaml provides a specific prompt and also a URL for
+documentation aimed at ontology developers.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">prompt_info</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Please also use the following GO guidelines</span>
+<span class="nt">documentation_objects</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://wiki.geneontology.org/Guidelines_for_GO_textual_definitions</span>
+</pre></div>
+</div>
+<p>All specified URLs are downloaded and converted to text and included in the prompt.</p>
+<p>The configuration yaml is passed in as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--stacktrace<span class="w">  </span>-i<span class="w"> </span>llm:<span class="o">{</span>claude-3-opus<span class="o">}</span>:sqlite:obo:go<span class="w"> </span>validate-definitions<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-C<span class="w"> </span>src/oaklib/conf/go-definition-validation-llm-config.yaml<span class="w"> </span>i^GO:<span class="w"> </span>-O<span class="w"> </span>yaml
+</pre></div>
+</div>
+</section>
 <section id="validating-mappings">
 <h3>Validating Mappings<a class="headerlink" href="#validating-mappings" title="Link to this heading"></a></h3>
+<p>The LLM adapter validates mappings by looking up info on the mapped entity and
+comparing it with the main entity.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--stacktrace<span class="w"> </span>-i<span class="w"> </span>llm:<span class="o">{</span>gpt-4<span class="o">}</span>:sqlite:obo:go<span class="w"> </span>validate-mappings<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>.desc//p<span class="o">=</span>i<span class="w"> </span>molecular_function<span class="w"> </span>-o<span class="w"> </span>out.jsonl<span class="w"> </span>-O<span class="w"> </span>jsonl
 </pre></div>
@@ -241,6 +272,11 @@ poetry<span class="w"> </span>run<span class="w"> </span>llm<span class="w"> </s
 </pre></div>
 </div>
 <p>This will install the plugin in the same environment as OAK.</p>
+<p>If you need to update this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ontology-access-kit
+poetry<span class="w"> </span>run<span class="w"> </span>llm<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>llm-gemini
+</pre></div>
+</div>
 <p>TODO: instructions for non-developers.</p>
 </section>
 <section id="mixtral-via-ollama-and-litellm">

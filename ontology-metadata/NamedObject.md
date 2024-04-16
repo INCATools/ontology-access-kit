@@ -1,3 +1,5 @@
+
+
 # Class: NamedObject
 
 
@@ -7,7 +9,7 @@ _Anything with an IRI_
 
 
 
-URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObject)
+URI: [omoschema:NamedObject](https://w3id.org/oak/ontology-metadata/NamedObject)
 
 
 
@@ -81,7 +83,7 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -108,7 +110,7 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 ```yaml
 name: NamedObject
 description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 aliases:
 - named entity
 - identified object
@@ -126,7 +128,7 @@ slots:
 ```yaml
 name: NamedObject
 description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 aliases:
 - named entity
 - identified object
@@ -136,7 +138,7 @@ attributes:
   id:
     name: id
     description: this maps to the URI in RDF
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: core_property
     identifier: true
@@ -148,7 +150,7 @@ attributes:
     required: true
   type:
     name: type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type

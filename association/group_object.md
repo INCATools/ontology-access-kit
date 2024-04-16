@@ -1,3 +1,5 @@
+
+
 # Slot: group_object
 
 
@@ -16,11 +18,12 @@ URI: [rdf:object](rdf:object)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RollupGroup](RollupGroup.md) |  |  no  |
+| [RollupGroup](RollupGroup.md) |  |  no  |
 
 
 

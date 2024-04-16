@@ -1,3 +1,5 @@
+
+
 # Slot: property_count
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:property_count](https://w3id.org/oaklib/summary_statist
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

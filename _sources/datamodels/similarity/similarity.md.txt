@@ -1,3 +1,5 @@
+
+
 # Slot: similarity
 
 URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
@@ -9,11 +11,12 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[BestMatch](BestMatch.md) |  |  no  |
+| [BestMatch](BestMatch.md) |  |  no  |
 
 
 

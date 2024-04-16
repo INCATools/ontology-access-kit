@@ -1,3 +1,5 @@
+
+
 # Slot: p_value
 
 
@@ -14,11 +16,12 @@ URI: [OBI:0000175](http://purl.obolibrary.org/obo/OBI_0000175)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+| [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
 
 
 

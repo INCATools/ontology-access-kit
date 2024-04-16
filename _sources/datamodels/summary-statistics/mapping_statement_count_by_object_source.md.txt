@@ -1,3 +1,5 @@
+
+
 # Slot: mapping_statement_count_by_object_source
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:mapping_statement_count_by_object_source](https://w3id.
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

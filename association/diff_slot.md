@@ -1,3 +1,5 @@
+
+
 # Slot: diff_slot
 
 
@@ -10,6 +12,7 @@ URI: [ontoassoc:diff_slot](https://w3id.org/oak/association/diff_slot)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

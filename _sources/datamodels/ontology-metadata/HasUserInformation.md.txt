@@ -1,8 +1,10 @@
+
+
 # Class: HasUserInformation
 
 
 
-URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/HasUserInformation)
+URI: [omoschema:HasUserInformation](https://w3id.org/oak/ontology-metadata/HasUserInformation)
 
 
 
@@ -90,7 +92,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -116,7 +118,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
 <details>
 ```yaml
 name: HasUserInformation
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -137,7 +139,7 @@ slots:
 <details>
 ```yaml
 name: HasUserInformation
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -145,7 +147,7 @@ attributes:
     name: comment
     comments:
     - in obo format, a term cannot have more than one comment
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
@@ -161,7 +163,7 @@ attributes:
     name: seeAlso
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: rdfs:seeAlso
     multivalued: true
@@ -173,7 +175,7 @@ attributes:
     range: Thing
   image:
     name: image
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: sdo:image
@@ -186,7 +188,7 @@ attributes:
     name: example_of_usage
     in_subset:
     - allotrope permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:example
     rank: 1000
@@ -200,7 +202,7 @@ attributes:
     range: string
   curator_note:
     name: curator_note
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000232
@@ -212,7 +214,7 @@ attributes:
     range: string
   has_curation_status:
     name: has_curation_status
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000114
@@ -223,7 +225,7 @@ attributes:
     range: string
   depicted_by:
     name: depicted_by
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:depicted_by
@@ -235,7 +237,7 @@ attributes:
     range: Image
   page:
     name: page
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: foaf:page

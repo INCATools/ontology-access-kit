@@ -1,3 +1,5 @@
+
+
 # Slot: denormalized_slot
 
 
@@ -10,6 +12,7 @@ URI: [ontoassoc:denormalized_slot](https://w3id.org/oak/association/denormalized
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

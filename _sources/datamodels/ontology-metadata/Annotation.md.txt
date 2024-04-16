@@ -1,3 +1,5 @@
+
+
 # Class: Annotation
 
 
@@ -7,7 +9,7 @@ _A reified property-object pair_
 
 
 
-URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation)
+URI: [omoschema:Annotation](https://w3id.org/oak/ontology-metadata/Annotation)
 
 
 
@@ -61,7 +63,7 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -88,17 +90,17 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 ```yaml
 name: Annotation
 description: A reified property-object pair
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 attributes:
   predicate:
     name: predicate
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     domain_of:
     - Annotation
     relational_role: PREDICATE
   object:
     name: object
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     domain_of:
     - Annotation
     relational_role: OBJECT
@@ -113,11 +115,11 @@ represents_relationship: true
 ```yaml
 name: Annotation
 description: A reified property-object pair
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 attributes:
   predicate:
     name: predicate
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     alias: predicate
     owner: Annotation
     domain_of:
@@ -126,7 +128,7 @@ attributes:
     range: string
   object:
     name: object
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     alias: object
     owner: Annotation
     domain_of:

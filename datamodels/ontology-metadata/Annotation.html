@@ -86,7 +86,7 @@
   <section id="class-annotation">
 <h1>Class: Annotation<a class="headerlink" href="#class-annotation" title="Link to this heading"></a></h1>
 <p><em>A reified property-object pair</em></p>
-<p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/omo/schema/Annotation">omoschema:Annotation</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oak/ontology-metadata/Annotation">omoschema:Annotation</a></p>
 <div class="mermaid">
              classDiagram
     class Annotation
@@ -144,7 +144,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
+<li><p>from schema: https://w3id.org/oak/ontology-metadata</p></li>
 </ul>
 </section>
 </section>
@@ -175,17 +175,17 @@
 ```yaml
 name: Annotation
 description: A reified property-object pair
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 attributes:
   predicate:
     name: predicate
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     domain_of:
     - Annotation
     relational_role: PREDICATE
   object:
     name: object
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     domain_of:
     - Annotation
     relational_role: OBJECT
@@ -198,11 +198,11 @@ represents_relationship: true
 ```yaml
 name: Annotation
 description: A reified property-object pair
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 attributes:
   predicate:
     name: predicate
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     alias: predicate
     owner: Annotation
     domain_of:
@@ -211,7 +211,7 @@ attributes:
     range: string
   object:
     name: object
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     alias: object
     owner: Annotation
     domain_of:

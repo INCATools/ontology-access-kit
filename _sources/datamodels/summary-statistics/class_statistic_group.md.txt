@@ -1,3 +1,5 @@
+
+
 # Slot: class_statistic_group
 
 URI: [summary_statistics:class_statistic_group](https://w3id.org/oaklib/summary_statistics.class_statistic_group)
@@ -5,6 +7,7 @@ URI: [summary_statistics:class_statistic_group](https://w3id.org/oaklib/summary_
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

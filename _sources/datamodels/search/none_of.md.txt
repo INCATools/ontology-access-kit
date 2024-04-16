@@ -1,3 +1,5 @@
+
+
 # Slot: none_of
 
 URI: [ontosearch:none_of](https://w3id.org/oak/search-datamodel/none_of)
@@ -9,11 +11,12 @@ URI: [ontosearch:none_of](https://w3id.org/oak/search-datamodel/none_of)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ComplexQuery](ComplexQuery.md) |  |  no  |
+| [ComplexQuery](ComplexQuery.md) |  |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: definedClassId
 
 
@@ -14,11 +16,12 @@ URI: [obographs:definedClassId](https://github.com/geneontology/obographs/define
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |  no  |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |  no  |
 
 
 

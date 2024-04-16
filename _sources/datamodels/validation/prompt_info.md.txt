@@ -1,3 +1,5 @@
+
+
 # Slot: prompt_info
 
 
@@ -14,11 +16,12 @@ URI: [vm:prompt_info](https://w3id.org/linkml/validation-model/prompt_info)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
+| [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
 
 
 

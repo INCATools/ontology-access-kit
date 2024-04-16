@@ -1,3 +1,5 @@
+
+
 # Slot: non_deprecated_class_count
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:non_deprecated_class_count](https://w3id.org/oaklib/sum
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

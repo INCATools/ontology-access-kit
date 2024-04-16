@@ -1,3 +1,5 @@
+
+
 # Slot: equivalentProperty
 
 URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
@@ -14,12 +16,13 @@ URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 
 
 
@@ -48,7 +51,7 @@ URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -58,7 +61,7 @@ URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
 <details>
 ```yaml
 name: equivalentProperty
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 mixins:

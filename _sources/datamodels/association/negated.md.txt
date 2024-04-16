@@ -1,3 +1,5 @@
+
+
 # Slot: negated
 
 
@@ -14,13 +16,14 @@ URI: [ontoassoc:negated](https://w3id.org/oak/association/negated)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  yes  |
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  yes  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  yes  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  yes  |
 
 
 

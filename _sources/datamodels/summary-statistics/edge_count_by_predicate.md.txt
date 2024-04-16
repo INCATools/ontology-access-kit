@@ -1,3 +1,5 @@
+
+
 # Slot: edge_count_by_predicate
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summar
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

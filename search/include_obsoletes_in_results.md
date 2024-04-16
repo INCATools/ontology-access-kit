@@ -1,3 +1,5 @@
+
+
 # Slot: include_obsoletes_in_results
 
 URI: [ontosearch:include_obsoletes_in_results](https://w3id.org/oak/search-datamodel/include_obsoletes_in_results)
@@ -9,11 +11,12 @@ URI: [ontosearch:include_obsoletes_in_results](https://w3id.org/oak/search-datam
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
 
 
 

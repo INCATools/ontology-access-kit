@@ -1,3 +1,5 @@
+
+
 # Slot: itemMetadataMap
 
 
@@ -14,11 +16,12 @@ URI: [itemList:itemMetadataMap](https://w3id.org/linkml/item-list/itemMetadataMa
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
 
 
 

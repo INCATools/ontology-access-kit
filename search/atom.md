@@ -1,3 +1,5 @@
+
+
 # Slot: atom
 
 URI: [ontosearch:atom](https://w3id.org/oak/search-datamodel/atom)
@@ -9,11 +11,12 @@ URI: [ontosearch:atom](https://w3id.org/oak/search-datamodel/atom)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ComplexQuery](ComplexQuery.md) |  |  no  |
+| [ComplexQuery](ComplexQuery.md) |  |  no  |
 
 
 

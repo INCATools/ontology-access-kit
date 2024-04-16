@@ -1,3 +1,5 @@
+
+
 # Slot: object_categories
 
 URI: [ann:object_categories](https://w3id.org/linkml/text_annotator/object_categories)
@@ -9,11 +11,12 @@ URI: [ann:object_categories](https://w3id.org/linkml/text_annotator/object_categ
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: predicate
 
 
@@ -14,12 +16,14 @@ URI: [vm:predicate](https://w3id.org/linkml/validation-model/predicate)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
+| [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
 
 
 

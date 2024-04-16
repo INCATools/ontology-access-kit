@@ -1,3 +1,5 @@
+
+
 # Slot: count_statistic
 
 URI: [summary_statistics:count_statistic](https://w3id.org/oaklib/summary_statistics.count_statistic)
@@ -35,6 +37,7 @@ URI: [summary_statistics:count_statistic](https://w3id.org/oaklib/summary_statis
     * [synonym_statement_count](synonym_statement_count.md)
     * [mapping_count](mapping_count.md)
     * [ontology_count](ontology_count.md)
+
 
 
 

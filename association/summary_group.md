@@ -1,3 +1,5 @@
+
+
 # Slot: summary_group
 
 
@@ -14,11 +16,12 @@ URI: [ontoassoc:summary_group](https://w3id.org/oak/association/summary_group)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
+| [AssociationChange](AssociationChange.md) | A change object describing a change between two associations |  no  |
 
 
 

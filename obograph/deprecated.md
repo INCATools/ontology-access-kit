@@ -1,3 +1,5 @@
+
+
 # Slot: deprecated
 
 URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
@@ -9,11 +11,12 @@ URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
 
 
 

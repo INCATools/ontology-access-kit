@@ -1,3 +1,5 @@
+
+
 # Slot: model
 
 
@@ -14,11 +16,12 @@ URI: [ann:model](https://w3id.org/linkml/text_annotator/model)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
 
 
 

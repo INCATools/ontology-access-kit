@@ -134,55 +134,6 @@ sqlite as a sub-scheme.</p>
 </section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="oaklib.implementations.sqldb.sql_implementation.SqlImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.sqldb.sql_implementation.</span></span><span class="sig-name descname"><span class="pre">SqlImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">~oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">~oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">~curies.api.Converter</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_relax_axioms:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_lookups:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_cache:</span> <span class="pre">~oaklib.utilities.keyval_cache.KeyValCache</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_entailed_edge_index:</span> <span class="pre">~oaklib.indexes.edge_index.EdgeIndex</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional_writer:</span> <span class="pre">&lt;module</span> <span class="pre">'funowl.writers.FunctionalWriter'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/funowl/writers/FunctionalWriter.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_association_index:</span> <span class="pre">~oaklib.utilities.associations.association_index.AssociationIndex</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalizers:</span> <span class="pre">~typing.List[~oaklib.interfaces.association_provider_interface.EntityNormalizer]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine:</span> <span class="pre">~typing.Any</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_session:</span> <span class="pre">~typing.Any</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_connection:</span> <span class="pre">~typing.Any</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ontology_metadata_model:</span> <span class="pre">~linkml_runtime.utils.schemaview.SchemaView</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_prefix_map:</span> <span class="pre">~typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_information_content_cache:</span> <span class="pre">~typing.Dict[~typing.Tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_relationships_by_subject_index:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.List[~typing.Tuple[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]]]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items_for_in_clause:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_store_associations:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/oaklib/implementations/sqldb/sql_implementation.html#SqlImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.sqldb.sql_implementation.SqlImplementation" title="Link to this definition"></a></dt>
-<dd><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">OntologyInterface</span></code> implementation that wraps a SQL Relational Database.</p>
-<p>Currently this must be a SQLite database. PostgreSQL support is planned.</p>
-<p>To connect, either use SqlImplementation directly:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="s2">&quot;tests/input/go-nucleus.db&quot;</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>or</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">get_adapter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:tests/input/go-nucleus.db&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>you can also load from the semantic-sql repository:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adapter</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:obi&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The schema is assumed to follow the <a class="reference external" href="https://github.com/incatools/semantic-sql">semantic-sql</a> schema.</p>
-<p>This uses SQLAlchemy ORM Models:</p>
-<ul class="simple">
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Statements</span></code></p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></p></li>
-</ul>
-<section id="see-also">
-<h3>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial07.html">Tutorial</a></p></li>
-<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/sqldb.html">SQL Implementation</a></p></li>
-</ul>
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">OntologyResource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OntologyInterface</span></span></span><a class="headerlink" href="#oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create" title="Link to this definition"></a></dt>
-<dd><p>Creates a new ontology interface from a resource</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>resource</strong> – </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-</dd></dl>
-
 </section>
 <section id="sql-alchemy-orm-model">
 <h2>SQL Alchemy ORM Model<a class="headerlink" href="#sql-alchemy-orm-model" title="Link to this heading"></a></h2>

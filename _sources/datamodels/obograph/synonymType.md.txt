@@ -1,3 +1,5 @@
+
+
 # Slot: synonymType
 
 
@@ -14,11 +16,12 @@ URI: [obographs:synonymType](https://github.com/geneontology/obographs/synonymTy
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity |  no  |
 
 
 

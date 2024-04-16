@@ -1,3 +1,5 @@
+
+
 # Slot: cardinality
 
 URI: [owl:cardinality](http://www.w3.org/2002/07/owl#cardinality)
@@ -14,13 +16,14 @@ URI: [owl:cardinality](http://www.w3.org/2002/07/owl#cardinality)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassExpression](ClassExpression.md) |  |  no  |
-[Class](Class.md) |  |  no  |
-[Restriction](Restriction.md) |  |  no  |
+| [Restriction](Restriction.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
@@ -47,7 +50,7 @@ URI: [owl:cardinality](http://www.w3.org/2002/07/owl#cardinality)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -57,7 +60,7 @@ URI: [owl:cardinality](http://www.w3.org/2002/07/owl#cardinality)
 <details>
 ```yaml
 name: cardinality
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:cardinality

@@ -1,3 +1,5 @@
+
+
 # Slot: version_info
 
 
@@ -14,11 +16,12 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Ontology](Ontology.md) | An ontology |  no  |
+| [Ontology](Ontology.md) | An ontology |  no  |
 
 
 

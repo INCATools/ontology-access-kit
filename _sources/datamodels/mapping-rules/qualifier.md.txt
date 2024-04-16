@@ -1,3 +1,5 @@
+
+
 # Slot: qualifier
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/quali
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
 
 
 

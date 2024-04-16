@@ -1,3 +1,5 @@
+
+
 # Slot: subject_best_matches
 
 URI: [sim:subject_best_matches](https://w3id.org/linkml/similarity/subject_best_matches)
@@ -9,11 +11,12 @@ URI: [sim:subject_best_matches](https://w3id.org/linkml/similarity/subject_best_
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
+| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms |  no  |
 
 
 

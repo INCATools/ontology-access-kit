@@ -1,3 +1,5 @@
+
+
 # Slot: supporting_objects
 
 
@@ -14,13 +16,14 @@ URI: [ontoassoc:supporting_objects](https://w3id.org/oak/association/supporting_
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-[NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
+| [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
 
 
 

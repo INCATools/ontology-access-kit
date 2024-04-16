@@ -1,3 +1,5 @@
+
+
 # Slot: p_value_cutoff
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:p_value_cutoff](https://w3id.org/oak/class-enrichment/p_value_c
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentConfiguration](ClassEnrichmentConfiguration.md) | configuration for search |  no  |
+| [ClassEnrichmentConfiguration](ClassEnrichmentConfiguration.md) | configuration for search |  no  |
 
 
 

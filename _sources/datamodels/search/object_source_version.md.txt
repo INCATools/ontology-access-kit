@@ -1,3 +1,5 @@
+
+
 # Slot: object_source_version
 
 
@@ -14,11 +16,12 @@ URI: [sssom:object_source_version](http://w3id.org/sssom/object_source_version)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResult](SearchResult.md) | An individual search result |  no  |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: NCIT_term_source
 
 URI: [NCIT:P384](http://purl.obolibrary.org/obo/NCIT_P384)
@@ -5,6 +7,7 @@ URI: [NCIT:P384](http://purl.obolibrary.org/obo/NCIT_P384)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 
@@ -31,7 +34,7 @@ URI: [NCIT:P384](http://purl.obolibrary.org/obo/NCIT_P384)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -42,7 +45,7 @@ URI: [NCIT:P384](http://purl.obolibrary.org/obo/NCIT_P384)
 ```yaml
 name: NCIT_term_source
 deprecated: use OMO over NCIT
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 deprecated_element_has_exact_replacement: isDefinedBy
 rank: 1000
 slot_uri: NCIT:P384

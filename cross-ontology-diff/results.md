@@ -1,3 +1,5 @@
+
+
 # Slot: results
 
 
@@ -14,11 +16,12 @@ URI: [xodiff:results](https://w3id.org/oak/cross-ontology-diff/results)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results |  no  |
+| [StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results |  no  |
 
 
 

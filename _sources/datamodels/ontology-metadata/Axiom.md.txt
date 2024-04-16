@@ -1,3 +1,5 @@
+
+
 # Class: Axiom
 
 
@@ -125,7 +127,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -153,7 +155,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 ```yaml
 name: Axiom
 description: A logical or non-logical statement
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - rdf:Statement
 slots:
@@ -201,7 +203,7 @@ represents_relationship: true
 ```yaml
 name: Axiom
 description: A logical or non-logical statement
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - rdf:Statement
 slot_usage:
@@ -218,7 +220,7 @@ slot_usage:
 attributes:
   annotatedProperty:
     name: annotatedProperty
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - rdf:predicate
     rank: 1000
@@ -234,7 +236,7 @@ attributes:
     name: annotatedSource
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - rdf:subject
     rank: 1000
@@ -250,7 +252,7 @@ attributes:
     name: annotatedTarget
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - rdf:object
     rank: 1000
@@ -264,7 +266,7 @@ attributes:
     range: Any
   annotations:
     name: annotations
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     multivalued: true
     alias: annotations
@@ -274,7 +276,7 @@ attributes:
     range: Annotation
   source:
     name: source
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - http://purl.org/dc/terms/source
     - oio:source
@@ -291,7 +293,7 @@ attributes:
   is_inferred:
     name: is_inferred
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:is_inferred
     alias: is_inferred
@@ -302,7 +304,7 @@ attributes:
   notes:
     name: notes
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:notes
     multivalued: true
@@ -314,7 +316,7 @@ attributes:
   url:
     name: url
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:url
     alias: url
@@ -324,7 +326,7 @@ attributes:
     range: string
   has_axiom_label:
     name: has_axiom_label
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0010000
@@ -335,7 +337,7 @@ attributes:
     range: Thing
   is_a_defining_property_chain_axiom:
     name: is_a_defining_property_chain_axiom
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: RO:0002581
     alias: is_a_defining_property_chain_axiom
@@ -345,7 +347,7 @@ attributes:
     range: string
   is_a_defining_property_chain_axiom_where_second_argument_is_reflexive:
     name: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: RO:0002582
     alias: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
@@ -356,7 +358,7 @@ attributes:
   created_by:
     name: created_by
     deprecated: proposed obsoleted by OMO group 2022-04-12
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     deprecated_element_has_exact_replacement: creator
     rank: 1000
     is_a: provenance_property
@@ -369,7 +371,7 @@ attributes:
     range: string
   date_retrieved:
     name: date_retrieved
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: oio:date_retrieved
@@ -381,7 +383,7 @@ attributes:
   evidence:
     name: evidence
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:evidence
     alias: evidence
@@ -392,7 +394,7 @@ attributes:
   external_ontology:
     name: external_ontology
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:external_ontology
     multivalued: true
@@ -406,7 +408,7 @@ attributes:
     description: Uses to indicate the source of an axiom
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - dcterms:source
     rank: 1000
@@ -421,7 +423,7 @@ attributes:
     range: CURIELiteral
   has_exact_synonym:
     name: has_exact_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasExactSynonym
@@ -436,7 +438,7 @@ attributes:
     range: label type
   has_synonym_type:
     name: has_synonym_type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasSynonymType
     multivalued: true
@@ -449,7 +451,7 @@ attributes:
     name: comment
     comments:
     - in obo format, a term cannot have more than one comment
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
@@ -471,7 +473,7 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:prefLabel
     rank: 1000
@@ -488,7 +490,7 @@ attributes:
     name: seeAlso
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: rdfs:seeAlso
     multivalued: true

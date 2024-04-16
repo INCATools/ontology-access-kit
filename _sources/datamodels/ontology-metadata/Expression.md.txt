@@ -1,8 +1,10 @@
+
+
 # Class: Expression
 
 
 
-URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression)
+URI: [omoschema:Expression](https://w3id.org/oak/ontology-metadata/Expression)
 
 
 
@@ -57,7 +59,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -83,7 +85,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression
 <details>
 ```yaml
 name: Expression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```
@@ -94,7 +96,7 @@ mixin: true
 <details>
 ```yaml
 name: Expression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```

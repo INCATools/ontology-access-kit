@@ -1,3 +1,5 @@
+
+
 # Slot: partitions
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
+| [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 
 

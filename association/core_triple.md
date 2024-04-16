@@ -1,3 +1,5 @@
+
+
 # Slot: core_triple
 
 
@@ -10,6 +12,7 @@ URI: [ontoassoc:core_triple](https://w3id.org/oak/association/core_triple)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

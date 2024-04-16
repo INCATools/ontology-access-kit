@@ -1,3 +1,5 @@
+
+
 # Slot: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
 
 URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
@@ -9,11 +11,12 @@ URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 
@@ -40,7 +43,7 @@ URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -50,7 +53,7 @@ URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 <details>
 ```yaml
 name: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: RO:0002582
 alias: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive

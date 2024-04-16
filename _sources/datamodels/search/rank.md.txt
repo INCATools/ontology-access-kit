@@ -1,3 +1,5 @@
+
+
 # Slot: rank
 
 
@@ -14,11 +16,12 @@ URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResult](SearchResult.md) | An individual search result |  no  |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
 
 
 

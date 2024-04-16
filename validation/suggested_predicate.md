@@ -1,3 +1,5 @@
+
+
 # Slot: suggested_predicate
 
 URI: [vm:suggested_predicate](https://w3id.org/linkml/validation-model/suggested_predicate)
@@ -9,11 +11,12 @@ URI: [vm:suggested_predicate](https://w3id.org/linkml/validation-model/suggested
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
+| [MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
 
 
 

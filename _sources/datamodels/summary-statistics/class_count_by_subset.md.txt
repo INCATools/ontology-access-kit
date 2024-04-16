@@ -1,3 +1,5 @@
+
+
 # Slot: class_count_by_subset
 
 
@@ -14,11 +16,12 @@ URI: [summary_statistics:class_count_by_subset](https://w3id.org/oaklib/summary_
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: restrictions
 
 
@@ -14,11 +16,12 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |  no  |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: associations_for_subjects_in_common
 
 URI: [ontoassoc:associations_for_subjects_in_common](https://w3id.org/oak/association/associations_for_subjects_in_common)
@@ -9,11 +11,12 @@ URI: [ontoassoc:associations_for_subjects_in_common](https://w3id.org/oak/associ
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
+| [PairwiseCoAssociation](PairwiseCoAssociation.md) | A collection of subjects co-associated with two objects |  no  |
 
 
 

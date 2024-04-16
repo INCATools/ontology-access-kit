@@ -1,3 +1,5 @@
+
+
 # Slot: class_id
 
 
@@ -14,11 +16,12 @@ URI: [ontoenrich:class_id](https://w3id.org/oak/class-enrichment/class_id)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
+| [ClassEnrichmentResult](ClassEnrichmentResult.md) | A single enrichment result |  no  |
 
 
 

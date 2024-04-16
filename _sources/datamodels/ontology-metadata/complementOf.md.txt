@@ -1,3 +1,5 @@
+
+
 # Slot: complementOf
 
 URI: [owl:complementOf](http://www.w3.org/2002/07/owl#complementOf)
@@ -14,13 +16,14 @@ URI: [owl:complementOf](http://www.w3.org/2002/07/owl#complementOf)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ClassExpression](ClassExpression.md) |  |  no  |
-[Class](Class.md) |  |  no  |
-[Restriction](Restriction.md) |  |  no  |
+| [Restriction](Restriction.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
 
 
 
@@ -51,7 +54,7 @@ URI: [owl:complementOf](http://www.w3.org/2002/07/owl#complementOf)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -63,7 +66,7 @@ URI: [owl:complementOf](http://www.w3.org/2002/07/owl#complementOf)
 name: complementOf
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:complementOf

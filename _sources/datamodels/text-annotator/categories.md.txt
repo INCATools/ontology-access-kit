@@ -1,3 +1,5 @@
+
+
 # Slot: categories
 
 
@@ -14,11 +16,12 @@ URI: [ann:categories](https://w3id.org/linkml/text_annotator/categories)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
+| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: id
 
 URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
@@ -9,11 +11,12 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextualElement](TextualElement.md) |  |  no  |
+| [TextualElement](TextualElement.md) |  |  no  |
 
 
 

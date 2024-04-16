@@ -1,3 +1,5 @@
+
+
 # Slot: comments
 
 URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
@@ -9,11 +11,12 @@ URI: [tc:comments](https://w3id.org/linkml/taxon_constraints/comments)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
+| [TaxonConstraint](TaxonConstraint.md) | An individual taxon constraint |  no  |
 
 
 

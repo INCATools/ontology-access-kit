@@ -1,3 +1,5 @@
+
+
 # Slot: propertyType
 
 URI: [obographs:propertyType](https://github.com/geneontology/obographs/propertyType)
@@ -9,11 +11,12 @@ URI: [obographs:propertyType](https://github.com/geneontology/obographs/property
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
+| [Node](Node.md) | A node is a class, property, or other entity in an ontology |  no  |
 
 
 

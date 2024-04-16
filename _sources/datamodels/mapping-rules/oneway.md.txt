@@ -1,3 +1,5 @@
+
+
 # Slot: oneway
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:oneway](https://w3id.org/oak/mapping-rules-datamodel/oneway)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
 
 
 

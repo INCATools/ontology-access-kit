@@ -1,8 +1,10 @@
+
+
 # Class: HasLifeCycle
 
 
 
-URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeCycle)
+URI: [omoschema:HasLifeCycle](https://w3id.org/oak/ontology-metadata/HasLifeCycle)
 
 
 
@@ -97,7 +99,7 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -123,7 +125,7 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/omo/schema/HasLifeC
 <details>
 ```yaml
 name: HasLifeCycle
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -192,7 +194,7 @@ rules:
 <details>
 ```yaml
 name: HasLifeCycle
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -202,7 +204,7 @@ attributes:
     - allotrope permitted profile
     - go permitted profile
     - obi permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     aliases:
     - is obsolete
     rank: 1000
@@ -220,7 +222,7 @@ attributes:
     - restrict range
     comments:
     - '{''RULE'': ''subject must be deprecated''}'
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
@@ -238,7 +240,7 @@ attributes:
     - go permitted profile
     - obi permitted profile
     - allotrope permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - dcterms:isReplacedBy
     rank: 1000
@@ -256,7 +258,7 @@ attributes:
     - '{''RULE'': ''subject must be deprecated''}'
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
@@ -276,7 +278,7 @@ attributes:
     - '{''RULE'': ''object must NOT be deprecated''}'
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     see_also:
     - https://github.com/owlcs/owlapi/issues/317
     rank: 1000
@@ -291,7 +293,7 @@ attributes:
     range: uriorcurie
   excluded_from_QC_check:
     name: excluded_from_QC_check
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     alias: excluded_from_QC_check
@@ -301,7 +303,7 @@ attributes:
     range: Thing
   excluded_subClassOf:
     name: excluded_subClassOf
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     multivalued: true
@@ -312,7 +314,7 @@ attributes:
     range: Class
   excluded_synonym:
     name: excluded_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:hiddenSynonym
     rank: 1000
@@ -325,7 +327,7 @@ attributes:
     range: string
   should_conform_to:
     name: should_conform_to
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: excluded_axiom
     alias: should_conform_to

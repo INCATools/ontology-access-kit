@@ -1,3 +1,5 @@
+
+
 # Class: NotObsoleteAspect
 
 
@@ -7,7 +9,7 @@ _Auto-classifies anything that is not obsolete_
 
 
 
-URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/NotObsoleteAspect)
+URI: [omoschema:NotObsoleteAspect](https://w3id.org/oak/ontology-metadata/NotObsoleteAspect)
 
 
 
@@ -72,7 +74,7 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Not
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -99,7 +101,7 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Not
 ```yaml
 name: NotObsoleteAspect
 description: Auto-classifies anything that is not obsolete
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 rules:
 - postconditions:
@@ -123,7 +125,7 @@ classification_rules:
 ```yaml
 name: NotObsoleteAspect
 description: Auto-classifies anything that is not obsolete
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 rules:
 - postconditions:

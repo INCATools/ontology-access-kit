@@ -1,3 +1,5 @@
+
+
 # Slot: cosine_similarity
 
 
@@ -19,11 +21,12 @@ URI: [sim:cosine_similarity](https://w3id.org/linkml/similarity/cosine_similarit
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
 
 
 

@@ -34,7 +34,7 @@ URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 

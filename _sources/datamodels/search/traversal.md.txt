@@ -1,3 +1,5 @@
+
+
 # Slot: traversal
 
 URI: [ontosearch:traversal](https://w3id.org/oak/search-datamodel/traversal)
@@ -9,11 +11,12 @@ URI: [ontosearch:traversal](https://w3id.org/oak/search-datamodel/traversal)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[PathExpression](PathExpression.md) | A path query |  no  |
+| [PathExpression](PathExpression.md) | A path query |  no  |
 
 
 

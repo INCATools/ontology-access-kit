@@ -1,6 +1,8 @@
+
+
 # Slot: predicate
 
-URI: [omoschema:predicate](http://purl.obolibrary.org/obo/omo/schema/predicate)
+URI: [omoschema:predicate](https://w3id.org/oak/ontology-metadata/predicate)
 
 
 
@@ -9,11 +11,12 @@ URI: [omoschema:predicate](http://purl.obolibrary.org/obo/omo/schema/predicate)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Annotation](Annotation.md) | A reified property-object pair |  no  |
+| [Annotation](Annotation.md) | A reified property-object pair |  no  |
 
 
 
@@ -40,7 +43,7 @@ URI: [omoschema:predicate](http://purl.obolibrary.org/obo/omo/schema/predicate)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -50,7 +53,7 @@ URI: [omoschema:predicate](http://purl.obolibrary.org/obo/omo/schema/predicate)
 <details>
 ```yaml
 name: predicate
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 alias: predicate
 domain_of:

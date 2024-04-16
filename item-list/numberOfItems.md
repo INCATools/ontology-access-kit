@@ -1,3 +1,5 @@
+
+
 # Slot: numberOfItems
 
 
@@ -14,11 +16,12 @@ URI: [schema:numberOfItems](http://schema.org/numberOfItems)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ItemList](ItemList.md) | a list of entities plus metadata |  no  |
+| [ItemList](ItemList.md) | a list of entities plus metadata |  no  |
 
 
 

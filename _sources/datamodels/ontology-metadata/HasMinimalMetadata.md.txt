@@ -1,3 +1,5 @@
+
+
 # Class: HasMinimalMetadata
 
 
@@ -7,7 +9,7 @@ _Absolute minimum metadata model_
 
 
 
-URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/HasMinimalMetadata)
+URI: [omoschema:HasMinimalMetadata](https://w3id.org/oak/ontology-metadata/HasMinimalMetadata)
 
 
 
@@ -71,7 +73,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -98,7 +100,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 ```yaml
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -114,7 +116,7 @@ slots:
 ```yaml
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -128,7 +130,7 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:prefLabel
     rank: 1000
@@ -149,7 +151,7 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:definition
     rank: 1000

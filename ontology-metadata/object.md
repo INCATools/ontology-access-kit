@@ -1,6 +1,8 @@
+
+
 # Slot: object
 
-URI: [omoschema:object](http://purl.obolibrary.org/obo/omo/schema/object)
+URI: [omoschema:object](https://w3id.org/oak/ontology-metadata/object)
 
 
 
@@ -9,11 +11,12 @@ URI: [omoschema:object](http://purl.obolibrary.org/obo/omo/schema/object)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Annotation](Annotation.md) | A reified property-object pair |  no  |
+| [Annotation](Annotation.md) | A reified property-object pair |  no  |
 
 
 
@@ -40,7 +43,7 @@ URI: [omoschema:object](http://purl.obolibrary.org/obo/omo/schema/object)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -50,7 +53,7 @@ URI: [omoschema:object](http://purl.obolibrary.org/obo/omo/schema/object)
 <details>
 ```yaml
 name: object
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 alias: object
 domain_of:

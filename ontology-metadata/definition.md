@@ -1,3 +1,5 @@
+
+
 # Slot: definition
 
 URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
@@ -14,22 +16,23 @@ URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-[Class](Class.md) |  |  yes  |
-[Property](Property.md) |  |  yes  |
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-[HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-[Agent](Agent.md) |  |  no  |
-[Image](Image.md) |  |  no  |
-[Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Class](Class.md) |  |  yes  |
+| [Image](Image.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
+| [Property](Property.md) |  |  yes  |
+| [Agent](Agent.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 
@@ -62,7 +65,7 @@ URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -78,7 +81,7 @@ in_subset:
 - allotrope required profile
 - go required profile
 - obi required profile
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - skos:definition
 rank: 1000

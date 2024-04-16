@@ -1,3 +1,5 @@
+
+
 # Slot: range
 
 URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
@@ -14,15 +16,16 @@ URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Property](Property.md) |  |  no  |
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-[Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Property](Property.md) |  |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 
@@ -55,7 +58,7 @@ URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -67,7 +70,7 @@ URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
 name: range
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: rdfs:range

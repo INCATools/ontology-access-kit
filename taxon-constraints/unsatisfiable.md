@@ -1,3 +1,5 @@
+
+
 # Slot: unsatisfiable
 
 
@@ -14,11 +16,12 @@ URI: [tc:unsatisfiable](https://w3id.org/linkml/taxon_constraints/unsatisfiable)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
+| [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
 
 
 

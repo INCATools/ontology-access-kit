@@ -1,3 +1,5 @@
+
+
 # Slot: nodeIds
 
 URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
@@ -9,11 +11,12 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |  no  |
+| [EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |  no  |
 
 
 

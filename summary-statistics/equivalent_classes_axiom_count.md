@@ -1,3 +1,5 @@
+
+
 # Slot: equivalent_classes_axiom_count
 
 
@@ -19,11 +21,12 @@ URI: [summary_statistics:equivalent_classes_axiom_count](https://w3id.org/oaklib
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
 
 
 

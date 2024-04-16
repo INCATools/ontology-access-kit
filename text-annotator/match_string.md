@@ -1,3 +1,5 @@
+
+
 # Slot: match_string
 
 URI: [sssom:match_string](http://w3id.org/sssom/match_string)
@@ -9,11 +11,12 @@ URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

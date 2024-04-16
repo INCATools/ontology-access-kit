@@ -1,3 +1,5 @@
+
+
 # Slot: role_counts
 
 URI: [summary_statistics:role_counts](https://w3id.org/oaklib/summary_statistics.role_counts)
@@ -9,11 +11,12 @@ URI: [summary_statistics:role_counts](https://w3id.org/oaklib/summary_statistics
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
+| [ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor |  no  |
 
 
 

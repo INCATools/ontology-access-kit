@@ -1,3 +1,5 @@
+
+
 # Slot: parent_document
 
 URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_document)
@@ -9,11 +11,12 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TextualElement](TextualElement.md) |  |  no  |
+| [TextualElement](TextualElement.md) |  |  no  |
 
 
 

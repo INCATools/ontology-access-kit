@@ -1,3 +1,5 @@
+
+
 # Slot: defaultLanguage
 
 URI: [protege:defaultLanguage](protege:defaultLanguage)
@@ -9,6 +11,7 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 * [informative_property](informative_property.md)
     * **defaultLanguage**
+
 
 
 
@@ -36,7 +39,7 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -46,7 +49,7 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 <details>
 ```yaml
 name: defaultLanguage
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: informative_property
 slot_uri: protege:defaultLanguage

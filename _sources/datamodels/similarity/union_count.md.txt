@@ -1,3 +1,5 @@
+
+
 # Slot: union_count
 
 URI: [sim:union_count](https://w3id.org/linkml/similarity/union_count)
@@ -9,6 +11,7 @@ URI: [sim:union_count](https://w3id.org/linkml/similarity/union_count)
 
 * [score](score.md)
     * **union_count**
+
 
 
 

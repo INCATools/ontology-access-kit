@@ -1,3 +1,5 @@
+
+
 # Slot: creator
 
 URI: [dcterms:creator](http://purl.org/dc/terms/creator)
@@ -14,23 +16,24 @@ URI: [dcterms:creator](http://purl.org/dc/terms/creator)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[HasProvenance](HasProvenance.md) |  |  no  |
-[Ontology](Ontology.md) | An OWL ontology |  no  |
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-[Class](Class.md) |  |  no  |
-[Property](Property.md) |  |  no  |
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-[HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-[Agent](Agent.md) |  |  no  |
-[Image](Image.md) |  |  no  |
-[Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [Class](Class.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Image](Image.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Property](Property.md) |  |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 
@@ -59,7 +62,7 @@ URI: [dcterms:creator](http://purl.org/dc/terms/creator)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -69,7 +72,7 @@ URI: [dcterms:creator](http://purl.org/dc/terms/creator)
 <details>
 ```yaml
 name: creator
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 close_mappings:
 - prov:wasAttributedTo
 rank: 1000

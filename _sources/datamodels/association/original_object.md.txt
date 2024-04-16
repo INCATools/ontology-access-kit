@@ -1,3 +1,5 @@
+
+
 # Slot: original_object
 
 
@@ -10,6 +12,7 @@ URI: [biolink:original_object](https://w3id.org/biolink/vocab/original_object)
 
 
 <!-- no inheritance hierarchy -->
+
 
 
 

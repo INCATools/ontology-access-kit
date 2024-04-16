@@ -90,6 +90,10 @@
 <div class="mermaid">
              classDiagram
     class ValidationConfiguration
+      ValidationConfiguration : documentation_objects
+        
+      ValidationConfiguration : lookup_references
+        
       ValidationConfiguration : max_number_results_per_type
         
       ValidationConfiguration : prompt_info
@@ -128,9 +132,19 @@
 <td><p>allows overriding the default OMO schema</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="prompt_info.html"><span class="std std-doc">prompt_info</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="lookup_references.html"><span class="std std-doc">lookup_references</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>if true, then look up references used as provenance (axiom annotation)</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="prompt_info.html"><span class="std std-doc">prompt_info</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
 <td><p>for AI agents, this allows passing through of additional info to the prompt</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="documentation_objects.html"><span class="std std-doc">documentation_objects</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>paths or URLs to files containing best practice documentation, SOPs, etc</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -220,12 +234,31 @@ attributes:
     domain_of:
     - ValidationConfiguration
     range: string
+  lookup_references:
+    name: lookup_references
+    description: if true, then look up references used as provenance (axiom annotation).
+      This may include looking up the PMID and checking if a publication is retracted.
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    domain_of:
+    - ValidationConfiguration
+    range: boolean
   prompt_info:
     name: prompt_info
     description: for AI agents, this allows passing through of additional info to
       the prompt
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
+    domain_of:
+    - ValidationConfiguration
+    range: string
+  documentation_objects:
+    name: documentation_objects
+    description: paths or URLs to files containing best practice documentation, SOPs,
+      etc. Primarily for AI agents to read when performing validation.
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    multivalued: true
     domain_of:
     - ValidationConfiguration
     range: string
@@ -272,6 +305,17 @@ attributes:
     domain_of:
     - ValidationConfiguration
     range: string
+  lookup_references:
+    name: lookup_references
+    description: if true, then look up references used as provenance (axiom annotation).
+      This may include looking up the PMID and checking if a publication is retracted.
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    alias: lookup_references
+    owner: ValidationConfiguration
+    domain_of:
+    - ValidationConfiguration
+    range: boolean
   prompt_info:
     name: prompt_info
     description: for AI agents, this allows passing through of additional info to
@@ -279,6 +323,18 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     rank: 1000
     alias: prompt_info
+    owner: ValidationConfiguration
+    domain_of:
+    - ValidationConfiguration
+    range: string
+  documentation_objects:
+    name: documentation_objects
+    description: paths or URLs to files containing best practice documentation, SOPs,
+      etc. Primarily for AI agents to read when performing validation.
+    from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
+    multivalued: true
+    alias: documentation_objects
     owner: ValidationConfiguration
     domain_of:
     - ValidationConfiguration

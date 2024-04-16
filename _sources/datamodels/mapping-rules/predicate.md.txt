@@ -1,3 +1,5 @@
+
+
 # Slot: predicate
 
 URI: [mappingrules:predicate](https://w3id.org/oak/mapping-rules-datamodel/predicate)
@@ -9,11 +11,12 @@ URI: [mappingrules:predicate](https://w3id.org/oak/mapping-rules-datamodel/predi
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
 
 
 

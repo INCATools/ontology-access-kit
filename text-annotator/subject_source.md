@@ -1,3 +1,5 @@
+
+
 # Slot: subject_source
 
 URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
@@ -9,12 +11,13 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[HasSpan](HasSpan.md) |  |  no  |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+| [HasSpan](HasSpan.md) |  |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
 
 
 

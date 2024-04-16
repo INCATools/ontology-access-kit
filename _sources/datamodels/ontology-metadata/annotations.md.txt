@@ -1,6 +1,8 @@
+
+
 # Slot: annotations
 
-URI: [omoschema:annotations](http://purl.obolibrary.org/obo/omo/schema/annotations)
+URI: [omoschema:annotations](https://w3id.org/oak/ontology-metadata/annotations)
 
 
 
@@ -9,11 +11,12 @@ URI: [omoschema:annotations](http://purl.obolibrary.org/obo/omo/schema/annotatio
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
 
 
 
@@ -42,7 +45,7 @@ URI: [omoschema:annotations](http://purl.obolibrary.org/obo/omo/schema/annotatio
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -52,7 +55,7 @@ URI: [omoschema:annotations](http://purl.obolibrary.org/obo/omo/schema/annotatio
 <details>
 ```yaml
 name: annotations
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 multivalued: true
 alias: annotations

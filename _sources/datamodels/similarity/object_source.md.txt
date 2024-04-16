@@ -1,3 +1,5 @@
+
+
 # Slot: object_source
 
 
@@ -14,11 +16,12 @@ URI: [sssom:object_source](http://w3id.org/sssom/object_source)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
 
 
 

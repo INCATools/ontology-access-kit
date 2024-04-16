@@ -1,6 +1,8 @@
+
+
 # Slot: version_property
 
-URI: [omoschema:version_property](http://purl.obolibrary.org/obo/omo/schema/version_property)
+URI: [omoschema:version_property](https://w3id.org/oak/ontology-metadata/version_property)
 
 
 
@@ -10,6 +12,7 @@ URI: [omoschema:version_property](http://purl.obolibrary.org/obo/omo/schema/vers
 * **version_property**
     * [versionIRI](versionIRI.md)
     * [versionInfo](versionInfo.md)
+
 
 
 
@@ -37,7 +40,7 @@ URI: [omoschema:version_property](http://purl.obolibrary.org/obo/omo/schema/vers
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -47,7 +50,7 @@ URI: [omoschema:version_property](http://purl.obolibrary.org/obo/omo/schema/vers
 <details>
 ```yaml
 name: version_property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: version_property

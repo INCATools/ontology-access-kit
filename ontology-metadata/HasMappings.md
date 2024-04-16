@@ -1,8 +1,10 @@
+
+
 # Class: HasMappings
 
 
 
-URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappings)
+URI: [omoschema:HasMappings](https://w3id.org/oak/ontology-metadata/HasMappings)
 
 
 
@@ -83,7 +85,7 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -109,7 +111,7 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 <details>
 ```yaml
 name: HasMappings
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -127,13 +129,13 @@ slots:
 <details>
 ```yaml
 name: HasMappings
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
   broadMatch:
     name: broadMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:broadMatch
@@ -145,7 +147,7 @@ attributes:
     range: Thing
   closeMatch:
     name: closeMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:closeMatch
@@ -157,7 +159,7 @@ attributes:
     range: Thing
   exactMatch:
     name: exactMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:exactMatch
@@ -169,7 +171,7 @@ attributes:
     range: Thing
   narrowMatch:
     name: narrowMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:narrowMatch
@@ -181,7 +183,7 @@ attributes:
     range: Thing
   database_cross_reference:
     name: database_cross_reference
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: oio:hasDbXref

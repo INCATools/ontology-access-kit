@@ -1,3 +1,5 @@
+
+
 # Slot: params
 
 
@@ -14,11 +16,12 @@ URI: [mappingrules:params](https://w3id.org/oak/mapping-rules-datamodel/params)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |  no  |
+| [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf... |  no  |
 
 
 

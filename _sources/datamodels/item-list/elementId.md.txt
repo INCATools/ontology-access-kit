@@ -1,3 +1,5 @@
+
+
 # Slot: elementId
 
 
@@ -16,11 +18,12 @@ URI: [itemList:elementId](https://w3id.org/linkml/item-list/elementId)
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[ListItem](ListItem.md) | an item in an item list |  no  |
+| [ListItem](ListItem.md) | an item in an item list |  no  |
 
 
 

@@ -1,3 +1,5 @@
+
+
 # Slot: matches_full_search_term
 
 
@@ -14,11 +16,12 @@ URI: [ontosearch:matches_full_search_term](https://w3id.org/oak/search-datamodel
 
 
 
+
 ## Applicable Classes
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-[SearchResult](SearchResult.md) | An individual search result |  no  |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
 
 
 
