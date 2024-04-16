@@ -2,18 +2,15 @@ import logging
 from dataclasses import dataclass
 from typing import Any, Iterable
 
-from sssom.constants import OWL_EQUIVALENT_CLASS
-
 from oaklib.converters.obo_graph_to_obo_format_converter import (
     OboGraphToOboFormatConverter,
 )
 from oaklib.datamodels.obograph import (
     DisjointClassExpressionsAxiom,
+    Graph,
     GraphDocument,
     LogicalDefinitionAxiom,
 )
-from oaklib.datamodels.vocabulary import IS_A, RDF_TYPE, SYNONYM_PRED_TO_SCOPE_MAP
-from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
@@ -25,6 +22,8 @@ class StreamingOboWriter(StreamingWriter):
     A writer that emits one OBO stanza at a time in one stream
     """
 
+    converter: OboGraphToOboFormatConverter = None
+
     def tag_val(self, k: str, v: Any, xrefs=None):
         self.file.write(f"{k}: {v}")
         if xrefs is not None:
@@ -33,46 +32,15 @@ class StreamingOboWriter(StreamingWriter):
 
     def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface
-        self.line("[Term]")
-        self.line(f"id: {curie}")
-        if label is None:
-            label = oi.label(curie)
-        self.tag_val("name", label)
-        defn = oi.definition(curie)
-        if defn:
-            if isinstance(oi, MetadataInterface):
-                _, anns = oi.definition_with_annotations(curie)
-            else:
-                anns = []
-            self.tag_val("def", f'"{defn}"', xrefs=[ann.object for ann in anns])
-        for _, x in oi.simple_mappings_by_curie(curie):
-            self.line(f"xref: {x}")
-        amap = oi.entity_alias_map(curie)
-        for a, vs in amap.items():
-            if a in SYNONYM_PRED_TO_SCOPE_MAP:
-                scope = SYNONYM_PRED_TO_SCOPE_MAP[a]
-                for v in vs:
-                    self.line(f'synonym: "{v}" {scope} []')
-        if isinstance(oi, OboGraphInterface):
-            rmap = oi.outgoing_relationship_map(curie)
-            for p in rmap.get(IS_A, []):
-                self.line(f"is_a: {p} ! {oi.label(p)}")
-            for r, ps in rmap.items():
-                if r != IS_A and r != RDF_TYPE and r != OWL_EQUIVALENT_CLASS:
-                    for p in ps:
-                        self.line(f"relationship: {r} {p} ! {oi.label(p)}")
-            try:
-                for ldef in oi.logical_definitions([curie]):
-                    for p in ldef.genusIds:
-                        self.line(f"intersection_of: {p} ! {oi.label(p)}")
-                    for r in ldef.restrictions:
-                        self.line(
-                            f"intersection_of: {r.propertyId} {r.fillerId} ! {oi.label(r.fillerId)}"
-                        )
-            except NotImplementedError:
-                logging.info("Logical definitions not implemented")
-
-        self.line("\n")
+        if self.converter is None:
+            self.converter = OboGraphToOboFormatConverter()
+        if not isinstance(oi, OboGraphInterface):
+            raise NotImplementedError
+        graph = oi.direct_graph(curie)
+        ext_graph = Graph(id="ext", nodes=[n for n in graph.nodes if n.id != curie])
+        graph.nodes = [n for n in graph.nodes if n.id == curie]
+        text = self.converter.dumps(graph, aux_graphs=[ext_graph])
+        self.file.write(text)
 
     def emit_multiple(self, entities: Iterable[CURIE], **kwargs):
         oi = self.ontology_interface

@@ -215,7 +215,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.compliance_tester.test_sssom_mappings(self.oi)
 
     def test_definitions(self):
-        self.compliance_tester.test_definitions(self.oi)
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
 
     def test_subsets(self):
         self.compliance_tester.test_subsets(self.oi)

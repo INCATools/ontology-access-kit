@@ -190,6 +190,7 @@ from oaklib.utilities.obograph_utils import (
     shortest_paths,
     trim_graph,
 )
+from oaklib.utilities.publication_utils.pubmed_wrapper import PubmedWrapper
 from oaklib.utilities.semsim.similarity_utils import load_information_content_map
 from oaklib.utilities.subsets.slimmer_utils import (
     filter_redundant,
@@ -197,9 +198,6 @@ from oaklib.utilities.subsets.slimmer_utils import (
 )
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
-from oaklib.utilities.validation.definition_ontology_rule import (
-    TextAndLogicalDefinitionMatchOntologyRule,
-)
 from oaklib.utilities.validation.lint_utils import lint_ontology
 from oaklib.utilities.validation.rule_runner import RuleRunner
 
@@ -433,6 +431,11 @@ configuration_file_option = click.option(
     "-C",
     "--configuration-file",
     help="Path to a configuration file. This is typically a YAML file, but may be a JSON file",
+)
+adapter_mapping_option = click.option(
+    "--adapter-mapping",
+    multiple=True,
+    help="Multiple prefix=selector pairs, e.g. --adapter-mapping uberon=db/uberon.db",
 )
 pivot_languages = click.option(
     "--pivot-languages/--no-pivot-languages",
@@ -3295,6 +3298,13 @@ def labels(
 @if_absent_option
 @additional_metadata_option
 @set_value_option
+@click.option(
+    "--lookup-references/--no-lookup-references",
+    "-P",
+    default=False,
+    show_default=True,
+    help="Lookup references for each term, e.g. PMIDs",
+)
 @autolabel_option
 def definitions(
     terms,
@@ -3304,6 +3314,7 @@ def definitions(
     output_type: str,
     if_absent: bool,
     autolabel: bool,
+    lookup_references: bool,
     set_value,
 ):
     """
@@ -3311,12 +3322,14 @@ def definitions(
 
     Example:
     -------
+
         runoak -i sqlite:obo:envo definitions 'tropical biome' 'temperate biome'
 
     You can use the ".all" selector to show all definitions for all terms in the ontology:
 
     Example:
     -------
+
         runoak -i sqlite:obo:envo definitions .all
 
     You can also include definition metadata, such as provenance and source:
@@ -3332,6 +3345,9 @@ def definitions(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    if lookup_references and not additional_metadata:
+        logging.warning("Setting lookup_references to True implies additional_metadata=True")
+        additional_metadata = True
     if additional_metadata:
         writer.heterogeneous_keys = True
     changes = []
@@ -3350,6 +3366,16 @@ def definitions(
             if metadata is None:
                 metadata = {}
             obj = dict(id=curie, label=labels.get(curie, None), definition=defn, **metadata)
+            if lookup_references:
+                refs = []
+                obj["references"] = refs
+                pubmed_wrapper = PubmedWrapper()
+                for _k, vs in metadata.items():
+                    pmids = [v for v in vs if v.startswith("PMID:")]
+                    if pmids:
+                        objs = pubmed_wrapper.objects_by_ids(pmids)
+                        refs.extend(objs)
+
             if set_value is not None:
                 # set the value by creating a KGCL change object for applying later
                 obj["new_value"] = set_value
@@ -5331,10 +5357,19 @@ def validate_multiple(dbs, output, schema, cutoff: int):
     show_default=True,
     help="If true, do not parse text annotations",
 )
+@configuration_file_option
+@adapter_mapping_option
 @output_type_option
 @output_option
 @click.argument("terms", nargs=-1)
-def validate_definitions(terms, skip_text_annotation, output: str, output_type: str):
+def validate_definitions(
+    terms,
+    skip_text_annotation,
+    output: str,
+    output_type: str,
+    configuration_file: str,
+    adapter_mapping: List[str],
+):
     """
     Checks presence and structure of text definitions.
 
@@ -5345,10 +5380,11 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     By default this will apply basic text mining of text definitions to check
     against machine actionable OBO text definition guideline rules.
     This can result in an initial lag - to skip this, and ONLY perform
-    checks for presence of definitions, use --skip-text-annotation:
+    checks for *presence* of definitions, use --skip-text-annotation:
 
     Example:
     -------
+
         runoak validate-definitions -i db/uberon.db --skip-text-annotation
 
     Like most OAK commands, this accepts lists of terms or term queries
@@ -5357,6 +5393,7 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
 
     Example:
     -------
+
          runoak validate-definitions -i db/cl.db CL:0002053
 
     Only on CL identifiers:
@@ -5377,6 +5414,7 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
 
     Notes:
     -----
+
     This command is largely redundant with the validate command, but is useful for
     targeted validation focused solely on definitions
 
@@ -5385,30 +5423,34 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     writer = _get_writer(
         output_type, impl, StreamingCsvWriter, datamodel=datamodels.validation_datamodel
     )
+    writer.autolabel = True
     writer.output = output
-    if isinstance(impl, ValidatorInterface):
-        if terms:
-            entities = query_terms_iterator(terms, impl)
-        else:
-            entities = None
-        definition_rule = TextAndLogicalDefinitionMatchOntologyRule(
-            skip_text_annotation=skip_text_annotation
-        )
-        for vr in definition_rule.evaluate(impl, entities=entities):
-            writer.emit(vr)
-        writer.finish()
-    else:
+    if not isinstance(impl, ValidatorInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
+    adapters = {}
+    for am in adapter_mapping:
+        prefix, selector = am.split("=")
+        adapters[prefix] = get_adapter(selector)
+        logging.info(f"Loaded adapter for {prefix} => {selector}")
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    for vr in impl.validate_definitions(
+        entities, adapters=adapters, configuration=config, skip_text_annotation=skip_text_annotation
+    ):
+        writer.emit(vr, label_fields=["subject"])
+    writer.finish()
 
 
 @main.command()
 @autolabel_option
 @output_type_option
-@click.option(
-    "--adapter-mapping",
-    multiple=True,
-    help="Multiple prefix=selector pairs, e.g. --adapter-mapping uberon=db/uberon.db",
-)
+@adapter_mapping_option
 @output_option
 @configuration_file_option
 @click.argument("terms", nargs=-1)
@@ -5472,6 +5514,104 @@ def validate_mappings(
         adapters[prefix] = get_adapter(selector)
         logging.info(f"Loaded adapter for {prefix} => {selector}")
     for result in impl.validate_mappings(entities, adapters=adapters, configuration=config):
+        writer.emit_obj(result)
+    writer.finish()
+
+
+@main.command()
+@autolabel_option
+@output_type_option
+@adapter_mapping_option
+@output_option
+@configuration_file_option
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.argument("terms", nargs=-1)
+def validate_synonyms(
+    terms,
+    autolabel,
+    adapter_mapping,
+    output: str,
+    output_type: str,
+    rules_file: str,
+    configuration_file: str,
+):
+    """
+    Validates synonyms in ontology using additional ontologies.
+
+    To run:
+
+        runoak validate-synonyms -i db/uberon.db
+
+    You can customize this mapping:
+
+        runoak validate-synonyms -i db/uberon.db --adapter-mapping uberon=db/uberon.db \
+            --adapter-mapping zfa=sqlite:obo:zfa
+
+    This will use a remote sqlite file for ZFA:nnnnnnn IDs.
+
+    You can use "*" as a wildcard, in the case where you have an application ontology
+    with many mapped entities merged in:
+
+        runoak validate-synonyms -i db/uberon.db --adapter-mapping "*"=db/merged.db"
+
+    You can also pass synonymizer rules. For example:
+
+        runoak -i sqlite:obo:go  validate-synonyms \
+           -R go-strip-activity.synonymizer.yaml GO:0000010 \
+            --adapter-mapping ec=sqlite:obo:eccode
+
+    In this case if the synonymizer rule file contains:
+
+        \b
+        rules:
+          - match: " activity"
+            replacement: ""
+        \b
+
+    Then the GO synonyms will have the word "activity" stripped from them, prior to attempting
+    to match with EC.
+
+    The default behavior for this command is to perform deterministic rule-based
+    checks; for example, the mapped IDs should not be obsolete, and if the mapping
+    is skos:exactMatch, then the cardinality is expected to be 1:1.
+
+    Other adapters may choose to implement bespoke behaviors. In future there
+    might be a boomer adapter that will perform probabilistic reasoning on the
+    mappings. The experimental LLM backend will use an LLM to qualitatively
+    validate mappings (see the LLM how-to guide for more details).
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, ValidatorInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
+    if rules_file:
+        ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
+    else:
+        ruleset = None
+
+    adapters = {}
+    for am in adapter_mapping:
+        prefix, selector = am.split("=")
+        adapters[prefix] = get_adapter(selector)
+        logging.info(f"Loaded adapter for {prefix} => {selector}")
+    for result in impl.validate_synonyms(
+        entities, adapters=adapters, configuration=config, synonymizer_rules=ruleset
+    ):
         writer.emit_obj(result)
     writer.finish()
 
@@ -6476,12 +6616,14 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 
     Example:
     -------
+
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
 
     If the `apply-patch` flag is NOT set then the main input will be KGCL commands
 
     Example:
     -------
+
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
 
     see https://github.com/INCATools/kgcl.

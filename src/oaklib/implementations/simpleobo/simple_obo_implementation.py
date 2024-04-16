@@ -101,6 +101,7 @@ from oaklib.inference.relation_graph_reasoner import RelationGraphReasoner
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    DEFINITION,
     LANGUAGE_TAG,
     METADATA_MAP,
     RELATIONSHIP,
@@ -448,6 +449,29 @@ class SimpleOboImplementation(
         if s:
             return s.quoted_value(TAG_DEFINITION)
 
+    def definitions(
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
+    ) -> Iterator[DEFINITION]:
+        for curie in curies:
+            s = self._stanza(curie, strict=False)
+            if s:
+                d = s.quoted_value(TAG_DEFINITION)
+                if d:
+                    if include_metadata:
+                        defn_tvs = [tv for tv in s.tag_values if tv.tag == TAG_DEFINITION]
+                        if defn_tvs:
+                            defn_tv = defn_tvs[0]
+                            defn, xrefs = defn_tv.as_definition()
+                            yield curie, defn, {HAS_DBXREF: xrefs}
+                    else:
+                        yield curie, d, None
+                elif include_missing:
+                    yield curie, None, None
+
     def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         for curie in curies:
             s = self._stanza(curie)
@@ -474,11 +498,14 @@ class SimpleOboImplementation(
         if isinstance(subject, str):
             subject = [subject]
         for curie in subject:
-            for p, vs in self.entity_alias_map(curie).items():
-                if p == LABEL_PREDICATE:
-                    continue
-                for v in vs:
-                    yield curie, SynonymPropertyValue(pred=p.replace("oio:", ""), val=v)
+            s = self._stanza(curie, strict=False)
+            if not s:
+                continue
+            for syn in s.synonyms():
+                pred = _synonym_scope_pred(syn[1]).replace("oio:", "")
+                yield curie, SynonymPropertyValue(
+                    pred=pred, val=syn[0], synonymType=syn[2], xrefs=syn[3]
+                )
 
     def map_shorthand_to_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
         """

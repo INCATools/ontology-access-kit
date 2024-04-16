@@ -182,6 +182,29 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         graph_id = "test"
         return Graph(id=graph_id, nodes=list(node_map.values()), edges=edges)
 
+    def direct_graph(
+        self,
+        curies: Union[CURIE, List[CURIE]],
+        **kwargs,
+    ) -> Graph:
+        """
+        Return a graph object that consists of all the nodes specified in the curies list,
+        extended with all direct relationships
+
+        :param curies:
+        :return: direct graph
+        """
+        if not isinstance(curies, list):
+            curies = [curies]
+        g = self._graph(self.relationships(subjects=curies))
+        for curie in curies:
+            n = self.node(curie, include_metadata=True)
+            if n:
+                g.nodes.append(n)
+        ldefs = list(self.logical_definitions(curies))
+        g.logicalDefinitionAxioms = ldefs
+        return g
+
     def ancestor_graph(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Graph:

@@ -1,10 +1,11 @@
 import logging
 from dataclasses import dataclass
-from typing import Iterable, Iterator, List, Optional
+from typing import Dict, Iterable, Iterator, List, Optional
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import LogicalDefinitionAxiom
 from oaklib.datamodels.ontology_metadata import OMOSCHEMA, DefinitionConstraintComponent
+from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResult
 from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE
 from oaklib.interfaces import TextAnnotatorInterface
@@ -51,7 +52,7 @@ class ProcessedTextDefinition:
 
 
 @dataclass
-class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
+class DefinitionOntologyRule(OntologyRule):
     """
     Text and logical definitions should match.
 
@@ -64,6 +65,8 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
     - S3: Use the genus differentia form
     - S7: Avoid circularity
     - S11: Match text and logical definitions
+
+    See `<https://w3id.org/oak/ontology-metadata/DefinitionConstraintComponent>`_ for more details.
 
     """
 
@@ -107,6 +110,7 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
         oi: BasicOntologyInterface,
         pdef: ProcessedTextDefinition,
         ldef: LogicalDefinitionAxiom,
+        anns_by_object: Dict[CURIE, TextAnnotation] = None,
     ) -> Iterator[ValidationResult]:
         """
         Check a text definition against a logical definition.
@@ -114,64 +118,52 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
         :param oi:
         :param pdef:
         :param ldef:
+        :param anns_by_object: text annotations of the text definition by object
         :return:
         """
         subject = ldef.definedClassId
-        if isinstance(oi, TextAnnotatorInterface) and not self.skip_text_annotation:
-            anns = list(oi.annotate_text(pdef.main_definition))
-            anns_by_object = {ann.object_id: ann for ann in anns}
 
-            def _check(
-                expected_id: CURIE, expected_in_text: str, is_genus=False
-            ) -> Iterator[ValidationResult]:
-                if expected_id in anns_by_object:
-                    if not expected_in_text:
-                        pass
-                    else:
-                        ann = anns_by_object[expected_id]
-                        if ann.match_string in expected_in_text:
-                            if is_genus and len(ann.match_string) < len(expected_in_text):
-                                yield ValidationResult(
-                                    subject=subject,
-                                    predicate=HAS_DEFINITION_CURIE,
-                                    type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
-                                    object_str=expected_in_text,
-                                    info=f"Did not match whole text: {ann.match_string} < {expected_in_text}",
-                                )
-                        else:
+        def _check(
+            expected_id: CURIE, expected_in_text: str, is_genus=False
+        ) -> Iterator[ValidationResult]:
+            if expected_id in anns_by_object:
+                if not expected_in_text:
+                    pass
+                else:
+                    ann = anns_by_object[expected_id]
+                    if ann.match_string in expected_in_text:
+                        if is_genus and len(ann.match_string) < len(expected_in_text):
                             yield ValidationResult(
-                                type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
                                 subject=subject,
                                 predicate=HAS_DEFINITION_CURIE,
+                                type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
                                 object_str=expected_in_text,
-                                info=f"Wrong position, '{ann.match_string}' not in '{expected_in_text}'",
+                                info=f"Did not match whole text: {ann.match_string} < {expected_in_text}",
                             )
-                else:
-                    yield ValidationResult(
-                        type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
-                        # object=expected_id,
-                        predicate=HAS_DEFINITION_CURIE,
-                        object_str=expected_in_text,
-                        subject=subject,
-                        info=f"Not found: {expected_id}",
-                    )
-
-            for genus in ldef.genusIds:
-                for result in _check(genus, pdef.genus_text, is_genus=True):
-                    yield result
-            for restr in ldef.restrictions:
-                for result in _check(restr.fillerId, pdef.differentia_text):
-                    yield result
-            if subject in anns_by_object:
+                    else:
+                        yield ValidationResult(
+                            type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
+                            subject=subject,
+                            predicate=HAS_DEFINITION_CURIE,
+                            object_str=expected_in_text,
+                            info=f"Wrong position, '{ann.match_string}' not in '{expected_in_text}'",
+                        )
+            else:
                 yield ValidationResult(
-                    type=DefinitionConstraintComponent.Circularity.meaning,
-                    subject=subject,
+                    type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
+                    # object=expected_id,
                     predicate=HAS_DEFINITION_CURIE,
-                    object_str=pdef.main_definition,
-                    info=f"Circular, {anns_by_object[subject].match_string} in definition",
+                    object_str=expected_in_text,
+                    subject=subject,
+                    info=f"Logical definition element not found in text: {expected_id}",
                 )
-        else:
-            logging.info(f"Skipping text annotation for {subject}")
+
+        for genus in ldef.genusIds:
+            for result in _check(genus, pdef.genus_text, is_genus=True):
+                yield result
+        for restr in ldef.restrictions:
+            for result in _check(restr.fillerId, pdef.differentia_text):
+                yield result
 
     def evaluate(
         self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None
@@ -195,6 +187,8 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
             if subject.startswith("<"):
                 continue
             tdef = oi.definition(subject)
+
+            anns_by_object = {}
             if tdef:
                 pdef = self.process_text_definition(tdef)
                 if not pdef.genus_text or not pdef.differentia_text:
@@ -207,6 +201,10 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                         info="Cannot parse genus and differentia",
                     )
                     problem_count += 1
+                if isinstance(oi, TextAnnotatorInterface) and not self.skip_text_annotation:
+                    anns = list(oi.annotate_text(pdef.main_definition))
+                    anns_by_object = {ann.object_id: ann for ann in anns}
+                    logging.debug(f"ANNS {tdef} ==> {len(anns)}")
             else:
                 pdef = None
                 yield ValidationResult(
@@ -217,10 +215,34 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                     info="Missing text definition",
                 )
                 problem_count += 1
+            if subject in anns_by_object:
+                ann = anns_by_object[subject]
+                text_before = tdef[0 : ann.subject_start]
+                text_after = tdef[ann.subject_end :]
+                is_terms = [" is ", " are ", " were "]
+                if len(text_before) < 5 or any(t for t in is_terms if text_after.startswith(t)):
+                    yield ValidationResult(
+                        subject=subject,
+                        predicate=HAS_DEFINITION_CURIE,
+                        type=DefinitionConstraintComponent.Conventions.meaning,
+                        info="Definiendum should not appear at the start",
+                    )
+                    problem_count += 1
+                else:
+                    yield ValidationResult(
+                        type=DefinitionConstraintComponent.Circularity.meaning,
+                        subject=subject,
+                        predicate=HAS_DEFINITION_CURIE,
+                        object_str=pdef.main_definition,
+                        info=f"Circular, {ann.match_string} ({subject} in definition",
+                    )
+                    problem_count += 1
             if isinstance(oi, OboGraphInterface):
                 for ldef in oi.logical_definitions([subject]):
                     if pdef:
-                        for result in self.check_against_logical_definition(oi, pdef, ldef):
+                        for result in self.check_against_logical_definition(
+                            oi, pdef, ldef, anns_by_object
+                        ):
                             yield result
                             problem_count += 1
                     if len(ldef.genusIds) != 1:

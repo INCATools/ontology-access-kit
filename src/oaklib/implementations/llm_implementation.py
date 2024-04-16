@@ -8,6 +8,8 @@ import time
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple
 
+import pystow
+from linkml_runtime.dumpers import yaml_dumper
 from sssom_schema import Mapping
 from tenacity import (
     retry,
@@ -20,13 +22,16 @@ from oaklib import BasicOntologyInterface
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
 from oaklib.datamodels.item_list import ItemList
 from oaklib.datamodels.obograph import DefinitionPropertyValue
+from oaklib.datamodels.ontology_metadata import DefinitionConstraintComponent
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import (
+    DefinitionValidationResult,
     MappingValidationResult,
+    SeverityOptions,
     ValidationConfiguration,
 )
-from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_EXACT_MATCH
+from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, SKOS_EXACT_MATCH
 from oaklib.interfaces import (
     MappingProviderInterface,
     OboGraphInterface,
@@ -41,6 +46,7 @@ from oaklib.interfaces.ontology_generator_interface import OntologyGenerationInt
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TEXT
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.iterator_utils import chunk
 
 if TYPE_CHECKING:
     import llm
@@ -128,6 +134,27 @@ def query_model_to_json(model, *args, **kwargs):
     text = json.loads(response.text())
     logger.debug(f"Response: {text}")
     return text
+
+
+def config_to_prompt(configuration: Optional[ValidationConfiguration]) -> Optional[str]:
+    if not configuration:
+        return None
+    prompt = ""
+    if configuration:
+        if configuration.prompt_info:
+            prompt += configuration.prompt_info
+        if configuration.documentation_objects:
+            import html2text
+
+            for obj in configuration.documentation_objects:
+                if obj.startswith("http:") or obj.startswith("https:"):
+                    path = pystow.ensure("oaklib", "documents", url=obj)
+                else:
+                    path = obj
+                with open(path) as f:
+                    html = f.read()
+                    prompt += html2text.html2text(html)
+    return prompt
 
 
 @dataclass
@@ -498,6 +525,79 @@ class LLMImplementation(
                 suggested_predicate=obj.get("predicate_modifications", None),
                 suggested_modifications=mods,
             )
+
+    def validate_definitions(
+        self,
+        entities: Iterable[CURIE] = None,
+        configuration: ValidationConfiguration = None,
+        skip_text_annotation=False,
+        **kwargs,
+    ) -> Iterable[DefinitionValidationResult]:
+        """
+        Validate text definitions for a set of entities.
+
+        :param entities:
+        :param configuration:
+        :param kwargs:
+        :return:
+        """
+        model = self.get_model()
+        system_prompt = (
+            "Your job is to evaluate how well aligned an ontology term's definition "
+            "to the reference cited in that definition. Rank the level of alignment between LOW, "
+            "MEDIUM, and HIGH. If the definition is too specific, say this. "
+            "Highlight sections from the abstract that align with, or misalign with the definition."
+        )
+        extra = config_to_prompt(configuration)
+        if extra:
+            system_prompt += "\n" + extra
+
+        if entities is None:
+            entities = self.entities(filter_obsoletes=True)
+
+        wrapped = self.wrapped_adapter
+        if not isinstance(wrapped, ValidatorInterface):
+            raise NotImplementedError("Wrapped adapter must support validation")
+        for entity_it in chunk(entities):
+            for entity, defn, metadata in wrapped.definitions(
+                entity_it,
+                include_metadata=True,
+            ):
+                for _, vs in metadata.items():
+                    ref_map = wrapped.lookup_references(vs)
+                    if not ref_map:
+                        continue
+                    node = wrapped.node(entity)
+                    for ref, ref_obj in ref_map.items():
+                        ref_obj_str = yaml_dumper.dumps(ref_obj)
+                        prompt = (
+                            "Term:\n"
+                            f"{yaml_dumper.dumps(node)}"
+                            "Definition references:\n"
+                            f"{ref_obj_str}"
+                        )
+                        resp = query_model(model, prompt, system_prompt).text()
+                        if "HIGH" in resp:
+                            severity = SeverityOptions.INFO
+                        elif "MEDIUM" in resp:
+                            severity = SeverityOptions.WARNING
+                        elif "LOW" in resp:
+                            severity = SeverityOptions.ERROR
+                        else:
+                            severity = SeverityOptions.INFO
+                            logger.warning(f"Unknown severity: {resp}")
+                            resp += " (defaulting to INFO as no ranking found)"
+                        result = DefinitionValidationResult(
+                            subject=entity,
+                            severity=SeverityOptions(severity),
+                            predicate=HAS_DEFINITION_CURIE,
+                            object_str=ref_obj_str,
+                            definition=defn,
+                            definition_source=ref,
+                            type=DefinitionConstraintComponent.MatchTextAndReference.meaning,
+                            info=resp,
+                        )
+                        yield result
 
     def enriched_classes(
         self,
