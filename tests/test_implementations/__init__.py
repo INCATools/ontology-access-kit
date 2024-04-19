@@ -96,6 +96,7 @@ from tests import (
     CYTOPLASM,
     CYTOPLASMIC_REGION,
     ENDOMEMBRANE_SYSTEM,
+    ENVELOPE,
     EUKARYOTA,
     FAKE_ID,
     FUNGI,
@@ -120,6 +121,8 @@ from tests import (
     NUCLEUS,
     OPISTHOKONTA,
     ORGANELLE,
+    ORGANELLE_ENVELOPE,
+    ORGANELLE_MEMBRANE,
     PHENOTYPIC_ABNORMALITY,
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
@@ -614,6 +617,42 @@ class ComplianceTester:
                 test.assertEqual([expected_rel], rels)
                 irels = list(oi.incoming_relationships(o, predicates=[p]))
                 test.assertIn((p, s), irels)
+
+    def test_entailed_relationships(self, oi: OboGraphInterface):
+        """
+        Tests entailed relationship methods for compliance.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (
+                NUCLEAR_MEMBRANE,
+                [IS_A, PART_OF],
+                {IS_A: {ORGANELLE_MEMBRANE}, PART_OF: {NUCLEAR_ENVELOPE}},
+            ),
+            (
+                NUCLEAR_MEMBRANE,
+                [IS_A, OVERLAPS],
+                {IS_A: {ORGANELLE_MEMBRANE}, OVERLAPS: {NUCLEAR_ENVELOPE}},
+            ),
+            (NUCLEAR_MEMBRANE, [IS_A], {IS_A: {ORGANELLE_MEMBRANE}}),
+            (
+                NUCLEAR_MEMBRANE,
+                [PART_OF],
+                {PART_OF: {NUCLEAR_ENVELOPE, ORGANELLE_ENVELOPE, ENVELOPE}},
+            ),
+        ]
+        for curie, preds, expected in cases:
+            logging.info(f"TESTS FOR {curie}")
+            rels = list(oi.non_redundant_entailed_relationships(subjects=[curie], predicates=preds))
+            objs_by_pred = {p: set() for p in preds}
+            for s, p, o in rels:
+                objs_by_pred[p].add(o)
+                assert s == curie
+            for p in preds:
+                test.assertCountEqual(expected[p], objs_by_pred[p])
 
     def test_rbox_relationships(self, oi: BasicOntologyInterface):
         """

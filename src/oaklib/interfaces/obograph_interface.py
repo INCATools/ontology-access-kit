@@ -279,6 +279,8 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         )
         rel_by_sp = defaultdict(list)
         for s, p, o in relationships:
+            if s == o:
+                continue
             rel_by_sp[(s, p)].append(o)
         for (s, p), objs in rel_by_sp.items():
             redundant_set = set()

@@ -90,6 +90,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.compliance_tester.test_relationships(oi, ignore_annotation_edges=False)
 
+    def test_entailed_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        self.compliance_tester.test_entailed_relationships(oi)
+
     def test_relationships_chunking(self):
         """
         Tests behavior for chunking relationship queries
