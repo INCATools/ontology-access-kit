@@ -259,6 +259,36 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             self.transitive_query_cache[key] = g
         return g
 
+    def non_redundant_entailed_relationships(
+        self,
+        predicates: List[PRED_CURIE] = None,
+        **kwargs,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Yields all relationships that are directly entailed.
+
+        See https://github.com/INCATools/ontology-access-kit/issues/739
+
+        :param kwargs: same as relationships
+        :return:
+        """
+        if "include_entailed" in kwargs:
+            kwargs.pop("include_entailed")
+        relationships = list(
+            self.relationships(predicates=predicates, include_entailed=True, **kwargs)
+        )
+        rel_by_sp = defaultdict(list)
+        for s, p, o in relationships:
+            rel_by_sp[(s, p)].append(o)
+        for (s, p), objs in rel_by_sp.items():
+            redundant_set = set()
+            for o in objs:
+                ancs = list(self.ancestors(o, predicates=predicates, reflexive=False))
+                redundant_set.update(ancs)
+            for o in objs:
+                if o not in redundant_set:
+                    yield s, p, o
+
     def ancestors(
         self,
         start_curies: Union[CURIE, List[CURIE]],

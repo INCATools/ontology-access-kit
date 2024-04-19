@@ -3410,6 +3410,12 @@ def definitions(
     help="Include entailed indirect relationships",
 )
 @click.option(
+    "--non-redundant-entailed/--no-non-redundant-entailed",
+    default=False,
+    show_default=True,
+    help="Include entailed but exclude entailed redundant relationships",
+)
+@click.option(
     "--include-tbox/--no-include-tbox",
     default=True,
     show_default=True,
@@ -3439,6 +3445,7 @@ def relationships(
     include_entailed: bool,
     include_tbox: bool,
     include_abox: bool,
+    non_redundant_entailed: bool,
     include_metadata: bool,
 ):
     """
@@ -3509,6 +3516,15 @@ def relationships(
         include_tbox=include_tbox,
         include_entailed=include_entailed,
     )
+    if non_redundant_entailed:
+        if not isinstance(impl, OboGraphInterface):
+            raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        up_it = impl.non_redundant_entailed_relationships(
+            subjects=curies,
+            predicates=actual_predicates,
+            include_abox=include_abox,
+            include_tbox=include_tbox,
+        )
     if direction is None or direction == Direction.up.value:
         it = up_it
     elif direction == Direction.down.value:
