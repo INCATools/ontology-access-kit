@@ -111,10 +111,10 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
 
-    @unittest.skip("Contents of go-nucleus file need to be aligned")
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi)
 
+    @unittest.skip("Contents of go-nucleus file need to be aligned")
     def test_entailed_relationships(self):
         self.compliance_tester.test_entailed_relationships(self.oi)
 
