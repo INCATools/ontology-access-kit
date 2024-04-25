@@ -16,11 +16,11 @@ URI: [summary_statistics:id](https://w3id.org/oaklib/summary_statistics.id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
-| [ContributorRole](ContributorRole.md) | A role that a contributor can have |  no  |
 | [Ontology](Ontology.md) | An ontology |  no  |
 | [Agent](Agent.md) | An agent |  no  |
 | [SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports |  no  |
+| [UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object |  no  |
+| [ContributorRole](ContributorRole.md) | A role that a contributor can have |  no  |
 | [GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource |  no  |
 
 

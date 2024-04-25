@@ -21,18 +21,18 @@ URI: [skos:broadMatch](http://www.w3.org/2004/02/skos/core#broadMatch)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Class](Class.md) |  |  yes  |
-| [Image](Image.md) |  |  no  |
-| [HasMappings](HasMappings.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Property](Property.md) |  |  yes  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Image](Image.md) |  |  no  |
+| [Class](Class.md) |  |  yes  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Agent](Agent.md) |  |  no  |
+| [HasMappings](HasMappings.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 

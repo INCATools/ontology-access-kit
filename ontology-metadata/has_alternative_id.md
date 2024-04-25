@@ -26,18 +26,18 @@ URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlte
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [HasLifeCycle](HasLifeCycle.md) |  |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Class](Class.md) |  |  no  |
-| [Image](Image.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Image](Image.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
 | [Agent](Agent.md) |  |  no  |
+| [HasLifeCycle](HasLifeCycle.md) |  |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
 
 
 

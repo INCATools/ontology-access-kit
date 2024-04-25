@@ -17,8 +17,8 @@ URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements |  no  |
-| [Synonymizer](Synonymizer.md) |  |  no  |
 | [Test](Test.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) |  |  no  |
 
 
 
