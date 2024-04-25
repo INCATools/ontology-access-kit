@@ -156,7 +156,7 @@ Support for SSSOM
 
 Currently SSSOM is supported as an *export* format, and as an internal datamodel, but not as an *import* format. Currently the only
 way to access mappings is if they are bundled with the ontology. Note that bundled mappings typically lack
-a lot the rich metadata that is distrubuted with SSSOM.
+a lot the rich metadata that is distributed with SSSOM.
 
 For working directly with SSSOM files you can use the
 `SSSOM Python library <https://github.com/mapping-commons/sssom-py>`_.
