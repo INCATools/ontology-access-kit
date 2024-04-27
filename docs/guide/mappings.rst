@@ -89,10 +89,10 @@ In Python
 Directionality of mappings
 --------------------------
 
-While mappings are often thought of as unidirectional, this is not quite true in practice:
+While mappings are often thought of as bidirectional, this is not quite true in practice:
 
 - Some mapping predicates such as ``skos:broadMatch`` and ``skos:narrowMatch`` are inherently directional
-- Mappings may only be asserted in one direction, in one ontology
+- Many mappings are only be asserted in one ontology, and may be "invisible" when queried from the mapped ontology
 
 At the time of writing, most ontologies bundle mappings that are uncommitted `oio:hasDbXref`.
 
