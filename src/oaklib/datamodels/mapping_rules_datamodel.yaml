@@ -2,8 +2,14 @@ id: https://w3id.org/oak/mapping-rules-datamodel
 title: Mapping Rules Datamodel
 name: mapping-rules-datamodel
 description: >-
-  A datamodel for specifying lexical mapping rules
+  A datamodel for specifying lexical mapping rules.
+  Rules consist of *preconditions* which are used to match elements to match on,
+  and *postconditions* which are used to generate new elements. Each rule can be assigned
+  a *weight*, these weights are summed and then a logit function applied to obtain
+  an SSSOM-compatible confidence score.
 license: https://creativecommons.org/publicdomain/zero/1.0/
+see_also:
+  - https://oboacademy.github.io/obook/tutorial/lexmatch-tutorial/
 
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -74,61 +80,43 @@ classes:
     attributes:
       subject_source_one_of:
         multivalued: true
+        description: The source of the subject to be matched.
+          Multiple values can be provided, it must match at least one.
       object_source_one_of:
         multivalued: true
+        description: The source of the object to be matched.
+          Multiple values can be provided, it must match at least one.
       mapping_source_one_of:
         multivalued: true
+        description: The source of the mapping to be matched.
+          Multiple values can be provided, it must match at least one.
       subject_match_field_one_of:
         multivalued: true
+        description: The field in the subject to be matched.
+          Multiple values can be provided, it must match at least one.
       object_match_field_one_of:
         multivalued: true
+        description: The field in the object to be matched.
+          Multiple values can be provided, it must match at least one.
       transformations_included_in:
         multivalued: true
       predicate_id_one_of:
         multivalued: true
+        description: The predicate to be matched. Multiple values can be provided, it must match at least one.
 
   Postcondition:
     attributes:
       predicate_id:
+        description: The predicate that is inferred
         comments:
           - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes narrow
       weight:
-        description: Weighting of the rule, positive increases the confidence, negative decreases
+        description: Weighting of the rule. A weight of zero corresponds to 0.5 confidence in the mapping.
+          Setting to +1 or -1 indicates moderate confidence or lack of confidence. A logit scale is used.
+          All weights are summed together to determine the final confidence.
         range: float
         see_also:
           - https://en.wikipedia.org/wiki/Logit
           - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
 
-  Synonymizer:
-   attributes:
-    description:
-      description: Description of the rule.
-      range: string
-    match:
-      description: Reg-ex rule to match substrings in labels.
-      range: string
-    match_scope:
-      description: Scope of the reg-ex rule
-      range: string
-    replacement:
-      description: Reg-ex rule to replace substrings in labels
-      range: string
-    qualifier:
-      description: Type of match for the new synonym generated.
-      range: string
-    prefix:
-      description: The rule applies to nodes of a specific prefix.
-      range: string
-    tests:
-      description: Unit tests for each rules.
-      range: Test
-  
-  Test:
-   attributes:
-    input:
-     description: Input string for the rule.
-    output:
-     description: Output based on the rule.
-    prefix:
-      description: The prefix that qualifies for the rule.
      

@@ -4067,6 +4067,10 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
 
        https://w3id.org/oak/mapping-provider
 
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Mappings.ipynb
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
