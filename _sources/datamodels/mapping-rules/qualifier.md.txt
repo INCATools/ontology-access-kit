@@ -21,7 +21,7 @@ URI: [mappingrules:qualifier](https://w3id.org/oak/mapping-rules-datamodel/quali
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) | Specification of a rule for generating a synonym or alternate lexical element |  no  |
 
 
 

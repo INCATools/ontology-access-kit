@@ -44,13 +44,13 @@ URI: [mappingrules:Precondition](https://w3id.org/oak/mapping-rules-datamodel/Pr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
-| [object_source_one_of](object_source_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
-| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
-| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
-| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
+| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> [String](String.md) | The source of the subject to be matched | direct |
+| [object_source_one_of](object_source_one_of.md) | 0..* <br/> [String](String.md) | The source of the object to be matched | direct |
+| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> [String](String.md) | The source of the mapping to be matched | direct |
+| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> [String](String.md) | The field in the subject to be matched | direct |
+| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> [String](String.md) | The field in the object to be matched | direct |
 | [transformations_included_in](transformations_included_in.md) | 0..* <br/> [String](String.md) |  | direct |
-| [predicate_id_one_of](predicate_id_one_of.md) | 0..* <br/> [String](String.md) |  | direct |
+| [predicate_id_one_of](predicate_id_one_of.md) | 0..* <br/> [String](String.md) | The predicate to be matched | direct |
 
 
 
@@ -109,6 +109,8 @@ from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
+    description: The source of the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -116,6 +118,8 @@ attributes:
     - Precondition
   object_source_one_of:
     name: object_source_one_of
+    description: The source of the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -123,6 +127,8 @@ attributes:
     - Precondition
   mapping_source_one_of:
     name: mapping_source_one_of
+    description: The source of the mapping to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -130,6 +136,8 @@ attributes:
     - Precondition
   subject_match_field_one_of:
     name: subject_match_field_one_of
+    description: The field in the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -137,6 +145,8 @@ attributes:
     - Precondition
   object_match_field_one_of:
     name: object_match_field_one_of
+    description: The field in the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -151,6 +161,8 @@ attributes:
     - Precondition
   predicate_id_one_of:
     name: predicate_id_one_of
+    description: The predicate to be matched. Multiple values can be provided, it
+      must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -170,6 +182,8 @@ from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
+    description: The source of the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -180,6 +194,8 @@ attributes:
     range: string
   object_source_one_of:
     name: object_source_one_of
+    description: The source of the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -190,6 +206,8 @@ attributes:
     range: string
   mapping_source_one_of:
     name: mapping_source_one_of
+    description: The source of the mapping to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -200,6 +218,8 @@ attributes:
     range: string
   subject_match_field_one_of:
     name: subject_match_field_one_of
+    description: The field in the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -210,6 +230,8 @@ attributes:
     range: string
   object_match_field_one_of:
     name: object_match_field_one_of
+    description: The field in the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -230,6 +252,8 @@ attributes:
     range: string
   predicate_id_one_of:
     name: predicate_id_one_of
+    description: The predicate to be matched. Multiple values can be provided, it
+      must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true

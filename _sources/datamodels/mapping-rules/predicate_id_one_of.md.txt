@@ -2,6 +2,11 @@
 
 # Slot: predicate_id_one_of
 
+
+_The predicate to be matched. Multiple values can be provided, it must match at least one._
+
+
+
 URI: [mappingrules:predicate_id_one_of](https://w3id.org/oak/mapping-rules-datamodel/predicate_id_one_of)
 
 
@@ -55,6 +60,8 @@ URI: [mappingrules:predicate_id_one_of](https://w3id.org/oak/mapping-rules-datam
 <details>
 ```yaml
 name: predicate_id_one_of
+description: The predicate to be matched. Multiple values can be provided, it must
+  match at least one.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true

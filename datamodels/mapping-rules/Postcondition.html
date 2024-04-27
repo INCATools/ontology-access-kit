@@ -108,12 +108,12 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="std std-doc">predicate_id</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The predicate that is inferred</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="weight.html"><span class="std std-doc">weight</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Float.html"><span class="std std-doc">Float</span></a></p></td>
-<td><p>Weighting of the rule, positive increases the confidence, negative decreases</p></td>
+<td><p>Weighting of the rule</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -177,6 +177,7 @@ from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   predicate_id:
     name: predicate_id
+    description: The predicate that is inferred
     comments:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
@@ -186,8 +187,10 @@ attributes:
     - Postcondition
   weight:
     name: weight
-    description: Weighting of the rule, positive increases the confidence, negative
-      decreases
+    description: Weighting of the rule. A weight of zero corresponds to 0.5 confidence
+      in the mapping. Setting to +1 or -1 indicates moderate confidence or lack of
+      confidence. A logit scale is used. All weights are summed together to determine
+      the final confidence.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     see_also:
     - https://en.wikipedia.org/wiki/Logit
@@ -207,6 +210,7 @@ from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   predicate_id:
     name: predicate_id
+    description: The predicate that is inferred
     comments:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
@@ -219,8 +223,10 @@ attributes:
     range: string
   weight:
     name: weight
-    description: Weighting of the rule, positive increases the confidence, negative
-      decreases
+    description: Weighting of the rule. A weight of zero corresponds to 0.5 confidence
+      in the mapping. Setting to +1 or -1 indicates moderate confidence or lack of
+      confidence. A logit scale is used. All weights are summed together to determine
+      the final confidence.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     see_also:
     - https://en.wikipedia.org/wiki/Logit

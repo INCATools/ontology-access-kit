@@ -21,7 +21,7 @@ URI: [mappingrules:input](https://w3id.org/oak/mapping-rules-datamodel/input)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Test](Test.md) |  |  no  |
+| [Test](Test.md) | A unit test for a rule, specifies an intended output for an input |  no  |
 
 
 

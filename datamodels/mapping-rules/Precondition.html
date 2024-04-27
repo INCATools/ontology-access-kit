@@ -119,27 +119,27 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="std std-doc">subject_source_one_of</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The source of the subject to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="std std-doc">object_source_one_of</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The source of the object to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="std std-doc">mapping_source_one_of</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The source of the mapping to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="std std-doc">subject_match_field_one_of</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The field in the subject to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="std std-doc">object_match_field_one_of</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The field in the object to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="std std-doc">transformations_included_in</span></a></p></td>
@@ -149,7 +149,7 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="predicate_id_one_of.html"><span class="std std-doc">predicate_id_one_of</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p></p></td>
+<td><p>The predicate to be matched</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -214,6 +214,8 @@ from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
+    description: The source of the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -221,6 +223,8 @@ attributes:
     - Precondition
   object_source_one_of:
     name: object_source_one_of
+    description: The source of the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -228,6 +232,8 @@ attributes:
     - Precondition
   mapping_source_one_of:
     name: mapping_source_one_of
+    description: The source of the mapping to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -235,6 +241,8 @@ attributes:
     - Precondition
   subject_match_field_one_of:
     name: subject_match_field_one_of
+    description: The field in the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -242,6 +250,8 @@ attributes:
     - Precondition
   object_match_field_one_of:
     name: object_match_field_one_of
+    description: The field in the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -256,6 +266,8 @@ attributes:
     - Precondition
   predicate_id_one_of:
     name: predicate_id_one_of
+    description: The predicate to be matched. Multiple values can be provided, it
+      must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -273,6 +285,8 @@ from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
+    description: The source of the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -283,6 +297,8 @@ attributes:
     range: string
   object_source_one_of:
     name: object_source_one_of
+    description: The source of the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -293,6 +309,8 @@ attributes:
     range: string
   mapping_source_one_of:
     name: mapping_source_one_of
+    description: The source of the mapping to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -303,6 +321,8 @@ attributes:
     range: string
   subject_match_field_one_of:
     name: subject_match_field_one_of
+    description: The field in the subject to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -313,6 +333,8 @@ attributes:
     range: string
   object_match_field_one_of:
     name: object_match_field_one_of
+    description: The field in the object to be matched. Multiple values can be provided,
+      it must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true
@@ -333,6 +355,8 @@ attributes:
     range: string
   predicate_id_one_of:
     name: predicate_id_one_of
+    description: The predicate to be matched. Multiple values can be provided, it
+      must match at least one.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     multivalued: true

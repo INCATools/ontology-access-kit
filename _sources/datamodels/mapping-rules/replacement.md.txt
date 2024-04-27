@@ -21,7 +21,7 @@ URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/rep
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) | Specification of a rule for generating a synonym or alternate lexical element |  no  |
 
 
 
@@ -31,7 +31,7 @@ URI: [mappingrules:replacement](https://w3id.org/oak/mapping-rules-datamodel/rep
 
 ## Properties
 
-* Range: [String](String.md)
+* Range: [RegularExpressionString](RegularExpressionString.md)
 
 
 
@@ -65,7 +65,7 @@ alias: replacement
 owner: Synonymizer
 domain_of:
 - Synonymizer
-range: string
+range: RegularExpressionString
 
 ```
 </details>

@@ -2,6 +2,11 @@
 
 # Slot: mapping_source_one_of
 
+
+_The source of the mapping to be matched. Multiple values can be provided, it must match at least one._
+
+
+
 URI: [mappingrules:mapping_source_one_of](https://w3id.org/oak/mapping-rules-datamodel/mapping_source_one_of)
 
 
@@ -55,6 +60,8 @@ URI: [mappingrules:mapping_source_one_of](https://w3id.org/oak/mapping-rules-dat
 <details>
 ```yaml
 name: mapping_source_one_of
+description: The source of the mapping to be matched. Multiple values can be provided,
+  it must match at least one.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true

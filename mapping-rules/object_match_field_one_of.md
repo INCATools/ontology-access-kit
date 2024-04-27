@@ -2,6 +2,11 @@
 
 # Slot: object_match_field_one_of
 
+
+_The field in the object to be matched. Multiple values can be provided, it must match at least one._
+
+
+
 URI: [mappingrules:object_match_field_one_of](https://w3id.org/oak/mapping-rules-datamodel/object_match_field_one_of)
 
 
@@ -55,6 +60,8 @@ URI: [mappingrules:object_match_field_one_of](https://w3id.org/oak/mapping-rules
 <details>
 ```yaml
 name: object_match_field_one_of
+description: The field in the object to be matched. Multiple values can be provided,
+  it must match at least one.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
 multivalued: true

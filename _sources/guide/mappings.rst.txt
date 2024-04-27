@@ -26,11 +26,13 @@ mappings are represented as simple lists of mapped CURIEs, without any metadata.
 Mappings in OAK
 ---------------
 
-To see all mappings for a concept or concept, you can use the mappings command:
+To see all mappings for a concept or concept, you can use the mappings command.
+
+See the `Notebook example on mappings <https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Mappings.ipynb>`_.
 
 .. code-block:: bash
 
-    $ runoak -i sqlite:obo:uberon mappings brain
+    $ runoak -i sqlite:obo:uberon mappings UBERON:0000955
     ...
     ---
     subject_id: UBERON:0000955
@@ -51,7 +53,7 @@ To get this as SSSOM TSV:
 
 .. code-block:: bash
 
-    $ runoak -i sqlite:obo:uberon mappings brain --output-type sssom
+    $ runoak -i sqlite:obo:uberon mappings UBERON:0000955 --output-type sssom
 
 .. csv-table:: uberon sssom mappings
     :header: subject_id,subject_label,predicate_id,object_id,mapping_justification,subject_source,object_source
@@ -84,12 +86,91 @@ In Python
     UBERON:0000955 EFO:0000302 oio:hasDbXref
     ...
 
+Directionality of mappings
+--------------------------
+
+While mappings are often thought of as bidirectional, this is not quite true in practice:
+
+- Some mapping predicates such as ``skos:broadMatch`` and ``skos:narrowMatch`` are inherently directed, with the meaining inverted in the opposite direction
+- Many mappings are only be asserted in one ontology, and may be "invisible" when queried from the mapped ontology
+
+At the time of writing, most ontologies bundle mappings that are uncommitted `oio:hasDbXref`.
+
+Additionally, most mappings are only asserted in one direction. This can be very confusing for
+users of ontologies, as they often need special "insider knowledge" about which ontologies
+provide which mappings.
+
+We saw above that if we query the Uberon ontology for mappings for the Uberon concept "brain" (UBERON:0000955),
+we get mappings to ZFA, because these mappings are bundled with Uberon.
+
+OAK is smart enough to allow querying from either direction; e.g. if we query Uberon for a ZFA ID:
+
+.. code-block:: bash
+
+    $ runoak -i sqlite:obo:uberon mappings ZFA:0000008
+    ...
+    ---
+    subject_id: UBERON:0000955
+    predicate_id: oio:hasDbXref
+    object_id: ZFA:0000008
+    mapping_justification: semapv:UnspecifiedMatching
+    subject_label: brain
+    subject_source: UBERON
+    object_source: ZFA
+    ---
+    ...
+
+This is the exact same mapping -- it doesn't matter if we query for ZFA:0000008 or UBERON:0000955.
+
+But note if we query *in the ZFA ontology* for the Uberon term we don't get it. This returns no results:
+
+.. code-block:: bash
+
+    $ runoak -i sqlite:obo:zfa mappings UBERON:0000955
+
+If we query for the ZFA ID we see the complete set of ZFA mappings for that term:
+
+.. code-block:: bash
+
+    $ runoak -i sqlite:obo:zfa mappings ZFA:0000008
+    ...
+    subject_id: ZFA:0000008
+    predicate_id: oio:hasDbXref
+    object_id: TAO:0000008
+    mapping_justification: semapv:UnspecifiedMatching
+    subject_label: brain
+    subject_source: ZFA
+    object_source: TAO
+    ...
+
+So ZFA bundles mappings to TAO.
+
+At the time of writing ZFA, does bundle mappings to CL.
+
+In future OAK may have easier ways to query a union of ontologies, and in the future OBO ontologies
+may redistribute reciprocal mappings, but for now it helps to know how each ontology handles mappings to
+use these effectively.
+
+Support for SSSOM
+-------------------
+
+Currently SSSOM is supported as an *export* format, and as an internal datamodel, but not as an *import* format. Currently the only
+way to access mappings is if they are bundled with the ontology. Note that bundled mappings typically lack
+a lot the rich metadata that is distributed with SSSOM.
+
+For working directly with SSSOM files you can use the
+`SSSOM Python library <https://github.com/mapping-commons/sssom-py>`_.
+
 Generating Mappings
 -------------------
 
 OAK also includes a functionality for *generating* mappings, via the `lexmatch` command.
 
+See the `Lexmatch tutorial <https://oboacademy.github.io/obook/tutorial/lexmatch-tutorial/>`_. on OBO Academy.
+
 Further reading
 ---------------
 
 - `Mappings in SSSOM <https://oboacademy.github.io/obook/tutorial/sssom-manual/>`_
+- `Lexmatch tutorial <https://oboacademy.github.io/obook/tutorial/lexmatch-tutorial/>`_
+- :ref:`mapping_provider_interface`

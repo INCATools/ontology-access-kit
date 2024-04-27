@@ -100,10 +100,11 @@ attributes:
     name: prefix
     description: The prefix that qualifies for the rule.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
+    rank: 1000
     domain_of:
+    - RuleSet
     - Synonymizer
     - Test
-    - RuleSet
     range: string
 
 ```
@@ -132,12 +133,13 @@ attributes:
     name: prefix
     description: The prefix that qualifies for the rule.
     from_schema: https://w3id.org/oak/synonymizer-datamodel
+    rank: 1000
     alias: prefix
     owner: RuleSet
     domain_of:
+    - RuleSet
     - Synonymizer
     - Test
-    - RuleSet
     range: string
 
 ```

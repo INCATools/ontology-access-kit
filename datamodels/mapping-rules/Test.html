@@ -85,6 +85,7 @@
              
   <section id="class-test">
 <h1>Class: Test<a class="headerlink" href="#class-test" title="Link to this heading"></a></h1>
+<p><em>A unit test for a rule, specifies an intended output for an input</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/Test">mappingrules:Test</a></p>
 <div class="mermaid">
              classDiagram
@@ -180,30 +181,31 @@
 <details>
 ```yaml
 name: Test
+description: A unit test for a rule, specifies an intended output for an input
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   input:
     name: input
     description: Input string for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Test
   output:
     name: output
     description: Output based on the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Test
   prefix:
     name: prefix
     description: The prefix that qualifies for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     domain_of:
+    - RuleSet
     - Synonymizer
     - Test
-    - RuleSet
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -211,12 +213,13 @@ attributes:
 &lt;details&gt;
 ```yaml
 name: Test
+description: A unit test for a rule, specifies an intended output for an input
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   input:
     name: input
     description: Input string for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: input
     owner: Test
@@ -226,7 +229,7 @@ attributes:
   output:
     name: output
     description: Output based on the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: output
     owner: Test
@@ -236,13 +239,13 @@ attributes:
   prefix:
     name: prefix
     description: The prefix that qualifies for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     alias: prefix
     owner: Test
     domain_of:
+    - RuleSet
     - Synonymizer
     - Test
-    - RuleSet
     range: string
 
 </pre></div>

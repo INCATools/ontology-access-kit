@@ -3,6 +3,11 @@
 # Class: Test
 
 
+_A unit test for a rule, specifies an intended output for an input_
+
+
+
+
 
 URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
 
@@ -87,30 +92,31 @@ URI: [mappingrules:Test](https://w3id.org/oak/mapping-rules-datamodel/Test)
 <details>
 ```yaml
 name: Test
+description: A unit test for a rule, specifies an intended output for an input
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   input:
     name: input
     description: Input string for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Test
   output:
     name: output
     description: Output based on the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Test
   prefix:
     name: prefix
     description: The prefix that qualifies for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     domain_of:
+    - RuleSet
     - Synonymizer
     - Test
-    - RuleSet
 
 ```
 </details>
@@ -120,12 +126,13 @@ attributes:
 <details>
 ```yaml
 name: Test
+description: A unit test for a rule, specifies an intended output for an input
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   input:
     name: input
     description: Input string for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: input
     owner: Test
@@ -135,7 +142,7 @@ attributes:
   output:
     name: output
     description: Output based on the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: output
     owner: Test
@@ -145,13 +152,13 @@ attributes:
   prefix:
     name: prefix
     description: The prefix that qualifies for the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     alias: prefix
     owner: Test
     domain_of:
+    - RuleSet
     - Synonymizer
     - Test
-    - RuleSet
     range: string
 
 ```

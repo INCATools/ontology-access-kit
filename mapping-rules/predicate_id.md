@@ -2,6 +2,11 @@
 
 # Slot: predicate_id
 
+
+_The predicate that is inferred_
+
+
+
 URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/predicate_id)
 
 
@@ -57,6 +62,7 @@ URI: [mappingrules:predicate_id](https://w3id.org/oak/mapping-rules-datamodel/pr
 <details>
 ```yaml
 name: predicate_id
+description: The predicate that is inferred
 comments:
 - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
   narrow

@@ -85,7 +85,7 @@
              
   <section id="slot-weight">
 <h1>Slot: weight<a class="headerlink" href="#slot-weight" title="Link to this heading"></a></h1>
-<p><em>Weighting of the rule, positive increases the confidence, negative decreases</em></p>
+<p><em>Weighting of the rule. A weight of zero corresponds to 0.5 confidence in the mapping. Setting to +1 or -1 indicates moderate confidence or lack of confidence. A logit scale is used. All weights are summed together to determine the final confidence.</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/weight">mappingrules:weight</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -132,7 +132,9 @@
 <details>
 ```yaml
 name: weight
-description: Weighting of the rule, positive increases the confidence, negative decreases
+description: Weighting of the rule. A weight of zero corresponds to 0.5 confidence
+  in the mapping. Setting to +1 or -1 indicates moderate confidence or lack of confidence.
+  A logit scale is used. All weights are summed together to determine the final confidence.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 see_also:
 - https://en.wikipedia.org/wiki/Logit

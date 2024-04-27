@@ -112,7 +112,7 @@
              
   <section id="mapping-rules-datamodel">
 <h1>Mapping Rules Datamodel<a class="headerlink" href="#mapping-rules-datamodel" title="Link to this heading"></a></h1>
-<p>A datamodel for specifying lexical mapping rules</p>
+<p>A datamodel for specifying lexical mapping rules. Rules consist of <em>preconditions</em> which are used to match elements to match on, and <em>postconditions</em> which are used to generate new elements. Each rule can be assigned a <em>weight</em>, these weights are summed and then a logit function applied to obtain an SSSOM-compatible confidence score.</p>
 <p>URI: https://w3id.org/oak/mapping-rules-datamodel</p>
 <p>Name: mapping-rules-datamodel</p>
 <section id="classes">
@@ -161,10 +161,10 @@
 <td><p>A set of rules for generating synonyms or alternate lexical elements.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Synonymizer.html"><span class="std std-doc">Synonymizer</span></a></p></td>
-<td><p>None</p></td>
+<td><p>Specification of a rule for generating a synonym or alternate lexical element.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Test.html"><span class="std std-doc">Test</span></a></p></td>
-<td><p>None</p></td>
+<td><p>A unit test for a rule, specifies an intended output for an input</p></td>
 </tr>
 </tbody>
 </table>
@@ -190,107 +190,110 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="groupings.html"><span class="std std-doc">groupings</span></a></p></td>
 <td><p>all groupings</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="input.html"><span class="std std-doc">input</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="in_place.html"><span class="std std-doc">in_place</span></a></p></td>
+<td><p>Whether the rule is applied in place or not</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="input.html"><span class="std std-doc">input</span></a></p></td>
 <td><p>Input string for the rule</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="std std-doc">mapping_source_one_of</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="std std-doc">mapping_source_one_of</span></a></p></td>
+<td><p>The source of the mapping to be matched</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="match.html"><span class="std std-doc">match</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="match.html"><span class="std std-doc">match</span></a></p></td>
 <td><p>Reg-ex rule to match substrings in labels</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="match_scope.html"><span class="std std-doc">match_scope</span></a></p></td>
-<td><p>Scope of the reg-ex rule</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="match_scope.html"><span class="std std-doc">match_scope</span></a></p></td>
+<td><p>Synonym scope of the reg-ex rule, e</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="minimum_confidence.html"><span class="std std-doc">minimum_confidence</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="minimum_confidence.html"><span class="std std-doc">minimum_confidence</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="name.html"><span class="std std-doc">name</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="name.html"><span class="std std-doc">name</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="std std-doc">object_match_field_one_of</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="std std-doc">object_match_field_one_of</span></a></p></td>
+<td><p>The field in the object to be matched</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="std std-doc">object_source_one_of</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="std std-doc">object_source_one_of</span></a></p></td>
+<td><p>The source of the object to be matched</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="oneway.html"><span class="std std-doc">oneway</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="std std-doc">oneway</span></a></p></td>
 <td><p>if true then subject and object can be switched and predicate inverted</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="output.html"><span class="std std-doc">output</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="output.html"><span class="std std-doc">output</span></a></p></td>
 <td><p>Output based on the rule</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="params.html"><span class="std std-doc">params</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="std std-doc">params</span></a></p></td>
 <td><p>Any parameters to be applied to the transformation algorithm</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pipeline.html"><span class="std std-doc">pipeline</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pipeline.html"><span class="std std-doc">pipeline</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pipelines.html"><span class="std std-doc">pipelines</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pipelines.html"><span class="std std-doc">pipelines</span></a></p></td>
 <td><p>all pipelines used to build the index</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="std std-doc">postconditions</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="postconditions.html"><span class="std std-doc">postconditions</span></a></p></td>
 <td><p>conditions that apply if preconditions match</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="preconditions.html"><span class="std std-doc">preconditions</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="preconditions.html"><span class="std std-doc">preconditions</span></a></p></td>
 <td><p>all of the criteria that must be true before a rule is fired</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="std std-doc">predicate</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="std std-doc">predicate</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="std std-doc">predicate_id</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="predicate_id.html"><span class="std std-doc">predicate_id</span></a></p></td>
+<td><p>The predicate that is inferred</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicate_id_one_of.html"><span class="std std-doc">predicate_id_one_of</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate_id_one_of.html"><span class="std std-doc">predicate_id_one_of</span></a></p></td>
+<td><p>The predicate to be matched</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="prefix.html"><span class="std std-doc">prefix</span></a></p></td>
-<td><p>The rule applies to nodes of a specific prefix</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="prefix.html"><span class="std std-doc">prefix</span></a></p></td>
+<td><p>The prefix that qualifies for the rule</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="qualifier.html"><span class="std std-doc">qualifier</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="qualifier.html"><span class="std std-doc">qualifier</span></a></p></td>
 <td><p>Type of match for the new synonym generated</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="relationships.html"><span class="std std-doc">relationships</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="relationships.html"><span class="std std-doc">relationships</span></a></p></td>
 <td><p>All ontology elements grouped and their relationship to the normalized term</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="replacement.html"><span class="std std-doc">replacement</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="replacement.html"><span class="std std-doc">replacement</span></a></p></td>
 <td><p>Reg-ex rule to replace substrings in labels</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rules.html"><span class="std std-doc">rules</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rules.html"><span class="std std-doc">rules</span></a></p></td>
 <td><p>all rules</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="std std-doc">source</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="std std-doc">subject_match_field_one_of</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="std std-doc">subject_match_field_one_of</span></a></p></td>
+<td><p>The field in the subject to be matched</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="std std-doc">subject_source_one_of</span></a></p></td>
+<td><p>The source of the subject to be matched</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="synonymized.html"><span class="std std-doc">synonymized</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="std std-doc">subject_source_one_of</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synonymized.html"><span class="std std-doc">synonymized</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="synonymizer.html"><span class="std std-doc">synonymizer</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="synonymizer.html"><span class="std std-doc">synonymizer</span></a></p></td>
 <td><p>Normalizing rules to labels</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="term.html"><span class="std std-doc">term</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="term.html"><span class="std std-doc">term</span></a></p></td>
 <td><p>A normalized term that groups ontology elements</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="tests.html"><span class="std std-doc">tests</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="tests.html"><span class="std std-doc">tests</span></a></p></td>
 <td><p>Unit tests for each rules</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="transformations.html"><span class="std std-doc">transformations</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="transformations.html"><span class="std std-doc">transformations</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="std std-doc">transformations_included_in</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="std std-doc">transformations_included_in</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="std std-doc">type</span></a></p></td>
 <td><p>The type of transformation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="weight.html"><span class="std std-doc">weight</span></a></p></td>
-<td><p>Weighting of the rule, positive increases the confidence, negative decreases</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="weight.html"><span class="std std-doc">weight</span></a></p></td>
+<td><p>Weighting of the rule</p></td>
 </tr>
 </tbody>
 </table>

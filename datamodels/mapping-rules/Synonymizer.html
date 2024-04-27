@@ -85,11 +85,14 @@
              
   <section id="class-synonymizer">
 <h1>Class: Synonymizer<a class="headerlink" href="#class-synonymizer" title="Link to this heading"></a></h1>
+<p><em>Specification of a rule for generating a synonym or alternate lexical element.</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/oak/mapping-rules-datamodel/Synonymizer">mappingrules:Synonymizer</a></p>
 <div class="mermaid">
              classDiagram
     class Synonymizer
       Synonymizer : description
+        
+      Synonymizer : in_place
         
       Synonymizer : match
         
@@ -124,17 +127,17 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="match.html"><span class="std std-doc">match</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="RegularExpressionString.html"><span class="std std-doc">RegularExpressionString</span></a></p></td>
 <td><p>Reg-ex rule to match substrings in labels</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="match_scope.html"><span class="std std-doc">match_scope</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
-<td><p>Scope of the reg-ex rule</p></td>
+<td><p>Synonym scope of the reg-ex rule, e</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="replacement.html"><span class="std std-doc">replacement</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="String.html"><span class="std std-doc">String</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="RegularExpressionString.html"><span class="std std-doc">RegularExpressionString</span></a></p></td>
 <td><p>Reg-ex rule to replace substrings in labels</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -148,8 +151,13 @@
 <td><p>The rule applies to nodes of a specific prefix</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="tests.html"><span class="std std-doc">tests</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Test.html"><span class="std std-doc">Test</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="in_place.html"><span class="std std-doc">in_place</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Boolean.html"><span class="std std-doc">Boolean</span></a></p></td>
+<td><p>Whether the rule is applied in place or not</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="tests.html"><span class="std std-doc">tests</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Test.html"><span class="std std-doc">Test</span></a></p></td>
 <td><p>Unit tests for each rules</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -215,12 +223,14 @@
 <details>
 ```yaml
 name: Synonymizer
+description: Specification of a rule for generating a synonym or alternate lexical
+  element.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   description:
     name: description
     description: Description of the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     domain_of:
     - MappingRule
     - Synonymizer
@@ -228,15 +238,15 @@ attributes:
   match:
     name: match
     description: Reg-ex rule to match substrings in labels.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Synonymizer
-    range: string
+    range: RegularExpressionString
   match_scope:
     name: match_scope
-    description: Scope of the reg-ex rule
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    description: Synonym scope of the reg-ex rule, e.g. exact, narrow
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Synonymizer
@@ -244,15 +254,15 @@ attributes:
   replacement:
     name: replacement
     description: Reg-ex rule to replace substrings in labels
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Synonymizer
-    range: string
+    range: RegularExpressionString
   qualifier:
     name: qualifier
     description: Type of match for the new synonym generated.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Synonymizer
@@ -260,18 +270,26 @@ attributes:
   prefix:
     name: prefix
     description: The rule applies to nodes of a specific prefix.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
+    domain_of:
+    - RuleSet
+    - Synonymizer
+    - Test
+    range: string
+  in_place:
+    name: in_place
+    description: Whether the rule is applied in place or not.
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     domain_of:
     - Synonymizer
-    - Test
-    - RuleSet
-    range: string
+    range: boolean
   tests:
     name: tests
     description: Unit tests for each rules.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
+    multivalued: true
     domain_of:
     - Synonymizer
     range: Test
@@ -282,12 +300,14 @@ attributes:
 &lt;details&gt;
 ```yaml
 name: Synonymizer
+description: Specification of a rule for generating a synonym or alternate lexical
+  element.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 attributes:
   description:
     name: description
     description: Description of the rule.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     alias: description
     owner: Synonymizer
     domain_of:
@@ -297,17 +317,17 @@ attributes:
   match:
     name: match
     description: Reg-ex rule to match substrings in labels.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: match
     owner: Synonymizer
     domain_of:
     - Synonymizer
-    range: string
+    range: RegularExpressionString
   match_scope:
     name: match_scope
-    description: Scope of the reg-ex rule
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    description: Synonym scope of the reg-ex rule, e.g. exact, narrow
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: match_scope
     owner: Synonymizer
@@ -317,17 +337,17 @@ attributes:
   replacement:
     name: replacement
     description: Reg-ex rule to replace substrings in labels
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: replacement
     owner: Synonymizer
     domain_of:
     - Synonymizer
-    range: string
+    range: RegularExpressionString
   qualifier:
     name: qualifier
     description: Type of match for the new synonym generated.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
     alias: qualifier
     owner: Synonymizer
@@ -337,20 +357,30 @@ attributes:
   prefix:
     name: prefix
     description: The rule applies to nodes of a specific prefix.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
-    rank: 1000
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     alias: prefix
     owner: Synonymizer
     domain_of:
+    - RuleSet
     - Synonymizer
     - Test
-    - RuleSet
     range: string
+  in_place:
+    name: in_place
+    description: Whether the rule is applied in place or not.
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
+    rank: 1000
+    alias: in_place
+    owner: Synonymizer
+    domain_of:
+    - Synonymizer
+    range: boolean
   tests:
     name: tests
     description: Unit tests for each rules.
-    from_schema: https://w3id.org/oak/mapping-rules-datamodel
+    from_schema: https://w3id.org/oak/synonymizer-datamodel
     rank: 1000
+    multivalued: true
     alias: tests
     owner: Synonymizer
     domain_of:

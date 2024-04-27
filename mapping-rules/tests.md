@@ -21,7 +21,7 @@ URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) | Specification of a rule for generating a synonym or alternate lexical element |  no  |
 
 
 
@@ -32,6 +32,8 @@ URI: [mappingrules:tests](https://w3id.org/oak/mapping-rules-datamodel/tests)
 ## Properties
 
 * Range: [Test](Test.md)
+
+* Multivalued: True
 
 
 
@@ -61,6 +63,7 @@ name: tests
 description: Unit tests for each rules.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 rank: 1000
+multivalued: true
 alias: tests
 owner: Synonymizer
 domain_of:

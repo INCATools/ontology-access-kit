@@ -21,18 +21,18 @@ URI: [skos:exactMatch](http://www.w3.org/2004/02/skos/core#exactMatch)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Property](Property.md) |  |  yes  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
 | [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
 | [Image](Image.md) |  |  no  |
 | [Class](Class.md) |  |  yes  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
-| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [Agent](Agent.md) |  |  no  |
 | [HasMappings](HasMappings.md) |  |  no  |
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [Property](Property.md) |  |  yes  |
+| [Agent](Agent.md) |  |  no  |
 
 
 

@@ -62,6 +62,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#in-python">In Python</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#directionality-of-mappings">Directionality of mappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#support-for-sssom">Support for SSSOM</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#generating-mappings">Generating Mappings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#further-reading">Further reading</a></li>
 </ul>
@@ -128,8 +130,9 @@ mappings are represented as simple lists of mapped CURIEs, without any metadata.
 </section>
 <section id="mappings-in-oak">
 <h2>Mappings in OAK<a class="headerlink" href="#mappings-in-oak" title="Link to this heading"></a></h2>
-<p>To see all mappings for a concept or concept, you can use the mappings command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>brain
+<p>To see all mappings for a concept or concept, you can use the mappings command.</p>
+<p>See the <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Mappings.ipynb">Notebook example on mappings</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>UBERON:0000955
 ...
 ---
 subject_id:<span class="w"> </span>UBERON:0000955
@@ -146,11 +149,11 @@ object_source:<span class="w"> </span>ZFA
 <p>This will return YAML conforming to SSSOM by default. Like all OAK
 commands, this also allows for other output formats.</p>
 <p>To get this as SSSOM TSV:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>brain<span class="w"> </span>--output-type<span class="w"> </span>sssom
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>UBERON:0000955<span class="w"> </span>--output-type<span class="w"> </span>sssom
 </pre></div>
 </div>
-<table class="docutils align-default" id="id1">
-<caption><span class="caption-text">uberon sssom mappings</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">uberon sssom mappings</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>subject_id</p></th>
 <th class="head"><p>subject_label</p></th>
@@ -211,14 +214,77 @@ those from <span class="xref std std-term">SKOS</span> and <span class="xref std
 </div>
 </section>
 </section>
+<section id="directionality-of-mappings">
+<h2>Directionality of mappings<a class="headerlink" href="#directionality-of-mappings" title="Link to this heading"></a></h2>
+<p>While mappings are often thought of as bidirectional, this is not quite true in practice:</p>
+<ul class="simple">
+<li><p>Some mapping predicates such as <code class="docutils literal notranslate"><span class="pre">skos:broadMatch</span></code> and <code class="docutils literal notranslate"><span class="pre">skos:narrowMatch</span></code> are inherently directed, with the meaining inverted in the opposite direction</p></li>
+<li><p>Many mappings are only be asserted in one ontology, and may be “invisible” when queried from the mapped ontology</p></li>
+</ul>
+<p>At the time of writing, most ontologies bundle mappings that are uncommitted <cite>oio:hasDbXref</cite>.</p>
+<p>Additionally, most mappings are only asserted in one direction. This can be very confusing for
+users of ontologies, as they often need special “insider knowledge” about which ontologies
+provide which mappings.</p>
+<p>We saw above that if we query the Uberon ontology for mappings for the Uberon concept “brain” (UBERON:0000955),
+we get mappings to ZFA, because these mappings are bundled with Uberon.</p>
+<p>OAK is smart enough to allow querying from either direction; e.g. if we query Uberon for a ZFA ID:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>ZFA:0000008
+...
+---
+subject_id:<span class="w"> </span>UBERON:0000955
+predicate_id:<span class="w"> </span>oio:hasDbXref
+object_id:<span class="w"> </span>ZFA:0000008
+mapping_justification:<span class="w"> </span>semapv:UnspecifiedMatching
+subject_label:<span class="w"> </span>brain
+subject_source:<span class="w"> </span>UBERON
+object_source:<span class="w"> </span>ZFA
+---
+...
+</pre></div>
+</div>
+<p>This is the exact same mapping – it doesn’t matter if we query for ZFA:0000008 or UBERON:0000955.</p>
+<p>But note if we query <em>in the ZFA ontology</em> for the Uberon term we don’t get it. This returns no results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:zfa<span class="w"> </span>mappings<span class="w"> </span>UBERON:0000955
+</pre></div>
+</div>
+<p>If we query for the ZFA ID we see the complete set of ZFA mappings for that term:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:zfa<span class="w"> </span>mappings<span class="w"> </span>ZFA:0000008
+...
+subject_id:<span class="w"> </span>ZFA:0000008
+predicate_id:<span class="w"> </span>oio:hasDbXref
+object_id:<span class="w"> </span>TAO:0000008
+mapping_justification:<span class="w"> </span>semapv:UnspecifiedMatching
+subject_label:<span class="w"> </span>brain
+subject_source:<span class="w"> </span>ZFA
+object_source:<span class="w"> </span>TAO
+...
+</pre></div>
+</div>
+<p>So ZFA bundles mappings to TAO.</p>
+<p>At the time of writing ZFA, does bundle mappings to CL.</p>
+<p>In future OAK may have easier ways to query a union of ontologies, and in the future OBO ontologies
+may redistribute reciprocal mappings, but for now it helps to know how each ontology handles mappings to
+use these effectively.</p>
+</section>
+<section id="support-for-sssom">
+<h2>Support for SSSOM<a class="headerlink" href="#support-for-sssom" title="Link to this heading"></a></h2>
+<p>Currently SSSOM is supported as an <em>export</em> format, and as an internal datamodel, but not as an <em>import</em> format. Currently the only
+way to access mappings is if they are bundled with the ontology. Note that bundled mappings typically lack
+a lot the rich metadata that is distributed with SSSOM.</p>
+<p>For working directly with SSSOM files you can use the
+<a class="reference external" href="https://github.com/mapping-commons/sssom-py">SSSOM Python library</a>.</p>
+</section>
 <section id="generating-mappings">
 <h2>Generating Mappings<a class="headerlink" href="#generating-mappings" title="Link to this heading"></a></h2>
 <p>OAK also includes a functionality for <em>generating</em> mappings, via the <cite>lexmatch</cite> command.</p>
+<p>See the <a class="reference external" href="https://oboacademy.github.io/obook/tutorial/lexmatch-tutorial/">Lexmatch tutorial</a>. on OBO Academy.</p>
 </section>
 <section id="further-reading">
 <h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://oboacademy.github.io/obook/tutorial/sssom-manual/">Mappings in SSSOM</a></p></li>
+<li><p><a class="reference external" href="https://oboacademy.github.io/obook/tutorial/lexmatch-tutorial/">Lexmatch tutorial</a></p></li>
+<li><p><a class="reference internal" href="../packages/interfaces/mapping-provider.html#mapping-provider-interface"><span class="std std-ref">Mapping Provider Interface</span></a></p></li>
 </ul>
 </section>
 </section>

@@ -107,7 +107,7 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     commonalities, and we use the terms :term:`Subject`, :term:`Object`, and :term:`Predicate` in the same way
     for each of these structures.
 
-    - See also :ref:`mappings` in the Guide.
+    - See also :ref:`mappings` in the OAK Guide.
 
    SSSOM
     Simple Standard for Sharing Ontological Mappings. SSSOM is the primary :term:`Datamodel` in OAK for passing around :term:`Mappings<Mapping>`.

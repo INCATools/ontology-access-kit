@@ -17,8 +17,8 @@ URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [RuleSet](RuleSet.md) | A set of rules for generating synonyms or alternate lexical elements |  no  |
-| [Test](Test.md) |  |  no  |
-| [Synonymizer](Synonymizer.md) |  |  no  |
+| [Synonymizer](Synonymizer.md) | Specification of a rule for generating a synonym or alternate lexical element |  no  |
+| [Test](Test.md) | A unit test for a rule, specifies an intended output for an input |  no  |
 
 
 
@@ -50,9 +50,9 @@ URI: [mappingrules:prefix](https://w3id.org/oak/mapping-rules-datamodel/prefix)
 name: prefix
 alias: prefix
 domain_of:
+- RuleSet
 - Synonymizer
 - Test
-- RuleSet
 range: string
 
 ```
