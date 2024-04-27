@@ -91,7 +91,7 @@ Directionality of mappings
 
 While mappings are often thought of as bidirectional, this is not quite true in practice:
 
-- Some mapping predicates such as ``skos:broadMatch`` and ``skos:narrowMatch`` are inherently directional
+- Some mapping predicates such as ``skos:broadMatch`` and ``skos:narrowMatch`` are inherently directed, with the meaining inverted in the opposite direction
 - Many mappings are only be asserted in one ontology, and may be "invisible" when queried from the mapped ontology
 
 At the time of writing, most ontologies bundle mappings that are uncommitted `oio:hasDbXref`.
