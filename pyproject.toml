@@ -43,6 +43,7 @@ urllib3 = {version = "< 2", optional = true}
 pydantic = "*"
 jsonlines = "^4.0.0"
 tenacity = "^8.2.3"
+defusedxml = "^0.7.1"
 
 
 [tool.poetry.dev-dependencies]
