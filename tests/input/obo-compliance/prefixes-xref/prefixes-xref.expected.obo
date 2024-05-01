@@ -1,4 +1,5 @@
 format-version: 1.2
+idspace: Y http://example.org/Y/ 
 ontology: prefixes-xref
 
 [Term]

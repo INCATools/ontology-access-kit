@@ -25,6 +25,10 @@ AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/IAO_0000115> "def
 
 AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
 
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#id> (id)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#id> "id")
+
 
 ############################
 #   Object Properties
