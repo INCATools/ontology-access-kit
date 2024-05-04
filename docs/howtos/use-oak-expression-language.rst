@@ -266,7 +266,7 @@ Use this is to read a list of term IDs from a file. For example:
 STDIN
 ^^^^^
 
-You can also use the special filename ``-`` to read from standard input. For example:
+You can also use the special file name ``-`` to read from standard input. For example:
 
 .. code-block::
 
@@ -302,9 +302,9 @@ Others
 * ``.non_obsolete``: all non-obsoletes
 * ``.dangling``: all :term:`Dangling` terms
 * ``.query``: pass through a query to the underlying store (SPARQL, SQL)
-* ``.child``: non-transitive version of ``.desc``. Also paramaterized by predicate.
-* ``.parent``: non-transitive version of ``.anc``. Also paramaterized by predicate.
-* ``.sib``: all siblings of a term. Also paramaterized by predicate.
+* ``.child``: non-transitive version of ``.desc``. Also parameterized by predicate.
+* ``.parent``: non-transitive version of ``.anc``. Also parameterized by predicate.
+* ``.sib``: all siblings of a term. Also parameterized by predicate.
 * ``.all``: all terms
 * ``.classes``: all classes
 * ``.relations``: all relations
