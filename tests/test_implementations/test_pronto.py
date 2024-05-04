@@ -20,7 +20,7 @@ from oaklib.utilities.obograph_utils import (
     index_graph_nodes,
 )
 from oaklib.utilities.validation.definition_ontology_rule import (
-    TextAndLogicalDefinitionMatchOntologyRule,
+    DefinitionOntologyRule,
 )
 
 from tests import (
@@ -500,7 +500,7 @@ class TestProntoImplementation(unittest.TestCase):
     def test_ontology_rules(self):
         # TODO: decide whether ontology rules should be validated
         # as part of each implementation, or as a standalone
-        rule = TextAndLogicalDefinitionMatchOntologyRule()
+        rule = DefinitionOntologyRule()
         results = list(rule.evaluate(self.oi))
         self.assertGreater(len(results), 5)
 

@@ -114,6 +114,10 @@ class TestSimpleOboImplementation(unittest.TestCase):
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi)
 
+    @unittest.skip("Contents of go-nucleus file need to be aligned")
+    def test_entailed_relationships(self):
+        self.compliance_tester.test_entailed_relationships(self.oi)
+
     def test_rbox_relationships(self):
         self.compliance_tester.test_rbox_relationships(self.oi)
 
@@ -215,7 +219,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.compliance_tester.test_sssom_mappings(self.oi)
 
     def test_definitions(self):
-        self.compliance_tester.test_definitions(self.oi)
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
 
     def test_subsets(self):
         self.compliance_tester.test_subsets(self.oi)

@@ -1,4 +1,4 @@
-id: http://purl.obolibrary.org/obo/omo/schema
+id: https://w3id.org/oak/ontology-metadata
 name: Ontology-Metadata
 title: Ontology Metadata Ontology Schema
 description: >-
@@ -11,7 +11,7 @@ default_curi_maps:
   - semweb_context
   
 prefixes:
-  omoschema: http://purl.obolibrary.org/obo/omo/schema/
+  omoschema: https://w3id.org/oak/ontology-metadata/
   obo: http://purl.obolibrary.org/obo/
   RO: http://purl.obolibrary.org/obo/RO_
   OMO: http://purl.obolibrary.org/obo/OMO_
@@ -1309,4 +1309,29 @@ enums:
         description: >-
           Text definitions and logical forms should match
         meaning: omoschema:DCC.S11
+      MatchTextAndLogicalGenusNotInText:
+        is_a: DefinitionConstraint
+        description: >-
+          The genus in the logical definition should be in the text definition
+        meaning: omoschema:DCC.S11.1
+      MatchTextAndLogicalDifferentiaNotInText:
+        is_a: DefinitionConstraint
+        description: >-
+          The differentia in the logical definition should be in the text definition
+        meaning: omoschema:DCC.S11.2
+      MatchTextAndReference:
+        is_a: DefinitionConstraint
+        description: >-
+          Text definitions and cited references and provenance for the text definition should match
+        meaning: omoschema:DCC.S20
+      ReferenceNotFound:
+        is_a: MatchTextAndReference
+        description: >-
+          The citation for the reference cannot be found
+        meaning: omoschema:DCC.S20.1
+      ReferenceIsRetracted:
+        is_a: MatchTextAndReference
+        description: >-
+          The citation for the reference is retracted
+        meaning: omoschema:DCC.S20.2
       
