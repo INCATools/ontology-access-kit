@@ -1,0 +1,5 @@
+name: skos-xref-duplicate
+name: skos-xref-duplicate
+description: Using both xref and skos relationship (annotation) to communicate the same mapping
+seeAlso: https://github.com/geneontology/obographs/issues/102
+unstable: true
