@@ -45,8 +45,6 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         OboGraphInterface.node,
         OboGraphInterface.ancestors,
         OboGraphInterface.descendants,
-        SemanticSimilarityInterface.get_information_content,
-        SemanticSimilarityInterface.information_content_scores,
     ]
 
     semsimian_object_cache: Dict[Tuple[PRED_CURIE], Optional["Semsimian"]] = field(default_factory=dict)  # type: ignore # noqa
@@ -109,6 +107,110 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
             )
 
         return self.semsimian_object_cache[predicates]
+
+    def get_information_content(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Optional[float]:
+        """
+        Returns the information content of a term.
+
+        For Semsimian, this information is only available if a
+        pre-computed map is provided.
+
+        IC(t) = -log2(Pr(t))
+
+        :param curie:
+        :param predicates:
+        :return:
+        """
+        if self.cached_information_content_map is not None:
+            pairs = list(
+                self.information_content_scores([curie], object_closure_predicates=predicates)
+            )
+            if pairs:
+                if len(pairs) > 1:
+                    raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
+                return pairs[0][1]
+        else:
+            raise ValueError(
+                "For Semsimian, please provide information content map with the"
+                " information-content-file argument."
+            )
+
+    def information_content_scores(
+        self,
+        curies: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+        term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Yields entity-score pairs for a given collection of entities.
+
+        The Information Content (IC) score for a term t is determined by:
+
+            IC(t) = -log2(Pr(t))
+
+        Where the probability Pr(t) is determined by the frequency of that term against
+        the whole corpus:
+
+            Pr(t) = freq(t)/|items|
+
+        :param curies:
+        :param predicates:
+        :param object_closure_predicates:
+        :param use_associations:
+        :param term_to_entities_map:
+        :param kwargs:
+        :return:
+        """
+        curies = list(curies)
+        if self.cached_information_content_map is not None:
+            # if we have a pre-computed map, use it
+            for curie in curies:
+                if curie in self.cached_information_content_map:
+                    yield curie, self.cached_information_content_map[curie]
+            return
+        if use_associations:
+            from oaklib.interfaces.association_provider_interface import (
+                AssociationProviderInterface,
+            )
+
+            if not isinstance(self, AssociationProviderInterface):
+                raise ValueError(
+                    f"unable to retrieve associations from this interface, type {type(self)}"
+                )
+            all_entities = set()
+            for a in self.associations():
+                all_entities.add(a.subject)
+            num_entities = len(all_entities)
+            logging.info(f"num_entities={num_entities}")
+            for curie in curies:
+                entities = list(
+                    self.associations_subjects(
+                        objects=[curie],
+                        predicates=predicates,
+                        object_closure_predicates=object_closure_predicates,
+                    )
+                )
+                if entities:
+                    yield curie, -math.log(len(entities) / num_entities)
+            return
+        all_entities = list(self.entities())
+        num_entities = len(all_entities)
+        if not isinstance(self, OboGraphInterface):
+            raise NotImplementedError
+        yielded_owl_thing = False
+        for curie in curies:
+            descendants = list(self.descendants([curie], object_closure_predicates))
+            yield curie, -math.log(len(descendants) / num_entities)
+            if curie == OWL_THING:
+                yielded_owl_thing = True
+        # inject owl:Thing, which always has zero information
+        if (OWL_THING in curies or not curies) and not yielded_owl_thing:
+            yield OWL_THING, 0.0
 
     def pairwise_similarity(
         self,
