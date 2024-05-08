@@ -12,12 +12,20 @@
       "type" : "CLASS",
       "meta" : {
         "basicPropertyValues" : [ {
-          "pred" : "http://purl.obolibrary.org/obo/skos_exactMatch",
+          "pred" : "http://www.w3.org/2004/02/skos/core#exactMatch",
           "val" : "http://purl.obolibrary.org/obo/Y_1"
         } ]
       }
     }, {
-      "id" : "http://purl.obolibrary.org/obo/skos_exactMatch",
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.w3.org/2004/02/skos/core#exactMatch",
       "type" : "PROPERTY",
       "meta" : {
         "basicPropertyValues" : [ {
@@ -25,10 +33,6 @@
           "val" : "true"
         } ]
       }
-    }, {
-      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
-      "lbl" : "has_obo_format_version",
-      "type" : "PROPERTY"
     } ]
   } ]
 }

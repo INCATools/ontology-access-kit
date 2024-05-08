@@ -22,6 +22,10 @@
       "lbl" : "has_obo_format_version",
       "type" : "PROPERTY"
     }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    }, {
       "id" : "http://www.geneontology.org/formats/oboInOwl#inSubset",
       "lbl" : "in_subset",
       "type" : "PROPERTY"

@@ -20,6 +20,10 @@ Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#id>
 
 AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
 
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#id> (id)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#id> "id")
+
 
 ############################
 #   Object Properties
