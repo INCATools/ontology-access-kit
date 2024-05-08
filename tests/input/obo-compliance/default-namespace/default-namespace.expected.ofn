@@ -27,6 +27,10 @@ AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#has
 
 AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBONamespace> "has_obo_namespace")
 
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#id> (id)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#id> "id")
+
 
 
 ############################

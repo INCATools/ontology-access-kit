@@ -13,12 +13,20 @@
       "meta" : {
         "basicPropertyValues" : [ {
           "pred" : "http://www.geneontology.org/formats/oboInOwl#created_by",
-          "val" : "1"
+          "val" : "Y:1"
         } ]
       }
     }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#created_by",
+      "lbl" : "created by",
+      "type" : "PROPERTY"
+    }, {
       "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
       "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
       "type" : "PROPERTY"
     } ]
   } ]

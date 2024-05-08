@@ -11,6 +11,10 @@
       "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
       "lbl" : "has_obo_format_version",
       "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
     } ],
     "propertyChainAxioms" : [ {
       "predicateId" : "http://purl.obolibrary.org/obo/R_1",

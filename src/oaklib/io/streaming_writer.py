@@ -1,7 +1,6 @@
 import atexit
 import logging
 import sys
-from abc import ABC
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Type, Union
 
@@ -20,7 +19,7 @@ LABEL_KEY = "label"
 
 
 @dataclass
-class StreamingWriter(ABC):
+class StreamingWriter:
     """
     Base class for streaming writers.
     """
