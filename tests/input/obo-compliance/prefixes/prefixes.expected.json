@@ -11,9 +11,13 @@
       "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
       "lbl" : "has_obo_format_version",
       "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
     } ],
     "edges" : [ {
-      "sub" : "http://purl.obolibrary.org/obo/X_1",
+      "sub" : "http://example.org/X/1",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/Y_1"
     } ]

@@ -105,6 +105,7 @@ lint.extend-ignore = [
     "S607",  # Starting a process with a partial executable path
     "S608",  # Possible SQL injection vector through string-based query construction
     "S603",  # `subprocess` call: check for execution of untrusted input
+    "B024",  # XXX is an abstract base class, but it has no abstract methods
     ]
 lint.exclude = ["src/oaklib/datamodels/*"]
 line-length = 120

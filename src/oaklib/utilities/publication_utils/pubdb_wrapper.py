@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import ClassVar, Dict, List, Optional
 
@@ -32,5 +32,6 @@ class PubDBWrapper(ABC):
         self.session = requests_cache.CachedSession(name)
         self._uses_cache = True
 
+    @abstractmethod
     def objects_by_ids(self, object_ids: List[str]) -> List[Dict]:
         raise NotImplementedError

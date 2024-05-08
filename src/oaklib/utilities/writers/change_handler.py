@@ -67,7 +67,7 @@ class ChangeHandler:
         header = "| Subject | Predicate | Object|"
 
         # Write the "Edges Created" section as a collapsible markdown table
-        self.write_markdown_table(f"Mappings added: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Relationships added: {len(rows)}", header, rows)
 
     def handle_edge_change(self, value):
         # Create rows for the table
@@ -82,21 +82,7 @@ class ChangeHandler:
         header = "| Subject | Predicate | Old Object | New Object |"
 
         # Write the "Edges Changed" section as a collapsible markdown table
-        self.write_markdown_table(f"Mappings changed: {len(rows)}", header, rows)
-
-    def handle_mapping_edge_deletion(self, value):
-        # Create rows for the table
-        rows = [
-            f"| {self._format_entity_labels(change.subject)} | {self._format_entity_labels(change.predicate)} |\
-                {self._format_entity_labels(change.object)} |"
-            for change in value
-        ]
-
-        # Define the header for the table
-        header = "| Subject | Predicate | Object |"
-
-        # Write the "Edges Deleted" section as a collapsible markdown table
-        self.write_markdown_table(f"Mappings removed: {len(rows)}", header, rows)
+        self.write_markdown_table(f"Relationships changed: {len(rows)}", header, rows)
 
     def handle_node_move(self, value):
         # Create rows for the table
@@ -353,7 +339,6 @@ class ChangeHandler:
             "NodeDirectMerge": self.handle_node_direct_merge,
             "EdgeCreation": self.handle_edge_creation,
             "EdgeChange": self.handle_edge_change,
-            "MappingEdgeDeletion": self.handle_mapping_edge_deletion,
             "AddNodeToSubset": self.handle_add_node_to_subset,
             # "DatatypeOrLanguageTagChange": self.handle_datatype_or_language_tag_change,
             # "LanguageTagChange": self.handle_language_tag_change,
