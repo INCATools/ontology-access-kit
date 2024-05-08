@@ -16,8 +16,8 @@ URI: [vm:id](https://w3id.org/linkml/validation-model/id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [NamedResource](NamedResource.md) |  |  no  |
 | [Node](Node.md) |  |  no  |
+| [NamedResource](NamedResource.md) |  |  no  |
 | [ConstraintComponent](ConstraintComponent.md) |  |  no  |
 
 

@@ -29,10 +29,10 @@ URI: [rdf:object](rdf:object)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
+| [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |  no  |
 | [PositiveOrNegativeAssociation](PositiveOrNegativeAssociation.md) |  |  no  |
 | [Association](Association.md) | A generic association between a thing (subject) and another thing (object) |  no  |
-| [PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association |  no  |
-| [NegatedAssociation](NegatedAssociation.md) | A negated association between a thing (subject) and another thing (object) |  no  |
 
 
 
