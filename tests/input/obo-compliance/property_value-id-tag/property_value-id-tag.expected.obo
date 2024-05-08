@@ -3,7 +3,6 @@ ontology: property_value-id-tag
 
 [Term]
 id: X:1
-property_value: id "X:1" xsd:string
 
 [Typedef]
 id: R:1

@@ -18,9 +18,17 @@ Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#sou
 #   Annotation Properties
 ############################
 
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#created_by> (created by)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#created_by> "created by")
+
 # Annotation Property: <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> (has_obo_format_version)
 
 AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#id> (id)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#id> "id")
 
 
 
