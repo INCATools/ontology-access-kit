@@ -21,11 +21,11 @@ URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
 | [RepairOperation](RepairOperation.md) | The result of performing an individual repair |  no  |
 | [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti... |  no  |
-| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
 | [MappingValidationResult](MappingValidationResult.md) | A validation result where the check is to determine if a mapping is correct |  no  |
-| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+| [DefinitionValidationResult](DefinitionValidationResult.md) |  |  no  |
 
 
 
