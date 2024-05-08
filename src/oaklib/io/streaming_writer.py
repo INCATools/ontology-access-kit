@@ -20,7 +20,7 @@ LABEL_KEY = "label"
 
 
 @dataclass
-class StreamingWriter(ABC):
+class StreamingWriter:
     """
     Base class for streaming writers.
     """
