@@ -76,7 +76,7 @@ For example, given an ontology of vehicles with the following structure:
 
 Visualized as:
 
-.. figure:: /images/vehicles.png
+.. figure:: ./images/vehicles.png
    :alt: Vehicle ontology
 
    Vehicle ontology
@@ -91,7 +91,7 @@ If we follow predicates ``{is-a, has-part}`` (both of which are reflexive), then
 
 The same ontology with the :term:`Most Recent Common Ancestor` terms of Car and Bicycle highlighted:
 
-.. figure:: /images/vehicles-mrca.png
+.. figure:: ./images/vehicles-mrca.png
    :alt: Vehicle ontology with MRCAs
 
    Vehicle ontology with MRCAs
@@ -358,7 +358,7 @@ See the `Similarity data model <https://w3id.org/oak/similarity/>`_ for details 
 Companion Notebooks
 -------------------
 
-See the notebook for the `termset-similarity Command <https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TermsetSimilarity.ipynb`.
+See the notebook for the `termset-similarity Command <https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TermsetSimilarity.ipynb`_
 
 Further reading
 ---------------
