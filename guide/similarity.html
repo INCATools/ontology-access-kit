@@ -65,7 +65,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#concepts">Concepts</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#jaccard-similarity">Jaccard Similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jaccard-similarity-of-ontology-terms">Jaccard Similarity of ontology terms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#information-content">Information Content</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ensemble-scoring-of-term-pairs">Ensemble Scoring of term pairs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-similarity-measures">Other similarity measures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#aggregate-measures-for-comparing-entities">Aggregate measures for comparing entities</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#vector-based-approaches">Vector-based approaches</a></li>
 </ul>
@@ -76,6 +79,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#semsimian">Semsimian</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#companion-notebooks">Companion Notebooks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#further-reading">Further reading</a></li>
 </ul>
 </li>
@@ -123,8 +127,7 @@
 <p>A common use case for ontologies is to compute <span class="xref std std-term">Similarity</span> between <span class="xref std std-term">Entities</span>,
 or between <a class="reference internal" href="../glossary.html#term-Term"><span class="xref std std-term">Terms</span></a>, based on properties of the ontology. For example,
 when comparing two terms, we may want to score terms that are closer together in the ontology
-<a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> as more similar. Other measures of similarity may be on frequency of usage of terms,
-or on vector <span class="xref std std-term">Embeddings</span> of terms.</p>
+<a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> as more similar. Other measures of similarity may be on frequency of usage of terms,</p>
 <p>If <span class="xref std std-term">Entities</span> are annotated/associated with terms, we can also compute similarity
 between these based on the aggregate set of terms they are annotated with. The canonical use
 case for OAK here is <span class="xref std std-term">Gene</span> associations (e.g. to phenotypes, GO terms, anatomy or cell
@@ -147,13 +150,62 @@ between two sets:</p>
 <div class="math notranslate nohighlight">
 \[J(A,B) = \frac{|A \cap B|}{|A \cup B|}\]</div>
 <p>where <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are sets.</p>
-<p>When applied to pairs of ontology terms, the sets are typically the <a class="reference internal" href="../glossary.html#term-Reflexive"><span class="xref std std-term">Reflexive</span></a> <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestors</span></a>
+<p>For example given two sets <code class="docutils literal notranslate"><span class="pre">{banana,</span> <span class="pre">apple,</span> <span class="pre">orange}</span></code> and <code class="docutils literal notranslate"><span class="pre">{apple,</span> <span class="pre">orange,</span> <span class="pre">pear}</span></code>, the intersection of these
+two sets is <code class="docutils literal notranslate"><span class="pre">{apple,</span> <span class="pre">orange}</span></code> (size 2) and the union is <code class="docutils literal notranslate"><span class="pre">{banana,</span> <span class="pre">apple,</span> <span class="pre">orange,</span> <span class="pre">pear}</span></code> (size 4). The Jaccard similarity
+is therefore:</p>
+<div class="math notranslate nohighlight">
+\[J = \frac{2}{4} = 0.5\]</div>
+</section>
+<section id="jaccard-similarity-of-ontology-terms">
+<h3>Jaccard Similarity of ontology terms<a class="headerlink" href="#jaccard-similarity-of-ontology-terms" title="Link to this heading"></a></h3>
+<p>When applied to pairs of ontology <a class="reference internal" href="../glossary.html#term-Term"><span class="xref std std-term">Terms</span></a>, the sets are typically the <a class="reference internal" href="../glossary.html#term-Reflexive"><span class="xref std std-term">Reflexive</span></a> <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestors</span></a>
 of the terms of interest. Like all OAK graph operations, the choice of <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a> used is
 important.</p>
 <ul class="simple">
 <li><p>Phenotype ontologies typically compute this using <span class="xref std std-term">SubClassOf</span> links only</p></li>
 <li><p>Ontologies such as GO, Uberon, and ENVO typically use <span class="xref std std-term">SubClassOf</span> and <span class="xref std std-term">PartOf</span> links</p></li>
 </ul>
+<p>For example, given an ontology of vehicles with the following structure:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Car is-a Vehicle
+Car has-part Engine is_a Part
+Car has-part Wheel is_a Part
+Car has-part Door is_a Part
+Engine has-part Piston is_a Part
+Car has-part Seat is_a Part
+Bicycle is-a Vehicle
+Bicycle has-part Wheel is_a Part
+Bicycle has-part Handlebar is_a Part
+Bicycle has-part Seat is_a Part
+</pre></div>
+</div>
+<p>Visualized as:</p>
+<figure class="align-default" id="id2">
+<img alt="Vehicle ontology" src="../_images/vehicles.png" />
+<figcaption>
+<p><span class="caption-text">Vehicle ontology</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>If we follow predicates <code class="docutils literal notranslate"><span class="pre">{is-a,</span> <span class="pre">has-part}</span></code> (both of which are reflexive), then we have reflexive ancestors:</p>
+<ul class="simple">
+<li><p>Car: {Car, Vehicle, Engine, Wheel, Door, Piston, Seat, Part}</p></li>
+<li><p>Bicycle: {Bicycle, Vehicle, Wheel, Handlebar, Seat, Part}</p></li>
+<li><p>Intersection: {Vehicle, Wheel, Seat, Part}</p></li>
+<li><p>Union: {Car, Vehicle, Engine, Wheel, Door, Piston, Seat, Bicycle, Handlebar, Part}</p></li>
+</ul>
+<p>The same ontology with the <span class="xref std std-term">Most Recent Common Ancestor</span> terms of Car and Bicycle highlighted:</p>
+<figure class="align-default" id="id3">
+<img alt="Vehicle ontology with MRCAs" src="../_images/vehicles-mrca.png" />
+<figcaption>
+<p><span class="caption-text">Vehicle ontology with MRCAs</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Jaccard similarity between Car and Bicycle would be:</p>
+<div class="math notranslate nohighlight">
+\[J = \frac{4}{10} = 0.4\]</div>
+<p>You can test this by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:tests/input/vehicles.obo<span class="w"> </span>similarity<span class="w"> </span>Car<span class="w"> </span>@<span class="w"> </span>Bicycle
+</pre></div>
+</div>
 </section>
 <section id="information-content">
 <h3>Information Content<a class="headerlink" href="#information-content" title="Link to this heading"></a></h3>
@@ -166,11 +218,18 @@ the inverse of the frequency of the term in a corpus:</p>
 <li><p>Using the ontology as the corpus</p></li>
 <li><p>Using <a class="reference internal" href="../glossary.html#term-Association"><span class="xref std std-term">Associations</span></a> between entities and terms as the corpus</p></li>
 </ul>
-<p>In both cases the ontology graph is used.</p>
+<p>In both cases the whole ontology <a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> is used. This means that a <a class="reference internal" href="../glossary.html#term-Descendant"><span class="xref std std-term">Descendant</span></a> term
+will always have IC that is equal to or greater than its <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">Ancestor</span></a> term (over some specified
+set of predicates).</p>
 <p>When the ontology is used as the corpus, the probability of a term is computed as the number of
 descendants of a term (reflexive) divided by the total number of terms in the ontology:</p>
 <div class="math notranslate nohighlight">
 \[P(t) = \frac{|Desc*(t)|}{|T|}\]</div>
+<p>You can see this via</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>simpleobo:tests/input/vehicles.obo<span class="w"> </span>similarity<span class="w"> </span>Car<span class="w"> </span>@<span class="w"> </span>Bicycle
+</pre></div>
+</div>
+<p>When we consider all relationships, there are multiple MRCAs (see figure above). These are tied with an IC of 1.29.</p>
 <p>When associations are used, the probability of a term is computed as the number of entities
 associated with a term (directly or indirectly) divided by the total number of entities:</p>
 <div class="math notranslate nohighlight">
@@ -182,19 +241,74 @@ associated with a term (directly or indirectly) divided by the total number of e
 </div>
 <p>To include associations, use the <code class="docutils literal notranslate"><span class="pre">--use-associations</span></code> flag, in addition to
 specifying the associations themselves:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w">  </span>-g<span class="w"> </span>phenotype.hpoa<span class="w"> </span>-G<span class="w"> </span>hpoa<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>information-content<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>--use-associations<span class="w"> </span>i^HP:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w">  </span>-g<span class="w"> </span>phenotype.hpoa<span class="w"> </span>-G<span class="w"> </span>hpoa<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>information-content<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>--use-associations<span class="w"> </span>i^HP:<span class="w"> </span>-o<span class="w"> </span>hp.ics.tsv
 </pre></div>
 </div>
+<p>Here we save to a file <code class="docutils literal notranslate"><span class="pre">hp.ics.tsv</span></code></p>
 <p>IC can be used to score the <span class="xref std std-term">Most Recent Common Ancestor</span> (MRCAs) of two terms; also known
 as Resnik similarity.</p>
+<p>We can compare scores using native ontology ICs and ICs using annotations as a corpus</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>similarity<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>HP:0000015<span class="w"> </span>@<span class="w"> </span>HP:0000017
+</pre></div>
+</div>
+<p>Gives an IC of 9.02 for the MRCA of Bladder diverticulum and Nocturia.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">subject_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HP:0000015</span>
+<span class="nt">subject_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bladder diverticulum</span>
+<span class="nt">object_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HP:0000017</span>
+<span class="nt">object_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Nocturia</span>
+<span class="nt">ancestor_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HP:0000014</span>
+<span class="nt">ancestor_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Abnormality of the bladder</span>
+<span class="nt">ancestor_information_content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.020517017340513</span>
+<span class="nt">jaccard_similarity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.6</span>
+<span class="nt">phenodigm_score</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.3264372354319613</span>
+</pre></div>
+</div>
+<p>We can plug in the association corpus based IC table using the <code class="docutils literal notranslate"><span class="pre">--information-content-file</span></code> option:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>similarity<span class="w"> </span>-p<span class="w"> </span>i<span class="w"> </span>--information-content-file<span class="w"> </span>hp.ics.tsv<span class="w"> </span>HP:0000015<span class="w"> </span>@<span class="w"> </span>HP:0000017
+</pre></div>
+</div>
+<p>This will give a lower IC:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">subject_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HP:0000015</span>
+<span class="nt">subject_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bladder diverticulum</span>
+<span class="nt">object_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HP:0000017</span>
+<span class="nt">object_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Nocturia</span>
+<span class="nt">ancestor_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HP:0000014</span>
+<span class="nt">ancestor_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Abnormality of the bladder</span>
+<span class="nt">ancestor_information_content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.042673785507031</span>
+<span class="nt">jaccard_similarity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.6</span>
+<span class="nt">phenodigm_score</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.3511492409442485</span>
+</pre></div>
+</div>
+<p>The higher IC for pure ontology corpus reflects a bias in depth in the ontology.</p>
+</section>
+<section id="ensemble-scoring-of-term-pairs">
+<h3>Ensemble Scoring of term pairs<a class="headerlink" href="#ensemble-scoring-of-term-pairs" title="Link to this heading"></a></h3>
+<p>We can compute ensemble scores by combining existing scores. For example, the <strong>Phenodigm score</strong> combines
+Jaccard similarity and Resnik similarity.</p>
+<p>See the <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/23660285/">Phenodigm paper</a> for details.</p>
+</section>
+<section id="other-similarity-measures">
+<h3>Other similarity measures<a class="headerlink" href="#other-similarity-measures" title="Link to this heading"></a></h3>
+<p>Other potential similarity measures include:</p>
+<ul>
+<li><p>Phenologs</p></li>
+<li><p>Embedding-based methods</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>KGE embeddings, e.g. GRAPE</p></li>
+<li><p>Text embeddings, e.g. using OpenAI text-ada-002</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
 </section>
 <section id="aggregate-measures-for-comparing-entities">
 <h3>Aggregate measures for comparing entities<a class="headerlink" href="#aggregate-measures-for-comparing-entities" title="Link to this heading"></a></h3>
-<p>Computing similarity between terms (classes) is relatively easy. But in general users want to compare
-<em>entities</em> such as genes. Here we broadly have two approaches:</p>
+<p>Computing similarity between terms (classes) is relatively easy. But in general, users want to compare
+<em>entities</em> such as genes. Here we have two broad approaches:</p>
 <ul class="simple">
-<li><p>Knowledge Graph (KG): treat the entities as nodes in the graph and use the standard ontology methods above</p></li>
-<li><p>Aggregate Statistics</p></li>
+<li><p>Knowledge Graph (KG): treat the <strong>entities as nodes/terms in the graph</strong> and use the standard ontology methods above</p></li>
+<li><p>Aggregate Statistics (e.g. Best Match Average)</p></li>
 </ul>
 <p>With the KG approach the entities typically become leaf nodes in the graph, and we compare using standard
 graph methods where both association predicates (e.g. has-phenotype) and ontology predicates (e.g. is-a and part-of)
@@ -209,11 +323,18 @@ for the IC of the MRCA this would be:</p>
 <div class="math notranslate nohighlight">
 \[max_{t1 \in e1, t2 \in e2} IC(MRCA(t1,t2))\]</div>
 <p>However, this doesn’t take into account all the other associations for each entity.</p>
-<p>A more common aggregate statistic is Best Match Average (BMA), which is the average of the maximum
+<p>A more common aggregate statistic is <strong>Best Match Average</strong> (BMA), which is the average of the maximum
 pairwise similarity between each term in the first profile and the second profile:</p>
 <div class="math notranslate nohighlight">
 \[BMA(e1,e2) = \frac{1}{|e1|} \sum_{t1 \in e1} max_{t2 \in e2} IC(MRCA(t1,t2))\]</div>
 <p>Currently this is the default used in OAK.</p>
+<p>This is illustrated in this figure:</p>
+<figure class="align-default" id="id4">
+<img alt="" src="https://www.ncbi.nlm.nih.gov/pmc/articles/instance/3649640/bin/bat025f1p.jpg" />
+<figcaption>
+<p><span class="caption-text">Aggregate statistics, from the Phenodigm paper.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <p>To compare two profiles in OAK you can use the <code class="docutils literal notranslate"><span class="pre">termset-similarity</span></code> command, passing in each
 profile, separated by <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:mp<span class="w"> </span>termset-similarity<span class="w"> </span><span class="se">\</span>
@@ -278,6 +399,10 @@ implementation.</p>
 <p>See the <a class="reference external" href="https://w3id.org/oak/similarity/">Similarity data model</a> for details of the data model.</p>
 </section>
 </section>
+</section>
+<section id="companion-notebooks">
+<h2>Companion Notebooks<a class="headerlink" href="#companion-notebooks" title="Link to this heading"></a></h2>
+<p>See the notebook for the <a href="#id5"><span class="problematic" id="id6">`termset-similarity Command &lt;https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TermsetSimilarity.ipynb`_</span></a></p>
 </section>
 <section id="further-reading">
 <h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>

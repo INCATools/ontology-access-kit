@@ -21,18 +21,18 @@ URI: [IAO:0000234](http://purl.obolibrary.org/obo/IAO_0000234)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [HasProvenance](HasProvenance.md) |  |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
 | [Agent](Agent.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
 | [Class](Class.md) |  |  no  |
 | [Image](Image.md) |  |  no  |
-| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 | [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
-| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
-| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
-| [Property](Property.md) |  |  no  |
-| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
-| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
-| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
 
 
 

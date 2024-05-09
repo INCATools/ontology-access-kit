@@ -10,7 +10,6 @@ A common use case for ontologies is to compute :term:`Similarity` between :term:
 or between :term:`Terms <Term>`, based on properties of the ontology. For example,
 when comparing two terms, we may want to score terms that are closer together in the ontology
 :term:`Graph` as more similar. Other measures of similarity may be on frequency of usage of terms,
-or on vector :term:`Embeddings <Embedding>` of terms.
 
 If :term:`Entities <Entity>` are annotated/associated with terms, we can also compute similarity
 between these based on the aggregate set of terms they are annotated with. The canonical use
@@ -42,12 +41,72 @@ between two sets:
 
 where :math:`A` and :math:`B` are sets.
 
-When applied to pairs of ontology terms, the sets are typically the :term:`Reflexive` :term:`Ancestors<Ancestor>`
+For example given two sets ``{banana, apple, orange}`` and ``{apple, orange, pear}``, the intersection of these
+two sets is ``{apple, orange}`` (size 2) and the union is ``{banana, apple, orange, pear}`` (size 4). The Jaccard similarity
+is therefore:
+
+.. math::
+
+    J = \frac{2}{4} = 0.5
+
+Jaccard Similarity of ontology terms
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When applied to pairs of ontology :term:`Terms <Term>`, the sets are typically the :term:`Reflexive` :term:`Ancestors<Ancestor>`
 of the terms of interest. Like all OAK graph operations, the choice of :term:`Predicates<Predicate>` used is
 important.
 
 - Phenotype ontologies typically compute this using :term:`SubClassOf` links only
 - Ontologies such as GO, Uberon, and ENVO typically use :term:`SubClassOf` and :term:`PartOf` links
+
+For example, given an ontology of vehicles with the following structure:
+
+.. code-block:: none
+
+    Car is-a Vehicle
+    Car has-part Engine is_a Part
+    Car has-part Wheel is_a Part
+    Car has-part Door is_a Part
+    Engine has-part Piston is_a Part
+    Car has-part Seat is_a Part
+    Bicycle is-a Vehicle
+    Bicycle has-part Wheel is_a Part
+    Bicycle has-part Handlebar is_a Part
+    Bicycle has-part Seat is_a Part
+
+Visualized as:
+
+.. figure:: ./images/vehicles.png
+   :alt: Vehicle ontology
+
+   Vehicle ontology
+
+If we follow predicates ``{is-a, has-part}`` (both of which are reflexive), then we have reflexive ancestors:
+
+- Car: {Car, Vehicle, Engine, Wheel, Door, Piston, Seat, Part}
+- Bicycle: {Bicycle, Vehicle, Wheel, Handlebar, Seat, Part}
+
+- Intersection: {Vehicle, Wheel, Seat, Part}
+- Union: {Car, Vehicle, Engine, Wheel, Door, Piston, Seat, Bicycle, Handlebar, Part}
+
+The same ontology with the :term:`Most Recent Common Ancestor` terms of Car and Bicycle highlighted:
+
+.. figure:: ./images/vehicles-mrca.png
+   :alt: Vehicle ontology with MRCAs
+
+   Vehicle ontology with MRCAs
+
+Jaccard similarity between Car and Bicycle would be:
+
+.. math::
+
+    J = \frac{4}{10} = 0.4
+
+You can test this by running:
+
+.. code-block:: bash
+
+    runoak -i simpleobo:tests/input/vehicles.obo similarity Car @ Bicycle
 
 Information Content
 ^^^^^^^^^^^^^^^^^^^
@@ -64,7 +123,9 @@ where :math:`P(t)` is the probability of the term in the corpus. There are two w
 - Using the ontology as the corpus
 - Using :term:`Associations <Association>` between entities and terms as the corpus
 
-In both cases the ontology graph is used.
+In both cases the whole ontology :term:`Graph` is used. This means that a :term:`Descendant` term
+will always have IC that is equal to or greater than its :term:`Ancestor` term (over some specified
+set of predicates).
 
 When the ontology is used as the corpus, the probability of a term is computed as the number of
 descendants of a term (reflexive) divided by the total number of terms in the ontology:
@@ -72,6 +133,14 @@ descendants of a term (reflexive) divided by the total number of terms in the on
 .. math::
 
     P(t) = \frac{|Desc*(t)|}{|T|}
+
+You can see this via
+
+.. code-block:: bash
+
+    runoak -i simpleobo:tests/input/vehicles.obo similarity Car @ Bicycle
+
+When we consider all relationships, there are multiple MRCAs (see figure above). These are tied with an IC of 1.29.
 
 When associations are used, the probability of a term is computed as the number of entities
 associated with a term (directly or indirectly) divided by the total number of entities:
@@ -93,19 +162,82 @@ specifying the associations themselves:
 
 .. code-block:: bash
 
-    runoak  -g phenotype.hpoa -G hpoa -i sqlite:obo:hp information-content -p i --use-associations i^HP:
+    runoak  -g phenotype.hpoa -G hpoa -i sqlite:obo:hp information-content -p i --use-associations i^HP: -o hp.ics.tsv
+
+Here we save to a file ``hp.ics.tsv``
 
 IC can be used to score the :term:`Most Recent Common Ancestor` (MRCAs) of two terms; also known
 as Resnik similarity.
 
+We can compare scores using native ontology ICs and ICs using annotations as a corpus
+
+.. code-block:: bash
+
+    runoak -i sqlite:obo:hp similarity -p i HP:0000015 @ HP:0000017
+
+Gives an IC of 9.02 for the MRCA of Bladder diverticulum and Nocturia.
+
+.. code-block:: yaml
+
+    subject_id: HP:0000015
+    subject_label: Bladder diverticulum
+    object_id: HP:0000017
+    object_label: Nocturia
+    ancestor_id: HP:0000014
+    ancestor_label: Abnormality of the bladder
+    ancestor_information_content: 9.020517017340513
+    jaccard_similarity: 0.6
+    phenodigm_score: 2.3264372354319613
+
+We can plug in the association corpus based IC table using the ``--information-content-file`` option:
+
+.. code-block:: bash
+
+    runoak -i sqlite:obo:hp similarity -p i --information-content-file hp.ics.tsv HP:0000015 @ HP:0000017
+
+This will give a lower IC:
+
+.. code-block:: yaml
+
+    subject_id: HP:0000015
+    subject_label: Bladder diverticulum
+    object_id: HP:0000017
+    object_label: Nocturia
+    ancestor_id: HP:0000014
+    ancestor_label: Abnormality of the bladder
+    ancestor_information_content: 3.042673785507031
+    jaccard_similarity: 0.6
+    phenodigm_score: 1.3511492409442485
+
+The higher IC for pure ontology corpus reflects a bias in depth in the ontology.
+
+Ensemble Scoring of term pairs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We can compute ensemble scores by combining existing scores. For example, the **Phenodigm score** combines
+Jaccard similarity and Resnik similarity.
+
+See the `Phenodigm paper <https://pubmed.ncbi.nlm.nih.gov/23660285/>`_ for details.
+
+Other similarity measures
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Other potential similarity measures include:
+
+- Phenologs
+- Embedding-based methods
+
+    * KGE embeddings, e.g. GRAPE
+    * Text embeddings, e.g. using OpenAI text-ada-002
+
 Aggregate measures for comparing entities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Computing similarity between terms (classes) is relatively easy. But in general users want to compare
-*entities* such as genes. Here we broadly have two approaches:
+Computing similarity between terms (classes) is relatively easy. But in general, users want to compare
+*entities* such as genes. Here we have two broad approaches:
 
-- Knowledge Graph (KG): treat the entities as nodes in the graph and use the standard ontology methods above
-- Aggregate Statistics
+- Knowledge Graph (KG): treat the **entities as nodes/terms in the graph** and use the standard ontology methods above
+- Aggregate Statistics (e.g. Best Match Average)
 
 With the KG approach the entities typically become leaf nodes in the graph, and we compare using standard
 graph methods where both association predicates (e.g. has-phenotype) and ontology predicates (e.g. is-a and part-of)
@@ -126,7 +258,7 @@ for the IC of the MRCA this would be:
 
 However, this doesn't take into account all the other associations for each entity.
 
-A more common aggregate statistic is Best Match Average (BMA), which is the average of the maximum
+A more common aggregate statistic is **Best Match Average** (BMA), which is the average of the maximum
 pairwise similarity between each term in the first profile and the second profile:
 
 .. math::
@@ -134,6 +266,13 @@ pairwise similarity between each term in the first profile and the second profil
     BMA(e1,e2) = \frac{1}{|e1|} \sum_{t1 \in e1} max_{t2 \in e2} IC(MRCA(t1,t2))
 
 Currently this is the default used in OAK.
+
+This is illustrated in this figure:
+
+.. figure:: https://www.ncbi.nlm.nih.gov/pmc/articles/instance/3649640/bin/bat025f1p.jpg
+   :alt:
+
+   Aggregate statistics, from the Phenodigm paper.
 
 To compare two profiles in OAK you can use the ``termset-similarity`` command, passing in each
 profile, separated by ``@``:
@@ -216,6 +355,10 @@ Data Model
 
 See the `Similarity data model <https://w3id.org/oak/similarity/>`_ for details of the data model.
 
+Companion Notebooks
+-------------------
+
+See the notebook for the `termset-similarity Command <https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/TermsetSimilarity.ipynb`_
 
 Further reading
 ---------------
