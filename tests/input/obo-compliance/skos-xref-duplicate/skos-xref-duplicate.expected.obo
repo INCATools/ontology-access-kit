@@ -1,0 +1,13 @@
+format-version: 1.2
+idspace: skos http://www.w3.org/2004/02/skos/core# 
+ontology: skos-xref-duplicate
+
+[Term]
+id: X:1
+xref: Y:1
+relationship: skos:exactMatch Y:1
+
+[Typedef]
+id: skos:exactMatch
+is_metadata_tag: true
+

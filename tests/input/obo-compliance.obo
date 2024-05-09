@@ -268,6 +268,21 @@ relationship: skos:exactMatch Y:1
 id: skos:exactMatch
 is_metadata_tag: true
 
+!! name: skos-xref-duplicate
+!! description: Using both xref and skos relationship (annotation) to communicate the same mapping
+!! seeAlso: https://github.com/geneontology/obographs/issues/102
+!! unstable: true
+idspace: skos http://www.w3.org/2004/02/skos/core#
+
+[Term]
+id: X:1
+relationship: skos:exactMatch Y:1
+xref: Y:1
+
+[Typedef]
+id: skos:exactMatch
+is_metadata_tag: true
+
 !! name: alt_id
 !! description: Alternative ID for the term
 
