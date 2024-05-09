@@ -24,6 +24,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_RELATED_SYNONYM,
 )
 from oaklib.types import CURIE
+from oaklib.utilities.format_utilities import RDFLIB_SYNTAX_ALIAS_MAP
 
 TRIPLE = Tuple[rdflib.URIRef, rdflib.URIRef, Any]
 
@@ -45,7 +46,7 @@ SCOPE_MAP = {
 class OboGraphToRdfOwlConverter(DataModelConverter):
     """Converts from OboGraph to OWL layered on RDF."""
 
-    def dump(self, source: GraphDocument, target: str = None, **kwargs) -> None:
+    def dump(self, source: GraphDocument, target: str = None, format="turtle", **kwargs) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem
 
@@ -54,10 +55,13 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         :return:
         """
         g = self.convert(source)
+        # TODO: simplify this, see https://github.com/INCATools/ontology-access-kit/issues/687
+        if format in RDFLIB_SYNTAX_ALIAS_MAP:
+            format = RDFLIB_SYNTAX_ALIAS_MAP[format]
         if target is None:
-            print(g.serialize(format="turtle"))
+            print(g.serialize(format=format))
         else:
-            g.serialize(format="turtle", destination=target)
+            g.serialize(format=format, destination=target)
 
     def convert(
         self, source: Union[Graph, GraphDocument], target: rdflib.Graph = None, **kwargs
@@ -157,9 +161,9 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         target.add((pred, RDF.type, OWL.AnnotationProperty))
 
     def _uri_ref(self, curie: CURIE) -> rdflib.URIRef:
+        if ":" not in curie:
+            curie = f"obo:{curie}"
         if self.curie_converter is None:
             self.curie_converter = BasicOntologyInterface().converter
-        uri = self.curie_converter.expand(curie)
-        if uri is None:
-            uri = curie
+        uri = self.curie_converter.expand(curie, passthrough=True)
         return rdflib.URIRef(uri)

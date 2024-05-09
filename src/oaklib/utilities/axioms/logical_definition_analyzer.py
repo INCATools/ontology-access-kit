@@ -97,7 +97,7 @@ def generate_descendant_logical_definitions(
             continue
         restrictions = [
             ExistentialRestrictionExpression(propertyId=pred, fillerId=filler)
-            for pred, filler in zip(props, tpl[num_genus_ids:])
+            for pred, filler in zip(props, tpl[num_genus_ids:], strict=False)
         ]
         curie = base64.b64encode(str(tpl).encode("ascii")).decode("utf-8")
         new_ldef = LogicalDefinitionAxiom(

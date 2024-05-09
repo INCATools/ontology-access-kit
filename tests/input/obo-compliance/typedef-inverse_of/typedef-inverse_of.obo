@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: typedef-inverse_of
+
+[Typedef]
+id: R:1
+inverse_of: R:2
+

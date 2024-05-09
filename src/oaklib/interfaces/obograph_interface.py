@@ -8,6 +8,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 from sssom.constants import RDFS_SUBCLASS_OF, RDFS_SUBPROPERTY_OF
 
 from oaklib.datamodels.obograph import (
+    DisjointClassExpressionsAxiom,
     Edge,
     Graph,
     LogicalDefinitionAxiom,
@@ -181,6 +182,29 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         graph_id = "test"
         return Graph(id=graph_id, nodes=list(node_map.values()), edges=edges)
 
+    def direct_graph(
+        self,
+        curies: Union[CURIE, List[CURIE]],
+        **kwargs,
+    ) -> Graph:
+        """
+        Return a graph object that consists of all the nodes specified in the curies list,
+        extended with all direct relationships
+
+        :param curies:
+        :return: direct graph
+        """
+        if not isinstance(curies, list):
+            curies = [curies]
+        g = self._graph(self.relationships(subjects=curies))
+        for curie in curies:
+            n = self.node(curie, include_metadata=True)
+            if n:
+                g.nodes.append(n)
+        ldefs = list(self.logical_definitions(curies))
+        g.logicalDefinitionAxioms = ldefs
+        return g
+
     def ancestor_graph(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Graph:
@@ -234,6 +258,38 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         if self.transitive_query_cache is not None:
             self.transitive_query_cache[key] = g
         return g
+
+    def non_redundant_entailed_relationships(
+        self,
+        predicates: List[PRED_CURIE] = None,
+        **kwargs,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Yields all relationships that are directly entailed.
+
+        See https://github.com/INCATools/ontology-access-kit/issues/739
+
+        :param kwargs: same as relationships
+        :return:
+        """
+        if "include_entailed" in kwargs:
+            kwargs.pop("include_entailed")
+        relationships = list(
+            self.relationships(predicates=predicates, include_entailed=True, **kwargs)
+        )
+        rel_by_sp = defaultdict(list)
+        for s, p, o in relationships:
+            if s == o:
+                continue
+            rel_by_sp[(s, p)].append(o)
+        for (s, p), objs in rel_by_sp.items():
+            redundant_set = set()
+            for o in objs:
+                ancs = list(self.ancestors(o, predicates=predicates, reflexive=False))
+                redundant_set.update(ancs)
+            for o in objs:
+                if o not in redundant_set:
+                    yield s, p, o
 
     def ancestors(
         self,
@@ -526,6 +582,24 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param predicates: If specified, only yields logical definitions with these predicates
         :param objects: If specified, only yields logical definitions with genus or filler in this list
 
+        :return:
+        """
+        return iter(())
+
+    def disjoint_class_expressions_axioms(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        group=False,
+        **kwargs,
+    ) -> Iterable[DisjointClassExpressionsAxiom]:
+        """
+        Yields all disjoint class expressions.
+
+        :param subjects: if present, filter to only those that reference these subjects
+        :param predicates: if present, filter to only those that reference these predicates
+        :param group: if True, group into cliques
+        :param kwargs:
         :return:
         """
         return iter(())

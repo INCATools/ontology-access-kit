@@ -8,23 +8,26 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0.0"
-curies = ">=0.5.5"
+curies = ">=0.6.6"
 pronto = ">=2.5.0"
 SPARQLWrapper = "*"
 SQLAlchemy = ">=1.4.32"
 linkml-runtime = ">=1.5.3"
 linkml-renderer = ">=0.3.0"
 networkx = ">=2.7.1"
-sssom-schema = ">=0.11.0"
-sssom = ">=0.3.38"
+sssom = "^0.4.4"
 ratelimit = ">=2.2.1"
 appdirs = ">=1.4.4"
 semsql = ">=0.3.1"
-lark = ">=1.1.2"
-kgcl-schema = "0.6.0"
+kgcl-schema = "^0.6.8"
+
 funowl = ">=0.2.0"
 gilda = {version = ">=1.0.0", optional = true}
+semsimian = {version = ">=0.2.15", optional = true}
 kgcl-rdflib = "0.5.0"
+llm = {version = "*", optional = true}
+html2text = {version = "*", optional = true}
+aiohttp = {version = "*", optional = true}
 pystow = ">=0.5.0"
 class-resolver = ">=0.4.2"
 ontoportal-client = ">=0.0.3"
@@ -36,9 +39,12 @@ pysolr = "^3.9.0"
 eutils = ">=0.6.0"
 requests-cache = "^1.0.1"
 click = "*"
-semsimian = "==0.1.18"
 urllib3 = {version = "< 2", optional = true}
 pydantic = "*"
+jsonlines = "^4.0.0"
+tenacity = "^8.2.3"
+defusedxml = "^0.7.1"
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
@@ -52,9 +58,11 @@ linkml = "^1.5.5"
 sphinxcontrib-mermaid = "^0.8.1"
 sphinx-copybutton = "0.5.1"
 coverage = "^6.3.2"
+tox = "*"
 
 [tool.poetry.group.dev.dependencies]
 seaborn = "^0.12.2"
+pip = "^24.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -68,7 +76,9 @@ boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid", "sphinx-copybutton"]
 gilda = ["scipy", "gilda", "urllib3"]
+llm = ["llm", "aiohttp", "html2text"]
 seaborn = ["seaborn"]
+semsimian = ["semsimian"]
 
 [tool.black]
 line-length = 100
@@ -79,3 +89,44 @@ profile = "black"
 multi_line_output = 3
 include_trailing_comma = true
 reverse_relative = true
+
+[tool.codespell]
+skip = '.git,*.pdf,*.svg,poetry.lock,*.obo,*.ttl,*.ofn,*.gaf,*.tsv,*.json,input'
+ignore-regex = '(^\s*"image/\S+": ".*|[a-z]*\.\.\.)'
+ignore-words-list = 'ptd,ot,nd,ser,oger,gard,te,fo,fof,bu,ue,ois,processus,infarction,infarctions'
+
+[tool.ruff]
+lint.extend-ignore = [
+    "D211",  # `no-blank-line-before-class`
+    "D212",  # `multi-line-summary-first-line`
+    "E731",  # Do not assign a `lambda` expression, use a `def`
+    "B005",  # Using `.strip()` with multi-character strings is misleading the reader
+    "S101",  # Use of `assert` detected
+    "S607",  # Starting a process with a partial executable path
+    "S608",  # Possible SQL injection vector through string-based query construction
+    "S603",  # `subprocess` call: check for execution of untrusted input
+    "B024",  # XXX is an abstract base class, but it has no abstract methods
+    ]
+lint.exclude = ["src/oaklib/datamodels/*"]
+line-length = 120
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+lint.fixable = ["ALL"]
+
+# Select or ignore from https://beta.ruff.rs/docs/rules/
+lint.select = [
+    "B",  # bugbear
+    # "D",  # pydocstyle
+    "E",  # pycodestyle errors
+    "F",  # Pyflakes
+    "I",  # isort 
+    "S",  # flake8-bandit
+    "W",  # Warning
+]
+
+lint.unfixable = []
+target-version = "py310"
+
+[tool.ruff.lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10

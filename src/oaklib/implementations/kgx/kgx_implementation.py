@@ -218,10 +218,11 @@ class KGXImplementation(
     - :class:`NodeProperty`
     - :class:`Edge`
 
-    See also:
-
+    See Also
+    --------
     - `Tutorial <https://incatools.github.io/ontology-access-kit/intro/tutorial07.html>`_
     - `SQL Implementation <https://incatools.github.io/ontology-access-kit/implementations/sqldb.html>`_
+
     """
 
     # TODO: use SQLA types
@@ -367,7 +368,9 @@ class KGXImplementation(
         for row in q:
             return row[0]
 
-    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, **kwargs
+    ) -> Iterable[Tuple[CURIE, str]]:
         for curie_it in chunk(curies, self.max_items_for_in_clause):
             curr_curies = list(curie_it)
             has_label = set()

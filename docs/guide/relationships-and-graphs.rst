@@ -442,7 +442,3 @@ and in principle it *may* be the case that this is not asserted
 However, OAK is designed for working with *released* versions of ontologies,
 which should be *pre-classified*. This means that all edges that are both :term:`Direct`
 and :term:`Entailed` should also be :term:`Asserted`.
-
-
-
-

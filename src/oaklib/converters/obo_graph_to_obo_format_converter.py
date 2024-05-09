@@ -2,7 +2,7 @@ import logging
 import sys
 from dataclasses import dataclass
 from io import BytesIO, StringIO
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import rdflib
 
@@ -66,14 +66,19 @@ class OboGraphToOboFormatConverter(DataModelConverter):
             with open(target, "w", encoding="UTF-8") as f:
                 obodoc.dump(f)
 
-    def dumps(self, source: GraphDocument, **kwargs) -> str:
+    def dumps(
+        self,
+        source: Union[GraphDocument, Graph],
+        aux_graphs: Optional[List[Graph]] = None,
+        **kwargs,
+    ) -> str:
         """
         Dump an OBO Graph Document to a string
 
         :param source:
         :return:
         """
-        obodoc = self.convert(source)
+        obodoc = self.convert(source, aux_graphs=aux_graphs)
         io = StringIO()
         obodoc.dump(io)
         return io.getvalue()
@@ -88,34 +93,53 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         s = self.dumps(source)
         return BytesIO(s.encode("UTF-8"))
 
-    def convert(self, source: GraphDocument, target: OboDocument = None, **kwargs) -> OboDocument:
+    def convert(
+        self,
+        source: Union[GraphDocument, Graph],
+        target: OboDocument = None,
+        aux_graphs: Optional[List[Graph]] = None,
+        **kwargs,
+    ) -> OboDocument:
         """
         Convert an OBO Format Document.
 
         :param source:
         :param target: if None, one will be created
+        :param aux_graphs: additional graphs to use for label lookup
         :return:
         """
         if target is None:
             target = OboDocument()
+        if isinstance(source, Graph):
+            source = GraphDocument(graphs=[source])
         for g in source.graphs:
-            self._convert_graph(g, target=target)
+            logging.info(f"Converting graph {g.id}, nodes: {len(g.nodes)}, edges: {len(g.edges)}")
+            self._convert_graph(g, target=target, aux_graphs=aux_graphs)
+        logging.info(f"Converted {len(target.stanzas)} stanzas")
         return target
+
+    def _commentify(
+        self, curie: CURIE, graph: Graph, aux_graphs: Optional[List[Graph]] = None
+    ) -> str:
+        graphs = [graph] + (aux_graphs or [])
+        for g in graphs:
+            for n in g.nodes:
+                if n.id == curie and n.lbl:
+                    return f"{curie} ! {n.lbl}"
+        return curie
 
     def _id(self, uri_or_curie: CURIE) -> CURIE:
         if not self.curie_converter:
             return uri_or_curie
-        curie = self.curie_converter.compress(uri_or_curie)
-        if curie is None:
-            return uri_or_curie
-        else:
-            return curie
+        return self.curie_converter.compress(uri_or_curie, passthrough=True)
 
     def _predicate_id(self, uri_or_curie: CURIE, target: OboDocument) -> CURIE:
         curie = self._id(uri_or_curie)
         return target.curie_to_shorthand_map.get(curie, curie)
 
-    def _convert_graph(self, source: Graph, target: OboDocument) -> OboDocument:
+    def _convert_graph(
+        self, source: Graph, target: OboDocument, aux_graphs: Optional[List[Graph]] = None
+    ) -> OboDocument:
         edges_by_subject = index_graph_edges_by_subject(source)
         for n in source.nodes:
             if n.type == "PROPERTY" and n.lbl:
@@ -123,7 +147,9 @@ class OboGraphToOboFormatConverter(DataModelConverter):
                 target.curie_to_shorthand_map[self._id(n.id)] = shorthand
         for n in source.nodes:
             logging.debug(f"Converting node {n.id}")
-            self._convert_node(n, index=edges_by_subject, target=target, graph=source)
+            self._convert_node(
+                n, index=edges_by_subject, target=target, graph=source, aux_graphs=aux_graphs
+            )
         for lda in source.logicalDefinitionAxioms:
             defined_class_id = self._id(lda.definedClassId)
             if defined_class_id not in target.stanzas:
@@ -131,9 +157,11 @@ class OboGraphToOboFormatConverter(DataModelConverter):
             stanza = target.stanzas[defined_class_id]
             for g in lda.genusIds:
                 obj = self._id(g)
+                obj = self._commentify(obj, source, aux_graphs)
                 stanza.add_tag_value(TAG_INTERSECTION_OF, obj)
             for r in lda.restrictions:
                 filler = self._id(r.fillerId)
+                filler = self._commentify(filler, source, aux_graphs)
                 pred = self._id(r.propertyId)
                 stanza.add_tag_value_pair(TAG_INTERSECTION_OF, pred, filler)
         return target
@@ -144,6 +172,7 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         index: Dict[CURIE, List[Edge]],
         target: OboDocument,
         graph: Graph = None,
+        aux_graphs: Optional[List[Graph]] = None,
     ) -> None:
         id = self._id(source.id)
         shorthand_xref = None
@@ -170,20 +199,12 @@ class OboGraphToOboFormatConverter(DataModelConverter):
             stanza.add_tag_value(TAG_XREF, shorthand_xref)
         for e in index.get(source.id, []):
             obj = self._id(e.obj)
-            obj_lbl = None
-            if graph:
-                nodes = [n for n in graph.nodes if n.id == e.obj]
-                if nodes:
-                    obj_lbl = nodes[0].lbl
-            if obj_lbl:
-                cmt = f" ! {obj_lbl}"
-            else:
-                cmt = ""
+            obj_labeled = self._commentify(obj, graph, aux_graphs)
             pred = self._predicate_id(e.pred, target)
             if e.pred in DIRECT_PREDICATE_MAP:
-                stanza.add_tag_value(DIRECT_PREDICATE_MAP[e.pred], f"{obj}{cmt}")
+                stanza.add_tag_value(DIRECT_PREDICATE_MAP[e.pred], f"{obj_labeled}")
             else:
-                stanza.add_tag_value(TAG_RELATIONSHIP, f"{pred} {obj}{cmt}")
+                stanza.add_tag_value(TAG_RELATIONSHIP, f"{pred} {obj_labeled}")
         return
 
     def _convert_meta(self, source: Node, target: Stanza):

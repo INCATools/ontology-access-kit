@@ -1,0 +1,4 @@
+name: relationship-non-logical
+name: relationship-non-logical
+description: relationship where the relation is metadata, maps to annotation
+issue: https://github.com/owlcollab/oboformat/issues/144

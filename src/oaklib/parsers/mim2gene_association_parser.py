@@ -1,4 +1,5 @@
 """Parser for GAF association formats"""
+
 import csv
 from dataclasses import dataclass, field
 from typing import Iterator, Optional, TextIO, Union, Dict
@@ -13,7 +14,8 @@ from oaklib.parsers.xaf_association_parser import XafAssociationParser
 
 @dataclass
 class MedgenMimG2DAssociationParser(XafAssociationParser):
-    """Parsers for MIM2GENE NCBI TSV format.
+    """
+    Parsers for MIM2GENE NCBI TSV format.
 
     See `<ftp://ftp.ncbi.nih.gov/gene/DATA/mim2gene_medgen>`_ for more information.
     """

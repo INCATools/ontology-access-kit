@@ -1,11 +1,11 @@
 import atexit
 import logging
 import sys
-from abc import ABC
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Type, Union
 
 from linkml_runtime import SchemaView
+from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib import BasicOntologyInterface
@@ -19,7 +19,7 @@ LABEL_KEY = "label"
 
 
 @dataclass
-class StreamingWriter(ABC):
+class StreamingWriter:
     """
     Base class for streaming writers.
     """
@@ -101,9 +101,10 @@ class StreamingWriter(ABC):
         raise NotImplementedError
 
     def emit_obj(self, obj: YAMLRoot):
-        raise NotImplementedError
+        obj_as_dict = json_dumper.to_dict(obj)
+        return self.emit(obj_as_dict)
 
-    def close(self):
+    def close(self):  # noqa
         pass
 
     def finish(self):

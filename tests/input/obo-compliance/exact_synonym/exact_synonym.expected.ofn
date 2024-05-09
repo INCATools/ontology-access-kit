@@ -1,0 +1,46 @@
+Prefix(:=<http://purl.obolibrary.org/obo/exact_synonym.owl#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://purl.obolibrary.org/obo/exact_synonym.owl>
+Annotation(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "1.4")
+
+Declaration(Class(<http://purl.obolibrary.org/obo/X_1>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#hasExactSynonym>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#id>))
+Declaration(AnnotationProperty(rdfs:label))
+############################
+#   Annotation Properties
+############################
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> (has_exact_synonym)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "has_exact_synonym")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> (has_obo_format_version)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#id> (id)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#id> "id")
+
+
+
+############################
+#   Classes
+############################
+
+# Class: <http://purl.obolibrary.org/obo/X_1> (example term)
+
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> <http://purl.obolibrary.org/obo/X_1> "exact synonym")
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#id> <http://purl.obolibrary.org/obo/X_1> "X:1")
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/X_1> "example term")
+
+
+)

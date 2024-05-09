@@ -1,0 +1,12 @@
+format-version: 1.4
+ontology: relationship-non-logical
+
+[Term]
+id: X:1
+relationship: R:1 Y:1
+
+[Typedef]
+id: R:1
+is_metadata_tag: true
+
+

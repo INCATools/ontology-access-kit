@@ -57,6 +57,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_VERSION_IRI,
     RDFS_DOMAIN,
     RDFS_RANGE,
+    SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
     SUBPROPERTY_OF,
@@ -100,12 +101,13 @@ from oaklib.inference.relation_graph_reasoner import RelationGraphReasoner
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    DEFINITION,
     LANGUAGE_TAG,
     METADATA_MAP,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
-from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.differ_interface import DiffConfiguration, DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.merge_interface import MergeInterface
@@ -124,7 +126,7 @@ from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
 )
-from oaklib.utilities.kgcl_utilities import tidy_change_object
+from oaklib.utilities.kgcl_utilities import generate_change_id, tidy_change_object
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 
@@ -323,6 +325,13 @@ class SimpleOboImplementation(
             if subset in s.simple_values(TAG_SUBSET):
                 yield s.id
 
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        for curie in curies:
+            s = self._stanza(curie, False)
+            if s:
+                for subset in s.simple_values(TAG_SUBSET):
+                    yield curie, subset
+
     def ontologies(self) -> Iterable[CURIE]:
         od = self.obo_document
         for v in od.header.simple_values(TAG_ONTOLOGY):
@@ -440,6 +449,29 @@ class SimpleOboImplementation(
         if s:
             return s.quoted_value(TAG_DEFINITION)
 
+    def definitions(
+        self,
+        curies: Iterable[CURIE],
+        include_metadata=False,
+        include_missing=False,
+        lang: Optional[LANGUAGE_TAG] = None,
+    ) -> Iterator[DEFINITION]:
+        for curie in curies:
+            s = self._stanza(curie, strict=False)
+            if s:
+                d = s.quoted_value(TAG_DEFINITION)
+                if d:
+                    if include_metadata:
+                        defn_tvs = [tv for tv in s.tag_values if tv.tag == TAG_DEFINITION]
+                        if defn_tvs:
+                            defn_tv = defn_tvs[0]
+                            defn, xrefs = defn_tv.as_definition()
+                            yield curie, defn, {HAS_DBXREF: xrefs}
+                    else:
+                        yield curie, d, None
+                elif include_missing:
+                    yield curie, None, None
+
     def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         for curie in curies:
             s = self._stanza(curie)
@@ -466,11 +498,14 @@ class SimpleOboImplementation(
         if isinstance(subject, str):
             subject = [subject]
         for curie in subject:
-            for p, vs in self.entity_alias_map(curie).items():
-                if p == LABEL_PREDICATE:
-                    continue
-                for v in vs:
-                    yield curie, SynonymPropertyValue(pred=p.replace("oio:", ""), val=v)
+            s = self._stanza(curie, strict=False)
+            if not s:
+                continue
+            for syn in s.synonyms():
+                pred = _synonym_scope_pred(syn[1]).replace("oio:", "")
+                yield curie, SynonymPropertyValue(
+                    pred=pred, val=syn[0], synonymType=syn[2], xrefs=syn[3]
+                )
 
     def map_shorthand_to_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
         """
@@ -495,13 +530,14 @@ class SimpleOboImplementation(
         :param rel_type:
         :return:
         """
-        is_core = rel_type.startswith("BFO:") or rel_type.startswith("RO:")
-        for s in self.obo_document.stanzas.values():
-            if s.type == "Typedef":
-                for x in s.simple_values(TAG_XREF):
-                    if x == rel_type:
-                        if is_core or ":" not in s.id:
-                            return s.id
+        if rel_type:
+            is_core = rel_type.startswith("BFO:") or rel_type.startswith("RO:")
+            for s in self.obo_document.stanzas.values():
+                if s.type == "Typedef":
+                    for x in s.simple_values(TAG_XREF):
+                        if x == rel_type:
+                            if is_core or ":" not in s.id:
+                                return s.id
         return rel_type
 
     def relationships(
@@ -643,7 +679,7 @@ class SimpleOboImplementation(
             else:
                 self.obo_document.dump(path)
         else:
-            super().dump(path, syntax)
+            super().dump(path, syntax=syntax)
 
     def save(
         self,
@@ -706,6 +742,8 @@ class SimpleOboImplementation(
                     meta.definition = obograph.DefinitionPropertyValue(val=defn)
                 for _, syn in self.synonym_property_values([curie]):
                     meta.synonyms.append(syn)
+                for _, subset in self.terms_subsets([curie]):
+                    meta.subsets.append(subset)
             return obograph.Node(id=curie, lbl=self.label(curie), type=typ, meta=meta)
 
     def as_obograph(self, expand_curies=False) -> Graph:
@@ -732,6 +770,8 @@ class SimpleOboImplementation(
         objects: Iterable[CURIE] = None,
         **kwargs,
     ) -> Iterable[LogicalDefinitionAxiom]:
+        if subjects is None:
+            subjects = self.entities()
         for s in subjects:
             t = self._stanza(s, strict=False)
             if not t:
@@ -756,8 +796,160 @@ class SimpleOboImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    # Implements: PatcherInterface
+    # Implements: DifferInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def diff(
+        self,
+        other_ontology: DifferInterface,
+        configuration: DiffConfiguration = None,
+        **kwargs,
+    ) -> Iterator[kgcl.Change]:
+        if configuration is None:
+            configuration = DiffConfiguration()
+        if not isinstance(other_ontology, SimpleOboImplementation):
+            raise ValueError("Can only diff SimpleOboImplementation")
+        stanzas1 = self.obo_document.stanzas
+        stanzas2 = other_ontology.obo_document.stanzas
+        all_ids = set(stanzas1.keys()).union(stanzas2.keys())
+        for id in all_ids:
+            yield from self._diff_stanzas(stanzas1.get(id, None), stanzas2.get(id, None))
+
+    def _diff_stanzas(
+        self, stanza1: Optional[Stanza], stanza2: Optional[Stanza]
+    ) -> Iterator[kgcl.Change]:
+        def _id():
+            return generate_change_id()
+
+        node_is_deleted = False
+        if stanza1 is None and stanza2 is None:
+            raise ValueError("Both stanzas are None")
+        if stanza1 is None:
+            stanza1 = Stanza(id=stanza2.id, type=stanza2.type)
+            if stanza2.type == "Term":
+                yield kgcl.ClassCreation(id=_id(), about_node=stanza2.id)
+            elif stanza2.type == "Typedef":
+                yield kgcl.NodeCreation(id=_id(), about_node=stanza2.id)
+            else:
+                raise ValueError(f"Unknown stanza type: {stanza2.type}")
+        if stanza2 is None:
+            stanza2 = Stanza(id=stanza1.id, type=stanza1.type)
+            if stanza1.type == "Term":
+                yield kgcl.NodeDeletion(id=_id(), about_node=stanza1.id)
+            else:
+                yield kgcl.NodeDeletion(id=_id(), about_node=stanza1.id)
+            node_is_deleted = True
+        if stanza1 == stanza2:
+            return
+        if stanza1.type != stanza2.type:
+            raise ValueError(f"Stanza types differ: {stanza1.type} vs {stanza2.type}")
+        t1id = stanza1.id
+        t2id = stanza2.id
+        logging.info(f"Diffing: {t1id} vs {t2id}")
+
+        def _tv_dict(stanza: Stanza) -> Dict[str, List[str]]:
+            d = defaultdict(set)
+            for tv in stanza.tag_values:
+                d[tv.tag].add(tv.value)
+            return d
+
+        tv_dict1 = _tv_dict(stanza1)
+        tv_dict2 = _tv_dict(stanza2)
+        all_tags = set(tv_dict1.keys()).union(tv_dict2.keys())
+        for tag in all_tags:
+            vals1 = tv_dict1.get(tag, [])
+            vals2 = tv_dict2.get(tag, [])
+            vals1list = list(vals1)
+            vals2list = list(vals2)
+            tvs1 = [tv for tv in stanza1.tag_values if tv.tag == tag]
+            tvs2 = [tv for tv in stanza2.tag_values if tv.tag == tag]
+            if vals1 == vals2:
+                continue
+            logging.info(f"Difference in {tag}: {vals1} vs {vals2}")
+            if tag == TAG_NAME:
+                if node_is_deleted:
+                    continue
+                if vals1 and vals2:
+                    yield kgcl.NodeRename(
+                        id=_id(), about_node=t1id, new_value=vals2list[0], old_value=vals1list[0]
+                    )
+                elif vals1:
+                    yield kgcl.NodeDeletion(id=_id(), about_node=t1id)
+                else:
+                    yield kgcl.ClassCreation(id=_id(), about_node=t2id, name=vals2list[0])
+            elif tag == TAG_DEFINITION:
+                if node_is_deleted:
+                    continue
+                # TODO: provenance changes
+                td1 = stanza1.quoted_value(TAG_DEFINITION)
+                td2 = stanza2.quoted_value(TAG_DEFINITION)
+                if vals1 and vals2:
+                    yield kgcl.NodeTextDefinitionChange(
+                        id=_id(), about_node=t1id, new_value=td2, old_value=td1
+                    )
+                elif vals1:
+                    yield kgcl.RemoveTextDefinition(id=_id(), about_node=t1id, old_value=td1)
+                else:
+                    yield kgcl.NewTextDefinition(id=_id(), about_node=t2id, new_value=td2)
+            elif tag == TAG_IS_OBSOLETE:
+                if node_is_deleted:
+                    continue
+                if vals1 and not vals2:
+                    yield kgcl.NodeUnobsoletion(id=_id(), about_node=t1id)
+                elif not vals1 and vals2:
+                    replaced_by = stanza2.simple_values(TAG_REPLACED_BY)
+                    if replaced_by:
+                        yield kgcl.NodeObsoletionWithDirectReplacement(
+                            id=_id(), about_node=t2id, has_direct_replacement=replaced_by[0]
+                        )
+                    else:
+                        yield kgcl.NodeObsoletion(id=_id(), about_node=t2id)
+            elif tag == TAG_SUBSET:
+                if node_is_deleted:
+                    continue
+                subsets1 = stanza1.simple_values(TAG_SUBSET)
+                subsets2 = stanza2.simple_values(TAG_SUBSET)
+                for subset in subsets1:
+                    if subset not in subsets2:
+                        yield kgcl.RemoveNodeFromSubset(id=_id(), about_node=t1id, in_subset=subset)
+                for subset in subsets2:
+                    if subset not in subsets1:
+                        yield kgcl.AddNodeToSubset(id=_id(), about_node=t2id, in_subset=subset)
+            elif tag == TAG_IS_A:
+                isas1 = stanza1.simple_values(TAG_IS_A)
+                isas2 = stanza2.simple_values(TAG_IS_A)
+                for isa in isas1:
+                    if isa not in isas2:
+                        yield kgcl.EdgeDeletion(id=_id(), subject=t1id, predicate=IS_A, object=isa)
+                for isa in isas2:
+                    if isa not in isas1:
+                        yield kgcl.EdgeCreation(id=_id(), subject=t2id, predicate=IS_A, object=isa)
+            elif tag == TAG_RELATIONSHIP:
+                rels1 = stanza1.pair_values(TAG_RELATIONSHIP)
+                rels2 = stanza2.pair_values(TAG_RELATIONSHIP)
+                for p, v in rels1:
+                    p_curie = self.map_shorthand_to_curie(p)
+                    if (p, v) not in rels2:
+                        yield kgcl.EdgeDeletion(id=_id(), subject=t1id, predicate=p_curie, object=v)
+                for p, v in rels2:
+                    p_curie = self.map_shorthand_to_curie(p)
+                    if (p, v) not in rels1:
+                        yield kgcl.EdgeCreation(id=_id(), subject=t2id, predicate=p_curie, object=v)
+            elif tag == TAG_SYNONYM:
+                if node_is_deleted:
+                    continue
+                # TODO: make this sensitive to annotation changes; for now we truncate the tuple
+                syns1 = [tv.as_synonym()[0:2] for tv in tvs1]
+                syns2 = [tv.as_synonym()[0:2] for tv in tvs2]
+                for syn in syns1:
+                    if syn not in syns2:
+                        yield kgcl.RemoveSynonym(id=_id(), about_node=t1id, old_value=syn[0])
+                for syn in syns2:
+                    if syn not in syns1:
+                        pred = SCOPE_TO_SYNONYM_PRED_MAP[syn[1]]
+                        yield kgcl.NewSynonym(
+                            id=_id(), about_node=t2id, new_value=syn[0], predicate=pred
+                        )
 
     def different_from(self, entity: CURIE, other_ontology: DifferInterface) -> bool:
         t1 = self._stanza(entity, strict=False)
@@ -766,6 +958,10 @@ class SimpleOboImplementation(
             if t2:
                 return str(t1) != str(t2)
         return True
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: PatcherInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def migrate_curies(self, curie_map: Mapping[CURIE, CURIE]) -> None:
         od = self.obo_document
@@ -853,6 +1049,14 @@ class SimpleOboImplementation(
             if not n:
                 raise ValueError(f"Failed to find synonym {patch.old_value} for {t.id}")
             modified_entities.append(patch.about_node)
+        elif isinstance(patch, kgcl.AddNodeToSubset):
+            t = self._stanza(patch.about_node, strict=True)
+            t.add_tag_value(TAG_SUBSET, patch.in_subset)
+            modified_entities.append(patch.about_node)
+        elif isinstance(patch, kgcl.RemoveNodeFromSubset):
+            t = self._stanza(patch.about_node, strict=True)
+            t.remove_simple_tag_value(TAG_SUBSET, patch.in_subset)
+            modified_entities.append(patch.about_node)
         elif isinstance(patch, kgcl.NewTextDefinition):
             t = self._stanza(patch.about_node, strict=True)
             t.add_quoted_tag_value(TAG_DEFINITION, patch.new_value.strip("'"), xrefs=[])
@@ -872,7 +1076,7 @@ class SimpleOboImplementation(
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
             # rather than forcing all synonyms to be related.
-            if type(patch.qualifier) == str:
+            if isinstance(patch.qualifier, str):
                 scope = patch.qualifier.upper()
             else:
                 scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"

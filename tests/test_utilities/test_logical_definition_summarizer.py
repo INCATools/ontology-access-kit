@@ -6,6 +6,7 @@ from oaklib.utilities.axioms.logical_definition_summarizer import (
     logical_definitions_to_matrix,
     parse_axes_to_config,
 )
+
 from tests import INPUT_DIR
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"

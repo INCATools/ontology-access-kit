@@ -31,6 +31,7 @@ from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
 from oaklib.utilities.iterator_utils import chunk
+from oaklib.utilities.keyval_cache import KeyValCache
 
 LANGUAGE_TAG = str
 NC_NAME = str
@@ -90,7 +91,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     horsetail nucleus
     nucleus
 
-    This omits metdata about the synonym, such as the predicate, source, and type.
+    This omits metadata about the synonym, such as the predicate, source, and type.
     For this more granular view, the :ref:`obograph_interface` can be used.
 
     Basic concepts:
@@ -158,6 +159,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     cache_lookups: bool = False
     """If True, the implementation may choose to cache lookup operations"""
 
+    property_cache: KeyValCache = field(default_factory=lambda: KeyValCache())
+
     _edge_index: Optional[EdgeIndex] = None
     _entailed_edge_index: Optional[EdgeIndex] = None
 
@@ -188,7 +191,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @property
     def converter(self) -> curies.Converter:
-        """Get a converter for this ontology interface's prefix map.
+        """
+        Get a converter for this ontology interface's prefix map.
 
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter('tests/input/go-nucleus.db')
@@ -209,9 +213,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param mappings: Mappings for predicates such as rdfs:subClassOf
         :return:
         """
-        if isinstance(mappings, Path):
-            mappings = str
-        if isinstance(mappings, str):
+        if isinstance(mappings, (str, Path)):
             msdf = parse_sssom_table(mappings)
             msd = to_mapping_set_document(msdf)
             mappings = msd.mapping_set.mappings
@@ -267,9 +269,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]
         :return: contracted URI, or original URI if no contraction possible
         """
-        rv = self.converter.compress(uri)
-        if use_uri_fallback:
-            strict = False
+        rv = self.converter.compress(uri, passthrough=use_uri_fallback)
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
@@ -279,8 +279,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
                 f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
             )
-        if rv is None and use_uri_fallback:
-            return uri
         return rv
 
     @property
@@ -465,7 +463,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields all known entities that are obsolete.
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("sqlite:obo:cob")
         >>> for entity in adapter.obsoletes():
@@ -490,7 +488,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         To exclude merged terms, set ``include_merged=False``:
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("sqlite:obo:cob")
         >>> for entity in adapter.obsoletes(include_merged=False):
@@ -501,6 +499,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :param include_merged: If True, merged terms will be included
         :return: iterator over CURIEs
+
         """
         raise NotImplementedError
 
@@ -511,7 +510,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields relationships between an obsolete entity and potential replacements.
 
         Example:
-
+        -------
         >>> from oaklib import get_adapter
         >>> adapter = get_adapter("sqlite:obo:cob")
         >>> for rel in adapter.obsoletes_migration_relationships(adapter.obsoletes()):
@@ -524,6 +523,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         - rdfs:seeAlso
 
         :return: iterator
+
         """
         for entity in entities:
             for prop, vals in self.entity_metadata_map(entity).items():
@@ -540,7 +540,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Yields all known entities in provided set that are dangling.
 
         Example:
-
+        -------
         This example is over an OBO file with one stanza:
 
         .. code-block:: obo
@@ -565,6 +565,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :param curies: CURIEs to check for dangling; if empty will check all
         :return: iterator over CURIEs
+
         """
         if curies is None:
             curies = self.entities(filter_obsoletes=False)
@@ -1178,6 +1179,29 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                         continue
                     yield subject, this_predicate, this_object
 
+    def relationships_metadata(
+        self, relationships: Iterable[RELATIONSHIP], **kwargs
+    ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
+        """
+        given collection of relationships, yield relationships with metadata attached.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("sqlite:obo:mondo")
+        >>> rels = list(adapter.relationships(["MONDO:0009831"]))
+        >>> for rel, metadatas in adapter.relationships_metadata(rels):
+        ...     for p, v in metadatas:
+        ...         print(rel, p, v)
+        <BLANKLINE>
+        ...
+        ('MONDO:0009831', 'rdfs:subClassOf', 'MONDO:0002516') oio:source NCIT:C9005
+        ...
+
+        :param relationships: collection of subject-predicate-object tuples
+        :param kwargs:
+        :return: yields relationships with property-value metadata
+        """
+        raise NotImplementedError
+
     def hierarchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
         Returns all hierarchical parents.
@@ -1400,7 +1424,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         raise NotImplementedError
 
     def entities_metadata_statements(
-        self, curies: Iterable[CURIE], predicates: Optional[List[PRED_CURIE]] = None
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
+        **kwargs,
     ) -> Iterator[METADATA_STATEMENT]:
         """
         Retrieve metadata statements (entity annotations) for a collection of entities.

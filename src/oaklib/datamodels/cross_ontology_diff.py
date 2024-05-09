@@ -109,9 +109,9 @@ class StructureDiffResultSet(YAMLRoot):
     class_name: ClassVar[str] = "StructureDiffResultSet"
     class_model_uri: ClassVar[URIRef] = XODIFF.StructureDiffResultSet
 
-    results: Optional[
-        Union[Union[dict, "RelationalDiff"], List[Union[dict, "RelationalDiff"]]]
-    ] = empty_list()
+    results: Optional[Union[Union[dict, "RelationalDiff"], List[Union[dict, "RelationalDiff"]]]] = (
+        empty_list()
+    )
     left_source: Optional[Union[str, Source]] = None
     right_source: Optional[Union[str, Source]] = None
 
@@ -180,9 +180,9 @@ class RelationalDiff(YAMLRoot):
     ] = empty_list()
     right_subject_label: Optional[Union[str, Label]] = None
     right_object_label: Optional[Union[str, Label]] = None
-    right_predicate_labels: Optional[
-        Union[Union[str, Label], List[Union[str, Label]]]
-    ] = empty_list()
+    right_predicate_labels: Optional[Union[Union[str, Label], List[Union[str, Label]]]] = (
+        empty_list()
+    )
     left_subject_is_functional: Optional[str] = None
     left_object_is_functional: Optional[str] = None
     subject_mapping_predicate: Optional[Union[str, EntityReference]] = None

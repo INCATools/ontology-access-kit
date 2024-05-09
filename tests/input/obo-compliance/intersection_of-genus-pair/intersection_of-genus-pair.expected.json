@@ -1,0 +1,24 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/intersection_of-genus-pair.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ],
+    "logicalDefinitionAxioms" : [ {
+      "definedClassId" : "http://purl.obolibrary.org/obo/X_1",
+      "genusIds" : [ "http://purl.obolibrary.org/obo/X_2", "http://purl.obolibrary.org/obo/X_3" ]
+    } ]
+  } ]
+}

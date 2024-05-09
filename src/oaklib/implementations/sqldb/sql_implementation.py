@@ -44,6 +44,7 @@ from semsql.sqla.semsql import (  # HasMappingStatement,
     ObjectPropertyNode,
     OntologyNode,
     OwlAxiomAnnotation,
+    OwlDisjointClassStatement,
     OwlEquivalentClassStatement,
     OwlSomeValuesFrom,
     Prefix,
@@ -66,6 +67,7 @@ from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.obograph import (
+    DisjointClassExpressionsAxiom,
     ExistentialRestrictionExpression,
     LogicalDefinitionAxiom,
 )
@@ -125,6 +127,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     DEFINITION,
     LANGUAGE_TAG,
     METADATA_MAP,
+    METADATA_STATEMENT,
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP,
@@ -150,6 +153,10 @@ from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import (
     logical_definition_matches,
+)
+from oaklib.utilities.format_utilities import (
+    OBOGRAPHS_SYNTAX_ALIAS_MAP,
+    RDFLIB_SYNTAX_ALIAS_MAP,
 )
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
 from oaklib.utilities.identifier_utils import (
@@ -244,6 +251,13 @@ def _is_quoted_url(curie: CURIE):
     return curie.startswith("<")
 
 
+def _remove_uri_quotes(curie: CURIE):
+    if _is_quoted_url(curie):
+        return curie[1:-1]
+    else:
+        return curie
+
+
 @dataclass
 class SqlImplementation(
     RelationGraphInterface,
@@ -292,10 +306,11 @@ class SqlImplementation(
     - :class:`Statements`
     - :class:`Edge`
 
-    See also:
-
+    See Also
+    --------
     - `Tutorial <https://incatools.github.io/ontology-access-kit/intro/tutorial07.html>`_
     - `SQL Implementation <https://incatools.github.io/ontology-access-kit/implementations/sqldb.html>`_
+
     """
 
     # TODO: use SQLA types
@@ -310,6 +325,7 @@ class SqlImplementation(
     max_items_for_in_clause: int = field(default_factory=lambda: 1000)
 
     can_store_associations: bool = False
+    """True if the underlying sqlite database has term_association populated."""
 
     def __post_init__(self):
         if self.engine is None:
@@ -668,6 +684,33 @@ class SqlImplementation(
         self.add_missing_property_values(curie, m)
         return dict(m)
 
+    def entities_metadata_statements(
+        self,
+        curies: Iterable[CURIE],
+        predicates: Optional[List[PRED_CURIE]] = None,
+        include_nested_metadata=False,
+        **kwargs,
+    ) -> Iterator[METADATA_STATEMENT]:
+        q = self.session.query(Statements)
+        if not include_nested_metadata:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == "owl:AnnotationProperty"
+            )
+            annotation_properties = {row.subject for row in subquery}
+            annotation_properties = annotation_properties.union(STANDARD_ANNOTATION_PROPERTIES)
+            q = q.filter(Statements.predicate.in_(tuple(annotation_properties)))
+        q = q.filter(Statements.subject.in_(curies))
+        if predicates is not None:
+            q = q.filter(Statements.predicate.in_(predicates))
+        for row in q:
+            if row.value is not None:
+                v = _python_value(row.value, row.datatype)
+            elif row.object is not None:
+                v = row.object
+            else:
+                v = None
+            yield row.subject, row.predicate, v, row.datatype, {}
+
     def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):
             yield row.id
@@ -964,7 +1007,7 @@ class SqlImplementation(
         if not include_dangling:
             subq = self.session.query(Statements.subject)
             q = q.filter(tbl.object.in_(subq))
-        logging.info(f"Tbox query: {q}")
+        logging.debug(f"Tbox query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
@@ -989,7 +1032,7 @@ class SqlImplementation(
             q = q.filter(Statements.predicate.in_(op_subq))
         if objects:
             q = q.filter(Statements.object.in_(tuple(objects)))
-        logging.info(f"Abox query: {q}")
+        logging.debug(f"Abox query: {q}")
         for row in q:
             if not row.object:
                 # edge case: see https://github.com/monarch-initiative/phenio/issues/36
@@ -1056,9 +1099,16 @@ class SqlImplementation(
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if objects:
             q = q.filter(Statements.object.in_(tuple(objects)))
-        logging.info(f"RBOX query: {q}")
+        logging.debug(f"RBOX query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
+
+    def relationships_metadata(
+        self, relationships: Iterable[RELATIONSHIP], **kwargs
+    ) -> Iterator[Tuple[RELATIONSHIP, List[Tuple[PRED_CURIE, Any]]]]:
+        for rel in relationships:
+            anns = [(ann.predicate, ann.object) for ann in self._axiom_annotations(*rel)]
+            yield rel, anns
 
     def node_exists(self, curie: CURIE) -> bool:
         return self.session.query(Statements).filter(Statements.subject == curie).count() > 0
@@ -1135,11 +1185,14 @@ class SqlImplementation(
         """
         if syntax is None:
             syntax = "ttl"
-        if syntax == "ttl":
+        if syntax in ["ttl", "rdfxml", "owl"]:
+            if syntax in RDFLIB_SYNTAX_ALIAS_MAP:
+                syntax = RDFLIB_SYNTAX_ALIAS_MAP[syntax]
             g = self.as_rdflib_graph()
             logging.info(f"Dumping to {path}")
             g.serialize(path, format=syntax)
-        elif syntax == "json":
+        elif syntax in OBOGRAPHS_SYNTAX_ALIAS_MAP.keys():
+            syntax = OBOGRAPHS_SYNTAX_ALIAS_MAP[syntax]
             g = self.as_obograph(expand_curies=True)
             gd = obograph.GraphDocument(graphs=[g])
             json_dumper.dump(gd, path)
@@ -1157,6 +1210,7 @@ class SqlImplementation(
             logging.info("Using base method")
             yield from super().associations(*args, **kwargs)
             return
+        logging.info("Using SQL queries")
         q = self._associations_query(*args, **kwargs)
         for row_it in chunk(q):
             assocs = []
@@ -1166,7 +1220,7 @@ class SqlImplementation(
                 )
                 assocs.append(association)
             subjects = {a.subject for a in assocs}
-            label_map = {s: l for s, l in self.labels(subjects)}
+            label_map = {s: name for s, name in self.labels(subjects)}
             for association in assocs:
                 if association.subject in label_map:
                     association.subject_label = label_map[association.subject]
@@ -1217,7 +1271,7 @@ class SqlImplementation(
                 q = q.filter(TermAssociation.object.in_(subquery))
             else:
                 q = q.filter(TermAssociation.object.in_(tuple(objects)))
-        logging.info(f"Association query: {q}")
+        logging.info(f"_associations_query: {q}")
         return q
 
     def add_associations(
@@ -1227,6 +1281,7 @@ class SqlImplementation(
         **kwargs,
     ) -> bool:
         if not self.can_store_associations:
+            logging.info("Using base method to store associations")
             return super().add_associations(associations, normalizers=normalizers)
         for a in associations:
             if normalizers:
@@ -1566,6 +1621,81 @@ class SqlImplementation(
                     if not logical_definition_matches(ldef, predicates=predicates, objects=objects):
                         continue
                     yield ldef
+
+    def _node_to_class_expression(
+        self, node: str
+    ) -> Optional[Union[CURIE, ExistentialRestrictionExpression]]:
+        if not _is_blank(node):
+            return node
+
+        svfq = self.session.query(OwlSomeValuesFrom).filter(OwlSomeValuesFrom.id == node)
+        svfq = list(svfq)
+        if svfq:
+            if len(svfq) > 1:
+                raise ValueError(f"Incorrect rdf structure for equiv axioms for {node}")
+            svf = svfq[0]
+            return ExistentialRestrictionExpression(propertyId=svf.on_property, fillerId=svf.filler)
+        else:
+            return None
+
+    def disjoint_class_expressions_axioms(
+        self,
+        subjects: Optional[Iterable[CURIE]] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        group=False,
+        **kwargs,
+    ) -> Iterable[DisjointClassExpressionsAxiom]:
+        logging.info("Getting disjoint class expression axioms")
+        q = self.session.query(OwlDisjointClassStatement)
+        if predicates is not None:
+            predicates = list(predicates)
+        if subjects:
+            subjects = list(subjects)
+        axs = []
+        for da in q:
+            # blank
+            sx = self._node_to_class_expression(da.subject)
+            ox = self._node_to_class_expression(da.object)
+            allx = [sx, ox]
+            allx_named = [x for x in allx if isinstance(x, str)]
+            allx_exprs = [x for x in allx if isinstance(x, ExistentialRestrictionExpression)]
+            allx_fillers = [x.fillerId for x in allx_exprs]
+            if subjects:
+                if not any(x for x in allx_named if x in subjects) and not any(
+                    x for x in allx_fillers if x in subjects
+                ):
+                    continue
+            if predicates:
+                if not any(x for x in allx_exprs if x.propertyId in predicates):
+                    continue
+            ax = DisjointClassExpressionsAxiom(
+                classIds=allx_named,
+                classExpressions=allx_exprs,
+            )
+            axs.append(ax)
+        q = self.session.query(RdfTypeStatement.subject).filter(
+            RdfTypeStatement.object == "owl:AllDisjointClasses"
+        )
+        for adc in q:
+            class_ids = []
+            class_exprs = []
+            for (m,) in self.session.query(Statements.object).filter(
+                and_(
+                    Statements.subject == adc.subject,
+                    Statements.predicate == "owl:members",
+                )
+            ):
+                if isinstance(m, str):
+                    class_ids.append(m)
+                else:
+                    class_exprs.append(self._node_to_class_expression(m))
+            axs.append(
+                DisjointClassExpressionsAxiom(
+                    classIds=class_ids,
+                    classExpressions=class_exprs,
+                )
+            )
+        yield from axs
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface
@@ -1979,9 +2109,24 @@ class SqlImplementation(
         predicates: List[PRED_CURIE] = None,
         object_closure_predicates: List[PRED_CURIE] = None,
         use_associations: bool = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
         curies = list(curies)
+        if self.cached_information_content_map:
+            yield from super().information_content_scores(curies)
+            return
         if use_associations:
+            logging.info("Using associations to calculate IC")
+            if not self.can_store_associations:
+                yield from super().information_content_scores(
+                    curies,
+                    predicates=predicates,
+                    object_closure_predicates=object_closure_predicates,
+                    use_associations=use_associations,
+                    **kwargs,
+                )
+                return
+                # raise ValueError("Cannot use associations, not stored")
             q = self.session.query(EntailedEdge.object, func.count(TermAssociation.subject))
             q = q.filter(EntailedEdge.subject == TermAssociation.object)
             if curies is not None:
@@ -1991,6 +2136,7 @@ class SqlImplementation(
             if object_closure_predicates:
                 q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
             q = q.group_by(EntailedEdge.object)
+            logging.info(f"QUERY: {q}")
             num_nodes = (
                 self.session.query(TermAssociation).distinct(TermAssociation.subject).count()
             )
@@ -2123,9 +2269,11 @@ class SqlImplementation(
                 self.set_label(patch.about_node, patch.new_value)
             elif isinstance(patch, kgcl.NewSynonym):
                 # TODO: synonym type
+                if not patch.predicate:
+                    patch.predicate = HAS_EXACT_SYNONYM
                 self._execute(
                     insert(Statements).values(
-                        subject=about, predicate=HAS_EXACT_SYNONYM, value=patch.new_value
+                        subject=about, predicate=patch.predicate, value=patch.new_value
                     )
                 )
             elif isinstance(patch, kgcl.RemoveSynonym):
@@ -2141,7 +2289,28 @@ class SqlImplementation(
                         )
                     )
                 )
-
+            elif isinstance(patch, kgcl.AddNodeToSubset):
+                # TODO: implement deterministic subset mapping
+                pfx = about.split(":")[0].lower()
+                subset_curie = f"obo:{pfx}#{patch.in_subset}"
+                self._execute(
+                    insert(Statements).values(
+                        subject=about, predicate=IN_SUBSET, object=subset_curie
+                    )
+                )
+            elif isinstance(patch, kgcl.RemoveNodeFromSubset):
+                # TODO: implement deterministic subset mapping
+                pfx = about.split(":")[0].lower()
+                subset_curie = f"obo:{pfx}#{patch.in_subset}"
+                self._execute(
+                    delete(Statements).where(
+                        and_(
+                            Statements.subject == about,
+                            Statements.predicate == IN_SUBSET,
+                            Statements.object == subset_curie,
+                        )
+                    )
+                )
             elif isinstance(patch, kgcl.NodeObsoletion):
                 self.check_node_exists(about)
                 self._set_predicate_value(
@@ -2513,11 +2682,14 @@ class SqlImplementation(
         if branch_subq:
             match_query = match_query.filter(Statements.subject.in_(branch_subq))
         subject_ids_by_object_source = defaultdict(list)
+        bad_ids = set()
         for row in match_query:
             subject_id = row.subject
             object_id = row.value if row.value else row.object
             if ":" not in object_id:
-                logging.warning(f"bad mapping: {object_id}")
+                if object_id not in bad_ids:
+                    logging.warning(f"bad mapping: {object_id}")
+                    bad_ids.add(object_id)
             object_source = object_id.split(":")[0]
             subject_ids_by_object_source[object_source].append(subject_id)
         for object_source, subject_ids in subject_ids_by_object_source.items():
@@ -2555,6 +2727,7 @@ class SqlImplementation(
                         f"Ad-hoc repair of literal value for contributor: {contributor_id}"
                     )
                     contributor_id = string_as_base64_curie(contributor_id)
+            contributor_id = _remove_uri_quotes(contributor_id)
             if contributor_id not in ssc.contributor_summary:
                 ssc.contributor_summary[contributor_id] = ContributorStatistics(
                     contributor_id=contributor_id, contributor_name=contributor_name

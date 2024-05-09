@@ -1,5 +1,5 @@
-# Auto generated from class_enrichment.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-21T10:35:22
+# Auto generated from class_enrichment.yaml by pythongen.py version: 0.0.1
+# Generation date: 2024-03-12T19:30:38
 # Schema: class-enrichment
 #
 # id: https://w3id.org/oak/class-enrichment
@@ -8,7 +8,6 @@
 
 import dataclasses
 import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -75,7 +74,7 @@ DEFAULT_ = ONTOENRICH
 
 # Types
 class Position(Integer):
-    type_class_uri = XSD.integer
+    type_class_uri = XSD["integer"]
     type_class_curie = "xsd:integer"
     type_name = "Position"
     type_model_uri = ONTOENRICH.Position
@@ -92,7 +91,7 @@ class ClassEnrichmentConfiguration(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentConfiguration
+    class_class_uri: ClassVar[URIRef] = ONTOENRICH["ClassEnrichmentConfiguration"]
     class_class_curie: ClassVar[str] = "ontoenrich:ClassEnrichmentConfiguration"
     class_name: ClassVar[str] = "ClassEnrichmentConfiguration"
     class_model_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentConfiguration
@@ -116,7 +115,7 @@ class ClassEnrichmentResultSet(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResultSet
+    class_class_uri: ClassVar[URIRef] = ONTOENRICH["ClassEnrichmentResultSet"]
     class_class_curie: ClassVar[str] = "ontoenrich:ClassEnrichmentResultSet"
     class_name: ClassVar[str] = "ClassEnrichmentResultSet"
     class_model_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResultSet
@@ -141,15 +140,15 @@ class ClassEnrichmentResult(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResult
+    class_class_uri: ClassVar[URIRef] = ONTOENRICH["ClassEnrichmentResult"]
     class_class_curie: ClassVar[str] = "ontoenrich:ClassEnrichmentResult"
     class_name: ClassVar[str] = "ClassEnrichmentResult"
     class_model_uri: ClassVar[URIRef] = ONTOENRICH.ClassEnrichmentResult
 
     class_id: Union[str, URIorCURIE] = None
-    p_value: float = None
     class_label: Optional[str] = None
     rank: Optional[int] = None
+    p_value: Optional[float] = None
     p_value_adjusted: Optional[float] = None
     false_discovery_rate: Optional[float] = None
     fold_enrichment: Optional[float] = None
@@ -167,16 +166,14 @@ class ClassEnrichmentResult(YAMLRoot):
         if not isinstance(self.class_id, URIorCURIE):
             self.class_id = URIorCURIE(self.class_id)
 
-        if self._is_empty(self.p_value):
-            self.MissingRequiredField("p_value")
-        if not isinstance(self.p_value, float):
-            self.p_value = float(self.p_value)
-
         if self.class_label is not None and not isinstance(self.class_label, str):
             self.class_label = str(self.class_label)
 
         if self.rank is not None and not isinstance(self.rank, int):
             self.rank = int(self.rank)
+
+        if self.p_value is not None and not isinstance(self.p_value, float):
+            self.p_value = float(self.p_value)
 
         if self.p_value_adjusted is not None and not isinstance(self.p_value_adjusted, float):
             self.p_value_adjusted = float(self.p_value_adjusted)
@@ -294,7 +291,7 @@ slots.classEnrichmentResult__p_value = Slot(
     curie=OBI.curie("0000175"),
     model_uri=ONTOENRICH.classEnrichmentResult__p_value,
     domain=None,
-    range=float,
+    range=Optional[float],
 )
 
 slots.classEnrichmentResult__p_value_adjusted = Slot(

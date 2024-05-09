@@ -1,13 +1,14 @@
 import itertools
 import logging
 import unittest
+from unittest import mock
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.implementations.ontoportal.bioportal_implementation import (
     BioPortalImplementation,
 )
 from oaklib.utilities.apikey_manager import get_apikey_value
+
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
@@ -75,11 +76,37 @@ class TestBioportal(unittest.TestCase):
         self.assertIn("5.0.0", versions)
         self.assertIn("v3.2.1", versions)
 
-    def test_ontology_metadata(self):
+    @mock.patch(
+        "oaklib.implementations.ontoportal.bioportal_implementation.BioPortalImplementation"
+    )
+    def test_ontology_metadata(self, mock_impl):
+        mock_impl.return_value = {
+            "id": "OBI",
+            "title": "Ontology for Biomedical Investigations",
+            "hasOntologyLanguage": "OWL",
+            "released": "2024-01-22T18:11:12-08:00",
+            "creationDate": "2024-01-22T18:11:18-08:00",
+            "homepage": "http://purl.obolibrary.org/obo/obi",
+            "publication": "http://purl.obolibrary.org/obo/obi/Technical_Reports",
+            "documentation": "http://purl.obolibrary.org/obo/obi/wiki",
+            "version": "2024-01-09",
+            "description": 'OBI is an ontology of investigations, the protocols and instrumentation used,\
+                the material used, the data generated and the types of analysis performed on it.\
+                <br><br>\r\nTo import,<br>\r\nLatest version:\
+                <a href="http://purl.obolibrary.org/obo/obi.owl">http://purl.obolibrary.org/obo/obi.owl</a><br>\
+                \r\n<br>\r\nLatest release notes at <a href="http://purl.obolibrary.org/obo/obi/release-notes.html">\
+                http://purl.obolibrary.org/obo/obi/release-notes.html</a><br>\r\n<br>\r\nNote: BFO 2.0 pre-Graz\
+                      release (not official release version) was used in this release.',
+            "status": "production",
+            "submissionId": 53,
+            "submission_uri": "https://data.bioontology.org/ontologies/OBI/submissions/53",
+            "type": "http://data.bioontology.org/metadata/OntologySubmission",
+        }
         metadata = self.impl.ontology_metadata_map("OBI")
         self.assertIn("title", metadata)
         self.assertEqual(metadata["title"], "Ontology for Biomedical Investigations")
         self.assertIn("homepage", metadata)
         self.assertEqual(metadata["homepage"], "http://purl.obolibrary.org/obo/obi")
-        self.assertIn("classes", metadata)
-        self.assertIsInstance(metadata["classes"], int)
+        # ! The following test is commented out because the metadata does not have the "classes" fields any more.
+        # self.assertIn("classes", metadata)
+        # self.assertIsInstance(metadata["classes"], int)

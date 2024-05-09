@@ -48,17 +48,33 @@ classes:
     description: configuration for search
     attributes:
       matches_whole_text:
+        aliases:
+          - grounding_mode
         range: boolean
+        description: >-
+          If true, then only grounding is performed, and the entire text is used as the match string.
       sources:
         multivalued: true
       limit:
         range: integer
+        description: >-
+          The maximum number of annotations to return
       token_exclusion_list:
         multivalued: true
+        description: >-
+          A list of tokens to exclude from the annotation process
+      categories:
+        multivalued: true
+        description: >-
+          A list of named entity categories to include.
       model:
         range: string
+        description: >-
+          The name of the model to use for annotation. The specifics of this are implementation-dependent.
       include_aliases:
         range: boolean
+        description: >-
+          If true, then the aliases (synonyms) of the matched entity are included in the annotation results.
 
   TextAnnotationResultSet:
     description: A collection of annotation results
@@ -119,6 +135,8 @@ classes:
         slot_uri: sssom:object_label
         exact_mappings:
           - bpa:annotatedClass.prefLabel
+      object_categories:
+        multivalued: true
       object_source:
         slot_uri: sssom:object_source
       confidence:

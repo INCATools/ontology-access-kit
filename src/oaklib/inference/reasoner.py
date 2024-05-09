@@ -3,5 +3,5 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Reasoner(ABC):
+class Reasoner(ABC):  # noqa
     pass

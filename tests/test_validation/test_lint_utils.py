@@ -6,6 +6,7 @@ from oaklib.implementations.pronto.pronto_implementation import ProntoImplementa
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.resource import OntologyResource
 from oaklib.utilities.validation.lint_utils import lint_ontology
+
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEST_OUT = OUTPUT_DIR / "lint-test-output.obo"

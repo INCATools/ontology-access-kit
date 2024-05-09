@@ -2,7 +2,6 @@ import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
@@ -10,6 +9,7 @@ from oaklib.implementations.aggregator.aggregator_implementation import (
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
+
 from tests import (
     CELLULAR_COMPONENT,
     CYTOPLASM,

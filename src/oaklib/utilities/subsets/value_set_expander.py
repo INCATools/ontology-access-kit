@@ -182,19 +182,27 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         oi: BasicOntologyInterface,
         enum_definition: EnumDefinition = None,
     ) -> PermissibleValue:
+        definition = oi.definition(curie)
+        # \n can break some downstream tooling like LinkML's gen-pydantic (v1.6.6)
+        if definition is not None:
+            definition = definition.replace("\n", " ")
         label = oi.label(curie)
         pv_formula = enum_definition.pv_formula if enum_definition else None
         if str(pv_formula) == "CURIE":
             text = curie
         elif str(pv_formula) == "LABEL":
-            text = label
+            # not all ontologies will have text for every element
+            if label is not None:
+                text = label
+            else:
+                text = curie
         elif str(pv_formula) == "URI":
             text = curie
         elif str(pv_formula) == "CODE":
             text = curie.split(":")[1]
         else:
             text = curie
-        return PermissibleValue(text=text, meaning=curie, description=label)
+        return PermissibleValue(text=text, meaning=curie, description=definition, title=label)
 
     def expand_in_place(
         self,
@@ -256,7 +264,7 @@ def expand(config: str, schema: str, value_set_names: List[str], output: str):
     """
     Expand a value set. EXPERIMENTAL.
 
-    This will expand an *intensional value set* (aka *dynamic enum*), running a query against
+    This will expand an *intentional value set* (aka *dynamic enum*), running a query against
     an ontology backend or backends to materialize the value set (permissible values).
 
     Currently the value set must be specified as LinkML, but in future this will be
@@ -274,9 +282,11 @@ def expand(config: str, schema: str, value_set_names: List[str], output: str):
     render all value sets.
 
     Example:
-
+    -------
         vskit expand -c config.yaml -s schema.yaml -o expanded.yaml my_value_set1 my_value_set2
+
     """
+    value_set_names = None if not value_set_names else value_set_names
     expander = ValueSetExpander()
     if config:
         expander.configuration = yaml_loader.load(config, target_class=ValueSetConfiguration)

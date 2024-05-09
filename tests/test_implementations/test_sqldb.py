@@ -5,9 +5,6 @@ import unittest
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
-from semsql.sqla.semsql import Statements
-from sqlalchemy import delete
-
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.conf import CONF_DIR_PATH
 from oaklib.datamodels import obograph
@@ -29,6 +26,9 @@ from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import add_labels_from_uris
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.utilities.validation.rule_runner import RuleRunner
+from semsql.sqla.semsql import Statements
+from sqlalchemy import delete
+
 from tests import (
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
@@ -89,6 +89,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_relationships(self):
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.compliance_tester.test_relationships(oi, ignore_annotation_edges=False)
+
+    def test_entailed_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        self.compliance_tester.test_entailed_relationships(oi)
 
     def test_relationships_chunking(self):
         """
@@ -607,6 +611,61 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi.autosave = True
         self.compliance_tester.test_store_associations(oi)
 
+    def test_associations(self):
+        spec = InputSpecification(
+            ontology_resources={"go": {"selector": str(DB)}},
+            association_resources={"gaf": {"selector": str(INPUT_GAF)}},
+        )
+        adapter = get_adapter(spec)
+        assocs = list(adapter.associations())
+        genes = list({a.subject for a in assocs})
+        self.assertGreater(len(assocs), 10)
+        self.assertGreater(len(genes), 10)
+        assoc0 = assocs[0]
+        gene = assoc0.subject
+        term = assoc0.object
+        assocs2 = list(adapter.associations(subjects=[gene]))
+        self.assertCountEqual([a for a in assocs if a.subject == gene], assocs2)
+        assocs2 = list(adapter.associations(objects=[term]))
+        self.assertCountEqual([a for a in assocs if a.object == term], assocs2)
+        # semsim
+        for gene in genes[0:5]:
+            terms = list({a.object for a in adapter.associations(subjects=[gene])})
+            results = list(
+                adapter.associations_subject_search(
+                    objects=terms, object_closure_predicates=[IS_A, PART_OF], limit=100
+                )
+            )
+            best_score = None
+            found = False
+            for score, _, match in results:
+                if best_score is None:
+                    best_score = score
+                if match == gene:
+                    found = True
+                    self.assertAlmostEquals(best_score, score)
+            self.assertTrue(found)
+
+    def test_association_counts(self):
+        spec = InputSpecification(
+            ontology_resources={"go": {"selector": str(DB)}},
+            association_resources={"gaf": {"selector": str(INPUT_GAF)}},
+        )
+        adapter = get_adapter(spec)
+        cases = [
+            ({}, {NUCLEUS: 147, CELLULAR_COMPONENT: 202}),
+            ({"object_closure_predicates": []}, {NUCLEUS: 73, CELLULAR_COMPONENT: 0}),
+            ({"object_closure_predicates": [], "group_by": "subject"}, {"UniProtKB:O14733": 2}),
+        ]
+        for kwargs, expected in cases:
+            term_counts = list(adapter.association_counts(**kwargs))
+            for term, count in term_counts:
+                if term in expected:
+                    self.assertEqual(expected[term], count)
+                    expected.pop(term)
+            for _, count in expected.items():
+                self.assertEqual(0, count)
+
     def test_class_enrichment(self):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
@@ -842,6 +901,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_information_content_scores(self):
         self.compliance_tester.test_information_content_scores(self.oi, False)
+        self.compliance_tester.test_information_content_scores(self.oi, True)
 
     def test_common_ancestors(self):
         self.compliance_tester.test_common_ancestors(self.oi)
@@ -863,3 +923,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_simple_subproperty_of_chains(self):
         self.compliance_tester.test_simple_subproperty_of_chains(self.oi)
+
+    def test_entities_metadata_statements(self):
+        self.compliance_tester.test_entities_metadata_statements(self.oi)

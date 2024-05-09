@@ -1,0 +1,24 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/typedef-transitive_over.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ],
+    "propertyChainAxioms" : [ {
+      "predicateId" : "http://purl.obolibrary.org/obo/R_1",
+      "chainPredicateIds" : [ "http://purl.obolibrary.org/obo/R_1", "http://purl.obolibrary.org/obo/R_3" ]
+    } ]
+  } ]
+}

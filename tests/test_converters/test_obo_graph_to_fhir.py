@@ -1,4 +1,5 @@
 """Tests for: Obographs to FHIR converter"""
+
 import os
 import unittest
 from typing import List
@@ -6,11 +7,12 @@ from typing import List
 import curies
 import requests
 from linkml_runtime.loaders import json_loader
-
+from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
 from oaklib.datamodels.fhir import CodeSystem
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
+
 from tests import IMBO, INPUT_DIR, NUCLEUS, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
 
@@ -18,15 +20,17 @@ DOWNLOAD_TESTS_ON = True
 
 
 class OboGraphToFHIRTest(unittest.TestCase):
-    """Tests OBO JSON -> FHIR.
+    """
+    Tests OBO JSON -> FHIR.
 
-    Different ontologies have unique structures, so test some specifics for those."""
+    Different ontologies have unique structures, so test some specifics for those.
+    """
 
     @staticmethod
     def _load_ontology(url: str, download_path: str, use_cache: bool = True) -> GraphDocument:
         """Downloads ontology if needed, and loads it."""
         if not os.path.exists(download_path) and use_cache:
-            r = requests.get(url)
+            r = requests.get(url, timeout=TIMEOUT_SECONDS)
             with open(download_path, "wb") as f:
                 f.write(r.content)
             return json_loader.load(str(download_path), target_class=GraphDocument)

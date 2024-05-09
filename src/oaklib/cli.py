@@ -1,9 +1,10 @@
 """
 Command Line Interface to OAK
------------------------------
+----------------------
 
 Executed using "runoak" command
 """
+
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
@@ -12,6 +13,7 @@ import logging
 import os
 import re
 import secrets
+import statistics as stats
 import sys
 from collections import defaultdict
 from enum import Enum, unique
@@ -41,6 +43,7 @@ import sssom_schema
 import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from pydantic import BaseModel
@@ -49,9 +52,9 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
+from oaklib.datamodels import synonymizer_datamodel
 from oaklib.datamodels.association import RollupGroup
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
-from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType
 from oaklib.datamodels.obograph import (
     BasicPropertyValue,
     Edge,
@@ -110,6 +113,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.merge_interface import MergeInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod, OboGraphInterface
+from oaklib.interfaces.ontology_generator_interface import OntologyGenerationInterface
 from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -125,6 +129,7 @@ from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_fhir_writer import StreamingFHIRWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
+from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_kgcl_writer import StreamingKGCLWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
@@ -139,6 +144,10 @@ from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter, get_resource_from_shorthand
+from oaklib.transformers.transformers_factory import (
+    apply_ontology_transformation,
+    get_ontology_transformer,
+)
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
@@ -147,17 +156,20 @@ from oaklib.utilities.axioms import (
     logical_definition_analyzer,
     logical_definition_summarizer,
 )
+from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
+    DisjointnessInducerConfig,
+    generate_disjoint_class_expressions_axioms,
+)
+from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
     parse_kgcl_files,
     write_kgcl,
 )
-from oaklib.utilities.lexical import patternizer
+from oaklib.utilities.lexical import patternizer, synonymizer
 from oaklib.utilities.lexical.lexical_indexer import (
-    DEFAULT_QUALIFIER,
     add_labels_from_uris,
-    apply_transformation,
     create_lexical_index,
     lexical_index_to_sssom,
     load_lexical_index,
@@ -172,20 +184,20 @@ from oaklib.utilities.ner_utilities import get_exclusion_token_list
 from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
     default_stylemap_path,
+    graph_to_d3viz_objects,
     graph_to_image,
     graph_to_tree_display,
     shortest_paths,
     trim_graph,
 )
+from oaklib.utilities.publication_utils.pubmed_wrapper import PubmedWrapper
+from oaklib.utilities.semsim.similarity_utils import load_information_content_map
 from oaklib.utilities.subsets.slimmer_utils import (
     filter_redundant,
     roll_up_to_named_subset,
 )
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
-from oaklib.utilities.validation.definition_ontology_rule import (
-    TextAndLogicalDefinitionMatchOntologyRule,
-)
 from oaklib.utilities.validation.lint_utils import lint_ontology
 from oaklib.utilities.validation.rule_runner import RuleRunner
 
@@ -195,6 +207,7 @@ MD_FORMAT = "md"
 HTML_FORMAT = "html"
 OBOJSON_FORMAT = "obojson"
 CSV_FORMAT = "csv"
+TSV_FORMAT = "tsv"
 JSON_FORMAT = "json"
 JSONL_FORMAT = "jsonl"
 YAML_FORMAT = "yaml"
@@ -215,6 +228,7 @@ ONT_FORMATS = [
     YAML_FORMAT,
     FHIR_JSON_FORMAT,
     CSV_FORMAT,
+    TSV_FORMAT,
     NL_FORMAT,
 ]
 
@@ -226,8 +240,9 @@ WRITERS = {
     HTML_FORMAT: HTMLWriter,
     OBOJSON_FORMAT: StreamingOboJsonWriter,
     CSV_FORMAT: StreamingCsvWriter,
+    TSV_FORMAT: StreamingCsvWriter,
     JSON_FORMAT: StreamingJsonWriter,
-    JSONL_FORMAT: StreamingJsonWriter,
+    JSONL_FORMAT: StreamingJsonLinesWriter,
     YAML_FORMAT: StreamingYamlWriter,
     SSSOM_FORMAT: StreamingSssomWriter,
     FHIR_JSON_FORMAT: StreamingFHIRWriter,
@@ -412,6 +427,16 @@ stylemap_configure_option = click.option(
     "--configure",
     help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
 )
+configuration_file_option = click.option(
+    "-C",
+    "--configuration-file",
+    help="Path to a configuration file. This is typically a YAML file, but may be a JSON file",
+)
+adapter_mapping_option = click.option(
+    "--adapter-mapping",
+    multiple=True,
+    help="Multiple prefix=selector pairs, e.g. --adapter-mapping uberon=db/uberon.db",
+)
 pivot_languages = click.option(
     "--pivot-languages/--no-pivot-languages",
     help="include one column per language",
@@ -567,7 +592,9 @@ def _nest_list_of_terms(terms: List[str]) -> Tuple[NESTED_LIST, List[str]]:
     return nested, []
 
 
-def curies_from_file(file: IO) -> Iterator[CURIE]:
+def curies_from_file(
+    file: IO, adapter: Optional[BasicOntologyInterface] = None, allow_labels=False, strict=False
+) -> Iterator[CURIE]:
     """
     yield an iterator over CURIEs by parsing a file.
 
@@ -576,16 +603,29 @@ def curies_from_file(file: IO) -> Iterator[CURIE]:
     is ignored
 
     :param file:
+    :param adapter: if provided, will be used to resolve CURIEs
+    :param allow_labels: if true, will allow inputs to be labels
+    :param strict: if true, will raise an error if a CURIE cannot be resolved
     :return:
     """
     line_no = 0
+    if allow_labels and not adapter:
+        raise ValueError("Must provide an adapter to resolve labels")
     for line in file.readlines():
         line_no += 1
-        m = re.match(r"^(\S+)", line)
-        curie = m.group(1)
-        if curie == "id" and line_no == 1:
-            continue
-        yield curie
+        if ":" in line or not allow_labels:
+            m = re.match(r"^(\S+)", line)
+            curie = m.group(1)
+            if curie == "id" and line_no == 1:
+                continue
+            yield curie
+        elif allow_labels:
+            candidates = adapter.curies_by_label(line.strip())
+            if strict and len(candidates) != 1:
+                raise ValueError(
+                    f"Could not resolve label {line} to a single CURIE, got {candidates}"
+                )
+            yield from candidates
 
 
 def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
@@ -729,7 +769,7 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
             # arbitrary python expression
             expr = query_terms[0]
             query_terms = query_terms[1:]
-            chain_results(eval(expr, {"impl": impl, "terms": results}))
+            chain_results(eval(expr, {"impl": impl, "terms": results}))  # noqa
         elif term.startswith(".query"):
             # arbitrary SPARQL query
             params = _parse_params(term)
@@ -872,6 +912,11 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
     "--requests-cache-db",
     help="If specified, all http requests will be cached to this sqlite file",
 )
+@click.option(
+    "--wrap-adapter",
+    "-W",
+    help="Wrap the input adapter using another adapter (e.g. llm or semsimian).",
+)
 @input_option
 @input_type_option
 @add_option
@@ -881,11 +926,18 @@ def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface)
     show_default=True,
     help="Merge all inputs specified using --add",
 )
+@click.option(
+    "--profile/--no-profile",
+    default=False,
+    show_default=True,
+    help="If set, will profile the command",
+)
 def main(
     verbose: int,
     quiet: bool,
     stacktrace: bool,
     input: str,
+    wrap_adapter: str,
     input_type: str,
     add: List,
     merge: bool,
@@ -897,10 +949,12 @@ def main(
     metamodel_mappings,
     requests_cache_db,
     prefix,
+    profile: bool,
     import_depth: Optional[int],
     **kwargs,
 ):
-    """Run the oaklib Command Line.
+    """
+    Run the oaklib Command Line.
 
     A subcommand must be passed - for example: ancestors, terms, ...
 
@@ -923,6 +977,24 @@ def main(
         logger.setLevel(logging.WARNING)
     if quiet:
         logger.setLevel(logging.ERROR)
+    if profile:
+        import atexit
+        import cProfile
+        import io
+        import pstats
+
+        print("Profiling...")
+        pr = cProfile.Profile()
+        pr.enable()
+
+        def exit():
+            pr.disable()
+            print("Profiling completed")
+            s = io.StringIO()
+            pstats.Stats(pr, stream=s).sort_stats("cumulative").print_stats()
+            print(s.getvalue())
+
+        atexit.register(exit)
     if requests_cache_db:
         import requests_cache
 
@@ -936,11 +1008,8 @@ def main(
             setattr(settings, k, v)
     logging.info(f"Settings = {settings}")
     if input:
-        # impl_class: Type[OntologyInterface]
-        # resource = get_resource_from_shorthand(input, format=input_type, import_depth=import_depth)
-        # impl_class = resource.implementation_class
-        # logging.info(f"RESOURCE={resource}")
-        # settings.impl = impl_class(resource)
+        if wrap_adapter:
+            input = wrap_adapter + ":" + input
         settings.impl = get_adapter(input)
         settings.impl.autosave = autosave
     if merge and not add:
@@ -995,8 +1064,9 @@ def main(
 @main.command()
 @click.argument("terms", nargs=-1)
 @ontological_output_type_option
+@autolabel_option
 @output_option
-def search(terms, output_type: str, output: TextIO):
+def search(terms, output_type: str, autolabel, output: TextIO):
     """
     Searches ontology for entities that have a label, alias, or other property matching a search term.
 
@@ -1045,11 +1115,15 @@ def search(terms, output_type: str, output: TextIO):
     if isinstance(impl, SearchInterface):
         writer = _get_writer(output_type, impl, StreamingInfoWriter)
         writer.output = output
-        for curie_it in chunk(query_terms_iterator(terms, impl)):
-            logging.info("** Next chunk:")
-            # TODO: move chunking logic to writer
-            for curie, label in impl.labels(curie_it):
-                writer.emit(dict(id=curie, label=label))
+        if autolabel:
+            for curie_it in chunk(query_terms_iterator(terms, impl)):
+                logging.info("** Next chunk:")
+                # TODO: move chunking logic to writer
+                for curie, label in impl.labels(curie_it):
+                    writer.emit(dict(id=curie, label=label))
+        else:
+            for curie in query_terms_iterator(terms, impl):
+                writer.emit(dict(id=curie), label_fields=[])
         writer.finish()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1082,9 +1156,10 @@ def subsets(output: str):
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
 
-    See also:
-
+    See Also:
+    -
         term-subsets command, which shows relationships of terms to subsets
+
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -1145,6 +1220,7 @@ def obsoletes(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -1242,7 +1318,7 @@ def statistics(
     For bundled ontologies, we recommend some kind of partitioning, such as via
     defined roots, or via the CURIE prefix, using the ``--group-by-prefix`` option.
 
-    Ouput formats:
+    Output formats:
 
     The recommended output types for this command are yaml, json, or csv.
     The default output type is yaml, following the SummaryStatistics data model.
@@ -1271,6 +1347,7 @@ def statistics(
     Data model:
 
        https://w3id.org/oak/summary-statistics
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -1384,6 +1461,7 @@ def ontology_versions(ontologies, output: str, all: bool):
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
@@ -1433,6 +1511,7 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     if output_type is None or output_type == "yaml":
@@ -1486,6 +1565,7 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     Data model:
 
        https://w3id.org/oak/ontology-metadata
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -1536,6 +1616,11 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
+    "--match-column",
+    "-A",
+    help="name of column to match on (if the input is tsv/csv)",
+)
+@click.option(
     "--model",
     "-m",
     required=False,
@@ -1551,7 +1636,12 @@ def term_metadata(terms, predicates, additional_metadata: bool, output_type: str
 @click.option(
     "--rules-file",
     "-R",
-    help="path to rules file. Conforms to https://w3id.org/oak/mapping-rules-datamodel",
+    help="path to rules file. Conforms to https://w3id.org/oak/mapping-rules",
+)
+@click.option(
+    "--configuration-file",
+    "-C",
+    help="path to config file. Conforms to https://w3id.org/oak/text-annotator",
 )
 @output_option
 @output_type_option
@@ -1563,21 +1653,34 @@ def annotate(
     include_aliases: bool,
     exclude_tokens: str,
     rules_file: str,
+    configuration_file: str,
     text_file: TextIO,
+    match_column: str,
     model: str,
     output_type: str,
 ):
     """
-    Annotate a piece of text using a Named Entity Recognition annotation
+    Annotate a piece of text using a Named Entity Recognition annotation.
+
+    Some endpoints such as BioPortal have built-in support for annotation;
+    in these cases the endpoint functionality is used:
 
     Example:
 
         runoak -i bioportal: annotate "enlarged nucleus in T-cells from peripheral blood"
 
-    Currently most implementations do not yet support annotation.
+    For other endpoints, the built-in OAK annotator is used. This currently uses a basic
+    algorithm based on lexical matching.
 
-    See the ontorunner framework for plugins for SciSpacy and OGER - these will
-    later become plugins.
+    Example:
+
+        runoak -i sqlite:obo:cl annotate "enlarged nucleus in T-cells from peripheral blood"
+
+    Using the builtin annotator can be slow, as the lexical index is re-built every time.
+    To preserve this, use the ``--lexical-index-file`` (``-L``) option to specify a file to save.
+    On subsequent iterations the file is reused.
+
+    You can also use ``--text-file`` to pass in a text file to be parsed one line at a time
 
     If gilda is installed as an extra, it can be used,
     but ``--matches-whole-text`` (``-W``) must be specified,
@@ -1614,6 +1717,7 @@ def annotate(
     Data model:
 
        https://w3id.org/oak/text-annotator
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
@@ -1629,7 +1733,10 @@ def annotate(
             save_lexical_index(impl.lexical_index, lexical_index_file)
         else:
             impl.lexical_index = load_lexical_index(lexical_index_file)
-    configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
+    if configuration_file:
+        configuration = yaml_loader.load(configuration_file, TextAnnotationConfiguration)
+    else:
+        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
     if exclude_tokens:
         token_exclusion_list = get_exclusion_token_list(exclude_tokens)
         configuration.token_exclusion_list = token_exclusion_list
@@ -1642,8 +1749,16 @@ def annotate(
     if words and text_file:
         raise ValueError("Specify EITHER text-file OR a list of words as arguments")
     if text_file:
-        for ann in impl.annotate_file(text_file, configuration):
-            writer.emit(ann)
+        if match_column:
+            writer = _get_writer(output_type, impl, StreamingCsvWriter)
+            writer.output = output
+            for row in impl.annotate_tabular_file(
+                text_file, configuration=configuration, match_column=match_column
+            ):
+                writer.emit(row)
+        else:
+            for ann in impl.annotate_file(text_file, configuration):
+                writer.emit(ann)
     else:
         logging.info(f"Annotating: {words}")
         for ann in impl.annotate_text(" ".join(list(words)), configuration):
@@ -1751,6 +1866,7 @@ def viz(
     Data model:
 
        https://w3id.org/oak/obograph
+
     """
     impl = settings.impl
     if not isinstance(impl, OboGraphInterface):
@@ -1922,46 +2038,59 @@ def tree(
     Data model:
 
        https://w3id.org/oak/obograph
+
     """
     impl = settings.impl
     if configure:
         logging.warning("Configure is not yet supported")
-    if isinstance(impl, OboGraphInterface):
-        curies = list(query_terms_iterator(terms, impl))
-        if stylemap is None:
-            stylemap = default_stylemap_path()
-        actual_predicates = _process_predicates_arg(predicates)
-        if add_mrcas:
-            if isinstance(impl, SemanticSimilarityInterface):
-                curies_to_add = [
-                    lca
-                    for s, o, lca in impl.multiset_most_recent_common_ancestors(
-                        curies, predicates=actual_predicates
-                    )
-                ]
-                curies = list(set(curies + curies_to_add))
-                logging.info(f"Expanded CURIEs = {curies}")
-            else:
-                raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
-        if down:
-            graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
-        elif gap_fill:
-            logging.info("Using gap-fill strategy")
-            if isinstance(impl, SubsetterInterface):
-                rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
-                if isinstance(impl, OboGraphInterface):
-                    graph = impl.relationships_to_graph(rels)
-                else:
-                    raise AssertionError(f"{impl} needs to be of type OboGraphInterface")
-            else:
-                raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    if stylemap is None:
+        stylemap = default_stylemap_path()
+    actual_predicates = _process_predicates_arg(predicates)
+    if add_mrcas:
+        if isinstance(impl, SemanticSimilarityInterface):
+            curies_to_add = [
+                lca
+                for s, o, lca in impl.multiset_most_recent_common_ancestors(
+                    curies, predicates=actual_predicates
+                )
+            ]
+            curies = list(set(curies + curies_to_add))
+            logging.info(f"Expanded CURIEs = {curies}")
         else:
-            graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-        logging.info(
-            f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
+            raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
+    if down:
+        graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
+    elif gap_fill:
+        logging.info("Using gap-fill strategy")
+        if isinstance(impl, SubsetterInterface):
+            rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+            if isinstance(impl, OboGraphInterface):
+                graph = impl.relationships_to_graph(rels)
+            else:
+                raise AssertionError(f"{impl} needs to be of type OboGraphInterface")
+        else:
+            raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
+    else:
+        graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+    logging.info(
+        f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
+    )
+    if max_hops is not None:
+        graph = trim_graph(graph, curies, distance=max_hops)
+    if output_type in ["d3viz", "d3viz_relational"]:
+        trees = graph_to_d3viz_objects(
+            graph,
+            predicates=actual_predicates,
+            start_curies=list(root) if root else None,
+            relations_as_nodes=output_type == "d3viz_relational",
+            max_paths=None,
         )
-        if max_hops is not None:
-            graph = trim_graph(graph, curies, distance=max_hops)
+        json_dump = json.dumps(trees, indent=2)
+        output.write(json_dump)
+    else:
         graph_to_tree_display(
             graph,
             seeds=curies,
@@ -1973,8 +2102,6 @@ def tree(
             display_options=display.split(","),
             output=output,
         )
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -2004,7 +2131,7 @@ def ancestors(
 
     This will show ancestry over the full relationship graph. Like any relational
     OAK command, this can be filtered by relationship type (predicate), using --predicate (-p).
-    For exampple, constrained to is-a and part-of:
+    For example, constrained to is-a and part-of:
 
         runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050
 
@@ -2023,6 +2150,7 @@ def ancestors(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2169,6 +2297,7 @@ def paths(
     More examples:
 
        https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Paths.ipynb
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2312,6 +2441,7 @@ def siblings(terms, predicates, output_type: str, output: str):
 
     Note that siblings is by default over ALL relationship types, so we recommend
     always being explicit and passing a predicate using -p (--predicates)
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -2362,6 +2492,7 @@ def descendants(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/obograph
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -2399,10 +2530,64 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     """
     Exports (dumps) the entire contents of an ontology.
 
-    :param terms: A list of terms to dump. If not specified, the entire ontology will be dumped.
-    :param output: Path to output file
-    :param output_type: The output format. One of: obo, obojson, ofn, rdf, json, yaml, fhirjson, csv, nl
-    :param config_file: Path to a configuration JSON file for additional params (which may be required for some formats)
+    Example:
+
+        runoak -i pato.obo dump -o pato.json -O json
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O turtle
+
+    You can also pass in a JSON configuration file to parameterize the dump process.
+
+    Currently this is only used for fhirjson dumps, the configuration options are specified here:
+
+    https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
+
+    Currently each implementation only supports a subset of formats.
+
+    The dump command is also blocked for remote endpoints such as Ubergraph,
+    to avoid killer queries.
+
+    Python API:
+
+       https://incatools.github.io/ontology-access-kit/interfaces/basic
+
+    """
+    if terms:
+        raise NotImplementedError("Currently dump for a subset of terms is not supported")
+    impl = settings.impl
+    if not isinstance(impl, BasicOntologyInterface):
+        raise NotImplementedError
+    logging.info(f"Out={output} syntax={output_type}")
+    if config_file:
+        with open(config_file) as file:
+            kwargs |= json.load(file)
+    impl.dump(output, syntax=output_type, **kwargs)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option("-o", "--output", help="Path to output file")
+@output_type_option
+@click.option(
+    "-c",
+    "--config-file",
+    help="""Config file for additional transform params.""",
+)
+@click.option(
+    "-t",
+    "--transform",
+    required=True,
+    help="""Name of transformation to apply.""",
+)
+def transform(terms, transform, output, output_type: str, config_file: str = None, **kwargs):
+    """
+    Transforms an ontology
 
     Example:
 
@@ -2430,18 +2615,20 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     if terms:
-        raise NotImplementedError("Currently dump for a subset of terms is not supported")
+        raise NotImplementedError("Currently transform for a subset of terms is not supported")
     impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        logging.info(f"Out={output} syntax={output_type}")
-        if config_file:
-            with open(config_file) as file:
-                kwargs |= json.load(file)
-        impl.dump(output, syntax=output_type, **kwargs)
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError
+    logging.info(f"Out={output} syntax={output_type}")
+    if config_file:
+        with open(config_file) as file:
+            kwargs |= yaml.safe_load(file)
+    transformer = get_ontology_transformer(transform, **kwargs)
+    new_impl = apply_ontology_transformation(impl, transformer)
+    new_impl.dump(output, syntax=output_type)
 
 
 @main.command()
@@ -2626,24 +2813,27 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     Data model:
 
        https://w3id.org/oak/similarity
+
     """
     if len(terms) != 2:
         raise ValueError(f"Need exactly 2 terms: {terms}")
-    subject = terms[0]
-    object = terms[1]
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
-    if isinstance(impl, SemanticSimilarityInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
-        if autolabel:
-            sim.subject_label = impl.label(sim.subject_id)
-            sim.object_label = impl.label(sim.object_id)
-            sim.ancestor_label = impl.label(sim.ancestor_id)
-        writer.emit(sim)
-    else:
+    subject = list(query_terms_iterator([terms[0]], impl))[0]
+    object = list(query_terms_iterator([terms[1]], impl))[0]
+    if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    actual_predicates = _process_predicates_arg(predicates)
+    sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
+    if autolabel:
+        if not sim.subject_label:
+            sim.subject_label = impl.label(sim.subject_id)
+        if not sim.object_label:
+            sim.object_label = impl.label(sim.object_id)
+        if not sim.ancestor_label:
+            sim.ancestor_label = impl.label(sim.ancestor_id)
+    writer.emit(sim)
     writer.finish()
 
 
@@ -2674,6 +2864,10 @@ def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_t
     show_default=True,
     help="Score used for summarization",
 )
+@click.option(
+    "--information-content-file",
+    help="File containing information content for each term",
+)
 @autolabel_option
 @output_type_option
 @click.argument("terms", nargs=-1)
@@ -2686,6 +2880,7 @@ def similarity(
     min_jaccard_similarity: Optional[float],
     min_ancestor_information_content: Optional[float],
     main_score_field,
+    information_content_file,
     output_type,
     output,
 ):
@@ -2741,6 +2936,7 @@ def similarity(
     Data model:
 
        https://w3id.org/oak/similarity
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
@@ -2749,46 +2945,47 @@ def similarity(
     logging.info(f"file={writer.file} {type(writer.output)}")
     if main_score_field and isinstance(writer, HeatmapWriter):
         writer.value_field = main_score_field
-    if isinstance(impl, SemanticSimilarityInterface):
-        set1it = None
-        set2it = None
-        if not (set1_file or set2_file):
-            terms = list(terms)
-            ix = terms.index("@")
-            logging.info(f"Splitting terms {terms} on {ix}")
-            set1it = query_terms_iterator(terms[0:ix], impl)
-            set2it = query_terms_iterator(terms[ix + 1 :], impl)
-        else:
-            if set1_file:
-                logging.info(f"Getting set1 from {set1_file}")
-                with open(set1_file) as file:
-                    set1it = list(curies_from_file(file))
-            else:
-                set1it = query_terms_iterator(terms, impl)
-            if set2_file:
-                logging.info(f"Getting set2 from {set2_file}")
-                with open(set2_file) as file:
-                    set2it = list(curies_from_file(file))
-            else:
-                set2it = query_terms_iterator(terms, impl)
-        actual_predicates = _process_predicates_arg(predicates)
-        for sim in impl.all_by_all_pairwise_similarity(
-            set1it,
-            set2it,
-            predicates=actual_predicates,
-            min_jaccard_similarity=min_jaccard_similarity,
-            min_ancestor_information_content=min_ancestor_information_content,
-        ):
-            if autolabel:
-                # TODO: this can be made more efficient
-                sim.subject_label = impl.label(sim.subject_id)
-                sim.object_label = impl.label(sim.object_id)
-                sim.ancestor_label = impl.label(sim.ancestor_id)
-            writer.emit(sim)
-        writer.finish()
-        writer.file.close()
-    else:
+    if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if information_content_file:
+        impl.cached_information_content_map = load_information_content_map(information_content_file)
+    set1it = None
+    set2it = None
+    if not (set1_file or set2_file):
+        terms = list(terms)
+        ix = terms.index("@")
+        logging.info(f"Splitting terms {terms} on {ix}")
+        set1it = query_terms_iterator(terms[0:ix], impl)
+        set2it = query_terms_iterator(terms[ix + 1 :], impl)
+    else:
+        if set1_file:
+            logging.info(f"Getting set1 from {set1_file}")
+            with open(set1_file) as file:
+                set1it = list(curies_from_file(file))
+        else:
+            set1it = query_terms_iterator(terms, impl)
+        if set2_file:
+            logging.info(f"Getting set2 from {set2_file}")
+            with open(set2_file) as file:
+                set2it = list(curies_from_file(file))
+        else:
+            set2it = query_terms_iterator(terms, impl)
+    actual_predicates = _process_predicates_arg(predicates)
+    for sim in impl.all_by_all_pairwise_similarity(
+        set1it,
+        set2it,
+        predicates=actual_predicates,
+        min_jaccard_similarity=min_jaccard_similarity,
+        min_ancestor_information_content=min_ancestor_information_content,
+    ):
+        if autolabel:
+            # TODO: this can be made more efficient
+            sim.subject_label = impl.label(sim.subject_id)
+            sim.object_label = impl.label(sim.object_id)
+            sim.ancestor_label = impl.label(sim.ancestor_id)
+        writer.emit(sim)
+    writer.finish()
+    writer.file.close()
 
 
 @main.command()
@@ -2796,12 +2993,17 @@ def similarity(
 @output_option
 @output_type_option
 @autolabel_option
+@click.option(
+    "--information-content-file",
+    help="File containing information content for each term",
+)
 @click.argument("terms", nargs=-1)
 def termset_similarity(
     terms,
     predicates,
     autolabel,
     output_type,
+    information_content_file,
     output: TextIO,
 ):
     """
@@ -2820,12 +3022,15 @@ def termset_similarity(
     Data model:
 
        https://w3id.org/oak/similarity
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     writer.output = output
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if information_content_file:
+        impl.cached_information_content_map = load_information_content_map(information_content_file)
     terms = list(terms)
     ix = terms.index("@")
     set1 = list(query_terms_iterator(terms[0:ix], impl))
@@ -2837,6 +3042,67 @@ def termset_similarity(
         set1, set2, predicates=actual_predicates, labels=autolabel
     )
     writer.emit(sim)
+    writer.finish()
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@output_option
+@output_type_option
+@predicates_option
+@click.option(
+    "--use-associations/--no-use-associations",
+    default=False,
+    show_default=True,
+    help="Use associations to calculate IC",
+)
+def information_content(
+    terms,
+    predicates,
+    output: TextIO,
+    output_type: str,
+    use_associations: bool,
+):
+    """
+    Show information content for term or list of terms
+
+    Example:
+
+        runoak -i cl.db information-content -p i .all
+
+    Like all OAK commands that operate over graphs, the graph traversal is controlled
+    by the `--predicates` option. In the above case, the frequency of each term is equal to
+    the number of reflexive is-a descendants of the term divided by total number of terms
+
+    By default, the ontology is used as the corpus for computing term frequency.
+
+    You can use an association file as the corpus:
+
+        runoak -g hpoa.tsv -G hpoa -i hp.db information-content -p i --use-associations .all
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.file = output
+    if not isinstance(impl, SemanticSimilarityInterface):
+        raise NotImplementedError(f"Cannot execute this with {type(impl)}")
+    if len(terms) == 0:
+        raise ValueError("You must specify a list of terms. Use '.all' for all terms")
+    actual_predicates = _process_predicates_arg(predicates)
+    n = 0
+    logging.info("Fetching ICs...")
+    for curie_it in chunk(query_terms_iterator(terms, impl)):
+        logging.info("** Next chunk:")
+        n += 1
+        for curie, ic in impl.information_content_scores(
+            curie_it,
+            object_closure_predicates=actual_predicates,
+            use_associations=use_associations,
+        ):
+            obj = dict(id=curie, information_content=ic)
+            writer.emit(obj)
+    if n == 0:
+        raise ValueError(f"No results for input: {terms}")
     writer.finish()
 
 
@@ -2891,6 +3157,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
     Info on all subtypes of "statistical hypothesis test" in STATO:
 
         runoak -i sqlite:obo:stato info .desc//p=i 'statistical hypothesis test'
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -2976,6 +3243,7 @@ def labels(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/labels
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3030,6 +3298,13 @@ def labels(
 @if_absent_option
 @additional_metadata_option
 @set_value_option
+@click.option(
+    "--lookup-references/--no-lookup-references",
+    "-P",
+    default=False,
+    show_default=True,
+    help="Lookup references for each term, e.g. PMIDs",
+)
 @autolabel_option
 def definitions(
     terms,
@@ -3039,6 +3314,7 @@ def definitions(
     output_type: str,
     if_absent: bool,
     autolabel: bool,
+    lookup_references: bool,
     set_value,
 ):
     """
@@ -3046,11 +3322,13 @@ def definitions(
 
     Example:
 
+
         runoak -i sqlite:obo:envo definitions 'tropical biome' 'temperate biome'
 
     You can use the ".all" selector to show all definitions for all terms in the ontology:
 
     Example:
+
 
         runoak -i sqlite:obo:envo definitions .all
 
@@ -3067,6 +3345,9 @@ def definitions(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    if lookup_references and not additional_metadata:
+        logging.warning("Setting lookup_references to True implies additional_metadata=True")
+        additional_metadata = True
     if additional_metadata:
         writer.heterogeneous_keys = True
     changes = []
@@ -3085,6 +3366,16 @@ def definitions(
             if metadata is None:
                 metadata = {}
             obj = dict(id=curie, label=labels.get(curie, None), definition=defn, **metadata)
+            if lookup_references:
+                refs = []
+                obj["references"] = refs
+                pubmed_wrapper = PubmedWrapper()
+                for _k, vs in metadata.items():
+                    pmids = [v for v in vs if v.startswith("PMID:")]
+                    if pmids:
+                        objs = pubmed_wrapper.objects_by_ids(pmids)
+                        refs.extend(objs)
+
             if set_value is not None:
                 # set the value by creating a KGCL change object for applying later
                 obj["new_value"] = set_value
@@ -3119,6 +3410,12 @@ def definitions(
     help="Include entailed indirect relationships",
 )
 @click.option(
+    "--non-redundant-entailed/--no-non-redundant-entailed",
+    default=False,
+    show_default=True,
+    help="Include entailed but exclude entailed redundant relationships",
+)
+@click.option(
     "--include-tbox/--no-include-tbox",
     default=True,
     show_default=True,
@@ -3129,6 +3426,12 @@ def definitions(
     default=True,
     show_default=True,
     help="Include instance relationships (class and object property assertions)",
+)
+@click.option(
+    "--include-metadata/--no-include-metadata",
+    default=False,
+    show_default=True,
+    help="Include metadata (axiom annotations)",
 )
 def relationships(
     terms,
@@ -3142,6 +3445,8 @@ def relationships(
     include_entailed: bool,
     include_tbox: bool,
     include_abox: bool,
+    non_redundant_entailed: bool,
+    include_metadata: bool,
 ):
     """
     Show all relationships for a term or terms
@@ -3185,6 +3490,7 @@ def relationships(
     Python API:
 
        https://incatools.github.io/ontology-access-kit/interfaces/basic
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3210,6 +3516,15 @@ def relationships(
         include_tbox=include_tbox,
         include_entailed=include_entailed,
     )
+    if non_redundant_entailed:
+        if not isinstance(impl, OboGraphInterface):
+            raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        up_it = impl.non_redundant_entailed_relationships(
+            subjects=curies,
+            predicates=actual_predicates,
+            include_abox=include_abox,
+            include_tbox=include_tbox,
+        )
     if direction is None or direction == Direction.up.value:
         it = up_it
     elif direction == Direction.down.value:
@@ -3227,9 +3542,14 @@ def relationships(
             has_relationships[rel[2]] = True
         if if_absent and if_absent == IfAbsent.absent_only.value:
             continue
+        label_fields = ["subject", "predicate", "object"]
+        obj = {k: rel[i] for i, k in enumerate(label_fields)}
+        if include_metadata:
+            metadata_tuples = list(impl.relationships_metadata([rel]))[0][1]
+            obj["metadata"] = dict(pairs_as_dict(metadata_tuples))
         writer.emit(
-            dict(subject=rel[0], predicate=rel[1], object=rel[2]),
-            label_fields=["subject", "predicate", "object"],
+            obj,
+            label_fields=label_fields,
         )
     if if_absent and if_absent == IfAbsent.absent_only.value:
         for curie in curies:
@@ -3348,6 +3668,7 @@ def logical_definitions(
     Data model:
 
        https://w3id.org/oak/obograph
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
@@ -3416,6 +3737,83 @@ def logical_definitions(
         for curie in curies:
             if not has_relationships.get(curie, False):
                 writer.emit({"noLogicalDefinition": curie})
+    writer.finish()
+    writer.file.close()
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@autolabel_option
+@output_type_option
+@click.option(
+    "--named-classes-only/--no-named-classes-only",
+    default=False,
+    show_default=True,
+    help="Only show disjointness axioms between two named classes.",
+)
+@output_option
+def disjoints(
+    terms,
+    predicates: str,
+    autolabel: bool,
+    output_type: str,
+    named_classes_only: bool,
+    output: str,
+):
+    """
+    Show all disjoints for a set of terms, or whole ontology.
+
+    Leave off all arguments for defaults - all terms, YAML OboGraph model
+    serialization:
+
+    Example:
+
+        runoak -i sqlite:obo:uberon disjoints
+
+    Note that this will include pairwise disjoints, setwise disjoints,
+    disjoint unions, and disjoints involving simple class expressions.
+
+    A tabular format can be easier to browse, and includes labels by default:
+
+    Example:
+
+        runoak -i sqlite:obo:uberon disjoints --autolabel -O csv
+
+    To perform this on a subset:
+
+    Example:
+
+        runoak -i sqlite:obo:cl disjoints --autolabel -O csv  .desc//p=i "immune cell"
+
+    Data model:
+
+       https://w3id.org/oak/obograph
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    actual_predicates = _process_predicates_arg(predicates)
+
+    label_fields = [
+        "classIds",
+        "classExpressionPropertyIds",
+        "classExpressionFillerIds",
+        "unionEquivalentToFillerId",
+        "unionEquivalentToPropertyId",
+    ]
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {type(impl)}")
+    if terms == ".all":
+        terms = None
+    term_it = query_terms_iterator(terms, impl) if terms else None
+    dxas = impl.disjoint_class_expressions_axioms(term_it, predicates=actual_predicates)
+    for dxa in dxas:
+        if named_classes_only and dxa.classExpressions:
+            continue
+        writer.emit(dxa, label_fields=label_fields)
     writer.finish()
     writer.file.close()
 
@@ -3507,6 +3905,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
     Annotation properties:
 
         runoak -i sqlite:obo:omo terms --owl-type owl:AnnotationProperty
+
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -3582,6 +3981,7 @@ def leafs(output: str, predicates: str, filter_obsoletes: bool):
 
     - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
       oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs
+
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -3613,6 +4013,7 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
 
     - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
       oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons
+
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -3665,6 +4066,11 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type, mapper
     Data model:
 
        https://w3id.org/oak/mapping-provider
+
+    More examples:
+
+       https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Mappings.ipynb
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
@@ -3723,6 +4129,7 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
     Data model:
 
        https://w3id.org/oak/mapping-provider
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3735,9 +4142,10 @@ def normalize(terms, maps_to_source, autolabel: bool, output, output_type):
     curies = query_terms_iterator(terms, impl)
     logging.info(f"Normalizing: {curies}")
     for mapping in impl.sssom_mappings(curies, source=maps_to_source):
-        if not mapping.object_id.startswith(f"{maps_to_source}:"):
-            continue
-        writer.emit_curie(mapping.object_id, mapping.object_label)
+        if mapping.object_id.startswith(f"{maps_to_source}:"):
+            writer.emit_curie(mapping.object_id, mapping.object_label)
+        if mapping.subject_id.startswith(f"{maps_to_source}:"):
+            writer.emit_curie(mapping.subject_id, mapping.subject_label)
     writer.finish()
 
 
@@ -3772,6 +4180,7 @@ def aliases(terms, output, output_type, obo_model):
     richer data if present in the ontology, including synonym categories/types, synonym provenance
 
     In future, this may become the default
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -3841,6 +4250,7 @@ def expand_subsets(subsets: list, output, predicates):
     Example:
 
         runoak -i db/pato.db expand-subsets attribute_slim value_slim
+
     """
     impl = settings.impl
     # writer = StreamingCsvWriter(output)
@@ -3909,6 +4319,7 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
         runoak -i cl.ofn axiom --axiom-type SubClassOf
 
     Note this currently only works with the funowl adapter, on functional syntax files
+
     """
     impl = settings.impl
     writer = StreamingAxiomWriter(syntax=output_type, functional_writer=impl.functional_writer)
@@ -3989,6 +4400,7 @@ def taxon_constraints(
     This command is a wrapper onto taxon_constraints_utils:
 
     - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils
+
     """
     impl = settings.impl
     writer = _get_writer(
@@ -4181,6 +4593,7 @@ def associations(
     More examples:
 
        https://github.com/INCATools/ontology-access-kit/blob/main/notebooks/Commands/Associations.ipynb
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4251,6 +4664,12 @@ def associations(
 @output_type_option
 @output_option
 @click.option(
+    "--add-closure-fields/--no-add-closure-fields",
+    default=False,
+    show_default=True,
+    help="Add closure fields to the output",
+)
+@click.option(
     "--association-predicates",
     help="A comma-separated list of predicates for the association relation",
 )
@@ -4262,6 +4681,146 @@ def associations(
     show_default=True,
     help="How to interpret query terms.",
 )
+@click.option(
+    "--limit",
+    "-L",
+    default=10,
+    show_default=True,
+    help="Limit the number of results",
+)
+@click.option(
+    "--filter",
+    "-F",
+    multiple=True,
+    help="Additional filters in K=V format",
+)
+@click.option(
+    "--min-facet-count",
+    default=1,
+    show_default=True,
+    help="Minimum count for a facet to be included",
+)
+@click.option(
+    "--group-by",
+    default="object",
+    show_default=True,
+    help="Group by subject or object",
+)
+@click.argument("terms", nargs=-1)
+def associations_counts(
+    terms,
+    predicates: str,
+    association_predicates: str,
+    terms_role: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    filter,
+    **kwargs,
+):
+    """
+    Count associations, grouped by subject or object
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts
+
+    This will default to summarzing by objects (HPO term), showing the number
+    of associations for each term.
+
+    This will be direct counts only. To include is-a closure, specify
+    the closure predicate(s), e.g.
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i
+
+    You can also group by other fields
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations-counts --group-by subject
+
+    This will show the number of associations for each disease.
+
+    OAK also includes a number of specialized adapters that implement this method
+    for particular databases.
+
+    For example, to get the number of IEA associations for each GO term:
+
+        runoak -i amigo: associations-counts  --limit -1 -F evidence_type=IEA --no-autolabel
+
+    This can be constrained by species:
+
+        runoak -i amigo:NCBITaxon:9606 associations-counts  --limit -1 -F evidence_type=IEA --no-autolabel
+
+    Other options:
+
+    This command accepts many of the same options as the associations command, see
+    the docs for this command for details.
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    actual_predicates = _process_predicates_arg(predicates)
+    actual_association_predicates = _process_predicates_arg(association_predicates)
+    if not isinstance(impl, AssociationProviderInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    curies = list(query_terms_iterator(terms, impl))
+    filter_dict = {k: v for k, v in (x.split("=") for x in filter)}
+    kwargs["property_filter"] = filter_dict
+    qs_it = impl.association_counts(
+        curies,
+        predicates=actual_association_predicates,
+        subject_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    qo_it = impl.association_counts(
+        objects=curies,
+        predicates=actual_association_predicates,
+        object_closure_predicates=actual_predicates,
+        **kwargs,
+    )
+    if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+        it = qs_it
+    elif terms_role == SubjectOrObjectRole.OBJECT.value:
+        it = qo_it
+    else:
+        logging.info("Using query terms to query both subject and object")
+        it = chain(qs_it, qo_it)
+    for term, count in it:
+        writer.emit(
+            {"term": term, "count": count},
+            label_fields=["term"],
+        )
+
+
+@main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@output_option
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@click.option(
+    "--terms-role",
+    "-Q",
+    type=click.Choice([x.value for x in SubjectOrObjectRole]),
+    default=SubjectOrObjectRole.OBJECT.value,
+    show_default=True,
+    help="How to interpret query terms.",
+)
+@click.option(
+    "--include-entities/--no-include-entities",
+    default=True,
+    show_default=True,
+    help="Include entities (e.g. genes) in the output, otherwise just the counts",
+)
 @click.argument("terms", nargs=-1)
 def associations_matrix(
     terms,
@@ -4271,6 +4830,7 @@ def associations_matrix(
     autolabel: bool,
     output_type: str,
     output: str,
+    **kwargs,
 ):
     """
     Co-annotation matrix query.
@@ -4281,11 +4841,13 @@ def associations_matrix(
 
     Example:
 
+
         runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046
 
     As a heatmap:
 
         runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -o heatmap > /tmp/heatmap.png
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4310,14 +4872,18 @@ def associations_matrix(
         curies2=curies2,
         predicates=actual_association_predicates,
         subject_closure_predicates=actual_predicates,
+        **kwargs,
     )
+    jaccards = []
     for pair in pairs_it:
         # TODO: more elegant way to handle this
         pair.associations_for_subjects_in_common = None
+        jaccards.append(pair.proportion_subjects_in_common)
         writer.emit(
             pair,
             label_fields=["object1", "object2"],
         )
+    logging.info(f"Average Jaccard index: {stats.mean(jaccards)}")
     writer.finish()
 
 
@@ -4371,7 +4937,7 @@ def rollup(
         split_ids = [o.split(",", 1) for o in object_group]
         primary_ids = (s[0] for s in split_ids)
         secondary_ids = (s[1].split(",") if len(s) > 1 else [] for s in split_ids)
-        objects_dict = dict(zip(primary_ids, secondary_ids))
+        objects_dict = dict(zip(primary_ids, secondary_ids, strict=False))
 
         object_closure_predicates = _process_predicates_arg(predicates)
 
@@ -4469,6 +5035,11 @@ def rollup(
     default=False,
     help="If true, filter out redundant terms",
 )
+@click.option(
+    "--allow-labels/--no-allow-labels",
+    default=False,
+    help="If true, allow labels as well as CURIEs in the input files",
+)
 @click.argument("terms", nargs=-1)
 def enrichment(
     terms,
@@ -4481,6 +5052,7 @@ def enrichment(
     sample_file: TextIO,
     background_file: TextIO,
     ontology_only: bool,
+    allow_labels: bool,
     **kwargs,
 ):
     """
@@ -4511,15 +5083,24 @@ def enrichment(
     no associations and using --ontology-only. This creates a fake association set that is simply
     reflexive relations between each term and itself. This can be useful for summarizing term lists,
     but note that P-values may not be meaningful.
+
     """
     impl = settings.impl
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
-    subjects = list(curies_from_file(sample_file))
-    background = list(curies_from_file(background_file)) if background_file else None
+    subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
+    background = (
+        list(curies_from_file(background_file, adapter=impl, allow_labels=allow_labels))
+        if background_file
+        else None
+    )
     if not isinstance(impl, ClassEnrichmentCalculationInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    if not ontology_only and not any(True for _ in impl.associations()):
+    if (
+        impl.requires_associations
+        and not ontology_only
+        and not any(True for _ in impl.associations())
+    ):
         raise click.UsageError("no associations -- specify --ontology-only or load associations")
     if ontology_only:
         impl.create_self_associations()
@@ -4581,6 +5162,7 @@ def diff_associations(
     See https://w3id.org/oak/association for the diff data model.
 
     NOTE: This functionality may move out of core
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -4685,6 +5267,7 @@ def validate(
     For more information, see the OAK how-to guide:
 
     - https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html
+
     """
     impl = settings.impl
     writer = _get_writer(
@@ -4794,10 +5377,19 @@ def validate_multiple(dbs, output, schema, cutoff: int):
     show_default=True,
     help="If true, do not parse text annotations",
 )
+@configuration_file_option
+@adapter_mapping_option
 @output_type_option
 @output_option
 @click.argument("terms", nargs=-1)
-def validate_definitions(terms, skip_text_annotation, output: str, output_type: str):
+def validate_definitions(
+    terms,
+    skip_text_annotation,
+    output: str,
+    output_type: str,
+    configuration_file: str,
+    adapter_mapping: List[str],
+):
     """
     Checks presence and structure of text definitions.
 
@@ -4808,9 +5400,10 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     By default this will apply basic text mining of text definitions to check
     against machine actionable OBO text definition guideline rules.
     This can result in an initial lag - to skip this, and ONLY perform
-    checks for presence of definitions, use --skip-text-annotation:
+    checks for *presence* of definitions, use --skip-text-annotation:
 
     Example:
+
 
         runoak validate-definitions -i db/uberon.db --skip-text-annotation
 
@@ -4819,6 +5412,7 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     individual classes
 
     Example:
+
 
          runoak validate-definitions -i db/cl.db CL:0002053
 
@@ -4839,28 +5433,207 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     The default serialization of the datamodel is CSV.
 
     Notes:
+    -----
 
     This command is largely redundant with the validate command, but is useful for
     targeted validation focused solely on definitions
+
     """
     impl = settings.impl
     writer = _get_writer(
         output_type, impl, StreamingCsvWriter, datamodel=datamodels.validation_datamodel
     )
+    writer.autolabel = True
     writer.output = output
-    if isinstance(impl, ValidatorInterface):
-        if terms:
-            entities = query_terms_iterator(terms, impl)
-        else:
-            entities = None
-        definition_rule = TextAndLogicalDefinitionMatchOntologyRule(
-            skip_text_annotation=skip_text_annotation
-        )
-        for vr in definition_rule.evaluate(impl, entities=entities):
-            writer.emit(vr)
-        writer.finish()
-    else:
+    if not isinstance(impl, ValidatorInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
+    adapters = {}
+    for am in adapter_mapping:
+        prefix, selector = am.split("=")
+        adapters[prefix] = get_adapter(selector)
+        logging.info(f"Loaded adapter for {prefix} => {selector}")
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    for vr in impl.validate_definitions(
+        entities, adapters=adapters, configuration=config, skip_text_annotation=skip_text_annotation
+    ):
+        writer.emit(vr, label_fields=["subject"])
+    writer.finish()
+
+
+@main.command()
+@autolabel_option
+@output_type_option
+@adapter_mapping_option
+@output_option
+@configuration_file_option
+@click.argument("terms", nargs=-1)
+def validate_mappings(
+    terms, autolabel, adapter_mapping, output: str, output_type: str, configuration_file: str
+):
+    """
+    Validates mappings in ontology using additional ontologies.
+
+    To run:
+
+        runoak validate-mappings -i db/uberon.db
+
+    For sssom:
+
+        runoak validate-mappings -i db/uberon.db -o bad-mappings.sssom.tsv
+
+    By default this will attempt to download and connect to
+    sqlite versions of different ontologies, when attempting to resolve a foreign
+    subject or object id.
+
+    You can customize this mapping:
+
+        runoak validate-mappings -i db/uberon.db --adapter-mapping uberon=db/uberon.db \
+            --adapter-mapping zfa=db/zfa.db
+
+    This will use a local sqlite file for ZFA:nnnnnnn IDs.
+
+    You can use "*" as a wildcard, in the case where you have an application ontology
+    with many mapped entities merged in:
+
+        runoak validate-mappings -i db/uberon.db --adapter-mapping "*"=db/merged.db"
+
+    The default behavior for this command is to perform deterministic rule-based
+    checks; for example, the mapped IDs should not be obsolete, and if the mapping
+    is skos:exactMatch, then the cardinality is expected to be 1:1.
+
+    Other adapters may choose to implement bespoke behaviors. In future there
+    might be a boomer adapter that will perform probabilistic reasoning on the
+    mappings. The experimental LLM backend will use an LLM to qualitatively
+    validate mappings (see the LLM how-to guide for more details).
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, ValidatorInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
+
+    adapters = {}
+    for am in adapter_mapping:
+        prefix, selector = am.split("=")
+        adapters[prefix] = get_adapter(selector)
+        logging.info(f"Loaded adapter for {prefix} => {selector}")
+    for result in impl.validate_mappings(entities, adapters=adapters, configuration=config):
+        writer.emit_obj(result)
+    writer.finish()
+
+
+@main.command()
+@autolabel_option
+@output_type_option
+@adapter_mapping_option
+@output_option
+@configuration_file_option
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.argument("terms", nargs=-1)
+def validate_synonyms(
+    terms,
+    autolabel,
+    adapter_mapping,
+    output: str,
+    output_type: str,
+    rules_file: str,
+    configuration_file: str,
+):
+    """
+    Validates synonyms in ontology using additional ontologies.
+
+    To run:
+
+        runoak validate-synonyms -i db/uberon.db
+
+    You can customize this mapping:
+
+        runoak validate-synonyms -i db/uberon.db --adapter-mapping uberon=db/uberon.db \
+            --adapter-mapping zfa=sqlite:obo:zfa
+
+    This will use a remote sqlite file for ZFA:nnnnnnn IDs.
+
+    You can use "*" as a wildcard, in the case where you have an application ontology
+    with many mapped entities merged in:
+
+        runoak validate-synonyms -i db/uberon.db --adapter-mapping "*"=db/merged.db"
+
+    You can also pass synonymizer rules. For example:
+
+        runoak -i sqlite:obo:go  validate-synonyms \
+           -R go-strip-activity.synonymizer.yaml GO:0000010 \
+            --adapter-mapping ec=sqlite:obo:eccode
+
+    In this case if the synonymizer rule file contains:
+
+        \b
+        rules:
+          - match: " activity"
+            replacement: ""
+        \b
+
+    Then the GO synonyms will have the word "activity" stripped from them, prior to attempting
+    to match with EC.
+
+    The default behavior for this command is to perform deterministic rule-based
+    checks; for example, the mapped IDs should not be obsolete, and if the mapping
+    is skos:exactMatch, then the cardinality is expected to be 1:1.
+
+    Other adapters may choose to implement bespoke behaviors. In future there
+    might be a boomer adapter that will perform probabilistic reasoning on the
+    mappings. The experimental LLM backend will use an LLM to qualitatively
+    validate mappings (see the LLM how-to guide for more details).
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, ValidatorInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if terms:
+        entities = query_terms_iterator(terms, impl)
+    else:
+        entities = None
+    if configuration_file:
+        config = yaml_loader.load(configuration_file, target_class=ValidationConfiguration)
+    else:
+        config = None
+    if rules_file:
+        ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
+    else:
+        ruleset = None
+
+    adapters = {}
+    for am in adapter_mapping:
+        prefix, selector = am.split("=")
+        adapters[prefix] = get_adapter(selector)
+        logging.info(f"Loaded adapter for {prefix} => {selector}")
+    for result in impl.validate_synonyms(
+        entities, adapters=adapters, configuration=config, synonymizer_rules=ruleset
+    ):
+        writer.emit_obj(result)
+    writer.finish()
 
 
 @main.command()
@@ -4887,6 +5660,7 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
 
     - https://incatools.github.io/ontology-access-kit/interfaces/patcher.html#
     oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies
+
     """
     impl = settings.impl
     curie_map = {}
@@ -4911,9 +5685,11 @@ def set_apikey(endpoint, keyval):
     Sets an API key
 
     Example:
+
         oak set-apikey -e bioportal MY-KEY-VALUE
 
     This is stored in an OS-dependent path
+
     """
     set_apikey_value(endpoint, keyval)
 
@@ -5000,8 +5776,8 @@ def lexmatch(
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
-    Examples:
-
+    Examples
+    -
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
 
     In this example, the input ontology file is assumed to contain all pairs of terms to be mapped.
@@ -5046,6 +5822,7 @@ def lexmatch(
 
     - https://incatools.github.io/ontology-access-kit/packages/src/oaklib.utilities.lexical.lexical_indexer.html#
     module-oaklib.utilities.lexical.lexical_indexer
+
     """
     impl = settings.impl
     if rules_file:
@@ -5057,49 +5834,48 @@ def lexmatch(
     # if exclude_tokens:
     #     token_exclusion_list = get_exclusion_token_list(exclude_tokens)
 
-    if isinstance(impl, BasicOntologyInterface):
-        if terms:
-            if "@" in terms:
-                ix = terms.index("@")
-                logging.info(f"Splitting terms into two, position = {ix}")
-                subjects = list(query_terms_iterator(terms[0:ix], impl))
-                objects = list(query_terms_iterator(terms[ix + 1 :], impl))
-            else:
-                subjects = list(query_terms_iterator(terms, impl))
-                objects = subjects
-        else:
-            subjects = None
-            objects = None
-        if add_labels:
-            add_labels_from_uris(impl)
-        if not recreate and Path(lexical_index_file).exists():
-            logging.info("Reusing previous index")
-            ix = load_lexical_index(lexical_index_file)
-        else:
-            logging.info("Creating index")
-            if ruleset:
-                syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
-            else:
-                syn_rules = []
-            ix = create_lexical_index(impl, synonym_rules=syn_rules)
-        if lexical_index_file:
-            if recreate:
-                logging.info("Saving index")
-                save_lexical_index(ix, lexical_index_file)
-        logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
-        # TODO: abstract this way from serialization format
-        msdf = lexical_index_to_sssom(
-            impl,
-            ix,
-            ruleset=ruleset,
-            subjects=subjects,
-            objects=objects,
-            prefix_map=prefix_map,
-            ensure_strict_prefixes=ensure_strict_prefixes,
-        )
-        sssom_writers.write_table(msdf, output)
-    else:
+    if not isinstance(impl, BasicOntologyInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    if terms:
+        if "@" in terms:
+            ix = terms.index("@")
+            logging.info(f"Splitting terms into two, position = {ix}")
+            subjects = list(query_terms_iterator(terms[0:ix], impl))
+            objects = list(query_terms_iterator(terms[ix + 1 :], impl))
+        else:
+            subjects = list(query_terms_iterator(terms, impl))
+            objects = subjects
+    else:
+        subjects = None
+        objects = None
+    if add_labels:
+        add_labels_from_uris(impl)
+    if not recreate and Path(lexical_index_file).exists():
+        logging.info("Reusing previous index")
+        ix = load_lexical_index(lexical_index_file)
+    else:
+        logging.info("Creating index")
+        if ruleset:
+            syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
+        else:
+            syn_rules = []
+        ix = create_lexical_index(impl, synonym_rules=syn_rules)
+    if lexical_index_file:
+        if recreate:
+            logging.info("Saving index")
+            save_lexical_index(ix, lexical_index_file)
+    logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
+    # TODO: abstract this way from serialization format
+    msdf = lexical_index_to_sssom(
+        impl,
+        ix,
+        ruleset=ruleset,
+        subjects=subjects,
+        objects=objects,
+        prefix_map=prefix_map,
+        ensure_strict_prefixes=ensure_strict_prefixes,
+    )
+    sssom_writers.write_table(msdf, output)
 
 
 @main.command()
@@ -5152,6 +5928,11 @@ def diff_terms(output, other_ontology, terms):
     show_default=True,
     help="show summary statistics only",
 )
+@click.option(
+    "--change-type",
+    multiple=True,
+    help="filter by KGCL change type (e.g. 'ClassCreation', 'EdgeDeletion')",
+)
 @group_by_property_option
 @group_by_obo_namespace_option
 @group_by_defined_by_option
@@ -5166,6 +5947,7 @@ def diff(
     group_by_obo_namespace: bool,
     group_by_prefix: bool,
     group_by_defined_by: bool,
+    change_type,
     output_type,
     other_ontology,
 ):
@@ -5252,12 +6034,12 @@ def diff(
         else:
             writer.emit(summary)
     else:
-        for change in impl.diff(other_impl, configuration=config):
-            if isinstance(writer, StreamingYamlWriter):
-                # TODO: when a complete type designator is added to KGCL
-                # we can remove this
-                change.type = change.__class__.__name__
-            writer.emit(change)
+        if isinstance(writer, StreamingMarkdownWriter):
+            for change_type, changes in impl.grouped_diff(other_impl, configuration=config):
+                writer.emit({change_type: changes}, other_impl=other_impl)
+        else:
+            for change in impl.diff(other_impl, configuration=config):
+                writer.emit(change)
     writer.finish()
 
 
@@ -5319,12 +6101,13 @@ def apply(
           "rename <http://purl.obolibrary.org/obo/CL_0000561> from 'amacrine cell' to 'amacrine neuron'" \
            -o cl.owl.ttl -O ttl
 
-    WARNING:
+    Warning:
 
     This command is still experimental. Some things to bear in mind:
 
     - for some ontologies, CURIEs may not work, instead specify a full URI surrounded by <>s
     - only a subset of KGCL commands are supported by each backend
+
     """
     impl = settings.impl
     configuration = kgcl.Configuration()
@@ -5339,6 +6122,7 @@ def apply(
             if command == "-":
                 files.append(sys.stdin)
             else:
+                logging.info(f"Parsing: {command}")
                 change = kgcl_parser.parse_statement(command)
                 logging.info(f"parsed {command} == {change}")
                 changes.append(change)
@@ -5411,6 +6195,7 @@ def apply_obsolete(output, output_type, expand: bool, terms, **kwargs):
         runoak -i my.db search 'l/^Foo/` | runoak -i my.db --autosave apply-obsolete -
 
     This command is partially redundant with the more general "apply" command
+
     """
     impl = settings.impl
     if not isinstance(impl, PatcherInterface):
@@ -5563,6 +6348,7 @@ def diff_via_mappings(
     (https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html)
 
     This can be serialized in YAML or TSV form
+
     """
     oi = settings.impl
     writer = _get_writer(
@@ -5755,6 +6541,7 @@ def fill_table(
     - TODO: add an option to detect inconsistencies
     - TODO: add logical for obsoletion/replaced by
     - TODO: use most optimized method for whichever backend
+
     """
     tf = TableFiller(settings.impl)
     with open(table_file) as input_file:
@@ -5849,15 +6636,18 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
 
     Example:
 
+
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml --patch patch.kgcl --apply-patch -o foo_syn.obo
 
     If the `apply-patch` flag is NOT set then the main input will be KGCL commands
 
     Example:
 
+
         runoak -i foo.obo generate-synonyms -R foo_rules.yaml -o changes.kgcl
 
     see https://github.com/INCATools/kgcl.
+
     """
     impl = settings.impl
     if apply_patch:
@@ -5866,46 +6656,188 @@ def generate_synonyms(terms, rules_file, apply_patch, patch, patch_format, outpu
     else:
         writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
         writer.output = output
-    # TODO: Eventually get this from settings as above
-    if rules_file:
-        ruleset = load_mapping_rules(rules_file)
-    else:
-        ruleset = None
-    if not isinstance(impl, OboGraphInterface):
-        raise NotImplementedError
-    syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
-    terms_to_synonymize = {}
+    ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
     change_list = []
-    for curie in query_terms_iterator(terms, impl):
-        # for rule in syn_rules:
-        for _, aliases in impl.entity_alias_map(curie).items():
-            matches = []
-            if aliases is not None:
-                # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
-                for alias in aliases:
-                    if alias:
-                        synonymized, new_alias, qualifier = apply_transformation(
-                            alias,
-                            LexicalTransformation(
-                                TransformationType.Synonymization, params=syn_rules
-                            ),
-                        )
-                        if synonymized:
-                            matches.append(new_alias)
+    curie_iter = query_terms_iterator(terms, impl)
+    for change in synonymizer.apply_synonymizer_to_terms(impl, curie_iter, ruleset):
+        change_list.append(change)
+        writer.emit(change)
 
-            if len(matches) > 0:
-                if qualifier is None or qualifier == "":
-                    qualifier = DEFAULT_QUALIFIER
-                terms_to_synonymize[curie] = matches
-                change = kgcl.NewSynonym(
-                    id="kgcl_change_id_" + str(len(terms_to_synonymize)),
-                    about_node=curie,
-                    old_value=alias,
-                    new_value=new_alias,
-                    qualifier=qualifier,
-                )
-                change_list.append(change)
-                writer.emit(change)
+    writer.finish()
+    if apply_patch and len(change_list) > 0:
+        if output:
+            impl.resource.slug = output
+        _apply_changes(impl, change_list)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.option(
+    "--rules-expression",
+    "-Y",
+    multiple=True,
+    help="YAML encoding of a rules expression",
+)
+@click.option(
+    "--apply-patch/--no-apply-patch",
+    default=False,
+    show_default=True,
+    help="Apply KGCL syntax generated based on the synonymizer rules file.",
+)
+@click.option(
+    "--patch",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="Path to where patch file will be written.",
+)
+@click.option(
+    "--patch-format",
+    help="Output syntax for patches.",
+)
+@output_option
+@output_type_option
+def generate_lexical_replacements(
+    terms, rules_file, rules_expression, apply_patch, patch, patch_format, output, output_type
+):
+    """
+    Generate lexical replacements based on a set of synonymizer rules.
+
+
+    If the `--apply-patch` flag is set, the output will be an ontology file with the changes
+    applied. Pass the `--patch` argument to lso get the patch file in KGCL format.
+
+    Example:
+
+
+        runoak -i foo.obo generate-lexical-replacements -R foo_rules.yaml\
+           --patch patch.kgcl --apply-patch -o foo_syn.obo
+
+    If the `apply-patch` flag is NOT set then the main input will be KGCL commands
+
+    Example:
+
+
+        runoak -i foo.obo generate-lexical-replacements -R foo_rules.yaml -o changes.kgcl
+
+
+    You can also pass the expressions directly as YAML
+
+    Example:
+
+
+        runoak -i foo.obo generate-lexical-replacements \
+          -Y '{match: "nuclear (\\w+)", replacement: "\\1 nucleus"}' .all
+
+    see https://github.com/INCATools/kgcl.
+
+    Note: this command is very similar to generate-synonyms, but the main use case here
+    is replacing terms, and applying rules to other elements such as definitions
+
+    """
+    impl = settings.impl
+    if apply_patch:
+        writer = _get_writer(patch_format, impl, StreamingKGCLWriter, kgcl)
+        writer.output = patch
+    else:
+        writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
+        writer.output = output
+    if rules_file:
+        ruleset = synonymizer_datamodel.RuleSet(**yaml.safe_load(open(rules_file)))
+    elif rules_expression:
+        ruleset = synonymizer_datamodel.RuleSet()
+        for rule_expression in rules_expression:
+            rule = synonymizer_datamodel.Synonymizer(**yaml.safe_load(rule_expression))
+            ruleset.rules.append(rule)
+    else:
+        raise ValueError("Must specify either --rules-file or --rules-expression")
+    change_list = []
+    curie_iter = query_terms_iterator(terms, impl)
+    for change in synonymizer.apply_synonymizer_to_terms(
+        impl, curie_iter, ruleset, include_all=True
+    ):
+        change_list.append(change)
+        writer.emit(change)
+
+    writer.finish()
+    if apply_patch and len(change_list) > 0:
+        if output:
+            impl.resource.slug = output
+        _apply_changes(impl, change_list)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--style-hints",
+    help="Description of style for definitions",
+)
+@click.option(
+    "--apply-patch/--no-apply-patch",
+    default=False,
+    show_default=True,
+    help="Apply KGCL syntax.",
+)
+@click.option(
+    "--patch",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="Path to where patch file will be written.",
+)
+@click.option(
+    "--patch-format",
+    help="Output syntax for patches.",
+)
+@output_option
+@output_type_option
+def generate_definitions(terms, apply_patch, patch, patch_format, output, output_type, **kwargs):
+    """
+    Generate definitions for a term or terms.
+
+    Currently this only works with the llm extension.
+
+    Example:
+
+        runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258
+
+    The --style-hints option can be used to provide hints to the definition generator.
+
+    Example:
+
+        runoak -i llm:sqlite:obo:foodon generate-definitions FOODON:03315258 \
+          --style-hints "Write the definition in the style of a pretentious food critic"
+
+    Generates:
+
+        "The pancake, a humble delight in the realm of breakfast fare,
+        presents itself as a delectable disc of gastronomic delight..."
+
+    """
+    impl = settings.impl
+    if apply_patch:
+        writer = _get_writer(patch_format, impl, StreamingKGCLWriter, kgcl)
+        writer.output = patch
+    else:
+        writer = _get_writer(output_type, impl, StreamingKGCLWriter, kgcl)
+        writer.output = output
+    if not isinstance(impl, OntologyGenerationInterface):
+        raise NotImplementedError
+    all_terms = query_terms_iterator(terms, impl)
+    curie_defns = impl.generate_definitions(list(all_terms), **kwargs)
+    change_list = []
+    for curie, defn in curie_defns:
+        change = kgcl.NewTextDefinition(
+            id="kgcl_change_id_" + str(curie),
+            about_node=curie,
+            new_value=defn.val,
+        )
+        change_list.append(change)
+        writer.emit(change)
     writer.finish()
     if apply_patch and len(change_list) > 0:
         if output:
@@ -6024,6 +6956,75 @@ def generate_logical_definitions(
         else:
             for ldef in ldefs:
                 writer.emit(ldef, label_fields=label_fields)
+    writer.finish()
+    writer.file.close()
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@autolabel_option
+@output_option
+@predicates_option
+@output_type_option
+@click.option(
+    "--min-descendants",
+    "-M",
+    default=3,
+    show_default=True,
+    help="Minimum number of descendants for a class to have to be considered a candidate.",
+)
+@click.option(
+    "--exclude-existing/--no-exclude-existing",
+    default=True,
+    show_default=True,
+    help="Do not report duplicates with existing disjointness axioms.",
+)
+def generate_disjoints(
+    terms,
+    predicates,
+    autolabel,
+    output,
+    output_type,
+    exclude_existing,
+    min_descendants,
+):
+    """
+    Generate candidate disjointness axioms.
+
+    Example:
+
+        runoak -i sqlite:obo:iao generate-disjoints -O obo
+
+    To generate spatial disjointness axioms:
+
+        runoak -i sqlite:obo:zfa generate-disjoints -O obo p i,p
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, kgcl)
+    writer.output = output
+    writer.autolabel = autolabel
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError
+    curies = list(query_terms_iterator(terms, impl))
+    actual_predicates = _process_predicates_arg(predicates)
+    if not actual_predicates:
+        actual_predicates = [IS_A]
+    config = DisjointnessInducerConfig(
+        min_descendants=min_descendants, exclude_existing=exclude_existing
+    )
+    dxas = generate_disjoint_class_expressions_axioms(
+        impl, curies, [actual_predicates], config=config
+    )
+    label_fields = [
+        "classIds",
+        "classExpressionPropertyIds",
+        "classExpressionFillerIds",
+        "unionEquivalentToFillerId",
+        "unionEquivalentToPropertyId",
+    ]
+    for dxa in dxas:
+        writer.emit(dxa, label_fields=label_fields)
     writer.finish()
     writer.file.close()
 

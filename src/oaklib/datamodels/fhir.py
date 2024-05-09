@@ -418,9 +418,9 @@ class ConceptMap(YAMLRoot):
     sourceCanonical: Optional[Union[str, URIorCURIE]] = None
     targetUri: Optional[Union[str, URIorCURIE]] = None
     targetCanonical: Optional[Union[str, URIorCURIE]] = None
-    group: Optional[
-        Union[Union[dict, "ConceptMapGroup"], List[Union[dict, "ConceptMapGroup"]]]
-    ] = empty_list()
+    group: Optional[Union[Union[dict, "ConceptMapGroup"], List[Union[dict, "ConceptMapGroup"]]]] = (
+        empty_list()
+    )
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.id is not None and not isinstance(self.id, str):

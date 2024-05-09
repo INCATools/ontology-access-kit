@@ -129,7 +129,6 @@ class ProntoImplementation(
 
     Examples
     --------
-
     >>> from oaklib.implementations import ProntoImplementation
     >>> resource = OntologyResource(slug='go-nucleus.obo', directory='tests/input', local=True)
     >>> adapter = ProntoImplementation(resource)
@@ -249,7 +248,7 @@ class ProntoImplementation(
     @deprecated("Use this when we fix https://github.com/fastobo/fastobo/issues/42")
     def load_graph_using_jsondoc(self, graph: Graph, replace: True) -> None:
         tf = tempfile.NamedTemporaryFile()
-        tf_name = "/tmp/tf.json"
+        tf_name = "/tmp/tf.json"  # noqa
         gd = GraphDocument(graphs=[graph])
         json_dumper.dump(gd, to_file=tf_name)
         tf.flush()
@@ -492,7 +491,7 @@ class ProntoImplementation(
 
     def definition(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         e = self._entity(curie)
-        return e.definition if e else None
+        return str(e.definition) if e and e.definition else None
 
     def definitions(
         self,
@@ -752,7 +751,7 @@ class ProntoImplementation(
 
     def logical_definitions(
         self,
-        subjects: Optional[Iterable[CURIE]],
+        subjects: Optional[Iterable[CURIE]] = None,
         predicates: Iterable[PRED_CURIE] = None,
         objects: Iterable[CURIE] = None,
         **kwargs,
@@ -896,6 +895,12 @@ class ProntoImplementation(
             # rather than forcing all synonyms to be related.
             scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             t.add_synonym(description=patch.new_value, scope=scope)
+        elif isinstance(patch, kgcl.AddNodeToSubset):
+            t = self._entity(patch.about_node, strict=True)
+            t.subsets = t.subsets.union({patch.in_subset})
+        elif isinstance(patch, kgcl.RemoveNodeFromSubset):
+            t = self._entity(patch.about_node, strict=True)
+            t.subsets = t.subsets.difference({patch.in_subset})
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
         elif isinstance(patch, kgcl.EdgeDeletion):

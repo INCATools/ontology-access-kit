@@ -3,7 +3,6 @@ import unittest
 
 import pronto
 from kgcl_schema.datamodel import kgcl
-
 from oaklib import get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
@@ -21,8 +20,9 @@ from oaklib.utilities.obograph_utils import (
     index_graph_nodes,
 )
 from oaklib.utilities.validation.definition_ontology_rule import (
-    TextAndLogicalDefinitionMatchOntologyRule,
+    DefinitionOntologyRule,
 )
+
 from tests import (
     CELL,
     CELLULAR_COMPONENT,
@@ -198,6 +198,7 @@ class TestProntoImplementation(unittest.TestCase):
             )
         )
 
+    @unittest.skip("Avoid network dependencies.")
     def test_from_obo_library(self):
         oi = ProntoImplementation(OntologyResource(local=False, slug="pato.obo"))
         curies = oi.curies_by_label("shape")
@@ -499,7 +500,7 @@ class TestProntoImplementation(unittest.TestCase):
     def test_ontology_rules(self):
         # TODO: decide whether ontology rules should be validated
         # as part of each implementation, or as a standalone
-        rule = TextAndLogicalDefinitionMatchOntologyRule()
+        rule = DefinitionOntologyRule()
         results = list(rule.evaluate(self.oi))
         self.assertGreater(len(results), 5)
 

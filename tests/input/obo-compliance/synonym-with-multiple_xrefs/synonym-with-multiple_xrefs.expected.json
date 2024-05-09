@@ -1,0 +1,39 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/synonym-with-multiple_xrefs.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/X_1",
+      "lbl" : "example term",
+      "type" : "CLASS",
+      "meta" : {
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "synonym with multiple xrefs",
+          "xrefs" : [ "PMID:3", "PMID:4" ]
+        } ]
+      }
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasDbXref",
+      "lbl" : "database_cross_reference",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasExactSynonym",
+      "lbl" : "has_exact_synonym",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ]
+  } ]
+}

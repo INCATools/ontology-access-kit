@@ -1,0 +1,33 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/creation_date.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/X_1",
+      "type" : "CLASS",
+      "meta" : {
+        "basicPropertyValues" : [ {
+          "pred" : "http://www.geneontology.org/formats/oboInOwl#creation_date",
+          "val" : "2023-11-20"
+        } ]
+      }
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#creation_date",
+      "lbl" : "creation date",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ]
+  } ]
+}

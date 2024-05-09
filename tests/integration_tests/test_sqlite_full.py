@@ -6,6 +6,7 @@ from oaklib.resource import OntologyResource
 from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
+
 from tests import EXTERNAL_DB_DIR
 
 DB_FOLDER = EXTERNAL_DB_DIR / "unreciprocated-mapping-test.obo"

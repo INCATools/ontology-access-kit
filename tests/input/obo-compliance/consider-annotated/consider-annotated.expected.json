@@ -1,0 +1,34 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/consider-annotated.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/X_1",
+      "type" : "CLASS",
+      "meta" : {
+        "basicPropertyValues" : [ {
+          "pred" : "http://www.geneontology.org/formats/oboInOwl#consider",
+          "val" : "http://purl.obolibrary.org/obo/X_3"
+        } ],
+        "deprecated" : true
+      }
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#consider",
+      "lbl" : "consider",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ]
+  } ]
+}

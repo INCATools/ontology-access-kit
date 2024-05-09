@@ -19,6 +19,8 @@ How-To Guides
    visualize-ontology-subgraphs
    write-a-plugin
    fhir-conversions
+   use-oak-expression-language
+   use-llms
 
 
 

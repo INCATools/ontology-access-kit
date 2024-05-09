@@ -336,9 +336,11 @@ class SimpleMapping(YAMLRoot):
                 [self.predicate_probabilities] if self.predicate_probabilities is not None else []
             )
         self.predicate_probabilities = [
-            v
-            if isinstance(v, PredicateProbabilityPredicateId)
-            else PredicateProbabilityPredicateId(v)
+            (
+                v
+                if isinstance(v, PredicateProbabilityPredicateId)
+                else PredicateProbabilityPredicateId(v)
+            )
             for v in self.predicate_probabilities
         ]
 

@@ -1,0 +1,39 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/synonym-with-type.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/X_1",
+      "lbl" : "example term",
+      "type" : "CLASS",
+      "meta" : {
+        "synonyms" : [ {
+          "synonymType" : "http://purl.obolibrary.org/obo/ST_1",
+          "pred" : "hasRelatedSynonym",
+          "val" : "synonym with type"
+        } ]
+      }
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym",
+      "lbl" : "has_related_synonym",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasSynonymType",
+      "lbl" : "has_synonym_type",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ]
+  } ]
+}

@@ -6,6 +6,7 @@ specified toml-like structure, consisting of stanzas of tag-val pairs.
 
 The precise parsing of each tag-val pair is delayed until precise semantics are required
 """
+
 import logging
 import re
 from dataclasses import dataclass, field
@@ -18,6 +19,7 @@ from oaklib.types import CURIE, PRED_CURIE
 re_tag_value = re.compile(r"^(\S+):\s*(.*)$")
 re_stanza_type = re.compile(r"^\[(\w+)\]$")
 re_empty = re.compile(r"^\S*$")
+re_def = re.compile(r"^\"(.*)\"\s+\[(.*)\](?:\s+\{(.*)\})?$")
 re_synonym1 = re.compile(r"^\"(.*)\"\s+(\w+)\s+\[(.*)\](?:\s+\{(.*)\})?$")
 re_synonym2 = re.compile(r"^\"(.*)\"\s+(\w+)\s+(\S)+\s\[(.*)\](?:\s+\{(.*)\})?$")
 re_quoted_simple = re.compile(r'^"(.*)"\s+\[')
@@ -187,6 +189,23 @@ class TagValue:
             else:
                 raise ValueError(f"Bad synonym: {self.value}")
         return syn[0], syn[1], syn[2], _parse_list(syn[3])
+
+    def as_definition(self) -> Optional[Tuple[str, List[str]]]:
+        """
+        Cast a tag-value pair as a definition
+
+        Returns None if this is not a definition TV
+
+        :return: definition tuple structure
+        """
+        if self.tag != TAG_DEF:
+            return
+        m = re_def.match(self.value)
+        if m:
+            xrefs = _parse_list(m.group(2)) if m.group(2) else []
+            return m.group(1), xrefs
+        else:
+            raise ValueError(f"Bad definition: {self.value}")
 
     def as_property_value(self) -> Optional[PROPERTY_VALUE_TUPLE]:
         """
@@ -371,7 +390,7 @@ class Structure:
         pairs = []
         for v in self._values(TAG_INTERSECTION_OF):
             toks = [x for x in v.split(" ") if x]
-            if toks[1].startswith("!"):
+            if len(toks) == 1 or toks[1].startswith("!"):
                 pairs.append((toks[0], None))
             else:
                 pairs.append((toks[0], toks[1]))
@@ -381,7 +400,7 @@ class Structure:
         pairs = []
         for v in self._values(TAG_PROPERTY_VALUE):
             toks = [x for x in v.split(" ") if x]
-            if toks[1].startswith("!"):
+            if len(toks) == 1 or toks[1].startswith("!"):
                 pairs.append((toks[0], None))
             else:
                 pairs.append((toks[0], toks[1]))
@@ -667,7 +686,8 @@ class OboDocument:
             s.normalize_order()
 
     def dump(self, file: TextIO, ensure_sorted=False, normalize_line_order=False) -> None:
-        """Export to a file
+        """
+        Export to a file
 
         :param file:
         :param ensure_sorted: Sort stanzas

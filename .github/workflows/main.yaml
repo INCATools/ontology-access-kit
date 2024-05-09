@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '3.9', '3.10' ]
+        python-version: [ '3.9', '3.10', '3.12' ]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -25,15 +25,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip install tox
-      - name: Check code quality with flake8
-        run: tox -e flake8
+      - name: Check code quality with ruff
+        run: tox -e lint
 
   test:
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        python-version: [ "3.9", "3.10" ]
+        python-version: [ "3.9", "3.10", "3.11" ]
         exclude:
           - os: windows-latest
             python-version: "3.9"
@@ -57,7 +57,9 @@ jobs:
       #          install & configure poetry
       #----------------------------------------------
       - name: Install Poetry
-        run: pip install poetry
+        run: |
+          pip install --upgrade pip
+          pip install poetry
         # uses: snok/install-poetry@v1.3.3
         # with:
         #   virtualenvs-create: true
@@ -78,13 +80,15 @@ jobs:
       #----------------------------------------------
       - name: Install dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
+        run: |
+          poetry add setuptools@latest
+          poetry install --no-interaction --no-root
 
       #----------------------------------------------
       #    install your root project, if required
       #----------------------------------------------
       - name: Install library
-        run: poetry install --no-interaction --extras "gilda"
+        run: poetry install --no-interaction --extras "gilda semsimian"
 
       - name: Get Gilda resources
         run: |

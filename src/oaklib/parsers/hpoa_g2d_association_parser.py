@@ -1,4 +1,5 @@
 """Parser for GAF association formats"""
+
 import csv
 from dataclasses import dataclass
 from typing import Iterator, Optional, TextIO
@@ -9,7 +10,8 @@ from oaklib.parsers.xaf_association_parser import XafAssociationParser
 
 @dataclass
 class HpoaG2DAssociationParser(XafAssociationParser):
-    """Parsers for Hpoa G2D format.
+    """
+    Parsers for Hpoa G2D format.
 
     Usage:
 

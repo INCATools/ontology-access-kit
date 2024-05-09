@@ -1,0 +1,32 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/typedef-xref-anyiri.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/R_1",
+      "type" : "PROPERTY",
+      "meta" : {
+        "xrefs" : [ {
+          "val" : "http://example.org/R/1"
+        } ]
+      }
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasDbXref",
+      "lbl" : "database_cross_reference",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ]
+  } ]
+}

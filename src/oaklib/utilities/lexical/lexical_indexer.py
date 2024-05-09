@@ -5,21 +5,23 @@ Lexical Utilities
 Various utilities for working with lexical aspects of ontologies plus mappings
 
 """
+
 import logging
 import re
+import typing as t
 from collections import defaultdict
 from pathlib import Path
 from typing import Collection, Dict, List, Optional, Tuple, Union
 
+import curies
+from curies import Converter
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import json_loader, yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from sssom.constants import LICENSE, MAPPING_SET_ID
-from sssom.context import get_default_metadata
-from sssom.sssom_document import MappingSetDocument
-from sssom.typehints import Metadata
-from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
-from sssom_schema import Mapping, MappingSet
+from sssom.constants import CURIE_MAP
+from sssom.context import ensure_converter
+from sssom.util import MappingSetDataFrame
+from sssom_schema import Mapping
 
 from oaklib.datamodels.lexical_index import (
     LexicalGrouping,
@@ -32,8 +34,8 @@ from oaklib.datamodels.lexical_index import (
 from oaklib.datamodels.mapping_rules_datamodel import (
     MappingRuleCollection,
     Precondition,
-    Synonymizer,
 )
+from oaklib.datamodels.synonymizer_datamodel import Synonymizer
 from oaklib.datamodels.vocabulary import (
     IDENTIFIER_PREDICATE,
     SEMAPV,
@@ -45,6 +47,7 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.lexical.synonymizer import apply_synonymizer
 
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
 DEFAULT_QUALIFIER = "exact"
@@ -244,8 +247,8 @@ def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
-    meta: Metadata = None,
-    prefix_map: dict = None,
+    meta: Optional[Dict[str, t.Any]] = None,
+    prefix_map: Union[None, Converter, t.Mapping[str, str]] = None,
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
@@ -310,24 +313,15 @@ def lexical_index_to_sssom(
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
 
-    if meta is None:
-        meta = get_default_metadata()
-    if prefix_map:
-        meta.prefix_map.update(
-            {k: v for k, v in prefix_map.items() if k not in meta.prefix_map.keys()}
-        )
-    mapping_set_id = meta.metadata[MAPPING_SET_ID]
-    license = meta.metadata[LICENSE]
-
-    mset = MappingSet(mapping_set_id=mapping_set_id, mappings=mappings, license=license)
-    # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
-    doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
-    msdf = to_mapping_set_dataframe(doc)
-    num_mappings = len(msdf.df.index)
-    if ensure_strict_prefixes:
-        msdf.clean_prefix_map()
-        if len(msdf.df.index) < num_mappings:
-            raise ValueError("Mappings included prefixes that were not in the prefix map")
+    converter = curies.chain(
+        [
+            Converter.from_prefix_map((meta or {}).pop(CURIE_MAP, {})),
+            ensure_converter(prefix_map, use_defaults=False),
+            oi.converter,
+        ]
+    )
+    msdf = MappingSetDataFrame.from_mappings(mappings=mappings, metadata=meta, converter=converter)
+    msdf.clean_prefix_map(strict=ensure_strict_prefixes)
     return msdf
 
 
@@ -338,7 +332,8 @@ def create_mapping(
     pred: PRED_CURIE = SKOS_CLOSE_MATCH,
     confidence: float = None,
 ) -> Mapping:
-    """Create mappings between a pair of entities.
+    """
+    Create mappings between a pair of entities.
 
     :param term: Match string
     :param r1: Term relationship 1
@@ -451,7 +446,8 @@ def inverse_logit(weight: float) -> float:
 
 
 def invert_mapping_predicate(pred: PRED_CURIE) -> Optional[PRED_CURIE]:
-    """Return the opposite of predicate passed.
+    """
+    Return the opposite of predicate passed.
 
     :param pred: Predicate.
     :return: Opposite of the predicate.
@@ -475,7 +471,7 @@ def precondition_holds(precondition: Precondition, mapping: Mapping) -> bool:
 
 def apply_transformation(
     term: str, transformation: LexicalTransformation
-) -> Union[str, List[Tuple[bool, str, str]]]:
+) -> Union[str, Tuple[bool, str, str]]:
     """
     Apply an individual transformation on a term
 
@@ -500,34 +496,6 @@ def apply_transformation(
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
         )
-
-
-def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, str]:
-    """Apply synonymizer rules declared in the given match-rules.yaml file.
-
-    The basic concept is looking for regex in labels and replacing the ones that match
-    with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')
-    as to whether the replacement is an 'exact', 'broad', 'narrow', or 'related' synonym.
-
-    Note: This function "yields" all intermediate results (for each rule applied)
-    as opposed to a final result. The reason being we only want to return a "True"
-    synonymized result. If the term is not synonymized, then the result will be just
-    the term and a default qualifier. In the case of multiple synonyms, the actual result
-    will be the latest synonymized result.In other words, all the rules have been
-    implemented on the term to finally produce the result.
-
-    :param term: Original label.
-    :param rules: Synonymizer rules from match-rules.yaml file.
-    :yield: A Tuple stating [if the label changed, new label, qualifier]
-    """
-    for rule in rules:
-        tmp_term_2 = term
-        term = re.sub(rule.match, rule.replacement, term)
-
-        if tmp_term_2 != term:
-            yield True, term.strip(), rule.qualifier
-        else:
-            yield False, term.strip(), rule.qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):

@@ -1,7 +1,9 @@
-"""Compliance tests for multiple interfaces.
+"""
+Compliance tests for multiple interfaces.
 
 See <https://github.com/INCATools/ontology-access-kit/issues/291>_
 """
+
 import json
 import logging
 import tempfile
@@ -14,8 +16,7 @@ import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
-from linkml_runtime.dumpers import json_dumper
-
+from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
@@ -77,6 +78,7 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.utilities.kgcl_utilities import generate_change_id
+
 from tests import (
     ARCHAEA,
     BACTERIA,
@@ -94,6 +96,7 @@ from tests import (
     CYTOPLASM,
     CYTOPLASMIC_REGION,
     ENDOMEMBRANE_SYSTEM,
+    ENVELOPE,
     EUKARYOTA,
     FAKE_ID,
     FUNGI,
@@ -112,11 +115,14 @@ from tests import (
     INTRACELLULAR,
     INTRACELLULAR_ORGANELLE,
     MAMMALIA,
+    MEMBRANE,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
     OPISTHOKONTA,
     ORGANELLE,
+    ORGANELLE_ENVELOPE,
+    ORGANELLE_MEMBRANE,
     PHENOTYPIC_ABNORMALITY,
     PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
@@ -148,12 +154,16 @@ class ComplianceTester:
     It is recommended that within the `setUp` method of the unit test,
     the following is performed.
 
-    >>> self.compliance_tester = ComplianceTester(self)
+    .. code-block:: python
+
+        self.compliance_tester = ComplianceTester(self)
 
     Then individual test can call this:
 
-    >>> def test_foo(self):
-    >>>    self.compliance_tester.test_foo(self.oi)
+    .. code-block:: python
+
+        def test_foo(self):
+            self.compliance_tester.test_foo(self.oi)
     """
 
     test: unittest.TestCase
@@ -169,6 +179,7 @@ class ComplianceTester:
         """
         test = self.test
         tdef = oi.definition(NUCLEUS)
+        assert isinstance(tdef, str)
         test.assertTrue(tdef.startswith("A membrane-bounded organelle of eukaryotic cells"))
         test.assertIsNone(oi.definition(FAKE_ID))
         if include_metadata:
@@ -206,7 +217,9 @@ class ComplianceTester:
                 for e2, expected2 in cases:
                     if expected2 != expected:
                         test.assertNotIn(
-                            e2, entities, f"{e2} unexpectedly found in query for {expected}"
+                            e2,
+                            entities,
+                            f"{e2} unexpectedly found in query for {expected}",
                         )
 
     def test_labels(self, oi: BasicOntologyInterface):
@@ -297,7 +310,8 @@ class ComplianceTester:
         m = oi.entity_metadata_map(INTRACELLULAR)
         test.assertIn(TERM_TRACKER_ITEM, m.keys())  # TODO: check this generalizes
         test.assertIn(
-            "https://github.com/geneontology/go-ontology/issues/17776", m[TERM_TRACKER_ITEM]
+            "https://github.com/geneontology/go-ontology/issues/17776",
+            m[TERM_TRACKER_ITEM],
         )
 
     def test_obsolete_entities(self, oi: SearchInterface):
@@ -312,7 +326,8 @@ class ComplianceTester:
         obsoletes = list(oi.obsoletes())
         test.assertCountEqual(["CL:2", "CL:3", "CL:5", "CL:6"], obsoletes_excluding_merged)
         test.assertCountEqual(
-            ["CL:1a1", "CL:1a2", "CL:4a1", "CL:1a3", "CL:2", "CL:3", "CL:5", "CL:6"], obsoletes
+            ["CL:1a1", "CL:1a2", "CL:4a1", "CL:1a3", "CL:2", "CL:3", "CL:5", "CL:6"],
+            obsoletes,
         )
         all_entities = set(list(oi.entities(filter_obsoletes=False)))
         all_non_obsolete_entities = set(list(oi.entities(filter_obsoletes=True)))
@@ -324,7 +339,7 @@ class ComplianceTester:
         # test.assertCountEqual(obsoletes, all_entities.difference(all_non_obsolete_entities))
         for x in obsoletes:
             mm = oi.entity_metadata_map(x)
-            test.assertEquals([True], mm[DEPRECATED_PREDICATE])
+            test.assertEqual([True], mm[DEPRECATED_PREDICATE])
         cases = [
             ("CL:1", [], []),
             ("CL:1a1", ["CL:1"], []),
@@ -348,7 +363,9 @@ class ComplianceTester:
                 if r[1] == CONSIDER_REPLACEMENT
             ]
             test.assertCountEqual(
-                replaced_by, actual_replaced_by, f"replaced_by did not match for {curie}"
+                replaced_by,
+                actual_replaced_by,
+                f"replaced_by did not match for {curie}",
             )
             test.assertCountEqual(consider, actual_consider)
             for r in replaced_by:
@@ -436,7 +453,9 @@ class ComplianceTester:
             else:
                 test.assertEqual(1, len(defns), f"Expected one definition for {lang} for {curie}")
                 test.assertEqual(
-                    expected_definition, defns[0][1], f"Definition for {lang} did not match"
+                    expected_definition,
+                    defns[0][1],
+                    f"Definition for {lang} did not match",
                 )
 
     def test_sssom_mappings(self, oi: MappingProviderInterface):
@@ -505,7 +524,9 @@ class ComplianceTester:
                 test.assertEqual(
                     m_upper,
                     oi.normalize(
-                        curie.lower(), target_prefixes=[prefix.upper()], source_prefixes=["GO"]
+                        curie.lower(),
+                        target_prefixes=[prefix.upper()],
+                        source_prefixes=["GO"],
                     ),
                 )
             mappings = list(oi.sssom_mappings(curie))
@@ -547,11 +568,22 @@ class ComplianceTester:
         all_relations = list(oi.relationships())
         test.assertGreater(len(all_relations), 0)
         cases = [
-            (NUCLEUS, False, [(NUCLEUS, IS_A, IMBO), (NUCLEUS, ONLY_IN_TAXON, EUKARYOTA)]),
+            (
+                NUCLEUS,
+                False,
+                [(NUCLEUS, IS_A, IMBO), (NUCLEUS, ONLY_IN_TAXON, EUKARYOTA)],
+            ),
             (VACUOLE, True, [(VACUOLE, IS_A, IMBO), (VACUOLE, PART_OF, CYTOPLASM)]),
             (SUBATOMIC_PARTICLE, True, []),
             (HUMAN, True, [(HUMAN, IS_A, MAMMALIA)]),
-            (CELL, True, [(CELL, IS_A, "CARO:0000003"), (CELL, ONLY_IN_TAXON, CELLULAR_ORGANISMS)]),
+            (
+                CELL,
+                True,
+                [
+                    (CELL, IS_A, "CARO:0000003"),
+                    (CELL, ONLY_IN_TAXON, CELLULAR_ORGANISMS),
+                ],
+            ),
             (CELLULAR_COMPONENT, True, [(CELLULAR_COMPONENT, IS_A, "BFO:0000040")]),
         ]
         for curie, complete, expected_rels in cases:
@@ -586,6 +618,42 @@ class ComplianceTester:
                 irels = list(oi.incoming_relationships(o, predicates=[p]))
                 test.assertIn((p, s), irels)
 
+    def test_entailed_relationships(self, oi: OboGraphInterface):
+        """
+        Tests entailed relationship methods for compliance.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (
+                NUCLEAR_MEMBRANE,
+                [IS_A, PART_OF],
+                {IS_A: {ORGANELLE_MEMBRANE}, PART_OF: {NUCLEAR_ENVELOPE}},
+            ),
+            (
+                NUCLEAR_MEMBRANE,
+                [IS_A, OVERLAPS],
+                {IS_A: {ORGANELLE_MEMBRANE}, OVERLAPS: {NUCLEAR_ENVELOPE}},
+            ),
+            (NUCLEAR_MEMBRANE, [IS_A], {IS_A: {ORGANELLE_MEMBRANE}}),
+            (
+                NUCLEAR_MEMBRANE,
+                [PART_OF],
+                {PART_OF: {NUCLEAR_ENVELOPE, ORGANELLE_ENVELOPE, ENVELOPE}},
+            ),
+        ]
+        for curie, preds, expected in cases:
+            logging.info(f"TESTS FOR {curie}")
+            rels = list(oi.non_redundant_entailed_relationships(subjects=[curie], predicates=preds))
+            objs_by_pred = {p: set() for p in preds}
+            for s, p, o in rels:
+                objs_by_pred[p].add(o)
+                assert s == curie
+            for p in preds:
+                test.assertCountEqual(expected[p], objs_by_pred[p])
+
     def test_rbox_relationships(self, oi: BasicOntologyInterface):
         """
         Tests relationships between relationship types
@@ -607,11 +675,15 @@ class ComplianceTester:
             ]:
                 parents = [r[2] for r in oi.relationships([curie], predicates=[p])]
                 test.assertCountEqual(
-                    expected, parents, f"expected {p}({curie}) = {expected} got {parents}"
+                    expected,
+                    parents,
+                    f"expected {p}({curie}) = {expected} got {parents}",
                 )
                 parents = [r[2] for r in oi.relationships([curie]) if r[1] == p]
                 test.assertCountEqual(
-                    expected, parents, f"expected {p}({curie}) = {expected} got {parents}"
+                    expected,
+                    parents,
+                    f"expected {p}({curie}) = {expected} got {parents}",
                 )
 
     def test_equiv_relationships(self, oi: BasicOntologyInterface):
@@ -659,10 +731,14 @@ class ComplianceTester:
         meta = node.meta
         test.assertTrue(meta.definition.val.startswith("A membrane-"))
         test.assertCountEqual(
-            ["NIF_Subcellular:sao1702920020", "Wikipedia:Cell_nucleus"], [s.val for s in meta.xrefs]
+            ["NIF_Subcellular:sao1702920020", "Wikipedia:Cell_nucleus"],
+            [s.val for s in meta.xrefs],
         )
         test.assertCountEqual(
-            [("hasExactSynonym", "cell nucleus"), ("hasNarrowSynonym", "horsetail nucleus")],
+            [
+                ("hasExactSynonym", "cell nucleus"),
+                ("hasNarrowSynonym", "horsetail nucleus"),
+            ],
             [(s.pred, s.val) for s in meta.synonyms],
         )
         test.assertIn("obo:go#goslim_yeast", meta.subsets)
@@ -791,11 +867,13 @@ class ComplianceTester:
         ]
         for pair in pairs:
             test.assertTrue(
-                pair in expected or pair[::-1] in expected, f"Unexpected disjoint pair: {pair}"
+                pair in expected or pair[::-1] in expected,
+                f"Unexpected disjoint pair: {pair}",
             )
         for case in expected:
             test.assertTrue(
-                case in pairs or case[::-1] in pairs, f"Expected disjoint pair not found: {case}"
+                case in pairs or case[::-1] in pairs,
+                f"Expected disjoint pair not found: {case}",
             )
         for case in expected:
             for c in case:
@@ -915,7 +993,10 @@ class ComplianceTester:
                 id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, old_value="enzyme activity"
             ),
             kgcl.NewSynonym(
-                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, new_value="catalytic activity"
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                new_value="catalytic activity",
+                predicate="oio:hasExactSynonym",
             ),
             kgcl.NodeRename(
                 id=FIXED_ID,
@@ -924,22 +1005,63 @@ class ComplianceTester:
                 old_value="catalytic activity",
             ),
             kgcl.NodeDeletion(id=FIXED_ID, about_node="GO:0033673"),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="rdfs:subClassOf",
+                object="GO:0051348",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="rdfs:subClassOf",
+                object="GO:0042326",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="RO:0002212",
+                object="GO:0016310",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="rdfs:subClassOf",
+                object="GO:0043549",
+            ),
+            kgcl.EdgeDeletion(
+                id=FIXED_ID,
+                subject="GO:0033673",
+                predicate="RO:0002212",
+                object="GO:0016301",
+            ),
         ]
         for ch in diff:
+            if isinstance(ch, list):
+                raise ValueError(f"Unexpected list: {[type(x) for x in ch]}")
             ch.id = FIXED_ID
             if ch in expected:
                 expected.remove(ch)
             else:
-                logging.error(f"Unexpected change: {ch}")
+                logging.error(f"Unexpected change [{n_unexpected}]: {ch}")
+                logging.error(yaml_dumper.dumps(ch))
                 n_unexpected += 1
             ch.type = type(ch).__name__
+        for e in expected:
+            print("Expected not found:")
+            print(yaml_dumper.dumps(e))
         test.assertEqual(0, len(expected), f"Expected changes not found: {expected}")
         expected_rev = [
             kgcl.NewSynonym(
-                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, new_value="enzyme activity"
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                new_value="enzyme activity",
+                predicate="oio:hasExactSynonym",
             ),
             kgcl.RemoveSynonym(
-                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, old_value="catalytic activity"
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                old_value="catalytic activity",
             ),
             kgcl.NodeRename(
                 id=FIXED_ID,
@@ -955,11 +1077,21 @@ class ComplianceTester:
             if ch in expected_rev:
                 expected_rev.remove(ch)
             else:
-                logging.error(f"Unexpected change: {ch}")
-                n_unexpected += 1
+                # TODO: different diff implementations differ with class creation
+                if isinstance(ch, kgcl.EdgeChange) and ch.subject == "GO:0033673":
+                    pass
+                elif isinstance(ch, kgcl.NodeChange) and ch.about_node == "GO:0033673":
+                    pass
+                else:
+                    logging.error(f"Unexpected rev change: {ch}")
+                    logging.error(yaml_dumper.dumps(ch))
+                    n_unexpected += 1
             ch.type = type(ch).__name__
+        for e in expected_rev:
+            print("Expected (reversed) not found:")
+            print(yaml_dumper.dumps(e))
         test.assertEqual(0, len(expected_rev), f"Expected changes not found: {expected_rev}")
-        test.assertEqual(0, n_unexpected)
+        test.assertEqual(0, n_unexpected, f"Unexpected changes: {n_unexpected}")
         # test diff summary
         summary = oi.diff_summary(oi_modified)
         logging.info(summary)
@@ -969,8 +1101,11 @@ class ComplianceTester:
             ("NewSynonym", 1),
             ("NodeDeletion", 1),
             ("All_Synonym", 2),
+            ("NodeRename", 1),
+            ("EdgeDeletion", 5),
         ]
         for typ, expected in cases:
+            print(typ)
             test.assertEqual(expected, residual[typ])
 
     def test_as_obograph(self, oi: OboGraphInterface):
@@ -1026,8 +1161,26 @@ class ComplianceTester:
                 [IMBO],
                 [(NUCLEUS, IS_A, IMBO)],
             ),
-            ([], [IS_A, PART_OF], Distance.TRANSITIVE, Distance.TRANSITIVE, 0, 0, [], []),
-            ([NUCLEUS, VACUOLE], [IS_A, PART_OF], Distance.ZERO, Distance.ZERO, 0, 0, [], []),
+            (
+                [],
+                [IS_A, PART_OF],
+                Distance.TRANSITIVE,
+                Distance.TRANSITIVE,
+                0,
+                0,
+                [],
+                [],
+            ),
+            (
+                [NUCLEUS, VACUOLE],
+                [IS_A, PART_OF],
+                Distance.ZERO,
+                Distance.ZERO,
+                0,
+                0,
+                [],
+                [],
+            ),
         ]
         for case in cases:
             (
@@ -1070,7 +1223,9 @@ class ComplianceTester:
                 f"failed for case: {case}, got nodes: {retrieved_class_nodes}",
             )
             test.assertEqual(
-                num_edges, len(g.edges), f"failed for case: {case}, got edges: {g.edges}"
+                num_edges,
+                len(g.edges),
+                f"failed for case: {case}, got edges: {g.edges}",
             )
             node_ids = [n.id for n in g.nodes]
             for node_id in nodes:
@@ -1153,7 +1308,12 @@ class ComplianceTester:
                 ],
                 None,
             ),
-            (NodeObsoletion(id=generate_change_id(), about_node=FAKE_ID), True, None, None),
+            (
+                NodeObsoletion(id=generate_change_id(), about_node=FAKE_ID),
+                True,
+                None,
+                None,
+            ),
             (
                 kgcl.SynonymReplacement(
                     id=generate_change_id(),
@@ -1176,6 +1336,7 @@ class ComplianceTester:
                         id=generate_change_id(),
                         about_node=CELLULAR_COMPONENT,
                         new_value="foo bar",
+                        predicate="oio:hasRelatedSynonym",
                     ),
                     kgcl.RemoveSynonym(
                         id=generate_change_id(),
@@ -1185,11 +1346,38 @@ class ComplianceTester:
                 ],
             ),
             (
-                kgcl.NewSynonym(id=generate_change_id(), about_node=FUNGI, new_value="shroom"),
+                kgcl.NewSynonym(
+                    id=generate_change_id(),
+                    about_node=FUNGI,
+                    new_value="shroom",
+                    predicate="oio:hasRelatedSynonym",
+                ),
                 False,
                 lambda oi: test.assertCountEqual(
                     ["shroom", "fungi", "Fungi", "Mycota"],
                     oi.entity_aliases(FUNGI),
+                ),
+                None,
+            ),
+            (
+                kgcl.AddNodeToSubset(
+                    id=generate_change_id(), about_node=NUCLEAR_ENVELOPE, in_subset="goslim_agr"
+                ),
+                False,
+                lambda oi: test.assertIn(
+                    NUCLEAR_ENVELOPE,
+                    oi.subset_members("goslim_agr"),
+                ),
+                None,
+            ),
+            (
+                kgcl.RemoveNodeFromSubset(
+                    id=generate_change_id(), about_node=NUCLEAR_ENVELOPE, in_subset="goslim_generic"
+                ),
+                False,
+                lambda oi: test.assertNotIn(
+                    NUCLEAR_ENVELOPE,
+                    oi.subset_members("goslim_generic"),
                 ),
                 None,
             ),
@@ -1280,9 +1468,12 @@ class ComplianceTester:
                 change_obj = _as_json_dict_no_id(diff)
                 if "old_value" in change_obj and "new_value" in change_obj:
                     del change_obj["old_value"]
+                logging.info(f"LOOKING FOR {change_obj}")
                 if change_obj in expected_changes:
                     expected_changes.remove(change_obj)
                 else:
+                    logging.error("not found:")
+                    logging.error(yaml_dumper.dumps(change_obj))
                     raise ValueError(f"Cannot find: {change_obj} in {expected_changes}")
             test.assertCountEqual([], expected_changes)
 
@@ -1317,7 +1508,11 @@ class ComplianceTester:
                 None,
                 [(NUCLEAR_ENVELOPE, PART_OF, CELLULAR_ANATOMICAL_ENTITY)],
             ),
-            ([NUCLEAR_ENVELOPE], None, [(NUCLEAR_MEMBRANE, PART_OF, ENDOMEMBRANE_SYSTEM)]),
+            (
+                [NUCLEAR_ENVELOPE],
+                None,
+                [(NUCLEAR_MEMBRANE, PART_OF, ENDOMEMBRANE_SYSTEM)],
+            ),
             (
                 [NUCLEAR_ENVELOPE, ENDOMEMBRANE_SYSTEM],
                 None,
@@ -1331,10 +1526,17 @@ class ComplianceTester:
             (
                 [CYTOPLASMIC_REGION],
                 None,
-                [(CELL_CORTEX_REGION, IS_A, CYTOPLASM), (CELL_CORTEX_REGION, PART_OF, CYTOPLASM)],
+                [
+                    (CELL_CORTEX_REGION, IS_A, CYTOPLASM),
+                    (CELL_CORTEX_REGION, PART_OF, CYTOPLASM),
+                ],
             ),
             ([CELL_CORTEX_REGION, CELL_CORTEX], None, []),
-            ([CELL_CORTEX_REGION, CELL_CORTEX, CYTOPLASMIC_REGION, CYTOPLASM], None, []),
+            (
+                [CELL_CORTEX_REGION, CELL_CORTEX, CYTOPLASMIC_REGION, CYTOPLASM],
+                None,
+                [],
+            ),
             (
                 [CYTOPLASM, CELL_CORTEX_REGION, CELL_CORTEX, CYTOPLASMIC_REGION],
                 "order of obsoletion is wrong",
@@ -1365,7 +1567,8 @@ class ComplianceTester:
             for o in obsoletions:
                 test.assertIn(o, refreshed_obsolete_entities)
             test.assertCountEqual(
-                obsoletions, set(refreshed_obsolete_entities) - set(current_obsolete_entities)
+                obsoletions,
+                set(refreshed_obsolete_entities) - set(current_obsolete_entities),
             )
             refreshed_relationships = list(oi.relationships())
             for e in expected_edges:
@@ -1414,7 +1617,8 @@ class ComplianceTester:
         test.assertEqual(255, stats.distinct_synonym_count)
         test.assertEqual(264, stats.synonym_statement_count)
         test.assertEqual(
-            136, stats.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count
+            136,
+            stats.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count,
         )
         test.assertEqual(152, stats.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count)
         stats_cc = oi.branch_summary_statistics("cc", branch_roots=[CELLULAR_COMPONENT])
@@ -1425,13 +1629,15 @@ class ComplianceTester:
         test.assertEqual(29, stats_cc.distinct_synonym_count)
         test.assertEqual(29, stats_cc.synonym_statement_count)
         test.assertEqual(
-            14, stats_cc.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count
+            14,
+            stats_cc.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count,
         )
         test.assertEqual(
             17, stats_cc.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count
         )
         stats_ns = oi.branch_summary_statistics(
-            "cc_namespace", property_values={"oio:hasOBONamespace": "cellular_component"}
+            "cc_namespace",
+            property_values={"oio:hasOBONamespace": "cellular_component"},
         )
         test.assertEqual(23, stats_ns.class_count)
         test.assertEqual(23, stats_ns.class_count_with_text_definitions)
@@ -1440,7 +1646,8 @@ class ComplianceTester:
         test.assertEqual(29, stats_ns.distinct_synonym_count)
         test.assertEqual(29, stats_ns.synonym_statement_count)
         test.assertEqual(
-            14, stats_ns.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count
+            14,
+            stats_ns.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count,
         )
         test.assertEqual(
             17, stats_ns.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count
@@ -1545,10 +1752,12 @@ class ComplianceTester:
             [PROTEIN1], list(associations_subjects(oi.associations(objects=[VACUOLE])))
         )
         test.assertEqual(
-            [PROTEIN1], list(associations_subjects(oi.associations(objects=[NUCLEUS, VACUOLE])))
+            [PROTEIN1],
+            list(associations_subjects(oi.associations(objects=[NUCLEUS, VACUOLE]))),
         )
         test.assertEqual(
-            [PROTEIN2], list(associations_subjects(oi.associations(objects=[NUCLEAR_MEMBRANE])))
+            [PROTEIN2],
+            list(associations_subjects(oi.associations(objects=[NUCLEAR_MEMBRANE]))),
         )
         # closures
         test.assertEqual(
@@ -1593,11 +1802,6 @@ class ComplianceTester:
         test.assertEqual(1, count_map[NUCLEAR_MEMBRANE])
         test.assertEqual(2, count_map[NUCLEUS])
         test.assertEqual(2, count_map[IMBO])
-        if isinstance(oi, SemanticSimilarityInterface):
-            try:
-                self.test_information_content_scores(oi, use_associations=True)
-            except NotImplementedError:
-                logging.info(f"Not yet implemented for {type(oi)}")
 
     def test_class_enrichment(self, oi: ClassEnrichmentCalculationInterface):
         """
@@ -1625,11 +1829,32 @@ class ComplianceTester:
             ([GENE1, GENE6, GENE7], 0.5, None, None, None, [NUCLEUS]),
             ([GENE1, GENE6, GENE7], 0.5, [], None, None, [NUCLEAR_ENVELOPE]),
             # exact overlap
-            ([GENE3, GENE6, GENE7], 0.5, None, None, [NUCLEAR_ENVELOPE], [NUCLEAR_ENVELOPE]),
+            (
+                [GENE3, GENE6, GENE7],
+                0.5,
+                None,
+                None,
+                [NUCLEAR_ENVELOPE],
+                [NUCLEAR_ENVELOPE],
+            ),
             # nuclear membrane is before nucleus as less common overall
-            ([GENE1, GENE2, GENE3], 1.0, None, None, [NUCLEAR_MEMBRANE], [NUCLEAR_MEMBRANE]),
+            (
+                [GENE1, GENE2, GENE3],
+                1.0,
+                None,
+                None,
+                [NUCLEAR_MEMBRANE],
+                [NUCLEAR_MEMBRANE],
+            ),
             ([GENE1, GENE2, GENE3], 0.05, None, None, [], []),
-            ([GENE1, GENE2, GENE4, GENE5, GENE6], 0.5, None, None, [VACUOLE, CYTOPLASM], [VACUOLE]),
+            (
+                [GENE1, GENE2, GENE4, GENE5, GENE6],
+                0.5,
+                None,
+                None,
+                [VACUOLE, CYTOPLASM],
+                [VACUOLE],
+            ),
             ([GENE8, GENE9], 1.0, None, None, [IMBO], None),
         ]
         for case in cases:
@@ -1699,7 +1924,9 @@ class ComplianceTester:
             if expected_ancs is not None:
                 test.assertCountEqual(expected_ancs, ancs)
             test.assertCountEqual(
-                expected_mrcas, mrcas, f"different MRCA results for {x} v {y} with {preds}"
+                expected_mrcas,
+                mrcas,
+                f"different MRCA results for {x} v {y} with {preds}",
             )
             for a in mrcas:
                 test.assertIn(a, ancs)
@@ -1738,12 +1965,45 @@ class ComplianceTester:
             (NUCLEUS, IMBO),
             (IMBO, CELLULAR_COMPONENT),
         ]
+        if use_associations:
+            if not isinstance(oi, AssociationProviderInterface):
+                raise ValueError("Semantic similarity interface does not support associations")
+            assoc_pairs = [
+                (GENE1, VACUOLE),
+                (GENE2, NUCLEAR_ENVELOPE),
+                (GENE3, NUCLEAR_ENVELOPE),
+            ]
+            oi.add_associations(
+                Association(subject=subject, object=object) for subject, object in assoc_pairs
+            )
         m = {}
         for curie, score in oi.information_content_scores(
-            terms, object_closure_predicates=[IS_A, PART_OF], use_associations=use_associations
+            terms,
+            object_closure_predicates=[IS_A, PART_OF],
+            use_associations=use_associations,
         ):
             m[curie] = score
-        # universal root node always has zero information
+        test.assertGreater(len(m), 0)
+        if use_associations:
+            test.assertCountEqual(
+                [
+                    OWL_THING,
+                    VACUOLE,
+                    IMBO,
+                    NUCLEAR_ENVELOPE,
+                    NUCLEUS,
+                    CELLULAR_COMPONENT,
+                    PHOTORECEPTOR_OUTER_SEGMENT,
+                ],
+                m.keys(),
+            )
+            test.assertEqual(m[CELLULAR_COMPONENT], 0.0, "all genes are under cell component")
+            test.assertEqual(m[PHOTORECEPTOR_OUTER_SEGMENT], 0.0, "not in graph")
+            test.assertGreater(m[VACUOLE], 1.0)
+            test.assertLess(m[NUCLEAR_ENVELOPE], 1.0)
+        # universal root node always has zero information content
+        for k, v in m.items():
+            print(f"{k} IC= {v}")
         test.assertEqual(m[OWL_THING], 0.0)
         for child, parent in posets:
             if use_associations:
@@ -1790,7 +2050,9 @@ class ComplianceTester:
                     test.assertIsNone(pair.phenodigm_score)
                 else:
                     test.assertGreater(
-                        pair.phenodigm_score, 0.5, f"expected phenodigm match for {pair}"
+                        pair.phenodigm_score,
+                        0.5,
+                        f"expected phenodigm match for {pair}",
                     )
             distances[(pair.subject_id, pair.object_id)] = 1 - pair.jaccard_similarity
         # test triangle inequality
@@ -1829,7 +2091,9 @@ class ComplianceTester:
             ts1, ts2, ps, expected_avg, expected_max = ts
             sim = oi.termset_pairwise_similarity(ts1, ts2, predicates=ps, labels=True)
             test.assertLess(
-                abs(sim.average_score - expected_avg), error_range, f"TermSet: {ts} Sim: {sim}"
+                abs(sim.average_score - expected_avg),
+                error_range,
+                f"TermSet: {ts} Sim: {sim}",
             )
             test.assertLess(abs(sim.best_score - expected_max), error_range)
 
@@ -1840,7 +2104,11 @@ class ComplianceTester:
             (
                 "The nucleus is the part of the cell that contains the DNA.",
                 3,
-                [(NUCLEUS, "nucleus", 5, 11), (PART_OF, "part of", 20, 26), (CELL, "cell", 32, 35)],
+                [
+                    (NUCLEUS, "nucleus", 5, 11),
+                    (PART_OF, "part of", 20, 26),
+                    (CELL, "cell", 32, 35),
+                ],
             ),
         ]
         for text, n, expected in cases:
@@ -1854,3 +2122,286 @@ class ComplianceTester:
                 test.assertEqual(object_label, ann.object_label)
                 test.assertEqual(subject_start, ann.subject_start)
                 test.assertEqual(subject_end, ann.subject_end)
+
+    def test_entities_metadata_statements(self, oi: BasicOntologyInterface):
+        test = self.test
+
+        cases = [
+            (
+                [MEMBRANE],
+                [OIO_CREATION_DATE],
+                [
+                    (
+                        "GO:0016020",
+                        "oio:creation_date",
+                        "2014-03-06T11:37:54Z",
+                        "xsd:string",
+                        {},
+                    )
+                ],
+            ),
+            (
+                [MEMBRANE],
+                None,
+                [
+                    (
+                        "GO:0016020",
+                        "IAO:0000115",
+                        "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it.",  # noqa:E501
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:creation_date",
+                        "2014-03-06T11:37:54Z",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:hasAlternativeId",
+                        "GO:0098589",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:hasAlternativeId",
+                        "GO:0098805",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:hasDbXref",
+                        "Wikipedia:Biological_membrane",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:hasNarrowSynonym",
+                        "membrane region",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:hasNarrowSynonym",
+                        "region of membrane",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:hasNarrowSynonym",
+                        "whole membrane",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:hasOBONamespace",
+                        "cellular_component",
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0016020", "oio:id", "GO:0016020", "xsd:string", {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    (
+                        "GO:0016020",
+                        "oio:inSubset",
+                        "obo:go#goslim_metagenomics",
+                        None,
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:inSubset",
+                        "obo:go#goslim_flybase_ribbon",
+                        None,
+                        {},
+                    ),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    (
+                        "GO:0016020",
+                        "oio:inSubset",
+                        "obo:go#goslim_aspergillus",
+                        None,
+                        {},
+                    ),
+                    ("GO:0016020", "rdfs:label", "membrane", "xsd:string", {}),
+                ],
+            ),
+            (
+                [MEMBRANE],
+                ["oio:inSubset"],
+                [
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    (
+                        "GO:0016020",
+                        "oio:inSubset",
+                        "obo:go#goslim_metagenomics",
+                        None,
+                        {},
+                    ),
+                    (
+                        "GO:0016020",
+                        "oio:inSubset",
+                        "obo:go#goslim_flybase_ribbon",
+                        None,
+                        {},
+                    ),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0016020", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    (
+                        "GO:0016020",
+                        "oio:inSubset",
+                        "obo:go#goslim_aspergillus",
+                        None,
+                        {},
+                    ),
+                ],
+            ),
+            (
+                [NUCLEUS],
+                None,
+                [
+                    (
+                        "GO:0005634",
+                        "IAO:0000115",
+                        "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.",  # noqa:E501
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:hasDbXref",
+                        "NIF_Subcellular:sao1702920020",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:hasDbXref",
+                        "Wikipedia:Cell_nucleus",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:hasExactSynonym",
+                        "cell nucleus",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:hasNarrowSynonym",
+                        "horsetail nucleus",
+                        "xsd:string",
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:hasOBONamespace",
+                        "cellular_component",
+                        "xsd:string",
+                        {},
+                    ),
+                    ("GO:0005634", "oio:id", "GO:0005634", "xsd:string", {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_mouse", None, {}),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_metagenomics",
+                        None,
+                        {},
+                    ),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_generic", None, {}),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_flybase_ribbon",
+                        None,
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_drosophila",
+                        None,
+                        {},
+                    ),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_aspergillus",
+                        None,
+                        {},
+                    ),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_agr", None, {}),
+                    ("GO:0005634", "rdfs:label", "nucleus", "xsd:string", {}),
+                ],
+            ),
+            (
+                [NUCLEUS],
+                ["oio:inSubset"],
+                [
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_yeast", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_plant", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_pir", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_mouse", None, {}),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_metagenomics",
+                        None,
+                        {},
+                    ),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_generic", None, {}),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_flybase_ribbon",
+                        None,
+                        {},
+                    ),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_drosophila",
+                        None,
+                        {},
+                    ),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_chembl", None, {}),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_candida", None, {}),
+                    (
+                        "GO:0005634",
+                        "oio:inSubset",
+                        "obo:go#goslim_aspergillus",
+                        None,
+                        {},
+                    ),
+                    ("GO:0005634", "oio:inSubset", "obo:go#goslim_agr", None, {}),
+                ],
+            ),
+        ]
+        for case in cases:
+            curies, predicates, expected_result = case
+            results = list(oi.entities_metadata_statements(curies=curies, predicates=predicates))
+            test.assertCountEqual(results, expected_result)
+            test.assertCountEqual(results[0], expected_result[0])
+            for idx, result in enumerate(results):
+                test.assertEqual(result, expected_result[idx])

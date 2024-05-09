@@ -3,6 +3,8 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Iterable, Iterator, List, Optional
 
+from typing_extensions import ClassVar
+
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
 from oaklib.datamodels.item_list import ItemList
@@ -25,6 +27,8 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
     for example: to
     test for over representation of a disease in a set of genes.
     """
+
+    requires_associations: ClassVar[bool] = True
 
     def enriched_classes(
         self,
@@ -52,6 +56,10 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         <BLANKLINE>
         GO:0006620 post-translational protein targeting to endoplasmic reticulum membrane
         ...
+
+        By default, results may include redundant terms. If we set `filter_redundant=True`,
+        then redundant terms are removed, unless they are more significant than the
+        descendant term
 
         :param subjects: The set of entities to test for over-representation of classes
         :param item_list: An item list objects as an alternate way to specify subjects
@@ -84,6 +92,8 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
                 subjects, predicates=predicates, object_closure_predicates=object_closure_predicates
             )
         }
+        if all(v == 0 for v in sample_count.values()):
+            raise ValueError("No associations found for subjects")
         potential_hypotheses = set(sample_count.keys())
         if hypotheses is None:
             hypotheses = potential_hypotheses

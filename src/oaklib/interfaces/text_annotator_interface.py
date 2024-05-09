@@ -1,8 +1,9 @@
+import csv
 import logging
 from abc import ABC
 from io import TextIOWrapper
 from pathlib import Path
-from typing import Iterable, Iterator, Optional
+from typing import Dict, Iterable, Iterator, Optional
 
 from oaklib.datamodels.lexical_index import LexicalIndex
 from oaklib.datamodels.mapping_rules_datamodel import MappingRuleCollection
@@ -180,7 +181,8 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         text_file: TextIOWrapper,
         configuration: TextAnnotationConfiguration = None,
     ) -> Iterator[TextAnnotation]:
-        """Annotate text in a file.
+        """
+        Annotate text in a file.
 
         :param text_file: Text file that is iterated line-by-line.
         :param configuration: Text annotation configuration, defaults to None.
@@ -190,3 +192,50 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
             line = line.strip()
             annotation = self.annotate_text(line, configuration)
             yield from annotation
+
+    def annotate_tabular_file(
+        self,
+        text_file: TextIOWrapper,
+        delimiter: Optional[str] = None,
+        configuration: TextAnnotationConfiguration = None,
+        match_column: str = None,
+        result_column: str = "matched_id",
+        result_label_column: str = "matched_label",
+        match_multiple=False,
+        include_unmatched=True,
+    ) -> Iterator[Dict[str, str]]:
+        """
+        Annotate text in a file.
+
+        :param text_file: Text file that is iterated line-by-line.
+        :param configuration: Text annotation configuration, defaults to None.
+        :yield: Annotation of each line.
+        """
+        if not configuration:
+            configuration = TextAnnotationConfiguration()
+        if not match_column:
+            raise ValueError("Must provide a match column")
+        if not delimiter:
+            if text_file.name.endswith(".tsv"):
+                delimiter = "\t"
+            elif text_file.name.endswith(".csv"):
+                delimiter = ","
+            else:
+                raise ValueError("Must provide a delimiter")
+        reader = csv.DictReader(text_file, delimiter=delimiter)
+        for row in reader:
+            if match_column not in row:
+                raise ValueError(f"Missing match column {match_column} in {row}")
+            text = row[match_column]
+            has_result = False
+            for ann in self.annotate_text(text, configuration):
+                row[result_column] = ann.object_id
+                row[result_label_column] = ann.object_label
+                has_result = True
+                yield row
+                if not match_multiple:
+                    break
+            if not has_result and include_unmatched:
+                row[result_column] = ""
+                row[result_label_column] = ""
+                yield row

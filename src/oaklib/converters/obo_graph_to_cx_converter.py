@@ -71,8 +71,4 @@ class OboGraphToCXConverter(DataModelConverter):
     def _id(self, uri: CURIE) -> CURIE:
         if not self.curie_converter:
             return uri
-        curie = self.curie_converter.compress(uri)
-        if curie is None:
-            return uri
-        else:
-            return curie
+        return self.curie_converter.compress(uri, passthrough=True)

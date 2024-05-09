@@ -7,6 +7,7 @@ from oaklib.interfaces.association_provider_interface import (
 from oaklib.parsers.parser_base import ColumnReference
 from oaklib.parsers.xaf_association_parser import XafAssociationParser
 from oaklib.utilities.associations.association_index import AssociationIndex
+
 from tests import INPUT_DIR
 
 GAF = INPUT_DIR / "test-uniprot.gaf"
@@ -16,7 +17,7 @@ class AssociationIndexTest(unittest.TestCase):
     """Tests indexing associations in-memory."""
 
     def test_index(self):
-        """Tests in-memory index by laoding from GAF."""
+        """Tests in-memory index by loading from GAF."""
         parser = XafAssociationParser(
             subject_column=ColumnReference(1), object_column=ColumnReference(4)
         )

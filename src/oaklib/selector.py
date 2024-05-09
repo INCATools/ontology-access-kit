@@ -11,6 +11,7 @@ from linkml_runtime.loaders import yaml_loader
 
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
+from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels.input_specification import InputSpecification, Normalizer
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
@@ -89,7 +90,7 @@ def get_adapter(
     resource or ontology within that scheme.
 
     Example:
-
+    -------
     .. packages :: python
 
         >>> from oaklib import get_adapter
@@ -140,6 +141,7 @@ def get_adapter(
     :param format: file format/syntax, e.g obo, turtle
     :param kwargs: Keyword arguments to pass through to the implementation class
     :return: An instantiated interface
+
     """
     if isinstance(descriptor, InputSpecification):
         return _get_adapter_from_specification(descriptor)
@@ -228,7 +230,7 @@ def add_associations(
         entry = ASSOCIATION_REGISTRY[scheme]
         params, format, url_template, compressed = entry
         if params:
-            param_vals = dict(zip(params, path.split("//")))
+            param_vals = dict(zip(params, path.split("//"), strict=False))
         else:
             param_vals = {}
         url = url_template.format(**param_vals)
@@ -271,7 +273,7 @@ def add_associations(
 
 
 def file_from_gzip_url(url, is_compressed=False):
-    with requests.get(url, stream=True) as response:
+    with requests.get(url, stream=True, timeout=TIMEOUT_SECONDS) as response:
         response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
         # Wrap the response's raw stream in a binary file-like object
         binary_file_like_object = io.BytesIO(response.raw.read())
@@ -281,7 +283,7 @@ def file_from_gzip_url(url, is_compressed=False):
 
 
 def file_from_url(url):
-    response = requests.get(url)
+    response = requests.get(url, timeout=TIMEOUT_SECONDS)
     response.raise_for_status()  # Raise an exception if the response contains an HTTP error status code
     # Create a file-like object using the response content
     file_like_object = io.StringIO(response.text)

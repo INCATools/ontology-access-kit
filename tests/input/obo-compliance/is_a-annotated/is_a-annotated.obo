@@ -1,0 +1,7 @@
+format-version: 1.4
+ontology: is_a-annotated
+
+[Term]
+id: X:1
+is_a: Y:1 {source="PMID:123456"}
+

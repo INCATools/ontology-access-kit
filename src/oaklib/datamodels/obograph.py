@@ -1,20 +1,15 @@
-# Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-05-13T10:22:20
+# Auto generated from obograph.yaml by pythongen.py version: 0.0.1
+# Generation date: 2023-08-29T10:52:15
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
-# description: A data model for graph-oriented representations of ontologies. Each ontology is represented as a
-#              Graph, and multiple ontologies can be connected together in a GraphDocument. The principle elements
-#              of a Graph are Node objects and Edge objects. A Node represents an arbitrary ontology element,
-#              including but not limited to the core terms in the ontology. Edges represent simple relationships
-#              between Nodes. Nodes and Edges can both have Meta objects attached, providing additional metedata.
-#              Not everything in an ontology can be represented as nodes and edges. More complex axioms have
-#              specialized structures such as DomainRangeAxiom objects and LogicalDefinitionAxiom.
+# description: A data model for graph-oriented representations of ontologies. Each ontology is represented as a Graph, and multiple ontologies can be connected together in a GraphDocument.
+#   The principle elements of a Graph are Node objects and Edge objects. A Node represents an arbitrary ontology element, including but not limited to the core terms in the ontology. Edges represent simple relationships between Nodes. Nodes and Edges can both have Meta objects attached, providing additional metedata.
+#   Not everything in an ontology can be represented as nodes and edges. More complex axioms have specialized structures such as DomainRangeAxiom objects and LogicalDefinitionAxiom.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
 import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -225,9 +220,9 @@ class Graph(YAMLRoot):
     domainRangeAxioms: Optional[
         Union[Union[dict, "DomainRangeAxiom"], List[Union[dict, "DomainRangeAxiom"]]]
     ] = empty_list()
-    allValuesFromEdges: Optional[
-        Union[Union[dict, "Edge"], List[Union[dict, "Edge"]]]
-    ] = empty_list()
+    allValuesFromEdges: Optional[Union[Union[dict, "Edge"], List[Union[dict, "Edge"]]]] = (
+        empty_list()
+    )
     propertyChainAxioms: Optional[
         Union[Union[dict, "PropertyChainAxiom"], List[Union[dict, "PropertyChainAxiom"]]]
     ] = empty_list()
@@ -810,11 +805,68 @@ class LogicalDefinitionAxiom(Axiom):
         if not isinstance(self.restrictions, list):
             self.restrictions = [self.restrictions] if self.restrictions is not None else []
         self.restrictions = [
-            v
-            if isinstance(v, ExistentialRestrictionExpression)
-            else ExistentialRestrictionExpression(**as_dict(v))
+            (
+                v
+                if isinstance(v, ExistentialRestrictionExpression)
+                else ExistentialRestrictionExpression(**as_dict(v))
+            )
             for v in self.restrictions
         ]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class DisjointClassExpressionsAxiom(Axiom):
+    """
+    An axiom that defines a set of classes or class expressions as being mutually disjoint. Formally, there exists no
+    instance that instantiates more that one of the union of classIds and classExpressions.
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OBOGRAPHS.DisjointClassExpressionsAxiom
+    class_class_curie: ClassVar[str] = "obographs:DisjointClassExpressionsAxiom"
+    class_name: ClassVar[str] = "DisjointClassExpressionsAxiom"
+    class_model_uri: ClassVar[URIRef] = OBOGRAPHS.DisjointClassExpressionsAxiom
+
+    classIds: Optional[Union[str, List[str]]] = empty_list()
+    classExpressions: Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
+    ] = empty_list()
+    unionEquivalentTo: Optional[str] = None
+    unionEquivalentToExpression: Optional[Union[dict, ExistentialRestrictionExpression]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if not isinstance(self.classIds, list):
+            self.classIds = [self.classIds] if self.classIds is not None else []
+        self.classIds = [v if isinstance(v, str) else str(v) for v in self.classIds]
+
+        if not isinstance(self.classExpressions, list):
+            self.classExpressions = (
+                [self.classExpressions] if self.classExpressions is not None else []
+            )
+        self.classExpressions = [
+            (
+                v
+                if isinstance(v, ExistentialRestrictionExpression)
+                else ExistentialRestrictionExpression(**as_dict(v))
+            )
+            for v in self.classExpressions
+        ]
+
+        if self.unionEquivalentTo is not None and not isinstance(self.unionEquivalentTo, str):
+            self.unionEquivalentTo = str(self.unionEquivalentTo)
+
+        if self.unionEquivalentToExpression is not None and not isinstance(
+            self.unionEquivalentToExpression, ExistentialRestrictionExpression
+        ):
+            self.unionEquivalentToExpression = ExistentialRestrictionExpression(
+                **as_dict(self.unionEquivalentToExpression)
+            )
 
         super().__post_init__(**kwargs)
 
@@ -873,7 +925,7 @@ class ScopeEnum(EnumDefinitionImpl):
     )
     hasRelatedSynonym = PermissibleValue(
         text="hasRelatedSynonym",
-        description="The synonym represents something closely related in meaning than the node, but in not exact, broad, or narrow.",
+        description="""The synonym represents something closely related in meaning than the node, but in not exact, broad, or narrow.""",
         meaning=OIO.hasRelatedSynonym,
     )
 
@@ -1118,6 +1170,20 @@ slots.logicalDefinitionAxioms = Slot(
     ],
 )
 
+slots.disjointClassExpressionsAxioms = Slot(
+    uri=OBOGRAPHS.disjointClassExpressionsAxioms,
+    name="disjointClassExpressionsAxioms",
+    curie=OBOGRAPHS.curie("disjointClassExpressionsAxioms"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxioms,
+    domain=None,
+    range=Optional[
+        Union[
+            Union[dict, DisjointClassExpressionsAxiom],
+            List[Union[dict, DisjointClassExpressionsAxiom]],
+        ]
+    ],
+)
+
 slots.domainRangeAxioms = Slot(
     uri=OBOGRAPHS.domainRangeAxioms,
     name="domainRangeAxioms",
@@ -1345,6 +1411,47 @@ slots.logicalDefinitionAxiom__restrictions = Slot(
             List[Union[dict, ExistentialRestrictionExpression]],
         ]
     ],
+)
+
+slots.disjointClassExpressionsAxiom__classIds = Slot(
+    uri=OBOGRAPHS.classIds,
+    name="disjointClassExpressionsAxiom__classIds",
+    curie=OBOGRAPHS.curie("classIds"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__classIds,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.disjointClassExpressionsAxiom__classExpressions = Slot(
+    uri=OBOGRAPHS.classExpressions,
+    name="disjointClassExpressionsAxiom__classExpressions",
+    curie=OBOGRAPHS.curie("classExpressions"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__classExpressions,
+    domain=None,
+    range=Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
+    ],
+)
+
+slots.disjointClassExpressionsAxiom__unionEquivalentTo = Slot(
+    uri=OBOGRAPHS.unionEquivalentTo,
+    name="disjointClassExpressionsAxiom__unionEquivalentTo",
+    curie=OBOGRAPHS.curie("unionEquivalentTo"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__unionEquivalentTo,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.disjointClassExpressionsAxiom__unionEquivalentToExpression = Slot(
+    uri=OBOGRAPHS.unionEquivalentToExpression,
+    name="disjointClassExpressionsAxiom__unionEquivalentToExpression",
+    curie=OBOGRAPHS.curie("unionEquivalentToExpression"),
+    model_uri=OBOGRAPHS.disjointClassExpressionsAxiom__unionEquivalentToExpression,
+    domain=None,
+    range=Optional[Union[dict, ExistentialRestrictionExpression]],
 )
 
 slots.Meta_xrefs = Slot(

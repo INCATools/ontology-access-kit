@@ -228,7 +228,7 @@ slots:
     inlined_as_list: true
     description: >-
       All nodes present in a graph. This includes class nodes as well as supporting nodes, including
-      nodes representing relationship types, subsets, annotation proeprties, etc
+      nodes representing relationship types, subsets, annotation properties, etc
   edges:
     multivalued: true
     range: Edge
@@ -251,6 +251,13 @@ slots:
     range: LogicalDefinitionAxiom
     description: >-
       A list of logical definition axioms that define the meaning of a class in terms of other classes.
+  disjointClassExpressionsAxioms:
+    multivalued: true
+    inlined_as_list: true
+    range: DisjointClassExpressionsAxiom
+    description: >-
+      A list of logical disjointness axioms that specify that a class or class expression
+      is disjoint from other classes or class expressions.
   domainRangeAxioms:
     multivalued: true
     range: DomainRangeAxiom
@@ -582,6 +589,35 @@ classes:
         slot_uri: owl:someValuesFrom
         see_also:
           - https://github.com/geneontology/obographs/issues/89
+
+  DisjointClassExpressionsAxiom:
+    aliases:
+      - disjoint classes
+    description: >-
+      An axiom that defines a set of classes or class expressions as being mutually disjoint.
+      Formally, there exists no instance that instantiates more that one of the union of
+      classIds and classExpressions.
+    is_a: Axiom
+    attributes:
+      classIds:
+        description: >-
+          The set of named classes that are mutually disjoint.
+        multivalued: true
+      classExpressions:
+        description: >-
+          The set of class expressions that are mutually disjoint.
+        comments:
+          - currently restricted to existential restrictions (some values from)
+        range: ExistentialRestrictionExpression
+        multivalued: true
+      unionEquivalentTo:
+        description: >-
+          If present, this equates to an OWL DisjointUnion expression.
+      unionEquivalentToExpression:
+        range: ExistentialRestrictionExpression
+        description: >-
+          if present, this class expression is equivalent ot the (disjoint) union of
+          the classIds and classExpressions.
 
   PropertyChainAxiom:
     is_a: Axiom

@@ -1,6 +1,7 @@
 """
 This package serves as the master index for all implementations.
 """
+
 from functools import cache
 
 from class_resolver import ClassResolver
@@ -15,7 +16,9 @@ from oaklib.implementations.eutils.pubmed_implementation import PubMedImplementa
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
+from oaklib.implementations.llm_implementation import LLMImplementation
 from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
+from oaklib.implementations.ncbi.ncbi_gene_implementation import NCBIGeneImplementation
 from oaklib.implementations.ols import (
     BaseOlsImplementation,
     OlsImplementation,
@@ -37,6 +40,9 @@ from oaklib.implementations.ontoportal.matportal_implementation import (
 from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
     OntoPortalImplementationBase,
 )
+from oaklib.implementations.pantherdb.pantherdb_implementation import (
+    PantherDBImplementation,
+)
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.semsimian.semsimian_implementation import (
     SemSimianImplementation,
@@ -50,6 +56,7 @@ from oaklib.implementations.sparql.oak_metamodel_implementation import (
 )
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.implementations.tabular.robot_template_implementation import RobotTemplateImplementation
 from oaklib.implementations.translator.translator_implementation import (
     TranslatorImplementation,
 )
@@ -76,6 +83,7 @@ __all__ = [
     "OlsImplementation",
     "TIBOlsImplementation",
     "MonarchImplementation",
+    "NCBIGeneImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
     "SimpleOboImplementation",
@@ -84,10 +92,13 @@ __all__ = [
     "LovImplementation",
     "SparqlImplementation",
     "WikidataImplementation",
+    "PantherDBImplementation",
     "PubMedImplementation",
     "FunOwlImplementation",
     "GildaImplementation",
+    "LLMImplementation",
     "KGXImplementation",
+    "RobotTemplateImplementation",
     "UniprotImplementation",
     "TranslatorImplementation",
     "OakMetaModelImplementation",

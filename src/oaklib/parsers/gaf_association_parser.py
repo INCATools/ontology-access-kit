@@ -1,4 +1,5 @@
 """Parser for GAF association formats"""
+
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Union
@@ -48,7 +49,6 @@ class GafAssociationParser(XafAssociationParser):
     def post_process(
         self, association: Association
     ) -> List[Union[Association, NegatedAssociation]]:
-        if association.predicate and "not" in association.predicate.lower():
-            # in future this may return a NegatedAssociation
+        if association.predicate and "NOT" in association.predicate.lower():
             return [NegatedAssociation(**association.__dict__)]
         return super().post_process(association)

@@ -18,7 +18,8 @@ __all__ = [
 
 @dataclass
 class GildaImplementation(TextAnnotatorInterface):
-    """Perform named entity normalization on text strings with Gilda [gyori2021]_.
+    """
+    Perform named entity normalization on text strings with Gilda [gyori2021]_.
 
     .. [gyori2021] Benjamin M Gyori, Charles Tapley Hoyt, Albert Steppi (2021)
         `Gilda: biomedical entity text normalization with machine-learned

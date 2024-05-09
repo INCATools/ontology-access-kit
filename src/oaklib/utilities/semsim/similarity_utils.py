@@ -1,5 +1,8 @@
+import csv
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Set, Tuple, Union
+
+from oaklib.types import CURIE
 
 
 @dataclass
@@ -55,3 +58,28 @@ def setwise_jaccard_similarity(set1: LIST_OR_SET, set2: LIST_OR_SET) -> float:
     set1 = set(set1)
     set2 = set(set2)
     return len(set1.intersection(set2)) / len(set1.union(set2))
+
+
+def load_information_content_map(path: str) -> Dict[CURIE, float]:
+    """
+    Load information content map from file.
+
+    Columns: id, information_content
+
+    Example:
+    -------
+    >>> from oaklib.utilities.semsim.similarity_utils import load_information_content_map
+    >>> icmap = load_information_content_map("tests/input/go-nucleus.ic.tsv")
+    >>> ic = icmap["GO:0016310"]
+    >>> print(f"{ic:.3f}")
+    4.273
+
+    IC tables can be computed using the :ref:`SemanticSimilarityInterface.information_content_scores` method.
+
+    :param path:
+    :return: mapping from IDs to information content
+
+    """
+    with open(path) as f:
+        dr = csv.DictReader(f, delimiter="\t")
+        return {row["id"]: float(row["information_content"]) for row in dr}

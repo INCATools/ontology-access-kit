@@ -1,11 +1,7 @@
 import unittest
 from pathlib import Path
 
-from sssom.io import get_metadata_and_prefix_map
-from sssom.parsers import to_mapping_set_document
-from sssom.writers import write_table
-from sssom_schema import Mapping
-
+import yaml
 from oaklib import get_adapter
 from oaklib.datamodels.cross_ontology_diff import EntityReference
 from oaklib.datamodels.mapping_rules_datamodel import (
@@ -36,6 +32,10 @@ from oaklib.utilities.lexical.lexical_indexer import (
     precondition_holds,
     save_lexical_index,
 )
+from sssom.parsers import to_mapping_set_document
+from sssom.writers import write_table
+from sssom_schema import Mapping
+
 from tests import (
     CELL_CORTEX,
     CELL_PERIPHERY,
@@ -169,7 +169,7 @@ class TestLexicalIndex(unittest.TestCase):
         lexical_index = create_lexical_index(oi)
         add_labels_from_uris(oi)
         ruleset = load_mapping_rules(str(RULES))
-        metadata = get_metadata_and_prefix_map(MATCHER_META_YML)
+        metadata = yaml.safe_load(MATCHER_META_YML.read_text())
         msdf = lexical_index_to_sssom(self.oi, lexical_index, ruleset=ruleset, meta=metadata)
         with open(MATCHER_TEST_SSSOM_OUT, "w", encoding="utf-8") as file:
             write_table(msdf, file)

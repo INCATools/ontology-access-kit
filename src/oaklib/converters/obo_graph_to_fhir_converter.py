@@ -1,9 +1,11 @@
-"""OboGraph to FHIR Converter
+"""
+OboGraph to FHIR Converter
 
 Resources
 - Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369
 - Conversion examples: https://drive.google.com/drive/folders/1lwGQ63_fedfWlGlRemq8OeZhZsvIXN01
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple, Union
@@ -53,7 +55,8 @@ SCOPE_DISPLAY = {
 
 @dataclass
 class OboGraphToFHIRConverter(DataModelConverter):
-    """Converts from OboGraph to FHIR.
+    """
+    Converts from OboGraph to FHIR.
 
     - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
     - Each node in the OboGraph is converted to a _FHIR Concept_.
@@ -158,7 +161,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
                                             will attempt to construct CURIEs. (not implemented)
         :param predicate_period_replacement: Predicates URIs populated into `CodeSystem.concept.property.packages`
                                              and `CodeSystem.concept.property.packages`, but the HAPI FHIR server
-                                             has a bug in whih periods '.' cause errors. If this flag is present,
+                                             has a bug in which periods '.' cause errors. If this flag is present,
                                              periods will be replaced with underscores '_'.
         :return: FHIR CodeSystem object
         """
@@ -183,7 +186,8 @@ class OboGraphToFHIRConverter(DataModelConverter):
         return target
 
     def code(self, uri: CURIE) -> str:
-        """Convert a packages.
+        """
+        Convert a packages.
 
         This is a wrapper onto curie_converter.compress
 
@@ -192,11 +196,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         """
         if not self.curie_converter:
             return uri
-        curie = self.curie_converter.compress(uri)
-        if curie is None:
-            return uri
-        else:
-            return curie
+        return self.curie_converter.compress(uri, passthrough=True)
 
     def _convert_graph(
         self,

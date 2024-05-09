@@ -1,4 +1,5 @@
 """Parser for GAF association formats"""
+
 import csv
 from dataclasses import dataclass
 from typing import Iterator, Optional, TextIO, Union, Dict
@@ -13,7 +14,8 @@ from oaklib.parsers.xaf_association_parser import XafAssociationParser
 
 @dataclass
 class GenCCAssociationParser(XafAssociationParser):
-    """Parsers for GenCC CSV format.
+    """
+    Parsers for GenCC CSV format.
 
     .. warning ::
 

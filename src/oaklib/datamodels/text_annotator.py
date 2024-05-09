@@ -1,15 +1,13 @@
-# Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-04-09T15:53:59
+# Auto generated from text_annotator.yaml by pythongen.py version: 0.0.1
+# Generation date: 2023-09-16T18:49:46
 # Schema: text-annotator
 #
 # id: https://w3id.org/oak/text_annotator
-# description: A datamodel for representing the results of textual named entity recognition annotation results.
-#              This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
+# description: A datamodel for representing the results of textual named entity recognition annotation results. This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
 import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -102,6 +100,7 @@ class TextAnnotationConfiguration(YAMLRoot):
     sources: Optional[Union[str, List[str]]] = empty_list()
     limit: Optional[int] = None
     token_exclusion_list: Optional[Union[str, List[str]]] = empty_list()
+    categories: Optional[Union[str, List[str]]] = empty_list()
     model: Optional[str] = None
     include_aliases: Optional[Union[bool, Bool]] = None
 
@@ -123,6 +122,10 @@ class TextAnnotationConfiguration(YAMLRoot):
         self.token_exclusion_list = [
             v if isinstance(v, str) else str(v) for v in self.token_exclusion_list
         ]
+
+        if not isinstance(self.categories, list):
+            self.categories = [self.categories] if self.categories is not None else []
+        self.categories = [v if isinstance(v, str) else str(v) for v in self.categories]
 
         if self.model is not None and not isinstance(self.model, str):
             self.model = str(self.model)
@@ -245,6 +248,7 @@ class TextAnnotation(YAMLRoot):
     predicate_id: Optional[str] = None
     object_id: Optional[str] = None
     object_label: Optional[str] = None
+    object_categories: Optional[Union[str, List[str]]] = empty_list()
     object_source: Optional[str] = None
     confidence: Optional[float] = None
     match_string: Optional[str] = None
@@ -268,6 +272,14 @@ class TextAnnotation(YAMLRoot):
 
         if self.object_label is not None and not isinstance(self.object_label, str):
             self.object_label = str(self.object_label)
+
+        if not isinstance(self.object_categories, list):
+            self.object_categories = (
+                [self.object_categories] if self.object_categories is not None else []
+            )
+        self.object_categories = [
+            v if isinstance(v, str) else str(v) for v in self.object_categories
+        ]
 
         if self.object_source is not None and not isinstance(self.object_source, str):
             self.object_source = str(self.object_source)
@@ -391,6 +403,15 @@ slots.textAnnotationConfiguration__token_exclusion_list = Slot(
     name="textAnnotationConfiguration__token_exclusion_list",
     curie=ANN.curie("token_exclusion_list"),
     model_uri=ANN.textAnnotationConfiguration__token_exclusion_list,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.textAnnotationConfiguration__categories = Slot(
+    uri=ANN.categories,
+    name="textAnnotationConfiguration__categories",
+    curie=ANN.curie("categories"),
+    model_uri=ANN.textAnnotationConfiguration__categories,
     domain=None,
     range=Optional[Union[str, List[str]]],
 )
@@ -528,6 +549,15 @@ slots.textAnnotation__object_label = Slot(
     model_uri=ANN.textAnnotation__object_label,
     domain=None,
     range=Optional[str],
+)
+
+slots.textAnnotation__object_categories = Slot(
+    uri=ANN.object_categories,
+    name="textAnnotation__object_categories",
+    curie=ANN.curie("object_categories"),
+    model_uri=ANN.textAnnotation__object_categories,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
 )
 
 slots.textAnnotation__object_source = Slot(

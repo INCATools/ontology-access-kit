@@ -1,5 +1,5 @@
 id: https://w3id.org/linkml/validation_results
-title: Validation Results Datamodel
+title: Validation Results Data Model
 name: validaton-results
 description: |-
   A datamodel for data validation results.
@@ -60,6 +60,18 @@ classes:
       schema_path:
         range: string
         description: allows overriding the default OMO schema
+      lookup_references:
+        range: boolean
+        description: if true, then look up references used as provenance (axiom annotation).
+          This may include looking up the PMID and checking if a publication is retracted.
+      prompt_info:
+        range: string
+        description: for AI agents, this allows passing through of additional info to the prompt
+      documentation_objects:
+        range: string
+        multivalued: true
+        description: paths or URLs to files containing best practice documentation, SOPs, etc. Primarily for AI
+          agents to read when performing validation.
 
   RepairConfiguration:
     description: Configuration parameters for execution of validation repairs
@@ -122,6 +134,45 @@ classes:
       - object_str
       - source
       - info
+
+  DefinitionValidationResult:
+    is_a: ValidationResult
+    attributes:
+      definition:
+        range: string
+      definition_source:
+        range: string
+      proposed_new_definition:
+        range: string
+
+  MappingValidationResult:
+    is_a: Result
+    description: A validation result where the check is to determine if a mapping is correct
+    attributes:
+      subject_id:
+        range: string
+      subject_info:
+        range: string
+      object_id:
+        range: string
+      object_info:
+        range: string
+      predicate_id:
+        range: string
+      category:
+        range: string
+        description: The category of the validation issue
+      problem:
+        range: boolean
+      info:
+        range: string
+      confidence:
+        range: float
+      suggested_predicate:
+        range: string
+      suggested_modifications:
+        range: string
+
 
   RepairOperation:
     is_a: Result

@@ -5,6 +5,7 @@ Utilities for the OBOGraph Datamodel
 See :ref:`datamodels`
 
 """
+
 import io
 import json
 import logging
@@ -14,7 +15,7 @@ import subprocess
 import sys
 import tempfile
 from collections import defaultdict
-from copy import deepcopy
+from copy import copy, deepcopy
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterator, List, Optional, TextIO, Tuple, Union
@@ -24,6 +25,7 @@ import yaml
 from curies import Converter
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.loaders import json_loader
+from pydantic import BaseModel
 
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package
@@ -182,18 +184,24 @@ def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: s
 
 
 def as_multi_digraph(
-    graph: Graph, reverse: bool = True, filter_reflexive: bool = True
+    graph: Graph,
+    reverse: bool = True,
+    filter_reflexive: bool = True,
+    predicates: Optional[List[PRED_CURIE]] = None,
 ) -> nx.MultiDiGraph:
     """
     Convert to a networkx :class:`.MultiDiGraph`
 
     :param graph: OBOGraph
-    :param reverse:
-    :return:
+    :param filter_reflexive: if true, remove edges where sub == obj
+    :param predicates: if not None, only include edges with these predicates
+    :return: networkx MultiDiGraph
     """
     mdg = nx.MultiDiGraph()
     for edge in graph.edges:
         if filter_reflexive and reflexive(edge):
+            continue
+        if predicates is not None and edge.pred not in predicates:
             continue
         edge_attrs = {"predicate": edge.pred}
         if reverse:
@@ -343,13 +351,72 @@ def shortest_paths(
                 logging.info(f"No path between {start_curie} and {end_curie}")
 
 
-def depth_first_ordering(graph: Graph) -> List[CURIE]:
+def edges_from_tree(tree: dict, pred=IS_A) -> List[Edge]:
+    """
+    Given a parent node and a list of children, return a list of edges
+
+    >>> from oaklib.utilities.obograph_utils import edges_from_tree
+    >>> for e in edges_from_tree({1: {2: [3, 4]}}):
+    ...    print(e.sub, e.obj)
+    2 1
+    3 2
+    4 2
+
+    :param tree:
+    :param pred: defaults to IS_A
+    :return:
+    """
+    edges = []
+
+    def _safe(x: Any):
+        return str(x)
+
+    def _edge(s: Any, o: Any) -> None:
+        edges.append(Edge(sub=str(s), pred=pred, obj=str(o)))
+
+    for parent, children in tree.items():
+        if isinstance(children, list):
+            # leaf nodes
+            for child in children:
+                _edge(child, parent)
+        else:
+            # non-leaf nodes
+            for child, grandchildren in children.items():
+                _edge(child, parent)
+                edges.extend(edges_from_tree({child: grandchildren}, pred=pred))
+    return edges
+
+
+def depth_first_ordering(
+    graph: Graph, predicates: Optional[List[PRED_CURIE]] = None
+) -> List[CURIE]:
     """
     Return a depth-first ordering of the nodes in the graph.
 
-    :param graph:
+    >>> from oaklib.datamodels.obograph import Graph
+    >>> from oaklib.utilities.obograph_utils import depth_first_ordering, edges_from_tree
+    >>> ## Chains have a deterministic DF ordering
+    >>> edges = edges_from_tree({1: {2: [3]}})
+    >>> list(depth_first_ordering(Graph("test", edges=edges)))
+    ['1', '2', '3']
+    >>> list(depth_first_ordering(Graph("test", edges=list(reversed(edges)))))
+    ['1', '2', '3']
+    >>> edges2 = edges_from_tree({5: [3, 4]})
+    >>> ordered = list(depth_first_ordering(Graph("test", edges=edges + edges2)))
+    >>> assert ordered.index('1') < ordered.index('2')
+
+    :param graph: OBOGraph
+    :param predicates:
     :return:
     """
+    g = as_digraph(graph, predicates=predicates)
+    roots = [n for n, d in g.in_degree() if d == 0]
+    ordered = []
+    for root in roots:
+        for n in nx.dfs_preorder_nodes(g, root):
+            if n not in ordered:
+                ordered.append(n)
+    return ordered
     six = index_graph_edges_by_subject(graph)
     oix = index_graph_edges_by_object(graph)
     stack = list(set(oix.keys()) - set(six.keys()))
@@ -544,8 +611,20 @@ def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
     return d
 
 
-def topological_sort(graph: Graph, predicates: List[PRED_CURIE]) -> List[CURIE]:
-    dg = as_multi_digraph(graph)
+def topological_sort(graph: Graph, predicates: Optional[List[PRED_CURIE]]) -> List[CURIE]:
+    """
+    Returns a topological sort of the graph.
+
+    A topological sort is a nonunique permutation of the nodes of a
+    directed graph such that an edge from u to v implies that u
+    appears before v in the topological sort order. This ordering is
+    valid only if the graph has no directed cycles.
+
+    :param graph:
+    :param predicates:
+    :return:
+    """
+    dg = as_multi_digraph(graph, predicates=predicates)
     return nx.topological_sort(dg)
 
 
@@ -586,6 +665,7 @@ def graph_to_tree_display(
     :param stylemap: kgviz stylemap (not yet used)
     :return:
     """
+    # TODO: refactor this to use graph_to_tree_structure
     if not display_options:
         display_options = []
     show_all = "all" in display_options
@@ -662,6 +742,126 @@ def graph_to_tree_display(
                     todo.append((stack + [n], child_edge.pred, child_edge.sub))
     if is_str:
         return output.getvalue()
+
+
+class TreeNode(BaseModel):
+    id: Optional[CURIE] = (None,)
+    lbl: Optional[str] = None
+    meta: Optional[dict] = None
+    children: Dict[PRED_CURIE, List["TreeNode"]] = {}
+    parent_id: Optional[str] = None
+    parent_relation: Optional[PRED_CURIE] = None
+    path_to_root: List[CURIE] = []
+
+
+def graph_to_tree_structure(
+    graph: Graph,
+    predicates: List[PRED_CURIE] = None,
+    skip: List[CURIE] = None,
+    start_curies: List[CURIE] = None,
+    predicate_label_map: Dict[PRED_CURIE, str] = None,
+    max_paths: int = 10,
+) -> List[TreeNode]:
+    """
+    Linearizes a graph to a list of trees.
+
+    The list will contain one element for each root
+    :param graph:
+    :param predicates:
+    :param skip:
+    :param start_curies:
+    :param max_paths:
+    :return:
+    """
+    logging.info(f"graph = {graph_info(graph)}")
+    if not predicate_label_map:
+        predicate_label_map = {
+            IS_A: "subtypes",
+            PART_OF: "parts",
+        }
+    nix = index_graph_nodes(graph)
+    if predicates is not None:
+        subgraph = filter_by_predicates(graph, predicates)
+    else:
+        subgraph = graph
+    logging.info(f"Subgraph = {graph_info(subgraph)}, filtered by {predicates}")
+    children_ix = index_graph_edges_by_object(subgraph)
+    dg = as_multi_digraph(subgraph, filter_reflexive=True)
+    if start_curies is None:
+        root_ids = [n for n, d in dg.in_degree if d == 0]
+    else:
+        root_ids = start_curies
+    logging.info(f"Roots={root_ids}")
+    stack = [TreeNode(id=n) for n in root_ids]
+    tree_roots = copy(stack)
+    counts = defaultdict(int)
+
+    pointer = 0
+    while len(stack) > pointer:
+        next_node = stack[pointer]
+        next_node_id = next_node.id
+        pointer += 1
+        counts[next_node_id] += 1
+        logging.debug(f"Visited {next_node_id} {counts[next_node_id]} times (max = {max_paths})")
+        if max_paths is not None and counts[next_node_id] > max_paths:
+            logging.info(
+                f"Reached {counts[next_node_id]} for node {next_node_id};; truncating rest"
+            )
+            break
+        if next_node_id in nix:
+            next_node_obj = nix[next_node_id]
+            next_node.lbl = next_node_obj.lbl
+            # TODO: meta
+        child_edges = children_ix.get(next_node_id, [])
+        for child_edge in child_edges:
+            pred = child_edge.pred
+            pred = predicate_label_map.get(pred, pred)
+            if skip and child_edge.sub in skip:
+                continue
+            if not reflexive(child_edge):
+                if child_edge.sub in next_node.path_to_root:
+                    continue
+                child_node = TreeNode(
+                    id=child_edge.sub, parent_id=next_node_id, parent_relation=pred
+                )
+                child_node.path_to_root = next_node.path_to_root + [next_node_id]
+                if pred not in next_node.children:
+                    next_node.children[pred] = []
+                next_node.children[pred].append(child_node)
+                stack.append(child_node)
+
+    return tree_roots
+
+
+def graph_to_d3viz_objects(
+    graph: Graph,
+    predicates: List[PRED_CURIE] = None,
+    relations_as_nodes=False,
+    **kwargs,
+) -> List[Dict]:
+    roots = graph_to_tree_structure(graph, predicates=predicates, **kwargs)
+    return [
+        tree_node_to_d3viz_object(root, relations_as_nodes=relations_as_nodes) for root in roots
+    ]
+
+
+def tree_node_to_d3viz_object(tree_node: TreeNode, relations_as_nodes=False) -> Dict:
+    obj = {"name": tree_node.lbl, "parent": tree_node.parent_id}
+    if tree_node.children:
+        obj["children"] = []
+        if relations_as_nodes:
+            for pred, children in tree_node.children.items():
+                pred_node = {
+                    "name": pred,
+                    "parent": tree_node.id,
+                    "children": [tree_node_to_d3viz_object(child, True) for child in children],
+                }
+                obj["children"].append(pred_node)
+        else:
+            for children in tree_node.children.values():
+                for child in children:
+                    obj["children"].append(tree_node_to_d3viz_object(child))
+    return obj
 
 
 def expand_all_graph_ids(graph: Union[Graph, GraphDocument], converter: Converter) -> None:

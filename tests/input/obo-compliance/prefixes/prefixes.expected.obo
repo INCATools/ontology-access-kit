@@ -1,0 +1,8 @@
+format-version: 1.2
+idspace: X http://example.org/X/ 
+ontology: prefixes
+
+[Term]
+id: X:1
+is_a: Y:1
+

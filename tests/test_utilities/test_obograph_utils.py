@@ -4,7 +4,6 @@ import unittest
 from copy import deepcopy
 
 from curies import Converter
-
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -17,11 +16,14 @@ from oaklib.utilities.obograph_utils import (
     filter_by_predicates,
     graph_as_dict,
     graph_ids,
+    graph_to_d3viz_objects,
     graph_to_tree_display,
+    graph_to_tree_structure,
     induce_graph_prefix_map,
     shortest_paths,
     trim_graph,
 )
+
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
     CELLULAR_COMPONENT,
@@ -31,10 +33,12 @@ from tests import (
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
+    MEMBRANE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
     ORGANELLE,
     OUTPUT_DIR,
+    PLASMA_MEMBRANE,
     VACUOLE,
 )
 
@@ -113,7 +117,7 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertGreater(len(g.edges), len(g2.edges))
         self.assertGreater(len(g2.edges), 100)
 
-    def test_as_tree(self):
+    def test_as_tree_display(self):
         t = graph_to_tree_display(self.graph, predicates=[IS_A])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
@@ -125,6 +129,19 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertIn("* [p] GO:0019209 ! kinase activator activity", t)
         self.assertGreater(len(lines), 100)
+
+    def test_as_tree_structure(self):
+        ts = graph_to_tree_structure(self.graph, predicates=[IS_A])
+        objs = [t.model_dump() for t in ts]
+        print(json.dumps(objs, indent=2))
+
+    def test_as_d3viz(self):
+        for preds in [[IS_A], [IS_A, PART_OF]]:
+            for relations_as_nodes in [True, False]:
+                objs = graph_to_d3viz_objects(
+                    self.graph, predicates=preds, relations_as_nodes=relations_as_nodes
+                )
+                print(json.dumps(objs, indent=2))
 
     def test_trim_ancestors(self):
         oi = self.oi
@@ -158,6 +175,11 @@ class TestOboGraphUtils(unittest.TestCase):
             raise NotImplementedError
 
     def test_shortest_paths(self):
+        """
+        Test that the shortest paths are correct.
+
+        :return:
+        """
         oi = self.oi
         both = [IS_A, PART_OF]
         hi = 1.0
@@ -188,17 +210,42 @@ class TestOboGraphUtils(unittest.TestCase):
                         self.assertNotIn(x, path)
 
     def test_depth_first_ordering(self):
+        """
+        Test that the depth first ordering of the graph is correct.
+
+        Note that DF ordering may be non-deterministic if the graph is not a tree.
+        This test conservatively checks conditions that are guaranteed to hold
+        even with DAGs
+
+        :return:
+        """
         oi = self.oi
-        graph = oi.descendant_graph([CELLULAR_COMPONENT], predicates=[IS_A, PART_OF])
-        ordered = depth_first_ordering(graph)
-        self.assertEqual(ordered[0], CELLULAR_COMPONENT)
-        expected_order = [
-            (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
-            (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
-            (ORGANELLE, NUCLEUS),
-            # (CYTOPLASM, NUCLEUS),
-            (IMBO, NUCLEUS),
-            (NUCLEUS, NUCLEAR_MEMBRANE),
+        expected = [
+            (
+                [CELLULAR_COMPONENT],
+                [IS_A, PART_OF],
+                [
+                    (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
+                    (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
+                    (CELLULAR_ANATOMICAL_ENTITY, NUCLEUS),
+                ],
+            ),
+            (
+                [CELLULAR_COMPONENT],
+                [IS_A],
+                [
+                    (CELLULAR_COMPONENT, CELLULAR_ANATOMICAL_ENTITY),
+                    (CELLULAR_ANATOMICAL_ENTITY, ORGANELLE),
+                    (CELLULAR_ANATOMICAL_ENTITY, NUCLEUS),
+                    (CELLULAR_ANATOMICAL_ENTITY, MEMBRANE),
+                    (MEMBRANE, PLASMA_MEMBRANE),
+                ],
+            ),
         ]
-        for parent, child in expected_order:
-            self.assertLess(ordered.index(parent), ordered.index(child), f"{parent} -> {child}")
+        for starts, preds, expected_order in expected:
+            graph = oi.descendant_graph(starts, predicates=preds)
+            ordered = depth_first_ordering(graph)
+            if len(starts) == 1:
+                self.assertEqual(ordered[0], starts[0])
+            for parent, child in expected_order:
+                self.assertLess(ordered.index(parent), ordered.index(child), f"{parent} -> {child}")

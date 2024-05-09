@@ -1,0 +1,46 @@
+{
+  "graphs" : [ {
+    "id" : "http://purl.obolibrary.org/obo/alt_id.owl",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.4"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/X_1",
+      "type" : "CLASS",
+      "meta" : {
+        "basicPropertyValues" : [ {
+          "pred" : "http://www.geneontology.org/formats/oboInOwl#hasAlternativeId",
+          "val" : "X:2"
+        } ]
+      }
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/X_2",
+      "type" : "CLASS",
+      "meta" : {
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000231",
+          "val" : "http://purl.obolibrary.org/obo/IAO_0000227"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0100001",
+          "val" : "http://purl.obolibrary.org/obo/X_1"
+        } ],
+        "deprecated" : true
+      }
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasAlternativeId",
+      "lbl" : "has_alternative_id",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+      "lbl" : "has_obo_format_version",
+      "type" : "PROPERTY"
+    }, {
+      "id" : "http://www.geneontology.org/formats/oboInOwl#id",
+      "lbl" : "id",
+      "type" : "PROPERTY"
+    } ]
+  } ]
+}

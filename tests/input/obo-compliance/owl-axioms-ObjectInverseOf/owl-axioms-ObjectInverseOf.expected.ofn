@@ -1,0 +1,34 @@
+Prefix(:=<http://purl.obolibrary.org/obo/owl-axioms-ObjectInverseOf.owl#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://purl.obolibrary.org/obo/owl-axioms-ObjectInverseOf.owl>
+Annotation(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "1.4")
+
+Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002376>))
+Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002378>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion>))
+############################
+#   Annotation Properties
+############################
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> (has_obo_format_version)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
+
+
+############################
+#   Object Properties
+############################
+
+# Object Property: <http://purl.obolibrary.org/obo/RO_0002378> (<http://purl.obolibrary.org/obo/RO_0002378>)
+
+SubObjectPropertyOf(<http://purl.obolibrary.org/obo/RO_0002378> ObjectInverseOf(<http://purl.obolibrary.org/obo/RO_0002376>))
+
+
+
+)

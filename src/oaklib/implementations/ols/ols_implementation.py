@@ -6,6 +6,7 @@ import requests
 from ols_client import Client, EBIClient, TIBClient
 from sssom_schema import Mapping
 
+from oaklib.constants import TIMEOUT_SECONDS
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
@@ -122,9 +123,9 @@ class BaseOlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProv
             "fieldList": "iri,label",
             "rows": config.limit if config.limit is not None else SEARCH_ROWS,
             "start": 0,
-            "exact": "true"
-            if (config.is_complete is True or config.is_partial is False)
-            else "false",
+            "exact": (
+                "true" if (config.is_complete is True or config.is_partial is False) else "false"
+            ),
         }
         if len(query_fields) > 0:
             params["queryFields"] = ",".join(query_fields)
@@ -141,7 +142,7 @@ class BaseOlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProv
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[Mapping]:
-        result = requests.get(self.base_url, params=dict(fromId=curie))
+        result = requests.get(self.base_url, params=dict(fromId=curie), timeout=TIMEOUT_SECONDS)
         obj = result.json()
         container = load_oxo_payload(obj)
         return self.convert_payload(container)

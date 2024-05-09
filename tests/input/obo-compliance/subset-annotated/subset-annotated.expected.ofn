@@ -1,0 +1,57 @@
+Prefix(:=<http://purl.obolibrary.org/obo/subset-annotated.owl#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://purl.obolibrary.org/obo/subset-annotated.owl>
+Annotation(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "1.4")
+
+Declaration(Class(<http://purl.obolibrary.org/obo/X_1>))
+Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/subset-annotated#S>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#SubsetProperty>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#id>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#inSubset>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#source>))
+Declaration(AnnotationProperty(rdfs:comment))
+############################
+#   Annotation Properties
+############################
+
+# Annotation Property: <http://purl.obolibrary.org/obo/subset-annotated#S> (<http://purl.obolibrary.org/obo/subset-annotated#S>)
+
+AnnotationAssertion(rdfs:comment <http://purl.obolibrary.org/obo/subset-annotated#S> "my subset")
+SubAnnotationPropertyOf(<http://purl.obolibrary.org/obo/subset-annotated#S> <http://www.geneontology.org/formats/oboInOwl#SubsetProperty>)
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#SubsetProperty> (subset_property)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#SubsetProperty> "subset_property")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> (has_obo_format_version)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#id> (id)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#id> "id")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#inSubset> (in_subset)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#inSubset> "in_subset")
+
+
+
+############################
+#   Classes
+############################
+
+# Class: <http://purl.obolibrary.org/obo/X_1> (<http://purl.obolibrary.org/obo/X_1>)
+
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#id> <http://purl.obolibrary.org/obo/X_1> "X:1")
+AnnotationAssertion(Annotation(<http://www.geneontology.org/formats/oboInOwl#source> "PMID:123464") <http://www.geneontology.org/formats/oboInOwl#inSubset> <http://purl.obolibrary.org/obo/X_1> <http://purl.obolibrary.org/obo/subset-annotated#S>)
+
+
+)

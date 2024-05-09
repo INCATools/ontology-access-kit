@@ -1,4 +1,5 @@
 """Base class for all parsers."""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Callable, Iterator, List, Optional, TextIO, Tuple

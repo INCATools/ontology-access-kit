@@ -1,0 +1,45 @@
+Prefix(:=<http://purl.obolibrary.org/obo/prefixes-created_by.owl#>)
+Prefix(Y:=<http://example.org/Y/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://purl.obolibrary.org/obo/prefixes-created_by.owl>
+Annotation(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "1.4")
+
+Declaration(Class(<http://purl.obolibrary.org/obo/X_1>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#created_by>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion>))
+Declaration(AnnotationProperty(<http://www.geneontology.org/formats/oboInOwl#id>))
+############################
+#   Annotation Properties
+############################
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#created_by> (created by)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#created_by> "created by")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> (has_obo_format_version)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion> "has_obo_format_version")
+
+# Annotation Property: <http://www.geneontology.org/formats/oboInOwl#id> (id)
+
+AnnotationAssertion(rdfs:label <http://www.geneontology.org/formats/oboInOwl#id> "id")
+
+
+
+############################
+#   Classes
+############################
+
+# Class: <http://purl.obolibrary.org/obo/X_1> (<http://purl.obolibrary.org/obo/X_1>)
+
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#created_by> <http://purl.obolibrary.org/obo/X_1> "Y:1")
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#id> <http://purl.obolibrary.org/obo/X_1> "X:1")
+
+
+)

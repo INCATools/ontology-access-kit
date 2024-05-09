@@ -1,0 +1,8 @@
+format-version: 1.2
+ontology: intersection_of-genus-differentia
+
+[Term]
+id: X:1
+intersection_of: X:2
+intersection_of: R:1 X:3
+

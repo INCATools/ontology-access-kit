@@ -1,4 +1,5 @@
 """Parser for GAF/HPOA and related association formats"""
+
 import logging
 import re
 from dataclasses import dataclass, field
@@ -30,7 +31,8 @@ def _check_identifier(s: str, expected_prefixes: List[str], must_be_curie: bool)
 
 @dataclass
 class XafAssociationParser(AssociationParser):
-    """Parsers for GAF and GAF-like formats.
+    """
+    Parsers for GAF and GAF-like formats.
 
     Note that implementations should use a subclass of this, and override ClassVars to
     determine behavior.
@@ -171,6 +173,7 @@ class XafAssociationParser(AssociationParser):
         ):
             raise ValueError(f"Unexpected default predicate {self.default_predicate_value} in file")
         for line in file.readlines():
+            is_negated = False
             if line.startswith(self.comment_character):
                 continue
             line = line.rstrip()
@@ -179,6 +182,17 @@ class XafAssociationParser(AssociationParser):
             s = lookup_subject(vals)
             p = lookup_predicate(vals)
             o = lookup_object(vals)
+            if p:
+                ps = p.split("|")
+                p = None
+                for candidate in ps:
+                    if candidate.lower() == "not":
+                        is_negated = True
+                        print(f"Negated association: {line}")
+                    else:
+                        if p:
+                            raise ValueError(f"Unexpected predicate {p} in line: {line}")
+                        p = candidate
             if not p:
                 p = self.default_predicate_value
             if self.subject_prefix_column:
@@ -194,7 +208,10 @@ class XafAssociationParser(AssociationParser):
             if s.startswith("MGI:MGI:"):
                 # TODO: make this more configurable
                 s = s.replace("MGI:MGI:", "MGI:")
-            association = Association(s, p, o)
+            if is_negated:
+                association = NegatedAssociation(s, p, o)
+            else:
+                association = Association(s, p, o)
             if lookup_publications:
                 pub = lookup_publications(vals)
                 if pub:

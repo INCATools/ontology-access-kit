@@ -1,0 +1,8 @@
+format-version: 1.2
+ontology: synonym-with-multiple_xrefs
+
+[Term]
+id: X:1
+name: example term
+synonym: "synonym with multiple xrefs" EXACT [PMID:3, PMID:4]
+

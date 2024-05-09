@@ -4,6 +4,7 @@ import unittest
 from oaklib.datamodels.association import Association
 from oaklib.parsers import PHAF
 from oaklib.parsers.association_parser_factory import get_association_parser
+
 from tests import INPUT_DIR
 
 PHAF_INPUT = INPUT_DIR / "test.phaf.tsv"

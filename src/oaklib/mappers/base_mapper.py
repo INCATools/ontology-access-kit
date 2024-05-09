@@ -1,4 +1,5 @@
 """Base class for all mappers."""
+
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass

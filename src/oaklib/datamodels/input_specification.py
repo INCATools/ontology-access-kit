@@ -195,9 +195,9 @@ class AssociationResource(Resource):
     class_model_uri: ClassVar[URIRef] = ITEMLIST.AssociationResource
 
     id: Union[str, AssociationResourceId] = None
-    normalizers: Optional[
-        Union[Union[dict, "Normalizer"], List[Union[dict, "Normalizer"]]]
-    ] = empty_list()
+    normalizers: Optional[Union[Union[dict, "Normalizer"], List[Union[dict, "Normalizer"]]]] = (
+        empty_list()
+    )
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):

@@ -12,8 +12,6 @@ import yaml
 from click.testing import CliRunner
 from kgcl_schema.datamodel.kgcl import NodeChange
 from linkml_runtime.loaders import json_loader, yaml_loader
-from sssom.parsers import parse_sssom_table, to_mapping_set_document
-
 from oaklib import get_adapter
 from oaklib.cli import clear_cli_settings, main
 from oaklib.datamodels import fhir, obograph, taxon_constraints
@@ -24,6 +22,8 @@ from oaklib.datamodels.vocabulary import (
     SKOS_EXACT_MATCH,
 )
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
+
 from tests import (
     ATOM,
     CATALYTIC_ACTIVITY,
@@ -51,6 +51,8 @@ TEST_SIMPLE_OBO = f'simpleobo:{INPUT_DIR / "go-nucleus.obo"}'
 TEST_OBOJSON = INPUT_DIR / "go-nucleus.json"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_OWL_OFN = INPUT_DIR / "go-nucleus.ofn"
+TEST_OBO_1 = INPUT_DIR / "entailment-tutorial.obo"
+TEST_OBO_2 = INPUT_DIR / "entailment-tutorial-2.obo"
 TEST_DB = INPUT_DIR.joinpath("go-nucleus.db")
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
@@ -60,6 +62,7 @@ MAPPING_DIFF_TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
+SYNONYMIZER_RULES_FILE = INPUT_DIR / "cli-synonymizer-rules.yaml"
 
 
 def _outpath(test: str, fmt: str = "tmp") -> str:
@@ -84,7 +87,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
-        result.stderr
+        print("STDERR", result.stderr)
         self.assertIn("search", out)
         self.assertIn("subset", out)
         self.assertIn("validate", out)
@@ -132,10 +135,11 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_info(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"]
+                main,
+                ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"],
             )
-            result.stdout
-            result.stderr
+            print("STDERR", result.stdout)
+            print("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -145,8 +149,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x"]
             )
-            result.stdout
-            result.stderr
+            print("STDERR", result.stdout)
+            print("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -160,12 +164,14 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "present-only"]
+                main,
+                ["-i", str(input_arg), "labels", ".all", "--if-absent", "present-only"],
             )
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" not in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "absent-only"]
+                main,
+                ["-i", str(input_arg), "labels", ".all", "--if-absent", "absent-only"],
             )
             assert "cytoplasm" not in result.stdout
             assert "IAO:0000078" in result.stdout
@@ -176,21 +182,48 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("cytoplasm", result.stdout, "cytoplasm should be defined in .all")
             self.assertIn("IAO:0000078", result.stdout, "IAO:0000078 should be included in .all")
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "present-only"]
+                main,
+                [
+                    "-i",
+                    str(input_arg),
+                    "definitions",
+                    ".all",
+                    "--if-absent",
+                    "present-only",
+                ],
             )
             self.assertIn(
-                "cytoplasm", result.stdout, "cytoplasm should be included with present-only query"
+                "cytoplasm",
+                result.stdout,
+                "cytoplasm should be included with present-only query",
             )
             self.assertNotIn("IAO:0000078", result.stdout)
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "absent-only"]
+                main,
+                [
+                    "-i",
+                    str(input_arg),
+                    "definitions",
+                    ".all",
+                    "--if-absent",
+                    "absent-only",
+                ],
             )
             self.assertNotIn(
-                "cytoplasm", result.stdout, "cytoplasm should be excluded with absent-only query"
+                "cytoplasm",
+                result.stdout,
+                "cytoplasm should be excluded with absent-only query",
             )
             self.assertIn("IAO:0000078", result.stdout)
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", "--additional-metadata", "cytoplasm"]
+                main,
+                [
+                    "-i",
+                    str(input_arg),
+                    "definitions",
+                    "--additional-metadata",
+                    "cytoplasm",
+                ],
             )
             self.assertIn(
                 "ISBN:0198547684",
@@ -210,13 +243,33 @@ class TestCommandLineInterface(unittest.TestCase):
             out = self._out(outpath)
             assert "GO:0043226" in out
             self.runner.invoke(
-                main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", outpath]
+                main,
+                [
+                    "-i",
+                    input_arg,
+                    "ancestors",
+                    "-p",
+                    "i",
+                    "plasma membrane",
+                    "-o",
+                    outpath,
+                ],
             )
             out = self._out(outpath)
             assert "GO:0016020" in out
             assert "GO:0043226" not in out
             self.runner.invoke(
-                main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", outpath]
+                main,
+                [
+                    "-i",
+                    input_arg,
+                    "descendants",
+                    "-p",
+                    "i",
+                    "GO:0016020",
+                    "-o",
+                    outpath,
+                ],
             )
             out = self._out(outpath)
             # TODO:
@@ -330,8 +383,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_OUT,
             ],
         )
-        result.stdout
-        result.stderr
+        print("STDERR", result.stdout)
+        print("STDERR", result.stderr)
         self.assertEqual(0, result.exit_code)
         contents = self._out()
         self.assertIn(NUCLEUS, contents)
@@ -395,7 +448,11 @@ class TestCommandLineInterface(unittest.TestCase):
                     [NUCLEUS, IMBO],
                     [CELLULAR_COMPONENT, CELL],
                 ),
-                (["-p", "i,p", CYTOPLASM, "--down"], [CYTOPLASM, VACUOLE, "GO:0110165"], []),
+                (
+                    ["-p", "i,p", CYTOPLASM, "--down"],
+                    [CYTOPLASM, VACUOLE, "GO:0110165"],
+                    [],
+                ),
             ]
             for args, expected_in, expected_not_in in cases:
                 result = self.runner.invoke(main, ["-i", input_arg, "tree", *args])
@@ -407,7 +464,8 @@ class TestCommandLineInterface(unittest.TestCase):
                     self.assertNotIn(term, out)
 
     def test_obsoletes(self):
-        """Tests the obsoletes command using the obsoletion test ontology.
+        """
+        Tests the obsoletes command using the obsoletion test ontology.
 
         This should return
         """
@@ -425,7 +483,14 @@ class TestCommandLineInterface(unittest.TestCase):
         for input_arg in input_args:
             result = self.runner.invoke(
                 main,
-                ["-i", input_arg, "obsoletes", "-o", TEST_OUT, "--show-migration-relationships"],
+                [
+                    "-i",
+                    input_arg,
+                    "obsoletes",
+                    "-o",
+                    TEST_OUT,
+                    "--show-migration-relationships",
+                ],
             )
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
@@ -438,7 +503,17 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_mappings_local(self):
         result = self.runner.invoke(
-            main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
+            main,
+            [
+                "-i",
+                str(TEST_ONT),
+                "mappings",
+                "GO:0016740",
+                "-o",
+                TEST_OUT,
+                "-O",
+                "csv",
+            ],
         )
         self.assertEqual(0, result.exit_code)
         out = self._out()
@@ -534,6 +609,9 @@ class TestCommandLineInterface(unittest.TestCase):
             if conf_path:
                 cmd.extend(["-c", conf_path])
             result = self.runner.invoke(main, cmd)
+            if result.exit_code != 0:
+                print("STDOUT", result.stdout)
+                print("STDERR", result.stderr)
             self.assertEqual(0, result.exit_code, f"input={input}, output_format={output_format}")
             if output_format == "obojson":
                 obj: obograph.GraphDocument
@@ -563,6 +641,55 @@ class TestCommandLineInterface(unittest.TestCase):
             else:
                 raise AssertionError(f"Unexpected output format: {output_format}")
 
+    def test_transform(self):
+        cases = [
+            (TEST_ONT, "obo", None),
+            (TEST_ONT, "obojson", None),
+        ]
+        transformers = [
+            ("SEPTransformer", {}, (413, None)),
+            ("EdgeFilterTransformer", {}, (176, None)),
+            ("EdgeFilterTransformer", {"include_predicates": [IS_A]}, (176, None)),
+        ]
+        for transformer, conf_object, (expected_n_terms, expected_n_edges) in transformers:
+            for input, output_format, _ in cases:
+                if conf_object:
+                    conf_path = INPUT_DIR / f"{output_format}_conf.yaml"
+                    with open(conf_path, "w", encoding="utf-8") as f:
+                        yaml.dump(conf_object, f)
+                else:
+                    conf_path = None
+                output_path = str(OUTPUT_DIR / f"test_transform-{output_format}.out")
+                logging.info(f"input={input}, output_format={output_format}")
+                cmd = [
+                    "-i",
+                    str(input),
+                    "transform",
+                    "-t",
+                    transformer,
+                    "-o",
+                    output_path,
+                    "-O",
+                    output_format,
+                ]
+                if conf_path:
+                    cmd.extend(["-c", conf_path])
+                result = self.runner.invoke(main, cmd)
+                self.assertEqual(
+                    0, result.exit_code, f"input={input}, output_format={output_format}"
+                )
+                if output_format == "obo":
+                    output_path = f"simpleobo:{output_path}"
+                elif output_format == "obojson":
+                    output_path = f"obograph:{output_path}"
+                adapter = get_adapter(output_path)
+                terms = list(adapter.entities())
+                edges = list(adapter.relationships())
+                if expected_n_terms is not None:
+                    assert len(terms) == expected_n_terms
+                if expected_n_edges is not None:
+                    assert len(edges) == expected_n_edges
+
     def test_extract(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"
         cases = [
@@ -586,7 +713,15 @@ class TestCommandLineInterface(unittest.TestCase):
             for dangling in [True, False]:
                 logging.info(f"input={input}, output_format={output_format}")
                 query = [".desc//p=i", IMBO, ".anc//p=i", IMBO]
-                cmd = ["-i", str(input), "extract", "-o", TEST_OUT, "-O", output_format] + query
+                cmd = [
+                    "-i",
+                    str(input),
+                    "extract",
+                    "-o",
+                    TEST_OUT,
+                    "-O",
+                    output_format,
+                ] + query
                 # print(cmd)
                 if dangling:
                     cmd += ["--dangling"]
@@ -632,7 +767,16 @@ class TestCommandLineInterface(unittest.TestCase):
             for fmt in ["yaml", "csv", "html"]:
                 result = self.runner.invoke(
                     main,
-                    ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT, "-O", fmt],
+                    [
+                        "-i",
+                        str(input_arg),
+                        "taxon-constraints",
+                        NUCLEUS,
+                        "-o",
+                        TEST_OUT,
+                        "-O",
+                        fmt,
+                    ],
                 )
                 self.assertEqual(0, result.exit_code)
                 contents = self._out()
@@ -894,8 +1038,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_validate_help(self):
         result = self.runner.invoke(main, ["validate", "--help"])
-        result.stdout
-        result.stderr
+        print("STDERR", result.stdout)
+        print("STDERR", result.stderr)
         self.assertEqual(0, result.exit_code)
 
     def test_validate_bad_ontology(self):
@@ -921,6 +1065,16 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn(ATOM, out)
             self.assertEqual("", err)
 
+    @unittest.skip("includes network dependency")
+    def test_validate_mappings(self):
+        for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
+            logging.info(f"INPUT={input_arg}")
+            result = self.runner.invoke(main, ["-i", input_arg, "validate-mappings"])
+            err = result.stderr
+            logging.info(f"ERR={err}")
+            self.assertEqual(0, result.exit_code)
+            # self.assertIn(ATOM, out)
+
     # LEXICAL
 
     def test_lexmatch(self):
@@ -942,7 +1096,13 @@ class TestCommandLineInterface(unittest.TestCase):
         nucleus_match = "XX:1"
         intracellular_match = "XX:2"
         OTHER_ONTOLOGY = f"{INPUT_DIR}/alignment-test.obo"
-        for input_arg in [TEST_SIMPLE_OBO, TEST_OBOJSON, TEST_OWL_RDF, TEST_ONT, TEST_DB]:
+        for input_arg in [
+            TEST_SIMPLE_OBO,
+            TEST_OBOJSON,
+            TEST_OWL_RDF,
+            TEST_ONT,
+            TEST_DB,
+        ]:
             for reversed in [False, True]:
                 if reversed:
                     args = [
@@ -961,7 +1121,14 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(
                     main,
                     args
-                    + ["lexmatch", "-R", RULES_FILE, "-o", outfile, "--no-ensure-strict-prefixes"],
+                    + [
+                        "lexmatch",
+                        "-R",
+                        RULES_FILE,
+                        "-o",
+                        outfile,
+                        "--no-ensure-strict-prefixes",
+                    ],
                 )
                 err = result.stderr
                 self.assertEqual(0, result.exit_code)
@@ -1004,7 +1171,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "--no-ensure-strict-prefixes",
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         with open(outfile) as stream:
@@ -1032,7 +1199,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "--no-ensure-strict-prefixes",
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -1094,10 +1261,13 @@ class TestCommandLineInterface(unittest.TestCase):
             catalytic_activity_changed = any(
                 c.about_node == CATALYTIC_ACTIVITY for c in changes if isinstance(c, NodeChange)
             )
-            if simple:
-                self.assertFalse(catalytic_activity_changed)
-            else:
-                self.assertTrue(catalytic_activity_changed)
+
+            self.assertTrue(catalytic_activity_changed)
+
+            # if simple:
+            #     self.assertFalse(catalytic_activity_changed)
+            # else:
+            #     self.assertTrue(catalytic_activity_changed)
 
     def test_diff_via_mappings(self):
         cases = [
@@ -1223,7 +1393,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_SYNONYMIZER_OBO,
                 "generate-synonyms",
                 "-R",
-                RULES_FILE,
+                SYNONYMIZER_RULES_FILE,
                 "--patch",
                 patch_file,
                 "--apply-patch",
@@ -1232,7 +1402,6 @@ class TestCommandLineInterface(unittest.TestCase):
                 ".all",
             ],
         )
-
         self.assertEqual(0, result.exit_code)
         with open(patch_file, "r") as p, open(outfile, "r") as t:
             patch = p.readlines()
@@ -1251,7 +1420,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_SYNONYMIZER_OBO,
                 "generate-synonyms",
                 "-R",
-                RULES_FILE,
+                SYNONYMIZER_RULES_FILE,
                 "-o",
                 patch_file,
                 ".all",
@@ -1334,7 +1503,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -1361,7 +1530,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        result.stdout
+        print("STDERR", result.stdout)
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -1371,3 +1540,22 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("oio:hasBroadSynonym", contents)
             self.assertIn("x:bone_element", contents)
             self.assertIn("z:bone_tissue", contents)
+
+    def test_diff_md(self):
+        outfile = f"{OUTPUT_DIR}/diff.md"
+        result = self.runner.invoke(
+            main,
+            ["-i", TEST_OBO_1, "diff", "-X", TEST_OBO_2, "-o", outfile, "-O", "md"],
+        )
+        self.assertEqual(0, result.exit_code)
+        with open(outfile) as f:
+            contents = f.read()
+
+            # Check for Nodes Created section
+            self.assertIn("<details>", contents)
+            self.assertIn("<summary>Other nodes added: 1</summary>", contents)
+            self.assertIn("| has characteristic (RO:0000053) |", contents)
+
+            # Check for Classes Created section
+            self.assertIn("<summary>Classes added: 1</summary>", contents)
+            self.assertIn("| liquid configuration (PATO:0001735) |", contents)

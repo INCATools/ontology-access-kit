@@ -1,12 +1,17 @@
 """Adapter for AmiGO solr index."""
+
+import json
 import logging
 from dataclasses import dataclass
 from time import sleep
-from typing import Any, Dict, Iterable, Iterator, List, Optional
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 import pysolr
 
 from oaklib.datamodels.association import Association
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL
+from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -15,14 +20,17 @@ __all__ = [
     "AmiGOImplementation",
 ]
 
-from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG
-from oaklib.types import CURIE, PRED_CURIE
+from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
+from oaklib.utilities.iterator_utils import chunk
 
 AMIGO_ENDPOINT = "http://golr.geneontology.org/solr/"
 
 logger = logging.getLogger(__name__)
 
 LIMIT = 10000
+
+ONTOLOGY_CLASS_CATEGORY = "ontology_class"
 
 # TODO: derive from schema
 DOCUMENT_CATEGORY = "document_category"
@@ -35,6 +43,11 @@ ISA_PARTOF_CLOSURE_LABEL = "isa_partof_closure_label"
 TAXON_CLOSURE = "taxon_closure"
 ASSIGNED_BY = "assigned_by"
 REFERENCE = "reference"
+SUBSET = "subset"
+
+NEIGHBORHOOD_GRAPH_JSON = "neighborhood_graph_json"
+TOPOLOGY_GRAPH_JSON = "topology_graph_json"
+REGULATES_TRANSITIVITY_GRAPH_JSON = "regulates_transitivity_graph_json"
 
 # general
 ENTITY = "entity"
@@ -53,19 +66,24 @@ DEFAULT_SELECT_FIELDS = [
 
 
 def _fq_element(k, vs):
-    v = " OR ".join([f'"{v}"' for v in vs])
+    v = " OR ".join([f'"{v}"' for v in vs]) if isinstance(vs, list) else f'"{vs}"'
     return f"{k}:({v})"
 
 
-def _query(solr, fq, fields, start: int = None, limit: int = None) -> Iterator[Dict]:
+def _query(
+    solr, fq, fields=None, q=None, start: int = None, limit: int = None, **kwargs
+) -> Iterator[Dict]:
     if start is None:
         start = 0
     if limit is None:
         limit = LIMIT
     fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
-    params = {"fq": fq_list, "fl": ",".join(fields)}
+    params = {"fq": fq_list, "fl": ",".join(fields), **kwargs}
+    if not q:
+        q = "*:*"
+    logging.info(f"QUERY: {q} PARAMS: {params}")
     while True:
-        results = solr.search("*:*", rows=limit, start=start, **params)
+        results = solr.search(q, rows=limit, start=start, **params)
         yield from results
         logging.debug(f"CHECKING: {start} + {len(results)} >= {results.hits}")
         if start + len(results) >= results.hits:
@@ -73,6 +91,27 @@ def _query(solr, fq, fields, start: int = None, limit: int = None) -> Iterator[D
         else:
             start += limit
             sleep(0.1)
+
+
+def _faceted_query(
+    solr, fq, facet_field, fields=None, q=None, rows=0, facet_limit=10, min_facet_count=1, **kwargs
+) -> Iterator[Tuple[str, int]]:
+    fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
+    params = {
+        "facet": "true",
+        "fq": fq_list,
+        "facet.field": facet_field,
+        "facet.limit": facet_limit,
+        "facet.mincount": min_facet_count,
+        **kwargs,
+    }
+    if not q:
+        q = "*:*"
+    logging.info(f"QUERY: {q} PARAMS: {params}")
+    results = solr.search(q, rows=rows, **params)
+    ff = results.raw_response["facet_counts"]["facet_fields"][facet_field]
+    for i in range(0, len(ff), 2):
+        yield ff[i], ff[i + 1]
 
 
 def _unnnormalize(curie: CURIE) -> CURIE:
@@ -90,6 +129,7 @@ def _normalize(curie: CURIE) -> CURIE:
 @dataclass
 class AmiGOImplementation(
     AssociationProviderInterface,
+    SearchInterface,
 ):
     """
     Wraps AmiGO endpoint.
@@ -121,14 +161,55 @@ class AmiGOImplementation(
         self._source = self.resource.slug
         self._solr = pysolr.Solr(AMIGO_ENDPOINT)
 
+    def _cache_nodes(self, nodes: List[Dict], curies: Iterable[CURIE]):
+        for node in nodes:
+            curie = node["id"]
+            if curie in curies:
+                lbl = node.get("lbl", None)
+                if lbl:
+                    self.property_cache.add(curie, RDFS_LABEL, node["lbl"])
+
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         if lang:
             raise NotImplementedError
+        if self.property_cache.contains(curie, RDFS_LABEL):
+            return self.property_cache.get(curie, RDFS_LABEL)
         fq = {"document_category": ["general"], ENTITY: [curie]}
         solr = self._solr
         results = _query(solr, fq, [ENTITY_LABEL])
+        self.property_cache.add(curie, RDFS_LABEL, None)
         for doc in results:
-            return doc[ENTITY_LABEL]
+            lbl = doc[ENTITY_LABEL]
+            self.property_cache.add(curie, RDFS_LABEL, lbl)
+            return lbl
+
+    def labels(
+        self, curies: Iterable[CURIE], allow_none=True, lang: LANGUAGE_TAG = None
+    ) -> Iterable[Tuple[CURIE, str]]:
+        if lang:
+            raise NotImplementedError
+        # Note: some issues with post, use a low chunk size to ensure GET
+        for curie_it in chunk(curies, 10):
+            next_curies = list(curie_it)
+            for curie in next_curies:
+                lbl = self.property_cache.get(curie, RDFS_LABEL)
+                if lbl is not None:
+                    yield curie, lbl
+                    next_curies.remove(curie)
+            if not next_curies:
+                continue
+            fq = {"document_category": ["general"], ENTITY: next_curies}
+            solr = self._solr
+            results = _query(solr, fq, [ENTITY, ENTITY_LABEL])
+            for doc in results:
+                yield doc[ENTITY], doc[ENTITY_LABEL]
+
+    def subset_members(self, subset: SUBSET_CURIE, **kwargs) -> Iterable[CURIE]:
+        fq = {DOCUMENT_CATEGORY: [ONTOLOGY_CLASS_CATEGORY], SUBSET: [subset]}
+        solr = self._solr
+        results = _query(solr, fq, [ANNOTATION_CLASS])
+        for doc in results:
+            yield doc[ANNOTATION_CLASS]
 
     def associations(
         self,
@@ -144,6 +225,7 @@ class AmiGOImplementation(
         **kwargs,
     ) -> Iterator[Association]:
         solr = self._solr
+        # TODO: use _association_query
         fq = {DOCUMENT_CATEGORY: ["annotation"]}
         if subjects:
             subjects = [_unnnormalize(s) for s in subjects]
@@ -179,3 +261,196 @@ class AmiGOImplementation(
                 assoc.subject_closure = doc[ISA_PARTOF_CLOSURE]
                 assoc.subject_closure_label = doc[ISA_PARTOF_CLOSURE_LABEL]
             yield assoc
+
+    def _association_query(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        **kwargs,
+    ) -> Dict[str, Any]:
+        fq = {DOCUMENT_CATEGORY: ["annotation"]}
+        if subjects:
+            subjects = [_unnnormalize(s) for s in subjects]
+            fq[BIOENTITY] = subjects
+        if objects:
+            objects = list(objects)
+            fq[ISA_PARTOF_CLOSURE] = objects
+        if self._source:
+            fq[TAXON_CLOSURE] = [self._source]
+        if property_filter:
+            for k, v in property_filter.items():
+                fq[k] = [v]
+        return fq
+
+    def association_counts(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        group_by: Optional[str] = "object",
+        limit: Optional[int] = None,
+        min_facet_count: Optional[int] = 1,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, int]]:
+        """
+        Return the number of associations for each subject or object.
+
+        >>> from oaklib import get_adapter
+        >>> adapter = get_adapter("amigo:NCBITaxon:9606")
+        >>> for term, count in adapter.association_counts(group_by="object"):
+        ...    print(f"Term: {term}  Approx Count: {int(count / 1000) * 1000)}")
+        xxx
+
+        :param subjects:
+        :param predicates:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :param group_by:
+        :param kwargs:
+        :return:
+        """
+        fq = self._association_query(
+            subjects=subjects,
+            predicates=predicates,
+            property_filter=property_filter,
+            subject_closure_predicates=subject_closure_predicates,
+            predicate_closure_predicates=predicate_closure_predicates,
+            object_closure_predicates=object_closure_predicates,
+            include_modified=include_modified,
+        )
+        solr = self._solr
+        if group_by == "object":
+            if object_closure_predicates:
+                if {IS_A, PART_OF}.difference(object_closure_predicates):
+                    raise ValueError("object_closure_predicates must include IS_A and PART_OF")
+                ff = ISA_PARTOF_CLOSURE
+            else:
+                ff = ANNOTATION_CLASS
+        elif group_by == "subject":
+            ff = BIOENTITY
+        else:
+            raise ValueError(f"Unknown group_by: {group_by}")
+        yield from _faceted_query(
+            solr, fq, facet_field=ff, rows=0, facet_limit=limit, min_facet_count=min_facet_count
+        )
+
+    # def association_pairwise_coassociations(
+    #         self,
+    #         curies1: Iterable[CURIE],
+    #         curies2: Iterable[CURIE],
+    #         inputs_are_subjects=False,
+    #         include_reciprocals=False,
+    #         include_diagonal=True,
+    #         include_entities=True,
+    #         **kwargs,
+    # ) -> Iterator[PairwiseCoAssociation]:
+    #     if include_entities or inputs_are_subjects:
+    #         return super().association_pairwise_coassociations(
+    #             curies1=curies1,
+    #             curies2=curies2,
+    #             inputs_are_subjects=inputs_are_subjects,
+    #             include_reciprocals=include_reciprocals,
+    #             include_diagonal=include_diagonal,
+    #             include_entities=include_entities,
+    #             **kwargs,
+    #         )
+    #     fq = {DOCUMENT_CATEGORY: ["annotation"]}
+    #     if self._source:
+    #         fq[TAXON_CLOSURE] = [self._source]
+    #     params = {
+    #         "facet": "true",
+    #         "facet.field": BIOENTITY,
+    #         "facet.limit": -1,
+    #         "facet.mincount": 1,
+    #     }
+    #     params["facet.query"] = [f"{ISA_PARTOF_CLOSURE}:\"{c}\"" for c in curies1]
+    #     solr = self._solr
+    #     q = "*:*"
+    #     fq_list = [_fq_element(k, vs) for k, vs in fq.items()]
+    #     results = solr.search(q, rows=0, fq=fq_list, **params)
+    #     print(results)
+    #     ff = results.raw_response["facet_counts"]["facet_fields"][BIOENTITY]
+    #     for i in range(0, len(ff), 2):
+    #         yield ff[i], ff[i + 1]
+    #
+
+    def association_subject_counts(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        **kwargs,
+    ) -> Iterator[Tuple[CURIE, int]]:
+        raise NotImplementedError
+
+    def relationships(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = False,
+        exclude_blank: bool = True,
+    ) -> Iterator[RELATIONSHIP]:
+        solr = self._solr
+        fq = {DOCUMENT_CATEGORY: [ONTOLOGY_CLASS_CATEGORY]}
+        # neighborhood graph is indexed for both subject and object
+        if subjects:
+            subjects = list(subjects)
+            fq[ANNOTATION_CLASS] = subjects
+        elif objects:
+            objects = list(objects)
+            fq[ANNOTATION_CLASS] = objects
+        select_fields = [ANNOTATION_CLASS, NEIGHBORHOOD_GRAPH_JSON]
+        if include_entailed:
+            select_fields.append(REGULATES_TRANSITIVITY_GRAPH_JSON)
+        results = _query(solr, fq, select_fields)
+
+        for doc in results:
+            neighborhood_graph = json.loads(doc[NEIGHBORHOOD_GRAPH_JSON])
+            edges = neighborhood_graph["edges"]
+            nodes = neighborhood_graph["nodes"]
+            if include_entailed:
+                closure_graph = json.loads(doc[REGULATES_TRANSITIVITY_GRAPH_JSON])
+                edges.extend(closure_graph["edges"])
+            if subjects:
+                edges = [e for e in edges if e["sub"] in subjects]
+            if objects:
+                edges = [e for e in edges if e["obj"] in objects]
+            if predicates:
+                edges = [e for e in edges if e["pred"] in predicates]
+            for edge in edges:
+                s, p, o = edge["sub"], edge["pred"], edge["obj"]
+                self._cache_nodes(nodes, [s, p, o])
+                yield s, p, o
+
+    def basic_search(
+        self, search_term: str, config: Optional[SearchConfiguration] = None
+    ) -> Iterable[CURIE]:
+        solr = self._solr
+        fq = {DOCUMENT_CATEGORY: ["general"]}
+        # fq["general_blob"] = search_term
+        results = _query(
+            solr, fq, ["entity"], q=search_term, qf="general_blob_searchable", defType="edismax"
+        )
+
+        for doc in results:
+            yield doc["entity"]

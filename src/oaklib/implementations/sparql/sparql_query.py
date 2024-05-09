@@ -76,7 +76,6 @@ class SparqlUpdate(SparqlQuery):
         Generate the SPARQL update string
         :return:
         """
-
         q = f"""
         DELETE {{ {self.delete_str()} }}
         INSERT {{ {self.insert_str()} }}

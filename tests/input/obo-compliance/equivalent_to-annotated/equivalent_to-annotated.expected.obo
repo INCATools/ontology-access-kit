@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: equivalent_to-annotated
+
+[Term]
+id: X:1
+equivalent_to: X:2 {source="PMID:123463"}
+
