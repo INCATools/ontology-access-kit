@@ -21,10 +21,10 @@ URI: [tc:id](https://w3id.org/linkml/taxon_constraints/id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Term](Term.md) | An ontology term |  no  |
-| [Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |  no  |
 | [PredicateTerm](PredicateTerm.md) | A term that represents a relationship type |  no  |
+| [Term](Term.md) | An ontology term |  no  |
 | [SubjectTerm](SubjectTerm.md) | A term that is the subject of a taxon constraint |  no  |
+| [Taxon](Taxon.md) | A term that represents a taxonomic group, may be at species level of a higher... |  no  |
 
 
 

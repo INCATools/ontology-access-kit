@@ -233,6 +233,10 @@ For a deeper dive into some of these concepts, see the :ref:`guide`.
     - See also :ref:`relationships_and_graphs` in the Guide.
     - See also :ref:`associations` in the Guide.
 
+   MRCA
+    The :term:`Most Recent Common Ancestor<MRCA>` of a set of entities is the most specific entity that
+    is an ancestor of all entities in the set. See :ref:`relationships_and_graphs`
+
    Ontology Graph Projection
     The mapping between an ontology as represented in some formalism such as :term:`OWL` ontology onto a :term:`Graph`.
     This is a non-trivial process, because OWL ontologies are not natively represented as graphs, instead they are

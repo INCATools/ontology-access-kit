@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using the OAK Expression Language &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=046fa432"></script>
+        <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to use Large Language Models (LLMs) with OAK" href="use-llms.html" />
+    <link rel="prev" title="FHIR Conversions" href="fhir-conversions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">OAK Library Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html">How to write a plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fhir-conversions.html">FHIR Conversions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Using the OAK Expression Language</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basics">Basics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ids-curies">IDs (CURIEs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists-of-ids">Lists of IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#label-queries">Label Queries</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#search-queries">Search Queries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#exact-match">Exact Match</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#starts-with">Starts With</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#contains">Contains</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#regular-expressions">Regular Expressions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#graph-queries">Graph Queries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ancestors">Ancestors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#descendants">Descendants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mrcas">MRCAs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#boolean-combinations">Boolean Combinations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#and">AND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#or">OR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#not">NOT</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nesting">Nesting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-files-and-redirects">Using files and redirects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#idfile">IDFILE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stdin">STDIN</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#other-operators">Other Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#in">IN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filter">FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nr">NR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#others">Others</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="use-llms.html">How to use Large Language Models (LLMs) with OAK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How-To Guides</a></li>
+      <li class="breadcrumb-item active">Using the OAK Expression Language</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/howtos/use-oak-expression-language.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-the-oak-expression-language">
+<span id="use-oak-expression-language"></span><h1>Using the OAK Expression Language<a class="headerlink" href="#using-the-oak-expression-language" title="Link to this heading"></a></h1>
+<p>The OAK Expression Language is a concise and powerful way to query and navigate ontologies from the command line.
+It provides a set of operators and syntax that allow you to perform advanced searches,
+filter results, and combine queries using boolean logic.</p>
+<p>It is designed for easy use on the command line, and intentionally uses characters that compose well with
+the shell.</p>
+<p>Some experience in using the CLI is recommended.</p>
+<p>For the full list of OAK command line commands, see:</p>
+<ul class="simple">
+<li><p><span class="xref std std-ref">_command_line_interface</span></p></li>
+<li><p><a class="reference external" href="https://github.com/INCATools/ontology-access-kit/tree/main/notebooks/Commands">Commands notebook</a></p></li>
+</ul>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Link to this heading"></a></h2>
+<p>The basic building blocks of the OAK Expression Language are:</p>
+<ul class="simple">
+<li><p>IDs (CURIEs)</p></li>
+<li><p>Lists of IDs</p></li>
+<li><p>Search queries</p></li>
+<li><p>Graph queries</p></li>
+<li><p>Boolean combinations</p></li>
+</ul>
+<section id="ids-curies">
+<h3>IDs (CURIEs)<a class="headerlink" href="#ids-curies" title="Link to this heading"></a></h3>
+<p>You can specify a single term by providing its ID (<a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>). For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span>
+</pre></div>
+</div>
+<p>This will retrieve information about the term with ID <code class="docutils literal notranslate"><span class="pre">FBbt:00004751</span></code> (<em>wing vein</em>).</p>
+<p>Note you can use any of the examples in this guide with any OAK command that accepts term lists; for example:</p>
+<ul class="simple">
+<li><p>Fetching definitions: <code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">-i</span> <span class="pre">sqlite:obo:fbbt</span> <span class="pre">definitions</span> <span class="pre">FBbt:00004751</span></code></p></li>
+<li><p>Fetching aliases: <code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">-i</span> <span class="pre">sqlite:obo:fbbt</span> <span class="pre">aliases</span> <span class="pre">FBbt:00004751</span></code></p></li>
+<li><p>Fetching is-a ancestors: <code class="docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">-i</span> <span class="pre">sqlite:obo:fbbt</span> <span class="pre">ancestors</span> <span class="pre">-p</span> <span class="pre">i</span> <span class="pre">FBbt:00004751</span></code></p></li>
+</ul>
+</section>
+<section id="lists-of-ids">
+<h3>Lists of IDs<a class="headerlink" href="#lists-of-ids" title="Link to this heading"></a></h3>
+<p>You can provide a list of terms, these are implicitly combined with an OR operation. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span><span class="p">,</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004754</span>
+</pre></div>
+</div>
+<p>This will retrieve information about the terms with IDs “FBbt:00004751” or “FBbt:00004754”.</p>
+</section>
+<section id="label-queries">
+<h3>Label Queries<a class="headerlink" href="#label-queries" title="Link to this heading"></a></h3>
+<p>You can also search for terms based on their <a class="reference internal" href="../glossary.html#term-Label"><span class="xref std std-term">Label</span></a>. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="s1">&#39;wing vein&#39;</span>
+</pre></div>
+</div>
+<p>Remember to quote strings. If you instead type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="n">wing</span> <span class="n">vein</span>
+</pre></div>
+</div>
+<p>This will be interpreted as an OR, and you will get back two terms, one for wing, one for vein</p>
+<p>Using label queries assumes a certain amount of familiarity with the names used in the ontology you are
+querying. If you are not sure of the exact name, you can use the search functionality:</p>
+</section>
+</section>
+<section id="search-queries">
+<h2>Search Queries<a class="headerlink" href="#search-queries" title="Link to this heading"></a></h2>
+<p>OAK supports various search queries to find terms based on their labels, definitions, or other properties.</p>
+<section id="exact-match">
+<h3>Exact Match<a class="headerlink" href="#exact-match" title="Link to this heading"></a></h3>
+<p>To search for an exact match of a term, use the <code class="docutils literal notranslate"><span class="pre">t=</span></code> prefix followed by the search term. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="s1">&#39;t=wing vein&#39;</span>
+</pre></div>
+</div>
+<p>This will find terms that exactly match “wing vein”.</p>
+</section>
+<section id="starts-with">
+<h3>Starts With<a class="headerlink" href="#starts-with" title="Link to this heading"></a></h3>
+<p>To search for terms that start with a specific string, use the <code class="docutils literal notranslate"><span class="pre">t^</span></code> prefix. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="s1">&#39;t^wing vein&#39;</span>
+</pre></div>
+</div>
+<p>This will find terms that start with “wing vein”.</p>
+</section>
+<section id="contains">
+<h3>Contains<a class="headerlink" href="#contains" title="Link to this heading"></a></h3>
+<p>To search for terms that contain a specific string anywhere in their label or definition, use the <code class="docutils literal notranslate"><span class="pre">t~</span></code> prefix. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="s1">&#39;t~wing vein&#39;</span>
+</pre></div>
+</div>
+<p>This will find terms that contain “wing vein” anywhere in their label or definition.</p>
+</section>
+<section id="regular-expressions">
+<h3>Regular Expressions<a class="headerlink" href="#regular-expressions" title="Link to this heading"></a></h3>
+<p>To perform a regular expression search, use the <code class="docutils literal notranslate"><span class="pre">t/</span></code> prefix followed by a valid regular expression pattern. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="s1">&#39;t/^wing vein L\d+$&#39;</span>
+</pre></div>
+</div>
+<p>This will find terms that match the regular expression pattern “^wing vein Ld+$”.</p>
+</section>
+</section>
+<section id="graph-queries">
+<h2>Graph Queries<a class="headerlink" href="#graph-queries" title="Link to this heading"></a></h2>
+<p>OAK allows you to traverse and query the ontology <a class="reference internal" href="../glossary.html#term-Graph"><span class="xref std std-term">Graph</span></a> using relationships between terms.</p>
+<section id="ancestors">
+<h3>Ancestors<a class="headerlink" href="#ancestors" title="Link to this heading"></a></h3>
+<p>To find all <a class="reference internal" href="../glossary.html#term-Ancestor"><span class="xref std std-term">ancestors</span></a> of a term, use the <code class="docutils literal notranslate"><span class="pre">.anc</span></code> operator, optionally
+parameterized by the relationship type(s) (aka <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicate</span></a>).
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="n">anc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="s2">&quot;wing vein&quot;</span>
+</pre></div>
+</div>
+<p>This will find all is-a ancestors of “wing vein” using the “is-a” (<code class="docutils literal notranslate"><span class="pre">i</span></code>) relationship.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">//</span></code> syntax can be used with many prefix operators to provide arguments. The general syntax is</p>
+<p><code class="docutils literal notranslate"><span class="pre">.&lt;operator&gt;//k1=&lt;arg1&gt;,&lt;arg2&gt;,...//k2=&lt;arg1&gt;,&lt;arg2&gt;,...//...</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>OAK also includes a separate command <code class="docutils literal notranslate"><span class="pre">ancestors</span></code>, but being able to use the <code class="docutils literal notranslate"><span class="pre">.anc</span></code> operator
+in the term list allows you to combine graph querying with other commands.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>Definitions for all is-a ancestors of “wing vein”:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:fbbt definitions .anc//p=i “wing vein”</p>
+</div></blockquote>
+</section>
+<section id="descendants">
+<h3>Descendants<a class="headerlink" href="#descendants" title="Link to this heading"></a></h3>
+<p>To find all descendants of a term, use the <code class="docutils literal notranslate"><span class="pre">.desc</span></code> operator followed by the relationship type(s). For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">search</span> <span class="s1">&#39;.desc//p=i,p nucleus&#39;</span>
+</pre></div>
+</div>
+<p>This will find all descendants of “nucleus” using the <span class="xref std std-term">is-a</span>  (<code class="docutils literal notranslate"><span class="pre">i</span></code>) and
+<span class="xref std std-term">part-of</span>  (<code class="docutils literal notranslate"><span class="pre">p</span></code>) relationships.</p>
+</section>
+<section id="mrcas">
+<h3>MRCAs<a class="headerlink" href="#mrcas" title="Link to this heading"></a></h3>
+<p>To find the most recent common ancestors (<a class="reference internal" href="../glossary.html#term-MRCA"><span class="xref std std-term">MRCA</span></a>) of a set of terms, use the <code class="docutils literal notranslate"><span class="pre">.mrca</span></code> operator.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="n">mrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">wing</span> <span class="n">vein</span><span class="p">,</span> <span class="n">wing</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="boolean-combinations">
+<h2>Boolean Combinations<a class="headerlink" href="#boolean-combinations" title="Link to this heading"></a></h2>
+<p>OAK allows you to combine queries using boolean operators such as AND, OR, NOT.</p>
+<section id="and">
+<h3>AND<a class="headerlink" href="#and" title="Link to this heading"></a></h3>
+<p>To perform an AND operation between two queries, use the <code class="docutils literal notranslate"><span class="pre">.and</span></code> operator. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="n">mrca</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="p">[</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00052481</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00100571</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>This finds the most recent common ancestor of “FBbt:00052481” and “FBbt:00100571” (which is “neuroblast”).</p>
+<p>Note that like any graph command for most ontologies this is only meaningful if parameterized by a predicate.
+With some ontologies, there are edges such as “overlaps” or “adjacent to” that yield trivial but non
+informative MRCAs.</p>
+</section>
+<section id="or">
+<h3>OR<a class="headerlink" href="#or" title="Link to this heading"></a></h3>
+<p>To perform an OR operation between two queries, use the <code class="docutils literal notranslate"><span class="pre">.or</span></code> operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">antenna</span> <span class="o">.</span><span class="ow">or</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">wing</span>
+</pre></div>
+</div>
+<p>This will find terms that are parts of of either “antenna” or “wing”.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">.or</span></code> is already assumed for term lists, so you can also write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">antenna</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">wing</span>
+</pre></div>
+</div>
+</section>
+<section id="not">
+<h3>NOT<a class="headerlink" href="#not" title="Link to this heading"></a></h3>
+<p>To exclude terms that match a specific query, use the <code class="docutils literal notranslate"><span class="pre">.not</span></code> operator. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="n">vein</span> <span class="o">.</span><span class="ow">not</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">wing</span>
+</pre></div>
+</div>
+<p>You should think of this more like a “minus” operator - expressions are currently evaluated in order,
+so the <code class="docutils literal notranslate"><span class="pre">.not</span></code> (exclusion list) should come after the inclusion list.</p>
+</section>
+</section>
+<section id="nesting">
+<h2>Nesting<a class="headerlink" href="#nesting" title="Link to this heading"></a></h2>
+<p>You can nest queries using square brackets to create more complex expressions, or to explicitly
+control the order of precedence.</p>
+<p>Always leave spaces around the square brackets.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="p">[</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="n">cell</span> <span class="o">.</span><span class="ow">not</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span> <span class="n">neuron</span> <span class="p">]</span> <span class="o">.</span><span class="ow">and</span> <span class="p">[</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">head</span> <span class="o">.</span><span class="ow">or</span> <span class="o">.</span><span class="n">desc</span><span class="o">//</span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="n">thorax</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>This will find all terms that are descendants of “cell” but not descendants of “neuron”,
+and are either parts of “head” or “thorax”.</p>
+<p>Note that prefix operators such as <code class="docutils literal notranslate"><span class="pre">.desc</span></code> bind more tightly than infix operators such as <code class="docutils literal notranslate"><span class="pre">.and</span></code>.</p>
+</section>
+<section id="using-files-and-redirects">
+<h2>Using files and redirects<a class="headerlink" href="#using-files-and-redirects" title="Link to this heading"></a></h2>
+<section id="idfile">
+<h3>IDFILE<a class="headerlink" href="#idfile" title="Link to this heading"></a></h3>
+<p>Use this is to read a list of term IDs from a file. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="n">idfile</span> <span class="n">my_terms</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="stdin">
+<h3>STDIN<a class="headerlink" href="#stdin" title="Link to this heading"></a></h3>
+<p>You can also use the special file name <code class="docutils literal notranslate"><span class="pre">-</span></code> to read from standard input. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="n">my_terms</span><span class="o">.</span><span class="n">txt</span> <span class="o">|</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">-</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="other-operators">
+<h2>Other Operators<a class="headerlink" href="#other-operators" title="Link to this heading"></a></h2>
+<section id="in">
+<h3>IN<a class="headerlink" href="#in" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">.in</span></code> operator allows you to query by subset</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">fbbt</span> <span class="n">info</span> <span class="o">.</span><span class="ow">in</span> <span class="n">cellxgene_subset</span>
+</pre></div>
+</div>
+</section>
+<section id="filter">
+<h3>FILTER<a class="headerlink" href="#filter" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">.filter</span></code> operator allows you to provide arbitrary python filters.</p>
+</section>
+<section id="nr">
+<h3>NR<a class="headerlink" href="#nr" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">.nr</span></code> operator takes a set of terms are returns the non-redundant set of terms
+from that list (parameterized by a predicate or predicates).</p>
+</section>
+<section id="others">
+<h3>Others<a class="headerlink" href="#others" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.is_obsolete</span></code>: all <span class="xref std std-term">Obsolete</span> terms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.non_obsolete</span></code>: all non-obsoletes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.dangling</span></code>: all <span class="xref std std-term">Dangling</span> terms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.query</span></code>: pass through a query to the underlying store (SPARQL, SQL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.child</span></code>: non-transitive version of <code class="docutils literal notranslate"><span class="pre">.desc</span></code>. Also parameterized by predicate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.parent</span></code>: non-transitive version of <code class="docutils literal notranslate"><span class="pre">.anc</span></code>. Also parameterized by predicate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.sib</span></code>: all siblings of a term. Also parameterized by predicate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.all</span></code>: all terms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.classes</span></code>: all classes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.relations</span></code>: all relations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.rand</span></code>: random subset of terms. Parameters: <code class="docutils literal notranslate"><span class="pre">n</span></code> (number of terms)</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fhir-conversions.html" class="btn btn-neutral float-left" title="FHIR Conversions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="use-llms.html" class="btn btn-neutral float-right" title="How to use Large Language Models (LLMs) with OAK" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
