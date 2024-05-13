@@ -21,6 +21,8 @@ from tests.test_implementations import ComplianceTester
 
 DB = INPUT_DIR / "go-nucleus.db"
 
+TEST_IC_MAP = INPUT_DIR / "test_ic.tsv"
+
 EXPECTED_ICS = {
     "CARO:0000000": 21.05,
     "BFO:0000002": 0.7069,
@@ -133,6 +135,29 @@ class TestSemSimianImplementation(unittest.TestCase):
         self.assertAlmostEqual(
             sem_similarity_object.phenodigm_score, sql_similarity_object.phenodigm_score, places=2
         )
+
+    def test_similarity_with_custom_ic_map(self):
+        adapter = self.oi
+
+        adapter.custom_ic_map_path = TEST_IC_MAP.as_posix()
+
+        if not isinstance(adapter, SemanticSimilarityInterface):
+            raise AssertionError("SemanticSimilarityInterface not implemented")
+        entities = [VACUOLE, ENDOMEMBRANE_SYSTEM]
+
+        for s in entities:
+            for o in entities:
+                for preds in [self.predicates]:
+                    sim = adapter.pairwise_similarity(s, o, predicates=preds)
+                    if sim is not None:
+                        if s == VACUOLE and o == VACUOLE:
+                            self.assertGreaterEqual(sim.ancestor_information_content, 5.5)
+                        if s == ENDOMEMBRANE_SYSTEM and o == ENDOMEMBRANE_SYSTEM:
+                            self.assertGreaterEqual(sim.ancestor_information_content, 6.0)
+                        if s == VACUOLE and o == ENDOMEMBRANE_SYSTEM:
+                            self.assertEqual(sim.ancestor_information_content, 0)
+                    else:
+                        raise ValueError(f"Did not get similarity for got {s} and {o}")
 
     def test_semsimian_object_cache(self):
         start_time = timeit.default_timer()
