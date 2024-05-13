@@ -49,6 +49,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         SemanticSimilarityInterface.information_content_scores,
     ]
 
+    custom_ic_map_path: str = None
+
     semsimian_object_cache: Dict[Tuple[PRED_CURIE], Optional["Semsimian"]] = field(default_factory=dict)  # type: ignore # noqa
 
     def __post_init__(self):
@@ -79,6 +81,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         predicates: List[PRED_CURIE] = None,
         attributes: List[str] = None,
         resource_path: str = None,
+        custom_ic_map_path: str = None,
     ) -> "Semsimian":  # type: ignore # noqa
         """
         Get Semsimian object from "semsimian_object_cache" or add a new one.
@@ -89,6 +92,10 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         from semsimian import Semsimian
 
         predicates = tuple(sorted(predicates))
+
+        if custom_ic_map_path is not None:
+            logging.info(f"Using custom IC map with Semsimian: {custom_ic_map_path}")
+
         if predicates not in self.semsimian_object_cache:
             # spo = [
             #     r
@@ -106,6 +113,7 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
                 predicates=predicates,
                 pairwise_similarity_attributes=attributes,
                 resource_path=self.resource_path,
+                custom_ic_map_path=self.custom_ic_map_path,
             )
 
         return self.semsimian_object_cache[predicates]
@@ -134,7 +142,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         """
         logging.debug(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
         semsimian = self._get_semsimian_object(
-            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+            predicates=predicates,
+            attributes=self.term_pairwise_similarity_attributes,
+            custom_ic_map_path=self.custom_ic_map_path
         )
 
         jaccard_val = semsimian.jaccard_similarity(subject, object)
@@ -189,7 +199,9 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         objects = list(objects)
         logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
         semsimian = self._get_semsimian_object(
-            predicates=predicates, attributes=self.term_pairwise_similarity_attributes
+            predicates=predicates,
+            attributes=self.term_pairwise_similarity_attributes,
+            custom_ic_map_path=self.custom_ic_map_path
         )
         all_results = semsimian.all_by_all_pairwise_similarity(
             subject_terms=set(subjects),
