@@ -88,7 +88,7 @@ import shutil
 import subprocess
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional, Union, Tuple
+from typing import Optional, Tuple, Union
 
 import pytest
 import rdflib
@@ -277,7 +277,7 @@ def test_generate_canonical_files(split_compiled_obo, output_format):
         else:
             assert ok is None
             print(f"DID NOT CONVERT {path} to {output_path}")
-            assert False
+            raise AssertionError(f"Could not convert {path} to {output_path}")
 
 
 @pytest.mark.parametrize(
@@ -331,7 +331,11 @@ def test_oak_loaders_dumpers(split_compiled_obo, output_format, wrapper):
 
 
 def compare_output(
-    generated_path: str, canonical_path: str, format: str = None, metadata: dict = None, strict=False,
+    generated_path: str,
+    canonical_path: str,
+    format: str = None,
+    metadata: dict = None,
+    strict=False,
 ) -> Tuple[int, list, bool]:
     """
     Compare the output of OAK loading and dumping vs canonical files.
@@ -395,7 +399,9 @@ def compare_output(
                 expected = "UNEXPECTED"
                 fatal = True
                 if strict:
-                    raise ValueError(f"UNEXPECTED DIFF {format}: {canonical_path} vs {generated_path}")
+                    raise ValueError(
+                        f"UNEXPECTED DIFF {format}: {canonical_path} vs {generated_path}"
+                    )
         logger.info(f"## {name}:: {expected} DIFF {format}: {canonical_path} vs {generated_path}:")
         for diff in diffs:
             logger.info(diff)
@@ -481,6 +487,7 @@ def mk_version_path(path: Union[str, Path]) -> str:
     """
     return f"{path}.versioninfo"
 
+
 def robot_convert(input_path: str, output_path: str) -> Optional[bool]:
     """
     Convert an ontology using robot.
@@ -490,16 +497,16 @@ def robot_convert(input_path: str, output_path: str) -> Optional[bool]:
     :return:
     """
     if not robot_is_on_path():
-        logger.warning(f"ROBOT NOT ON PATH")
+        logger.warning("ROBOT NOT ON PATH")
         return None
     cmd = [
         "robot",
         "convert",
         "-i",
         input_path,
-       # "-t",
-       # "http://www.geneontology.org/formats/oboInOwl#id",
-       # "convert",
+        # "-t",
+        # "http://www.geneontology.org/formats/oboInOwl#id",
+        # "convert",
         "-o",
         output_path,
     ]
