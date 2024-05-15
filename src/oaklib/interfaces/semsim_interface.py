@@ -222,7 +222,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         """
         curies = list(curies)
         if self.cached_information_content_map is None and use_associations:
-            logging.info(f"Calculating and caching IC map from associations")
+            logging.info("Calculating and caching IC map from associations")
             from oaklib.interfaces.association_provider_interface import (
                 AssociationProviderInterface,
             )
@@ -250,12 +250,12 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                     if curie not in self.cached_information_content_map:
                         self.cached_information_content_map[curie] = 0.0
         if self.cached_information_content_map is not None:
-            logging.info(f"Using cached IC map")
+            logging.info("Using cached IC map")
             for curie in curies:
                 if curie in self.cached_information_content_map:
                     yield curie, self.cached_information_content_map[curie]
             return
-        logging.info(f"Calculating and caching IC map from ontology")
+        logging.info("Calculating and caching IC map from ontology")
         all_entities = list(self.entities())
         num_entities = len(all_entities)
         if not isinstance(self, OboGraphInterface):
