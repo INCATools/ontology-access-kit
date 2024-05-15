@@ -221,12 +221,8 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :return:
         """
         curies = list(curies)
-        if self.cached_information_content_map is not None:
-            for curie in curies:
-                if curie in self.cached_information_content_map:
-                    yield curie, self.cached_information_content_map[curie]
-            return
-        if use_associations:
+        if self.cached_information_content_map is None and use_associations:
+            logging.info(f"Calculating and caching IC map from associations")
             from oaklib.interfaces.association_provider_interface import (
                 AssociationProviderInterface,
             )
@@ -235,22 +231,31 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                 raise ValueError(
                     f"unable to retrieve associations from this interface, type {type(self)}"
                 )
+            self.cached_information_content_map = {}
             all_entities = set()
             for a in self.associations():
                 all_entities.add(a.subject)
             num_entities = len(all_entities)
             logging.info(f"num_entities={num_entities}")
+            for term, count in self.association_subject_counts(
+                predicates=predicates, object_closure_predicates=object_closure_predicates
+            ):
+                if count > num_entities:
+                    raise AssertionError(f"Count {count} > num_entities {num_entities}")
+                self.cached_information_content_map[term] = -math.log(
+                    count / num_entities
+                ) / math.log(2)
+            if curies:
+                for curie in curies:
+                    if curie not in self.cached_information_content_map:
+                        self.cached_information_content_map[curie] = 0.0
+        if self.cached_information_content_map is not None:
+            logging.info(f"Using cached IC map")
             for curie in curies:
-                entities = list(
-                    self.associations_subjects(
-                        objects=[curie],
-                        predicates=predicates,
-                        object_closure_predicates=object_closure_predicates,
-                    )
-                )
-                if entities:
-                    yield curie, -math.log(len(entities) / num_entities)
+                if curie in self.cached_information_content_map:
+                    yield curie, self.cached_information_content_map[curie]
             return
+        logging.info(f"Calculating and caching IC map from ontology")
         all_entities = list(self.entities())
         num_entities = len(all_entities)
         if not isinstance(self, OboGraphInterface):
