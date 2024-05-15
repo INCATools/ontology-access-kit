@@ -565,6 +565,53 @@ idspace: Y http://example.org/Y/
 id: X:1
 created_by: Y:1
 
+!! name: prefixes-conflict-oio
+!! description: tests conflicting prefixes/contractions for oboInOwl namespace, where oio might be built-in
+!! unstable: true
+!! seeAlso: https://github.com/INCATools/ontology-access-kit/issues/760
+idspace: oboInOwl http://www.geneontology.org/formats/oboInOwl#
+
+[Term]
+id: X:1
+name: X:1
+def: "." []
+
+!! name: prefixes-conflict-skos
+!! description: tests conflicting prefixes for the SKOS namespace
+!! unstable: true
+!! seeAlso: https://github.com/INCATools/ontology-access-kit/issues/760
+idspace: skos http://example.org/not-skos/
+
+[Term]
+id: X:1
+property_value: skos:exactMatch Y:1
+
+[Typedef]
+id: skos:exactMatch
+is_metadata_tag: true
+
+!! name: prefixes-conflict-main-idspace
+!! description: tests conflicting prefixes for the main ID space
+!! invalid: true
+!! seeAlso: https://github.com/INCATools/ontology-access-kit/issues/760
+idspace: X http://example.org/X/
+idspace: FAKEX http://example.org/X/
+
+[Term]
+id: X:1
+name: X:1
+
+!! name: expansion-conflict-main-idspace
+!! description: tests conflicting expansions for the main ID space
+!! invalid: true
+!! seeAlso: https://github.com/INCATools/ontology-access-kit/issues/760
+idspace: X http://example.org/X/
+idspace: X http://example.org/FAKEX/
+
+[Term]
+id: X:1
+name: X:1
+
 !! # #########
 !! # Headers
 !! # #########
@@ -657,6 +704,20 @@ subset: S {source="PMID:123464"}
 [Term]
 id: X:1
 disjoint_from: X:2 {source="PMID:123465"}
+
+!! name: gci-relation
+!! description: General Class Inclusion relation
+
+[Term]
+id: X:1
+relationship: R:1 X:2 {gci_predicate="R:2", gci_filler="X:3"}
+
+!! name: gci-is-a
+!! description: General Class Inclusion is_a
+
+[Term]
+id: X:1
+is_a: X:2 {gci_predicate="R:2", gci_filler="X:3"}
 
 !! name: created_by-annotated
 !! description: Metadata for creator with annotation

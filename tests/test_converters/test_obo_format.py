@@ -8,13 +8,77 @@ See:
 
 Note: some of these tests may migrate from OAK to a more central location.
 
-Currently these tests do two things:
+Currently the tests in this suite do two things:
 
-1. Compile a compliance suite by converting from a source .obo file
+1. Compile a compliance suite by converting from a source .obo file (COMPILED_OBO_FILE)
     - writes to tests/input/obo-compliance
     - these may eventually be moved to a separate repo
 2. Test that conversion to and from .obo matches these files
     - generates files in tests/output/obo-compliance
+
+Step 1: Generate the compliance suite
+--------------------------------------
+
+Step 1 is intended to be run relatively infrequently. It generates the source-of-truth "expected" files.
+Note there is some bootstrapping here. We trust a certain version of robot/obographs/owlapi to generate the
+canonical files. For the first iteration these should be manually inspected to see if they align to the spec.
+Once we are happy with these, in general they should not change again.
+
+The source file COMPILED_OBO_FILE looks like this:
+
+.. code-block:: obo
+
+    !! name: name
+    !! description: rdfs:label
+
+    [Term]
+    id: X:1
+    name: x1
+
+    !! name: invalid-name-duplicate
+    !! description: max 1 name
+    !! invalid: true
+
+    [Term]
+    id: X:1
+    name: x1
+    name: x2
+
+    !! name: namespace
+    !! description: oio:namespace
+
+    [Term]
+    id: X:1
+    namespace: NS1
+
+    !! name: xref
+    !! description: rdfs:label
+
+This is designed for easy editing. New tests can be added by providing !! separators
+and name/description metadata.
+
+If new tests are added, test_generate_canonical_files in unskip mode. This will generate the directories in
+tests/input/obo-compliance
+
+E.g.
+
+.. code-block:: bash
+
+   alt_id/
+      alt_id.obo
+      alt_id.meta.yaml
+
+Next, robot will be run from the command line to generate the expected files:
+
+- alt_id.expected.json
+- alt_id.expected.obo
+- alt_id.expected.ofn
+- alt_id.expected.owl
+
+Step 2: Checking current behavior against the compliance suite
+--------------------------------------------------------------
+
+
 """
 
 import difflib
@@ -24,7 +88,7 @@ import shutil
 import subprocess
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union, Tuple
 
 import pytest
 import rdflib
@@ -202,15 +266,18 @@ def test_generate_canonical_files(split_compiled_obo, output_format):
                 make_filename(ontology_id, "expected", output_format, parent=OBO_COMPLIANCE_DIR)
             )
             if canonical_path.exists():
-                logger.info(f"(skipping) Comparing {output_path} to {canonical_path}")
-                # compare_output(path, ontology_id, "robot", output_format)
+                print(f"Comparing {output_path} to {canonical_path}")
+                compare_output(output_path, canonical_path, output_format, strict=True)
             else:
                 canonical_path.parent.mkdir(exist_ok=True, parents=True)
                 # copy the output to the input dir
                 # logger.info(f"Copying {output_path} to {canonical_path}")
                 shutil.copy(output_path, canonical_path)
+                shutil.copy(mk_version_path(output_path), mk_version_path(canonical_path))
         else:
             assert ok is None
+            print(f"DID NOT CONVERT {path} to {output_path}")
+            assert False
 
 
 @pytest.mark.parametrize(
@@ -225,6 +292,9 @@ def test_generate_canonical_files(split_compiled_obo, output_format):
 def test_oak_loaders_dumpers(split_compiled_obo, output_format, wrapper):
     """
     Tests that conversion via OAK generates files that are compliant.
+
+    This tests the conversion from .obo format (these are generated in advance from source, see
+    docs above) into other formats using OAK.
 
     :param split_compiled_obo:
     :param output_format:
@@ -255,23 +325,29 @@ def test_oak_loaders_dumpers(split_compiled_obo, output_format, wrapper):
             # non-canonical forms are not expected to be identical
             continue
         canonical = canonical_path(ontology_id, output_format)
-        _, _, fatal = compare_output(
-            output_path, canonical, output_format, metadata=metadata[ontology_id]
+        compare_output(
+            output_path, canonical, output_format, metadata=metadata[ontology_id], strict=False
         )
-        if output_format == "obo":
-            assert not fatal
 
 
 def compare_output(
-    generated_path: str, canonical_path: str, format: str = None, metadata: dict = None
-):
+    generated_path: str, canonical_path: str, format: str = None, metadata: dict = None, strict=False,
+) -> Tuple[int, list, bool]:
     """
     Compare the output of OAK loading and dumping vs canonical files.
+
+    In all cases difflib is used over ascii representations
+
+    - for obo files, the diff is a simple ascii diff (this sensitive to line ordering)
+    - for json files, the files are reserialized to canonicalize the order of keys
+    - for owl files, the files are reserialized using rdflib
+
+    The constant KNOWN_ISSUES holds the list of test names that are known to be problematic.
 
     :param generated_path:
     :param canonical_path:
     :param format:
-    :return:
+    :return: Tuple of [number of changes, list of diffs, fatal]
     """
     fatal = False
     if not metadata:
@@ -314,10 +390,12 @@ def compare_output(
             expected = "EXPECTED"
         else:
             if name in KNOWN_ISSUES:
-                expected = "TOD"
+                expected = "TODO"
             else:
                 expected = "UNEXPECTED"
-                fatal = False
+                fatal = True
+                if strict:
+                    raise ValueError(f"UNEXPECTED DIFF {format}: {canonical_path} vs {generated_path}")
         logger.info(f"## {name}:: {expected} DIFF {format}: {canonical_path} vs {generated_path}:")
         for diff in diffs:
             logger.info(diff)
@@ -394,6 +472,15 @@ def canonical_path(ontology_id: str, output_format: str) -> str:
     return str(OBO_COMPLIANCE_DIR / ontology_id / f"{ontology_id}.expected.{output_format}")
 
 
+def mk_version_path(path: Union[str, Path]) -> str:
+    """
+    Make a version path for a given path.
+
+    :param path:
+    :return:
+    """
+    return f"{path}.versioninfo"
+
 def robot_convert(input_path: str, output_path: str) -> Optional[bool]:
     """
     Convert an ontology using robot.
@@ -403,23 +490,42 @@ def robot_convert(input_path: str, output_path: str) -> Optional[bool]:
     :return:
     """
     if not robot_is_on_path():
+        logger.warning(f"ROBOT NOT ON PATH")
         return None
     cmd = [
         "robot",
         "convert",
         "-i",
         input_path,
+       # "-t",
+       # "http://www.geneontology.org/formats/oboInOwl#id",
+       # "convert",
         "-o",
         output_path,
     ]
     try:
+        print(f"Running {cmd}")
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)
         if result.stderr:
             logging.warning(result.stderr)
         logging.info(result.stdout)
-        return True
     except subprocess.CalledProcessError as e:
         logging.info(f"Robot call failed: {e}")
+        return False
+    try:
+        version_meta_file = mk_version_path(output_path)
+        version_cmd = [
+            "robot",
+            "--version",
+        ]
+        with open(version_meta_file, "w") as outfile:
+            result = subprocess.run(version_cmd, check=True, stdout=outfile, text=True)
+            if result.stderr:
+                logging.warning(result.stderr)
+            logging.info(result.stdout)
+        return True
+    except subprocess.CalledProcessError as e:
+        logging.info(f"Robot --version call failed: {e}")
         return False
 
 

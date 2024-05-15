@@ -1,0 +1,4 @@
+name: prefixes-conflict-oio
+name: prefixes-conflict-oio
+description: tests conflicting prefixes/contractions for oboInOwl namespace, where oio might be built-in
+unstable: true

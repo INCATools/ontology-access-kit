@@ -203,7 +203,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return: A converter
         """
         if self._converter is None:
-            self._converter = curies.Converter.from_prefix_map(self.prefix_map())
+            self._converter = curies.Converter.from_prefix_map(self.prefix_map(), strict=False)
         return self._converter
 
     def set_metamodel_mappings(self, mappings: Union[str, Path, List[Mapping]]) -> None:

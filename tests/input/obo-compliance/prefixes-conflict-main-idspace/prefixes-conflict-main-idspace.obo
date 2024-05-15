@@ -1,0 +1,9 @@
+format-version: 1.4
+ontology: prefixes-conflict-main-idspace
+idspace: X http://example.org/X/
+idspace: FAKEX http://example.org/X/
+
+[Term]
+id: X:1
+name: X:1
+
