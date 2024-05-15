@@ -1,0 +1,12 @@
+format-version: 1.2
+idspace: skos http://example.org/not-skos/ 
+ontology: prefixes-conflict-skos
+
+[Term]
+id: X:1
+relationship: skos:exactMatch Y:1
+
+[Typedef]
+id: skos:exactMatch
+is_metadata_tag: true
+

@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: gci-relation
+
+[Term]
+id: X:1
+relationship: R:1 X:2 {gci_predicate="R:2"}
+
