@@ -460,15 +460,16 @@ class ComplianceTester:
 
     def test_skos_mappings(self, oi: MappingProviderInterface):
         for curies in [None, ["X:0000001"]]:
-            mappings = [(m.subject_id, m.predicate_id, m.object_id) for m in oi.sssom_mappings(curies)]
+            mappings = [
+                (m.subject_id, m.predicate_id, m.object_id) for m in oi.sssom_mappings(curies)
+            ]
             print(mappings)
             expected = [
-                ('X:0000001', 'oio:hasDbXref', 'Y:1'),
-                ('X:0000001', 'skos:exactMatch', 'schema:Person'),
-                ('X:0000001', 'skos:closeMatch', 'prov:Agent')
+                ("X:0000001", "oio:hasDbXref", "Y:1"),
+                ("X:0000001", "skos:exactMatch", "schema:Person"),
+                ("X:0000001", "skos:closeMatch", "prov:Agent"),
             ]
             self.test.assertCountEqual(expected, mappings)
-
 
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """

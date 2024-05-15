@@ -40,7 +40,6 @@ from oaklib.datamodels.vocabulary import (
     OWL_VERSION_INFO,
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
-    SKOS_CLOSE_MATCH,
     SKOS_MATCH_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,

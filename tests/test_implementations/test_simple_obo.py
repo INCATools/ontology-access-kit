@@ -3,7 +3,6 @@ import unittest
 from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
-
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.datamodels import obograph
