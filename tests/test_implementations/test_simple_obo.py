@@ -3,6 +3,8 @@ import unittest
 from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
+
+from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
@@ -59,6 +61,7 @@ TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_SIMPLE_ONT = INPUT_DIR / "go-nucleus-simple.obo"
 TEST_ONT_COPY = OUTPUT_DIR / "go-nucleus.copy.obo"
 TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
+TEST_SKOS_MAPPINGS_ONT = INPUT_DIR / "mapping-predicates-test.obo"
 
 
 class TestSimpleOboImplementation(unittest.TestCase):
@@ -102,6 +105,24 @@ class TestSimpleOboImplementation(unittest.TestCase):
             self.assertEqual(oi.curie_to_uri(curie), iri, f"in expand curie: {curie}")
             if iri is not None:
                 self.assertEqual(oi.uri_to_curie(iri), curie, f"in contract iri: {iri}")
+
+    def test_conflicting_oio_prefixes(self):
+        """
+        See https://github.com/INCATools/ontology-access-kit/issues/702
+        """
+        # TODO: DRY. This is currently duplicative of a pronto test
+        resource = OntologyResource(
+            slug="metadata-map-prefixes-test.obo", directory=INPUT_DIR, local=True
+        )
+        adapter = SimpleOboImplementation(resource)
+        m = adapter.entity_metadata_map("HP:0000001")
+        self.assertIsNotNone(m)
+        uri = "http://www.geneontology.org/formats/oboInOwl#foo"
+        curie = adapter.uri_to_curie(uri)
+        # behavior is currently intentionally undefined
+        assert curie == "oio:foo" or curie == "oboInOwl:foo"
+        # must be reversible
+        assert adapter.curie_to_uri(curie) == uri
 
     def test_relationships_extra(self):
         oi = self.oi
@@ -217,6 +238,15 @@ class TestSimpleOboImplementation(unittest.TestCase):
 
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
+
+    def test_skos_mappings(self):
+        """
+        Tests mappings as SKOS properties.
+
+        :return:
+        """
+        adapter = get_adapter(f"simpleobo:{TEST_SKOS_MAPPINGS_ONT}")
+        self.compliance_tester.test_skos_mappings(adapter)
 
     def test_definitions(self):
         self.compliance_tester.test_definitions(self.oi, include_metadata=True)
