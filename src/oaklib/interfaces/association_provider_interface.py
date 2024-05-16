@@ -196,7 +196,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                 raise NotImplementedError
         ix = self._association_index
         if ix is None:
-            logging.warning("No association index")
+            logging.warning(f"No association index for {type(self)}")
             return
         yield from ix.lookup(subjects, predicates, objects)
 
@@ -464,21 +464,22 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         )
         assoc_map = defaultdict(list)
         cached = {}
-        if isinstance(self, OboGraphInterface):
-            for association in association_it:
-                if group_by == "object":
-                    grp = association.object
-                    if grp not in cached:
-                        grps = list(self.ancestors([grp], predicates=object_closure_predicates))
-                        cached[grp] = grps
-                    else:
-                        grps = cached[grp]
-                elif group_by == "subject":
-                    grps = [association.subject]
+        if not isinstance(self, OboGraphInterface):
+            raise ValueError("This method requires an OboGraphInterface")
+        for association in association_it:
+            if group_by == "object":
+                grp = association.object
+                if grp not in cached:
+                    grps = list(self.ancestors([grp], predicates=object_closure_predicates))
+                    cached[grp] = grps
                 else:
-                    raise ValueError(f"Unknown group_by: {group_by}")
-                for grp in grps:
-                    assoc_map[grp].append(association)
+                    grps = cached[grp]
+            elif group_by == "subject":
+                grps = [association.subject]
+            else:
+                raise ValueError(f"Unknown group_by: {group_by}")
+            for grp in grps:
+                assoc_map[grp].append(association)
         for k, v in assoc_map.items():
             yield k, len(v)
 

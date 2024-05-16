@@ -64,6 +64,12 @@
             "penwidth": 3,            
             "label": "ⓟ"
         },
+        "BFO:0000051": {
+            "arrowhead": "box",
+            "color": "teal",
+            "penwidth": 2,            
+            "label": "ⓗ"
+        },
         "RO:0004009": {
             "arrowhead": "box",
             "color": "green",
@@ -170,7 +176,7 @@
             "fillcolor": "cyan"
         },
         "CHEBI": {
-            "fillcolor": "cyan"
+            "fillcolor": "mediumturquoise"
         },
         "NCBITaxon": {
             "fillcolor": "burlywood1"
