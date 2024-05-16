@@ -14,6 +14,7 @@ from oaklib.datamodels.similarity import (
 )
 from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.interfaces.association_provider_interface import AssociationProviderInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -28,7 +29,9 @@ __all__ = [
 
 
 @dataclass
-class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboGraphInterface):
+class SemSimianImplementation(
+    SearchInterface, SemanticSimilarityInterface, OboGraphInterface, AssociationProviderInterface
+):
     """Rust implementation of semantic similarity measures."""
 
     delegated_methods: ClassVar[List[str]] = [
@@ -47,6 +50,8 @@ class SemSimianImplementation(SearchInterface, SemanticSimilarityInterface, OboG
         OboGraphInterface.descendants,
         SemanticSimilarityInterface.get_information_content,
         SemanticSimilarityInterface.information_content_scores,
+        AssociationProviderInterface.associations,
+        AssociationProviderInterface.add_associations,
     ]
 
     semsimian_object_cache: Dict[Tuple[PRED_CURIE], Optional["Semsimian"]] = field(default_factory=dict)  # type: ignore # noqa
