@@ -1876,6 +1876,12 @@ def viz(
     if stylemap is None:
         stylemap = default_stylemap_path()
     actual_predicates = _process_predicates_arg(predicates)
+    curies_hightlight = None
+    if "@" in terms:
+        ix = terms.index("@")
+        terms_highlight = terms[0:ix]
+        terms = terms[ix + 1 :]
+        curies_hightlight = list(query_terms_iterator(terms_highlight, impl))
     curies = list(query_terms_iterator(terms, impl))
     if add_mrcas:
         if isinstance(impl, SemanticSimilarityInterface):
@@ -1911,11 +1917,13 @@ def viz(
         impl.add_metadata(graph)
     if not graph.nodes:
         raise ValueError(f"No nodes in graph for {curies}")
+    if curies_hightlight is None:
+        curies_hightlight = curies
     # TODO: abstract this out
     if not output_type or output_type in ["png", "svg", "dot"]:
         graph_to_image(
             graph,
-            seeds=curies,
+            seeds=curies_hightlight,
             stylemap=stylemap,
             configure=configure,
             imgfile=output,

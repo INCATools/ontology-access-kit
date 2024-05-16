@@ -166,7 +166,7 @@ To find all descendants of a term, use the ``.desc`` operator followed by the re
 
 .. code-block::
 
-   runoak -i sqlite:obo:fbbt search '.desc//p=i,p nucleus'
+   runoak -i sqlite:obo:fbbt search .desc//p=i,p nucleus
 
 This will find all descendants of "nucleus" using the :term:`is-a`  (``i``) and
 :term:`part-of`  (``p``) relationships.
