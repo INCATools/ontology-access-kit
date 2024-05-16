@@ -3033,6 +3033,11 @@ def termset_similarity(
     writer.output = output
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+    # TODO: @cmungall - one possibility in future is to relieve client of the need for 
+    # out of band knowledge about impl details. The generic SemSim interface could have
+    # a load_ic_map method, with the generic impl being to directly load, and the semsimian
+    # impl passing the path through.
     if information_content_file:
         if isinstance(impl, SemSimianImplementation):
             impl.custom_ic_map_path = information_content_file
