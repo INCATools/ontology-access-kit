@@ -91,6 +91,7 @@ from oaklib.implementations.aggregator.aggregator_implementation import (
 from oaklib.implementations.obograph.obograph_implementation import (
     OboGraphImplementation,
 )
+from oaklib.implementations.semsimian.semsimian_implementation import SemSimianImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import (
     BasicOntologyInterface,
@@ -2956,7 +2957,10 @@ def similarity(
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     if information_content_file:
-        impl.cached_information_content_map = load_information_content_map(information_content_file)
+        if isinstance(impl, SemSimianImplementation):
+            impl.custom_ic_map_path = information_content_file
+        else:
+            impl.cached_information_content_map = load_information_content_map(information_content_file)
     set1it = None
     set2it = None
     if not (set1_file or set2_file):
@@ -3037,8 +3041,16 @@ def termset_similarity(
     writer.output = output
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+    # TODO: @cmungall - one possibility in future is to relieve client of the need for
+    # out of band knowledge about impl details. The generic SemSim interface could have
+    # a load_ic_map method, with the generic impl being to directly load, and the semsimian
+    # impl passing the path through.
     if information_content_file:
-        impl.cached_information_content_map = load_information_content_map(information_content_file)
+        if isinstance(impl, SemSimianImplementation):
+            impl.custom_ic_map_path = information_content_file
+        else:
+            impl.cached_information_content_map = load_information_content_map(information_content_file)
     terms = list(terms)
     ix = terms.index("@")
     set1 = list(query_terms_iterator(terms[0:ix], impl))
