@@ -151,9 +151,9 @@ class TestSemSimianImplementation(unittest.TestCase):
                     sim = adapter.pairwise_similarity(s, o, predicates=preds)
                     if sim is not None:
                         if s == VACUOLE and o == VACUOLE:
-                            self.assertGreaterEqual(sim.ancestor_information_content, 5.5)
+                            self.assertEqual(sim.ancestor_information_content, 5.5)
                         if s == ENDOMEMBRANE_SYSTEM and o == ENDOMEMBRANE_SYSTEM:
-                            self.assertGreaterEqual(sim.ancestor_information_content, 6.0)
+                            self.assertEqual(sim.ancestor_information_content, 6.0)
                         if s == VACUOLE and o == ENDOMEMBRANE_SYSTEM:
                             self.assertEqual(sim.ancestor_information_content, 0)
                     else:
