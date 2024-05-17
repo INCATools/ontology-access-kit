@@ -710,14 +710,14 @@ disjoint_from: X:2 {source="PMID:123465"}
 
 [Term]
 id: X:1
-relationship: R:1 X:2 {gci_predicate="R:2", gci_filler="X:3"}
+relationship: R:1 X:2 {gci_relation="R:2", gci_filler="X:3"}
 
 !! name: gci-is-a
 !! description: General Class Inclusion is_a
 
 [Term]
 id: X:1
-is_a: X:2 {gci_predicate="R:2", gci_filler="X:3"}
+is_a: X:2 {gci_relation="R:2", gci_filler="X:3"}
 
 !! name: created_by-annotated
 !! description: Metadata for creator with annotation
