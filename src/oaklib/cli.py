@@ -128,7 +128,7 @@ from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
-from oaklib.query import query_terms_iterator, curies_from_file, _process_predicates_arg
+from oaklib.query import _process_predicates_arg, curies_from_file, query_terms_iterator
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_adapter, get_resource_from_shorthand
 from oaklib.transformers.transformers_factory import (
@@ -1968,7 +1968,7 @@ def paths(
         ix = terms.index("@")
         logging.info(f"Splitting terms {terms} on {ix}")
         start_curies = list(query_terms_iterator(terms[0:ix], impl))
-        end_curies = list(query_terms_iterator(terms[ix + 1:], impl))
+        end_curies = list(query_terms_iterator(terms[ix + 1 :], impl))
         all_curies = start_curies + end_curies
     else:
         start_curies = list(query_terms_iterator(terms, impl))
@@ -2604,7 +2604,7 @@ def similarity(
         ix = terms.index("@")
         logging.info(f"Splitting terms {terms} on {ix}")
         set1it = query_terms_iterator(terms[0:ix], impl)
-        set2it = query_terms_iterator(terms[ix + 1:], impl)
+        set2it = query_terms_iterator(terms[ix + 1 :], impl)
     else:
         if set1_file:
             logging.info(f"Getting set1 from {set1_file}")
@@ -2692,7 +2692,7 @@ def termset_similarity(
     terms = list(terms)
     ix = terms.index("@")
     set1 = list(query_terms_iterator(terms[0:ix], impl))
-    set2 = list(query_terms_iterator(terms[ix + 1:], impl))
+    set2 = list(query_terms_iterator(terms[ix + 1 :], impl))
     logging.info(f"Set1={set1}")
     logging.info(f"Set2={set2}")
     actual_predicates = _process_predicates_arg(predicates)
@@ -4521,7 +4521,7 @@ def associations_matrix(
         ix = terms.index("@")
         logging.info(f"Splitting terms into two, position = {ix}")
         curies1 = list(query_terms_iterator(terms[0:ix], impl))
-        curies2 = list(query_terms_iterator(terms[ix + 1:], impl))
+        curies2 = list(query_terms_iterator(terms[ix + 1 :], impl))
     else:
         curies1 = list(query_terms_iterator(terms, impl))
         curies2 = list(curies1)
@@ -4755,7 +4755,7 @@ def enrichment(
             ix = terms.index("@")
             logging.info(f"Splitting terms into two, position = {ix}")
             subjects = list(query_terms_iterator(terms[0:ix], impl))
-            terms = terms[ix + 1:]
+            terms = terms[ix + 1 :]
         else:
             subjects = list(query_terms_iterator(terms, impl))
     if not subjects:
@@ -5525,7 +5525,7 @@ def lexmatch(
             ix = terms.index("@")
             logging.info(f"Splitting terms into two, position = {ix}")
             subjects = list(query_terms_iterator(terms[0:ix], impl))
-            objects = list(query_terms_iterator(terms[ix + 1:], impl))
+            objects = list(query_terms_iterator(terms[ix + 1 :], impl))
         else:
             subjects = list(query_terms_iterator(terms, impl))
             objects = subjects
