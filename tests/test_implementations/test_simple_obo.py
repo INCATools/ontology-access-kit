@@ -3,7 +3,7 @@ import unittest
 from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
-from oaklib.cli import query_terms_iterator
+from oaklib.query import query_terms_iterator
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
