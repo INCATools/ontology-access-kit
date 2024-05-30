@@ -3,13 +3,16 @@ import logging
 import re
 import secrets
 import sys
-from typing import Iterator, Iterable, Dict, IO, Optional, List, Tuple, Union
+from enum import Enum
+from typing import Iterator, Iterable, Dict, IO, Optional, List, Tuple, Union, Any
+
+from pydantic import BaseModel
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.vocabulary import OWL_CLASS, OWL_OBJECT_PROPERTY, IS_A, PART_OF, DEVELOPS_FROM, RDF_TYPE, \
     EQUIVALENT_CLASS
-from oaklib.interfaces import OboGraphInterface, SearchInterface, OntologyInterface
+from oaklib.interfaces import OboGraphInterface, SearchInterface, OntologyInterface, SubsetterInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.subsets.slimmer_utils import filter_redundant
@@ -19,15 +22,353 @@ from oaklib.utilities.subsets.slimmer_utils import filter_redundant
 # TODO: Replace this with an explicit query model with boolean operations
 NESTED_LIST = Union[List[str], List["NESTED_LIST"]]
 
-def onto_query(query_terms: NESTED_LIST, adapter: BasicOntologyInterface) -> List[CURIE]:
+TERM = Union["Query", str, List[str]]
+
+class OperatorEnum(str, Enum):
+    AND = "and"
+    OR = "or"
+    NOT = "not"
+
+
+class FunctionEnum(str, Enum):
+    ANCESTOR = "anc"
+    DESCENDANT = "desc"
+    SUBCLASS = "sub"
+    CHILD = "child"
+    PARENT = "parent"
+    SIBLING = "sib"
+    MRCA = "mrca"
+    NON_REDUNDANT = "nr"
+    GAP_FILL = "gap_fill"
+
+
+class Query(BaseModel):
+
+    description: Optional[str] = None
+
+    def __and__(self, other: "Expression"):
+        return BooleanQuery(operator="and", left=self, right=self._as_query_term(other))
+
+    def __or__(self, other: "Expression"):
+        return BooleanQuery(operator="or", left=self, right=self._as_query_term(other))
+
+    def __sub__(self, other: "Expression"):
+        return BooleanQuery(operator="not", left=self, right=self._as_query_term(other))
+
+    def execute(self, adapter: BasicOntologyInterface, labels=False, **kwargs):
+        """
+        Execute the query on the given adapter.
+
+        :param adapter:
+        :param labels:
+        :param kwargs:
+        :return:
+        """
+        return onto_query(self, adapter, labels=labels)
+
+    def _as_query_term(self, other: "Expression") -> "Query":
+        if isinstance(other, Query):
+            return other
+        if isinstance(other, str):
+            return SimpleQueryTerm(term=other)
+        raise ValueError(f"Cannot convert {other} to a QueryTerm")
+
+
+class BooleanQuery(Query):
+    operator: OperatorEnum
+    left: Query
+    right: Optional[Query] = None
+
+    def as_list(self):
+        """
+        Convert the query to a list of tokens.
+
+        :return:
+        """
+        if not self.right:
+            return [f".{self.operator}"] + self.left.as_list()
+        else:
+            return self.left.as_list() + [f".{self.operator}"] + self.right.as_list()
+
+
+class SimpleQueryTerm(Query):
+    term: str
+
+    def as_list(self):
+        return [self.term]
+
+
+class FunctionQuery(Query):
+    function: Optional[FunctionEnum] = None
+    parameters: Optional[Dict[str, Any]] = None
+    argument: Optional[Union[str, Query, List[str]]] = None
+
+    def as_list(self):
+        arg = self.argument
+        if isinstance(arg, Query):
+            arg = arg.as_list()
+        if self.function:
+            if self.parameters:
+                def _flatten(v):
+                    if isinstance(v, list):
+                        return ",".join(v)
+                    return v
+                param_str = "//" + "//".join([f"{k}={_flatten(v)}" for k, v in self.parameters.items()])
+            else:
+                param_str = ""
+            return [f".{self.function}{param_str}"] + [arg]
+        else:
+            return [arg]
+
+
+def subclass_of(term: TERM, description: Optional[str] = None) -> FunctionQuery:
+    """
+    Returns an entailed subClassOf query.
+
+    Example:
+
+    >>> from oaklib import get_adapter
+    >>> adapter = get_adapter("sqlite:obo:cl")
+    >>> q = subclass_of("CL:0000540")
+    >>> assert "CL:0000617" in q.execute(adapter)
+
+    :param term:
+    :param description:
+    :return:
+    """
+    return FunctionQuery(function=FunctionEnum.SUBCLASS, argument=term, description=description)
+
+
+def descendant_of(term: TERM, predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None) -> FunctionQuery:
+    """
+    Returns a descendant query.
+
+    Example:
+
+    >>> from oaklib import get_adapter
+    >>> from oaklib.datamodels.vocabulary import IS_A
+    >>> adapter = get_adapter("sqlite:obo:cl")
+    >>> q = descendant_of("CL:0000540", predicates=[IS_A])
+    >>> assert "CL:0000617" in q.execute(adapter)
+
+    :param term:
+    :param predicates:
+    :param description:
+    :return:
+    """
+    return FunctionQuery(function=FunctionEnum.DESCENDANT, argument=term, description=description, parameters={"predicates": predicates})
+
+
+def ancestor_of(term: Union[str, Query], predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None) -> FunctionQuery:
+    """
+    Returns an ancestor query.
+
+    Example:
+
+    >>> from oaklib import get_adapter
+    >>> from oaklib.datamodels.vocabulary import IS_A
+    >>> adapter = get_adapter("sqlite:obo:cl")
+    >>> q = ancestor_of("CL:0000540", predicates=[IS_A])
+    >>> assert "CL:0000000" in q.execute(adapter)
+
+    :param term:
+    :param predicates:
+    :param description:
+    :return:
+    """
+    return FunctionQuery(function=FunctionEnum.ANCESTOR, argument=term, description=description, parameters={"predicates": predicates})
+
+
+def non_redundant(term: TERM, predicates: Optional[List[PRED_CURIE]] = None,  description: Optional[str] = None) -> FunctionQuery:
+    """
+    Returns a query that when executed will return the non-redundant subset of the input set.
+
+    Example:
+
+    >>> from oaklib import get_adapter
+    >>> from oaklib.datamodels.vocabulary import IS_A
+    >>> adapter = get_adapter("sqlite:obo:cl")
+    >>> q = non_redundant(["interneuron", "neuron", "GABA-ergic synapse"], predicates=[IS_A])
+    >>> q.execute(adapter, labels=True)
+    [('CL:0000099', 'interneuron'), ('GO:0098982', 'GABA-ergic synapse')]
+
+    :param term:
+    :param predicates:
+    :param description:
+    :return:
+    """
+    return FunctionQuery(function=FunctionEnum.NON_REDUNDANT, argument=term, description=description, parameters={"predicates": predicates})
+
+
+def gap_fill(term: Union[str, Query], predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None) -> FunctionQuery:
+    """
+    Returns a query that when executed will fill in edges between nodes in the input set.
+
+    Example:
+
+    >>> from oaklib import get_adapter
+    >>> from oaklib.datamodels.vocabulary import IS_A
+    >>> adapter = get_adapter("sqlite:obo:cl")
+    >>> q = gap_fill(["CL:0002145", "CL:0002169", "lung", "respiratory airway"], predicates=[IS_A, PART_OF])
+    >>> rels = q.execute(adapter, labels=True)
+    >>> for r in sorted(rels):
+    ...     print(r)
+    <BLANKLINE>
+    ...
+    (('CL:0002169', 'basal cell of olfactory epithelium'), ('BFO:0000050', 'part_of'), ('UBERON:0001005', 'respiratory airway'))
+    ...
+
+    :param term:
+    :param predicates:
+    :param description:
+    :return:
+    """
+    return FunctionQuery(function=FunctionEnum.GAP_FILL, argument=term, description=description, parameters={"predicates": predicates})
+
+
+def onto_query(query_terms: Union[Query, NESTED_LIST], adapter: BasicOntologyInterface, labels=False) -> List[Union[CURIE, Tuple[CURIE, str]]]:
     """
     Turn list of tokens that represent a term query into a list of curies.
 
+    Examples
+    --------
+
+    Simple atomic queries
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    First connect to the cell ontology:
+
+    >>> from oaklib import get_adapter
+    >>> cl = get_adapter("sqlite:obo:cl")
+
+    Simple query (using list-of-terms syntax):
+
+    >>> onto_query(["neuron"], cl)
+     ['CL:0000540']
+
+    Equivalent query using QueryTerm classes:
+
+    >>> onto_query(SimpleQueryTerm(term="neuron"), cl)
+    ['CL:0000540']
+
+    Equivalent using IDs not labels:
+
+    >>> onto_query(["CL:0000540"], cl)
+    ['CL:0000540']
+
+    Getting back labels in results:
+
+    >>> onto_query(["CL:0000540"], cl, labels=True)
+    [('CL:0000540', 'neuron')]
+
+    Graph queries
+    ~~~~~~~~~~~~~
+
+    Ancestor query (using list-of-terms syntax):
+
+    >>> ancs = onto_query([".anc//p=i", "CL:0000540"], cl)
+    >>> assert "CL:0000000" in ancs
+
+    Equivalent using query objects:
+
+    >>> q = FunctionQuery(function=FunctionEnum.ANCESTOR, parameters={"p": "i"}, argument="CL:0000540")
+    >>> ancs2 = onto_query(q, cl)
+    >>> assert set(ancs2) == set(ancs)
+
+    Next we will create two separate queries for:
+
+    - subclasses of interneuron (entailed)
+    - neurons that are located in the eyeball
+
+    We will then manually intersect these two sets,
+    to find the neurons that are both interneurons and located in the eyeball.
+
+    First the neuron query. We use the subclasses convenience predicate:
+
+    >>> subq = FunctionQuery(function=FunctionEnum.SUBCLASS, argument="interneuron", description="Entailed subclasses of interneuron")
+    >>> interneurons = onto_query(subq, cl)
+
+    Next we will query for neurons located in the eyeball, using has-soma-location:
+
+    >>> locq = FunctionQuery(function=FunctionEnum.DESCENDANT,
+    ...                  parameters={"predicates": ["RO:0002100"]},
+    ...                  argument="UBERON:0010230",
+    ...                  description="soma location in eyeball")
+    >>> eye_cells = onto_query(locq, cl)
+
+    We can compare this with list syntax:
+
+    >>> locq.as_list()
+    ['.desc//predicates=RO:0002100', 'UBERON:0010230']
+
+    Now doing the intersection in python:
+
+    >>> both = set(eye_cells).intersection(set(interneurons))
+    >>> for x in sorted(both):
+    ...    print(x, cl.label(x))
+    <BLANKLINE>
+    ...
+    CL:0000749 ON-bipolar cell
+    ...
+
+
+    Boolean queries
+    ~~~~~~~~~~~~~~~
+
+    Rather than doing the set intersection manually, we can use intersections in the query syntax. This
+    has a number of examples - implementations can choose to implement this efficiently.
+
+    >>> ixnq = subq & locq
+    >>> ixnq.as_list()
+    ['.sub', 'interneuron', '.and', '.desc//predicates=RO:0002100', 'UBERON:0010230']
+    >>> both2 = onto_query(ixnq, cl)
+    >>> for x in sorted(both2):
+    ...    print(x, cl.label(x))
+    <BLANKLINE>
+    ...
+    CL:0000749 ON-bipolar cell
+    ...
+    >>> assert set(both2) == both
+
+    We can also add a MINUS operator
+
+    >>> h1 = "CL:0004217"
+    >>> ixnq2 = ixnq - h1
+    >>> ixnq2.as_list()
+    ['.sub', 'interneuron', '.and', '.desc//predicates=RO:0002100', 'UBERON:0010230', '.not', 'CL:0004217']
+    >>> both3 = onto_query(ixnq2, cl)
+    >>> assert h1 not in both3
+    >>> assert set(both3) == set(both2) - {h1}
+
+    Search queries
+    ~~~~~~~~~~~~~~
+
+    TODO - document search queries
+
     :param query_terms:
     :param adapter:
+    :param labels:
     :return:
     """
-    return list(query_terms_iterator(query_terms, adapter))
+    if isinstance(query_terms, Query):
+        query_terms = query_terms.as_list()
+    if not isinstance(query_terms, list):
+        query_terms = [query_terms]
+    results = list(query_terms_iterator(query_terms, adapter))
+    if labels:
+        if results:
+            # results are either entities or edges
+            if isinstance(results[0], str):
+                results = list(adapter.labels(results))
+            else:
+                # get all distinct s, p, o in all results
+                all_ids = set([r[0] for r in results] + [r[1] for r in results] + [r[2] for r in results])
+                labels = {r[0]: r[1] for r in adapter.labels(all_ids)}
+                results = [((r[0], labels.get(r[0], None)),
+                             (r[1], labels.get(r[1], None)),
+                             (r[2], labels.get(r[2], None)))
+                            for r in results]
+    return results
 
 
 def query_terms_iterator(query_terms: NESTED_LIST, adapter: BasicOntologyInterface) -> Iterator[CURIE]:
@@ -259,6 +600,14 @@ def query_terms_iterator(query_terms: NESTED_LIST, adapter: BasicOntologyInterfa
             rest = list(query_terms_iterator([query_terms[0]], adapter))
             query_terms = query_terms[1:]
             chain_results(filter_redundant(adapter, rest, this_predicates))
+        elif term.startswith(".gap_fill"):
+            if not isinstance(adapter, SubsetterInterface):
+                raise NotImplementedError
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            rest = list(query_terms_iterator([query_terms[0]], adapter))
+            query_terms = query_terms[1:]
+            chain_results(adapter.gap_fill_relationships(rest, predicates=this_predicates))
         else:
             # term is not query syntax: feed directly to search
             if not isinstance(adapter, SearchInterface):
