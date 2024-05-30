@@ -455,7 +455,6 @@ group_by_prefix_option = click.option(
 )
 
 
-
 def _skip_if_absent(if_absent: bool, v: Any):
     if if_absent:
         if if_absent == IfAbsent.absent_only.value and v:
@@ -493,8 +492,6 @@ def _apply_changes(impl, changes: List[kgcl.Change]):
         for change in changes:
             impl.apply_patch(change)
         impl.save()
-
-
 
 
 @click.group()
@@ -1513,12 +1510,12 @@ def viz(
     if stylemap is None:
         stylemap = default_stylemap_path()
     actual_predicates = _process_predicates_arg(predicates)
-    curies_hightlight = None
+    curies_highlight = None
     if "@" in terms:
         ix = terms.index("@")
         terms_highlight = terms[0:ix]
         terms = terms[ix + 1 :]
-        curies_hightlight = list(query_terms_iterator(terms_highlight, impl))
+        curies_highlight = list(query_terms_iterator(terms_highlight, impl))
     curies = list(query_terms_iterator(terms, impl))
     if add_mrcas:
         if isinstance(impl, SemanticSimilarityInterface):
@@ -1554,13 +1551,13 @@ def viz(
         impl.add_metadata(graph)
     if not graph.nodes:
         raise ValueError(f"No nodes in graph for {curies}")
-    if curies_hightlight is None:
-        curies_hightlight = curies
+    if curies_highlight is None:
+        curies_highlight = curies
     # TODO: abstract this out
     if not output_type or output_type in ["png", "svg", "dot"]:
         graph_to_image(
             graph,
-            seeds=curies_hightlight,
+            seeds=curies_highlight,
             stylemap=stylemap,
             configure=configure,
             imgfile=output,
@@ -2597,7 +2594,9 @@ def similarity(
         if isinstance(impl, SemSimianImplementation):
             impl.custom_ic_map_path = information_content_file
         else:
-            impl.cached_information_content_map = load_information_content_map(information_content_file)
+            impl.cached_information_content_map = load_information_content_map(
+                information_content_file
+            )
     set1it = None
     set2it = None
     if not (set1_file or set2_file):
@@ -2687,7 +2686,9 @@ def termset_similarity(
         if isinstance(impl, SemSimianImplementation):
             impl.custom_ic_map_path = information_content_file
         else:
-            impl.cached_information_content_map = load_information_content_map(information_content_file)
+            impl.cached_information_content_map = load_information_content_map(
+                information_content_file
+            )
     terms = list(terms)
     ix = terms.index("@")
     set1 = list(query_terms_iterator(terms[0:ix], impl))
@@ -4675,7 +4676,7 @@ def rollup(
 @click.option(
     "--sample-file",
     "-U",
-    required=True,
+    required=False,
     type=click.File(mode="r"),
     help="file containing input list of entity IDs (e.g. gene IDs)",
 )
@@ -4747,7 +4748,18 @@ def enrichment(
     impl = settings.impl
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
-    subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
+    if sample_file:
+        subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
+    else:
+        if "@" in terms:
+            ix = terms.index("@")
+            logging.info(f"Splitting terms into two, position = {ix}")
+            subjects = list(query_terms_iterator(terms[0:ix], impl))
+            terms = terms[ix + 1:]
+        else:
+            subjects = list(query_terms_iterator(terms, impl))
+    if not subjects:
+        raise ValueError("No terms or upload provided")
     background = (
         list(curies_from_file(background_file, adapter=impl, allow_labels=allow_labels))
         if background_file
@@ -5436,7 +5448,14 @@ def cache_clear(days_old: int):
 @output_option
 @click.argument("terms", nargs=-1)
 def lexmatch(
-    output, recreate, ensure_strict_prefixes, rules_file, lexical_index_file, add_labels, terms,  exclude_mapped,
+    output,
+    recreate,
+    ensure_strict_prefixes,
+    rules_file,
+    lexical_index_file,
+    add_labels,
+    terms,
+    exclude_mapped,
 ):
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
@@ -5551,8 +5570,12 @@ def lexmatch(
         pairs = [(m.subject_id, m.object_source) for m in existing_mappings]
         pairs += [(m.object_id, m.subject_source) for m in existing_mappings]
         # filter df by pairs
-        df = df[df.apply(lambda x: (x["subject_id"], x["object_id"].split(":")[0]) not in pairs, axis=1)]
-        df = df[df.apply(lambda x: (x["object_id"], x["subject_id"].split(":")[0]) not in pairs, axis=1)]
+        df = df[
+            df.apply(lambda x: (x["subject_id"], x["object_id"].split(":")[0]) not in pairs, axis=1)
+        ]
+        df = df[
+            df.apply(lambda x: (x["object_id"], x["subject_id"].split(":")[0]) not in pairs, axis=1)
+        ]
         msdf.df = df
     sssom_writers.write_table(msdf, output)
 
