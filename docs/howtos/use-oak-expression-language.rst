@@ -292,8 +292,20 @@ The ``.filter`` operator allows you to provide arbitrary python filters.
 NR
 ^^
 
-The ``.nr`` operator takes a set of terms are returns the non-redundant set of terms
+The ``.nr`` operator takes a set of terms and returns the non-redundant set of terms
 from that list (parameterized by a predicate or predicates).
+
+MRCA
+^^^^
+
+The ``.mrca`` operator takes a set of terms are returns the most recent common ancestors (:term:`MRCA`).
+Parameterized by a predicate or predicates.
+
+Example:
+
+.. code-block::
+
+   runoak -i sqlite:obo:uberon info .mrca//p=i,p .idfile my_terms.txt
 
 Others
 ^^^^^^
