@@ -1,12 +1,12 @@
 import logging
-from typing import Union, List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel
 
 from oaklib import BasicOntologyInterface
-from oaklib.datamodels.vocabulary import PART_OF, HAS_PART
+from oaklib.datamodels.vocabulary import HAS_PART, PART_OF
 from oaklib.interfaces import OboGraphInterface
-from oaklib.query import ancestor_of, descendant_of, Query, subclass_of
+from oaklib.query import Query, ancestor_of, descendant_of, subclass_of
 from oaklib.types import CURIE, PRED_CURIE
 
 ITEM = Union[CURIE, str]
@@ -25,7 +25,12 @@ class DissectedEntity(BaseModel):
     found_in: Optional[List[ClassReference]] = None
 
 
-def dissection_query(structure: ITEM, dissection_relation: PRED_OR_PREDS = HAS_PART, inverse_relation: PRED_OR_PREDS = PART_OF, entity_type: ITEM=None) -> Query:
+def dissection_query(
+    structure: ITEM,
+    dissection_relation: PRED_OR_PREDS = HAS_PART,
+    inverse_relation: PRED_OR_PREDS = PART_OF,
+    entity_type: ITEM = None,
+) -> Query:
     """
     Generate a query for the dissection of a structure.
 
@@ -51,13 +56,23 @@ def dissection_query(structure: ITEM, dissection_relation: PRED_OR_PREDS = HAS_P
     if isinstance(entity_type, str):
         # if user provides "neuron", assume we mean subtypes of neuron
         entity_type = subclass_of(entity_type)
-    dissect_q = ancestor_of(descendant_of(structure, predicates=inverse_relation), predicates=dissection_relation)
+    dissect_q = ancestor_of(
+        descendant_of(structure, predicates=inverse_relation), predicates=dissection_relation
+    )
     if entity_type:
         dissect_q = dissect_q & entity_type
     return dissect_q
 
 
-def dissect(adapter: BasicOntologyInterface, structure: ITEM, dissection_relation: PRED_OR_PREDS = HAS_PART, inverse_relation: PRED_OR_PREDS = PART_OF, entity_type: ITEM = None, complete=True, **kwargs) -> List[DissectedEntity]:
+def dissect(
+    adapter: BasicOntologyInterface,
+    structure: ITEM,
+    dissection_relation: PRED_OR_PREDS = HAS_PART,
+    inverse_relation: PRED_OR_PREDS = PART_OF,
+    entity_type: ITEM = None,
+    complete=True,
+    **kwargs,
+) -> List[DissectedEntity]:
     """
     Dissect a structure into its parts.
 
@@ -90,7 +105,12 @@ def dissect(adapter: BasicOntologyInterface, structure: ITEM, dissection_relatio
     :param entity_type:
     :return:
     """
-    q = dissection_query(structure, dissection_relation=dissection_relation, inverse_relation=inverse_relation, entity_type=entity_type)
+    q = dissection_query(
+        structure,
+        dissection_relation=dissection_relation,
+        inverse_relation=inverse_relation,
+        entity_type=entity_type,
+    )
     results = []
     for id, name in q.execute(adapter, labels=True, **kwargs):
         if not name:
@@ -102,9 +122,8 @@ def dissect(adapter: BasicOntologyInterface, structure: ITEM, dissection_relatio
     if complete:
         if not isinstance(adapter, OboGraphInterface):
             raise NotImplementedError
-        #ldefs = list(adapter.logical_definitions())
+        # ldefs = list(adapter.logical_definitions())
 
-        #for entity in results:
+        # for entity in results:
         #    entity.found_in =
     return results
-

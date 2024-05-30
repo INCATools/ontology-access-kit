@@ -3,7 +3,6 @@ import unittest
 from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
-from oaklib.query import query_terms_iterator
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -24,6 +23,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TagValue,
     XrefList,
 )
+from oaklib.query import query_terms_iterator
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.obograph_utils import (

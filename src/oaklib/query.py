@@ -4,15 +4,27 @@ import re
 import secrets
 import sys
 from enum import Enum
-from typing import Iterator, Iterable, Dict, IO, Optional, List, Tuple, Union, Any
+from typing import IO, Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from pydantic import BaseModel
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.search import create_search_configuration
-from oaklib.datamodels.vocabulary import OWL_CLASS, OWL_OBJECT_PROPERTY, IS_A, PART_OF, DEVELOPS_FROM, RDF_TYPE, \
-    EQUIVALENT_CLASS
-from oaklib.interfaces import OboGraphInterface, SearchInterface, OntologyInterface, SubsetterInterface
+from oaklib.datamodels.vocabulary import (
+    DEVELOPS_FROM,
+    EQUIVALENT_CLASS,
+    IS_A,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
+    PART_OF,
+    RDF_TYPE,
+)
+from oaklib.interfaces import (
+    OboGraphInterface,
+    OntologyInterface,
+    SearchInterface,
+    SubsetterInterface,
+)
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.subsets.slimmer_utils import filter_redundant
@@ -23,6 +35,7 @@ from oaklib.utilities.subsets.slimmer_utils import filter_redundant
 NESTED_LIST = Union[List[str], List["NESTED_LIST"]]
 
 TERM = Union["Query", str, List[str]]
+
 
 class OperatorEnum(str, Enum):
     AND = "and"
@@ -46,13 +59,13 @@ class Query(BaseModel):
 
     description: Optional[str] = None
 
-    def __and__(self, other: "Expression"):
+    def __and__(self, other: "Query"):
         return BooleanQuery(operator="and", left=self, right=self._as_query_term(other))
 
-    def __or__(self, other: "Expression"):
+    def __or__(self, other: "Query"):
         return BooleanQuery(operator="or", left=self, right=self._as_query_term(other))
 
-    def __sub__(self, other: "Expression"):
+    def __sub__(self, other: "Query"):
         return BooleanQuery(operator="not", left=self, right=self._as_query_term(other))
 
     def execute(self, adapter: BasicOntologyInterface, labels=False, **kwargs):
@@ -66,7 +79,7 @@ class Query(BaseModel):
         """
         return onto_query(self, adapter, labels=labels)
 
-    def _as_query_term(self, other: "Expression") -> "Query":
+    def _as_query_term(self, other: "Query") -> "Query":
         if isinstance(other, Query):
             return other
         if isinstance(other, str):
@@ -109,11 +122,15 @@ class FunctionQuery(Query):
             arg = arg.as_list()
         if self.function:
             if self.parameters:
+
                 def _flatten(v):
                     if isinstance(v, list):
                         return ",".join(v)
                     return v
-                param_str = "//" + "//".join([f"{k}={_flatten(v)}" for k, v in self.parameters.items()])
+
+                param_str = "//" + "//".join(
+                    [f"{k}={_flatten(v)}" for k, v in self.parameters.items()]
+                )
             else:
                 param_str = ""
             return [f".{self.function}{param_str}"] + [arg]
@@ -139,7 +156,9 @@ def subclass_of(term: TERM, description: Optional[str] = None) -> FunctionQuery:
     return FunctionQuery(function=FunctionEnum.SUBCLASS, argument=term, description=description)
 
 
-def descendant_of(term: TERM, predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None) -> FunctionQuery:
+def descendant_of(
+    term: TERM, predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None
+) -> FunctionQuery:
     """
     Returns a descendant query.
 
@@ -156,10 +175,19 @@ def descendant_of(term: TERM, predicates: Optional[List[PRED_CURIE]] = None, des
     :param description:
     :return:
     """
-    return FunctionQuery(function=FunctionEnum.DESCENDANT, argument=term, description=description, parameters={"predicates": predicates})
+    return FunctionQuery(
+        function=FunctionEnum.DESCENDANT,
+        argument=term,
+        description=description,
+        parameters={"predicates": predicates},
+    )
 
 
-def ancestor_of(term: Union[str, Query], predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None) -> FunctionQuery:
+def ancestor_of(
+    term: Union[str, Query],
+    predicates: Optional[List[PRED_CURIE]] = None,
+    description: Optional[str] = None,
+) -> FunctionQuery:
     """
     Returns an ancestor query.
 
@@ -176,10 +204,17 @@ def ancestor_of(term: Union[str, Query], predicates: Optional[List[PRED_CURIE]] 
     :param description:
     :return:
     """
-    return FunctionQuery(function=FunctionEnum.ANCESTOR, argument=term, description=description, parameters={"predicates": predicates})
+    return FunctionQuery(
+        function=FunctionEnum.ANCESTOR,
+        argument=term,
+        description=description,
+        parameters={"predicates": predicates},
+    )
 
 
-def non_redundant(term: TERM, predicates: Optional[List[PRED_CURIE]] = None,  description: Optional[str] = None) -> FunctionQuery:
+def non_redundant(
+    term: TERM, predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None
+) -> FunctionQuery:
     """
     Returns a query that when executed will return the non-redundant subset of the input set.
 
@@ -197,10 +232,19 @@ def non_redundant(term: TERM, predicates: Optional[List[PRED_CURIE]] = None,  de
     :param description:
     :return:
     """
-    return FunctionQuery(function=FunctionEnum.NON_REDUNDANT, argument=term, description=description, parameters={"predicates": predicates})
+    return FunctionQuery(
+        function=FunctionEnum.NON_REDUNDANT,
+        argument=term,
+        description=description,
+        parameters={"predicates": predicates},
+    )
 
 
-def gap_fill(term: Union[str, Query], predicates: Optional[List[PRED_CURIE]] = None, description: Optional[str] = None) -> FunctionQuery:
+def gap_fill(
+    term: Union[str, Query],
+    predicates: Optional[List[PRED_CURIE]] = None,
+    description: Optional[str] = None,
+) -> FunctionQuery:
     """
     Returns a query that when executed will fill in edges between nodes in the input set.
 
@@ -215,7 +259,8 @@ def gap_fill(term: Union[str, Query], predicates: Optional[List[PRED_CURIE]] = N
     ...     print(r)
     <BLANKLINE>
     ...
-    (('CL:0002169', 'basal cell of olfactory epithelium'), ('BFO:0000050', 'part_of'), ('UBERON:0001005', 'respiratory airway'))
+    (('CL:0002169', 'basal cell of olfactory epithelium'),
+     ('BFO:0000050', 'part_of'), ('UBERON:0001005', 'respiratory airway'))
     ...
 
     :param term:
@@ -223,10 +268,17 @@ def gap_fill(term: Union[str, Query], predicates: Optional[List[PRED_CURIE]] = N
     :param description:
     :return:
     """
-    return FunctionQuery(function=FunctionEnum.GAP_FILL, argument=term, description=description, parameters={"predicates": predicates})
+    return FunctionQuery(
+        function=FunctionEnum.GAP_FILL,
+        argument=term,
+        description=description,
+        parameters={"predicates": predicates},
+    )
 
 
-def onto_query(query_terms: Union[Query, NESTED_LIST], adapter: BasicOntologyInterface, labels=False) -> List[Union[CURIE, Tuple[CURIE, str]]]:
+def onto_query(
+    query_terms: Union[Query, NESTED_LIST], adapter: BasicOntologyInterface, labels=False
+) -> List[Union[CURIE, Tuple[CURIE, str]]]:
     """
     Turn list of tokens that represent a term query into a list of curies.
 
@@ -362,16 +414,24 @@ def onto_query(query_terms: Union[Query, NESTED_LIST], adapter: BasicOntologyInt
                 results = list(adapter.labels(results))
             else:
                 # get all distinct s, p, o in all results
-                all_ids = set([r[0] for r in results] + [r[1] for r in results] + [r[2] for r in results])
+                all_ids = set(
+                    [r[0] for r in results] + [r[1] for r in results] + [r[2] for r in results]
+                )
                 labels = {r[0]: r[1] for r in adapter.labels(all_ids)}
-                results = [((r[0], labels.get(r[0], None)),
-                             (r[1], labels.get(r[1], None)),
-                             (r[2], labels.get(r[2], None)))
-                            for r in results]
+                results = [
+                    (
+                        (r[0], labels.get(r[0], None)),
+                        (r[1], labels.get(r[1], None)),
+                        (r[2], labels.get(r[2], None)),
+                    )
+                    for r in results
+                ]
     return results
 
 
-def query_terms_iterator(query_terms: NESTED_LIST, adapter: BasicOntologyInterface) -> Iterator[CURIE]:
+def query_terms_iterator(
+    query_terms: NESTED_LIST, adapter: BasicOntologyInterface
+) -> Iterator[CURIE]:
     """
     Turn list of tokens that represent a term query into an iterator for curies.
 
@@ -568,7 +628,8 @@ def query_terms_iterator(query_terms: NESTED_LIST, adapter: BasicOntologyInterfa
                 o for _s, _p, o in adapter.relationships(subjects=rest, predicates=this_predicates)
             ]
             sibs = [
-                s for s, _p, _o in adapter.relationships(objects=parents, predicates=this_predicates)
+                s
+                for s, _p, _o in adapter.relationships(objects=parents, predicates=this_predicates)
             ]
             chain_results(sibs)
         elif term.startswith(".anc"):
