@@ -3503,7 +3503,7 @@ def query(query, autolabel: bool, output: str, output_type: str, prefixes: str, 
 
     # batch query results: this allows us to produce buffered output
     # for a long-running query
-    for row_it in chunk(impl.onto_query(query, prefixes=prefixes)):
+    for row_it in chunk(impl.query(query, prefixes=prefixes)):
         rows = []
         # collect rows in batch, and set label_fields if not already set
         for r in row_it:

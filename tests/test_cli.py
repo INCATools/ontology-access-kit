@@ -1030,7 +1030,9 @@ class TestCommandLineInterface(unittest.TestCase):
                 reader = csv.DictReader(file, delimiter="\t")
                 rows = [row for row in reader]
                 for e in expected:
-                    self.assertIn(e, rows)
+                    self.assertIn(
+                        e, rows, f"Expected {expected} for {query} in {adapter} with args {args}"
+                    )
                 # for case in cases:
                 #    self.assertIn(case, rows)
 

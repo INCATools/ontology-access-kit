@@ -1,3 +1,8 @@
+"""Representation and execution of complex boolean queries.
+
+See also `<https://incatools.github.io/ontology-access-kit/howtos/use-oak-expression-language.html>`_.
+"""
+
 import itertools
 import logging
 import re
@@ -38,13 +43,19 @@ TERM = Union["Query", str, List[str]]
 
 
 class OperatorEnum(str, Enum):
+    """Boolean operators for queries."""
+
     AND = "and"
     OR = "or"
     NOT = "not"
 
 
 class FunctionEnum(str, Enum):
+    """Enumeration of types of functions for queries."""
+
     ANCESTOR = "anc"
+    """Ancestor query."""
+
     DESCENDANT = "desc"
     SUBCLASS = "sub"
     CHILD = "child"
@@ -53,6 +64,7 @@ class FunctionEnum(str, Enum):
     MRCA = "mrca"
     NON_REDUNDANT = "nr"
     GAP_FILL = "gap_fill"
+    QUERY = "query"
 
 
 class Query(BaseModel):
@@ -576,7 +588,7 @@ def query_terms_iterator(
             query_terms = query_terms[1:]
             chain_results(eval(expr, {"impl": adapter, "terms": results}))  # noqa
         elif term.startswith(".query"):
-            # arbitrary SPARQL query
+            # arbitrary SPARQL or SQL query (implementation specific)
             params = _parse_params(term)
             prefixes = params.get("prefixes", None)
             query = query_terms[0]
