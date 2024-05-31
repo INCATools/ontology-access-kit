@@ -82,9 +82,9 @@ or any is-a :term:`Descendant`:
     runoak -i sqlite:obo:hp -G hpoa -g phenotype.hpoa associations -p i HP:0011482
 
 
-
 Further reading
 ---------------
 
+- `Ontogenesis article on associations <https://ontogenesis.knowledgeblog.org/50/>`_
 - `Gene Ontology: tool for the unification of biology <https://www.nature.com/articles/ng0500_25>`_
 - `On beyond Gruber: "Ontologies" in today's biomedical information systems and the limits of OWL <https://pubmed.ncbi.nlm.nih.gov/34384571/>`_.
