@@ -111,7 +111,7 @@ def create_lexical_index(
         steps = [
             LexicalTransformation(TransformationType.CaseNormalization),
             LexicalTransformation(TransformationType.WhitespaceNormalization),
-            LexicalTransformation(TransformationType.WordOrderNormalization),
+            # LexicalTransformation(TransformationType.WordOrderNormalization),
         ]
         if synonym_rules:
             steps.append(
