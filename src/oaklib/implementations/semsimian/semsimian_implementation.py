@@ -149,7 +149,7 @@ class SemSimianImplementation(
         semsimian = self._get_semsimian_object(
             predicates=predicates,
             attributes=self.term_pairwise_similarity_attributes,
-            custom_ic_map_path=self.custom_ic_map_path
+            custom_ic_map_path=self.custom_ic_map_path,
         )
 
         jaccard_val = semsimian.jaccard_similarity(subject, object)
@@ -206,7 +206,7 @@ class SemSimianImplementation(
         semsimian = self._get_semsimian_object(
             predicates=predicates,
             attributes=self.term_pairwise_similarity_attributes,
-            custom_ic_map_path=self.custom_ic_map_path
+            custom_ic_map_path=self.custom_ic_map_path,
         )
         all_results = semsimian.all_by_all_pairwise_similarity(
             subject_terms=set(subjects),

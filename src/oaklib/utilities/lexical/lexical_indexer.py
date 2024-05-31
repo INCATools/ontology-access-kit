@@ -152,7 +152,9 @@ def create_lexical_index(
                     for tr in pipeline.transformations:
                         if tr.type.code == TransformationType.Synonymization:
                             synonymized, term2, qualifier = apply_transformation(term2, tr)
-                            logging.debug(f"Synonymized: {synonymized} {term} => {term2} ({qualifier}) // {tr}")
+                            logging.debug(
+                                f"Synonymized: {synonymized} {term} => {term2} ({qualifier}) // {tr}"
+                            )
                             if qualifier != DEFAULT_QUALIFIER and qualifier is not None:
                                 pred = QUALIFIER_DICT[qualifier]
 

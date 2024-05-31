@@ -61,7 +61,9 @@ def logical_definition_matches(
     return True
 
 
-def roll_up_to_genus(term: CURIE, adapter: BasicOntologyInterface, predicates: List[PRED_CURIE]) -> CURIE:
+def roll_up_to_genus(
+    term: CURIE, adapter: BasicOntologyInterface, predicates: List[PRED_CURIE]
+) -> CURIE:
     """
     Walks up the genus hierarchy.
 
@@ -73,7 +75,7 @@ def roll_up_to_genus(term: CURIE, adapter: BasicOntologyInterface, predicates: L
     :return:
     """
     if not isinstance(adapter, OboGraphInterface):
-        raise NotImplemented
+        raise NotImplementedError
     replacement = None
     for ldef in adapter.logical_definitions([term]):
         if len(ldef.restrictions) == 1 and len(ldef.genusIds) == 1:

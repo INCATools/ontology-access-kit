@@ -213,6 +213,8 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         """
         assocs = []
         for e in self.entities(filter_obsoletes=True):
+            if e.startswith("<"):
+                continue
             assoc = Association(subject=e, predicate=EQUIVALENT_CLASS, object=e)
             assocs.append(assoc)
         self.add_associations(assocs)
