@@ -337,7 +337,9 @@ def onto_query(
 
     First the neuron query. We use the subclasses convenience predicate:
 
-    >>> subq = FunctionQuery(function=FunctionEnum.SUBCLASS, argument="interneuron", description="Entailed subclasses of interneuron")
+    >>> subq = FunctionQuery(
+    ...               function=FunctionEnum.SUBCLASS,
+    ...               argument="interneuron", description="Entailed subclasses of interneuron")
     >>> interneurons = onto_query(subq, cl)
 
     Next we will query for neurons located in the eyeball, using has-soma-location:
