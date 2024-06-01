@@ -111,6 +111,7 @@ def create_lexical_index(
         steps = [
             LexicalTransformation(TransformationType.CaseNormalization),
             LexicalTransformation(TransformationType.WhitespaceNormalization),
+            # LexicalTransformation(TransformationType.WordOrderNormalization),
         ]
         if synonym_rules:
             steps.append(
@@ -151,6 +152,9 @@ def create_lexical_index(
                     for tr in pipeline.transformations:
                         if tr.type.code == TransformationType.Synonymization:
                             synonymized, term2, qualifier = apply_transformation(term2, tr)
+                            logging.debug(
+                                f"Synonymized: {synonymized} {term} => {term2} ({qualifier}) // {tr}"
+                            )
                             if qualifier != DEFAULT_QUALIFIER and qualifier is not None:
                                 pred = QUALIFIER_DICT[qualifier]
 
@@ -473,11 +477,32 @@ def apply_transformation(
     term: str, transformation: LexicalTransformation
 ) -> Union[str, Tuple[bool, str, str]]:
     """
-    Apply an individual transformation on a term
+    Apply an individual transformation on a term.
+
+    >>> apply_transformation("FooBar", LexicalTransformation(TransformationType.CaseNormalization))
+    'foobar'
+
+    >>> apply_transformation("foo   bar", LexicalTransformation(TransformationType.WhitespaceNormalization))
+    'foo bar'
+
+    >>> apply_transformation("bar, foo; abc", LexicalTransformation(TransformationType.WordOrderNormalization))
+    'abc bar foo'
+
+    >>> rule = Synonymizer(match=r"iest$", replacement="y")
+    >>> apply_transformation("fuzziest", LexicalTransformation(TransformationType.Synonymization, params=[rule]))
+    (True, 'fuzzy', None)
+
+    >>> rule = Synonymizer(match=r"iest$", replacement="y", qualifier="related")
+    >>> apply_transformation("fuzziest", LexicalTransformation(TransformationType.Synonymization, params=[rule]))
+    (True, 'fuzzy', 'related')
+
+    >>> rule = Synonymizer(match=r"iest$", replacement="y")
+    >>> apply_transformation("foo", LexicalTransformation(TransformationType.Synonymization, params=[rule]))
+    (False, 'foo', 'exact')
 
     :param term: Original label.
     :param transformation: Type of transformation to be performed on the label.
-    :return: Transformed label.
+    :return: Transformed label or tuple of (if the label changed, new label, qualifier)
     """
     typ = str(transformation.type)
     logging.debug(f"Applying: {transformation}")
@@ -485,6 +510,10 @@ def apply_transformation(
         return term.lower()
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
+    elif typ == TransformationType.WordOrderNormalization.text:
+        toks = term.split()
+        toks = [x.rstrip(",;") for x in toks]
+        return " ".join(sorted(toks))
     elif typ == TransformationType.Synonymization.text:
         synonymized_results = apply_synonymizer(term, transformation.params)
         true_results = [x for x in list(synonymized_results) if x[0] is True]
