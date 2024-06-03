@@ -11,9 +11,11 @@ from kgcl_schema.datamodel.kgcl import (
     Change,
     ClassCreation,
     Edge,
-    EdgeChange,
-    EdgeCreation,
     EdgeDeletion,
+    Mapping,
+    MappingChange,
+    MappingCreation,
+    MappingDeletion,
     NewSynonym,
     NewTextDefinition,
     NodeCreation,
@@ -275,34 +277,34 @@ class DifferInterface(BasicOntologyInterface, ABC):
             if mappings_added_set:
                 for mapping in mappings_added_set:
                     predicate, xref = mapping
-                    edge_created = EdgeCreation(
+                    mapping_created = MappingCreation(
                         id=_gen_id(),
                         subject=entity,
                         predicate=predicate,
                         object=xref,
                     )
-                    yield edge_created
+                    yield mapping_created
             if mappings_removed_set:
                 for mapping in mappings_removed_set:
                     predicate, xref = mapping
-                    deleted_edge = EdgeDeletion(
+                    deleted_mapping = MappingDeletion(
                         id=_gen_id(),
                         subject=entity,
                         predicate=predicate,
                         object=xref,
                     )
-                    yield deleted_edge
+                    yield deleted_mapping
             if mapping_changed_set:
                 for changes in mapping_changed_set:
                     object, new_predicate, old_predicate = changes
-                    edge_change = EdgeChange(
+                    mapping_change = MappingChange(
                         id=_gen_id(),
-                        about_edge=Edge(subject=entity, predicate=old_predicate, object=object),
+                        about_mapping=Mapping(subject=entity, predicate=old_predicate, object=object),
                         old_value=old_predicate,
                         new_value=new_predicate,
                     )
 
-                    yield edge_change
+                    yield mapping_change
 
             # ! Subset changes
             self_subsets = set(self.terms_subsets([entity]))
