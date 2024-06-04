@@ -12,7 +12,6 @@ from kgcl_schema.datamodel.kgcl import (
     ClassCreation,
     Edge,
     EdgeDeletion,
-    Mapping,
     MappingChange,
     MappingCreation,
     MappingDeletion,
