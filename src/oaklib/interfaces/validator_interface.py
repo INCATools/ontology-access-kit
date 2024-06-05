@@ -1,3 +1,4 @@
+import logging
 from abc import ABC
 from typing import Any, Dict, Iterable, List, Optional, Union
 
@@ -290,6 +291,9 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         :param kwargs: additional arguments
         :return: mapping between CURIEs and pub objects
         """
+        if None in references:
+            logging.warning(f"Null in references: {references}")
+            references = [r for r in references if r]
         pubmed_wrapper = PubmedWrapper()
         pub_prefixes = ["PMID", "DOI", "PMC", "PMCID"]
         publication_ids = [

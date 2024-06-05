@@ -7,13 +7,18 @@ from oaklib.implementations.sparql.abstract_sparql_implementation import (
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.usages_interface import UsagesInterface
 
 ONTOBEE_MERGED_GRAPH_PREFIX = "http://purl.obolibrary.org/obo/merged/"
 
 
 @dataclass
 class OntobeeImplementation(
-    AbstractSparqlImplementation, SearchInterface, MappingProviderInterface, OboGraphInterface
+    AbstractSparqlImplementation,
+    SearchInterface,
+    MappingProviderInterface,
+    OboGraphInterface,
+    UsagesInterface,
 ):
     """
     An OAK adapter that standardizes access to the Ontobee sparql endpoint.

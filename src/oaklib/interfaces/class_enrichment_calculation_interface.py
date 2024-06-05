@@ -129,7 +129,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
             )
         }
 
-        hypotheses = [x for x in hypotheses if bg_count[x] > 1]
+        hypotheses = [x for x in hypotheses if sample_count.get(x, 0) > 1]
         logging.info("Filtered hypotheses: {}".format(hypotheses))
         num_hypotheses = len(hypotheses)
 
@@ -213,6 +213,8 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         """
         assocs = []
         for e in self.entities(filter_obsoletes=True):
+            if e.startswith("<"):
+                continue
             assoc = Association(subject=e, predicate=EQUIVALENT_CLASS, object=e)
             assocs.append(assoc)
         self.add_associations(assocs)

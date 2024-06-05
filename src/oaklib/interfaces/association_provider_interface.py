@@ -196,7 +196,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                 raise NotImplementedError
         ix = self._association_index
         if ix is None:
-            logging.warning(f"No association index for {type(self)}")
+            logging.info(f"No association index for {type(self)}")
             return
         yield from ix.lookup(subjects, predicates, objects)
 

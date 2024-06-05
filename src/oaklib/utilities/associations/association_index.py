@@ -81,10 +81,13 @@ class AssociationIndex:
     ) -> Iterator[Association]:
         session = self._session
         q = session.query(TermAssociation)
+        union_cutoff = 200
         if property_filter:
             raise NotImplementedError
         if subjects:
-            q = q.filter(TermAssociation.subject.in_(tuple(subjects)))
+            subjects = list(subjects)
+            if len(subjects) < union_cutoff:
+                q = q.filter(TermAssociation.subject.in_(tuple(subjects)))
         if predicates:
             q = q.filter(TermAssociation.predicate.in_(tuple(predicates)))
         if objects:
@@ -92,4 +95,7 @@ class AssociationIndex:
         logging.info(f"Association index lookup: {q}")
         for row in q:
             tup = (row.subject, row.predicate, row.object)
+            if subjects and len(subjects) < union_cutoff:
+                if row.subject not in subjects:
+                    continue
             yield from self._associations_by_spo[tup]

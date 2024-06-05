@@ -149,6 +149,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
+from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.axioms.logical_definition_utilities import (
@@ -278,6 +279,7 @@ class SqlImplementation(
     OwlInterface,
     DumperInterface,
     MergeInterface,
+    UsagesInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.

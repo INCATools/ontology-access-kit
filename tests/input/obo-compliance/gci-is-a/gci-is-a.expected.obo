@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: gci-is-a
+
+[Term]
+id: X:1
+is_a: X:2 {gci_predicate="R:2"}
+

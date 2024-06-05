@@ -14,6 +14,13 @@ class OntologyInterface:
     resource: OntologyResource = None
     strict: bool = False
 
+    @property
+    def implementation_name(self):
+        n = type(self).__name__
+        if self.resource.slug:
+            n += "-" + self.resource.slug
+        return n
+
     @classmethod
     def create(cls, resource: OntologyResource) -> "OntologyInterface":
         """

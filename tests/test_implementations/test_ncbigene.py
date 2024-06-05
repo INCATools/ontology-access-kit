@@ -41,7 +41,7 @@ class TestNCBIGene(unittest.TestCase):
         root = ElementTree.parse(str(GENE_PATH)).getroot()  # noqa S314
         if not isinstance(adapter, NCBIGeneImplementation):
             raise AssertionError
-        assocs = list(adapter.associations_from_xml("NCBIGene:1956", root))
+        assocs = list(adapter._go_associations_from_xml("NCBIGene:1956", root))
         self.assertGreater(len(assocs), 0)
         self.assertEqual(assocs[0].subject, "NCBIGene:1956")
         found = 0

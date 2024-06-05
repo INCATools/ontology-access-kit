@@ -5,6 +5,7 @@ from abc import ABC
 from dataclasses import dataclass, field
 from typing import ClassVar, Iterable, Iterator, Optional, Tuple
 
+import requests_cache
 from eutils import Client
 
 __all__ = [
@@ -22,6 +23,8 @@ from oaklib.types import CURIE, PRED_CURIE
 
 logger = logging.getLogger(__name__)
 
+NCBI_REQUESTS_CACHE = ".ncbi_requests_cache"
+
 
 @dataclass
 class EUtilsImplementation(OboGraphInterface, ABC):
@@ -30,9 +33,19 @@ class EUtilsImplementation(OboGraphInterface, ABC):
     """
 
     entrez_client: Client = field(default_factory=lambda: Client())
+    # 0.6.0 release in 2019 - considered switching to direct API calls?
 
     database: ClassVar[Optional[str]] = None
     entity_type: ClassVar[Optional[str]] = None
+
+    # alternative to entrez_client
+    _requests_session: requests_cache.CachedSession = None
+
+    @property
+    def requests_session(self):
+        if self._requests_session is None:
+            self._requests_session = requests_cache.CachedSession(NCBI_REQUESTS_CACHE)
+        return self._requests_session
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
         if lang is not None:

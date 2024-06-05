@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass
 
 from oaklib.datamodels import obograph
-from oaklib.implementations.eutils.eutils_implementation import EUtilsImplementation
+from oaklib.implementations.ncbi.eutils_implementation import EUtilsImplementation
 
 __all__ = [
     "PubMedImplementation",
@@ -37,7 +37,10 @@ class PubMedImplementation(EUtilsImplementation):
         **kwargs,
     ) -> obograph.Node:
         ec = self.entrez_client
+        if ":" in curie and not curie.startswith("PMID:"):
+            return obograph.Node(id=curie, lbl=curie)
         local_id = curie.replace("PMID:", "")
+        logger.info(f"Fetching {local_id} from {self.database}")
         paset = ec.efetch(db=self.database, id=local_id)
         for pa in paset:
             n = obograph.Node(
