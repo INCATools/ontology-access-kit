@@ -12,13 +12,13 @@ from oaklib.implementations.aggregator.aggregator_implementation import (
 from oaklib.implementations.agrkb.agrkb_implementation import AGRKBImplementation
 from oaklib.implementations.amigo.amigo_implementation import AmiGOImplementation
 from oaklib.implementations.cx.cx_implementation import CXImplementation
-from oaklib.implementations.eutils.pubmed_implementation import PubMedImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.kgx.kgx_implementation import KGXImplementation
 from oaklib.implementations.llm_implementation import LLMImplementation
 from oaklib.implementations.monarch.monarch_implementation import MonarchImplementation
 from oaklib.implementations.ncbi.ncbi_gene_implementation import NCBIGeneImplementation
+from oaklib.implementations.ncbi.pubmed_implementation import PubMedImplementation
 from oaklib.implementations.ols import (
     BaseOlsImplementation,
     OlsImplementation,
@@ -44,6 +44,7 @@ from oaklib.implementations.pantherdb.pantherdb_implementation import (
     PantherDBImplementation,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.quickgo.quickgo_implementation import QuickGOImplementation
 from oaklib.implementations.semsimian.semsimian_implementation import (
     SemSimianImplementation,
 )
@@ -86,6 +87,7 @@ __all__ = [
     "NCBIGeneImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
+    "QuickGOImplementation",
     "SimpleOboImplementation",
     "SqlImplementation",
     "UbergraphImplementation",

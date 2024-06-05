@@ -23,6 +23,7 @@ from oaklib.interfaces.rdf_interface import TRIPLE
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
@@ -53,6 +54,7 @@ class UbergraphImplementation(
     MappingProviderInterface,
     SemanticSimilarityInterface,
     SubsetterInterface,
+    UsagesInterface,
 ):
     """
     Wraps the Ubergraph sparql endpoint

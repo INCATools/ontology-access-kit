@@ -5,6 +5,7 @@ import yaml
 from linkml_runtime import CurieNamespace
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
+from pydantic import BaseModel
 
 from oaklib.io.streaming_writer import StreamingWriter
 
@@ -27,7 +28,7 @@ class StreamingYamlWriter(StreamingWriter):
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
         if self.object_count:
             self.file.write("\n---\n")
-        if isinstance(obj, YAMLRoot):
+        if isinstance(obj, (YAMLRoot, BaseModel)):
             obj_as_dict = json_dumper.to_dict(obj)
             # self.file.write(yaml_dumper.dumps(obj))
         elif isinstance(obj, dict):

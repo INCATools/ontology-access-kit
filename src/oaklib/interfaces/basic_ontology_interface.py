@@ -637,7 +637,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
         :return: iterator
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{type(self)} does not implement entities()")
 
     @deprecated("Replaced by entities")
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:

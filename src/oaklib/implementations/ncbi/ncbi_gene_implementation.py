@@ -8,9 +8,10 @@ from xml.etree import ElementTree  # noqa S405
 import requests
 
 from oaklib.constants import TIMEOUT_SECONDS
-from oaklib.datamodels.association import Association
+from oaklib.datamodels.association import Association, NegatedAssociation
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import RDFS_LABEL
+from oaklib.implementations.ncbi.eutils_implementation import EUtilsImplementation
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -25,6 +26,7 @@ from oaklib.types import CURIE, PRED_CURIE
 
 EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+ELINK_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +34,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class NCBIGeneImplementation(
     AssociationProviderInterface,
+    EUtilsImplementation,
     SearchInterface,
 ):
     """
@@ -80,6 +83,27 @@ class NCBIGeneImplementation(
         subjects: Iterable[CURIE] = None,
         predicates: Iterable[PRED_CURIE] = None,
         objects: Iterable[CURIE] = None,
+        **kwargs,
+    ) -> Iterator[Association]:
+        if subjects is not None:
+            subjects = list(subjects)
+        if predicates is not None:
+            predicates = list(predicates)
+        if objects is not None:
+            objects = list(objects)
+        # TODO: branch logic based on predicates if specified
+        yield from self.go_associations(
+            subjects=subjects, predicates=predicates, objects=objects, **kwargs
+        )
+        yield from self.pubmed_associations(
+            subjects=subjects, predicates=predicates, objects=objects, **kwargs
+        )
+
+    def go_associations(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
         property_filter: Dict[PRED_CURIE, Any] = None,
         subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
@@ -88,11 +112,26 @@ class NCBIGeneImplementation(
         add_closure_fields: bool = False,
         **kwargs,
     ) -> Iterator[Association]:
+        """
+        Extracts GO associations from the NCBIGene database.
+
+        :param subjects:
+        :param predicates:
+        :param objects:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :param add_closure_fields:
+        :param kwargs:
+        :return:
+        """
         logging.info(f"SUBJS: {subjects}")
         if subjects:
             subjects = list(subjects)
         if not subjects:
-            raise ValueError("NCBIGene requires subjects")
+            raise ValueError("NCBIGene requires subjects to be specified")
 
         for subject in subjects:
             if subject.startswith("NCBIGene:"):
@@ -106,14 +145,76 @@ class NCBIGeneImplementation(
                 "id": gene_id,
                 "retmode": "xml",
             }
-            response = requests.get(EFETCH_URL, params, timeout=TIMEOUT_SECONDS)
+            response = self.requests_session.get(EFETCH_URL, params, timeout=TIMEOUT_SECONDS)
 
             # Parsing the XML file
             root = ElementTree.fromstring(response.content)  # noqa S314
 
-            yield from self.associations_from_xml(subject, root)
+            yield from self._go_associations_from_xml(subject, root)
 
-    def associations_from_xml(self, subject, root):
+    def pubmed_associations(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        add_closure_fields: bool = False,
+        **kwargs,
+    ) -> Iterator[Association]:
+        """
+        Extracts pubmed associations from the NCBIGene database.
+
+        :param subjects:
+        :param predicates:
+        :param objects:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :param add_closure_fields:
+        :param kwargs:
+        :return:
+        """
+        logging.info(f"SUBJS: {subjects}")
+        if subjects:
+            subjects = list(subjects)
+        if not subjects:
+            raise ValueError("NCBIGene requires subjects to be specified")
+
+        for subject in subjects:
+            if subject.startswith("NCBIGene:"):
+                gene_id = subject.split(":")[1]
+            elif subject.isnumeric():
+                gene_id = subject
+            else:
+                raise ValueError("NCBIGene requires subjects to be NCBIGene CURIEs or numbers")
+            params = {
+                "dbfrom": "gene",  # Link from Gene database
+                "db": "pubmed",  # Link to PubMed database
+                "id": gene_id,  # Gene ID (as number)
+                "linkname": "gene_pubmed",  # Predefined link name for gene to PubMed
+            }
+            response = requests.get(ELINK_URL, params, timeout=TIMEOUT_SECONDS)
+
+            # Parsing the XML file
+            root = ElementTree.fromstring(response.text)  # noqa S314
+            pmids = [linksetdb.text for linksetdb in root.findall(".//Link/Id")]
+
+            for pmid in pmids:
+                yield Association(
+                    subject=subject,
+                    # subject_label=gene_symbol,
+                    predicate="biolink:mentioned_by",
+                    object=f"PMID:{pmid}",
+                    # object_label=go_label,
+                )
+
+    def _go_associations_from_xml(self, subject, root):
         """
         Extracts associations from the XML file
 
@@ -152,10 +253,16 @@ class NCBIGeneImplementation(
                             evidence = other_source.find("Other-source_post-text").text
                             evidence = evidence.split(": ")[1]
                             # Adding the extracted information to the list
-                            assoc = Association(
+                            preds = predicate.split(" ")
+                            main_predicate = preds[-1]
+                            cls = Association
+                            if len(preds) > 1:
+                                if preds[0] == "NOT":
+                                    cls = NegatedAssociation
+                            assoc = cls(
                                 subject=subject,
                                 subject_label=gene_symbol,
-                                predicate=predicate,
+                                predicate=f"biolink:{main_predicate}",
                                 object=go_id,
                                 object_label=go_label,
                                 evidence_type=evidence,
