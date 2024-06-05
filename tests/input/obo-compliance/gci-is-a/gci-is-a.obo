@@ -3,5 +3,5 @@ ontology: gci-is-a
 
 [Term]
 id: X:1
-is_a: X:2 {gci_predicate="R:2", gci_filler="X:3"}
+is_a: X:2 {gci_relation="R:2", gci_filler="X:3"}
 
