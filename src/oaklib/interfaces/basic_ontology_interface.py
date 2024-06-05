@@ -2,6 +2,7 @@ import itertools
 import logging
 from abc import ABC
 from collections import defaultdict
+from copy import copy
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
@@ -164,6 +165,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     _edge_index: Optional[EdgeIndex] = None
     _entailed_edge_index: Optional[EdgeIndex] = None
 
+    _prefix_map: Optional[PREFIX_MAP] = None
+
     def prefix_map(self) -> PREFIX_MAP:
         """
         Return a dictionary mapping all prefixes known to the resource to their URI expansion.
@@ -183,7 +186,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :return: prefix map
         """
-        return get_default_prefix_map()
+        if not self._prefix_map:
+            self._prefix_map = copy(get_default_prefix_map())
+        return self._prefix_map
 
     @deprecated("Replaced by prefix_map")
     def get_prefix_map(self) -> PREFIX_MAP:
