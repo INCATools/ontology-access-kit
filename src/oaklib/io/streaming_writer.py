@@ -7,6 +7,7 @@ from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Type,
 from linkml_runtime import SchemaView
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
+from pydantic import BaseModel
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import Node
@@ -65,7 +66,9 @@ class StreamingWriter:
             else:
                 self.file = self._output
 
-    def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields: Optional[List[str]] = None):
+    def emit(
+        self, obj: Union[YAMLRoot, BaseModel, dict, CURIE], label_fields: Optional[List[str]] = None
+    ):
         """
         Emit an object or CURIE
 
@@ -77,6 +80,8 @@ class StreamingWriter:
             self.emit_curie(obj)
         elif isinstance(obj, Node):
             self.emit_curie(obj.id)
+        elif isinstance(obj, BaseModel):
+            self.emit_obj(obj)
         elif isinstance(obj, dict):
             self.emit_curie(obj[ID_KEY], obj.get(LABEL_KEY, None))
         else:
@@ -100,7 +105,7 @@ class StreamingWriter:
     def emit_curie(self, curie: CURIE, label=None):
         raise NotImplementedError
 
-    def emit_obj(self, obj: YAMLRoot):
+    def emit_obj(self, obj: Union[YAMLRoot, BaseModel]):
         obj_as_dict = json_dumper.to_dict(obj)
         return self.emit(obj_as_dict)
 

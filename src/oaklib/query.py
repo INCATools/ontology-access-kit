@@ -17,12 +17,25 @@ from oaklib import BasicOntologyInterface
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.vocabulary import (
     DEVELOPS_FROM,
+    DISJOINT_WITH,
+    ENABLED_BY,
+    ENABLES,
     EQUIVALENT_CLASS,
+    HAS_DIRECT_INPUT,
+    HAS_INPUT,
+    HAS_OUTPUT,
+    HAS_PART,
     IS_A,
+    NEGATIVELY_REGULATES,
+    OCCURS_IN,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     PART_OF,
+    POSITIVELY_REGULATES,
     RDF_TYPE,
+    RDFS_DOMAIN,
+    RDFS_RANGE,
+    REGULATES,
 )
 from oaklib.interfaces import (
     OboGraphInterface,
@@ -30,6 +43,7 @@ from oaklib.interfaces import (
     SearchInterface,
     SubsetterInterface,
 )
+from oaklib.interfaces.obograph_interface import GraphTraversalMethod
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.subsets.slimmer_utils import filter_redundant
@@ -488,6 +502,7 @@ def query_terms_iterator(
 
     # queries can be nested using square brackets
     query_terms = nest_list_of_terms(query_terms)
+    logging.debug(f"Query terms: {query_terms}")
 
     while len(query_terms) > 0:
         # process each query term. A query term is either:
@@ -518,16 +533,23 @@ def query_terms_iterator(
                 lines = [line.strip() for line in file.readlines()]
                 query_terms = lines + query_terms
         elif re.match(r"^([\w\-\.]+):(\S+)$", term):
+            logging.debug(f"CURIE: {term}")
+            if term.endswith(","):
+                logging.info(f"Removing trailing comma from {term}")
+                term = term[:-1]
             # CURIE
             chain_results(term)
         elif re.match(r"^http(\S+)$", term):
+            logging.debug(f"URI: {term}")
             # URI
             chain_results(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
+            logging.debug(f"Predicates: {term}")
             logging.warning("Deprecated: pass as parameter instead")
             m = re.match(r"^\.predicates=(\S*)$", term)
             predicates = _process_predicates_arg(m.group(1))
         elif term == ".and":
+            logging.debug("AND")
             # boolean term: consume the result of the query and intersect
             rest = list(query_terms_iterator(query_terms, adapter))
             for x in results:
@@ -535,6 +557,7 @@ def query_terms_iterator(
                     yield x
             query_terms = []
         elif term == ".xor":
+            logging.debug("XOR")
             # boolean term: consume the result of the query and xor
             rest = list(query_terms_iterator(query_terms, adapter))
             remaining = []
@@ -548,6 +571,7 @@ def query_terms_iterator(
                     yield x
             query_terms = []
         elif term == ".not" or term == ".minus":
+            logging.debug("Minus")
             # boolean term: consume the result of the query and subtract
             rest = list(query_terms_iterator(query_terms, adapter))
             for x in results:
@@ -555,15 +579,20 @@ def query_terms_iterator(
                     yield x
             query_terms = []
         elif term == ".or":
+            logging.debug("OR")
             # or is implicit
             pass
         elif term.startswith(".all"):
+            logging.debug("All")
             chain_results(adapter.entities(filter_obsoletes=False))
         elif term.startswith(".classes"):
+            logging.debug("Classes")
             chain_results(adapter.entities(owl_type=OWL_CLASS))
         elif term.startswith(".relations"):
+            logging.debug("Relations")
             chain_results(adapter.entities(owl_type=OWL_OBJECT_PROPERTY))
         elif term.startswith(".rand"):
+            logging.debug(f"Random: {term}")
             params = _parse_params(term)
             sample_size = params.get("n", "100")
             entities = list(adapter.entities())
@@ -572,22 +601,28 @@ def query_terms_iterator(
             ]
             chain_results(sample)
         elif term.startswith(".in"):
+            logging.debug(f"IN: {term}")
             # subset query
             subset = query_terms[0]
             query_terms = query_terms[1:]
             chain_results(adapter.subset_members(subset))
         elif term.startswith(".is_obsolete"):
+            logging.debug("Obsolete")
             chain_results(adapter.obsoletes())
         elif term.startswith(".non_obsolete"):
+            logging.debug("Non-obsolete")
             chain_results(adapter.entities(filter_obsoletes=True))
         elif term.startswith(".dangling"):
+            logging.debug("Dangling")
             chain_results(adapter.dangling())
         elif term.startswith(".filter"):
+            logging.debug(f"Filter: {term}")
             # arbitrary python expression
             expr = query_terms[0]
             query_terms = query_terms[1:]
             chain_results(eval(expr, {"impl": adapter, "terms": results}))  # noqa
         elif term.startswith(".query"):
+            logging.debug(f"Query: {term}")
             # arbitrary SPARQL or SQL query (implementation specific)
             params = _parse_params(term)
             prefixes = params.get("prefixes", None)
@@ -595,6 +630,7 @@ def query_terms_iterator(
             query_terms = query_terms[1:]
             chain_results([list(v.values())[0] for v in adapter.query(query, prefixes=prefixes)])
         elif term.startswith(".desc"):
+            logging.debug(f"Descendants: {term}")
             # graph query: descendants
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
@@ -605,6 +641,7 @@ def query_terms_iterator(
             else:
                 raise NotImplementedError
         elif term.startswith(".sub"):
+            logging.debug(f"Subclasses: {term}")
             # graph query: is-a descendants
             rest = list(query_terms_iterator([query_terms[0]], adapter))
             query_terms = query_terms[1:]
@@ -613,6 +650,7 @@ def query_terms_iterator(
             else:
                 raise NotImplementedError
         elif term.startswith(".child"):
+            logging.debug(f"Children: {term}")
             # graph query: children
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
@@ -623,6 +661,7 @@ def query_terms_iterator(
             ]
             chain_results(children)
         elif term.startswith(".parent"):
+            logging.debug(f"Parents: {term}")
             # graph query: parents
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
@@ -633,6 +672,7 @@ def query_terms_iterator(
             ]
             chain_results(parents)
         elif term.startswith(".sib"):
+            logging.debug(f"Siblings: {term}")
             # graph query: siblings
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
@@ -647,16 +687,23 @@ def query_terms_iterator(
             ]
             chain_results(sibs)
         elif term.startswith(".anc"):
+            logging.debug(f"Anc: {term}")
             # graph query: ancestors
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
+            this_method = params.get("method", None)
+            if this_method is not None:
+                this_method = GraphTraversalMethod(this_method)
             rest = list(query_terms_iterator([query_terms[0]], adapter))
             query_terms = query_terms[1:]
             if isinstance(adapter, OboGraphInterface):
-                chain_results(adapter.ancestors(rest, predicates=this_predicates))
+                chain_results(
+                    adapter.ancestors(rest, predicates=this_predicates, method=this_method)
+                )
             else:
                 raise NotImplementedError
         elif term.startswith(".mrca"):
+            logging.debug(f"MRCA: {term}")
             # graph query: most recent common ancestors
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
@@ -669,6 +716,7 @@ def query_terms_iterator(
             else:
                 raise NotImplementedError
         elif term.startswith(".nr"):
+            logging.debug(f"Non-redundant: {term}")
             # graph query: non-redundant
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
@@ -676,6 +724,7 @@ def query_terms_iterator(
             query_terms = query_terms[1:]
             chain_results(filter_redundant(adapter, rest, this_predicates))
         elif term.startswith(".gap_fill"):
+            logging.debug(f"Gap fill: {term}")
             if not isinstance(adapter, SubsetterInterface):
                 raise NotImplementedError
             params = _parse_params(term)
@@ -684,9 +733,13 @@ def query_terms_iterator(
             query_terms = query_terms[1:]
             chain_results(adapter.gap_fill_relationships(rest, predicates=this_predicates))
         else:
+            logging.debug(f"Atomic term: {term}")
             # term is not query syntax: feed directly to search
             if not isinstance(adapter, SearchInterface):
                 raise NotImplementedError(f"Search not implemented for {type(adapter)}")
+            if term.endswith(","):
+                logging.info(f"Removing trailing comma from {term}")
+                term = term[:-1]
             cfg = create_search_configuration(term)
             logging.info(f"Search config: {term} => {cfg}")
             chain_results(adapter.basic_search(cfg.search_terms[0], config=cfg))
@@ -773,7 +826,13 @@ def _process_predicates_arg(
         inputs = predicates_str.split(",")
     else:
         inputs = predicates_str.split("+")
-    preds = [_shorthand_to_pred_curie(p) for p in inputs]
+    preds = []
+    for p in inputs:
+        next_preds = _shorthand_to_pred_curie(p)
+        if isinstance(next_preds, list):
+            preds.extend(next_preds)
+        else:
+            preds.append(next_preds)
     if exclude_predicates_str:
         if "," in exclude_predicates_str:
             exclude_inputs = exclude_predicates_str.split(",")
@@ -791,16 +850,29 @@ def _process_predicates_arg(
     return preds
 
 
-def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
+def _shorthand_to_pred_curie(shorthand: str) -> Union[PRED_CURIE, List[PRED_CURIE]]:
+    # TODO: replace with a transparent lookup table
     if shorthand == "i":
         return IS_A
     elif shorthand == "p":
         return PART_OF
+    elif shorthand == "h":
+        return HAS_PART
+    elif shorthand == "o":
+        return OCCURS_IN
     elif shorthand == "d":
         return DEVELOPS_FROM
+    elif shorthand == "en":
+        return [ENABLES, ENABLED_BY]
+    elif shorthand == "io":
+        return [HAS_INPUT, HAS_OUTPUT, HAS_DIRECT_INPUT]
+    elif shorthand == "r":
+        return [REGULATES, NEGATIVELY_REGULATES, POSITIVELY_REGULATES]
     elif shorthand == "t":
         return RDF_TYPE
     elif shorthand == "e":
         return EQUIVALENT_CLASS
+    elif shorthand == "owl":
+        return [IS_A, RDF_TYPE, EQUIVALENT_CLASS, DISJOINT_WITH, RDFS_DOMAIN, RDFS_RANGE]
     else:
         return shorthand
