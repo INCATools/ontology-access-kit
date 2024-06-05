@@ -1,0 +1,17 @@
+format-version: 1.2
+ontology: test.obo
+idspace: dc http://purl.org/dc/elements/1.1/ 
+idspace: oboInOwl http://www.geneontology.org/formats/oboInOwl# 
+idspace: owl http://www.w3.org/2002/07/owl# 
+idspace: rdf http://www.w3.org/1999/02/22-rdf-syntax-ns# 
+idspace: rdfs http://www.w3.org/2000/01/rdf-schema# 
+idspace: terms http://purl.org/dc/terms/ 
+idspace: xml http://www.w3.org/XML/1998/namespace 
+idspace: xsd http://www.w3.org/2001/XMLSchema# 
+idspace: HP http://purl.obolibrary.org/obo/HP_
+
+[Term]
+id: HP:0000001
+name: All
+def: "." [PMID:1]
+

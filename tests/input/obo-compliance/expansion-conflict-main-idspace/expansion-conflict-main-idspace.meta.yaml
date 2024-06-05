@@ -1,0 +1,5 @@
+name: expansion-conflict-main-idspace
+name: expansion-conflict-main-idspace
+description: tests conflicting expansions for the main ID space
+invalid: true
+seeAlso: https://github.com/INCATools/ontology-access-kit/issues/760

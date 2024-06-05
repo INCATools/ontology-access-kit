@@ -103,6 +103,24 @@ class TestSimpleOboImplementation(unittest.TestCase):
             if iri is not None:
                 self.assertEqual(oi.uri_to_curie(iri), curie, f"in contract iri: {iri}")
 
+    def test_conflicting_oio_prefixes(self):
+        """
+        See https://github.com/INCATools/ontology-access-kit/issues/702
+        """
+        # TODO: DRY. This is currently duplicative of a pronto test
+        resource = OntologyResource(
+            slug="metadata-map-prefixes-test.obo", directory=INPUT_DIR, local=True
+        )
+        adapter = SimpleOboImplementation(resource)
+        m = adapter.entity_metadata_map("HP:0000001")
+        self.assertIsNotNone(m)
+        uri = "http://www.geneontology.org/formats/oboInOwl#foo"
+        curie = adapter.uri_to_curie(uri)
+        # behavior is currently intentionally undefined
+        assert curie == "oio:foo" or curie == "oboInOwl:foo"
+        # must be reversible
+        assert adapter.curie_to_uri(curie) == uri
+
     def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map("GO:0005773")

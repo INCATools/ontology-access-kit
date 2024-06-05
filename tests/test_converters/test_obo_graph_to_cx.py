@@ -16,7 +16,7 @@ OUT = OUTPUT_DIR / "go-nucleus.cx"
 
 
 class OboGraphToCXTest(unittest.TestCase):
-    """Tests OBO JSON -> RDF/OWL."""
+    """Tests OBO JSON -> NDEx CX format."""
 
     def setUp(self):
         self.converter = OboGraphToCXConverter()
