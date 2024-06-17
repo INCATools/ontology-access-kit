@@ -1,7 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from io import TextIOWrapper
-from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple, Type
 
 from sssom_schema import Mapping
 
@@ -12,6 +12,7 @@ from oaklib.datamodels.validation_datamodel import (
     ValidationConfiguration,
     ValidationResult,
 )
+from oaklib.interfaces.association_provider_interface import AssociationProviderInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     DEFINITION,
@@ -25,12 +26,14 @@ from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TEXT, TextAnnotatorInterface
+from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
 
 @dataclass
 class AggregatorImplementation(
+    AssociationProviderInterface,
     ValidatorInterface,
     RdfInterface,
     RelationGraphInterface,
@@ -38,6 +41,7 @@ class AggregatorImplementation(
     SearchInterface,
     MappingProviderInterface,
     TextAnnotatorInterface,
+    UsagesInterface,
 ):
     """
     An OAK adapter that wraps multiple implementations and integrates results together.
@@ -78,10 +82,20 @@ class AggregatorImplementation(
 
     implementations: List[BasicOntologyInterface] = None
 
-    def _delegate_iterator(self, func: Callable) -> Iterator:
+    @property
+    def implementation_name(self):
+        impl_names = []
         for i in self.implementations:
-            for v in func(i):
-                yield v
+            impl_names.append(i.implementation_name)
+        return "-".join(impl_names)
+
+    def _delegate_iterator(
+        self, func: Callable, interface: Optional[Type[BasicOntologyInterface]] = None
+    ) -> Iterator:
+        for i in self.implementations:
+            if interface is None or isinstance(i, interface):
+                for v in func(i):
+                    yield v
 
     def _delegate_simple_tuple_map(self, func: Callable, strict=False) -> Dict[Any, List[Any]]:
         m = defaultdict(list)
@@ -107,11 +121,21 @@ class AggregatorImplementation(
     def entities(self, **kwargs) -> Iterable[CURIE]:
         return self._delegate_iterator(lambda i: i.entities(**kwargs))
 
+    def relationships(self, *args, **kwargs) -> Iterable[CURIE]:
+        return self._delegate_iterator(lambda i: i.relationships(*args, **kwargs))
+
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self._delegate_iterator(lambda i: i.simple_mappings_by_curie(curie))
 
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
-        return self._delegate_iterator(lambda i: i.get_sssom_mappings_by_curie(curie))
+        return self._delegate_iterator(
+            lambda i: i.get_sssom_mappings_by_curie(curie), MappingProviderInterface
+        )
+
+    def sssom_mappings(self, *args, **kwargs) -> Iterable[Mapping]:
+        return self._delegate_iterator(
+            lambda i: i.sssom_mappings(*args, **kwargs), MappingProviderInterface
+        )
 
     def label(self, curie: CURIE, **kwargs) -> str:
         return self._delegate_first(lambda i: i.label(curie, **kwargs))
@@ -150,6 +174,11 @@ class AggregatorImplementation(
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         return self._delegate_simple_tuple_map(lambda i: i.incoming_relationship_map(curie))
+
+    def associations(self, *args, **kwargs) -> Iterable[CURIE]:
+        return self._delegate_iterator(
+            lambda i: i.associations(*args, **kwargs), AssociationProviderInterface
+        )
 
     def annotate_text(
         self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None

@@ -309,7 +309,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param start_curies: curie or curies to start the walk from
         :param predicates: only traverse over these (traverses over all if this is not set)
         :param reflexive: include self
-        :param method:
+        :param method: HOP or ENTAILMENT
         :return: all ancestor CURIEs
         """
         if method and method == GraphTraversalMethod.ENTAILMENT:

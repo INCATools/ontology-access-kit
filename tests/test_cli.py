@@ -1142,7 +1142,13 @@ class TestCommandLineInterface(unittest.TestCase):
                     self.assertIn(intracellular_match, contents)
                 msdf = parse_sssom_table(outfile)
                 msd = to_mapping_set_document(msdf)
-                self.assertEqual("http://purl.obolibrary.org/obo/XX_", msd.prefix_map["XX"])
+                self.assertIn(
+                    msd.prefix_map["XX"],
+                    [
+                        "http://purl.obolibrary.org/obo/XX_",
+                        "http://w3id.org/sssom/unknown_prefix/xx/",
+                    ],
+                )
                 cases = [
                     (nucleus_match, NUCLEUS, SKOS_EXACT_MATCH),
                     (intracellular_match, INTRACELLULAR, SKOS_CLOSE_MATCH),

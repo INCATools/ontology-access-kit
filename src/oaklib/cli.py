@@ -107,6 +107,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.html_writer import HTMLWriter
 from oaklib.io.obograph_writer import write_graph
@@ -1439,7 +1440,6 @@ def annotate(
 @output_type_option
 # TODO: the main output option uses a filelike object
 @click.option("-o", "--output", help="Path to output file")
-# @output_option
 def viz(
     terms,
     predicates,
@@ -4183,6 +4183,77 @@ def apply_taxon_constraints(
 
 @main.command()
 @output_option
+@autolabel_option
+@output_type_option
+@output_option
+@click.option(
+    "--used-by-prefix",
+    "-P",
+    multiple=True,
+)
+@click.argument("terms", nargs=-1)
+def usages(
+    terms,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    used_by_prefix: List,
+    **kwargs,
+):
+    """
+    List usages of a term or set of terms.
+
+    Usages of neuron in GO:
+
+        runoak -i sqlite:obo:go usages CL:0000540
+
+    Association/annotations sources can also be used:
+
+        runoak -i quickgo: usages GO:0031969
+
+    Note this query may be slow - you can restrict to a species:
+
+        runoak -i quickgo:NCBITaxon:9606 usages GO:0031969
+
+    (this should return no results, as there should be no human proteins annotated
+    to chloroplast membrane)
+
+    Using amigo:
+
+        runoak -i amigo: usages GO:0031969
+
+    Using ubergraph:
+
+        runoak -i ubergraph: usages CL:0000540
+
+    This will include usages over multiple ontologies
+
+    You can multiple queries over multiple sources (an AggregatorImplementation):
+
+        runoak -i sqlite:obo:go -a ubergraph: -a amigo: -a quickgo: usages GO:0031969
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    if not isinstance(impl, UsagesInterface):
+        raise NotImplementedError(
+            f"Cannot execute this using {settings.impl} of type {type(settings.impl)}"
+        )
+    used_by = None
+    if "@" in terms:
+        ix = terms.index("@")
+        curies = list(query_terms_iterator(terms[:ix], impl))
+        used_by = terms[ix + 1 :]
+    else:
+        curies = list(query_terms_iterator(terms, impl))
+    for usage in impl.usages(curies, used_by=used_by, used_by_prefixes=used_by_prefix, **kwargs):
+        writer.emit(usage)
+
+
+@main.command()
+@output_option
 @predicates_option
 @autolabel_option
 @output_type_option
@@ -4662,6 +4733,7 @@ def rollup(
 @output_option
 @click.option(
     "--ontology-only/--no-ontology-only",
+    "-T",
     default=False,
     show_default=True,
     help="If true, perform a pseudo-enrichment analysis treating each term as an association to itself.",
@@ -4750,14 +4822,20 @@ def enrichment(
     actual_association_predicates = _process_predicates_arg(association_predicates)
     if sample_file:
         subjects = list(curies_from_file(sample_file, adapter=impl, allow_labels=allow_labels))
+        curies = list(query_terms_iterator(terms, impl))
     else:
         if "@" in terms:
+            if not ontology_only:
+                raise ValueError("Cannot use @ with --no-ontology-only")
             ix = terms.index("@")
             logging.info(f"Splitting terms into two, position = {ix}")
             subjects = list(query_terms_iterator(terms[0:ix], impl))
-            terms = terms[ix + 1 :]
+            curies = list(query_terms_iterator(terms[ix + 1 :], impl))
+            logging.info(f"Num Subjects={len(subjects)} (using {len(curies)} terms)")
         else:
             subjects = list(query_terms_iterator(terms, impl))
+            curies = None
+            logging.info(f"Num Subjects={len(subjects)} (using all terms)")
     if not subjects:
         raise ValueError("No terms or upload provided")
     background = (
@@ -4778,7 +4856,6 @@ def enrichment(
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.autolabel = autolabel
     writer.output = output
-    curies = list(query_terms_iterator(terms, impl))
     results = impl.enriched_classes(
         subjects,
         predicates=actual_association_predicates,

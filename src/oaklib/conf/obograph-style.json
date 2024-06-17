@@ -70,6 +70,12 @@
             "penwidth": 2,            
             "label": "ⓗ"
         },
+        "RO:0002333": {
+            "arrowhead": "box",
+            "color": "green",
+            "penwidth": 2,            
+            "label": "ⓔ"
+        },
         "RO:0004009": {
             "arrowhead": "box",
             "color": "green",
@@ -96,6 +102,21 @@
             "arrowhead": "tee",
             "color": "red",
             "label": "⇩"
+        },
+        "RO:0002233": {
+            "arrowhead": "diamond",
+            "color": "blue",
+            "label": "→⊚"
+        },
+        "RO:0002234": {
+            "arrowhead": "diamond",
+            "color": "blue",
+            "label": "⊚→"
+        },
+        "RO:0002400": {
+            "arrowhead": "diamond",
+            "color": "blue",
+            "label": "⇨⊚"
         },
         "RO:0002220": {
             "color": "gray",

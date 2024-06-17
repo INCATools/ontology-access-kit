@@ -1,0 +1,9 @@
+format-version: 1.2
+idspace: oboInOwl http://www.geneontology.org/formats/oboInOwl# 
+ontology: prefixes-conflict-oio
+
+[Term]
+id: X:1
+name: X:1
+def: "." []
+

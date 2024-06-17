@@ -1,0 +1,5 @@
+name: prefixes-conflict-skos
+name: prefixes-conflict-skos
+description: tests conflicting prefixes for the SKOS namespace
+unstable: true
+seeAlso: https://github.com/INCATools/ontology-access-kit/issues/760

@@ -21,6 +21,7 @@ __all__ = [
 ]
 
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
+from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.iterator_utils import chunk
 
@@ -130,6 +131,7 @@ def _normalize(curie: CURIE) -> CURIE:
 class AmiGOImplementation(
     AssociationProviderInterface,
     SearchInterface,
+    UsagesInterface,
 ):
     """
     Wraps AmiGO endpoint.
