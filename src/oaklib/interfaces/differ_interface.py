@@ -13,7 +13,8 @@ from kgcl_schema.datamodel.kgcl import (
     Edge,
     EdgeDeletion,
     MappingCreation,
-    MappingReplacement,
+    # MappingReplacement,
+    MappingPredicateChange,
     NewSynonym,
     NewTextDefinition,
     NodeCreation,
@@ -288,7 +289,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     predicate, xref = mapping
                     deleted_mapping = RemoveMapping(
                         id=_gen_id(),
-                        subject=entity,
+                        about_node=entity,
                         predicate=predicate,
                         object=xref,
                     )
@@ -296,9 +297,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
             if mapping_changed_set:
                 for changes in mapping_changed_set:
                     object, new_predicate, old_predicate = changes
-                    mapping_change = MappingReplacement(
+                    mapping_change = MappingPredicateChange(
                         id=_gen_id(),
-                        about_mapping=Edge(subject=entity, predicate=old_predicate, object=object),
+                        about_node = entity,
+                        object=object,
                         old_value=old_predicate,
                         new_value=new_predicate,
                     )
