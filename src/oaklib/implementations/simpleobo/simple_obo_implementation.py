@@ -907,14 +907,14 @@ class SimpleOboImplementation(
             elif tag == TAG_SUBSET:
                 if node_is_deleted:
                     continue
-                subsets1 = stanza1.simple_values(TAG_SUBSET)
-                subsets2 = stanza2.simple_values(TAG_SUBSET)
-                for subset in subsets1:
-                    if subset not in subsets2:
-                        yield kgcl.RemoveNodeFromSubset(id=_id(), about_node=t1id, in_subset=subset)
-                for subset in subsets2:
-                    if subset not in subsets1:
-                        yield kgcl.AddNodeToSubset(id=_id(), about_node=t2id, in_subset=subset)
+                xrefs1 = stanza1.simple_values(TAG_SUBSET)
+                xrefs2 = stanza2.simple_values(TAG_SUBSET)
+                for xref in xrefs1:
+                    if xref not in xrefs2:
+                        yield kgcl.RemoveNodeFromSubset(id=_id(), about_node=t1id, in_subset=xref)
+                for xref in xrefs2:
+                    if xref not in xrefs1:
+                        yield kgcl.AddNodeToSubset(id=_id(), about_node=t2id, in_subset=xref)
             elif tag == TAG_IS_A:
                 isas1 = stanza1.simple_values(TAG_IS_A)
                 isas2 = stanza2.simple_values(TAG_IS_A)
@@ -950,6 +950,17 @@ class SimpleOboImplementation(
                         yield kgcl.NewSynonym(
                             id=_id(), about_node=t2id, new_value=syn[0], predicate=pred
                         )
+            elif tag == TAG_XREF:
+                if node_is_deleted:
+                    continue
+                xrefs1 = stanza1.simple_values(TAG_XREF)
+                xrefs2 = stanza2.simple_values(TAG_XREF)
+                for xref in xrefs1:
+                    if xref not in xrefs2:
+                        yield kgcl.RemoveMapping(id=_id(), about_node=t1id, object=xref, predicate=HAS_DBXREF)
+                for xref in xrefs2:
+                    if xref not in xrefs1:
+                        yield kgcl.MappingCreation(id=_id(), subject=t2id, object=xref, predicate=HAS_DBXREF)
 
     def different_from(self, entity: CURIE, other_ontology: DifferInterface) -> bool:
         t1 = self._stanza(entity, strict=False)
