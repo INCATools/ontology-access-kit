@@ -957,10 +957,14 @@ class SimpleOboImplementation(
                 xrefs2 = stanza2.simple_values(TAG_XREF)
                 for xref in xrefs1:
                     if xref not in xrefs2:
-                        yield kgcl.RemoveMapping(id=_id(), about_node=t1id, object=xref, predicate=HAS_DBXREF)
+                        yield kgcl.RemoveMapping(
+                            id=_id(), about_node=t1id, object=xref, predicate=HAS_DBXREF
+                        )
                 for xref in xrefs2:
                     if xref not in xrefs1:
-                        yield kgcl.MappingCreation(id=_id(), subject=t2id, object=xref, predicate=HAS_DBXREF)
+                        yield kgcl.MappingCreation(
+                            id=_id(), subject=t2id, object=xref, predicate=HAS_DBXREF
+                        )
 
     def different_from(self, entity: CURIE, other_ontology: DifferInterface) -> bool:
         t1 = self._stanza(entity, strict=False)
