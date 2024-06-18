@@ -30,10 +30,12 @@ class ChangeHandler:
 
     def handle_new_synonym(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(obj.about_node)} | {obj.new_value} | {obj.predicate} |"
-            for obj in value
-        })
+        rows = list(
+            {
+                f"| {self._format_entity_labels(obj.about_node)} | {obj.new_value} | {obj.predicate} |"
+                for obj in value
+            }
+        )
 
         # Define the header for the table
         header = "| Term | New Synonym | Predicate |"
@@ -43,11 +45,13 @@ class ChangeHandler:
 
     def handle_edge_deletion(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.subject)} | {self._format_entity_labels(change.predicate)} |\
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.subject)} | {self._format_entity_labels(change.predicate)} |\
                 {self._format_entity_labels(change.object)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Subject| Predicate| Object|"
@@ -57,11 +61,13 @@ class ChangeHandler:
 
     def handle_edge_creation(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.subject)} | {self._format_entity_labels(change.predicate)} |\
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.subject)} | {self._format_entity_labels(change.predicate)} |\
                 {self._format_entity_labels(change.object)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Subject | Predicate | Object|"
@@ -71,12 +77,14 @@ class ChangeHandler:
 
     def handle_edge_change(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_edge.subject)} | \
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_edge.subject)} | \
                 {self._format_entity_labels(change.about_edge.predicate)} | \
                 {self._format_entity_labels(change.old_value)} | {self._format_entity_labels(change.new_value)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Subject | Predicate | Old Object | New Object |"
@@ -86,12 +94,14 @@ class ChangeHandler:
 
     def handle_node_move(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_edge.subject)} | \
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_edge.subject)} | \
                 {self._format_entity_labels(change.about_edge.predicate)} |\
                 {self._format_entity_labels(change.about_edge.object)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Subject | Predicate | Object |"
@@ -101,13 +111,15 @@ class ChangeHandler:
 
     def handle_predicate_change(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_edge.subject)} | \
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_edge.subject)} | \
                 {self._format_entity_labels(change.old_value)} |\
                 {self._format_entity_labels(change.new_value)} | \
                 {self._format_entity_labels(change.about_edge.object)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Subject | Old Predicate | New Predicate | Object |"
@@ -117,9 +129,12 @@ class ChangeHandler:
 
     def handle_node_rename(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {change.about_node} | {change.old_value} | {change.new_value} |" for change in value
-        })
+        rows = list(
+            {
+                f"| {change.about_node} | {change.old_value} | {change.new_value} |"
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| ID | Old Label | New Label |"
@@ -129,10 +144,12 @@ class ChangeHandler:
 
     def handle_remove_synonym(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |"
-            for change in value
-        })
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |"
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Term | Removed Synonym |"
@@ -142,11 +159,13 @@ class ChangeHandler:
 
     def hand_synonym_predicate_change(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |\
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |\
                   {change.new_value} | {change.target} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Term | Old Predicate | New Predicate | Synonym |"
@@ -156,11 +175,13 @@ class ChangeHandler:
 
     def handle_node_text_definition_change(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |\
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |\
                   {change.new_value} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Term | Old Text Definition | New Text Definition |"
@@ -170,11 +191,13 @@ class ChangeHandler:
 
     def handle_node_text_definition(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |\
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |\
                   {change.new_value} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Term | Old Text Definition | New Text Definition |"
@@ -224,28 +247,34 @@ class ChangeHandler:
 
     def handle_new_text_definition(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.new_value} |"
-            for change in value
-        })
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.new_value} |"
+                for change in value
+            }
+        )
         header = "| Term | New Text Definition |"
         self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
 
     def handle_remove_text_definition(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |"
-            for change in value
-        })
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.old_value} |"
+                for change in value
+            }
+        )
         header = "| Term | Removed Text Definition |"
         self.write_markdown_table(f"Text definitions removed: {len(rows)}", header, rows)
 
     def handle_node_obsoletion_with_direct_replacement(self, value):
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} |\
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} |\
                   {self._format_entity_labels(change.has_direct_replacement)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
         header = "| Term | Replacement |"
         self.write_markdown_table(f"Nodes obsoleted with replacement: {len(rows)}", header, rows)
 
@@ -255,39 +284,48 @@ class ChangeHandler:
         self.write_markdown_table(f"Nodes obsoleted without replacement: {len(rows)}", header, rows)
 
     def handle_node_direct_merge(self, value):
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} |\
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} |\
                   {self._format_entity_labels(change.has_direct_replacement)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
         header = "| Term | Replacement |"
         self.write_markdown_table(f"Nodes merged: {len(rows)}", header, rows)
 
     def handle_add_node_to_subset(self, value):
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.in_subset} |"
-            for change in value
-        })
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.in_subset} |"
+                for change in value
+            }
+        )
         header = "| Term | Subset |"
         self.write_markdown_table(f"Nodes added to subset: {len(rows)}", header, rows)
 
     def handle_mapping_creation(self, value):
-        rows = list({
-            f"| {self._format_entity_labels(change.subject)} | {change.predicate} | {self._format_entity_labels(change.object)} |"
-            for change in value
-        })
+        rows = list(
+            {
+                f"""| {self._format_entity_labels(change.subject)}
+                | {change.predicate} | {self._format_entity_labels(change.object)} |"""
+                for change in value
+            }
+        )
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings added: {len(rows)}", header, rows)
-    
+
     def handle_mapping_predicate_change(self, value):
         # Create rows for the table
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | \
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | \
                 {self._format_entity_labels(change.old_value)} |\
                 {self._format_entity_labels(change.new_value)} | \
                 {self._format_entity_labels(change.object)} |"
-            for change in value
-        })
+                for change in value
+            }
+        )
 
         # Define the header for the table
         header = "| Subject | Old Mapping Predicate | New Mapping Predicate | Object |"
@@ -296,10 +334,13 @@ class ChangeHandler:
         self.write_markdown_table(f"Mappings changed: {len(rows)}", header, rows)
 
     def handle_remove_mapping(self, value):
-        rows = list({
-            f"| {self._format_entity_labels(change.about_node)} | {change.predicate} | {self._format_entity_labels(change.object)} |"
-            for change in value
-        })
+        rows = list(
+            {
+                f"""| {self._format_entity_labels(change.about_node)}
+                | {change.predicate} | {self._format_entity_labels(change.object)} |"""
+                for change in value
+            }
+        )
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings removed: {len(rows)}", header, rows)
 

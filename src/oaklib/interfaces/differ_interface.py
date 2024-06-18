@@ -299,7 +299,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                     object, new_predicate, old_predicate = changes
                     mapping_change = MappingPredicateChange(
                         id=_gen_id(),
-                        about_node = entity,
+                        about_node=entity,
                         object=object,
                         old_value=old_predicate,
                         new_value=new_predicate,
