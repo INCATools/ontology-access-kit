@@ -377,7 +377,6 @@ subset: goslim_yeast
 synonym: "cell or subcellular entity" EXACT []
 synonym: "cellular component" EXACT []
 synonym: "subcellular entity" RELATED [NIF_Subcellular:nlx_subcell_100315]
-xref: NIF_Subcellular:sao1337158144
 is_a: BFO:0000040 ! material entity
 disjoint_from: GO:0008150 ! biological_process
 
@@ -422,6 +421,7 @@ synonym: "cell nucleus" EXACT []
 synonym: "horsetail nucleus" NARROW [GOC:al, GOC:mah, GOC:vw, PMID:15030757]
 xref: NIF_Subcellular:sao1702920020
 xref: Wikipedia:Cell_nucleus
+xref: foo:test
 is_a: GO:0043231 ! intracellular membrane-bounded organelle
 disjoint_from: GO:0005737 ! cytoplasm
 relationship: in_taxon NCBITaxon:2759 ! Eukaryota

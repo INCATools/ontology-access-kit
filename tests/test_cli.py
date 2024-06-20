@@ -10,7 +10,7 @@ from typing import Optional
 import rdflib
 import yaml
 from click.testing import CliRunner
-from kgcl_schema.datamodel.kgcl import NodeChange
+from kgcl_schema.datamodel.kgcl import MappingCreation, NodeChange, RemoveMapping
 from linkml_runtime.loaders import json_loader, yaml_loader
 from oaklib import get_adapter
 from oaklib.cli import clear_cli_settings, main
@@ -1265,6 +1265,16 @@ class TestCommandLineInterface(unittest.TestCase):
             changes = list(parse_kgcl_files([outfile]))
             self.assertTrue(
                 any(c.about_node == "GO:0033673" for c in changes if isinstance(c, NodeChange))
+            )
+            self.assertTrue(
+                any(c.subject == NUCLEUS for c in changes if isinstance(c, MappingCreation))
+            )
+            self.assertTrue(
+                any(
+                    c.about_node == CELLULAR_COMPONENT
+                    for c in changes
+                    if isinstance(c, RemoveMapping)
+                )
             )
             catalytic_activity_changed = any(
                 c.about_node == CATALYTIC_ACTIVITY for c in changes if isinstance(c, NodeChange)

@@ -1035,6 +1035,18 @@ class ComplianceTester:
                 predicate="RO:0002212",
                 object="GO:0016301",
             ),
+            kgcl.RemoveMapping(
+                id=FIXED_ID,
+                about_node=CELLULAR_COMPONENT,
+                predicate="oio:hasDbXref",
+                object="NIF_Subcellular:sao1337158144",
+            ),
+            kgcl.MappingCreation(
+                id=FIXED_ID,
+                subject=NUCLEUS,
+                predicate="oio:hasDbXref",
+                object="foo:test",
+            ),
         ]
         for ch in diff:
             if isinstance(ch, list):
@@ -1070,6 +1082,18 @@ class ComplianceTester:
                 new_value="catalytic activity",
             ),
             kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
+            kgcl.MappingCreation(
+                id=FIXED_ID,
+                subject=CELLULAR_COMPONENT,
+                predicate="oio:hasDbXref",
+                object="NIF_Subcellular:sao1337158144",
+            ),
+            kgcl.RemoveMapping(
+                id=FIXED_ID,
+                about_node=NUCLEUS,
+                predicate="oio:hasDbXref",
+                object="foo:test",
+            ),
         ]
         rdiff = list(oi_modified.diff(oi))
         for ch in rdiff:
