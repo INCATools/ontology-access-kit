@@ -1037,13 +1037,13 @@ class ComplianceTester:
             ),
             kgcl.RemoveMapping(
                 id=FIXED_ID,
-                about_node="GO:0005575",
+                about_node=CELLULAR_COMPONENT,
                 predicate="oio:hasDbXref",
                 object="NIF_Subcellular:sao1337158144",
             ),
             kgcl.MappingCreation(
                 id=FIXED_ID,
-                subject="GO:0005634",
+                subject=NUCLEUS,
                 predicate="oio:hasDbXref",
                 object="foo:test",
             ),
@@ -1084,13 +1084,13 @@ class ComplianceTester:
             kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
             kgcl.MappingCreation(
                 id=FIXED_ID,
-                subject="GO:0005575",
+                subject=CELLULAR_COMPONENT,
                 predicate="oio:hasDbXref",
                 object="NIF_Subcellular:sao1337158144",
             ),
             kgcl.RemoveMapping(
                 id=FIXED_ID,
-                about_node="GO:0005634",
+                about_node=NUCLEUS,
                 predicate="oio:hasDbXref",
                 object="foo:test",
             ),
