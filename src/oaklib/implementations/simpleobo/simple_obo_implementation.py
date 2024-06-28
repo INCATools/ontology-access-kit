@@ -59,7 +59,7 @@ from oaklib.datamodels.vocabulary import (
     RDFS_RANGE,
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
-    SKOS_CLOSE_MATCH,
+    SKOS_MATCH_PREDICATES,
     SUBPROPERTY_OF,
     TERM_REPLACED_BY,
     TERMS_MERGED,
@@ -697,12 +697,38 @@ class SimpleOboImplementation(
             for x in s.simple_values(TAG_XREF):
                 m = sssom.Mapping(
                     subject_id=curie,
-                    predicate_id=SKOS_CLOSE_MATCH,
+                    predicate_id=HAS_DBXREF,
                     object_id=x,
                     mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
                 )
                 inject_mapping_sources(m)
                 yield m
+            for x in s.property_values():
+                p = self.map_shorthand_to_curie(x[0])
+                if p in SKOS_MATCH_PREDICATES:
+                    m = sssom.Mapping(
+                        subject_id=curie,
+                        predicate_id=p,
+                        object_id=x[1],
+                        mapping_justification=sssom.EntityReference(
+                            SEMAPV.UnspecifiedMatching.value
+                        ),
+                    )
+                    inject_mapping_sources(m)
+                    yield m
+            for p, v in s.pair_values(TAG_RELATIONSHIP):
+                p = self.map_shorthand_to_curie(p)
+                if p in SKOS_MATCH_PREDICATES:
+                    m = sssom.Mapping(
+                        subject_id=curie,
+                        predicate_id=p,
+                        object_id=v,
+                        mapping_justification=sssom.EntityReference(
+                            SEMAPV.UnspecifiedMatching.value
+                        ),
+                    )
+                    inject_mapping_sources(m)
+                    yield m
         # TODO: use a cache to avoid re-calculating
         for _, stanza in self.obo_document.stanzas.items():
             if len(stanza.simple_values(TAG_XREF)) > 0:
@@ -710,7 +736,7 @@ class SimpleOboImplementation(
                     if x == curie:
                         m = sssom.Mapping(
                             subject_id=stanza.id,
-                            predicate_id=SKOS_CLOSE_MATCH,
+                            predicate_id=HAS_DBXREF,
                             object_id=curie,
                             mapping_justification=SEMAPV.UnspecifiedMatching.value,
                         )

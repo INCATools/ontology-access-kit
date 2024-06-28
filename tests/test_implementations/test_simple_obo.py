@@ -3,6 +3,7 @@ import unittest
 from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
+from oaklib import get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -59,6 +60,7 @@ TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_SIMPLE_ONT = INPUT_DIR / "go-nucleus-simple.obo"
 TEST_ONT_COPY = OUTPUT_DIR / "go-nucleus.copy.obo"
 TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
+TEST_SKOS_MAPPINGS_ONT = INPUT_DIR / "mapping-predicates-test.obo"
 
 
 class TestSimpleOboImplementation(unittest.TestCase):
@@ -235,6 +237,15 @@ class TestSimpleOboImplementation(unittest.TestCase):
 
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
+
+    def test_skos_mappings(self):
+        """
+        Tests mappings as SKOS properties.
+
+        :return:
+        """
+        adapter = get_adapter(f"simpleobo:{TEST_SKOS_MAPPINGS_ONT}")
+        self.compliance_tester.test_skos_mappings(adapter)
 
     def test_definitions(self):
         self.compliance_tester.test_definitions(self.oi, include_metadata=True)
