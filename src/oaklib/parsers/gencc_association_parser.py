@@ -2,12 +2,12 @@
 
 import csv
 from dataclasses import dataclass
-from typing import Iterator, Optional, TextIO, Union
+from typing import Iterator, Optional, TextIO, Union, Dict
 
 from oaklib.datamodels.association import (
     Association,
     NegatedAssociation,
-    ParserConfiguration,
+    ParserConfiguration, PropertyValue,
 )
 from oaklib.parsers.xaf_association_parser import XafAssociationParser
 
@@ -47,6 +47,7 @@ class GenCCAssociationParser(XafAssociationParser):
         **kwargs,
     ) -> Iterator[Union[NegatedAssociation, Association]]:
         reader = csv.DictReader(file)
+        row: Dict[str, str]
         for row in reader:
             disease_curie = row["disease_curie"]
             disease_title = row["disease_title"]
@@ -62,5 +63,8 @@ class GenCCAssociationParser(XafAssociationParser):
                 subject=row["gene_curie"],
                 subject_label=row["gene_symbol"],
                 primary_knowledge_source=row["submitter_curie"],
+                property_values=[
+                    PropertyValue("biolink:has_mode_of_inheritance", row["moi_curie"]),
+                ]
             )
             yield assoc
