@@ -307,11 +307,13 @@ class ChangeHandler:
     def handle_mapping_creation(self, value):
         rows = list(
             {
-                f"""| {self._format_entity_labels(change.subject)}
-                | {change.predicate} | {self._format_entity_labels(change.object)} |"""
+                f"""| {self._format_entity_labels(change.subject)} | """
+                f"""{change.predicate} | """
+                f"""{self._format_entity_labels(change.object)} |"""
                 for change in value
             }
         )
+
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings added: {len(rows)}", header, rows)
 
@@ -336,11 +338,13 @@ class ChangeHandler:
     def handle_remove_mapping(self, value):
         rows = list(
             {
-                f"""| {self._format_entity_labels(change.about_node)}
-                | {change.predicate} | {self._format_entity_labels(change.object)} |"""
+                f"""| {self._format_entity_labels(change.about_node)} | """
+                f"""{change.predicate} | """
+                f"""{self._format_entity_labels(change.object)} |"""
                 for change in value
             }
         )
+
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings removed: {len(rows)}", header, rows)
 
