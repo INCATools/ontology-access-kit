@@ -313,7 +313,7 @@ class ChangeHandler:
                 for change in value
             }
         )
-        
+
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings added: {len(rows)}", header, rows)
 
@@ -344,7 +344,7 @@ class ChangeHandler:
                 for change in value
             }
         )
-        
+
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings removed: {len(rows)}", header, rows)
 
