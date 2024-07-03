@@ -1081,7 +1081,6 @@ class ComplianceTester:
                 old_value="enzyme activity",
                 new_value="catalytic activity",
             ),
-            kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
             kgcl.MappingCreation(
                 id=FIXED_ID,
                 subject=CELLULAR_COMPONENT,

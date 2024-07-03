@@ -822,16 +822,22 @@ class SimpleOboImplementation(
             return generate_change_id()
 
         node_is_deleted = False
+        node_is_created = False
         if stanza1 is None and stanza2 is None:
             raise ValueError("Both stanzas are None")
         if stanza1 is None:
             stanza1 = Stanza(id=stanza2.id, type=stanza2.type)
             if stanza2.type == "Term":
-                yield kgcl.ClassCreation(id=_id(), about_node=stanza2.id)
+                yield kgcl.ClassCreation(
+                    id=_id(), about_node=stanza2.id, name=stanza2.singular_value(TAG_NAME)
+                )
             elif stanza2.type == "Typedef":
-                yield kgcl.NodeCreation(id=_id(), about_node=stanza2.id)
+                yield kgcl.NodeCreation(
+                    id=_id(), about_node=stanza2.id, name=stanza2.singular_value(TAG_NAME)
+                )
             else:
                 raise ValueError(f"Unknown stanza type: {stanza2.type}")
+            node_is_created = True
         if stanza2 is None:
             stanza2 = Stanza(id=stanza1.id, type=stanza1.type)
             if stanza1.type == "Term":
@@ -867,16 +873,23 @@ class SimpleOboImplementation(
                 continue
             logging.info(f"Difference in {tag}: {vals1} vs {vals2}")
             if tag == TAG_NAME:
-                if node_is_deleted:
+                if node_is_deleted or node_is_created:
                     continue
                 if vals1 and vals2:
                     yield kgcl.NodeRename(
                         id=_id(), about_node=t1id, new_value=vals2list[0], old_value=vals1list[0]
                     )
-                elif vals1:
-                    yield kgcl.NodeDeletion(id=_id(), about_node=t1id)
+                elif vals2:
+                    # Existing node goes from having no name to having a name
+                    # In future KGCL may have a NodeNewName. For now we use NodeRename.
+                    yield kgcl.NodeRename(
+                        id=_id(), about_node=t1id, new_value=vals2list[0], old_value=None
+                    )
                 else:
-                    yield kgcl.ClassCreation(id=_id(), about_node=t2id, name=vals2list[0])
+                    #! KGCL may have NameDeletion in the future.
+                    yield kgcl.NodeRename(
+                        id=_id(), about_node=t2id, old_value=vals2list[0], new_value=None
+                    )
             elif tag == TAG_DEFINITION:
                 if node_is_deleted:
                     continue
