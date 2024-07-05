@@ -48,8 +48,10 @@ def walk_up(
         )
         next_curie = next_curies.pop()
         if not next_curie:
-            raise ValueError(f"Got an empty curie in list: {start_curies}")
+            raise ValueError(f"Got an empty curie; start: {start_curies}")
         for _, pred, filler in oi.relationships([next_curie], predicates, **kwargs):
+            if not filler:
+                raise ValueError(f"Got an empty filler; curie: {next_curie} p={pred}")
             if filler not in visited:
                 next_curies.append(filler)
                 visited.append(filler)

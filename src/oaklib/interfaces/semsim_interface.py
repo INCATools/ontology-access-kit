@@ -17,6 +17,7 @@ from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.obograph_utils import as_digraph
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
@@ -193,7 +194,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
 
     def information_content_scores(
         self,
-        curies: Iterable[CURIE],
+        curies: Optional[Iterable[CURIE]] = None,
         predicates: List[PRED_CURIE] = None,
         object_closure_predicates: List[PRED_CURIE] = None,
         use_associations: bool = None,
@@ -220,6 +221,17 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param kwargs:
         :return:
         """
+        if curies is None:
+            for curie_it in chunk(self.entities()):
+                yield from self.information_content_scores(
+                    curie_it,
+                    predicates=predicates,
+                    object_closure_predicates=object_closure_predicates,
+                    use_associations=use_associations,
+                    term_to_entities_map=term_to_entities_map,
+                    **kwargs,
+                )
+            return
         curies = list(curies)
         if self.cached_information_content_map is None and use_associations:
             logging.info("Calculating and caching IC map from associations")

@@ -1330,7 +1330,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param include_metadata: if true, include metadata
         :param include_missing: if true, include curies with no definition
         :param lang: language tag
-        :return: iterator over definition objects
+        :return: iterator over (id, definition, metadata) tuples
         """
         if include_metadata:
             raise NotImplementedError()

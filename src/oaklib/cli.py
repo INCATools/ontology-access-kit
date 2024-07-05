@@ -2744,21 +2744,28 @@ def information_content(
     writer.file = output
     if not isinstance(impl, SemanticSimilarityInterface):
         raise NotImplementedError(f"Cannot execute this with {type(impl)}")
-    if len(terms) == 0:
-        raise ValueError("You must specify a list of terms. Use '.all' for all terms")
     actual_predicates = _process_predicates_arg(predicates)
     n = 0
     logging.info("Fetching ICs...")
-    for curie_it in chunk(query_terms_iterator(terms, impl)):
-        logging.info("** Next chunk:")
-        n += 1
+    if terms:
+        for curie_it in chunk(query_terms_iterator(terms, impl)):
+            logging.info("** Next chunk:")
+            for curie, ic in impl.information_content_scores(
+                curie_it,
+                object_closure_predicates=actual_predicates,
+                use_associations=use_associations,
+            ):
+                obj = dict(id=curie, information_content=ic)
+                writer.emit(obj)
+                n += 1
+    else:
         for curie, ic in impl.information_content_scores(
-            curie_it,
-            object_closure_predicates=actual_predicates,
-            use_associations=use_associations,
+                object_closure_predicates=actual_predicates,
+                use_associations=use_associations,
         ):
             obj = dict(id=curie, information_content=ic)
             writer.emit(obj)
+            n += 1
     if n == 0:
         raise ValueError(f"No results for input: {terms}")
     writer.finish()
@@ -6572,9 +6579,15 @@ def generate_lexical_replacements(
     "--patch-format",
     help="Output syntax for patches.",
 )
+@click.option(
+    "--exclude-defined/--no-exclude-defined",
+    default=False,
+    show_default=True,
+    help="Exclude terms that already have definitions",
+)
 @output_option
 @output_type_option
-def generate_definitions(terms, apply_patch, patch, patch_format, output, output_type, **kwargs):
+def generate_definitions(terms, apply_patch, patch, patch_format, output, output_type, exclude_defined, **kwargs):
     """
     Generate definitions for a term or terms.
 
@@ -6606,8 +6619,14 @@ def generate_definitions(terms, apply_patch, patch, patch_format, output, output
         writer.output = output
     if not isinstance(impl, OntologyGenerationInterface):
         raise NotImplementedError
-    all_terms = query_terms_iterator(terms, impl)
-    curie_defns = impl.generate_definitions(list(all_terms), **kwargs)
+    all_terms = list(query_terms_iterator(terms, impl))
+    logging.info(f"Generating definitions for {len(all_terms)} terms")
+    if exclude_defined:
+        exclusion_list = [x[0] for x in impl.definitions(all_terms)]
+        logging.info(f"Excluding {len(exclusion_list)} terms that already have definitions")
+        all_terms = list(set(all_terms) - set(exclusion_list))
+    logging.info(f"Generating definitions for final list of {len(all_terms)} terms")
+    curie_defns = impl.generate_definitions(all_terms, **kwargs)
     change_list = []
     for curie, defn in curie_defns:
         change = kgcl.NewTextDefinition(

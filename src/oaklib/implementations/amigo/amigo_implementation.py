@@ -2,6 +2,7 @@
 
 import json
 import logging
+import math
 from dataclasses import dataclass
 from time import sleep
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
@@ -21,6 +22,7 @@ __all__ = [
 ]
 
 from oaklib.interfaces.basic_ontology_interface import LANGUAGE_TAG, RELATIONSHIP
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.usages_interface import UsagesInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.iterator_utils import chunk
@@ -32,6 +34,7 @@ logger = logging.getLogger(__name__)
 LIMIT = 10000
 
 ONTOLOGY_CLASS_CATEGORY = "ontology_class"
+BIOENTITY_CATEGORY = "ontology_class"
 
 # TODO: derive from schema
 DOCUMENT_CATEGORY = "document_category"
@@ -132,6 +135,7 @@ class AmiGOImplementation(
     AssociationProviderInterface,
     SearchInterface,
     UsagesInterface,
+    SemanticSimilarityInterface,
 ):
     """
     Wraps AmiGO endpoint.
@@ -260,8 +264,8 @@ class AmiGOImplementation(
                 aggregator_knowledge_source="infores:go",
             )
             if add_closure_fields:
-                assoc.subject_closure = doc[ISA_PARTOF_CLOSURE]
-                assoc.subject_closure_label = doc[ISA_PARTOF_CLOSURE_LABEL]
+                assoc.object_closure = doc[ISA_PARTOF_CLOSURE]
+                assoc.object_closure_label = doc[ISA_PARTOF_CLOSURE_LABEL]
             yield assoc
 
     def _association_query(
@@ -274,9 +278,10 @@ class AmiGOImplementation(
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        document_category: str = "annotation",
         **kwargs,
     ) -> Dict[str, Any]:
-        fq = {DOCUMENT_CATEGORY: ["annotation"]}
+        fq = {DOCUMENT_CATEGORY: [document_category]}
         if subjects:
             subjects = [_unnnormalize(s) for s in subjects]
             fq[BIOENTITY] = subjects
@@ -311,7 +316,6 @@ class AmiGOImplementation(
         >>> adapter = get_adapter("amigo:NCBITaxon:9606")
         >>> for term, count in adapter.association_counts(group_by="object"):
         ...    print(f"Term: {term}  Approx Count: {int(count / 1000) * 1000)}")
-        xxx
 
         :param subjects:
         :param predicates:
@@ -456,3 +460,45 @@ class AmiGOImplementation(
 
         for doc in results:
             yield doc["entity"]
+
+
+    def information_content_scores(
+            self,
+            curies: Optional[Iterable[CURIE]] = None,
+            predicates: List[PRED_CURIE] = None,
+            object_closure_predicates: List[PRED_CURIE] = None,
+            use_associations: bool = None,
+            term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+            **kwargs,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        if curies and not isinstance(curies, list):
+            curies = list(curies)
+        fq = self._association_query(
+            predicates=predicates,
+            object_closure_predicates=object_closure_predicates,
+            # objects=curies,
+            document_category="bioentity",
+        )
+        solr = self._solr
+        n_bioentities = None
+        for term, count in _faceted_query(
+                solr, fq, facet_field=DOCUMENT_CATEGORY, rows=0, facet_limit=-1, min_facet_count=1, **kwargs,
+        ):
+            if term == "bioentity":
+                n_bioentities = count
+        if n_bioentities is None:
+            raise ValueError("No bioentities found")
+        kwargs = {}
+        #if curies:
+        #    kwargs["facet.query"] = [_fq_element(ISA_PARTOF_CLOSURE, curie) for curie in curies]
+        n = 0
+        for term, count in _faceted_query(
+            solr, fq, facet_field=ISA_PARTOF_CLOSURE, rows=0, facet_limit=-1, min_facet_count=1, **kwargs,
+        ):
+            n += 1
+            if curies and term not in curies:
+                continue
+            ic = - math.log(count / n_bioentities) / math.log(2)
+            yield term, ic
+
+        logger.info(f"Iterated {n} counts")

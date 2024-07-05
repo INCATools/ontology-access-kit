@@ -31,7 +31,7 @@ from oaklib.datamodels.validation_datamodel import (
     SeverityOptions,
     ValidationConfiguration,
 )
-from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, SKOS_EXACT_MATCH
+from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, SKOS_EXACT_MATCH, IS_A
 from oaklib.interfaces import (
     MappingProviderInterface,
     OboGraphInterface,
@@ -187,7 +187,7 @@ class LLMImplementation(
     model: "llm.Model" = None
     """The LLM model to use."""
 
-    default_model_id: str = "gpt-4-turbo"
+    default_model_id: str = "gpt-4o"
 
     allow_direct_grounding: bool = False
     """The point of this implementation is to perform NER and delegate to a grounded."""
@@ -240,6 +240,9 @@ class LLMImplementation(
 
     def label(self, *args, **kwargs) -> Optional[str]:
         return self.wrapped_adapter.label(*args, **kwargs)
+
+    def definitions(self, *args, **kwargs):
+        yield from self.wrapped_adapter.definitions(*args, **kwargs)
 
     def descendants(
         self,
@@ -408,14 +411,20 @@ class LLMImplementation(
         model = self.get_model()
         if not isinstance(wrapped_adapter, OboGraphInterface):
             raise NotImplementedError("LLM can only suggest definitions for OBO graphs")
-        if style_hints is None:
-            style_hints = ""
         for curie in curies:
             node = wrapped_adapter.node(curie)
             info = f"id: {curie}\n"
             info += f"label: {node.lbl}\n"
+            for _, p, o in wrapped_adapter.relationships(curie):
+                p_label = "is_a" if p == IS_A else wrapped_adapter.label(p)
+                o_label = wrapped_adapter.label(o)
+                if p_label and o_label:
+                    info += f"{p_label}: {o_label}\n"
             system_prompt = "Provide a textual definition for the given term."
-            system_prompt += style_hints
+            if style_hints:
+                system_prompt += " " + style_hints
+            logger.debug(f"System: {system_prompt}")
+            logger.debug(f"Prompt: {info}")
             response = model.prompt(info, system=system_prompt).text()
             yield curie, DefinitionPropertyValue(val=response)
 
