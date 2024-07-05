@@ -68,7 +68,8 @@ def associations_to_matrix(associations: List[Association]) -> MatrixData:
 
     >>> from oaklib.datamodels.association import Association
     >>> assoc_pairs = [("G1", ["E1", "E2"]), ("G2", ["E2", "E3"])]
-    >>> associations = [Association(subject=subject, object_closure=object_closure) for subject, object_closure in assoc_pairs]
+    >>> associations = [Association(subject=subject,
+    ...                 object_closure=object_closure) for subject, object_closure in assoc_pairs]
     >>> md = associations_to_matrix(associations)
     >>> md.arr.shape
     (2, 3)
