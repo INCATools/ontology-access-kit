@@ -461,15 +461,14 @@ class AmiGOImplementation(
         for doc in results:
             yield doc["entity"]
 
-
     def information_content_scores(
-            self,
-            curies: Optional[Iterable[CURIE]] = None,
-            predicates: List[PRED_CURIE] = None,
-            object_closure_predicates: List[PRED_CURIE] = None,
-            use_associations: bool = None,
-            term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
-            **kwargs,
+        self,
+        curies: Optional[Iterable[CURIE]] = None,
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+        term_to_entities_map: Dict[CURIE, List[CURIE]] = None,
+        **kwargs,
     ) -> Iterator[Tuple[CURIE, float]]:
         if curies and not isinstance(curies, list):
             curies = list(curies)
@@ -482,23 +481,35 @@ class AmiGOImplementation(
         solr = self._solr
         n_bioentities = None
         for term, count in _faceted_query(
-                solr, fq, facet_field=DOCUMENT_CATEGORY, rows=0, facet_limit=-1, min_facet_count=1, **kwargs,
+            solr,
+            fq,
+            facet_field=DOCUMENT_CATEGORY,
+            rows=0,
+            facet_limit=-1,
+            min_facet_count=1,
+            **kwargs,
         ):
             if term == "bioentity":
                 n_bioentities = count
         if n_bioentities is None:
             raise ValueError("No bioentities found")
         kwargs = {}
-        #if curies:
+        # if curies:
         #    kwargs["facet.query"] = [_fq_element(ISA_PARTOF_CLOSURE, curie) for curie in curies]
         n = 0
         for term, count in _faceted_query(
-            solr, fq, facet_field=ISA_PARTOF_CLOSURE, rows=0, facet_limit=-1, min_facet_count=1, **kwargs,
+            solr,
+            fq,
+            facet_field=ISA_PARTOF_CLOSURE,
+            rows=0,
+            facet_limit=-1,
+            min_facet_count=1,
+            **kwargs,
         ):
             n += 1
             if curies and term not in curies:
                 continue
-            ic = - math.log(count / n_bioentities) / math.log(2)
+            ic = -math.log(count / n_bioentities) / math.log(2)
             yield term, ic
 
         logger.info(f"Iterated {n} counts")

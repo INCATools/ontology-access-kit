@@ -31,7 +31,7 @@ from oaklib.datamodels.validation_datamodel import (
     SeverityOptions,
     ValidationConfiguration,
 )
-from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, SKOS_EXACT_MATCH, IS_A
+from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, IS_A, SKOS_EXACT_MATCH
 from oaklib.interfaces import (
     MappingProviderInterface,
     OboGraphInterface,

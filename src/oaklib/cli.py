@@ -2760,8 +2760,8 @@ def information_content(
                 n += 1
     else:
         for curie, ic in impl.information_content_scores(
-                object_closure_predicates=actual_predicates,
-                use_associations=use_associations,
+            object_closure_predicates=actual_predicates,
+            use_associations=use_associations,
         ):
             obj = dict(id=curie, information_content=ic)
             writer.emit(obj)
@@ -6587,7 +6587,9 @@ def generate_lexical_replacements(
 )
 @output_option
 @output_type_option
-def generate_definitions(terms, apply_patch, patch, patch_format, output, output_type, exclude_defined, **kwargs):
+def generate_definitions(
+    terms, apply_patch, patch, patch_format, output, output_type, exclude_defined, **kwargs
+):
     """
     Generate definitions for a term or terms.
 

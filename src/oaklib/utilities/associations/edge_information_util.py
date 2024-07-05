@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-from math import floor
-from typing import List, Tuple, Dict, Optional
+from typing import Dict, List, Optional
 
 import click
 import numpy as np
@@ -110,7 +109,9 @@ def associations_to_matrix(associations: List[Association]) -> MatrixData:
     return md
 
 
-def calculate_edge_information(child_term: CURIE, parent_term: CURIE, matrix: MatrixData) -> Optional[float]:
+def calculate_edge_information(
+    child_term: CURIE, parent_term: CURIE, matrix: MatrixData
+) -> Optional[float]:
     """
     Calculate edge information.
 
@@ -149,6 +150,8 @@ def calculate_all(ont_adapter_handle: str, assoc_adapter_handle: str):
     for s, p, o in ont_adapter.relationships():
         edge_info = calculate_edge_information(s, o, matrix)
         if edge_info is not None:
-            writer.emit({"subject": s, "predicate": p, "object": o, "edge_information": edge_info},
-                        label_fields=["subject", "object"])
+            writer.emit(
+                {"subject": s, "predicate": p, "object": o, "edge_information": edge_info},
+                label_fields=["subject", "object"],
+            )
     return ont_adapter, matrix
