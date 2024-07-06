@@ -122,15 +122,25 @@ class AGRKBImplementation(
     def node(
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> obograph.Node:
+        """
+        Get a node by CURIE.
+
+        Currently the only node type supported is a gene.
+
+        :param curie:
+        :param strict:
+        :param include_metadata:
+        :param expand_curies:
+        :return:
+        """
+
         session = self.requests_session()
-        url = f"{BASE_URL}/gene/{curie }"
+        url = f"{BASE_URL}/gene/{curie}"
         response = session.get(url)
         if response.status_code == 500 and not strict:
             return obograph.Node(id=curie)
         if response.status_code != 200:
-            raise ValueError(
-                f"Error fetching issues: {response.status_code} from {url} // {response.text}"
-            )
+            return obograph.Node(id=curie)
         obj = response.json()
         meta = obograph.Meta()
         defn = obj.get("geneSynopsis", None)

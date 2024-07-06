@@ -324,7 +324,7 @@ class SqlImplementation(
     _information_content_cache: Dict[Tuple, float] = None
     _relationships_by_subject_index: Dict[CURIE, List[RELATIONSHIP]] = None
 
-    max_items_for_in_clause: int = field(default_factory=lambda: 1000)
+    max_items_for_in_clause: int = field(default_factory=lambda: 100)
 
     can_store_associations: bool = False
     """True if the underlying sqlite database has term_association populated."""

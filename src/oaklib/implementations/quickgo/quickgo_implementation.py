@@ -153,6 +153,8 @@ class QuickGOImplementation(
         return node
 
     def label(self, curie: CURIE, lang: Optional[LANGUAGE_TAG] = None) -> Optional[str]:
+        if curie.startswith("biolink:"):
+            return None
         try:
             node = self.node(curie)
             if node:

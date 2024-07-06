@@ -606,6 +606,18 @@ def query_terms_iterator(
             subset = query_terms[0]
             query_terms = query_terms[1:]
             chain_results(adapter.subset_members(subset))
+        elif term.startswith(".root"):
+            logging.debug(f"Roots: {term}")
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            roots = adapter.roots(predicates=this_predicates)
+            chain_results(roots)
+        elif term.startswith(".leaf"):
+            logging.debug(f"Leafs: {term}")
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
+            leafs = adapter.leafs(predicates=this_predicates)
+            chain_results(leafs)
         elif term.startswith(".is_obsolete"):
             logging.debug("Obsolete")
             chain_results(adapter.obsoletes())
@@ -766,6 +778,9 @@ def curies_from_file(
     if allow_labels and not adapter:
         raise ValueError("Must provide an adapter to resolve labels")
     for line in file.readlines():
+        line = line.strip()
+        if not line:
+            continue
         line_no += 1
         if ":" in line or not allow_labels:
             m = re.match(r"^(\S+)", line)
