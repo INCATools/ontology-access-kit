@@ -28,7 +28,7 @@ class ChangeHandler:
         rows = list({row_format.format(change=change) for change in value})
         self.write_markdown_table(f"{title}: {len(rows)}", header, rows)
 
-    def handle_new_synonym(self, value):
+    def handle_new_synonym(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -43,7 +43,7 @@ class ChangeHandler:
         # Write the "New Synonyms Added" section as a collapsible markdown table
         self.write_markdown_table(f"Synonyms added: {len(rows)}", header, rows)
 
-    def handle_edge_deletion(self, value):
+    def handle_edge_deletion(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -59,7 +59,7 @@ class ChangeHandler:
         # Write the "Edges Deleted" section as a collapsible markdown table
         self.write_markdown_table(f"Relationships removed: {len(rows)}", header, rows)
 
-    def handle_edge_creation(self, value):
+    def handle_edge_creation(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -75,7 +75,7 @@ class ChangeHandler:
         # Write the "Edges Created" section as a collapsible markdown table
         self.write_markdown_table(f"Relationships added: {len(rows)}", header, rows)
 
-    def handle_edge_change(self, value):
+    def handle_edge_change(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -92,7 +92,7 @@ class ChangeHandler:
         # Write the "Edges Changed" section as a collapsible markdown table
         self.write_markdown_table(f"Relationships changed: {len(rows)}", header, rows)
 
-    def handle_node_move(self, value):
+    def handle_node_move(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -109,7 +109,7 @@ class ChangeHandler:
         # Write the "Nodes Moved" section as a collapsible markdown table
         self.write_markdown_table(f"Relationships added: {len(rows)}", header, rows)
 
-    def handle_predicate_change(self, value):
+    def handle_predicate_change(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -127,7 +127,7 @@ class ChangeHandler:
         # Write the "Predicate Changed" section as a collapsible markdown table
         self.write_markdown_table(f"Predicates changed: {len(rows)}", header, rows)
 
-    def handle_node_rename(self, value):
+    def handle_node_rename(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -142,7 +142,7 @@ class ChangeHandler:
         # Write the "Node Renamed" section as a collapsible markdown table
         self.write_markdown_table(f"Nodes renamed: {len(rows)}", header, rows)
 
-    def handle_remove_synonym(self, value):
+    def handle_remove_synonym(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -157,7 +157,7 @@ class ChangeHandler:
         # Write the "Synonyms Removed" section as a collapsible markdown table
         self.write_markdown_table(f"Synonyms removed: {len(rows)}", header, rows)
 
-    def hand_synonym_predicate_change(self, value):
+    def hand_synonym_predicate_change(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -173,7 +173,7 @@ class ChangeHandler:
         # Write the "Synonym Predicate Changed" section as a markdown table
         self.write_markdown_table(f"Synonym predicates changed: {len(rows)}", header, rows)
 
-    def handle_node_text_definition_change(self, value):
+    def handle_node_text_definition_change(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -189,7 +189,7 @@ class ChangeHandler:
         # Write the "Node Text Definition Changed" section as a markdown table
         self.write_markdown_table(f"Text definitions changed: {len(rows)}", header, rows)
 
-    def handle_node_text_definition(self, value):
+    def handle_node_text_definition(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -205,7 +205,7 @@ class ChangeHandler:
         # Write the "Node Text Definition Added" section as a markdown table
         self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
 
-    def handle_node_unobsoletion(self, value):
+    def handle_node_unobsoletion(self, value:List[Change]):
         # Create rows for the table
         rows = list({f"| {self._format_entity_labels(change.about_node)} |" for change in value})
 
@@ -215,7 +215,7 @@ class ChangeHandler:
         # Write the "Node Unobsoleted" section as a markdown table
         self.write_markdown_table(f"Nodes unobsoleted: {len(rows)}", header, rows)
 
-    def handle_node_creation(self, value):
+    def handle_node_creation(self, value:List[Change]):
         # Create rows for the table
         rows = list({f"| {self._format_entity_labels(change.about_node)} |" for change in value})
 
@@ -225,7 +225,7 @@ class ChangeHandler:
         # Write the "Node Created" section as a markdown table
         self.write_markdown_table(f"Other nodes added: {len(rows)}", header, rows)
 
-    def handle_class_creation(self, value):
+    def handle_class_creation(self, value:List[Change]):
         # Create rows for the table
         rows = list({f"| {self._format_entity_labels(change.about_node)} |" for change in value})
 
@@ -235,7 +235,7 @@ class ChangeHandler:
         # Write the "Class Created" section as a markdown table
         self.write_markdown_table(f"Classes added: {len(rows)}", header, rows)
 
-    def handle_node_deletion(self, value):
+    def handle_node_deletion(self, value:List[Change]):
         # Create rows for the table
         rows = list({f"| {self._format_entity_labels(change.about_node)} |" for change in value})
 
@@ -245,7 +245,7 @@ class ChangeHandler:
         # Write the "Nodes Deleted" section as a markdown table
         self.write_markdown_table(f"Nodes removed: {len(rows)}", header, rows)
 
-    def handle_new_text_definition(self, value):
+    def handle_new_text_definition(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -256,7 +256,7 @@ class ChangeHandler:
         header = "| Term | New Text Definition |"
         self.write_markdown_table(f"Text definitions added: {len(rows)}", header, rows)
 
-    def handle_remove_text_definition(self, value):
+    def handle_remove_text_definition(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -267,7 +267,7 @@ class ChangeHandler:
         header = "| Term | Removed Text Definition |"
         self.write_markdown_table(f"Text definitions removed: {len(rows)}", header, rows)
 
-    def handle_node_obsoletion_with_direct_replacement(self, value):
+    def handle_node_obsoletion_with_direct_replacement(self, value:List[Change]):
         rows = list(
             {
                 f"| {self._format_entity_labels(change.about_node)} |\
@@ -278,12 +278,12 @@ class ChangeHandler:
         header = "| Term | Replacement |"
         self.write_markdown_table(f"Nodes obsoleted with replacement: {len(rows)}", header, rows)
 
-    def handle_node_obsoletion(self, value):
+    def handle_node_obsoletion(self, value:List[Change]):
         rows = [f"| {self._format_entity_labels(change.about_node)} |" for change in value]
         header = "| Term |"
         self.write_markdown_table(f"Nodes obsoleted without replacement: {len(rows)}", header, rows)
 
-    def handle_node_direct_merge(self, value):
+    def handle_node_direct_merge(self, value:List[Change]):
         rows = list(
             {
                 f"| {self._format_entity_labels(change.about_node)} |\
@@ -294,7 +294,7 @@ class ChangeHandler:
         header = "| Term | Replacement |"
         self.write_markdown_table(f"Nodes merged: {len(rows)}", header, rows)
 
-    def handle_add_node_to_subset(self, value):
+    def handle_add_node_to_subset(self, value:List[Change]):
         rows = list(
             {
                 f"| {self._format_entity_labels(change.about_node)} | {change.in_subset} |"
@@ -304,7 +304,7 @@ class ChangeHandler:
         header = "| Term | Subset |"
         self.write_markdown_table(f"Nodes added to subset: {len(rows)}", header, rows)
 
-    def handle_remove_node_from_subset(self, value):
+    def handle_remove_node_from_subset(self, value:List[Change]):
         rows = list(
             {
                 f"| {self._format_entity_labels(change.about_node)} | {change.in_subset} |"
@@ -314,7 +314,7 @@ class ChangeHandler:
         header = "| Term | Subset |"
         self.write_markdown_table(f"Nodes removed from subset: {len(rows)}", header, rows)
 
-    def handle_mapping_creation(self, value):
+    def handle_mapping_creation(self, value:List[Change]):
         rows = list(
             {
                 f"""| {self._format_entity_labels(change.subject)} | """
@@ -327,7 +327,7 @@ class ChangeHandler:
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings added: {len(rows)}", header, rows)
 
-    def handle_mapping_predicate_change(self, value):
+    def handle_mapping_predicate_change(self, value:List[Change]):
         # Create rows for the table
         rows = list(
             {
@@ -345,7 +345,7 @@ class ChangeHandler:
         # Write the "Predicate Changed" section as a collapsible markdown table
         self.write_markdown_table(f"Mappings changed: {len(rows)}", header, rows)
 
-    def handle_remove_mapping(self, value):
+    def handle_remove_mapping(self, value:List[Change]):
         rows = list(
             {
                 f"""| {self._format_entity_labels(change.about_node)} | """
@@ -358,47 +358,47 @@ class ChangeHandler:
         header = "| Subject | Predicate | Object |"
         self.write_markdown_table(f"Mappings removed: {len(rows)}", header, rows)
 
-    # def handle_datatype_or_language_tag_change(self, value):
+    # def handle_datatype_or_language_tag_change(self, value:List[Change]):
     #     # Implement datatype or language tag change handling logic here
     #     logging.info("Datatype or language tag change handling not yet implemented.")
 
-    # def handle_language_tag_change(self, value):
+    # def handle_language_tag_change(self, value:List[Change]):
     #     # Implement language tag change handling logic here
     #     logging.info("Language tag change handling not yet implemented.")
 
-    # def handle_datatype_change(self, value):
+    # def handle_datatype_change(self, value:List[Change]):
     #     # Implement datatype change handling logic here
     #     logging.info("Datatype change handling not yet implemented.")
 
-    # def handle_allows_automatic_replacement_of_edges(self, value):
+    # def handle_allows_automatic_replacement_of_edges(self, value:List[Change]):
     #     # Implement allows automatic replacement of edges handling logic here
     #     logging.info("Allows automatic replacement of edges handling not yet implemented.")
 
-    # def handle_unobsoletion(self, value):
+    # def handle_unobsoletion(self, value:List[Change]):
     #     # Implement unobsoletion handling logic here
     #     logging.info("Unobsoletion handling not yet implemented.")
 
-    # def handle_deletion(self, value):
+    # def handle_deletion(self, value:List[Change]):
     #     # Implement deletion handling logic here
     #     logging.info("Deletion handling not yet implemented.")
 
-    # def handle_creation(self, value):
+    # def handle_creation(self, value:List[Change]):
     #     # Implement creation handling logic here
     #     logging.info("Creation handling not yet implemented.")
 
-    # def handle_subset_membership_change(self, value):
+    # def handle_subset_membership_change(self, value:List[Change]):
     #     # Implement subset membership change handling logic here
     #     logging.info("Subset membership change handling not yet implemented.")
 
-    # def handle_add_to_subset(self, value):
+    # def handle_add_to_subset(self, value:List[Change]):
     #     # Implement add to subset handling logic here
     #     logging.info("Add to subset handling not yet implemented.")
 
-    # def handle_remove_from_subset(self, value):
+    # def handle_remove_from_subset(self, value:List[Change]):
     #     # Implement remove from subset handling logic here
     #     logging.info("Remove from subset handling not yet implemented.")
 
-    # def handle_place_under(self, value):
+    # def handle_place_under(self, value:List[Change]):
     #     # Implement place under handling logic here
     #     logging.info("Place under handling not yet implemented.")
 
