@@ -304,6 +304,16 @@ class ChangeHandler:
         header = "| Term | Subset |"
         self.write_markdown_table(f"Nodes added to subset: {len(rows)}", header, rows)
 
+    def handle_remove_node_from_subset(self, value):
+        rows = list(
+            {
+                f"| {self._format_entity_labels(change.about_node)} | {change.in_subset} |"
+                for change in value
+            }
+        )
+        header = "| Term | Subset |"
+        self.write_markdown_table(f"Nodes removed from subset: {len(rows)}", header, rows)
+
     def handle_mapping_creation(self, value):
         rows = list(
             {
@@ -417,6 +427,7 @@ class ChangeHandler:
             "EdgeCreation": self.handle_edge_creation,
             "EdgeChange": self.handle_edge_change,
             "AddNodeToSubset": self.handle_add_node_to_subset,
+            "RemoveNodeFromSubset": self.handle_remove_node_from_subset,
             "MappingPredicateChange": self.handle_mapping_predicate_change,
             "MappingCreation": self.handle_mapping_creation,
             "RemoveMapping": self.handle_remove_mapping,
