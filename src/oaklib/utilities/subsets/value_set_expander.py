@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterator, List, Union, Optional
+from typing import Iterator, List, Optional, Union
 
 import click
 from linkml_runtime.dumpers import json_dumper
@@ -72,8 +72,10 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                 vset = schema.enums[inherited]
                 pvs.extend(
                     self.expand_value_set(
-                        vset, schema=schema, source_enum_definition=source_enum_definition,
-                        pv_syntax=pv_syntax
+                        vset,
+                        schema=schema,
+                        source_enum_definition=source_enum_definition,
+                        pv_syntax=pv_syntax,
                     )
                 )
         if value_set.include:
@@ -81,14 +83,20 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                 if isinstance(include, AnonymousEnumExpression):
                     pvs.extend(
                         self.expand_value_set(
-                            include, schema=schema, source_enum_definition=source_enum_definition, pv_syntax=pv_syntax
+                            include,
+                            schema=schema,
+                            source_enum_definition=source_enum_definition,
+                            pv_syntax=pv_syntax,
                         )
                     )
                 else:
                     raise ValueError(f"Unexpected type for include: {type(include)}")
                 pvs.extend(
                     self.expand_value_set(
-                        include, schema=schema, source_enum_definition=source_enum_definition, pv_syntax=pv_syntax
+                        include,
+                        schema=schema,
+                        source_enum_definition=source_enum_definition,
+                        pv_syntax=pv_syntax,
                     )
                 )
         if value_set.concepts:
@@ -138,7 +146,11 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                             rq.source_nodes, predicates=predicates, reflexive=rq.include_self
                         )
                 for curie in results:
-                    pvs.append(self._generate_permissible_value(curie, oi, source_enum_definition, pv_syntax=pv_syntax))
+                    pvs.append(
+                        self._generate_permissible_value(
+                            curie, oi, source_enum_definition, pv_syntax=pv_syntax
+                        )
+                    )
             else:
                 raise NotImplementedError(f"Must be an OboGraphInterface: {type(oi)}")
         if value_set.minus:
@@ -147,7 +159,10 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                     minus_vs, AnonymousEnumExpression
                 ):
                     for pv in self.expand_value_set(
-                        minus_vs, schema=schema, source_enum_definition=source_enum_definition, pv_syntax=pv_syntax
+                        minus_vs,
+                        schema=schema,
+                        source_enum_definition=source_enum_definition,
+                        pv_syntax=pv_syntax,
                     ):
                         if pv in pvs:
                             pvs.remove(pv)
@@ -208,7 +223,6 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         else:
             text = curie
         return PermissibleValue(text=text, meaning=curie, description=definition, title=label)
-
 
     def expand_in_place(
         self,
