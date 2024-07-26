@@ -40,7 +40,6 @@ from oaklib.datamodels.vocabulary import (
     OWL_VERSION_INFO,
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
-    SKOS_CLOSE_MATCH,
     SKOS_MATCH_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,
@@ -549,6 +548,12 @@ class ProntoImplementation(
                     yield pred, v
                 elif isinstance(s, ResourcePropertyValue):
                     yield pred, s.resource
+        if isinstance(t, Term):
+            for rel_type, parents in t.relationships.items():
+                pred = self._get_pronto_relationship_type_curie(rel_type)
+                if pred in SKOS_MATCH_PREDICATES:
+                    for parent in parents:
+                        yield pred, parent.id
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
@@ -662,7 +667,7 @@ class ProntoImplementation(
                     if x.id in curies:
                         m = sssom.Mapping(
                             subject_id=e,
-                            predicate_id=SKOS_CLOSE_MATCH,
+                            predicate_id=HAS_DBXREF,
                             object_id=x.id,
                             mapping_justification=sssom.EntityReference(
                                 SEMAPV.UnspecifiedMatching.value
