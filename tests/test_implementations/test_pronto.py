@@ -44,6 +44,7 @@ TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_SIMPLE_ONT = INPUT_DIR / "go-nucleus-simple.obo"
 TEST_ONT_COPY = OUTPUT_DIR / "go-nucleus.copy.obo"
 TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
+TEST_SKOS_MAPPINGS_ONT = INPUT_DIR / "mapping-predicates-test.obo"
 
 
 class TestProntoImplementation(unittest.TestCase):
@@ -192,6 +193,16 @@ class TestProntoImplementation(unittest.TestCase):
         resource = OntologyResource(slug="obsoletion_test.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.compliance_tester.test_obsolete_entities(oi)
+
+    @unittest.skip("Pronto does not handling dangling references")
+    def test_skos_mappings(self):
+        """
+        Tests mappings as SKOS properties.
+
+        :return:
+        """
+        adapter = get_adapter(f"pronto:{TEST_SKOS_MAPPINGS_ONT}")
+        self.compliance_tester.test_skos_mappings(adapter)
 
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
