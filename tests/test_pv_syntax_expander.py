@@ -1,11 +1,11 @@
 import contextlib
 import tempfile
-import types
 
 from linkml.generators import PythonGenerator
 from linkml_runtime import SchemaView
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
+from linkml_runtime.utils.compile_python import compile_python
 
 from src.oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
@@ -85,9 +85,9 @@ def test_test():
 
         python_code = generator.serialize()
 
-        module = types.ModuleType("test_module")
-        code_obj = compile(python_code, "test_module" + ".py", "exec")
-        exec(code_obj, module.__dict__)
+        module_name = "test_module"
+
+        module = compile_python(python_code, module_name)
 
         Sample = module.Sample
 
