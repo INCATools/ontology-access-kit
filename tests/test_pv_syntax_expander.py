@@ -62,7 +62,7 @@ biome: tundra biome [ENVO:01000180]
 """
 
 
-def test_test():
+def test_pv_syntax_expander():
     view = SchemaView(SCHEMA_STRING)
 
     with contextlib.ExitStack() as stack:
