@@ -364,8 +364,8 @@ class SqlImplementation(
                 locator = f"sqlite:///{path}"
             logging.info(f"Locator, post-processed: {locator}")
             self.engine = create_engine(locator)
-            
-            if(logging.root.level <= logging.DEBUG): 
+
+            if(logging.root.level <= logging.DEBUG):
                 #If oaklib is running at DEBUG level logging; record all queries from sqlachemy on execution.
                 #This line is equivalent to create_engine(locator,echo=True)
                 logging.getLogger('sqlalchemy.engine.Engine').setLevel(logging.INFO)
