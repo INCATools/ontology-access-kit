@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterator, List, Union
+from typing import Iterator, List, Optional, Union
 
 import click
 from linkml_runtime.dumpers import json_dumper
@@ -43,6 +43,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         value_set: Union[EnumDefinition, AnonymousEnumExpression],
         schema: SchemaDefinition = None,
         source_enum_definition: EnumDefinition = None,
+        pv_syntax: Optional[str] = None,
     ) -> Iterator[PermissibleValue]:
         """
         Expand a value set definition into a list of curies
@@ -71,7 +72,10 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                 vset = schema.enums[inherited]
                 pvs.extend(
                     self.expand_value_set(
-                        vset, schema=schema, source_enum_definition=source_enum_definition
+                        vset,
+                        schema=schema,
+                        source_enum_definition=source_enum_definition,
+                        pv_syntax=pv_syntax,
                     )
                 )
         if value_set.include:
@@ -79,14 +83,20 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                 if isinstance(include, AnonymousEnumExpression):
                     pvs.extend(
                         self.expand_value_set(
-                            include, schema=schema, source_enum_definition=source_enum_definition
+                            include,
+                            schema=schema,
+                            source_enum_definition=source_enum_definition,
+                            pv_syntax=pv_syntax,
                         )
                     )
                 else:
                     raise ValueError(f"Unexpected type for include: {type(include)}")
                 pvs.extend(
                     self.expand_value_set(
-                        include, schema=schema, source_enum_definition=source_enum_definition
+                        include,
+                        schema=schema,
+                        source_enum_definition=source_enum_definition,
+                        pv_syntax=pv_syntax,
                     )
                 )
         if value_set.concepts:
@@ -136,7 +146,11 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                             rq.source_nodes, predicates=predicates, reflexive=rq.include_self
                         )
                 for curie in results:
-                    pvs.append(self._generate_permissible_value(curie, oi, source_enum_definition))
+                    pvs.append(
+                        self._generate_permissible_value(
+                            curie, oi, source_enum_definition, pv_syntax=pv_syntax
+                        )
+                    )
             else:
                 raise NotImplementedError(f"Must be an OboGraphInterface: {type(oi)}")
         if value_set.minus:
@@ -145,7 +159,10 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
                     minus_vs, AnonymousEnumExpression
                 ):
                     for pv in self.expand_value_set(
-                        minus_vs, schema=schema, source_enum_definition=source_enum_definition
+                        minus_vs,
+                        schema=schema,
+                        source_enum_definition=source_enum_definition,
+                        pv_syntax=pv_syntax,
                     ):
                         if pv in pvs:
                             pvs.remove(pv)
@@ -181,6 +198,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         curie: CURIE,
         oi: BasicOntologyInterface,
         enum_definition: EnumDefinition = None,
+        pv_syntax: Optional[str] = None,
     ) -> PermissibleValue:
         definition = oi.definition(curie)
         # \n can break some downstream tooling like LinkML's gen-pydantic (v1.6.6)
@@ -188,7 +206,9 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
             definition = definition.replace("\n", " ")
         label = oi.label(curie)
         pv_formula = enum_definition.pv_formula if enum_definition else None
-        if str(pv_formula) == "CURIE":
+        if pv_syntax is not None:
+            text = pv_syntax.format(id=curie, label=label, definition=definition)
+        elif str(pv_formula) == "CURIE":
             text = curie
         elif str(pv_formula) == "LABEL":
             # not all ontologies will have text for every element
@@ -209,6 +229,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
         schema_path: Union[str, Path],
         value_set_names: List[str] = None,
         output_path: Union[str, Path] = None,
+        pv_syntax: Optional[str] = None,
     ) -> SchemaDefinition:
         """
         Expand value sets in place
@@ -231,7 +252,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
             if value_set_name not in schema.enums:
                 raise ValueError(f"Unknown value set: {value_set_name}")
             value_set = schema.enums[value_set_name]
-            pvs = list(self.expand_value_set(value_set, schema=schema))
+            pvs = list(self.expand_value_set(value_set, schema=schema, pv_syntax=pv_syntax))
             yaml_obj["enums"][value_set_name]["permissible_values"] = {
                 str(pv.text): json_dumper.to_dict(pv) for pv in pvs
             }
@@ -259,8 +280,11 @@ def main(verbose: int, quiet: bool):
 @click.option("-c", "--config", type=click.Path(exists=True))
 @click.option("-s", "--schema", type=click.Path(exists=True))
 @click.option("-o", "--output", type=click.Path())
+@click.option("--pv-syntax", help="Enter a LinkML structured_pattern.syntax-style string ")
+# # add a boolean click option with --mixs-style and (default) --no-mixs-style options
+# @click.option("-m", "--mixs-style", is_flag=True, default=False)
 @click.argument("value_set_names", nargs=-1)
-def expand(config: str, schema: str, value_set_names: List[str], output: str):
+def expand(config: str, schema: str, value_set_names: List[str], output: str, pv_syntax: str):
     """
     Expand a value set. EXPERIMENTAL.
 
@@ -281,9 +305,11 @@ def expand(config: str, schema: str, value_set_names: List[str], output: str):
     such as BioPortal or Wikidata. However, note that not all backends are capable of being able to
     render all value sets.
 
-    Example:
+    Examples:
     -------
         vskit expand -c config.yaml -s schema.yaml -o expanded.yaml my_value_set1 my_value_set2
+
+        vskit expand -s schema.yaml -o expanded.yaml --pv-syntax '{label} [{id}] my_value_set1
 
     """
     value_set_names = None if not value_set_names else value_set_names
@@ -291,7 +317,7 @@ def expand(config: str, schema: str, value_set_names: List[str], output: str):
     if config:
         expander.configuration = yaml_loader.load(config, target_class=ValueSetConfiguration)
     expander.expand_in_place(
-        schema_path=schema, value_set_names=value_set_names, output_path=output
+        schema_path=schema, value_set_names=value_set_names, output_path=output, pv_syntax=pv_syntax
     )
 
 
