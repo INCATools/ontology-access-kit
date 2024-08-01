@@ -79,9 +79,8 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
             if curie.startswith("<http"):
                 label = label.replace(">", "")
             label = " ".join(label.split("_"))
-            # print(f'{curie} ==> {label} // {type(oi)}')
             oi.set_label(curie, label)
-            # print(oi.get_label_by_curie(curie))
+
 
 
 def create_lexical_index(
@@ -127,6 +126,7 @@ def create_lexical_index(
     logging.info("Creating mapping index")
     mapping_pairs_by_curie = defaultdict(list)
     for curie in oi.entities():
+        logging.debug(f"Finding mappings for {curie}")
         pairs = list(oi.simple_mappings_by_curie(curie))
         for pred, object_id in pairs:
             mapping_pairs_by_curie[curie].append((pred, object_id))

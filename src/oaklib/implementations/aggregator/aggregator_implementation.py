@@ -1,3 +1,4 @@
+import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from io import TextIOWrapper
@@ -139,6 +140,10 @@ class AggregatorImplementation(
 
     def label(self, curie: CURIE, **kwargs) -> str:
         return self._delegate_first(lambda i: i.label(curie, **kwargs))
+
+    def set_label(self, curie: CURIE, label: str) -> None:
+        logging.debug(f"Assuming {curie} is in first aggregated resource, label={label}")
+        return self._delegate_first(lambda i: i.set_label(curie, label))
 
     def curies_by_label(self, label: str) -> List[CURIE]:
         return list(self._delegate_iterator(lambda i: i.curies_by_label(label)))

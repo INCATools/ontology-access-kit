@@ -788,11 +788,19 @@ class SqlImplementation(
             self.save()
 
     def set_label(self, curie: CURIE, label: str) -> bool:
-        stmt = (
-            update(Statements)
-            .where(and_(Statements.subject == curie, Statements.predicate == LABEL_PREDICATE))
-            .values(value=label)
-        )
+        existing_label = self.label(curie)
+        if existing_label:
+            stmt = (
+                update(Statements)
+                .where(and_(Statements.subject == curie, Statements.predicate == LABEL_PREDICATE))
+                .values(value=label)
+            )
+        else:
+            stmt = (
+                insert(Statements)
+                .values(subject=curie, predicate=LABEL_PREDICATE, value=label)
+                .execution_options(autocommit=True)
+            )
         self._execute(stmt)
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
