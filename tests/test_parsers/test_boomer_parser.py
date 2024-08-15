@@ -2,8 +2,8 @@ import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-from oaklib.parsers.boomer_parser import BoomerParser
 
+from oaklib.parsers.boomer_parser import BoomerParser
 from tests import INPUT_DIR
 
 EXAMPLE = INPUT_DIR / "boomer-example.md"

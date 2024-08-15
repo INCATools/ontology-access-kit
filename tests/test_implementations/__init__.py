@@ -17,6 +17,7 @@ from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
@@ -78,7 +79,6 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.utilities.kgcl_utilities import generate_change_id
-
 from tests import (
     ARCHAEA,
     BACTERIA,

@@ -82,7 +82,6 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
             oi.set_label(curie, label)
 
 
-
 def create_lexical_index(
     oi: BasicOntologyInterface,
     pipelines: Optional[List[LexicalTransformationPipeline]] = None,

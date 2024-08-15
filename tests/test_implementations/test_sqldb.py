@@ -5,6 +5,9 @@ import unittest
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
+from semsql.sqla.semsql import Statements
+from sqlalchemy import delete
+
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.conf import CONF_DIR_PATH
 from oaklib.datamodels import obograph
@@ -26,9 +29,6 @@ from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import add_labels_from_uris
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.utilities.validation.rule_runner import RuleRunner
-from semsql.sqla.semsql import Statements
-from sqlalchemy import delete
-
 from tests import (
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,

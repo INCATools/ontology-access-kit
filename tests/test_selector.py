@@ -8,6 +8,7 @@ from pathlib import Path
 
 from gilda.grounder import Grounder
 from gilda.term import Term
+
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
@@ -19,7 +20,6 @@ from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
 from oaklib.selector import get_adapter, get_resource_from_shorthand
-
 from tests import INPUT_DIR
 
 

@@ -1,6 +1,7 @@
 import unittest
 
 from linkml_runtime.utils.introspection import package_schemaview
+
 from oaklib.datamodels import search_datamodel
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax

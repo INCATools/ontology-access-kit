@@ -912,9 +912,8 @@ class SimpleOboImplementation(
                         id=_id(), about_node=t1id, new_value=vals2list[0], old_value=None
                     )
                 else:
-                    #! KGCL may have NameDeletion in the future.
-                    yield kgcl.NodeRename(
-                        id=_id(), about_node=t2id, old_value=vals2list[0], new_value=None
+                    yield kgcl.NodeDeletion(
+                        id=_id(), about_node=t1id, old_value=vals1list[0], new_value=None
                     )
             elif tag == TAG_DEFINITION:
                 if node_is_deleted:

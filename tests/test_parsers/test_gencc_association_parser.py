@@ -5,7 +5,6 @@ from oaklib import get_adapter
 from oaklib.conf import CONF_DIR_PATH
 from oaklib.parsers import GENCC
 from oaklib.parsers.association_parser_factory import get_association_parser
-
 from tests import INPUT_DIR
 
 G2D_INPUT = INPUT_DIR / "example-g2d.gencc.csv"

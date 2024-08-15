@@ -2,6 +2,7 @@ import kgcl_schema.grammar.parser as kgcl_parser
 import pytest
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
+
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.implementations.tabular.robot_template_implementation import (
     template_modify,
@@ -10,7 +11,6 @@ from oaklib.implementations.tabular.robot_template_implementation import (
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.utilities.kgcl_utilities import tidy_change_object
-
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEMPLATES = INPUT_DIR / "obi-templates"
