@@ -5,7 +5,6 @@ from oaklib.implementations.sparql.sparql_implementation import SparqlImplementa
 from oaklib.resource import OntologyResource
 from oaklib.utilities.mapping.mapping_validation import unreciprocated_mappings
 from oaklib.utilities.mapping.sssom_utils import mappings_to_pairs
-
 from tests import INPUT_DIR
 
 TEST_ONT = INPUT_DIR / "unreciprocated-mapping-test.obo"

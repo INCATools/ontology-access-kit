@@ -3,11 +3,11 @@ import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
+
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.resource import OntologyResource
-
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, VACUOLE
 
 
