@@ -186,23 +186,33 @@ class SemSimianImplementation(
         return sim
 
     def all_by_all_pairwise_similarity(
-        self,
-        subjects: Iterable[CURIE],
-        objects: Iterable[CURIE],
-        predicates: List[PRED_CURIE] = None,
-        min_jaccard_similarity: Optional[float] = None,
-        min_ancestor_information_content: Optional[float] = None,
+            self,
+            subjects: Iterable[CURIE],
+            objects: Iterable[CURIE],
+            predicates: List[PRED_CURIE] = None,
+            min_jaccard_similarity: Optional[float] = None,
+            min_ancestor_information_content: Optional[float] = None,
+            limit: Optional[int] = None,  # New optional limit argument
     ) -> Iterator[TermPairwiseSimilarity]:
         """
-        Compute similarity for all combinations of terms in subsets vs all terms in objects
+        Compute similarity for all combinations of terms in subsets vs all terms in objects.
 
         :param subjects:
         :param objects:
         :param predicates:
+        :param limit: Optional limit to the number of subjects and objects processed.
         :return:
         """
+        subjects = list(subjects)
         objects = list(objects)
-        logging.info(f"Calculating all-by-all pairwise similarity for {len(objects)} objects")
+
+        if limit is not None:
+            subjects = subjects[:limit]
+            objects = objects[:limit]
+
+        logging.info(
+            f"Calculating all-by-all pairwise similarity for {len(subjects)} subjects and {len(objects)} objects")
+
         semsimian = self._get_semsimian_object(
             predicates=predicates,
             attributes=self.term_pairwise_similarity_attributes,
@@ -213,12 +223,10 @@ class SemSimianImplementation(
             object_terms=set(objects),
             minimum_jaccard_threshold=min_jaccard_similarity,
             minimum_resnik_threshold=min_ancestor_information_content,
-            # predicates=set(predicates) if predicates else None,
         )
         logging.info("Post-processing results from semsimian")
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
-                # Remember the _ here is cosine_similarity which we do not use at the moment.
                 jaccard, resnik, phenodigm_score, _, ancestor_set = result
                 if len(ancestor_set) > 0:
                     sim = TermPairwiseSimilarity(
