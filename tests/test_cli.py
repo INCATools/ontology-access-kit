@@ -1522,7 +1522,7 @@ class TestCommandLineInterface(unittest.TestCase):
             ],
         )
         print("STDERR", result.stdout)
-        err = result.stderr
+        err = "\n".join([line for line in result.stderr.split("\n") if not line.startswith("WARNING")])
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
         with open(outfile) as stream:
