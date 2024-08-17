@@ -522,11 +522,13 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                     _sparql_values("s", s_uris),
                     _sparql_values("p", [self.curie_to_sparql(IS_A)]),
                     _sparql_values("o", o_uris),
-                ]
+                ],
             )
             bindings = self._sparql_query(q)
             for row in bindings:
-                yield self.uri_to_curie(row["s"]["value"]), IS_A, self.uri_to_curie(row["o"]["value"])
+                yield self.uri_to_curie(row["s"]["value"]), IS_A, self.uri_to_curie(
+                    row["o"]["value"]
+                )
         if predicates != [IS_A]:
             # existentials
             q = SparqlQuery(
@@ -538,7 +540,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                     _sparql_values("s", s_uris),
                     _sparql_values("p", p_uris),
                     _sparql_values("o", o_uris),
-                ]
+                ],
             )
             bindings = self._sparql_query(q)
             for row in bindings:
@@ -547,8 +549,6 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
                     self.uri_to_curie(row["p"]["value"]),
                     self.uri_to_curie(row["o"]["value"]),
                 )
-
-
 
     def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
         return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))

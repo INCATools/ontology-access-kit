@@ -367,7 +367,8 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         symmetric = curies1 == curies2
         logging.info(f"Finding co-associations between {curies1} and {curies2}")
         assocmap = {
-            c: list(self.associations(objects=[c], limit=-1, **kwargs)) for c in curies1.union(curies2)
+            c: list(self.associations(objects=[c], limit=-1, **kwargs))
+            for c in curies1.union(curies2)
         }
         assocmap1 = {c: assocmap[c] for c in curies1}
         assocmap2 = {c: assocmap[c] for c in curies2}
@@ -382,7 +383,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                 elements1 = {a.subject for a in assocs1}
                 elements2 = {a.subject for a in assocs2}
                 if not elements1 or not elements2:
-                    logging.debug(f"No associations for {c1} or {c2}, so a coassociation is not meaningful")
+                    logging.debug(
+                        f"No associations for {c1} or {c2}, so a coassociation is not meaningful"
+                    )
                     continue
                 common = elements1.intersection(elements2)
                 assocs_to_common = [a for a in assocs1 + assocs2 if a.subject in common]

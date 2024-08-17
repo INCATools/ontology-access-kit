@@ -172,6 +172,7 @@ class AmiGOImplementation(
     def go_adapter(self) -> OboGraphInterface:
         if not self._go_adapter:
             from oaklib import get_adapter
+
             self._go_adapter = get_adapter("sqlite:obo:go")
         return self._go_adapter
 

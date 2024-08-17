@@ -193,5 +193,9 @@ class UsagesInterface(BasicOntologyInterface, ABC):
         if include_unused:
             for c in curies:
                 if c not in used_curies:
-                    yield Usage(used_id=c, used_by_id="None", source=_source_id(), context=UsageContext.MULTIPLE)
-
+                    yield Usage(
+                        used_id=c,
+                        used_by_id="None",
+                        source=_source_id(),
+                        context=UsageContext.MULTIPLE,
+                    )

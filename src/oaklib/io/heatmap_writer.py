@@ -63,13 +63,13 @@ class HeatmapWriter(StreamingWriter):
         # ax = sns.heatmap(df, annot=mask, fmt=".2f", mask=~mask)  # Annotates only non-zero cells
         ax = sns.heatmap(df, annot=True, fmt=".2f")
         # Rotate x and y labels if necessary
-        plt.xticks(rotation=45, ha='right')  # Rotate term2 labels for better fit
+        plt.xticks(rotation=45, ha="right")  # Rotate term2 labels for better fit
         plt.yticks(rotation=0)  # Keep term1 labels horizontal
         # Adjust font size of the labels
-        ax.tick_params(axis='both', which='major', labelsize=24)
+        ax.tick_params(axis="both", which="major", labelsize=24)
 
         # Manually set x-axis labels to ensure correct alignment
-        ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment="right")
 
         ax.get_figure().savefig(self.output, bbox_inches="tight")
         # plt.savefig(self.output, bbox_inches="tight")
