@@ -362,17 +362,18 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         """
         if inputs_are_subjects:
             raise NotImplementedError
-        curies1 = list(curies1)
-        curies2 = list(curies2)
+        curies1 = set(curies1)
+        curies2 = set(curies2)
+        symmetric = curies1 == curies2
         logging.info(f"Finding co-associations between {curies1} and {curies2}")
         assocmap = {
-            c: list(self.associations(objects=[c], **kwargs)) for c in set(curies1 + curies2)
+            c: list(self.associations(objects=[c], limit=-1, **kwargs)) for c in curies1.union(curies2)
         }
         assocmap1 = {c: assocmap[c] for c in curies1}
         assocmap2 = {c: assocmap[c] for c in curies2}
         for c1 in curies1:
             for c2 in curies2:
-                if c2 > c1 and not include_reciprocals:
+                if c2 > c1 and not include_reciprocals and symmetric:
                     continue
                 if c1 == c2 and not include_diagonal:
                     continue
@@ -380,6 +381,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                 assocs2 = assocmap2[c2]
                 elements1 = {a.subject for a in assocs1}
                 elements2 = {a.subject for a in assocs2}
+                if not elements1 or not elements2:
+                    logging.debug(f"No associations for {c1} or {c2}, so a coassociation is not meaningful")
+                    continue
                 common = elements1.intersection(elements2)
                 assocs_to_common = [a for a in assocs1 + assocs2 if a.subject in common]
                 coassoc = PairwiseCoAssociation(
@@ -393,6 +397,14 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
                 if coassoc.number_subjects_in_union:
                     coassoc.proportion_subjects_in_common = (
                         coassoc.number_subjects_in_common / coassoc.number_subjects_in_union
+                    )
+                if elements1:
+                    coassoc.proportion_entity1_subjects_in_entity2 = (
+                        coassoc.number_subjects_in_common / len(elements1)
+                    )
+                if elements2:
+                    coassoc.proportion_entity2_subjects_in_entity1 = (
+                        coassoc.number_subjects_in_common / len(elements2)
                     )
                 if include_entities:
                     coassoc.subjects_in_common = list(common)

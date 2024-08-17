@@ -1,5 +1,10 @@
+
+
 # Class: SynonymPropertyValue
+
+
 _A property value that represents an assertion about a synonym of an entity_
+
 
 
 
@@ -8,10 +13,15 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
 
 
 
-```{mermaid}
+
+
+
+```mermaid
  classDiagram
     class SynonymPropertyValue
+    click SynonymPropertyValue href "../SynonymPropertyValue"
       PropertyValue <|-- SynonymPropertyValue
+        click PropertyValue href "../PropertyValue"
       
       SynonymPropertyValue : isExact
         
@@ -19,11 +29,21 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
         
       SynonymPropertyValue : meta
         
-          SynonymPropertyValue ..> Meta : meta
+          
+    
+    
+    SynonymPropertyValue --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       SynonymPropertyValue : pred
         
-          SynonymPropertyValue ..> ScopeEnum : pred
+          
+    
+    
+    SynonymPropertyValue --> "0..1" ScopeEnum : pred
+    click ScopeEnum href "../ScopeEnum"
+
         
       SynonymPropertyValue : synonymType
         
@@ -52,9 +72,9 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
 | ---  | --- | --- | --- |
 | [synonymType](synonymType.md) | 0..1 <br/> [SynonymTypeIdentifierString](SynonymTypeIdentifierString.md) | This standard follows oboInOwl in allowing an open ended list of synonym type... | direct |
 | [isExact](isExact.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
-| [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | direct |
+| [pred](pred.md) | 0..1 <br/> [ScopeEnum](ScopeEnum.md) | the predicate of an edge | direct |
 | [val](val.md) | 0..1 <br/> [String](String.md) | The textual string representing the synonym | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | * <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
 | [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
 | [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
@@ -90,13 +110,14 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:SynonymPropertyValue |
 | native | obographs:SynonymPropertyValue |
+
+
 
 
 
@@ -113,7 +134,6 @@ URI: [obographs:SynonymPropertyValue](https://github.com/geneontology/obographs/
 name: SynonymPropertyValue
 description: A property value that represents an assertion about a synonym of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slots:
 - synonymType
@@ -145,7 +165,6 @@ slot_usage:
 name: SynonymPropertyValue
 description: A property value that represents an assertion about a synonym of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   pred:
@@ -221,13 +240,13 @@ attributes:
     close_mappings:
     - rdfs:seeAlso
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: SynonymPropertyValue
     domain_of:
     - Meta
     - PropertyValue
     range: XrefString
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

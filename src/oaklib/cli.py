@@ -2230,34 +2230,26 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
 )
 def transform(terms, transform, output, output_type: str, config_file: str = None, **kwargs):
     """
-    Transforms an ontology
+    Applies a defined transformation to an ontology (EXPERIMENTAL).
+
+    Transformations include:
+
+    - SEPTransform: implements Structured-Entities-Parts (SEP) design pattern
+    - EdgeFilterTransformer: filters edges based on a predicate
+
+    Note that for most transformation operations, we recommend using ROBOT
+    and commands such as remove, filter, query.
 
     Example:
 
-        runoak -i pato.obo dump -o pato.json -O json
+        runoak -i xao.obo transform -t SEPTransform -o xao.sep.obo
 
-    Example:
+    Removes all P part-of Ws from XAO and replaces occurrences with triads of the form:
 
-        runoak -i pato.owl dump -o pato.ttl -O turtle
-
-    You can also pass in a JSON configuration file to parameterize the dump process.
-
-    Currently this is only used for fhirjson dumps, the configuration options are specified here:
-
-    https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
-
-    Example:
-
-        runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
-
-    Currently each implementation only supports a subset of formats.
-
-    The dump command is also blocked for remote endpoints such as Ubergraph,
-    to avoid killer queries.
-
-    Python API:
-
-       https://incatools.github.io/ontology-access-kit/interfaces/basic
+    - W subClassOf W-structure
+    - W subClassOf W-structure
+    - W-Part subClassOf W-structure
+    - P subClassOf W-Part
 
     """
     if terms:
@@ -4198,6 +4190,11 @@ def apply_taxon_constraints(
     "-P",
     multiple=True,
 )
+@click.option(
+    "--include-unused/--no-include-unused",
+    default=True,
+    show_default=True,
+)
 @click.argument("terms", nargs=-1)
 def usages(
     terms,
@@ -4234,6 +4231,10 @@ def usages(
         runoak -i ubergraph: usages CL:0000540
 
     This will include usages over multiple ontologies
+
+    Using ontobee:
+
+        runoak -i ubergraph: usages CL:0000540
 
     You can multiple queries over multiple sources (an AggregatorImplementation):
 
@@ -4559,6 +4560,13 @@ def associations_counts(
     show_default=True,
     help="Include entities (e.g. genes) in the output, otherwise just the counts",
 )
+@click.option(
+    "--main-score-field",
+    "-S",
+    default="proportion_subjects_in_common",
+    show_default=True,
+    help="Score used for summarization",
+)
 @click.argument("terms", nargs=-1)
 def associations_matrix(
     terms,
@@ -4568,6 +4576,7 @@ def associations_matrix(
     autolabel: bool,
     output_type: str,
     output: str,
+    main_score_field: str,
     **kwargs,
 ):
     """
@@ -4579,18 +4588,36 @@ def associations_matrix(
 
     Example:
 
-
         runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046
+
+    This results in a 2x2 matrix (shown as a long table)
 
     As a heatmap:
 
-        runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -o heatmap > /tmp/heatmap.png
+        runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -O heatmap > /tmp/heatmap.png
 
+    By default the heatmap will show the percentage of overlap between the two terms. To change this
+    to be either the percentage of the first term in the second, or the percentage of the second term in the first,
+    use the --main-score-field (-S) option, with "1" or "2".
+
+    You can plug in as many terms as you like, it will perform an all-by-all
+
+    To compare one set with another, use the "@" separator.
+
+    You can also substitute OAK expression language query terms
+
+        runoak --stacktrace  -i amigo:NCBITaxon:9606 associations-matrix -p i,p .idfile cp.txt @ .idfile ct.txt
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
+    if main_score_field and isinstance(writer, HeatmapWriter):
+        if main_score_field == "1":
+            main_score_field = "proportion_entity1_subjects_in_entity2"
+        if main_score_field == "2":
+            main_score_field = "proportion_entity2_subjects_in_entity1"
+        writer.value_field = main_score_field
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
@@ -4613,6 +4640,7 @@ def associations_matrix(
         **kwargs,
     )
     jaccards = []
+    n = 0
     for pair in pairs_it:
         # TODO: more elegant way to handle this
         pair.associations_for_subjects_in_common = None
@@ -4621,8 +4649,10 @@ def associations_matrix(
             pair,
             label_fields=["object1", "object2"],
         )
-    logging.info(f"Average Jaccard index: {stats.mean(jaccards)}")
+        n += 1
+    logging.info(f"Emitted {n} pairs")
     writer.finish()
+    logging.info(f"Average Jaccard index: {stats.mean([j for j in jaccards if j is not None])}")
 
 
 @main.command()

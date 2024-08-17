@@ -509,17 +509,46 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         :param include_entailed:
         :return:
         """
-        if not subjects:
-            subjects = list(self.entities())
-        logging.info(f"Subjects: {len(subjects)}")
-        for subject in subjects:
-            for this_predicate, this_objects in self.outgoing_relationship_map(subject).items():
-                if predicates and this_predicate not in predicates:
-                    continue
-                for this_object in this_objects:
-                    if objects and this_object not in objects:
-                        continue
-                    yield subject, this_predicate, this_object
+        s_uris = [self.curie_to_sparql(x) for x in subjects] if subjects else None
+        p_uris = [self.curie_to_sparql(x) for x in predicates] if predicates else None
+        o_uris = [self.curie_to_sparql(x) for x in objects] if objects else None
+        if not predicates or IS_A in predicates:
+            q = SparqlQuery(
+                distinct=True,
+                select=["?s", "?o"],
+                where=[
+                    "?s ?p ?o",
+                    "FILTER (isIRI(?s) && isIRI(?o))",
+                    _sparql_values("s", s_uris),
+                    _sparql_values("p", [self.curie_to_sparql(IS_A)]),
+                    _sparql_values("o", o_uris),
+                ]
+            )
+            bindings = self._sparql_query(q)
+            for row in bindings:
+                yield self.uri_to_curie(row["s"]["value"]), IS_A, self.uri_to_curie(row["o"]["value"])
+        if predicates != [IS_A]:
+            # existentials
+            q = SparqlQuery(
+                distinct=True,
+                select=["?s", "?p", "?o"],
+                where=[
+                    "?s rdfs:subClassOf [owl:onProperty ?p ; owl:someValuesFrom ?o]",
+                    "FILTER (isIRI(?s) && isIRI(?o) && isIRI(?p))",
+                    _sparql_values("s", s_uris),
+                    _sparql_values("p", p_uris),
+                    _sparql_values("o", o_uris),
+                ]
+            )
+            bindings = self._sparql_query(q)
+            for row in bindings:
+                yield (
+                    self.uri_to_curie(row["s"]["value"]),
+                    self.uri_to_curie(row["p"]["value"]),
+                    self.uri_to_curie(row["o"]["value"]),
+                )
+
+
 
     def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
         return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))

@@ -30,6 +30,7 @@ class UsageContext(str, Enum):
     ASSOCIATION_OBJECT = "association_object"
     MAPPING_SUBJECT = "mapping_subject"
     MAPPING_OBJECT = "mapping_object"
+    MULTIPLE = "multiple"
 
 
 class Usage(BaseModel):
@@ -41,7 +42,9 @@ class Usage(BaseModel):
     used_by_id: str
     predicate: Optional[str] = None
     source: str
+    dataset: Optional[str] = None
     context: UsageContext
+    axiom: Optional[str] = None
     description: Optional[str] = None
 
 
@@ -55,17 +58,22 @@ class UsagesInterface(BasicOntologyInterface, ABC):
         curies: List[CURIE],
         used_by: Optional[List[CURIE]] = None,
         used_by_prefixes: Optional[List[str]] = None,
+        include_unused: bool = False,
         **kwargs,
     ) -> Iterable[Usage]:
         """
         Get usages of a term
 
         :param curies:
+        :param used_by:
+        :param used_by_prefixes:
+        :param include_unused:
         :param kwargs:
         :return:
         """
         logger.info(f"Getting usages for {curies}, prefixes={used_by_prefixes}")
 
+        used_curies = set()
         if used_by or used_by_prefixes:
             for usage in self.usages(curies, **kwargs):
                 ok = True
@@ -79,6 +87,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                     logger.debug(f"Skipping {usage} as not in used_by")
                 if ok:
                     yield usage
+                    used_curies.add(usage.used_id)
             return
 
         def _source_id():
@@ -93,6 +102,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                 source=_source_id(),
                 context=UsageContext.RELATIONSHIP_SUBJECT,
             )
+            used_curies.add(s)
         logger.info(f"Checking relationships objects for {len(curies)} curies")
         for s, p, o in self.relationships(objects=curies):
             yield Usage(
@@ -102,6 +112,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                 source=_source_id(),
                 context=UsageContext.RELATIONSHIP_OBJECT,
             )
+            used_curies.add(o)
         logger.info(f"Checking relationships predicates for {len(curies)} curies")
         for _s, p, o in self.relationships(predicates=curies):
             # TODO: used_by is a relationship
@@ -112,6 +123,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                 source=_source_id(),
                 context=UsageContext.RELATIONSHIP_PREDICATE,
             )
+            used_curies.add(p)
         logger.info(f"Checking logical definitions for {len(curies)} curies")
         if isinstance(self, OboGraphInterface):
             for ldef in self.logical_definitions(objects=curies):
@@ -124,6 +136,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                             source=_source_id(),
                             context=UsageContext.LOGICAL_DEFINITION_GENUS,
                         )
+                        used_curies.add(ldef.definedClassId)
                 for r in ldef.restrictions:
                     if r.propertyId in curies:
                         yield Usage(
@@ -133,6 +146,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                             source=_source_id(),
                             context=UsageContext.LOGICAL_DEFINITION_PREDICATE,
                         )
+                        used_curies.add(ldef.definedClassId)
                     if r.fillerId in curies:
                         yield Usage(
                             used_id=ldef.definedClassId,
@@ -141,6 +155,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                             source=_source_id(),
                             context=UsageContext.LOGICAL_DEFINITION_FILLER,
                         )
+                        used_curies.add(ldef.definedClassId)
         logger.info(f"Checking associations for {len(curies)} curies")
         if isinstance(self, AssociationProviderInterface):
             for a in self.associations(objects=curies, object_closure_predicates=[]):
@@ -151,6 +166,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                     source=_source_id(),
                     context=UsageContext.ASSOCIATION_OBJECT,
                 )
+                used_curies.add(a.subject)
         logger.info(f"Checking mappings for {len(curies)} curies")
         if isinstance(self, MappingProviderInterface):
             for m in self.sssom_mappings(curies):
@@ -162,6 +178,7 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                         source=_source_id(),
                         context=UsageContext.MAPPING_SUBJECT,
                     )
+                    used_curies.add(m.subject_id)
                 elif m.object_id in curies:
                     yield Usage(
                         used_id=m.object_id,
@@ -170,5 +187,11 @@ class UsagesInterface(BasicOntologyInterface, ABC):
                         source=_source_id(),
                         context=UsageContext.MAPPING_OBJECT,
                     )
+                    used_curies.add(m.object_id)
                 else:
                     raise AssertionError(f"Mapping {m} not in curies {curies}")
+        if include_unused:
+            for c in curies:
+                if c not in used_curies:
+                    yield Usage(used_id=c, used_by_id="None", source=_source_id(), context=UsageContext.MULTIPLE)
+

@@ -1,5 +1,10 @@
+
+
 # Class: XrefPropertyValue
+
+
 _A property value that represents an assertion about an external reference to an entity_
+
 
 
 
@@ -8,16 +13,26 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
 
 
 
-```{mermaid}
+
+
+
+```mermaid
  classDiagram
     class XrefPropertyValue
+    click XrefPropertyValue href "../XrefPropertyValue"
       PropertyValue <|-- XrefPropertyValue
+        click PropertyValue href "../PropertyValue"
       
       XrefPropertyValue : lang
         
       XrefPropertyValue : meta
         
-          XrefPropertyValue ..> Meta : meta
+          
+    
+    
+    XrefPropertyValue --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       XrefPropertyValue : pred
         
@@ -46,7 +61,7 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
 | ---  | --- | --- | --- |
 | [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
 | [val](val.md) | 0..1 <br/> [String](String.md) | The textual representation of the external reference, e | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | * <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
 | [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
 | [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
@@ -82,13 +97,14 @@ URI: [obographs:XrefPropertyValue](https://github.com/geneontology/obographs/Xre
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:XrefPropertyValue |
 | native | obographs:XrefPropertyValue |
+
+
 
 
 
@@ -106,7 +122,6 @@ name: XrefPropertyValue
 description: A property value that represents an assertion about an external reference
   to an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:
@@ -127,7 +142,6 @@ name: XrefPropertyValue
 description: A property value that represents an assertion about an external reference
   to an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:
@@ -174,13 +188,13 @@ attributes:
     close_mappings:
     - rdfs:seeAlso
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: XrefPropertyValue
     domain_of:
     - Meta
     - PropertyValue
     range: XrefString
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,
