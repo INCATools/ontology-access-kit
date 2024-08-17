@@ -289,6 +289,24 @@ FILTER
 
 The ``.filter`` operator allows you to provide arbitrary python filters.
 
+QUERY
+^^^^^
+
+The ``.query`` operator allows you to pass through a query to the underlying store (SPARQL, SQL).
+
+For example, the ``sqlite`` backend uses SQL, so you can pass through SQL:
+
+.. code-block::
+
+   runoak -i sqlite:obo:uberon info .query \
+    "SELECT subject from has_dbxref_statement where value like 'ZFA:%'"
+
+This is equivalent to:
+
+.. code-block::
+
+   runoak -i sqlite:obo:uberon info x^ZFA:
+
 NR
 ^^
 
@@ -307,18 +325,59 @@ Example:
 
    runoak -i sqlite:obo:uberon info .mrca//p=i,p .idfile my_terms.txt
 
+RAND
+^^^^
+
+Pick a random subset of terms. Parameterized by ``n`` (number of terms).
+
+Definitions for random terms in the Cell Ontology:
+
+.. code-block::
+
+   runoak -i sqlite:obo:cl definitions .rand
+
+For 10 random terms
+
+.. code-block::
+
+   runoak -i sqlite:obo:cl definitions .rand//n=10
+
+.. note::
+
+    The ``.rand`` operator will sample from all terms in the ontology. This
+    could include terms imported and merged from other ontologies. For
+    finer-grained control, use the ``.sample`` operator, which allows the
+    combination of a sample operator with the results of evaluating any
+    OAK expression.
+
+SAMPLE
+^^^^^^
+
+The ``.sample`` operator takes a random sample of terms. It is parameterized by ``n`` (number of terms
+in sample).
+
+Definitions for 3 random terms:
+
+.. code-block::
+
+   runoak -i sqlite:obo:obi definitions .sample//n=3 i^OBI:
+
+To compare 3 random terms with 3 other random terms:
+
+.. code-block::
+
+   runoak -i sqlite:obo:cl similarity .sample//n=3 i^CL: @ .sample//n=3 i^CL:
+
 Others
 ^^^^^^
 
 * ``.is_obsolete``: all :term:`Obsolete` terms
 * ``.non_obsolete``: all non-obsoletes
 * ``.dangling``: all :term:`Dangling` terms
-* ``.query``: pass through a query to the underlying store (SPARQL, SQL)
 * ``.child``: non-transitive version of ``.desc``. Also parameterized by predicate.
 * ``.parent``: non-transitive version of ``.anc``. Also parameterized by predicate.
 * ``.sib``: all siblings of a term. Also parameterized by predicate.
 * ``.all``: all terms
 * ``.classes``: all classes
 * ``.relations``: all relations
-* ``.rand``: random subset of terms. Parameters: ``n`` (number of terms)
 
