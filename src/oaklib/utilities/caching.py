@@ -1,0 +1,278 @@
+import os.path
+import re
+import time
+from datetime import timedelta
+
+from pystow.utils import base_from_gzip_name, name_from_url
+
+_durations = {'d': 1, 'w': 7, 'm': 30, 'y': 365}
+
+
+class CachePolicy(object):
+    """Represents the behaviour of a cache.
+
+    Once a CachePolicy object has been created (typically using the static
+    constructor from_string, or one of the static properties for special
+    policies), use the refresh_file() method to determine whether a given file
+    should be refreshed:
+
+    >>> if my_policy.refresh_file(my_cache_file):
+    >>>     # refresh the cache file
+    >>> else:
+    >>>     # no need to refresh
+
+    Use the refresh() method to check an arbitrary timestamp against the policy
+    (e.g. if the cached data is not in a file):
+
+    >>> if my_policy.refresh(timestamp_of_last_refresh):
+    >>>     # refresh the data
+    """
+
+    def __init__(self, max_age):
+        """Creates a new instance.
+
+        If positive, the max_age parameter is the number of seconds after which
+        cached data should be refreshed. This parameter can also accept some
+        special values:
+
+        - 0 indicates refresh should always occur, regardless of the age of the
+          cached data;
+        - -1 indicates the cache should be cleared.
+
+        It is recommended to obtain such special policies using either the
+        from_string static constructor or the static properties REFRESH, RESET,
+        rather than calling this constructor directly. This allows comparing a
+        policy against those pre-established policies as follows:
+
+        >>> if my_policy == CachePolicy.RESET:
+        >>>     # force reset
+        """
+
+        self._max_age = max_age
+
+    def refresh(self, then):
+        """Indicates whether a refresh should occur for data last refreshed at
+        the indicated time.
+
+        :param then: the time the data were last cached or refreshed, in
+            seconds since the Unix epoch
+        :return: True if the data should be refreshed, otherwise False
+        """
+
+        return time.time() - then > self._max_age
+
+    def refresh_file(self, pathname):
+        """Indicates whether the specified file should be refreshed.
+
+        This uses the last modification time of the file to determine the age
+        of the cached data. If the file does not exist, a refresh will
+        necessarily be mandated.
+
+        :param pathname: the path to the file that maybe should be refreshed
+        :return: True if the file should be refreshed, otherwise False
+        """
+
+        if not os.path.exists(pathname):
+            return True
+        return self.refresh(os.path.getmtime(pathname))
+
+    @property
+    def always_refresh(self):
+        """Indicates whether this policy mandates a systematic refresh of the
+        cache."""
+
+        return self._max_age == 0
+
+    @property
+    def never_refresh(self):
+        """Indicates whether this policy mandates never refreshing the
+        cache."""
+
+        return self._max_age == timedelta.max.total_seconds()
+
+    @property
+    def reset(self):
+        """Indicates whether this policy mandates a reset of the cache."""
+
+        return self._max_age == -1
+
+    _refresh_policy = None
+    _no_refresh_policy = None
+    _reset_policy = None
+    _click_type = None
+
+    @classmethod
+    def from_string(cls, value):
+        """Creates a new instance from a string representation.
+
+        This is the recommended way of getting a CachePolicy object. The value
+        can be either:
+
+        - a number of seconds, followed by 's';
+        - a number of days, optionally followed by 'd';
+        - a number of weeks, followed by 'w';
+        - a number of months, followed by 'm';
+        - a number of years, followed by 'y'.
+
+        Such a value will result in a policy mandating that cached data are
+        refreshed after the elapsed number of seconds, days, weeks, months, or
+        years since they were last cached. Note that in this context, a 'month'
+        is always 30 days and a 'year' is always 365 days. That is, '3m' is
+        merely a shortcut for '90d' (or simply '90') and '2y' is merely a
+        shortcut for '730d'.
+
+        The value can also be:
+
+        - 'refresh', to get the REFRESH policy;
+        - 'no-refresh', to get the NO_REFRESH policy;
+        - 'reset' or 'clear', to get the RESET policy.
+
+        Any other value will cause None to be returned.
+        """
+
+        value = value.lower()
+        if value == 'refresh':
+            return cls.REFRESH
+        elif value == 'no-refresh':
+            return cls.NO_REFRESH
+        elif value in ['reset', 'clear']:
+            return cls.RESET
+        else:
+            if m := re.match('^([0-9]+)([sdwmy])?', value):
+                num, qual = m.groups()
+                if not qual:
+                    qual = 'd'
+                if qual == 's':
+                    return cls(int(num))
+                else:
+                    return cls(timedelta(days=int(num) * _durations[qual]).total_seconds())
+            return None
+
+    @classmethod
+    @property
+    def REFRESH(cls):
+        """A policy that cached data should always be refreshed."""
+
+        if cls._refresh_policy is None:
+            cls._refresh_policy = cls(max_age=0)
+        return cls._refresh_policy
+
+    @classmethod
+    @property
+    def NO_REFRESH(cls):
+        """A policy that cached data should never be refreshed."""
+
+        if cls._no_refresh_policy is None:
+            cls._no_refresh_policy = cls(max_age=timedelta.max.total_seconds())
+        return cls._no_refresh_policy
+
+    @classmethod
+    @property
+    def RESET(cls):
+        """A policy that cached data should be cleared and refreshed."""
+
+        if cls._reset_policy is None:
+            cls._reset_policy = cls(max_age=-1)
+        return cls._reset_policy
+
+    @classmethod
+    @property
+    def ClickType(cls):
+        """Helper method to parse a CachePolicy with Click.
+
+        Use that method as the 'type' of a Click option to let Click
+        automatically convert the value of the option into a CachePolicy
+        instance.
+
+        Example:
+
+        >>> @click.option("--caching", type=CachePolicy.ClickType,
+                          default="1w")
+        """
+
+        if cls._click_type is None:
+            from click import ParamType
+
+            class CachePolicyParamType(ParamType):
+                name = 'cache-policy'
+
+                def convert(self, value, param, ctx):
+                    if isinstance(value, cls):
+                        return value
+
+                    if p := cls.from_string(value):
+                        return p
+                    else:
+                        self.fail(f"Cannot convert '{value}' to a cache policy", param, ctx)
+
+            cls._click_type = CachePolicyParamType()
+
+        return cls._click_type
+
+
+class FileCache(object):
+    """Represents a file-based cache.
+
+    This is intended as a layer built on top of Pystow, to add cache management
+    features that are lacking in Pystow.
+    """
+
+    def __init__(self, module, policy):
+        """Creates a new instance.
+
+        :param module: a Pystow module representing the location where cached
+            data will be stored; all methods in this class will defer to this
+            object whenever a file needs to be actually refreshed
+        :param policy: a CachePolicy object that dictates when cached data
+            should be refreshed; may also be the string representation of such
+            a policy, which will then be passed to the CachePolicy.from_string
+            static constructor
+        """
+
+        self._module = module
+        if isinstance(policy, str):
+            self._policy = CachePolicy.from_string(policy)
+        else:
+            self._policy = policy
+
+    @property
+    def policy(self):
+        """Gets the current caching policy used by this instance."""
+
+        return self._policy
+
+    @policy.setter
+    def policy(self, policy):
+        """Sets the caching policy to be used by this instance."""
+
+        self._policy = policy
+
+    def ensure_gunzip(self, url, name=None, autoclean=True):
+        """Looks up and maybe downloads and gunzips a file.
+
+        This is a wrapper around Pystow's method of the same name. It behaves
+        similarly but, if the file is already present in the cache, it will
+        additionally check whether it needs to be downloaded again, according
+        to the current caching policy.
+        """
+
+        if not name:
+            name = name_from_url(url)
+
+        db_path = self._module.join(name=base_from_gzip_name(name))
+
+        if self._policy.refresh_file(db_path):
+            self._module.ensure_gunzip(url=url, name=name, autoclean=autoclean, force=True)
+
+        return db_path
+
+    def ensure(self, *subkeys, url, name=None):
+        """Looks up and maybe downloads a file."""
+
+        if not name:
+            name = name_from_url(url)
+
+        path = self._module.join(*subkeys, name=name)
+
+        if self._policy.refresh_file(path):
+            self._module.ensure(*subkeys, url=url, name=name, force=True)

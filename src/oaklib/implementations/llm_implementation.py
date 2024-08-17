@@ -8,7 +8,6 @@ import time
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Dict, Iterable, Iterator, List, Optional, Tuple
 
-import pystow
 from linkml_runtime.dumpers import yaml_dumper
 from sssom_schema import Mapping
 from tenacity import (
@@ -19,6 +18,7 @@ from tenacity import (
 )
 
 from oaklib import BasicOntologyInterface
+from oaklib.constants import FILE_CACHE
 from oaklib.datamodels.class_enrichment import ClassEnrichmentResult
 from oaklib.datamodels.item_list import ItemList
 from oaklib.datamodels.obograph import DefinitionPropertyValue
@@ -148,7 +148,7 @@ def config_to_prompt(configuration: Optional[ValidationConfiguration]) -> Option
 
             for obj in configuration.documentation_objects:
                 if obj.startswith("http:") or obj.startswith("https:"):
-                    path = pystow.ensure("oaklib", "documents", url=obj)
+                    path = FILE_CACHE.ensure("documents", url=obj)
                 else:
                     path = obj
                 with open(path) as f:

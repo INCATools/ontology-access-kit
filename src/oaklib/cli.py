@@ -42,6 +42,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
+from oaklib.constants import FILE_CACHE
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels import synonymizer_datamodel
 from oaklib.datamodels.association import RollupGroup
@@ -149,6 +150,7 @@ from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
     generate_disjoint_class_expressions_axioms,
 )
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.caching import CachePolicy
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
@@ -568,6 +570,13 @@ def _apply_changes(impl, changes: List[kgcl.Change]):
     show_default=True,
     help="If set, will profile the command",
 )
+@click.option(
+    "--caching",
+    type=CachePolicy.ClickType,
+    default="1w",
+    show_default=True,
+    help="Set the cache management policy",
+)
 def main(
     verbose: int,
     quiet: bool,
@@ -587,6 +596,7 @@ def main(
     prefix,
     profile: bool,
     import_depth: Optional[int],
+    caching: CachePolicy,
     **kwargs,
 ):
     """
@@ -635,6 +645,7 @@ def main(
         import requests_cache
 
         requests_cache.install_cache(requests_cache_db)
+    FILE_CACHE.policy = caching
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
