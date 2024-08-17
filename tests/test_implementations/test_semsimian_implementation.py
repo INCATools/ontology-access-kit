@@ -1,6 +1,7 @@
 import os
 import timeit
 import unittest
+from importlib.util import find_spec
 
 from linkml_runtime.dumpers import yaml_dumper
 
@@ -31,6 +32,7 @@ EXPECTED_ICS = {
 
 
 @unittest.skipIf(os.name == "nt", "DB path loading inconsistent on Windows")
+@unittest.skipIf(find_spec("semsimian") is None, "Semsimian not available")
 class TestSemSimianImplementation(unittest.TestCase):
     """Implementation tests for Rust-based semantic similarity."""
 
