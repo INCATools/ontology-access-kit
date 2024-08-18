@@ -257,6 +257,9 @@ class FileCache(object):
         to the current caching policy.
         """
 
+        if self._policy == CachePolicy.RESET:
+            self.clear(pattern="*.db*")
+
         if not name:
             name = name_from_url(url)
 
@@ -269,6 +272,9 @@ class FileCache(object):
 
     def ensure(self, *subkeys, url, name=None):
         """Looks up and maybe downloads a file."""
+
+        if self._policy == CachePolicy.RESET:
+            self.clear(pattern="*.db*")
 
         if not name:
             name = name_from_url(url)
