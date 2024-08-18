@@ -60,6 +60,9 @@ class CachePolicy(object):
         :return: True if the data should be refreshed, otherwise False
         """
 
+        if self._max_age <= 0:
+            # Forceful refresh/reset, even if "then" is somehow in the future
+            return True
         return time.time() - then > self._max_age
 
     def refresh_file(self, pathname):
