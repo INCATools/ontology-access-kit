@@ -1,7 +1,8 @@
 import os.path
 import re
 import time
-from datetime import timedelta
+from datetime import datetime, timedelta
+from pathlib import Path
 
 from pystow.utils import base_from_gzip_name, name_from_url
 
@@ -276,3 +277,62 @@ class FileCache(object):
 
         if self._policy.refresh_file(path):
             self._module.ensure(*subkeys, url=url, name=name, force=True)
+
+    def get_contents(self, subdirs=False):
+        """Gets a list of files present in the cache.
+
+        This returns a list of (name, size, mtime) tuples, where:
+
+        - name is the filename (relative to the cache directory);
+        - size is its size in bytes;
+        - mtime is its modification time, as a datetime object.
+
+        If subdirs is True, the list includes files present in any subdirectory
+        within the cache. The default is to list only the files immediately
+        under the cache directory, excluding any subdirectory.
+        """
+
+        contents = []
+        for path, name in self._iter_files(subdirs=subdirs):
+            stat = path.stat()
+            contents.append((name, stat.st_size, datetime.fromtimestamp(stat.st_mtime)))
+        return contents
+
+    def clear(self, subdirs=False, older_than=None, pattern="*"):
+        """Deletes files present in the cache.
+
+        :param subdirs: if True, deletes files in subdirectories
+        :param older_than: if set, only deletes files that were last modified
+            longer ago than the specified number of days
+        :param pattern: only deletes files matching the specified pattern
+        :return: a list of tuples describing the files that were deleted; the
+            tuples are similar to the ones returned by get_contents, except
+            that the third item is the age of the deleted file (as a timedelta
+            object relative to current time)
+        """
+
+        now = time.time()
+        cleared = []
+        for path, name in self._iter_files(subdirs=subdirs, pattern=pattern):
+            stat = path.stat()
+            age = now - stat.st_mtime
+            if older_than is not None and age <= older_than * 86400:
+                continue
+            cleared.append((name, stat.st_size, timedelta(seconds=age)))
+            path.unlink()
+        return cleared
+
+    def _iter_files(self, subdirs=False, pattern="*"):
+        """Helper method to get the files present in the cache.
+
+        :param subdirs: if True, get files in subdirectories
+        :param pattern: get files matching the pattern
+        :return: a list of (path, name) tuples where path is a Path object
+            pointing to a file in the cache, and name is its name relative to
+            the cache directory
+        """
+
+        base = self._module.join()
+        if subdirs:
+            pattern = "**/" + pattern
+        return [(c, str(c.relative_to(base))) for c in Path(base).glob(pattern) if c.is_file()]

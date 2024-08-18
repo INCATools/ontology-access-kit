@@ -9,14 +9,12 @@ Executed using "runoak" command
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import json
 import logging
-import os
 import statistics as stats
 import sys
 from collections import defaultdict
 from enum import Enum, unique
 from itertools import chain
 from pathlib import Path
-from time import time
 from types import ModuleType
 from typing import (
     Any,
@@ -28,7 +26,6 @@ from typing import (
 
 import click
 import kgcl_schema.grammar.parser as kgcl_parser
-import pystow
 import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
@@ -5465,12 +5462,14 @@ def cache_ls():
     """
     List the contents of the pystow oaklib cache.
 
-    TODO: this currently only works on unix-based systems.
     """
-    directory = pystow.api.join("oaklib")
-    command = f"ls -al {directory}"
-    click.secho(f"[pystow] {command}", fg="cyan", bold=True)
-    os.system(command)  # noqa:S605
+    units = ["B", "KB", "MB", "GB", "TB"]
+    for path, size, mtime in FILE_CACHE.get_contents(subdirs=True):
+        i = 0
+        while size > 1024 and i < len(units) - 1:
+            size /= 1024
+            i += 1
+        click.echo(f"{path} ({size:.2f} {units[i]}, {mtime:%Y-%m-%d})")
 
 
 @main.command()
@@ -5486,17 +5485,9 @@ def cache_clear(days_old: int):
     Clear the contents of the pystow oaklib cache.
 
     """
-    directory = pystow.api.join("oaklib")
-    now = time()
-    for item in Path(directory).glob("*"):
-        if ".db" not in str(item):
-            continue
-        mtime = item.stat().st_mtime
-        curr_days_old = (int(now) - int(mtime)) / 86400
-        logging.info(f"{item} is {curr_days_old}")
-        if curr_days_old > days_old:
-            click.echo(f"Deleting {item} which is {curr_days_old}")
-            item.unlink()
+
+    for name, _, age in FILE_CACHE.clear(subdirs=False, older_than=days_old, pattern="*.db*"):
+        click.echo(f"Deleted {name} which was {age.days} days old")
 
 
 @main.command()
