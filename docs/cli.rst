@@ -91,6 +91,55 @@ and tracing upwards through is_a and part_of relationships:
 
     uberon viz -p i,p hand foot
 
+Cache Control
+-------------
+
+OAK may download data from remote sources as part of its normal operations. For
+example, using the :code:`sqlite:obo:...` input selector will cause OAK to
+fetch the requested Semantic-SQL database from a centralised repository.
+Whenever that happens, the downloaded data will be cached in a local directory
+so that subsequent commands using the same input selector do not have to
+download the file again.
+
+By default, OAK will refresh (download again) a previously downloaded file if
+it was last downloaded more than 7 days ago.
+
+The global option :code:`--caching` gives the user some control on how the
+cache works.
+
+To change the default cache expiry lifetime of 7 days, the :code:`--caching`
+option accepts a value of the form :code:`ND`, where *N* is a positive integer
+and *D* can be either :code:`s`, :code:`d`, :code:`w`, :code:`m`, or :code:`y`
+to indicate that *N* is a number of seconds, days, weeks, months, or years,
+respectively. If the *D* part is omitted, it defaults to :code:`d`.
+
+For example, :code:`--caching=3w` instructs OAK to refresh a cached file if it
+was last refreshed 21 days ago.
+
+The :code:`--caching` option also accepts the following special values:
+
+- :code:`refresh` to force OAK to always refresh a file regardless of its age;
+- :code:`no-refresh` to do the opposite, that is, preventing OAK from
+  refreshing a file regardless of its age;
+- :code:`clear` to forcefully clear the cache (which will trigger a refresh as
+  a consequence);
+- :code:`reset` is a synonym of :code:`clear`.
+
+Note the difference between :code:`refresh` and :code:`clear`. The former will
+only cause the requested file to be refreshed, leaving any other file that may
+exist in the cache untouched. The latter will delete all cached files, so that
+not only the requested file will be downloaded again, but any other
+previously cached file will also have to be downloaded again the next time they
+are requested.
+
+In both case, refreshing and clearing will only happen if the OAK command in
+which the :code:`--caching` option is used attempts to look up a cached file.
+Otherwise the option will have no effect.
+
+To forcefully clear the cache independently of any command, the
+:ref:`cache-clear` command may be used. The contents of the cache may be
+explored at any time with the :ref:`cache-ls` command.
+
 Commands
 -----------
 
