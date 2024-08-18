@@ -64,6 +64,25 @@ This will download the pato.db sqlite file once, and cache it.
 
 PyStow is used to cache the file, and the default location is ``~/.data/oaklib``.
 
+By default, a cached SQLite file will be automatically refreshed (downloaded
+again) if it is older than 7 days. That behavior can be controlled with the
+global ``--caching`` option. For example, to force OAK to always download the
+file regardless of its age:
+
+.. code-block::
+
+    runoak --caching=refresh -i sqlite:obo:pato search t~shape
+
+Other possible values for the ``--caching`` option include:
+
+- ``no-refresh`` to prevent OAK from re-downloading the file even it is older
+  than 7 days;
+- ``Xd`` to refresh a cached file older than _X_ days;
+- ``Xw`` to refresh a cached file older than _X_ weeks.
+
+You may also use the ``cache-clear`` command to force clearing any cached
+SQLite file at anytime.
+
 Building your own SQLite files
 -------------------
 
