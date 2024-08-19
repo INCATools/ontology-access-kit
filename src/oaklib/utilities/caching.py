@@ -1,12 +1,18 @@
+import fnmatch
+import logging
 import os.path
 import re
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from appdirs import user_config_dir
 from pystow.utils import base_from_gzip_name, name_from_url
 
+from oaklib.datamodels.vocabulary import APP_NAME
+
 _durations = {'d': 1, 'w': 7, 'm': 30, 'y': 365}
+_logger = logging.getLogger(__name__)
 
 
 class CachePolicy(object):
@@ -221,35 +227,30 @@ class FileCache(object):
     features that are lacking in Pystow.
     """
 
-    def __init__(self, module, policy):
+    def __init__(self, module):
         """Creates a new instance.
 
         :param module: a Pystow module representing the location where cached
             data will be stored; all methods in this class will defer to this
             object whenever a file needs to be actually refreshed
-        :param policy: a CachePolicy object that dictates when cached data
-            should be refreshed; may also be the string representation of such
-            a policy, which will then be passed to the CachePolicy.from_string
-            static constructor
         """
 
         self._module = module
-        if isinstance(policy, str):
-            self._policy = CachePolicy.from_string(policy)
-        else:
-            self._policy = policy
+        self._default_policy = CachePolicy.from_string('1w')
+        self._forced_policy = None
+        self._policies = []
+        self._config_file = os.path.join(user_config_dir(APP_NAME), "cache.conf")
+        self._config_read = False
 
-    @property
-    def policy(self):
-        """Gets the current caching policy used by this instance."""
+    def force_policy(self, policy):
+        """Forces the cache to use the specified policy, regardless of any
+        otherwise configured policies.
 
-        return self._policy
+        :param policy: the policy to use; may be None to allow the use of
+            configured policies
+        """
 
-    @policy.setter
-    def policy(self, policy):
-        """Sets the caching policy to be used by this instance."""
-
-        self._policy = policy
+        self._forced_policy = policy
 
     def ensure_gunzip(self, url, name=None, autoclean=True):
         """Looks up and maybe downloads and gunzips a file.
@@ -260,15 +261,16 @@ class FileCache(object):
         to the current caching policy.
         """
 
-        if self._policy == CachePolicy.RESET:
+        if self._forced_policy == CachePolicy.RESET:
             self.clear(pattern="*.db*")
 
         if not name:
             name = name_from_url(url)
 
-        db_path = self._module.join(name=base_from_gzip_name(name))
+        ungz_name = base_from_gzip_name(name)
+        db_path = self._module.join(name=ungz_name)
 
-        if self._policy.refresh_file(db_path):
+        if self._get_policy(ungz_name).refresh_file(db_path):
             self._module.ensure_gunzip(url=url, name=name, autoclean=autoclean, force=True)
 
         return db_path
@@ -276,7 +278,7 @@ class FileCache(object):
     def ensure(self, *subkeys, url, name=None):
         """Looks up and maybe downloads a file."""
 
-        if self._policy == CachePolicy.RESET:
+        if self._forced_policy == CachePolicy.RESET:
             self.clear(pattern="*.db*")
 
         if not name:
@@ -284,8 +286,10 @@ class FileCache(object):
 
         path = self._module.join(*subkeys, name=name)
 
-        if self._policy.refresh_file(path):
+        if self._get_policy(name).refresh_file(path):
             self._module.ensure(*subkeys, url=url, name=name, force=True)
+
+        return path
 
     def get_contents(self, subdirs=False):
         """Gets a list of files present in the cache.
@@ -345,3 +349,48 @@ class FileCache(object):
         if subdirs:
             pattern = "**/" + pattern
         return [(c, str(c.relative_to(base))) for c in Path(base).glob(pattern) if c.is_file()]
+
+    def _get_policy(self, name):
+        """Gets the caching policy to use for the specified name."""
+
+        if self._forced_policy is not None:
+            return self._forced_policy
+
+        if not self._config_read:
+            self._get_configuration(self._config_file)
+
+        for pattern, policy in self._policies:
+            if fnmatch.fnmatch(name, pattern):
+                return policy
+
+        return self._default_policy
+
+    def _get_configuration(self, pathname):
+        """Gets cache policies from a configuration file."""
+
+        if not os.path.exists(pathname):
+            return
+
+        filename = os.path.basename(pathname)
+        with open(pathname, "r") as f:
+            for n, line in enumerate(f):
+                if line.startswith("#") or line.isspace():
+                    continue
+
+                items = line.split("=", maxsplit=1)
+                pattern = items[0].strip()
+                if len(items) != 2:
+                    _logger.warning(f"{filename}({n}): Ignoring missing caching policy for {pattern}")
+                    continue
+
+                policy = CachePolicy.from_string(items[1].strip())
+                if policy is None:
+                    _logger.warning(f"{filename}({n}): Ignoring invalid caching policy for {pattern}")
+                    continue
+
+                if pattern in ["default", "*"]:
+                    self._default_policy = policy
+                else:
+                    self._policies.append((pattern, policy))
+
+        self._config_read = True

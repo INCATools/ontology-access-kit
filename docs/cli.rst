@@ -104,6 +104,12 @@ download the file again.
 By default, OAK will refresh (download again) a previously downloaded file if
 it was last downloaded more than 7 days ago.
 
+The behavior of the cache can be controlled in two ways: with an option on the
+command line and with a configuration.
+
+Controlling the cache on the command line
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 The global option :code:`--caching` gives the user some control on how the
 cache works.
 
@@ -139,6 +145,55 @@ Otherwise the option will have no effect.
 To forcefully clear the cache independently of any command, the
 :ref:`cache-clear` command may be used. The contents of the cache may be
 explored at any time with the :ref:`cache-ls` command.
+
+Controlling the cache with a configuration file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Finer control of how the cache works is possible through a configuration file
+that OAK will look up for at the following locations:
+
+- under GNU/Linux: in ``$XDG_CONFIG_HOME/ontology-access-kit/cache.conf``;
+- under macOS: in ``$HOME/Library/Preferences/ontology-access-kit/cache.conf``;
+- under Windows: in ``%LOCALAPPDATA%\ontology-access-kit\ontology-access-kit\cache.conf``,
+  or ``%APPDATA%\ontology-access-kit\ontology-access-kit\cache.conf`` if the
+  user is using a roaming profile.
+
+The file should contain lines of the form :code:`pattern = policy`, where:
+
+- *pattern* is a shell-type globbing pattern indicating the files that will be
+  concerned by the policy set forth on the line;
+- *policy* is the same type of value as expected by the :code:`--caching`
+  option as explained in the previous section.
+
+Blank lines and lines starting with :code:`#` are ignored.
+
+If the *pattern* is :code:`default` (or :code:`*`), the corresponding policy
+will be used for any cached file that does not have a matching policy.
+
+Here is a sample configuration file:
+
+.. code-block::
+
+    # Uberon will be refreshed if older than 1 month
+    uberon.db = 1m
+    # FBbt will be refreshed if older than 2 weeks
+    fbbt.db = 2w
+    # Other FlyBase ontologies will be refreshed if older than 2 months
+    fb*.db = 2m
+    # All other files will be refreshed if older than 3 weeks
+    default = 3w
+
+Note that when looking up the policy to apply to a given file, patterns are
+tried in the order they appear in the file. This is why the :code:`fbbt.db`
+pattern in the example above must be listed *before* the less specific
+:code:`fb*.db` pattern, otherwise it would be ignored. (This does not apply to
+the default pattern -- whether it is specified as :code:`default` or as
+:code:`*` -- which is always tried after all the other patterns.)
+
+The :code:`--caching` option described in the previous section always takes
+precedence over the configuration file. That is, all rules set forth in the
+configuration will be ignored if the :code:`--caching` option is specified on
+the command line.
 
 Commands
 -----------

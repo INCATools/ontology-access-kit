@@ -2,7 +2,7 @@ import os
 import time
 import unittest
 
-from oaklib.utilities.caching import CachePolicy
+from oaklib.utilities.caching import CachePolicy, FileCache
 
 
 class TestCachePolicy(unittest.TestCase):
@@ -93,3 +93,44 @@ class TestCachePolicy(unittest.TestCase):
         self.assertEqual(CachePolicy.from_string("1y")._max_age, 86400 * 365)
 
         self.assertIsNone(CachePolicy.from_string("bogus"))
+
+class TestFileCache(unittest.TestCase):
+
+    def test_parse_cache_configuration(self):
+        cache = FileCache(None) # we don't need a Pystow module here
+
+        with self.assertLogs() as log:
+            cache._get_configuration("tests/input/cache.conf")
+        self.assertTrue("missing caching policy" in log.output[0])
+        self.assertTrue("invalid caching policy" in log.output[1])
+
+        self.assertEqual(cache._default_policy._max_age, 86400 * 7)
+        self.assertEqual(cache._policies[0][0], "uberon.db")
+        self.assertEqual(cache._policies[0][1]._max_age, 86400 * 7 * 2)
+        self.assertEqual(cache._policies[1][0], "fb*.db")
+        self.assertEqual(cache._policies[1][1]._max_age, 86400 * 30)
+
+    def test_policy_selector(self):
+        cache = FileCache(None)
+        cache._policies.append(("uberon.db", CachePolicy.from_string("2w")))
+        cache._policies.append(("fbbt.db", CachePolicy.from_string("3w")))
+        cache._policies.append(("fb*.db", CachePolicy.from_string("1m")))
+        cache._policies.append(("fbcv.db", CachePolicy.from_string("1y")))
+
+        # Prevent a configuration file from messing with the test
+        cache._config_read = True
+
+        # Check the right policy is selected
+        self.assertEqual(cache._get_policy("uberon.db")._max_age, 86400 * 7 * 2)
+        self.assertEqual(cache._get_policy("fbbt.db")._max_age, 86400 * 7 * 3)
+        self.assertEqual(cache._get_policy("fbdv.db")._max_age, 86400 * 30)
+        self.assertEqual(cache._get_policy("fbcv.db")._max_age, 86400 * 30)
+        self.assertEqual(cache._get_policy("other.db")._max_age, 86400 * 7)
+
+        # Check that "forced policy" takes precedence
+        cache.force_policy(CachePolicy.from_string("2d"))
+        self.assertEqual(cache._get_policy("uberon.db")._max_age, 86400 * 2)
+        self.assertEqual(cache._get_policy("fbbt.db")._max_age, 86400 * 2)
+        self.assertEqual(cache._get_policy("fbdv.db")._max_age, 86400 * 2)
+        self.assertEqual(cache._get_policy("fbcv.db")._max_age, 86400 * 2)
+        self.assertEqual(cache._get_policy("other.db")._max_age, 86400 * 2)

@@ -570,7 +570,6 @@ def _apply_changes(impl, changes: List[kgcl.Change]):
 @click.option(
     "--caching",
     type=CachePolicy.ClickType,
-    default="1w",
     show_default=True,
     help="Set the cache management policy",
 )
@@ -593,7 +592,7 @@ def main(
     prefix,
     profile: bool,
     import_depth: Optional[int],
-    caching: CachePolicy,
+    caching: Optional[CachePolicy],
     **kwargs,
 ):
     """
@@ -642,7 +641,7 @@ def main(
         import requests_cache
 
         requests_cache.install_cache(requests_cache_db)
-    FILE_CACHE.policy = caching
+    FILE_CACHE.force_policy(caching)
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave

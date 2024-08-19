@@ -10,5 +10,5 @@ __all__ = [
 ]
 
 OAKLIB_MODULE = pystow.module("oaklib")
-FILE_CACHE = FileCache(OAKLIB_MODULE, '1w')
+FILE_CACHE = FileCache(OAKLIB_MODULE)
 TIMEOUT_SECONDS = 30
