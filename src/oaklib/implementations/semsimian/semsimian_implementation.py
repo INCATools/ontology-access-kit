@@ -229,7 +229,7 @@ class SemSimianImplementation(
                             iter(ancestor_set)
                         ),  # TODO: Change this: gets first element of the set
                     )
-                    
+
                 else:
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key, object_id=term2_key, ancestor_id=OWL_THING
@@ -237,7 +237,7 @@ class SemSimianImplementation(
                 sim.jaccard_similarity = jaccard if jaccard is not None else 0.0
                 sim.ancestor_information_content = resnik if resnik is not None else 0.0
                 sim.phenodigm_score = phenodigm_score if phenodigm_score is not None else 0.0
-                
+
                 yield sim
 
     def termset_pairwise_similarity(
