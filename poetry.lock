@@ -5161,7 +5161,7 @@ stats = ["scipy (>=1.3)", "statsmodels (>=0.10)"]
 name = "semsimian"
 version = "0.2.18"
 description = "Sematic similarity calculations for ontologies implemented in Rust."
-optional = false
+optional = true
 python-versions = ">=3.7"
 files = [
     {file = "semsimian-0.2.18-cp310-cp310-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:82f481493ede0b13243df985f454285a1b91ca71ddd71a15b06abef1220a079d"},
@@ -6416,4 +6416,4 @@ semsimian = ["semsimian"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "9370b931875121bfdf351576ef2d2dcf73687c36d10230ce5de63bd0e1cd9821"
+content-hash = "ecbdea318e89d4be044c9934c6ac50432cbd36ea2660badb8fe197a5d275e675"
