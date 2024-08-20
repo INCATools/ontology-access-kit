@@ -215,6 +215,7 @@ class SemSimianImplementation(
             minimum_resnik_threshold=min_ancestor_information_content,
             # predicates=set(predicates) if predicates else None,
         )
+
         logging.info("Post-processing results from semsimian")
         for term1_key, values in all_results.items():
             for term2_key, result in values.items():
@@ -228,15 +229,15 @@ class SemSimianImplementation(
                             iter(ancestor_set)
                         ),  # TODO: Change this: gets first element of the set
                     )
-                    sim.jaccard_similarity = jaccard
-                    sim.ancestor_information_content = resnik
-                    sim.phenodigm_score = phenodigm_score
+
                 else:
                     sim = TermPairwiseSimilarity(
                         subject_id=term1_key, object_id=term2_key, ancestor_id=OWL_THING
                     )
-                    sim.jaccard_similarity = 0
-                    sim.ancestor_information_content = 0
+                sim.jaccard_similarity = jaccard if jaccard is not None else 0.0
+                sim.ancestor_information_content = resnik if resnik is not None else 0.0
+                sim.phenodigm_score = phenodigm_score if phenodigm_score is not None else 0.0
+
                 yield sim
 
     def termset_pairwise_similarity(
