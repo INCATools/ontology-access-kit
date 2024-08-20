@@ -570,7 +570,6 @@ def _apply_changes(impl, changes: List[kgcl.Change]):
 @click.option(
     "--caching",
     type=CachePolicy.ClickType,
-    show_default=True,
     help="Set the cache management policy",
 )
 def main(

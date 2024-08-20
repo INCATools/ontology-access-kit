@@ -105,7 +105,7 @@ By default, OAK will refresh (download again) a previously downloaded file if
 it was last downloaded more than 7 days ago.
 
 The behavior of the cache can be controlled in two ways: with an option on the
-command line and with a configuration.
+command line and with a configuration file.
 
 Controlling the cache on the command line
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -153,10 +153,8 @@ Finer control of how the cache works is possible through a configuration file
 that OAK will look up for at the following locations:
 
 - under GNU/Linux: in ``$XDG_CONFIG_HOME/ontology-access-kit/cache.conf``;
-- under macOS: in ``$HOME/Library/Preferences/ontology-access-kit/cache.conf``;
-- under Windows: in ``%LOCALAPPDATA%\ontology-access-kit\ontology-access-kit\cache.conf``,
-  or ``%APPDATA%\ontology-access-kit\ontology-access-kit\cache.conf`` if the
-  user is using a roaming profile.
+- under macOS: in ``$HOME/Library/Application Support/ontology-access-kit/cache.conf``;
+- under Windows: in ``%LOCALAPPDATA%\ontology-access-kit\ontology-access-kit\cache.conf``.
 
 The file should contain lines of the form :code:`pattern = policy`, where:
 
