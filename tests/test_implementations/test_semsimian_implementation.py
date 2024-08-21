@@ -161,6 +161,28 @@ class TestSemSimianImplementation(unittest.TestCase):
                     else:
                         raise ValueError(f"Did not get similarity for got {s} and {o}")
 
+    def test_all_by_all_similarity_with_custom_ic_map(self):
+        adapter = self.oi
+
+        adapter.custom_ic_map_path = TEST_IC_MAP.as_posix()
+
+        if not isinstance(adapter, SemanticSimilarityInterface):
+            raise AssertionError("SemanticSimilarityInterface not implemented")
+        entities = [VACUOLE, ENDOMEMBRANE_SYSTEM]
+
+        sim = (adapter.all_by_all_pairwise_similarity(entities, entities, predicates=self.predicates))
+
+        for s in sim:
+            self.assertIsNotNone(s)
+            if s.object_id == VACUOLE and s.subject_id == VACUOLE:
+                self.assertEqual(s.ancestor_information_content, 5.5)
+            if s.object_id == ENDOMEMBRANE_SYSTEM and s.subject_id == ENDOMEMBRANE_SYSTEM:
+                self.assertEqual(s.ancestor_information_content, 6.0)
+            if s.object_id == VACUOLE and s.subject_id == ENDOMEMBRANE_SYSTEM:
+                self.assertEqual(s.ancestor_information_content, 0)
+            else:
+                pass
+
     def test_semsimian_object_cache(self):
         start_time = timeit.default_timer()
         _ = list(
