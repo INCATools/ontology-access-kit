@@ -173,13 +173,13 @@ class TestSemSimianImplementation(unittest.TestCase):
         sim = (adapter.all_by_all_pairwise_similarity(entities, entities, predicates=self.predicates))
 
         for s in sim:
-            if s is not None:
-                if s.object_id == VACUOLE and s.subject_id == VACUOLE:
-                    self.assertEqual(s.ancestor_information_content, 5.5)
-                if s.object_id == ENDOMEMBRANE_SYSTEM and s.subject_id == ENDOMEMBRANE_SYSTEM:
-                    self.assertEqual(s.ancestor_information_content, 6.0)
-                if s.object_id == VACUOLE and s.subject_id == ENDOMEMBRANE_SYSTEM:
-                    self.assertEqual(s.ancestor_information_content, 0)
+            self.assertIsNotNone(s)
+            if s.object_id == VACUOLE and s.subject_id == VACUOLE:
+                self.assertEqual(s.ancestor_information_content, 5.5)
+            if s.object_id == ENDOMEMBRANE_SYSTEM and s.subject_id == ENDOMEMBRANE_SYSTEM:
+                self.assertEqual(s.ancestor_information_content, 6.0)
+            if s.object_id == VACUOLE and s.subject_id == ENDOMEMBRANE_SYSTEM:
+                self.assertEqual(s.ancestor_information_content, 0)
             else:
                 raise ValueError(f"Did not get similarity for got {s.object_id} and {s.subject_id}")
 
