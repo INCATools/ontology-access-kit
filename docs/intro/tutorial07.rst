@@ -64,6 +64,10 @@ This will download the pato.db sqlite file once, and cache it.
 
 PyStow is used to cache the file, and the default location is ``~/.data/oaklib``.
 
+By default, a cached SQLite file will be automatically refreshed (downloaded
+again) if it is older than 7 days. For details on how to alter the behavior of
+the cache, see the :ref:`Cache Control` section in the CLI documentation.
+
 Building your own SQLite files
 -------------------
 
