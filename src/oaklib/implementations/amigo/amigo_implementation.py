@@ -5,14 +5,14 @@ import logging
 import math
 from dataclasses import dataclass
 from time import sleep
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 import pysolr
 
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL
-from oaklib.interfaces import SearchInterface, OboGraphInterface
+from oaklib.interfaces import OboGraphInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )

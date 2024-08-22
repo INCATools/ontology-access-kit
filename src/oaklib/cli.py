@@ -1534,11 +1534,7 @@ def viz(
     elif gap_fill:
         logging.info("Using gap-fill strategy")
         if isinstance(impl, SubsetterInterface):
-            rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
-            if isinstance(impl, OboGraphInterface):
-                graph = impl.relationships_to_graph(rels)
-            else:
-                raise AssertionError(f"{impl} needs to of type OboGraphInterface")
+            graph = impl.extract_gap_filled_graph(curies, predicates=actual_predicates)
         else:
             raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
     else:
@@ -1546,7 +1542,7 @@ def viz(
     if max_hops is not None:
         logging.info(f"Trimming graph, max_hops={max_hops}")
         graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
-    logging.info(f"Drawing graph seeded from {curies}")
+    logging.info(f"Drawing graph seeded from {len(curies)} curies: {curies}")
     if meta:
         impl.add_metadata(graph)
     if not graph.nodes:
@@ -6379,6 +6375,10 @@ def fill_table(
                     metadata.dependencies.append(ColumnDependency(**d_args))
             for d_str in list(relation):
                 d_args = yaml.safe_load(d_str)
+                if "relation" not in d_args:
+                    d_args["relation"] = "label"
+                if "dependent_column" not in d_args:
+                    d_args["dependent_column"] = d_args["primary_key"] + "_label"
                 metadata.dependencies.append(ColumnDependency(**d_args))
         else:
             metadata = tf.infer_metadata(input_table[0])

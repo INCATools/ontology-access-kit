@@ -150,7 +150,7 @@ class StreamingWriter:
                         label = self.ontology_interface.label(
                             curie, lang=self.settings.preferred_language
                         )
-                    for k, v in copy(obj_as_dict).items():
+                    for k, _v in copy(obj_as_dict).items():
                         if k == f:
                             obj_as_dict[col_name] = label
         return obj_as_dict

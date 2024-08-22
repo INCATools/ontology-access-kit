@@ -2041,6 +2041,7 @@ class SqlImplementation(
         self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None
     ) -> Iterator[RELATIONSHIP]:
         seed_curies = tuple(seed_curies)
+        logging.info(f"Gap fill for {len(seed_curies)} seed terms")
         q = self.session.query(EntailedEdge).filter(EntailedEdge.subject.in_(seed_curies))
         q = q.filter(EntailedEdge.object.in_(seed_curies))
         q = q.filter(EntailedEdge.subject != EntailedEdge.object)
