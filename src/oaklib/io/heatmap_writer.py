@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Union, Optional
+from typing import Dict, List, Optional, Union
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
@@ -50,9 +50,9 @@ class HeatmapWriter(StreamingWriter):
             raise ValueError(f"Cannot handle: {obj}")
 
     def finish(self):
+        import matplotlib.pyplot as plt
         import pandas
         import seaborn as sns
-        import matplotlib.pyplot as plt
 
         df = pandas.DataFrame(self.items)
         df = df.pivot(index="term1", columns="term2", values="score")
