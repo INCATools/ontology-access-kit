@@ -10,7 +10,6 @@ from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
     generate_disjoint_class_expressions_axioms,
     subsumed_by,
 )
-
 from tests import (
     FUNGI,
     INPUT_DIR,

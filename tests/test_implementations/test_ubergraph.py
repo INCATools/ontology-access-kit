@@ -4,7 +4,6 @@ import unittest
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations import UbergraphImplementation
-
 from tests import (
     CELL,
     CELLULAR_ANATOMICAL_ENTITY,

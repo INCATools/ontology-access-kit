@@ -3,7 +3,6 @@ import unittest
 from oaklib import get_adapter
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.inference.relation_graph_reasoner import RelationGraphReasoner
-
 from tests import CELL, IMBO, INPUT_DIR, NUCLEAR_MEMBRANE, NUCLEUS, ORGANELLE, VACUOLE
 
 ONT = INPUT_DIR / "go-nucleus.obo"

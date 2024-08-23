@@ -2,6 +2,7 @@ import unittest
 
 import curies
 from linkml_runtime.loaders import json_loader
+
 from oaklib import OntologyResource
 from oaklib.converters.obo_graph_to_obo_format_converter import (
     OboGraphToOboFormatConverter,
@@ -9,7 +10,6 @@ from oaklib.converters.obo_graph_to_obo_format_converter import (
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.implementations import SimpleOboImplementation
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
-
 from tests import INPUT_DIR, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
 

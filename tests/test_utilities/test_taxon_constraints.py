@@ -3,13 +3,13 @@ import unittest
 from typing import List
 
 from linkml_runtime.dumpers import yaml_dumper
+
 from oaklib.datamodels.taxon_constraints import SubjectTerm, Taxon, TaxonConstraint
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.types import TAXON_CURIE
 from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
-
 from tests import (
     BACTERIA,
     CELLULAR_ORGANISMS,

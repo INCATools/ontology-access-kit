@@ -9,14 +9,12 @@ Executed using "runoak" command
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import json
 import logging
-import os
 import statistics as stats
 import sys
 from collections import defaultdict
 from enum import Enum, unique
 from itertools import chain
 from pathlib import Path
-from time import time
 from types import ModuleType
 from typing import (
     Any,
@@ -28,7 +26,6 @@ from typing import (
 
 import click
 import kgcl_schema.grammar.parser as kgcl_parser
-import pystow
 import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
@@ -42,6 +39,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
+from oaklib.constants import FILE_CACHE
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels import synonymizer_datamodel
 from oaklib.datamodels.association import RollupGroup
@@ -149,6 +147,7 @@ from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
     generate_disjoint_class_expressions_axioms,
 )
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.caching import CachePolicy
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
@@ -568,6 +567,11 @@ def _apply_changes(impl, changes: List[kgcl.Change]):
     show_default=True,
     help="If set, will profile the command",
 )
+@click.option(
+    "--caching",
+    type=CachePolicy.ClickType,
+    help="Set the cache management policy",
+)
 def main(
     verbose: int,
     quiet: bool,
@@ -587,6 +591,7 @@ def main(
     prefix,
     profile: bool,
     import_depth: Optional[int],
+    caching: Optional[CachePolicy],
     **kwargs,
 ):
     """
@@ -635,6 +640,7 @@ def main(
         import requests_cache
 
         requests_cache.install_cache(requests_cache_db)
+    FILE_CACHE.force_policy(caching)
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
@@ -5480,12 +5486,14 @@ def cache_ls():
     """
     List the contents of the pystow oaklib cache.
 
-    TODO: this currently only works on unix-based systems.
     """
-    directory = pystow.api.join("oaklib")
-    command = f"ls -al {directory}"
-    click.secho(f"[pystow] {command}", fg="cyan", bold=True)
-    os.system(command)  # noqa:S605
+    units = ["B", "KB", "MB", "GB", "TB"]
+    for path, size, mtime in FILE_CACHE.get_contents(subdirs=True):
+        i = 0
+        while size > 1024 and i < len(units) - 1:
+            size /= 1024
+            i += 1
+        click.echo(f"{path} ({size:.2f} {units[i]}, {mtime:%Y-%m-%d})")
 
 
 @main.command()
@@ -5501,17 +5509,9 @@ def cache_clear(days_old: int):
     Clear the contents of the pystow oaklib cache.
 
     """
-    directory = pystow.api.join("oaklib")
-    now = time()
-    for item in Path(directory).glob("*"):
-        if ".db" not in str(item):
-            continue
-        mtime = item.stat().st_mtime
-        curr_days_old = (int(now) - int(mtime)) / 86400
-        logging.info(f"{item} is {curr_days_old}")
-        if curr_days_old > days_old:
-            click.echo(f"Deleting {item} which is {curr_days_old}")
-            item.unlink()
+
+    for name, _, age in FILE_CACHE.clear(subdirs=False, older_than=days_old, pattern="*.db*"):
+        click.echo(f"Deleted {name} which was {age.days} days old")
 
 
 @main.command()

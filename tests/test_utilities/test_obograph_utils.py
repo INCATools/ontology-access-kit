@@ -4,6 +4,7 @@ import unittest
 from copy import deepcopy
 
 from curies import Converter
+
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -23,7 +24,6 @@ from oaklib.utilities.obograph_utils import (
     shortest_paths,
     trim_graph,
 )
-
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
     CELLULAR_COMPONENT,
