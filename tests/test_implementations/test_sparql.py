@@ -96,6 +96,8 @@ class TestSparqlImplementation(unittest.TestCase):
                     expected.remove(t)
         self.assertEqual([], expected)
         rels = list(oi.relationships())
+        for rel in rels:
+            print(rel)
         self.assertCountEqual(
             [
                 ("http://example.org/b", "rdfs:subClassOf", "http://example.org/a"),

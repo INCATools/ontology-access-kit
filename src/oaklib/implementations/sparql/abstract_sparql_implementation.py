@@ -512,36 +512,84 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         s_uris = [self.curie_to_sparql(x) for x in subjects] if subjects else None
         p_uris = [self.curie_to_sparql(x) for x in predicates] if predicates else None
         o_uris = [self.curie_to_sparql(x) for x in objects] if objects else None
-        if not predicates or IS_A in predicates:
+        builtins = {IS_A}
+        selected_builtins = builtins.intersection(predicates) if predicates else builtins
+        selected_non_builtins = set(predicates) - builtins if predicates else None
+        if selected_builtins:
             q = SparqlQuery(
                 distinct=True,
-                select=["?s", "?o"],
+                select=["?s", "?p", "?o"],
                 where=[
                     "?s ?p ?o",
                     "FILTER (isIRI(?s) && isIRI(?o))",
                     _sparql_values("s", s_uris),
-                    _sparql_values("p", [self.curie_to_sparql(IS_A)]),
+                    _sparql_values("p", [self.curie_to_sparql(x) for x in selected_builtins]),
                     _sparql_values("o", o_uris),
                 ],
             )
             bindings = self._sparql_query(q)
             for row in bindings:
-                yield self.uri_to_curie(row["s"]["value"]), IS_A, self.uri_to_curie(
-                    row["o"]["value"]
+                yield (
+                    self.uri_to_curie(row["s"]["value"]),
+                    self.uri_to_curie(row["p"]["value"]),
+                    self.uri_to_curie(row["o"]["value"]),
                 )
-        if predicates != [IS_A]:
-            # existentials
+        if not predicates or RDF_TYPE in predicates:
+            q = SparqlQuery(
+                distinct=True,
+                select=["?s", "?o"],
+                where=[
+                    "?s rdf:type ?o",
+                    "?o a owl:Class",
+                    "FILTER (isIRI(?s) && isIRI(?o))",
+                    _sparql_values("s", s_uris),
+                    _sparql_values("o", o_uris),
+                ],
+            )
+            bindings = self._sparql_query(q)
+            for row in bindings:
+                yield (
+                    self.uri_to_curie(row["s"]["value"]),
+                    RDF_TYPE,
+                    self.uri_to_curie(row["o"]["value"]),
+                )
+        if not predicates or selected_non_builtins:
+            # tbox subclass existentials
             q = SparqlQuery(
                 distinct=True,
                 select=["?s", "?p", "?o"],
                 where=[
-                    "?s rdfs:subClassOf [owl:onProperty ?p ; owl:someValuesFrom ?o]",
+                    "?s ?sub_pred [owl:onProperty ?p ; owl:someValuesFrom ?o]",
                     "FILTER (isIRI(?s) && isIRI(?o) && isIRI(?p))",
                     _sparql_values("s", s_uris),
                     _sparql_values("p", p_uris),
                     _sparql_values("o", o_uris),
+                    _sparql_values("sub_pred", [IS_A, RDF_TYPE]),
                 ],
             )
+            if selected_non_builtins:
+                q.add_values("p", [self.curie_to_sparql(x) for x in selected_non_builtins])
+            bindings = self._sparql_query(q)
+            for row in bindings:
+                yield (
+                    self.uri_to_curie(row["s"]["value"]),
+                    self.uri_to_curie(row["p"]["value"]),
+                    self.uri_to_curie(row["o"]["value"]),
+                )
+            # abox
+            q = SparqlQuery(
+                distinct=True,
+                select=["?s", "?p", "?o"],
+                where=[
+                    "?s ?p ?o",
+                    "?p rdf:type owl:ObjectProperty",
+                    "FILTER (isIRI(?s) && isIRI(?o))",
+                    _sparql_values("s", s_uris),
+                    _sparql_values("o", o_uris),
+                ],
+            )
+            if selected_non_builtins:
+                q.add_values("p", [self.curie_to_sparql(x) for x in selected_non_builtins])
             bindings = self._sparql_query(q)
             for row in bindings:
                 yield (
