@@ -1,6 +1,7 @@
 import atexit
 import logging
 import sys
+from copy import copy
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Type, Union
 
@@ -149,12 +150,9 @@ class StreamingWriter:
                         label = self.ontology_interface.label(
                             curie, lang=self.settings.preferred_language
                         )
-                    obj_as_dict_new = {}
-                    for k, v in obj_as_dict.items():
-                        obj_as_dict_new[k] = v
+                    for k, _v in copy(obj_as_dict).items():
                         if k == f:
-                            obj_as_dict_new[col_name] = label
-                    obj_as_dict = obj_as_dict_new
+                            obj_as_dict[col_name] = label
         return obj_as_dict
 
     def emit_dict(self, obj: Mapping[str, Any], object_type: Type = None):

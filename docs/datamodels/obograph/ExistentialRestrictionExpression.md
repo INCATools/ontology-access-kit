@@ -1,5 +1,10 @@
+
+
 # Class: ExistentialRestrictionExpression
+
+
 _An existential restriction (OWL some values from) expression_
+
 
 
 
@@ -8,9 +13,13 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-```{mermaid}
+
+
+
+```mermaid
  classDiagram
     class ExistentialRestrictionExpression
+    click ExistentialRestrictionExpression href "../ExistentialRestrictionExpression"
       ExistentialRestrictionExpression : fillerId
         
       ExistentialRestrictionExpression : propertyId
@@ -40,6 +49,8 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [restrictions](restrictions.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
+| [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | [classExpressions](classExpressions.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
+| [DisjointClassExpressionsAxiom](DisjointClassExpressionsAxiom.md) | [unionEquivalentToExpression](unionEquivalentToExpression.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
 
 
 
@@ -77,13 +88,14 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:Restriction |
 | native | obographs:ExistentialRestrictionExpression |
+
+
 
 
 
@@ -110,7 +122,6 @@ comments:
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - some values from expression
-rank: 1000
 slots:
 - fillerId
 - propertyId
@@ -136,7 +147,6 @@ comments:
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - some values from expression
-rank: 1000
 attributes:
   fillerId:
     name: fillerId

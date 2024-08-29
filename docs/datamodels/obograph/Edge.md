@@ -1,5 +1,10 @@
+
+
 # Class: Edge
+
+
 _An edge is a simple typed relationship between two nodes. When mapping to OWL, an edge represents either (a) s SubClassOf o (b) s SubClassOf p some o (c) s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o (f) s type o_
+
 
 
 
@@ -8,12 +13,21 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-```{mermaid}
+
+
+
+```mermaid
  classDiagram
     class Edge
+    click Edge href "../Edge"
       Edge : meta
         
-          Edge ..> Meta : meta
+          
+    
+    
+    Edge --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       Edge : obj
         
@@ -72,13 +86,14 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:Edge |
 | native | obographs:Edge |
+
+
 
 
 
@@ -98,7 +113,6 @@ description: An edge is a simple typed relationship between two nodes. When mapp
   s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
   (f) s type o
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 slots:
 - sub
 - pred
@@ -118,7 +132,6 @@ description: An edge is a simple typed relationship between two nodes. When mapp
   s p o (where s and o are individuals) (d) s SubPropertyOf o (e) s EquivalentTo o
   (f) s type o
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 attributes:
   sub:
     name: sub

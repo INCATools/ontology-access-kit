@@ -92,6 +92,8 @@ classes:
       - number_subject_unique_to_entity2
       - subjects_in_common
       - associations_for_subjects_in_common
+      - proportion_entity1_subjects_in_entity2
+      - proportion_entity2_subjects_in_entity1
 
   ParserConfiguration:
     description: Settings that determine behavior when parsing associations.
@@ -396,6 +398,10 @@ slots:
   number_subjects_in_common:
     range: integer
   proportion_subjects_in_common:
+    range: float
+  proportion_entity1_subjects_in_entity2:
+    range: float
+  proportion_entity2_subjects_in_entity1:
     range: float
   number_subjects_in_union:
     range: integer

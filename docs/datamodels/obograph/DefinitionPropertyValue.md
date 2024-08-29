@@ -1,5 +1,10 @@
+
+
 # Class: DefinitionPropertyValue
+
+
 _A property value that represents an assertion about the textual definition of an entity_
+
 
 
 
@@ -8,16 +13,26 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
 
 
 
-```{mermaid}
+
+
+
+```mermaid
  classDiagram
     class DefinitionPropertyValue
+    click DefinitionPropertyValue href "../DefinitionPropertyValue"
       PropertyValue <|-- DefinitionPropertyValue
+        click PropertyValue href "../PropertyValue"
       
       DefinitionPropertyValue : lang
         
       DefinitionPropertyValue : meta
         
-          DefinitionPropertyValue ..> Meta : meta
+          
+    
+    
+    DefinitionPropertyValue --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       DefinitionPropertyValue : pred
         
@@ -46,7 +61,7 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
 | ---  | --- | --- | --- |
 | [pred](pred.md) | 0..1 <br/> [String](String.md) | the predicate of an edge | [PropertyValue](PropertyValue.md) |
 | [val](val.md) | 0..1 <br/> [String](String.md) | The textual string representing the definition | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of identifiers that support the definition | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | * <br/> [XrefString](XrefString.md) | A list of identifiers that support the definition | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [PropertyValue](PropertyValue.md) |
 | [valType](valType.md) | 0..1 <br/> [String](String.md) | the datatype of a property value | [PropertyValue](PropertyValue.md) |
 | [lang](lang.md) | 0..1 <br/> [String](String.md) | the language of a property value | [PropertyValue](PropertyValue.md) |
@@ -82,13 +97,14 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | obographs:DefinitionPropertyValue |
 | native | obographs:DefinitionPropertyValue |
+
+
 
 
 
@@ -106,7 +122,6 @@ name: DefinitionPropertyValue
 description: A property value that represents an assertion about the textual definition
   of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:
@@ -138,7 +153,6 @@ name: DefinitionPropertyValue
 description: A property value that represents an assertion about the textual definition
   of an entity
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: PropertyValue
 slot_usage:
   val:
@@ -194,7 +208,6 @@ attributes:
       a contributing role in the definition.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: xrefs
     owner: DefinitionPropertyValue
     domain_of:
@@ -202,6 +215,7 @@ attributes:
     - PropertyValue
     role: supporting identifiers
     range: XrefString
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

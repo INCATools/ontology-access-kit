@@ -2,6 +2,7 @@ import logging
 import unittest
 
 import networkx as nx
+
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
@@ -10,7 +11,6 @@ from oaklib.utilities.graph.networkx_bridge import (
     transitive_reduction,
     transitive_reduction_by_predicate,
 )
-
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"

@@ -63,7 +63,7 @@ from sssom_schema import Mapping
 
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
-from oaklib.constants import OAKLIB_MODULE
+from oaklib.constants import FILE_CACHE
 from oaklib.datamodels import obograph, ontology_metadata
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.obograph import (
@@ -342,7 +342,7 @@ class SqlImplementation(
                 # Option 1 uses direct URL construction:
                 url = f"https://s3.amazonaws.com/bbop-sqlite/{prefix}.db.gz"
                 logging.info(f"Ensuring gunzipped for {url}")
-                db_path = OAKLIB_MODULE.ensure_gunzip(url=url, autoclean=False)
+                db_path = FILE_CACHE.ensure_gunzip(url=url, autoclean=False)
                 # Option 2 uses botocore to interface with the S3 API directly:
                 # db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket="bbop-sqlite", s3_key=f"{prefix}.db")
                 locator = f"sqlite:///{db_path}"
@@ -365,10 +365,10 @@ class SqlImplementation(
             logging.info(f"Locator, post-processed: {locator}")
             self.engine = create_engine(locator)
 
-            if(logging.root.level <= logging.DEBUG):
-                #If oaklib is running at DEBUG level logging; record all queries from sqlachemy on execution.
-                #This line is equivalent to create_engine(locator,echo=True)
-                logging.getLogger('sqlalchemy.engine.Engine').setLevel(logging.INFO)
+            if logging.root.level <= logging.DEBUG:
+                # If oaklib is running at DEBUG level logging; record all queries from sqlachemy on execution.
+                # This line is equivalent to create_engine(locator,echo=True)
+                logging.getLogger("sqlalchemy.engine.Engine").setLevel(logging.INFO)
 
     @property
     def session(self):
@@ -2041,6 +2041,7 @@ class SqlImplementation(
         self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None
     ) -> Iterator[RELATIONSHIP]:
         seed_curies = tuple(seed_curies)
+        logging.info(f"Gap fill for {len(seed_curies)} seed terms")
         q = self.session.query(EntailedEdge).filter(EntailedEdge.subject.in_(seed_curies))
         q = q.filter(EntailedEdge.object.in_(seed_curies))
         q = q.filter(EntailedEdge.subject != EntailedEdge.object)

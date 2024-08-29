@@ -1,5 +1,5 @@
 # Auto generated from association.yaml by pythongen.py version: 0.0.1
-# Generation date: 2024-03-23T16:11:34
+# Generation date: 2024-08-07T13:29:21
 # Schema: association
 #
 # id: https://w3id.org/oak/association
@@ -22,6 +22,7 @@ import re
 from jsonasobj2 import JsonObj, as_dict
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
+from datetime import date, datetime
 from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
 
 from linkml_runtime.utils.slot import Slot
@@ -270,6 +271,8 @@ class PairwiseCoAssociation(YAMLRoot):
     number_subject_unique_to_entity2: Optional[int] = None
     subjects_in_common: Optional[Union[str, List[str]]] = empty_list()
     associations_for_subjects_in_common: Optional[Union[Union[dict, Association], List[Union[dict, Association]]]] = empty_list()
+    proportion_entity1_subjects_in_entity2: Optional[float] = None
+    proportion_entity2_subjects_in_entity1: Optional[float] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.object1):
@@ -310,6 +313,12 @@ class PairwiseCoAssociation(YAMLRoot):
         if not isinstance(self.associations_for_subjects_in_common, list):
             self.associations_for_subjects_in_common = [self.associations_for_subjects_in_common] if self.associations_for_subjects_in_common is not None else []
         self.associations_for_subjects_in_common = [v if isinstance(v, Association) else Association(**as_dict(v)) for v in self.associations_for_subjects_in_common]
+
+        if self.proportion_entity1_subjects_in_entity2 is not None and not isinstance(self.proportion_entity1_subjects_in_entity2, float):
+            self.proportion_entity1_subjects_in_entity2 = float(self.proportion_entity1_subjects_in_entity2)
+
+        if self.proportion_entity2_subjects_in_entity1 is not None and not isinstance(self.proportion_entity2_subjects_in_entity1, float):
+            self.proportion_entity2_subjects_in_entity1 = float(self.proportion_entity2_subjects_in_entity1)
 
         super().__post_init__(**kwargs)
 
@@ -618,6 +627,12 @@ slots.number_subjects_in_common = Slot(uri=ONTOASSOC.number_subjects_in_common, 
 
 slots.proportion_subjects_in_common = Slot(uri=ONTOASSOC.proportion_subjects_in_common, name="proportion_subjects_in_common", curie=ONTOASSOC.curie('proportion_subjects_in_common'),
                    model_uri=ONTOASSOC.proportion_subjects_in_common, domain=None, range=Optional[float])
+
+slots.proportion_entity1_subjects_in_entity2 = Slot(uri=ONTOASSOC.proportion_entity1_subjects_in_entity2, name="proportion_entity1_subjects_in_entity2", curie=ONTOASSOC.curie('proportion_entity1_subjects_in_entity2'),
+                   model_uri=ONTOASSOC.proportion_entity1_subjects_in_entity2, domain=None, range=Optional[float])
+
+slots.proportion_entity2_subjects_in_entity1 = Slot(uri=ONTOASSOC.proportion_entity2_subjects_in_entity1, name="proportion_entity2_subjects_in_entity1", curie=ONTOASSOC.curie('proportion_entity2_subjects_in_entity1'),
+                   model_uri=ONTOASSOC.proportion_entity2_subjects_in_entity1, domain=None, range=Optional[float])
 
 slots.number_subjects_in_union = Slot(uri=ONTOASSOC.number_subjects_in_union, name="number_subjects_in_union", curie=ONTOASSOC.curie('number_subjects_in_union'),
                    model_uri=ONTOASSOC.number_subjects_in_union, domain=None, range=Optional[int])

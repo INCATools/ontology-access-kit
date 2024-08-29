@@ -2,6 +2,10 @@ import unittest
 from pathlib import Path
 
 import yaml
+from sssom.parsers import to_mapping_set_document
+from sssom.writers import write_table
+from sssom_schema import Mapping
+
 from oaklib import get_adapter
 from oaklib.datamodels.cross_ontology_diff import EntityReference
 from oaklib.datamodels.mapping_rules_datamodel import (
@@ -32,10 +36,6 @@ from oaklib.utilities.lexical.lexical_indexer import (
     precondition_holds,
     save_lexical_index,
 )
-from sssom.parsers import to_mapping_set_document
-from sssom.writers import write_table
-from sssom_schema import Mapping
-
 from tests import (
     CELL_CORTEX,
     CELL_PERIPHERY,

@@ -9,14 +9,12 @@ Executed using "runoak" command
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import json
 import logging
-import os
 import statistics as stats
 import sys
 from collections import defaultdict
 from enum import Enum, unique
 from itertools import chain
 from pathlib import Path
-from time import time
 from types import ModuleType
 from typing import (
     Any,
@@ -28,7 +26,6 @@ from typing import (
 
 import click
 import kgcl_schema.grammar.parser as kgcl_parser
-import pystow
 import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
@@ -42,6 +39,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
+from oaklib.constants import FILE_CACHE
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels import synonymizer_datamodel
 from oaklib.datamodels.association import RollupGroup
@@ -149,6 +147,7 @@ from oaklib.utilities.axioms.disjointness_axiom_analyzer import (
     generate_disjoint_class_expressions_axioms,
 )
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.caching import CachePolicy
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import (
     generate_change_id,
@@ -568,6 +567,11 @@ def _apply_changes(impl, changes: List[kgcl.Change]):
     show_default=True,
     help="If set, will profile the command",
 )
+@click.option(
+    "--caching",
+    type=CachePolicy.ClickType,
+    help="Set the cache management policy",
+)
 def main(
     verbose: int,
     quiet: bool,
@@ -587,6 +591,7 @@ def main(
     prefix,
     profile: bool,
     import_depth: Optional[int],
+    caching: Optional[CachePolicy],
     **kwargs,
 ):
     """
@@ -635,6 +640,7 @@ def main(
         import requests_cache
 
         requests_cache.install_cache(requests_cache_db)
+    FILE_CACHE.force_policy(caching)
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
@@ -1534,11 +1540,7 @@ def viz(
     elif gap_fill:
         logging.info("Using gap-fill strategy")
         if isinstance(impl, SubsetterInterface):
-            rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
-            if isinstance(impl, OboGraphInterface):
-                graph = impl.relationships_to_graph(rels)
-            else:
-                raise AssertionError(f"{impl} needs to of type OboGraphInterface")
+            graph = impl.extract_gap_filled_graph(curies, predicates=actual_predicates)
         else:
             raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
     else:
@@ -1546,7 +1548,7 @@ def viz(
     if max_hops is not None:
         logging.info(f"Trimming graph, max_hops={max_hops}")
         graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
-    logging.info(f"Drawing graph seeded from {curies}")
+    logging.info(f"Drawing graph seeded from {len(curies)} curies: {curies}")
     if meta:
         impl.add_metadata(graph)
     if not graph.nodes:
@@ -2230,34 +2232,26 @@ def dump(terms, output, output_type: str, config_file: str = None, **kwargs):
 )
 def transform(terms, transform, output, output_type: str, config_file: str = None, **kwargs):
     """
-    Transforms an ontology
+    Applies a defined transformation to an ontology (EXPERIMENTAL).
+
+    Transformations include:
+
+    - SEPTransform: implements Structured-Entities-Parts (SEP) design pattern
+    - EdgeFilterTransformer: filters edges based on a predicate
+
+    Note that for most transformation operations, we recommend using ROBOT
+    and commands such as remove, filter, query.
 
     Example:
 
-        runoak -i pato.obo dump -o pato.json -O json
+        runoak -i xao.obo transform -t SEPTransform -o xao.sep.obo
 
-    Example:
+    Removes all P part-of Ws from XAO and replaces occurrences with triads of the form:
 
-        runoak -i pato.owl dump -o pato.ttl -O turtle
-
-    You can also pass in a JSON configuration file to parameterize the dump process.
-
-    Currently this is only used for fhirjson dumps, the configuration options are specified here:
-
-    https://incatools.github.io/ontology-access-kit/converters/obo-graph-to-fhir.html
-
-    Example:
-
-        runoak -i pato.owl dump -o pato.ttl -O fhirjson -c fhir_config.json -o pato.fhir.json
-
-    Currently each implementation only supports a subset of formats.
-
-    The dump command is also blocked for remote endpoints such as Ubergraph,
-    to avoid killer queries.
-
-    Python API:
-
-       https://incatools.github.io/ontology-access-kit/interfaces/basic
+    - W subClassOf W-structure
+    - W subClassOf W-structure
+    - W-Part subClassOf W-structure
+    - P subClassOf W-Part
 
     """
     if terms:
@@ -4198,6 +4192,11 @@ def apply_taxon_constraints(
     "-P",
     multiple=True,
 )
+@click.option(
+    "--include-unused/--no-include-unused",
+    default=True,
+    show_default=True,
+)
 @click.argument("terms", nargs=-1)
 def usages(
     terms,
@@ -4234,6 +4233,10 @@ def usages(
         runoak -i ubergraph: usages CL:0000540
 
     This will include usages over multiple ontologies
+
+    Using ontobee:
+
+        runoak -i ubergraph: usages CL:0000540
 
     You can multiple queries over multiple sources (an AggregatorImplementation):
 
@@ -4559,6 +4562,13 @@ def associations_counts(
     show_default=True,
     help="Include entities (e.g. genes) in the output, otherwise just the counts",
 )
+@click.option(
+    "--main-score-field",
+    "-S",
+    default="proportion_subjects_in_common",
+    show_default=True,
+    help="Score used for summarization",
+)
 @click.argument("terms", nargs=-1)
 def associations_matrix(
     terms,
@@ -4568,6 +4578,7 @@ def associations_matrix(
     autolabel: bool,
     output_type: str,
     output: str,
+    main_score_field: str,
     **kwargs,
 ):
     """
@@ -4579,18 +4590,36 @@ def associations_matrix(
 
     Example:
 
-
         runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046
+
+    This results in a 2x2 matrix (shown as a long table)
 
     As a heatmap:
 
-        runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -o heatmap > /tmp/heatmap.png
+        runoak  -i amigo:NCBITaxon:9606 associations-matrix -p i,p GO:0042416 GO:0014046 -O heatmap > /tmp/heatmap.png
 
+    By default the heatmap will show the percentage of overlap between the two terms. To change this
+    to be either the percentage of the first term in the second, or the percentage of the second term in the first,
+    use the --main-score-field (-S) option, with "1" or "2".
+
+    You can plug in as many terms as you like, it will perform an all-by-all
+
+    To compare one set with another, use the "@" separator.
+
+    You can also substitute OAK expression language query terms
+
+        runoak --stacktrace  -i amigo:NCBITaxon:9606 associations-matrix -p i,p .idfile cp.txt @ .idfile ct.txt
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
+    if main_score_field and isinstance(writer, HeatmapWriter):
+        if main_score_field == "1":
+            main_score_field = "proportion_entity1_subjects_in_entity2"
+        if main_score_field == "2":
+            main_score_field = "proportion_entity2_subjects_in_entity1"
+        writer.value_field = main_score_field
     actual_predicates = _process_predicates_arg(predicates)
     actual_association_predicates = _process_predicates_arg(association_predicates)
     if not isinstance(impl, AssociationProviderInterface):
@@ -4613,6 +4642,7 @@ def associations_matrix(
         **kwargs,
     )
     jaccards = []
+    n = 0
     for pair in pairs_it:
         # TODO: more elegant way to handle this
         pair.associations_for_subjects_in_common = None
@@ -4621,8 +4651,10 @@ def associations_matrix(
             pair,
             label_fields=["object1", "object2"],
         )
-    logging.info(f"Average Jaccard index: {stats.mean(jaccards)}")
+        n += 1
+    logging.info(f"Emitted {n} pairs")
     writer.finish()
+    logging.info(f"Average Jaccard index: {stats.mean([j for j in jaccards if j is not None])}")
 
 
 @main.command()
@@ -5454,12 +5486,14 @@ def cache_ls():
     """
     List the contents of the pystow oaklib cache.
 
-    TODO: this currently only works on unix-based systems.
     """
-    directory = pystow.api.join("oaklib")
-    command = f"ls -al {directory}"
-    click.secho(f"[pystow] {command}", fg="cyan", bold=True)
-    os.system(command)  # noqa:S605
+    units = ["B", "KB", "MB", "GB", "TB"]
+    for path, size, mtime in FILE_CACHE.get_contents(subdirs=True):
+        i = 0
+        while size > 1024 and i < len(units) - 1:
+            size /= 1024
+            i += 1
+        click.echo(f"{path} ({size:.2f} {units[i]}, {mtime:%Y-%m-%d})")
 
 
 @main.command()
@@ -5475,17 +5509,9 @@ def cache_clear(days_old: int):
     Clear the contents of the pystow oaklib cache.
 
     """
-    directory = pystow.api.join("oaklib")
-    now = time()
-    for item in Path(directory).glob("*"):
-        if ".db" not in str(item):
-            continue
-        mtime = item.stat().st_mtime
-        curr_days_old = (int(now) - int(mtime)) / 86400
-        logging.info(f"{item} is {curr_days_old}")
-        if curr_days_old > days_old:
-            click.echo(f"Deleting {item} which is {curr_days_old}")
-            item.unlink()
+
+    for name, _, age in FILE_CACHE.clear(subdirs=False, older_than=days_old, pattern="*.db*"):
+        click.echo(f"Deleted {name} which was {age.days} days old")
 
 
 @main.command()
@@ -6349,6 +6375,10 @@ def fill_table(
                     metadata.dependencies.append(ColumnDependency(**d_args))
             for d_str in list(relation):
                 d_args = yaml.safe_load(d_str)
+                if "relation" not in d_args:
+                    d_args["relation"] = "label"
+                if "dependent_column" not in d_args:
+                    d_args["dependent_column"] = d_args["primary_key"] + "_label"
                 metadata.dependencies.append(ColumnDependency(**d_args))
         else:
             metadata = tf.infer_metadata(input_table[0])

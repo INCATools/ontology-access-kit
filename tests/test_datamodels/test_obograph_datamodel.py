@@ -1,8 +1,8 @@
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
+
 from oaklib.datamodels import obograph
 from oaklib.datamodels.vocabulary import IS_A
-
 from tests import output_path
 from tests.test_datamodels import AbstractDatamodelTestCase
 

@@ -1,5 +1,10 @@
+
+
 # Class: EquivalentNodesSet
+
+
 _A clique of nodes that are all mutually equivalent_
+
 
 
 
@@ -8,14 +13,24 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 
-```{mermaid}
+
+
+
+```mermaid
  classDiagram
     class EquivalentNodesSet
+    click EquivalentNodesSet href "../EquivalentNodesSet"
       Axiom <|-- EquivalentNodesSet
+        click Axiom href "../Axiom"
       
       EquivalentNodesSet : meta
         
-          EquivalentNodesSet ..> Meta : meta
+          
+    
+    
+    EquivalentNodesSet --> "0..1" Meta : meta
+    click Meta href "../Meta"
+
         
       EquivalentNodesSet : nodeIds
         
@@ -39,7 +54,7 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [representativeNodeId](representativeNodeId.md) | 0..1 <br/> [String](String.md) | The identifier of a node that represents the class in an OWL equivalence cliq... | direct |
-| [nodeIds](nodeIds.md) | 0..* <br/> [String](String.md) |  | direct |
+| [nodeIds](nodeIds.md) | * <br/> [String](String.md) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 
 
@@ -73,13 +88,14 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | owl:equivalentClass |
 | native | obographs:EquivalentNodesSet |
+
+
 
 
 
@@ -96,7 +112,6 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 name: EquivalentNodesSet
 description: A clique of nodes that are all mutually equivalent
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 slots:
 - representativeNodeId
@@ -113,7 +128,6 @@ class_uri: owl:equivalentClass
 name: EquivalentNodesSet
 description: A clique of nodes that are all mutually equivalent
 from_schema: https://github.com/geneontology/obographs
-rank: 1000
 is_a: Axiom
 attributes:
   representativeNodeId:
@@ -131,12 +145,12 @@ attributes:
     name: nodeIds
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    multivalued: true
     alias: nodeIds
     owner: EquivalentNodesSet
     domain_of:
     - EquivalentNodesSet
     range: string
+    multivalued: true
   meta:
     name: meta
     description: A collection of metadata about either an ontology (graph), an entity,

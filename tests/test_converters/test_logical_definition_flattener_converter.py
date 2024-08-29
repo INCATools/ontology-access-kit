@@ -1,12 +1,12 @@
 import unittest
 
 from linkml_runtime.loaders import json_loader
+
 from oaklib import get_adapter
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.datamodels.vocabulary import HAS_PART, PART_OF
-
 from tests import INPUT_DIR, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
 
