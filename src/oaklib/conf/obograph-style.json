@@ -6,7 +6,7 @@
     ],
     "fillcolor": "white",
 
-    "excludeSingletons": "true",
+    "excludeSingletons": "false",
     "relationProperties": {
         "rdfs:subClassOf": {
             "color": "black",

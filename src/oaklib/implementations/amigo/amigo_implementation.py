@@ -12,7 +12,7 @@ import pysolr
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDFS_LABEL
-from oaklib.interfaces import SearchInterface
+from oaklib.interfaces import OboGraphInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -133,6 +133,7 @@ def _normalize(curie: CURIE) -> CURIE:
 @dataclass
 class AmiGOImplementation(
     AssociationProviderInterface,
+    OboGraphInterface,
     SearchInterface,
     UsagesInterface,
     SemanticSimilarityInterface,
@@ -162,10 +163,18 @@ class AmiGOImplementation(
 
     _solr: pysolr.Solr = None
     _source: str = None
+    _go_adapter: OboGraphInterface = None
 
     def __post_init__(self):
         self._source = self.resource.slug
         self._solr = pysolr.Solr(AMIGO_ENDPOINT)
+
+    def go_adapter(self) -> OboGraphInterface:
+        if not self._go_adapter:
+            from oaklib import get_adapter
+
+            self._go_adapter = get_adapter("sqlite:obo:go")
+        return self._go_adapter
 
     def _cache_nodes(self, nodes: List[Dict], curies: Iterable[CURIE]):
         for node in nodes:
@@ -513,3 +522,19 @@ class AmiGOImplementation(
             yield term, ic
 
         logger.info(f"Iterated {n} counts")
+
+    # delegation
+
+    def descendants(
+        self,
+        *args,
+        **kwargs,
+    ) -> Iterable[CURIE]:
+        yield from self.go_adapter().descendants(*args, **kwargs)
+
+    def ancestors(
+        self,
+        *args,
+        **kwargs,
+    ) -> Iterable[CURIE]:
+        yield from self.go_adapter().ancestors(*args, **kwargs)

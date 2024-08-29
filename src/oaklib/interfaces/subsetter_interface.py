@@ -1,12 +1,15 @@
+import logging
 from abc import ABC
 from dataclasses import dataclass
 from typing import Iterator, List
 
+from oaklib.interfaces import OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,
 )
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.obograph_utils import index_graph_nodes
 
 
 @dataclass
@@ -72,3 +75,26 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def extract_gap_filled_graph(
+        self,
+        seed_curies: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        include_singletons: bool = True,
+        **kwargs,
+    ) -> OboGraphInterface:
+        rels = list(self.gap_fill_relationships(seed_curies, predicates=predicates))
+        logging.info(f"Gap filled relationships: {len(rels)}")
+        if not isinstance(self, OboGraphInterface):
+            raise AssertionError(f"{self} needs to of type OboGraphInterface")
+        graph = self.relationships_to_graph(rels)
+        ix = index_graph_nodes(graph)
+        logging.info(f"Gap filled nodes: {len(ix)}")
+        if include_singletons:
+            for c in seed_curies:
+                if c not in ix:
+                    node = self.node(c)
+                    logging.info(f"Adding: {node}")
+                    graph.nodes.append(node)
+                    # graph.edges.append(Edge(sub=c, pred="subClassOf", obj=c))
+        return graph
