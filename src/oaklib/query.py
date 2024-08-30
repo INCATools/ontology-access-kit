@@ -595,10 +595,20 @@ def query_terms_iterator(
             logging.debug(f"Random: {term}")
             params = _parse_params(term)
             sample_size = params.get("n", "100")
-            entities = list(adapter.entities())
-            sample = [
-                entities[secrets.randbelow(len(entities))] for x in range(1, int(sample_size))
-            ]
+            entities = set(adapter.entities())
+            sample = secrets.SystemRandom().sample(entities, int(sample_size))
+            chain_results(sample)
+        elif term.startswith(".sample"):
+            logging.debug(f"Sampling: {term}")
+            params = _parse_params(term)
+            sample_size = params.get("n", "100")
+            rest = list(query_terms_iterator([query_terms[0]], adapter))
+            query_terms = query_terms[1:]
+            try:
+                sample = secrets.SystemRandom().sample(rest, int(sample_size))
+            except ValueError as e:
+                logging.error(f"Error sampling {sample_size} / {len(rest)}: {e}")
+                raise e
             chain_results(sample)
         elif term.startswith(".in"):
             logging.debug(f"IN: {term}")
@@ -648,19 +658,17 @@ def query_terms_iterator(
             this_predicates = params.get("predicates", predicates)
             rest = list(query_terms_iterator([query_terms[0]], adapter))
             query_terms = query_terms[1:]
-            if isinstance(adapter, OboGraphInterface):
-                chain_results(adapter.descendants(rest, predicates=this_predicates))
-            else:
+            if not isinstance(adapter, OboGraphInterface):
                 raise NotImplementedError
+            chain_results(adapter.descendants(rest, predicates=this_predicates))
         elif term.startswith(".sub"):
             logging.debug(f"Subclasses: {term}")
             # graph query: is-a descendants
             rest = list(query_terms_iterator([query_terms[0]], adapter))
             query_terms = query_terms[1:]
-            if isinstance(adapter, OboGraphInterface):
-                chain_results(adapter.descendants(rest, predicates=[IS_A]))
-            else:
+            if not isinstance(adapter, OboGraphInterface):
                 raise NotImplementedError
+            chain_results(adapter.descendants(rest, predicates=[IS_A]))
         elif term.startswith(".child"):
             logging.debug(f"Children: {term}")
             # graph query: children
