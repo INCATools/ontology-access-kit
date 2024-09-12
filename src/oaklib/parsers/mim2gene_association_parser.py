@@ -2,7 +2,7 @@
 
 import csv
 from dataclasses import dataclass, field
-from typing import Iterator, Optional, TextIO, Union
+from typing import Iterator, Optional, TextIO, Union, Dict
 
 from oaklib.datamodels.association import (
     Association,
@@ -23,9 +23,10 @@ class MedgenMimG2DAssociationParser(XafAssociationParser):
     conservative: bool = field(default_factory=lambda: True)
 
     def parse(
-        self, file: TextIO, configuration: Optional[ParserConfiguration] = None
+        self, file: TextIO, configuration: Optional[ParserConfiguration] = None, **kwargs,
     ) -> Iterator[Union[NegatedAssociation, Association]]:
         reader = csv.DictReader(file, delimiter="\t")
+        row: Dict[str, str]
         for row in reader:
             mim = row["#MIM number"]
             typ = row["type"]
@@ -35,10 +36,10 @@ class MedgenMimG2DAssociationParser(XafAssociationParser):
             if self.conservative:
                 if comments:
                     continue
-            predicate = "biolink:gene_associated_with_condition"
+            predicate = "biolink:causes"
             if comments:
                 if "susceptibility" in comments:
-                    predicate = "biolink:affects_risk_for"
+                    predicate = "biolink:gene_associated_with_condition"
                 else:
                     continue
             gene_id = row["GeneID"]
