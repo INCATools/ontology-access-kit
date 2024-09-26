@@ -36,9 +36,9 @@ It can be useful to create aliases for individual ontologies. For example, to cr
 
 .. code:: bash
 
-    alias uberon='runoak -i obo:sqlite:uberon'
-    alias cl='runoak -i obo:sqlite:cl'
-    alias obi='runoak -i obo:sqlite:obi'
+    alias uberon='runoak -i sqlite:obo:uberon'
+    alias cl='runoak -i sqlite:obo:cl'
+    alias obi='runoak -i sqlite:obo:obi'
 
 You can specify further implementations with :code:`-a` which will create an :ref:`aggregator` implementation that wraps
 multiple implementations. For example, you can multiplex queries over different endpoints.
