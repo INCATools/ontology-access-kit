@@ -19,7 +19,10 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.obograph_utils import as_digraph
-from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity, load_information_content_map
+from oaklib.utilities.semsim.similarity_utils import (
+    load_information_content_map,
+    setwise_jaccard_similarity,
+)
 
 
 class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
@@ -183,7 +186,6 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         """
         self.cached_information_content_map = load_information_content_map(source)
 
-
     def set_information_content_scores(self, scores: Iterable[Tuple[CURIE, float]]) -> None:
         """
         Load term information content values from file
@@ -192,7 +194,6 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :return:
         """
         self.cached_information_content_map = dict(scores)
-
 
     def get_information_content(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None

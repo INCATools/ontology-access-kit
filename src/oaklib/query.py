@@ -623,9 +623,8 @@ def query_terms_iterator(
             id_prefixes = params.get("prefix", [])
             annotated_roots = bool(params.get("annotated", False))
             roots = adapter.roots(
-                predicates=this_predicates,
-                id_prefixes=id_prefixes,
-                annotated_roots=annotated_roots)
+                predicates=this_predicates, id_prefixes=id_prefixes, annotated_roots=annotated_roots
+            )
             chain_results(roots)
         elif term.startswith(".leaf"):
             logging.debug(f"Leafs: {term}")

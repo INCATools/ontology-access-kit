@@ -46,6 +46,7 @@ from semsql.sqla.semsql import (  # HasMappingStatement,
     OwlAxiomAnnotation,
     OwlDisjointClassStatement,
     OwlEquivalentClassStatement,
+    OwlHasValue,
     OwlSomeValuesFrom,
     Prefix,
     RdfFirstStatement,
@@ -55,9 +56,9 @@ from semsql.sqla.semsql import (  # HasMappingStatement,
     RdfTypeStatement,
     Statements,
     TermAssociation,
-    TransitivePropertyNode, OwlHasValue,
+    TransitivePropertyNode,
 )
-from sqlalchemy import and_, create_engine, delete, distinct, func, insert, text, update, select
+from sqlalchemy import and_, create_engine, delete, distinct, func, insert, select, text, update
 from sqlalchemy.orm import aliased, sessionmaker
 from sssom_schema import Mapping
 
@@ -1058,7 +1059,6 @@ class SqlImplementation(
                 logging.warning(f"Invalid triple for S:{row.subject} P:{row.predicate}")
                 continue
             yield row.subject, row.predicate, row.object
-
 
     def _subclass_of_has_value_relationships(
         self,

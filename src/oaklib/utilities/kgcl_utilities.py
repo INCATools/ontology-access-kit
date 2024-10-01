@@ -5,7 +5,7 @@ import sys
 import uuid
 from io import TextIOWrapper
 from pathlib import Path
-from typing import Iterator, List, Optional, TextIO, Union, Callable
+from typing import Callable, Iterator, List, Optional, TextIO, Union
 
 import kgcl_schema.datamodel.kgcl as kgcl
 import kgcl_schema.grammar.parser as kgcl_parser
@@ -80,7 +80,9 @@ CURIE_SLOTS = {
 }
 
 
-def substitute_curies_for_labels(changes: Union[List[kgcl.Change], kgcl.Change], label_function: Callable):
+def substitute_curies_for_labels(
+    changes: Union[List[kgcl.Change], kgcl.Change], label_function: Callable
+):
     if isinstance(changes, list):
         for change in changes:
             substitute_curies_for_labels(change, label_function)
@@ -94,7 +96,10 @@ def substitute_curies_for_labels(changes: Union[List[kgcl.Change], kgcl.Change],
                 setattr(change, k, new_v)
                 setattr(change, CURIE_SLOTS[k], "label")
 
-def substitute_labels_for_curies(changes: Union[List[kgcl.Change], kgcl.Change], curie_function: Callable):
+
+def substitute_labels_for_curies(
+    changes: Union[List[kgcl.Change], kgcl.Change], curie_function: Callable
+):
     if isinstance(changes, list):
         for change in changes:
             substitute_labels_for_curies(change, curie_function)
@@ -112,7 +117,6 @@ def substitute_labels_for_curies(changes: Union[List[kgcl.Change], kgcl.Change],
                 if new_v:
                     setattr(change, k, new_v)
                     setattr(change, CURIE_SLOTS[k], "curie")
-
 
 
 def write_kgcl(

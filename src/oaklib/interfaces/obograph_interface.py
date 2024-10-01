@@ -206,7 +206,10 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         return g
 
     def ancestor_graph(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None, **kwargs,
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        **kwargs,
     ) -> Graph:
         """
         Return a graph object that consists of all the nodes specified in the start_curies list,

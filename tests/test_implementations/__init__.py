@@ -48,11 +48,12 @@ from oaklib.datamodels.vocabulary import (
     OWL_THING,
     PART_OF,
     PRECEDED_BY,
+    RDF_TYPE,
     RDFS_DOMAIN,
     RDFS_RANGE,
     SUBPROPERTY_OF,
     TERM_REPLACED_BY,
-    TERM_TRACKER_ITEM, RDF_TYPE,
+    TERM_TRACKER_ITEM,
 )
 from oaklib.interfaces import (
     MappingProviderInterface,
@@ -767,7 +768,6 @@ class ComplianceTester:
                 test.assertIn((s, p, o), all_entailed_relations)
             else:
                 test.assertNotIn((s, p, o), all_entailed_relations)
-
 
     def test_logical_definitions(self, oi: OboGraphInterface):
         test = self.test

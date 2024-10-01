@@ -35,7 +35,6 @@ from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from pydantic import BaseModel
-from pyshex.shape_expressions_language.p3_terminology import predicates
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -75,7 +74,6 @@ from oaklib.implementations.aggregator.aggregator_implementation import (
 from oaklib.implementations.obograph.obograph_implementation import (
     OboGraphImplementation,
 )
-from oaklib.implementations.semsimian.semsimian_implementation import SemSimianImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import (
     BasicOntologyInterface,
@@ -179,15 +177,14 @@ from oaklib.utilities.obograph_utils import (
     trim_graph,
 )
 from oaklib.utilities.publication_utils.pubmed_wrapper import PubmedWrapper
-from oaklib.utilities.semsim.similarity_utils import load_information_content_map
 from oaklib.utilities.subsets.slimmer_utils import (
     roll_up_to_named_subset,
 )
+from oaklib.utilities.subsets.subset_validator import SubsetValidationConfig
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import parse_gain_loss_file
 from oaklib.utilities.validation.lint_utils import lint_ontology
 from oaklib.utilities.validation.rule_runner import RuleRunner
-from oaklib.utilities.subsets.subset_validator import SubsetValidationConfig
 
 OBO_FORMAT = "obo"
 RDF_FORMAT = "rdf"
@@ -3607,7 +3604,6 @@ def roots(output: str, output_type: str, predicates: str, has_prefix: str, annot
     writer.finish()
 
 
-
 @main.command()
 @output_option
 @predicates_option
@@ -5428,9 +5424,7 @@ def validate_synonyms(
     "--information-content-adapter",
     help="Adapter to use for information content scores",
 )
-@click.option(
-    "--config-yaml"
-)
+@click.option("--config-yaml")
 @output_option
 @configuration_file_option
 @click.argument("terms", nargs=-1)
@@ -5448,24 +5442,24 @@ def validate_subset(
     configuration_file: str,
 ):
     """
-    Validates term subsets.
+     Validates term subsets.
 
-    The default metrics used for evaluation involve calculating the degree of overlap between members of the
-    subset. Subsets in general should partition the ontology into sets that overlap as little as possible.
+     The default metrics used for evaluation involve calculating the degree of overlap between members of the
+     subset. Subsets in general should partition the ontology into sets that overlap as little as possible.
 
-    Different overlap metrics can be plugged in, see the information-content methods for more details.
+     Different overlap metrics can be plugged in, see the information-content methods for more details.
 
-    The simplest way to run this is to pass in a list of terms via a subset query
+     The simplest way to run this is to pass in a list of terms via a subset query
 
-        runoak -i po.db validate-subset p i,p  .in Tomato
+         runoak -i po.db validate-subset p i,p  .in Tomato
 
-    You can also calculate IC scores for each term and pass them in via a file:
+     You can also calculate IC scores for each term and pass them in via a file:
 
-        runoak -i amigo:NCBITaxon:9606 information-content -o human-ic.tsv
+         runoak -i amigo:NCBITaxon:9606 information-content -o human-ic.tsv
 
-   Then
+    Then
 
-        runoak -i go.db validate-subset p i,p  .in goslim_generic --information-content-file human-ic.tsv
+         runoak -i go.db validate-subset p i,p  .in goslim_generic --information-content-file human-ic.tsv
 
     """
     impl = settings.impl
@@ -5493,8 +5487,7 @@ def validate_subset(
                 taxa_ids = ["NCBITaxon:1"]
             for taxa_id in taxa_ids:
                 config = SubsetValidationConfig(
-                    subset_name=subset["id"],
-                    ic_score_adapter_name=f"amigo:{taxa_id}"
+                    subset_name=subset["id"], ic_score_adapter_name=f"amigo:{taxa_id}"
                 )
                 configs.append(config)
                 logging.info(f"Loaded config for {subset['id']} with {taxa_id}")
@@ -5511,12 +5504,13 @@ def validate_subset(
     for config in configs:
         if information_content_adapter:
             config.ic_score_adapter_name = information_content_adapter
-        actual_predicates =  _process_predicates_arg(predicates)
+        actual_predicates = _process_predicates_arg(predicates)
         if actual_predicates:
             config.predicates = actual_predicates
         if exclude_query:
             config.exclude_terms = list(query_terms_iterator(exclude_query.split(" "), impl))
         import oaklib.utilities.subsets.subset_validator as subset_validator
+
         try:
             result = subset_validator.validate_subset(impl, config)
         except Exception as e:
@@ -5534,7 +5528,6 @@ def validate_subset(
         else:
             writer.emit_obj(result)
     writer.finish()
-
 
 
 @main.command()

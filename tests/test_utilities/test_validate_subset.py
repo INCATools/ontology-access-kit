@@ -2,8 +2,8 @@ import yaml
 
 from oaklib import get_adapter
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-from oaklib.utilities.subsets.subset_validator import validate_subset, SubsetValidationConfig
-from tests import INPUT_DIR, EXAMPLE_ONTOLOGY_DB
+from oaklib.utilities.subsets.subset_validator import SubsetValidationConfig, validate_subset
+from tests import EXAMPLE_ONTOLOGY_DB, INPUT_DIR
 
 
 def test_validate_subset():
