@@ -1,5 +1,12 @@
+
+
 # Slot: search_terms
+
+
 _An individual search term. The syntax is determined by the syntax slot_
+
+
+
 
 
 URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_terms)
@@ -11,11 +18,13 @@ URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_term
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_term
 ## Properties
 
 * Range: [SearchTerm](SearchTerm.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -55,6 +62,16 @@ URI: [ontosearch:search_terms](https://w3id.org/oak/search-datamodel/search_term
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:search_terms |
+| native | ontosearch:search_terms |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -66,12 +83,12 @@ comments:
 - If multiple terms are provided this is treated as a union query
 from_schema: https://w3id.org/oak/search-datamodel
 rank: 1000
-multivalued: true
 alias: search_terms
 owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: SearchTerm
+multivalued: true
 
 ```
 </details>

@@ -1,5 +1,12 @@
+
+
 # Slot: rank
+
+
 _For relevancy-ranked results, this indicates the relevancy, with low numbers being the most relevant_
+
+
+
 
 
 URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
@@ -11,11 +18,13 @@ URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResult](SearchResult.md) | An individual search result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [ontosearch:rank](https://w3id.org/oak/search-datamodel/rank)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:rank |
+| native | ontosearch:rank |
 
 
 

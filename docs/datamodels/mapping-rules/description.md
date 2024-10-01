@@ -1,4 +1,8 @@
+
+
 # Slot: description
+
+
 
 URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/description)
 
@@ -9,11 +13,14 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Synonymizer](Synonymizer.md) | Specification of a rule for generating a synonym or alternate lexical element |  no  |
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app... |  no  |
+
 
 
 
@@ -28,8 +35,6 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 
 
 
-
-
 ## Identifier and Mapping Information
 
 
@@ -38,10 +43,13 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 
 
 
-### Schema Source
 
+## Mappings
 
-* from schema: https://w3id.org/oak/mapping-rules-datamodel
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:description |
+| native | mappingrules:description |
 
 
 
@@ -51,12 +59,10 @@ URI: [mappingrules:description](https://w3id.org/oak/mapping-rules-datamodel/des
 <details>
 ```yaml
 name: description
-from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 alias: description
-owner: MappingRule
 domain_of:
 - MappingRule
+- Synonymizer
 range: string
 
 ```

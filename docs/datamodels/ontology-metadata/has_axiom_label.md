@@ -1,4 +1,8 @@
+
+
 # Slot: has_axiom_label
+
+
 
 URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 
@@ -14,11 +18,13 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 
@@ -46,7 +50,17 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | IAO:0010000 |
+| native | omoschema:has_axiom_label |
 
 
 
@@ -56,7 +70,7 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 <details>
 ```yaml
 name: has_axiom_label
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: provenance_property
 slot_uri: IAO:0010000

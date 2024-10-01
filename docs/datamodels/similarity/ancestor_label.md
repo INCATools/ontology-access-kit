@@ -1,5 +1,12 @@
+
+
 # Slot: ancestor_label
+
+
 _the name or label of the ancestor concept_
+
+
+
 
 
 URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
@@ -11,11 +18,13 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:ancestor_label |
+| native | sim:ancestor_label |
 
 
 

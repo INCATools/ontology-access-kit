@@ -1,5 +1,12 @@
+
+
 # Slot: in_subset
+
+
 _Maps an ontology element to a subset it belongs to_
+
+
+
 
 
 URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
@@ -11,22 +18,24 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasCategory](HasCategory.md) | 
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [HasCategory](HasCategory.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -36,10 +45,8 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 ## Properties
 
 * Range: [Subset](Subset.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -56,7 +63,17 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:inSubset |
+| native | omoschema:in_subset |
 
 
 
@@ -67,14 +84,14 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 ```yaml
 name: in_subset
 description: Maps an ontology element to a subset it belongs to
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:inSubset
-multivalued: true
 alias: in_subset
 domain_of:
 - HasCategory
 range: Subset
+multivalued: true
 
 ```
 </details>

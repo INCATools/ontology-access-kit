@@ -1,4 +1,8 @@
+
+
 # Slot: parent_document
+
+
 
 URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_document)
 
@@ -9,11 +13,13 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextualElement](TextualElement.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TextualElement](TextualElement.md) |  |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:parent_document |
+| native | ann:parent_document |
 
 
 

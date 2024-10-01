@@ -1,23 +1,39 @@
+
+
 # Class: AnnotationPropertyMixin
+
+
 _Groups all annotation property bundles_
 
 
 
 
-URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/schema/AnnotationPropertyMixin)
+
+URI: [omoschema:AnnotationPropertyMixin](https://w3id.org/oak/ontology-metadata/AnnotationPropertyMixin)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class AnnotationPropertyMixin
+    click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       AnnotationPropertyMixin <|-- HasMinimalMetadata
+        click HasMinimalMetadata href "../HasMinimalMetadata"
       AnnotationPropertyMixin <|-- HasSynonyms
+        click HasSynonyms href "../HasSynonyms"
       AnnotationPropertyMixin <|-- HasMappings
+        click HasMappings href "../HasMappings"
       AnnotationPropertyMixin <|-- HasProvenance
+        click HasProvenance href "../HasProvenance"
       AnnotationPropertyMixin <|-- HasLifeCycle
+        click HasLifeCycle href "../HasLifeCycle"
       AnnotationPropertyMixin <|-- HasCategory
+        click HasCategory href "../HasCategory"
       AnnotationPropertyMixin <|-- HasUserInformation
+        click HasUserInformation href "../HasUserInformation"
       
       
 ```
@@ -68,8 +84,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -85,6 +100,8 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -95,8 +112,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
 ```yaml
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```
@@ -108,8 +124,7 @@ mixin: true
 ```yaml
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 mixin: true
 
 ```

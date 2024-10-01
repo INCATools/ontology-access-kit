@@ -1,7 +1,10 @@
 # Type: Double
 
 
+
+
 _A real number that conforms to the xsd:double specification_
+
 
 
 URI: [xsd:double](http://www.w3.org/2001/XMLSchema#double)
@@ -30,6 +33,17 @@ URI: [xsd:double](http://www.w3.org/2001/XMLSchema#double)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:double |
+| native | ontolexindex:double |
+| close | schema:Float |
 
 
 

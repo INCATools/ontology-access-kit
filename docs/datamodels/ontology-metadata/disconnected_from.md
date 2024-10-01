@@ -1,6 +1,10 @@
+
+
 # Slot: disconnected_from
 
-URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/disconnected_from)
+
+
+URI: [omoschema:disconnected_from](https://w3id.org/oak/ontology-metadata/disconnected_from)
 
 
 
@@ -14,11 +18,13 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/dis
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Class](Class.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Class](Class.md) |  |  no  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/dis
 ## Properties
 
 * Range: [Class](Class.md)
-
-
 
 
 
@@ -46,7 +50,17 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/dis
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:disconnected_from |
+| native | omoschema:disconnected_from |
 
 
 
@@ -56,7 +70,7 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/dis
 <details>
 ```yaml
 name: disconnected_from
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: shortcut_annotation_property
 alias: disconnected_from

@@ -1,4 +1,8 @@
+
+
 # Slot: shorthand
+
+
 
 URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 
@@ -9,14 +13,16 @@ URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -26,10 +32,8 @@ URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -46,7 +50,17 @@ URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:shorthand |
+| native | omoschema:shorthand |
 
 
 
@@ -57,15 +71,15 @@ URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 ```yaml
 name: shorthand
 deprecated: deprecated oboInOwl property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:shorthand
-multivalued: true
 alias: shorthand
 domain_of:
 - AnnotationProperty
 - ObjectProperty
 range: string
+multivalued: true
 
 ```
 </details>

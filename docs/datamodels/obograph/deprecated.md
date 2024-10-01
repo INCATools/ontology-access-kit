@@ -1,4 +1,8 @@
+
+
 # Slot: deprecated
+
+
 
 URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
@@ -9,11 +13,13 @@ URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:deprecated |
+| native | obographs:deprecated |
 
 
 

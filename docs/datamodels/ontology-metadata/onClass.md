@@ -1,4 +1,8 @@
+
+
 # Slot: onClass
+
+
 
 URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 
@@ -16,11 +20,11 @@ URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 
 
 
+
+
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
-
-
 
 
 
@@ -37,7 +41,17 @@ URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:onClass |
+| native | omoschema:onClass |
 
 
 
@@ -47,7 +61,7 @@ URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 <details>
 ```yaml
 name: onClass
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:onClass

@@ -1,5 +1,12 @@
+
+
 # Slot: weight
-_Weighting of the rule, positive increases the confidence, negative decreases_
+
+
+_Weighting of the rule. A weight of zero corresponds to 0.5 confidence in the mapping. Setting to +1 or -1 indicates moderate confidence or lack of confidence. A logit scale is used. All weights are summed together to determine the final confidence._
+
+
+
 
 
 URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
@@ -11,11 +18,13 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Postcondition](Postcondition.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Postcondition](Postcondition.md) |  |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 ## Properties
 
 * Range: [Float](Float.md)
-
-
 
 
 
@@ -53,12 +60,24 @@ URI: [mappingrules:weight](https://w3id.org/oak/mapping-rules-datamodel/weight)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | mappingrules:weight |
+| native | mappingrules:weight |
+
+
+
+
 ## LinkML Source
 
 <details>
 ```yaml
 name: weight
-description: Weighting of the rule, positive increases the confidence, negative decreases
+description: Weighting of the rule. A weight of zero corresponds to 0.5 confidence
+  in the mapping. Setting to +1 or -1 indicates moderate confidence or lack of confidence.
+  A logit scale is used. All weights are summed together to determine the final confidence.
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
 see_also:
 - https://en.wikipedia.org/wiki/Logit

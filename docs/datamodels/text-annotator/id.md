@@ -1,4 +1,8 @@
+
+
 # Slot: id
+
+
 
 URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
@@ -9,11 +13,13 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextualElement](TextualElement.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TextualElement](TextualElement.md) |  |  no  |
+
 
 
 
@@ -24,7 +30,7 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
 * Range: [Uriorcurie](Uriorcurie.md)
 
-
+* Required: True
 
 
 
@@ -46,6 +52,16 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:id |
+| native | ann:id |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -59,6 +75,7 @@ owner: TextualElement
 domain_of:
 - TextualElement
 range: uriorcurie
+required: true
 
 ```
 </details>

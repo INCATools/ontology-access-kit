@@ -11,6 +11,7 @@ The scope is any kind of service that provides search over *named entities*, inc
 search results, e.g. google search, although parts could be generalized for this purpose.
 
 URI: https://w3id.org/oak/search-datamodel
+
 Name: search-datamodel
 
 
@@ -19,11 +20,12 @@ Name: search-datamodel
 
 | Class | Description |
 | --- | --- |
-| [ComplexQuery](ComplexQuery.md) |  |
+| [ComplexQuery](ComplexQuery.md) | None |
 | [PathExpression](PathExpression.md) | A path query |
-| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works |
 | [SearchResult](SearchResult.md) | An individual search result |
-| [SearchResultSet](SearchResultSet.md) |  |
+| [SearchResultSet](SearchResultSet.md) | None |
+
 
 
 ## Slots
@@ -85,10 +87,13 @@ Name: search-datamodel
 | [Double](Double.md) | A real number that conforms to the xsd:double specification |
 | [Float](Float.md) | A real number that conforms to the xsd:float specification |
 | [Integer](Integer.md) | An integer |
+| [Jsonpath](Jsonpath.md) | A string encoding a JSON Path |
+| [Jsonpointer](Jsonpointer.md) | A string encoding a JSON Pointer |
 | [Ncname](Ncname.md) | Prefix part of CURIE |
 | [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
 | [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
 | [SearchTerm](SearchTerm.md) |  |
+| [Sparqlpath](Sparqlpath.md) | A string encoding a SPARQL Property Path |
 | [String](String.md) | A character string |
 | [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
 | [Uri](Uri.md) | a complete URI |

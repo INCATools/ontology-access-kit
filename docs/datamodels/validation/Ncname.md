@@ -1,7 +1,10 @@
 # Type: Ncname
 
 
+
+
 _Prefix part of CURIE_
+
 
 
 URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
@@ -31,6 +34,16 @@ URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:string |
+| native | vm:ncname |
 
 
 

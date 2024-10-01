@@ -1,4 +1,8 @@
+
+
 # Slot: unionOf
+
+
 
 URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
@@ -14,13 +18,15 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[Class](Class.md) | 
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Restriction](Restriction.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+
 
 
 
@@ -30,8 +36,6 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -48,7 +52,17 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:unionOf |
+| native | omoschema:unionOf |
 
 
 
@@ -58,7 +72,7 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 <details>
 ```yaml
 name: unionOf
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: owl:unionOf

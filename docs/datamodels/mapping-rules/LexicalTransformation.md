@@ -1,5 +1,10 @@
+
+
 # Class: LexicalTransformation
+
+
 _An atomic lexical transformation applied on a term (string) yielding a transformed string_
+
 
 
 
@@ -8,18 +13,33 @@ URI: [mappingrules:LexicalTransformation](https://w3id.org/oak/mapping-rules-dat
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class LexicalTransformation
+    click LexicalTransformation href "../LexicalTransformation"
       Activity <|-- LexicalTransformation
+        click Activity href "../Activity"
       
       LexicalTransformation : params
         
-          LexicalTransformation ..> Any : params
+          
+    
+    
+    LexicalTransformation --> "*" Any : params
+    click Any href "../Any"
+
         
       LexicalTransformation : type
         
-          LexicalTransformation ..> TransformationType : type
+          
+    
+    
+    LexicalTransformation --> "0..1" TransformationType : type
+    click TransformationType href "../TransformationType"
+
         
       
 ```
@@ -39,7 +59,7 @@ URI: [mappingrules:LexicalTransformation](https://w3id.org/oak/mapping-rules-dat
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation | direct |
-| [params](params.md) | 0..* <br/> [Any](Any.md) | Any parameters to be applied to the transformation algorithm | direct |
+| [params](params.md) | * <br/> [Any](Any.md) | Any parameters to be applied to the transformation algorithm | direct |
 
 
 
@@ -72,13 +92,14 @@ URI: [mappingrules:LexicalTransformation](https://w3id.org/oak/mapping-rules-dat
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:LexicalTransformation |
 | native | mappingrules:LexicalTransformation |
+
+
 
 
 
@@ -96,7 +117,6 @@ name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 is_a: Activity
 attributes:
   type:
@@ -104,14 +124,18 @@ attributes:
     description: The type of transformation
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - LexicalTransformation
     range: TransformationType
   params:
     name: params
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
+    domain_of:
+    - LexicalTransformation
     range: Any
+    multivalued: true
     inlined: true
     inlined_as_list: true
 
@@ -126,7 +150,6 @@ name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 is_a: Activity
 attributes:
   type:
@@ -144,12 +167,12 @@ attributes:
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: params
     owner: LexicalTransformation
     domain_of:
     - LexicalTransformation
     range: Any
+    multivalued: true
     inlined: true
     inlined_as_list: true
 

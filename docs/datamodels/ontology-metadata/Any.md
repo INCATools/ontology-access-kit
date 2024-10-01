@@ -1,3 +1,5 @@
+
+
 # Class: Any
 
 
@@ -6,9 +8,13 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class Any
+    click Any href "../Any"
       
 ```
 
@@ -73,8 +79,7 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -90,6 +95,8 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -99,8 +106,7 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 <details>
 ```yaml
 name: Any
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 class_uri: linkml:Any
 
 ```
@@ -111,8 +117,7 @@ class_uri: linkml:Any
 <details>
 ```yaml
 name: Any
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 class_uri: linkml:Any
 
 ```

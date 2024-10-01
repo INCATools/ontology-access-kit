@@ -1,5 +1,12 @@
+
+
 # Slot: sub
+
+
 _the subject of an edge_
+
+
+
 
 
 URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
@@ -11,11 +18,13 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Edge](Edge.md) | An edge is a simple typed relationship between two nodes
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Edge](Edge.md) | An edge is a simple typed relationship between two nodes |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -52,6 +59,16 @@ URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:subject |
+| native | obographs:sub |
 
 
 

@@ -1,4 +1,8 @@
+
+
 # Slot: number_of_attempts
+
+
 
 URI: [vm:number_of_attempts](https://w3id.org/linkml/validation-model/number_of_attempts)
 
@@ -9,11 +13,13 @@ URI: [vm:number_of_attempts](https://w3id.org/linkml/validation-model/number_of_
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [vm:number_of_attempts](https://w3id.org/linkml/validation-model/number_of_
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [vm:number_of_attempts](https://w3id.org/linkml/validation-model/number_of_
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:number_of_attempts |
+| native | vm:number_of_attempts |
 
 
 

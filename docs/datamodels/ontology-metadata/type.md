@@ -1,4 +1,8 @@
+
+
 # Slot: type
+
+
 
 URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 
@@ -14,24 +18,26 @@ URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Thing](Thing.md) | 
-[NamedObject](NamedObject.md) | Anything with an IRI
-[Ontology](Ontology.md) | An OWL ontology
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [NamedObject](NamedObject.md) | Anything with an IRI |  no  |
+| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Thing](Thing.md) |  |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -41,10 +47,8 @@ URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 ## Properties
 
 * Range: [Uriorcurie](Uriorcurie.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -61,7 +65,17 @@ URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdf:type |
+| native | omoschema:type |
 
 
 
@@ -71,16 +85,16 @@ URI: [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type)
 <details>
 ```yaml
 name: type
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 slot_uri: rdf:type
-multivalued: true
 designates_type: true
 alias: type
 domain_of:
 - Thing
 range: uriorcurie
+multivalued: true
 
 ```
 </details>

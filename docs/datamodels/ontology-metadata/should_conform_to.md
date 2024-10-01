@@ -1,6 +1,10 @@
+
+
 # Slot: should_conform_to
 
-URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/omo/schema/should_conform_to)
+
+
+URI: [omoschema:should_conform_to](https://w3id.org/oak/ontology-metadata/should_conform_to)
 
 
 
@@ -14,22 +18,24 @@ URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/omo/schema/sho
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasLifeCycle](HasLifeCycle.md) | 
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [HasLifeCycle](HasLifeCycle.md) |  |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -39,8 +45,6 @@ URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/omo/schema/sho
 ## Properties
 
 * Range: [Thing](Thing.md)
-
-
 
 
 
@@ -57,7 +61,17 @@ URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/omo/schema/sho
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:should_conform_to |
+| native | omoschema:should_conform_to |
 
 
 
@@ -67,7 +81,7 @@ URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/omo/schema/sho
 <details>
 ```yaml
 name: should_conform_to
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: excluded_axiom
 alias: should_conform_to

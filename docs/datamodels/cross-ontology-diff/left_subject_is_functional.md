@@ -1,5 +1,12 @@
+
+
 # Slot: left_subject_is_functional
+
+
 _True if a subject mapping is present, and maps uniquely within the same ontology_
+
+
+
 
 
 URI: [xodiff:left_subject_is_functional](https://w3id.org/oak/cross-ontology-diff/left_subject_is_functional)
@@ -15,11 +22,13 @@ URI: [xodiff:left_subject_is_functional](https://w3id.org/oak/cross-ontology-dif
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [RelationalDiff](RelationalDiff.md) | A relational diff expresses the difference between an edge in one ontology, a... |  no  |
+
 
 
 
@@ -29,8 +38,6 @@ URI: [xodiff:left_subject_is_functional](https://w3id.org/oak/cross-ontology-dif
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 
@@ -48,6 +55,16 @@ URI: [xodiff:left_subject_is_functional](https://w3id.org/oak/cross-ontology-dif
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xodiff:left_subject_is_functional |
+| native | xodiff:left_subject_is_functional |
 
 
 

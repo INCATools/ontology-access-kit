@@ -1,4 +1,8 @@
+
+
 # Slot: has_synonym_type
+
+
 
 URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynonymType)
 
@@ -9,11 +13,13 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 ## Properties
 
 * Range: [AnnotationProperty](AnnotationProperty.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -43,7 +47,17 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:hasSynonymType |
+| native | omoschema:has_synonym_type |
 
 
 
@@ -53,14 +67,14 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 <details>
 ```yaml
 name: has_synonym_type
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:hasSynonymType
-multivalued: true
 alias: has_synonym_type
 domain_of:
 - Axiom
 range: AnnotationProperty
+multivalued: true
 
 ```
 </details>

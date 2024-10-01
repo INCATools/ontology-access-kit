@@ -1,18 +1,26 @@
+
+
 # Class: AnonymousClassExpression
 
 
 
-URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/schema/AnonymousClassExpression)
+URI: [omoschema:AnonymousClassExpression](https://w3id.org/oak/ontology-metadata/AnonymousClassExpression)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class AnonymousClassExpression
+    click AnonymousClassExpression href "../AnonymousClassExpression"
       Anonymous <|-- AnonymousClassExpression
+        click Anonymous href "../Anonymous"
       
 
       AnonymousClassExpression <|-- Restriction
+        click Restriction href "../Restriction"
       
       
       
@@ -53,8 +61,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -70,6 +77,8 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -79,8 +88,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/sch
 <details>
 ```yaml
 name: AnonymousClassExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Anonymous
 
 ```
@@ -91,8 +99,7 @@ is_a: Anonymous
 <details>
 ```yaml
 name: AnonymousClassExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Anonymous
 
 ```

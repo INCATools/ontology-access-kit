@@ -1,5 +1,12 @@
+
+
 # Slot: basicPropertyValues
+
+
 _A list of open-ended property values that does not correspond to those predefined in this standard, i.e xref, synonyms, definition_
+
+
+
 
 
 URI: [obographs:basicPropertyValues](https://github.com/geneontology/obographs/basicPropertyValues)
@@ -11,11 +18,13 @@ URI: [obographs:basicPropertyValues](https://github.com/geneontology/obographs/b
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Meta](Meta.md) | A collection of annotations on an entity or ontology or edge or axiom |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [obographs:basicPropertyValues](https://github.com/geneontology/obographs/b
 ## Properties
 
 * Range: [BasicPropertyValue](BasicPropertyValue.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [obographs:basicPropertyValues](https://github.com/geneontology/obographs/b
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:basicPropertyValues |
+| native | obographs:basicPropertyValues |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -59,11 +76,11 @@ description: A list of open-ended property values that does not correspond to th
   predefined in this standard, i.e xref, synonyms, definition
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: basicPropertyValues
 domain_of:
 - Meta
 range: BasicPropertyValue
+multivalued: true
 
 ```
 </details>

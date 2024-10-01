@@ -1,20 +1,31 @@
+
+
 # Class: HasMinimalMetadata
+
+
 _Absolute minimum metadata model_
 
 
 
 
-URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/HasMinimalMetadata)
+
+URI: [omoschema:HasMinimalMetadata](https://w3id.org/oak/ontology-metadata/HasMinimalMetadata)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class HasMinimalMetadata
+    click HasMinimalMetadata href "../HasMinimalMetadata"
       AnnotationPropertyMixin <|-- HasMinimalMetadata
+        click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       
 
       HasMinimalMetadata <|-- Term
+        click Term href "../Term"
       
       
       HasMinimalMetadata : definition
@@ -39,7 +50,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
-| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | direct |
+| [definition](definition.md) | * <br/> [NarrativeText](NarrativeText.md) |  | direct |
 
 
 
@@ -67,8 +78,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -84,6 +94,8 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -94,8 +106,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 ```yaml
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -111,8 +122,7 @@ slots:
 ```yaml
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -126,19 +136,19 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:prefLabel
     rank: 1000
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: false
     alias: label
     owner: HasMinimalMetadata
     domain_of:
     - HasMinimalMetadata
     - Axiom
     range: label type
+    multivalued: false
   definition:
     name: definition
     comments:
@@ -147,18 +157,18 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:definition
     rank: 1000
     is_a: core_property
     slot_uri: IAO:0000115
-    multivalued: true
     alias: definition
     owner: HasMinimalMetadata
     domain_of:
     - HasMinimalMetadata
     range: narrative text
+    multivalued: true
 
 ```
 </details>

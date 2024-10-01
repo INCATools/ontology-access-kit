@@ -1,5 +1,12 @@
+
+
 # Slot: snippet
+
+
 _shows how the field was matched_
+
+
+
 
 
 URI: [ontosearch:snippet](https://w3id.org/oak/search-datamodel/snippet)
@@ -11,11 +18,13 @@ URI: [ontosearch:snippet](https://w3id.org/oak/search-datamodel/snippet)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResult](SearchResult.md) | An individual search result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [ontosearch:snippet](https://w3id.org/oak/search-datamodel/snippet)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [ontosearch:snippet](https://w3id.org/oak/search-datamodel/snippet)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:snippet |
+| native | ontosearch:snippet |
 
 
 

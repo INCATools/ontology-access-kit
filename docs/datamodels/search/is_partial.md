@@ -1,5 +1,12 @@
+
+
 # Slot: is_partial
+
+
 _allows matches where the search term is a subset of the full span_
+
+
+
 
 
 URI: [ontosearch:is_partial](https://w3id.org/oak/search-datamodel/is_partial)
@@ -11,11 +18,13 @@ URI: [ontosearch:is_partial](https://w3id.org/oak/search-datamodel/is_partial)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [ontosearch:is_partial](https://w3id.org/oak/search-datamodel/is_partial)
 ## Properties
 
 * Range: [Boolean](Boolean.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [ontosearch:is_partial](https://w3id.org/oak/search-datamodel/is_partial)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:is_partial |
+| native | ontosearch:is_partial |
 
 
 

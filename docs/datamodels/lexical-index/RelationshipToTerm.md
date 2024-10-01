@@ -1,5 +1,10 @@
+
+
 # Class: RelationshipToTerm
+
+
 _A relationship of an ontology element to a lexical term_
+
 
 
 
@@ -8,16 +13,25 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class RelationshipToTerm
+    click RelationshipToTerm href "../RelationshipToTerm"
       RelationshipToTerm : element
         
       RelationshipToTerm : element_term
         
       RelationshipToTerm : pipeline
         
-          RelationshipToTerm ..> LexicalTransformationPipeline : pipeline
+          
+    
+    
+    RelationshipToTerm --> "*" LexicalTransformationPipeline : pipeline
+    click LexicalTransformationPipeline href "../LexicalTransformationPipeline"
+
         
       RelationshipToTerm : predicate
         
@@ -42,7 +56,7 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 | [element](element.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
 | [element_term](element_term.md) | 0..1 <br/> [String](String.md) | the original term used in the element | direct |
 | [source](source.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
-| [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |  | direct |
+| [pipeline](pipeline.md) | * <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |  | direct |
 | [synonymized](synonymized.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
 
 
@@ -76,13 +90,14 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | ontolexindex:RelationshipToTerm |
 | native | ontolexindex:RelationshipToTerm |
+
+
 
 
 
@@ -99,38 +114,49 @@ URI: [ontolexindex:RelationshipToTerm](https://w3id.org/oak/lexical-index/Relati
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 attributes:
   predicate:
     name: predicate
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   element:
     name: element
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   element_term:
     name: element_term
     description: the original term used in the element
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
   source:
     name: source
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   pipeline:
     name: pipeline
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
+    domain_of:
+    - RelationshipToTerm
     range: LexicalTransformationPipeline
+    multivalued: true
   synonymized:
     name: synonymized
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
+    domain_of:
+    - RelationshipToTerm
     range: boolean
 
 ```
@@ -143,7 +169,6 @@ attributes:
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 attributes:
   predicate:
     name: predicate
@@ -186,12 +211,12 @@ attributes:
     name: pipeline
     from_schema: https://w3id.org/oak/lexical-index
     rank: 1000
-    multivalued: true
     alias: pipeline
     owner: RelationshipToTerm
     domain_of:
     - RelationshipToTerm
     range: LexicalTransformationPipeline
+    multivalued: true
   synonymized:
     name: synonymized
     from_schema: https://w3id.org/oak/lexical-index

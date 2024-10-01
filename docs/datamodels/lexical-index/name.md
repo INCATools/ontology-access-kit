@@ -1,4 +1,8 @@
+
+
 # Slot: name
+
+
 
 URI: [ontolexindex:name](https://w3id.org/oak/lexical-index/name)
 
@@ -9,11 +13,13 @@ URI: [ontolexindex:name](https://w3id.org/oak/lexical-index/name)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas... |  no  |
+
 
 
 
@@ -24,7 +30,7 @@ URI: [ontolexindex:name](https://w3id.org/oak/lexical-index/name)
 
 * Range: [String](String.md)
 
-
+* Required: True
 
 
 
@@ -46,6 +52,16 @@ URI: [ontolexindex:name](https://w3id.org/oak/lexical-index/name)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:name |
+| native | ontolexindex:name |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -59,6 +75,7 @@ owner: LexicalTransformationPipeline
 domain_of:
 - LexicalTransformationPipeline
 range: string
+required: true
 
 ```
 </details>

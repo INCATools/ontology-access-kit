@@ -1,10 +1,13 @@
 # Enum: DiffCategory
 
 
+
+
 _Category of the cross-ontology diff, from the perspective of the left-hand edge_
 
 
-URI: [DiffCategory](DiffCategory)
+
+URI: [DiffCategory](DiffCategory.md)
 
 ## Permissible Values
 
@@ -49,6 +52,8 @@ URI: [DiffCategory](DiffCategory)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
 
 
 

@@ -1,18 +1,26 @@
+
+
 # Class: PropertyExpression
 
 
 
-URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/PropertyExpression)
+URI: [omoschema:PropertyExpression](https://w3id.org/oak/ontology-metadata/PropertyExpression)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class PropertyExpression
+    click PropertyExpression href "../PropertyExpression"
       Expression <|-- PropertyExpression
+        click Expression href "../Expression"
       
 
       PropertyExpression <|-- ObjectProperty
+        click ObjectProperty href "../ObjectProperty"
       
       
       PropertyExpression : disjointWith
@@ -34,7 +42,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [String](String.md) |  | direct |
+| [disjointWith](disjointWith.md) | * <br/> [String](String.md) |  | direct |
 
 
 
@@ -69,8 +77,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -86,6 +93,8 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -95,8 +104,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/Pr
 <details>
 ```yaml
 name: PropertyExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Expression
 mixin: true
 slots:
@@ -110,8 +118,7 @@ slots:
 <details>
 ```yaml
 name: PropertyExpression
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: Expression
 mixin: true
 attributes:
@@ -119,17 +126,17 @@ attributes:
     name: disjointWith
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
-    multivalued: true
     alias: disjointWith
     owner: PropertyExpression
     domain_of:
     - ClassExpression
     - PropertyExpression
     range: string
+    multivalued: true
 
 ```
 </details>

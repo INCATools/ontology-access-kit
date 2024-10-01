@@ -1,4 +1,8 @@
+
+
 # Slot: confidence
+
+
 
 URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 
@@ -9,11 +13,13 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 ## Properties
 
 * Range: [Float](Float.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:confidence |
+| native | ann:confidence |
 
 
 

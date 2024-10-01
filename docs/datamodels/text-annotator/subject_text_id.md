@@ -1,4 +1,8 @@
+
+
 # Slot: subject_text_id
+
+
 
 URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_id)
 
@@ -9,12 +13,14 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasSpan](HasSpan.md) | 
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [HasSpan](HasSpan.md) |  |  no  |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -24,8 +30,6 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 ## Properties
 
 * Range: [TextualElement](TextualElement.md)
-
-
 
 
 
@@ -43,6 +47,16 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:subject_text_id |
+| native | ann:subject_text_id |
 
 
 

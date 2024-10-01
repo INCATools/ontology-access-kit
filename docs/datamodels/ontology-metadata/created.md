@@ -1,5 +1,12 @@
+
+
 # Slot: created
+
+
 _when the term came into being_
+
+
+
 
 
 URI: [dcterms:created](http://purl.org/dc/terms/created)
@@ -16,23 +23,25 @@ URI: [dcterms:created](http://purl.org/dc/terms/created)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasProvenance](HasProvenance.md) | 
-[Ontology](Ontology.md) | An OWL ontology
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Class](Class.md) |  |  no  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Property](Property.md) |  |  no  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [Image](Image.md) |  |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [HasProvenance](HasProvenance.md) |  |  no  |
+| [Ontology](Ontology.md) | An OWL ontology |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+
 
 
 
@@ -42,8 +51,6 @@ URI: [dcterms:created](http://purl.org/dc/terms/created)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -60,7 +67,18 @@ URI: [dcterms:created](http://purl.org/dc/terms/created)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:created |
+| native | omoschema:created |
+| close | pav:createdOn |
 
 
 
@@ -71,18 +89,18 @@ URI: [dcterms:created](http://purl.org/dc/terms/created)
 ```yaml
 name: created
 description: when the term came into being
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 close_mappings:
 - pav:createdOn
 rank: 1000
 is_a: provenance_property
 slot_uri: dcterms:created
-multivalued: false
 alias: created
 domain_of:
 - HasProvenance
 - Ontology
 range: string
+multivalued: false
 
 ```
 </details>

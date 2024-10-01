@@ -1,5 +1,10 @@
+
+
 # Class: TypeSeverityKeyValue
+
+
 _key-value pair that maps a validation result type to a severity setting, for overriding default severity_
+
 
 
 
@@ -8,12 +13,21 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class TypeSeverityKeyValue
+    click TypeSeverityKeyValue href "../TypeSeverityKeyValue"
       TypeSeverityKeyValue : severity
         
-          TypeSeverityKeyValue ..> severity_options : severity
+          
+    
+    
+    TypeSeverityKeyValue --> "0..1" SeverityOptions : severity
+    click SeverityOptions href "../SeverityOptions"
+
         
       TypeSeverityKeyValue : type
         
@@ -30,8 +44,8 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | direct |
-| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | direct |
+| [type](type.md) | 0..1 <br/> [Uriorcurie](Uriorcurie.md) |  | direct |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) |  | direct |
 
 
 
@@ -64,13 +78,14 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | vm:TypeSeverityKeyValue |
 | native | vm:TypeSeverityKeyValue |
+
+
 
 
 
@@ -89,16 +104,22 @@ conforms_to: wikidata:Q4818718
 description: key-value pair that maps a validation result type to a severity setting,
   for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   type:
     name: type
     from_schema: https://w3id.org/linkml/validation_results
     key: true
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: uriorcurie
+    required: true
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: severity_options
 
 ```
@@ -113,7 +134,6 @@ conforms_to: wikidata:Q4818718
 description: key-value pair that maps a validation result type to a severity setting,
   for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
-rank: 1000
 attributes:
   type:
     name: type
@@ -125,6 +145,7 @@ attributes:
     - TypeSeverityKeyValue
     - ValidationResult
     range: uriorcurie
+    required: true
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results

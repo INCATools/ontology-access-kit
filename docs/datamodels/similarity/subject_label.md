@@ -1,5 +1,12 @@
+
+
 # Slot: subject_label
+
+
 _the label or name for the first entity_
+
+
+
 
 
 URI: [sssom:subject_label](http://w3id.org/sssom/subject_label)
@@ -11,11 +18,13 @@ URI: [sssom:subject_label](http://w3id.org/sssom/subject_label)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [sssom:subject_label](http://w3id.org/sssom/subject_label)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [sssom:subject_label](http://w3id.org/sssom/subject_label)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:subject_label |
+| native | sim:subject_label |
 
 
 

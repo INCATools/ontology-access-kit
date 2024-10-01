@@ -18,7 +18,7 @@ URI: [obographs:PropertyValue](https://github.com/geneontology/obographs/Propert
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class PropertyValue
     click PropertyValue href "../PropertyValue"

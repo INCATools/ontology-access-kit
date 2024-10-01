@@ -1,7 +1,10 @@
 # Type: Double
 
 
+
+
 _A real number that conforms to the xsd:double specification_
+
 
 
 URI: [xsd:double](http://www.w3.org/2001/XMLSchema#double)
@@ -29,7 +32,18 @@ URI: [xsd:double](http://www.w3.org/2001/XMLSchema#double)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:double |
+| native | omoschema:double |
+| close | schema:Float |
 
 
 

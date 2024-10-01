@@ -1,5 +1,12 @@
+
+
 # Slot: propertyId
+
+
 _in an OWL restriction expression, this is the predicate_
+
+
+
 
 
 URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId)
@@ -11,11 +18,13 @@ URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [obographs:propertyId](https://github.com/geneontology/obographs/propertyId
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:propertyId |
+| native | obographs:propertyId |
 
 
 

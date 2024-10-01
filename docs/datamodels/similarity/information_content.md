@@ -1,5 +1,14 @@
+
+
 # Slot: information_content
+
+
 _The IC is the negative log of the probability of the concept_
+
+
+
+
+* __NOTE__: this is an abstract slot and should not be populated directly
 
 
 URI: [sim:information_content](https://w3id.org/linkml/similarity/information_content)
@@ -21,11 +30,11 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
 
 
 
+
+
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
-
-
 
 
 
@@ -48,6 +57,16 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:information_content |
+| native | sim:information_content |
 
 
 

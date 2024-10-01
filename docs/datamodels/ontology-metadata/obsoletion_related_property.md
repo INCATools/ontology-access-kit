@@ -1,8 +1,17 @@
+
+
 # Slot: obsoletion_related_property
+
+
 _Grouping class for all properties related to lifecycle_
 
 
-URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/omo/schema/obsoletion_related_property)
+
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
+URI: [omoschema:obsoletion_related_property](https://w3id.org/oak/ontology-metadata/obsoletion_related_property)
 
 
 
@@ -22,11 +31,11 @@ URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/omo/
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -43,7 +52,17 @@ URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/omo/
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:obsoletion_related_property |
+| native | omoschema:obsoletion_related_property |
 
 
 
@@ -54,7 +73,7 @@ URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/omo/
 ```yaml
 name: obsoletion_related_property
 description: Grouping class for all properties related to lifecycle
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: obsoletion_related_property

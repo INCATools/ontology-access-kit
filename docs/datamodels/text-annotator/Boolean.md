@@ -1,7 +1,10 @@
 # Type: Boolean
 
 
+
+
 _A binary (true or false) value_
+
 
 
 URI: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
@@ -31,6 +34,17 @@ URI: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:boolean |
+| native | ann:boolean |
+| exact | schema:Boolean |
 
 
 

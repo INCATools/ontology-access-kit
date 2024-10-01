@@ -16,7 +16,7 @@ URI: [obographs:DefinitionPropertyValue](https://github.com/geneontology/obograp
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class DefinitionPropertyValue
     click DefinitionPropertyValue href "../DefinitionPropertyValue"
@@ -127,8 +127,6 @@ slot_usage:
   val:
     name: val
     description: The textual string representing the definition.
-    domain_of:
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -137,9 +135,6 @@ slot_usage:
       that contributed to the text of the definition, external publications, websites,
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
-    domain_of:
-    - Meta
-    - PropertyValue
     role: supporting identifiers
 
 ```
@@ -158,8 +153,6 @@ slot_usage:
   val:
     name: val
     description: The textual string representing the definition.
-    domain_of:
-    - PropertyValue
     role: definition text
   xrefs:
     name: xrefs
@@ -168,9 +161,6 @@ slot_usage:
       that contributed to the text of the definition, external publications, websites,
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
-    domain_of:
-    - Meta
-    - PropertyValue
     role: supporting identifiers
 attributes:
   pred:
@@ -191,6 +181,8 @@ attributes:
     name: val
     description: The textual string representing the definition.
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - value
     rank: 1000
     slot_uri: rdf:object
     alias: val
@@ -207,6 +199,10 @@ attributes:
       or links to supporting information, or external vocabulary entities that played
       a contributing role in the definition.
     from_schema: https://github.com/geneontology/obographs
+    exact_mappings:
+    - oio:hasDbXref
+    close_mappings:
+    - rdfs:seeAlso
     rank: 1000
     alias: xrefs
     owner: DefinitionPropertyValue

@@ -1,4 +1,8 @@
+
+
 # Slot: NCIT_term_type
+
+
 
 URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 
@@ -11,11 +15,11 @@ URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -32,7 +36,17 @@ URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | NCIT:P383 |
+| native | omoschema:NCIT_term_type |
 
 
 
@@ -43,7 +57,7 @@ URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 ```yaml
 name: NCIT_term_type
 deprecated: use OMO over NCIT
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 deprecated_element_has_exact_replacement: category
 rank: 1000
 slot_uri: NCIT:P383

@@ -1,4 +1,8 @@
+
+
 # Slot: info
+
+
 
 URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 
@@ -9,11 +13,13 @@ URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[TextAnnotation](TextAnnotation.md) | An individual text annotation
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [ann:info](https://w3id.org/linkml/text_annotator/info)
 
 
 * from schema: https://w3id.org/oak/text_annotator
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ann:info |
+| native | ann:info |
 
 
 

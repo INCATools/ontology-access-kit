@@ -16,7 +16,7 @@ URI: [obographs:BasicPropertyValue](https://github.com/geneontology/obographs/Ba
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class BasicPropertyValue
     click BasicPropertyValue href "../BasicPropertyValue"

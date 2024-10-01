@@ -1,4 +1,8 @@
+
+
 # Slot: label
+
+
 
 URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
@@ -14,23 +18,25 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model
-[Axiom](Axiom.md) | A logical or non-logical statement
-[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | 
-[Property](Property.md) | 
-[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
-[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
-[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
-[HomoSapiens](HomoSapiens.md) | An individual human being
-[Agent](Agent.md) | 
-[Image](Image.md) | 
-[Subset](Subset.md) | A collection of terms grouped for some purpose
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+| [Class](Class.md) |  |  yes  |
+| [HomoSapiens](HomoSapiens.md) | An individual human being |  no  |
+| [Agent](Agent.md) |  |  no  |
+| [Property](Property.md) |  |  yes  |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |  no  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |  no  |
+| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model |  no  |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |  no  |
+| [Image](Image.md) |  |  no  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |  no  |
+| [Subset](Subset.md) | A collection of terms grouped for some purpose |  no  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |  no  |
+
 
 
 
@@ -40,8 +46,6 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ## Properties
 
 * Range: [LabelType](LabelType.md)
-
-
 
 
 
@@ -64,7 +68,18 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | rdfs:label |
+| native | omoschema:label |
+| exact | skos:prefLabel |
 
 
 
@@ -82,18 +97,18 @@ in_subset:
 - allotrope required profile
 - go required profile
 - obi required profile
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - skos:prefLabel
 rank: 1000
 is_a: core_property
 slot_uri: rdfs:label
-multivalued: false
 alias: label
 domain_of:
 - HasMinimalMetadata
 - Axiom
 range: label type
+multivalued: false
 
 ```
 </details>

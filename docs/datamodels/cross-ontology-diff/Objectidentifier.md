@@ -1,7 +1,10 @@
 # Type: Objectidentifier
 
 
+
+
 _A URI or CURIE that represents an object in the model._
+
 
 
 URI: [shex:iri](http://www.w3.org/ns/shex#iri)
@@ -35,6 +38,16 @@ URI: [shex:iri](http://www.w3.org/ns/shex#iri)
 
 
 * from schema: https://w3id.org/oak/cross-ontology-diff
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | shex:iri |
+| native | xodiff:objectidentifier |
 
 
 

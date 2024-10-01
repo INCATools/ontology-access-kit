@@ -1,5 +1,12 @@
+
+
 # Slot: object_label
+
+
 _The label/name of the matched term_
+
+
+
 
 
 URI: [sssom:object_label](http://w3id.org/sssom/object_label)
@@ -11,11 +18,13 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResult](SearchResult.md) | An individual search result
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchResult](SearchResult.md) | An individual search result |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 ## Properties
 
 * Range: [String](String.md)
+
 * Recommended: True
-
-
-
 
 
 
@@ -46,6 +53,16 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sssom:object_label |
+| native | ontosearch:object_label |
 
 
 

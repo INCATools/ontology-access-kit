@@ -1,7 +1,10 @@
 # Type: Datetime
 
 
+
+
 _The combination of a date and time_
+
 
 
 URI: [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime)
@@ -31,6 +34,17 @@ URI: [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:dateTime |
+| native | obographs:datetime |
+| exact | schema:DateTime |
 
 
 

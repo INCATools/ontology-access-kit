@@ -1,5 +1,12 @@
+
+
 # Slot: pipelines
+
+
 _all pipelines used to build the index_
+
+
+
 
 
 URI: [ontolexindex:pipelines](https://w3id.org/oak/lexical-index/pipelines)
@@ -11,11 +18,13 @@ URI: [ontolexindex:pipelines](https://w3id.org/oak/lexical-index/pipelines)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [ontolexindex:pipelines](https://w3id.org/oak/lexical-index/pipelines)
 ## Properties
 
 * Range: [LexicalTransformationPipeline](LexicalTransformationPipeline.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -50,6 +57,16 @@ URI: [ontolexindex:pipelines](https://w3id.org/oak/lexical-index/pipelines)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:pipelines |
+| native | ontolexindex:pipelines |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -58,12 +75,12 @@ name: pipelines
 description: all pipelines used to build the index
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-multivalued: true
 alias: pipelines
 owner: LexicalIndex
 domain_of:
 - LexicalIndex
 range: LexicalTransformationPipeline
+multivalued: true
 inlined: true
 
 ```

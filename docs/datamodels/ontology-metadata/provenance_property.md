@@ -1,6 +1,12 @@
+
+
 # Slot: provenance_property
 
-URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/omo/schema/provenance_property)
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
+URI: [omoschema:provenance_property](https://w3id.org/oak/ontology-metadata/provenance_property)
 
 
 
@@ -31,11 +37,11 @@ URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/omo/schema/p
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -52,7 +58,17 @@ URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/omo/schema/p
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:provenance_property |
+| native | omoschema:provenance_property |
 
 
 
@@ -62,7 +78,7 @@ URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/omo/schema/p
 <details>
 ```yaml
 name: provenance_property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: provenance_property

@@ -2,7 +2,7 @@
 
 
 
-URI: [SeverityOptions](SeverityOptions)
+URI: [SeverityOptions](SeverityOptions.md)
 
 ## Permissible Values
 
@@ -39,6 +39,8 @@ URI: [SeverityOptions](SeverityOptions)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
 
 
 

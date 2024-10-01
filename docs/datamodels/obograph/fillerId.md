@@ -1,5 +1,12 @@
+
+
 # Slot: fillerId
+
+
 _in an OWL restriction expression, the filler is the object of the restriction_
+
+
+
 
 
 URI: [obographs:fillerId](https://github.com/geneontology/obographs/fillerId)
@@ -11,11 +18,13 @@ URI: [obographs:fillerId](https://github.com/geneontology/obographs/fillerId)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [obographs:fillerId](https://github.com/geneontology/obographs/fillerId)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -49,6 +56,16 @@ URI: [obographs:fillerId](https://github.com/geneontology/obographs/fillerId)
 
 
 * from schema: https://github.com/geneontology/obographs
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:fillerId |
+| native | obographs:fillerId |
 
 
 

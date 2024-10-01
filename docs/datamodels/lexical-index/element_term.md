@@ -1,5 +1,12 @@
+
+
 # Slot: element_term
+
+
 _the original term used in the element_
+
+
+
 
 
 URI: [ontolexindex:element_term](https://w3id.org/oak/lexical-index/element_term)
@@ -11,11 +18,13 @@ URI: [ontolexindex:element_term](https://w3id.org/oak/lexical-index/element_term
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [ontolexindex:element_term](https://w3id.org/oak/lexical-index/element_term
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [ontolexindex:element_term](https://w3id.org/oak/lexical-index/element_term
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:element_term |
+| native | ontolexindex:element_term |
 
 
 

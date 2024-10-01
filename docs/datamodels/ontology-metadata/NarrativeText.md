@@ -1,7 +1,10 @@
 # Type: NarrativeText
 
 
+
+
 _A string that provides a human-readable description of something_
+
 
 
 URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
@@ -30,7 +33,17 @@ URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:narrative_text |
+| native | omoschema:narrative_text |
 
 
 

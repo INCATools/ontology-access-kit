@@ -1,7 +1,10 @@
 # Type: Float
 
 
+
+
 _A real number that conforms to the xsd:float specification_
+
 
 
 URI: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
@@ -29,7 +32,18 @@ URI: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:float |
+| native | omoschema:float |
+| exact | schema:Float |
 
 
 

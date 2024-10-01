@@ -1,4 +1,8 @@
+
+
 # Slot: similarity
+
+
 
 URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
@@ -9,11 +13,13 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[BestMatch](BestMatch.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [BestMatch](BestMatch.md) |  |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 ## Properties
 
 * Range: [TermPairwiseSimilarity](TermPairwiseSimilarity.md)
+
 * Required: True
-
-
-
 
 
 
@@ -44,6 +48,16 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
 
 * from schema: https://w3id.org/oak/similarity
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | sim:similarity |
+| native | sim:similarity |
 
 
 

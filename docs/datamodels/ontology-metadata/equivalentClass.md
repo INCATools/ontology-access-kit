@@ -1,4 +1,8 @@
+
+
 # Slot: equivalentClass
+
+
 
 URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
@@ -14,13 +18,15 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ClassExpression](ClassExpression.md) | 
-[Class](Class.md) | 
-[Restriction](Restriction.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Restriction](Restriction.md) |  |  no  |
+| [ClassExpression](ClassExpression.md) |  |  no  |
+| [Class](Class.md) |  |  no  |
+
 
 
 
@@ -30,10 +36,8 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -54,7 +58,17 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:equivalentClass |
+| native | omoschema:equivalentClass |
 
 
 
@@ -66,17 +80,17 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 name: equivalentClass
 todos:
 - restrict range
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: logical_predicate
 mixins:
 - match_aspect
 slot_uri: owl:equivalentClass
-multivalued: true
 alias: equivalentClass
 domain_of:
 - ClassExpression
 range: ClassExpression
+multivalued: true
 
 ```
 </details>

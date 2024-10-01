@@ -1,7 +1,10 @@
 # Type: Nodeidentifier
 
 
+
+
 _A URI, CURIE or BNODE that represents a node in a model._
+
 
 
 URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
@@ -30,7 +33,17 @@ URI: [shex:nonLiteral](http://www.w3.org/ns/shex#nonLiteral)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | shex:nonLiteral |
+| native | omoschema:nodeidentifier |
 
 
 

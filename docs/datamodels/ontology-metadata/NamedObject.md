@@ -1,21 +1,33 @@
+
+
 # Class: NamedObject
+
+
 _Anything with an IRI_
 
 
 
 
-URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObject)
+
+URI: [omoschema:NamedObject](https://w3id.org/oak/ontology-metadata/NamedObject)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class NamedObject
+    click NamedObject href "../NamedObject"
       Thing <|-- NamedObject
+        click Thing href "../Thing"
       
 
       NamedObject <|-- Ontology
+        click Ontology href "../Ontology"
       NamedObject <|-- Term
+        click Term href "../Term"
       
       
       NamedObject : id
@@ -41,8 +53,8 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [Uriorcurie](Uriorcurie.md) | this maps to the URI in RDF | direct |
-| [type](type.md) | 0..* <br/> [Uriorcurie](Uriorcurie.md) |  | [Thing](Thing.md) |
+| [id](id.md) | 1 <br/> [Uriorcurie](Uriorcurie.md) | this maps to the URI in RDF | direct |
+| [type](type.md) | * <br/> [Uriorcurie](Uriorcurie.md) |  | [Thing](Thing.md) |
 
 
 
@@ -77,8 +89,7 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -94,6 +105,8 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -104,12 +117,11 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 ```yaml
 name: NamedObject
 description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 aliases:
 - named entity
 - identified object
 - IRI
-rank: 1000
 is_a: Thing
 slots:
 - id
@@ -123,18 +135,17 @@ slots:
 ```yaml
 name: NamedObject
 description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 aliases:
 - named entity
 - identified object
 - IRI
-rank: 1000
 is_a: Thing
 attributes:
   id:
     name: id
     description: this maps to the URI in RDF
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: core_property
     identifier: true
@@ -146,17 +157,17 @@ attributes:
     required: true
   type:
     name: type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type
-    multivalued: true
     designates_type: true
     alias: type
     owner: NamedObject
     domain_of:
     - Thing
     range: uriorcurie
+    multivalued: true
 
 ```
 </details>

@@ -1,19 +1,29 @@
+
+
 # Class: Anonymous
+
+
 _Abstract root class for all anonymous (non-named; lacking an identifier) expressions_
+
 
 
 
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
+URI: [omoschema:Anonymous](https://w3id.org/oak/ontology-metadata/Anonymous)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class Anonymous
+    click Anonymous href "../Anonymous"
       Anonymous <|-- AnonymousClassExpression
+        click AnonymousClassExpression href "../AnonymousClassExpression"
       
       
 ```
@@ -52,8 +62,7 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -64,6 +73,8 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
 | ---  | ---  |
 | self | omoschema:Anonymous |
 | native | omoschema:Anonymous |
+
+
 
 
 
@@ -80,8 +91,7 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
 name: Anonymous
 description: Abstract root class for all anonymous (non-named; lacking an identifier)
   expressions
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 abstract: true
 
 ```
@@ -94,8 +104,7 @@ abstract: true
 name: Anonymous
 description: Abstract root class for all anonymous (non-named; lacking an identifier)
   expressions
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 abstract: true
 
 ```

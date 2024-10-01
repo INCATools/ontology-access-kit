@@ -1,7 +1,10 @@
 # Type: Date
 
 
+
+
 _a date (year, month and day) in an idealized calendar_
+
 
 
 URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
@@ -31,6 +34,17 @@ URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:date |
+| native | vm:date |
+| exact | schema:Date |
 
 
 

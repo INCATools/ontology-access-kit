@@ -1,4 +1,10 @@
+
+
 # Slot: synonym
+
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
 
 URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 
@@ -19,13 +25,13 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 
 
 
+
+
 ## Properties
 
 * Range: [LabelType](LabelType.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -42,7 +48,17 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | OIO:hasSynonym |
+| native | omoschema:synonym |
 
 
 
@@ -52,14 +68,14 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 <details>
 ```yaml
 name: synonym
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 is_a: alternative_term
 abstract: true
 slot_uri: OIO:hasSynonym
-multivalued: true
 alias: synonym
 range: label type
+multivalued: true
 
 ```
 </details>

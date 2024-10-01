@@ -1,4 +1,8 @@
+
+
 # Slot: nodeIds
+
+
 
 URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
@@ -9,11 +13,13 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -48,6 +52,16 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:nodeIds |
+| native | obographs:nodeIds |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -55,11 +69,11 @@ URI: [obographs:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 name: nodeIds
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: nodeIds
 domain_of:
 - EquivalentNodesSet
 range: string
+multivalued: true
 
 ```
 </details>

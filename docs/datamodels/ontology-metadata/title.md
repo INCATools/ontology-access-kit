@@ -1,4 +1,8 @@
+
+
 # Slot: title
+
+
 
 URI: [dcterms:title](http://purl.org/dc/terms/title)
 
@@ -9,11 +13,13 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Ontology](Ontology.md) | An OWL ontology
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Ontology](Ontology.md) | An OWL ontology |  yes  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 ## Properties
 
 * Range: [NarrativeText](NarrativeText.md)
-
-
 
 
 
@@ -41,7 +45,17 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | dcterms:title |
+| native | omoschema:title |
 
 
 
@@ -51,7 +65,7 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 <details>
 ```yaml
 name: title
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: dcterms:title
 alias: title

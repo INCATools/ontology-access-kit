@@ -1,4 +1,8 @@
+
+
 # Slot: external_ontology
+
+
 
 URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#external_ontology)
 
@@ -9,11 +13,13 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 ## Properties
 
 * Range: [String](String.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -43,7 +47,17 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:external_ontology |
+| native | omoschema:external_ontology |
 
 
 
@@ -54,14 +68,14 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 ```yaml
 name: external_ontology
 deprecated: deprecated oboInOwl property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:external_ontology
-multivalued: true
 alias: external_ontology
 domain_of:
 - Axiom
 range: string
+multivalued: true
 
 ```
 </details>

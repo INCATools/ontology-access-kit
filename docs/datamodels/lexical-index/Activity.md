@@ -1,5 +1,10 @@
+
+
 # Class: Activity
+
+
 _Generic grouping for any lexical operation_
+
 
 
 
@@ -10,11 +15,17 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class Activity
+    click Activity href "../Activity"
       Activity <|-- LexicalTransformationPipeline
+        click LexicalTransformationPipeline href "../LexicalTransformationPipeline"
       Activity <|-- LexicalTransformation
+        click LexicalTransformation href "../LexicalTransformation"
       
       
 ```
@@ -59,13 +70,14 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | prov:Activity |
 | native | ontolexindex:Activity |
+
+
 
 
 
@@ -82,7 +94,6 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 name: Activity
 description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 abstract: true
 class_uri: prov:Activity
 
@@ -96,7 +107,6 @@ class_uri: prov:Activity
 name: Activity
 description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/oak/lexical-index
-rank: 1000
 abstract: true
 class_uri: prov:Activity
 

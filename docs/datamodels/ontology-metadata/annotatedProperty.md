@@ -1,4 +1,8 @@
+
+
 # Slot: annotatedProperty
+
+
 
 URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 
@@ -14,11 +18,13 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -28,8 +34,6 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 ## Properties
 
 * Range: [AnnotationProperty](AnnotationProperty.md)
-
-
 
 
 
@@ -46,7 +50,18 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | owl:annotatedProperty |
+| native | omoschema:annotatedProperty |
+| exact | rdf:predicate |
 
 
 
@@ -56,7 +71,7 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 <details>
 ```yaml
 name: annotatedProperty
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - rdf:predicate
 rank: 1000

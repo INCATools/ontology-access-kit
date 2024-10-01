@@ -1,4 +1,8 @@
+
+
 # Slot: evidence
+
+
 
 URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 
@@ -9,11 +13,13 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Axiom](Axiom.md) | A logical or non-logical statement
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Axiom](Axiom.md) | A logical or non-logical statement |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -41,7 +45,17 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | oio:evidence |
+| native | omoschema:evidence |
 
 
 
@@ -52,7 +66,7 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 ```yaml
 name: evidence
 deprecated: deprecated oboInOwl property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 slot_uri: oio:evidence
 alias: evidence

@@ -1,6 +1,12 @@
+
+
 # Slot: informative_property
 
-URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/omo/schema/informative_property)
+
+* __NOTE__: this is an abstract slot and should not be populated directly
+
+
+URI: [omoschema:informative_property](https://w3id.org/oak/ontology-metadata/informative_property)
 
 
 
@@ -28,11 +34,11 @@ URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/omo/schema/
 
 
 
+
+
 ## Properties
 
 * Range: [String](String.md)
-
-
 
 
 
@@ -49,7 +55,17 @@ URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/omo/schema/
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
+* from schema: https://w3id.org/oak/ontology-metadata
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | omoschema:informative_property |
+| native | omoschema:informative_property |
 
 
 
@@ -59,7 +75,7 @@ URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/omo/schema/
 <details>
 ```yaml
 name: informative_property
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 rank: 1000
 abstract: true
 alias: informative_property

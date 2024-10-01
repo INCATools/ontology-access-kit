@@ -16,7 +16,7 @@ URI: [obographs:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Edge
     click Edge href "../Edge"

@@ -1,5 +1,10 @@
+
+
 # Class: MappingRule
+
+
 _An individual mapping rule, if preconditions match the postconditions are applied_
+
 
 
 
@@ -8,24 +13,43 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class MappingRule
+    click MappingRule href "../MappingRule"
       MappingRule : description
         
       MappingRule : oneway
         
       MappingRule : postconditions
         
-          MappingRule ..> Postcondition : postconditions
+          
+    
+    
+    MappingRule --> "0..1" Postcondition : postconditions
+    click Postcondition href "../Postcondition"
+
         
       MappingRule : preconditions
         
-          MappingRule ..> Precondition : preconditions
+          
+    
+    
+    MappingRule --> "0..1" Precondition : preconditions
+    click Precondition href "../Precondition"
+
         
       MappingRule : synonymizer
         
-          MappingRule ..> Synonymizer : synonymizer
+          
+    
+    
+    MappingRule --> "0..1" Synonymizer : synonymizer
+    click Synonymizer href "../Synonymizer"
+
         
       
 ```
@@ -77,13 +101,14 @@ URI: [mappingrules:MappingRule](https://w3id.org/oak/mapping-rules-datamodel/Map
 
 
 
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | mappingrules:MappingRule |
 | native | mappingrules:MappingRule |
+
+
 
 
 
@@ -101,18 +126,22 @@ name: MappingRule
 description: An individual mapping rule, if preconditions match the postconditions
   are applied
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   description:
     name: description
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
+    - Synonymizer
   oneway:
     name: oneway
     description: if true then subject and object can be switched and predicate inverted
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     ifabsent: 'False'
+    domain_of:
+    - MappingRule
     range: boolean
   preconditions:
     name: preconditions
@@ -120,18 +149,24 @@ attributes:
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
     slot_uri: sh:condition
+    domain_of:
+    - MappingRule
     range: Precondition
   postconditions:
     name: postconditions
     description: conditions that apply if preconditions match
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
     range: Postcondition
   synonymizer:
     name: synonymizer
     description: Normalizing rules to labels.
     from_schema: https://w3id.org/oak/mapping-rules-datamodel
     rank: 1000
+    domain_of:
+    - MappingRule
     range: Synonymizer
 
 ```
@@ -145,7 +180,6 @@ name: MappingRule
 description: An individual mapping rule, if preconditions match the postconditions
   are applied
 from_schema: https://w3id.org/oak/mapping-rules-datamodel
-rank: 1000
 attributes:
   description:
     name: description
@@ -155,6 +189,7 @@ attributes:
     owner: MappingRule
     domain_of:
     - MappingRule
+    - Synonymizer
     range: string
   oneway:
     name: oneway

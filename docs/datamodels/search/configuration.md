@@ -1,4 +1,8 @@
+
+
 # Slot: configuration
+
+
 
 URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configuration)
 
@@ -9,11 +13,13 @@ URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configurat
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[SearchResultSet](SearchResultSet.md) | 
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [SearchResultSet](SearchResultSet.md) |  |  no  |
+
 
 
 
@@ -23,8 +29,6 @@ URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configurat
 ## Properties
 
 * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
-
-
 
 
 
@@ -42,6 +46,16 @@ URI: [ontosearch:configuration](https://w3id.org/oak/search-datamodel/configurat
 
 
 * from schema: https://w3id.org/oak/search-datamodel
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontosearch:configuration |
+| native | ontosearch:configuration |
 
 
 

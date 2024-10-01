@@ -1,37 +1,65 @@
+
+
 # Class: HasMappings
 
 
 
-URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappings)
+URI: [omoschema:HasMappings](https://w3id.org/oak/ontology-metadata/HasMappings)
+
+
+
 
 
 
 ```{mermaid}
  classDiagram
     class HasMappings
+    click HasMappings href "../HasMappings"
       AnnotationPropertyMixin <|-- HasMappings
+        click AnnotationPropertyMixin href "../AnnotationPropertyMixin"
       
 
       HasMappings <|-- Term
+        click Term href "../Term"
       
       
       HasMappings : broadMatch
         
-          HasMappings ..> Thing : broadMatch
+          
+    
+    
+    HasMappings --> "*" Thing : broadMatch
+    click Thing href "../Thing"
+
         
       HasMappings : closeMatch
         
-          HasMappings ..> Thing : closeMatch
+          
+    
+    
+    HasMappings --> "*" Thing : closeMatch
+    click Thing href "../Thing"
+
         
       HasMappings : database_cross_reference
         
       HasMappings : exactMatch
         
-          HasMappings ..> Thing : exactMatch
+          
+    
+    
+    HasMappings --> "*" Thing : exactMatch
+    click Thing href "../Thing"
+
         
       HasMappings : narrowMatch
         
-          HasMappings ..> Thing : narrowMatch
+          
+    
+    
+    HasMappings --> "*" Thing : narrowMatch
+    click Thing href "../Thing"
+
         
       
 ```
@@ -50,11 +78,11 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [broadMatch](broadMatch.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
-| [closeMatch](closeMatch.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
-| [exactMatch](exactMatch.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
-| [narrowMatch](narrowMatch.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
-| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) |  | direct |
+| [broadMatch](broadMatch.md) | * <br/> [Thing](Thing.md) |  | direct |
+| [closeMatch](closeMatch.md) | * <br/> [Thing](Thing.md) |  | direct |
+| [exactMatch](exactMatch.md) | * <br/> [Thing](Thing.md) |  | direct |
+| [narrowMatch](narrowMatch.md) | * <br/> [Thing](Thing.md) |  | direct |
+| [database_cross_reference](database_cross_reference.md) | * <br/> [CURIELiteral](CURIELiteral.md) |  | direct |
 
 
 
@@ -82,8 +110,7 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -99,6 +126,8 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -108,8 +137,7 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/omo/schema/HasMappin
 <details>
 ```yaml
 name: HasMappings
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -127,72 +155,71 @@ slots:
 <details>
 ```yaml
 name: HasMappings
-from_schema: http://purl.obolibrary.org/obo/omo/schema
-rank: 1000
+from_schema: https://w3id.org/oak/ontology-metadata
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
   broadMatch:
     name: broadMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:broadMatch
-    multivalued: true
     alias: broadMatch
     owner: HasMappings
     domain_of:
     - HasMappings
     range: Thing
+    multivalued: true
   closeMatch:
     name: closeMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:closeMatch
-    multivalued: true
     alias: closeMatch
     owner: HasMappings
     domain_of:
     - HasMappings
     range: Thing
+    multivalued: true
   exactMatch:
     name: exactMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:exactMatch
-    multivalued: true
     alias: exactMatch
     owner: HasMappings
     domain_of:
     - HasMappings
     range: Thing
+    multivalued: true
   narrowMatch:
     name: narrowMatch
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: skos:narrowMatch
-    multivalued: true
     alias: narrowMatch
     owner: HasMappings
     domain_of:
     - HasMappings
     range: Thing
+    multivalued: true
   database_cross_reference:
     name: database_cross_reference
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: match
     slot_uri: oio:hasDbXref
-    multivalued: true
     alias: database_cross_reference
     owner: HasMappings
     domain_of:
     - HasMappings
     - Axiom
     range: CURIELiteral
+    multivalued: true
 
 ```
 </details>

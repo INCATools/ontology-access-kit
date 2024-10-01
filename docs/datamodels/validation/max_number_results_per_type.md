@@ -1,5 +1,12 @@
+
+
 # Slot: max_number_results_per_type
+
+
 _if set then truncate results such that no more than this number of results are reported per type_
+
+
+
 
 
 URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/max_number_results_per_type)
@@ -11,11 +18,13 @@ URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/m
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report |  no  |
+
 
 
 
@@ -25,8 +34,6 @@ URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/m
 ## Properties
 
 * Range: [Integer](Integer.md)
-
-
 
 
 
@@ -44,6 +51,16 @@ URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/m
 
 
 * from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | vm:max_number_results_per_type |
+| native | vm:max_number_results_per_type |
 
 
 

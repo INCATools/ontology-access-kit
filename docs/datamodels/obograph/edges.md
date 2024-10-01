@@ -1,5 +1,12 @@
+
+
 # Slot: edges
+
+
 _All edges present in a graph._
+
+
+
 
 
 URI: [obographs:edges](https://github.com/geneontology/obographs/edges)
@@ -11,11 +18,13 @@ URI: [obographs:edges](https://github.com/geneontology/obographs/edges)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a...
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Graph](Graph.md) | A graph is a collection of nodes and edges and other axioms that represents a... |  no  |
+
 
 
 
@@ -25,10 +34,8 @@ URI: [obographs:edges](https://github.com/geneontology/obographs/edges)
 ## Properties
 
 * Range: [Edge](Edge.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -54,6 +61,16 @@ URI: [obographs:edges](https://github.com/geneontology/obographs/edges)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | obographs:edges |
+| native | obographs:edges |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -66,11 +83,11 @@ comments:
   existential axiom (d) ObjectPropertyAssertions
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-multivalued: true
 alias: edges
 domain_of:
 - Graph
 range: Edge
+multivalued: true
 inlined: true
 inlined_as_list: true
 

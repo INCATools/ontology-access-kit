@@ -1,4 +1,8 @@
+
+
 # Slot: pipeline
+
+
 
 URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 
@@ -9,11 +13,13 @@ URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 
 
 
+
 ## Applicable Classes
 
-| Name | Description |
-| --- | --- |
-[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |  no  |
+
 
 
 
@@ -23,10 +29,8 @@ URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 ## Properties
 
 * Range: [LexicalTransformationPipeline](LexicalTransformationPipeline.md)
+
 * Multivalued: True
-
-
-
 
 
 
@@ -48,6 +52,16 @@ URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 
 
 
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ontolexindex:pipeline |
+| native | ontolexindex:pipeline |
+
+
+
+
 ## LinkML Source
 
 <details>
@@ -55,12 +69,12 @@ URI: [ontolexindex:pipeline](https://w3id.org/oak/lexical-index/pipeline)
 name: pipeline
 from_schema: https://w3id.org/oak/lexical-index
 rank: 1000
-multivalued: true
 alias: pipeline
 owner: RelationshipToTerm
 domain_of:
 - RelationshipToTerm
 range: LexicalTransformationPipeline
+multivalued: true
 
 ```
 </details>

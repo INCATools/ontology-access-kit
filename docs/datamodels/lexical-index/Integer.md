@@ -1,7 +1,10 @@
 # Type: Integer
 
 
+
+
 _An integer_
+
 
 
 URI: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
@@ -30,6 +33,17 @@ URI: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 * from schema: https://w3id.org/oak/lexical-index
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | xsd:integer |
+| native | ontolexindex:integer |
+| exact | schema:Integer |
 
 
 

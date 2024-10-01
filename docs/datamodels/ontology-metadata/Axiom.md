@@ -1,5 +1,10 @@
+
+
 # Class: Axiom
+
+
 _A logical or non-logical statement_
+
 
 
 
@@ -8,24 +13,48 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
+
+
+
 ```{mermaid}
  classDiagram
     class Axiom
+    click Axiom href "../Axiom"
       Axiom : annotatedProperty
         
-          Axiom ..> AnnotationProperty : annotatedProperty
+          
+    
+    
+    Axiom --> "0..1" AnnotationProperty : annotatedProperty
+    click AnnotationProperty href "../AnnotationProperty"
+
         
       Axiom : annotatedSource
         
-          Axiom ..> NamedObject : annotatedSource
+          
+    
+    
+    Axiom --> "0..1" NamedObject : annotatedSource
+    click NamedObject href "../NamedObject"
+
         
       Axiom : annotatedTarget
         
-          Axiom ..> Any : annotatedTarget
+          
+    
+    
+    Axiom --> "0..1" Any : annotatedTarget
+    click Any href "../Any"
+
         
       Axiom : annotations
         
-          Axiom ..> Annotation : annotations
+          
+    
+    
+    Axiom --> "*" Annotation : annotations
+    click Annotation href "../Annotation"
+
         
       Axiom : comment
         
@@ -41,13 +70,23 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
         
       Axiom : has_axiom_label
         
-          Axiom ..> Thing : has_axiom_label
+          
+    
+    
+    Axiom --> "0..1" Thing : has_axiom_label
+    click Thing href "../Thing"
+
         
       Axiom : has_exact_synonym
         
       Axiom : has_synonym_type
         
-          Axiom ..> AnnotationProperty : has_synonym_type
+          
+    
+    
+    Axiom --> "*" AnnotationProperty : has_synonym_type
+    click AnnotationProperty href "../AnnotationProperty"
+
         
       Axiom : is_a_defining_property_chain_axiom
         
@@ -61,7 +100,12 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
         
       Axiom : seeAlso
         
-          Axiom ..> Thing : seeAlso
+          
+    
+    
+    Axiom --> "*" Thing : seeAlso
+    click Thing href "../Thing"
+
         
       Axiom : source
         
@@ -83,10 +127,10 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 | [annotatedProperty](annotatedProperty.md) | 0..1 <br/> [AnnotationProperty](AnnotationProperty.md) |  | direct |
 | [annotatedSource](annotatedSource.md) | 0..1 <br/> [NamedObject](NamedObject.md) |  | direct |
 | [annotatedTarget](annotatedTarget.md) | 0..1 <br/> [Any](Any.md) |  | direct |
-| [annotations](annotations.md) | 0..* <br/> [Annotation](Annotation.md) |  | direct |
-| [source](source.md) | 0..* <br/> [String](String.md) |  | direct |
+| [annotations](annotations.md) | * <br/> [Annotation](Annotation.md) |  | direct |
+| [source](source.md) | * <br/> [String](String.md) |  | direct |
 | [is_inferred](is_inferred.md) | 0..1 <br/> [Boolean](Boolean.md) |  | direct |
-| [notes](notes.md) | 0..* <br/> [String](String.md) |  | direct |
+| [notes](notes.md) | * <br/> [String](String.md) |  | direct |
 | [url](url.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [has_axiom_label](has_axiom_label.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
 | [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | 0..1 <br/> [String](String.md) |  | direct |
@@ -94,13 +138,13 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 | [created_by](created_by.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [date_retrieved](date_retrieved.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [evidence](evidence.md) | 0..1 <br/> [String](String.md) |  | direct |
-| [external_ontology](external_ontology.md) | 0..* <br/> [String](String.md) |  | direct |
-| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) |  | direct |
-| [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
-| [has_synonym_type](has_synonym_type.md) | 0..* <br/> [AnnotationProperty](AnnotationProperty.md) |  | direct |
-| [comment](comment.md) | 0..* <br/> [String](String.md) |  | direct |
+| [external_ontology](external_ontology.md) | * <br/> [String](String.md) |  | direct |
+| [database_cross_reference](database_cross_reference.md) | * <br/> [CURIELiteral](CURIELiteral.md) | Uses to indicate the source of an axiom | direct |
+| [has_exact_synonym](has_exact_synonym.md) | * <br/> [LabelType](LabelType.md) |  | direct |
+| [has_synonym_type](has_synonym_type.md) | * <br/> [AnnotationProperty](AnnotationProperty.md) |  | direct |
+| [comment](comment.md) | * <br/> [String](String.md) |  | direct |
 | [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
-| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
+| [seeAlso](seeAlso.md) | * <br/> [Thing](Thing.md) |  | direct |
 
 
 
@@ -121,8 +165,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 ### Schema Source
 
 
-* from schema: http://purl.obolibrary.org/obo/omo/schema
-
+* from schema: https://w3id.org/oak/ontology-metadata
 
 
 
@@ -139,6 +182,8 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -149,10 +194,9 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 ```yaml
 name: Axiom
 description: A logical or non-logical statement
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - rdf:Statement
-rank: 1000
 slots:
 - annotatedProperty
 - annotatedSource
@@ -183,9 +227,6 @@ slot_usage:
     - go permitted profile
     exact_mappings:
     - dcterms:source
-    domain_of:
-    - HasMappings
-    - Axiom
 class_uri: owl:Axiom
 represents_relationship: true
 
@@ -198,10 +239,9 @@ represents_relationship: true
 ```yaml
 name: Axiom
 description: A logical or non-logical statement
-from_schema: http://purl.obolibrary.org/obo/omo/schema
+from_schema: https://w3id.org/oak/ontology-metadata
 exact_mappings:
 - rdf:Statement
-rank: 1000
 slot_usage:
   database_cross_reference:
     name: database_cross_reference
@@ -210,13 +250,10 @@ slot_usage:
     - go permitted profile
     exact_mappings:
     - dcterms:source
-    domain_of:
-    - HasMappings
-    - Axiom
 attributes:
   annotatedProperty:
     name: annotatedProperty
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - rdf:predicate
     rank: 1000
@@ -232,7 +269,7 @@ attributes:
     name: annotatedSource
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - rdf:subject
     rank: 1000
@@ -248,7 +285,7 @@ attributes:
     name: annotatedTarget
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - rdf:object
     rank: 1000
@@ -262,34 +299,34 @@ attributes:
     range: Any
   annotations:
     name: annotations
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
-    multivalued: true
     alias: annotations
     owner: Axiom
     domain_of:
     - Axiom
     range: Annotation
+    multivalued: true
   source:
     name: source
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - http://purl.org/dc/terms/source
     - oio:source
     rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:source
-    multivalued: true
     alias: source
     owner: Axiom
     domain_of:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   is_inferred:
     name: is_inferred
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:is_inferred
     alias: is_inferred
@@ -300,19 +337,19 @@ attributes:
   notes:
     name: notes
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:notes
-    multivalued: true
     alias: notes
     owner: Axiom
     domain_of:
     - Axiom
     range: string
+    multivalued: true
   url:
     name: url
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:url
     alias: url
@@ -322,7 +359,7 @@ attributes:
     range: string
   has_axiom_label:
     name: has_axiom_label
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0010000
@@ -333,7 +370,7 @@ attributes:
     range: Thing
   is_a_defining_property_chain_axiom:
     name: is_a_defining_property_chain_axiom
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: RO:0002581
     alias: is_a_defining_property_chain_axiom
@@ -343,7 +380,7 @@ attributes:
     range: string
   is_a_defining_property_chain_axiom_where_second_argument_is_reflexive:
     name: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: RO:0002582
     alias: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
@@ -354,7 +391,7 @@ attributes:
   created_by:
     name: created_by
     deprecated: proposed obsoleted by OMO group 2022-04-12
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     deprecated_element_has_exact_replacement: creator
     rank: 1000
     is_a: provenance_property
@@ -367,7 +404,7 @@ attributes:
     range: string
   date_retrieved:
     name: date_retrieved
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: provenance_property
     slot_uri: oio:date_retrieved
@@ -379,7 +416,7 @@ attributes:
   evidence:
     name: evidence
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:evidence
     alias: evidence
@@ -390,40 +427,39 @@ attributes:
   external_ontology:
     name: external_ontology
     deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:external_ontology
-    multivalued: true
     alias: external_ontology
     owner: Axiom
     domain_of:
     - Axiom
     range: string
+    multivalued: true
   database_cross_reference:
     name: database_cross_reference
     description: Uses to indicate the source of an axiom
     in_subset:
     - go permitted profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - dcterms:source
     rank: 1000
     is_a: match
     slot_uri: oio:hasDbXref
-    multivalued: true
     alias: database_cross_reference
     owner: Axiom
     domain_of:
     - HasMappings
     - Axiom
     range: CURIELiteral
+    multivalued: true
   has_exact_synonym:
     name: has_exact_synonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: synonym
     slot_uri: oio:hasExactSynonym
-    multivalued: true
     alias: has_exact_synonym
     owner: Axiom
     domain_of:
@@ -432,26 +468,26 @@ attributes:
     disjoint_with:
     - label
     range: label type
+    multivalued: true
   has_synonym_type:
     name: has_synonym_type
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: oio:hasSynonymType
-    multivalued: true
     alias: has_synonym_type
     owner: Axiom
     domain_of:
     - Axiom
     range: AnnotationProperty
+    multivalued: true
   comment:
     name: comment
     comments:
     - in obo format, a term cannot have more than one comment
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
-    multivalued: true
     alias: comment
     owner: Axiom
     domain_of:
@@ -459,6 +495,7 @@ attributes:
     - Ontology
     - Axiom
     range: string
+    multivalued: true
   label:
     name: label
     comments:
@@ -469,33 +506,33 @@ attributes:
     - allotrope required profile
     - go required profile
     - obi required profile
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     exact_mappings:
     - skos:prefLabel
     rank: 1000
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: false
     alias: label
     owner: Axiom
     domain_of:
     - HasMinimalMetadata
     - Axiom
     range: label type
+    multivalued: false
   seeAlso:
     name: seeAlso
     todos:
     - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    from_schema: https://w3id.org/oak/ontology-metadata
     rank: 1000
     slot_uri: rdfs:seeAlso
-    multivalued: true
     alias: seeAlso
     owner: Axiom
     domain_of:
     - HasUserInformation
     - Axiom
     range: Thing
+    multivalued: true
 class_uri: owl:Axiom
 represents_relationship: true
 
